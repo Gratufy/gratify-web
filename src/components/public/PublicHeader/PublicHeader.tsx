@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import ThemeSwitch from "@/components/shared/ThemeSwitch";
 import Link from "next/link";

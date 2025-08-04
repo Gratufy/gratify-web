@@ -1,22 +1,97 @@
 "use client";
 import { createClient } from "@/utils/supabase/client";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 const GoogleBtn = () => {
+  const router = useRouter();
+  const [popup, setPopup] = useState<Window | null>(null);
+
+  useEffect(() => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile || !popup) return;
+    console.log("Mobile:", isMobile);
+    const channel = new BroadcastChannel("popup-channel");
+    const listener = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return;
+
+      if (event.data?.authResultCode) {
+        setPopup(null);
+
+        window.location.href = `/auth/callback?code=${event.data.authResultCode}`;
+      }
+    };
+
+    channel.addEventListener("message", listener);
+
+    return () => {
+      channel.removeEventListener("message", listener);
+      channel.close();
+    };
+  }, [popup, router]);
+
   const handleGoogleLogin = async () => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const supabase = createClient();
-    await supabase.auth.signInWithOAuth({
+    const redirectUrl = isMobile
+      ? `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback`
+      : `${window.location.origin}/auth/popup-callback`;
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback`,
-        // skipBrowserRedirect: true, // Adjust this to your callback URL
-        //redirectTo: "http://localhost:3000/auth/callback",
-        /*  queryParams: {
-          access_type: "offline", // to get refresh_token
-          prompt: "consent", // to ensure the user is prompted for consent
-        }, */
+        redirectTo: redirectUrl,
+        skipBrowserRedirect: !isMobile,
       },
     });
+
+    if (error || !data?.url) {
+      console.error("OAuth login error", error);
+      return;
+    }
+    if (isMobile) return;
+    const width = 500;
+    const height = 600;
+    const left = window.screen.width / 2 - width / 2;
+    const top = window.screen.height / 2 - height / 2;
+
+    const newPopup = window.open(
+      data.url,
+      "GoogleAuthPopup",
+      `width=${width},height=${height},top=${top},left=${left}`
+    );
+    if (newPopup) setPopup(newPopup);
+
+    //
+    //-----------------------------
+    // if (isMobile) {
+    //   await supabase.auth.signInWithOAuth({
+    //     provider: "google",
+    //     options: {
+    //       redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback`,
+    //       // skipBrowserRedirect: true, // Adjust this to your callback URL
+    //       //redirectTo: "http://localhost:3000/auth/callback",
+    //       /*  queryParams: {
+    //       access_type: "offline", // to get refresh_token
+    //       prompt: "consent", // to ensure the user is prompted for consent
+    //     }, */
+    //     },
+    //   });
+    //   return;
+    // }
+    // Десктоп — открываем попап
+    // const { data, error } = await supabase.auth.signInWithOAuth({
+    //   provider: "google",
+    //   options: {
+    //     redirectTo: `${window.location.origin}/auth/popup-callback`,
+    //     skipBrowserRedirect: true,
+    //   },
+    // });
+
+    // if (error || !data?.url) {
+    //   console.error("OAuth login error", error);
+    //   return;
+    // }
   };
   return (
     <button
