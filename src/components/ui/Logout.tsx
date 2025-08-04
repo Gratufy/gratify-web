@@ -16,7 +16,7 @@ const Logout = () => {
     if (error) {
       setError(error.message);
     } else {
-      window.location.href = "/signin";
+      window.location.href = "/";
     }
     setLoading(false);
   };
