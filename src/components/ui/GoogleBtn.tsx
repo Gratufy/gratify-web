@@ -3,6 +3,29 @@ import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
+const getRedirectUrl = () => {
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    let base = process.env.NEXT_PUBLIC_BASE_URL?.trim() || "";
+    if (!base && process.env.NEXT_PUBLIC_VERCEL_URL?.trim()) {
+      base = `https://${process.env.NEXT_PUBLIC_VERCEL_URL.trim()}`;
+    }
+    if (!base) {
+      base = "http://localhost:3000";
+    }
+    if (!base.endsWith("/")) base += "/";
+    console.log("Redirect base for mobile:", base);
+    return base + "auth/callback";
+  } else {
+    console.log(
+      "Redirect for desktop:",
+      window.location.origin + "/auth/popup-callback"
+    );
+    return window.location.origin + "/auth/popup-callback";
+  }
+};
+
 const GoogleBtn = () => {
   const router = useRouter();
   const [popup, setPopup] = useState<Window | null>(null);
@@ -34,15 +57,20 @@ const GoogleBtn = () => {
   const handleGoogleLogin = async () => {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const supabase = createClient();
-    const redirectUrl = isMobile
-      ? `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback`
-      : `${window.location.origin}/auth/popup-callback`;
+    // const redirectUrl = isMobile
+    //   ? `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback`
+    //   : `${window.location.origin}/auth/popup-callback`;
+
+    const redirectUrl = getRedirectUrl();
 
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
         redirectTo: redirectUrl,
         skipBrowserRedirect: !isMobile,
+        queryParams: {
+          prompt: "select_account",
+        },
       },
     });
 
