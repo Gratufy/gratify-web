@@ -1,16 +1,14 @@
 "use client";
 
 import { useEffect } from "react"; //, Suspense
-import { useSearchParams } from "next/navigation";
-export const dynamic = "force-dynamic";
+//import { useSearchParams } from "next/navigation";
+//export const dynamic = "force-dynamic";
 
 export default function PopupCallback() {
-  const params = useSearchParams();
-
   // const params = useSearchParams();
 
   useEffect(() => {
-    // const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(window.location.search);
     const code = params.get("code");
     if (!code) {
       window.close();
@@ -22,7 +20,7 @@ export default function PopupCallback() {
     channel.close();
 
     window.close();
-  }, [params]);
+  }, []);
 
   return null;
 }
