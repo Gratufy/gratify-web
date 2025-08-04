@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"; //, Suspense
 import { useSearchParams } from "next/navigation";
-// export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 
 export default function PopupCallback() {
   const params = useSearchParams();
