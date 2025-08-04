@@ -1,4 +1,20 @@
+FOR ME!!!!
+Always use supabase.auth.getUser() to protect pages and user data.
+https://supabase.com/docs/guides/auth/server-side/nextjs
+https://supabase.com/dashboard/project/mmpegbtxqddsiqbamdmk
+https://supabase.com/docs/guides/auth/social-login/auth-google
+https://supabase.com/docs/guides/getting-started/quickstarts/nextjs
+https://supabase.com/docs/guides/auth
+https://github.com/Chensokheng/next-rbac/blob/master/app/auth/_action/login-with-oauth.ts
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Створити гугauth
+
+1. створити тут проєкт
+   https://console.cloud.google.com/cloud-resource-manager?inv=1&invt=Ab4g_A
+2. потім тут налаштування api and survices
+   https://console.cloud.google.com/
 
 ## Getting Started
 
@@ -34,4 +50,5 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
 # gratify
