@@ -24,6 +24,7 @@ const Logout = () => {
   return (
     <div>
       <button
+        //onClick={handleLogout}
         onClick={handleLogout}
         disabled={loading}
         className="flex cursor-pointer items-center gap-3 px-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-black text-sm font-medium text-gray-800 dark:text-gray-200 shadow hover:shadow-md transition"

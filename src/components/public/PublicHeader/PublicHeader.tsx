@@ -4,8 +4,14 @@ import ThemeSwitch from "@/components/shared/ThemeSwitch";
 import Link from "next/link";
 import GoogleBtn from "@/components/ui/GoogleBtn";
 import Logout from "@/components/ui/Logout";
+import { useUser } from "@/components/shared/UserProvider";
+// import { useUserStore } from "@/stores/userStore";
 
 function PublicHeader() {
+  // const { authUser } = useUserStore();
+
+  const user = useUser();
+
   return (
     <div className="border-muted-foreground border-b bg-input dark:bg-background py-8 w-full flex flex-col items-center justify-center">
       <h1 className="text-xl font-bold mx-0">Public Header</h1>
@@ -37,6 +43,7 @@ function PublicHeader() {
         <ThemeSwitch />
         <GoogleBtn />
         <Logout />
+        {user && <p>Profile</p>}
       </div>
     </div>
   );
