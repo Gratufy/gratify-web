@@ -2,12 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-
-//import { cookies } from "next/headers";
-import { UserProvider } from "@/components/shared/UserProvider";
-// import { createClient } from "@/utils/supabase/client";
-
-// import UserProvider from "@/components/shared/UserProvider";
+import ClientProvider from "@/components/providers/UserProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,7 +37,8 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <UserProvider>{children}</UserProvider>
+          <ClientProvider />
+          {children}
         </ThemeProvider>
       </body>
     </html>

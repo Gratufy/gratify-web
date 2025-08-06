@@ -2,25 +2,34 @@
 import React from "react";
 
 import { useState } from "react";
+import { useUserStore } from "@/stores/useUserStore";
 import { createClient } from "@/utils/supabase/client";
 
 const Logout = () => {
+  const clear = useUserStore((s) => s.clear);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
   const handleLogout = async () => {
     setLoading(true);
     setError(null);
-    const supabase = createClient();
-    const { error } = await supabase.auth.signOut();
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        setError(error.message);
+        console.error("Logout error:", error.message);
+        //  toast / alert
+        return;
+      }
 
-    if (error) {
-      setError(error.message);
-    } else {
-      window.location.href = "/";
+      clear();
+    } catch (err) {
+      console.error("Unexpected logout error:", err);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
-
   return (
     <div>
       <button
@@ -31,6 +40,7 @@ const Logout = () => {
       >
         {loading ? "Logging out..." : "Log out"}
       </button>
+      {/* I change it later for TOAST */}
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
