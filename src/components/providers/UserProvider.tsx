@@ -19,6 +19,8 @@ export default function ClientProvider() {
       if (event === "SIGNED_OUT") {
         clear();
       } else if (event === "SIGNED_IN" || event === "INITIAL_SESSION") {
+        if (!session) return;
+        console.log("in UserProvider SIGNED_IN");
         try {
           console.log("in UserProvider try block");
           setLoading(true);

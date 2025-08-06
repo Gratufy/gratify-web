@@ -41,8 +41,8 @@ const GoogleBtn = () => {
       if (event.data?.authResultCode) {
         setPopup(null);
 
-        // window.location.href = `/auth/callback?code=${event.data.authResultCode}`;
-        router.push(`/auth/callback?code=${event.data.authResultCode}`);
+        router.replace(`/auth/callback?code=${event.data.authResultCode}`);
+        // router.push(`/auth/callback?code=${event.data.authResultCode}`);
       }
     };
 

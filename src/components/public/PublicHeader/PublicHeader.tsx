@@ -8,7 +8,7 @@ import { useUserStore } from "@/stores/useUserStore";
 
 function PublicHeader() {
   const session = useUserStore((s) => s.session);
-  // const isLoading = useUserStore((s) => s.isLoading);
+  const isLoading = useUserStore((s) => s.isLoading);
   const user = useUserStore((s) => s.profile);
   // const error = useUserStore((s) => s.error);
   // if (isLoading) return <p>Загрузка...</p>;
@@ -41,8 +41,8 @@ function PublicHeader() {
           </ul>
         </nav>
         <ThemeSwitch />
-        <GoogleBtn />
-        <Logout />
+        {!session ? <GoogleBtn /> : <Logout />}
+        {isLoading && <p>Loading...</p>}
         {session && <p>{user?.email}</p>}
       </div>
     </div>
