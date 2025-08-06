@@ -35,15 +35,28 @@ const GoogleBtn = () => {
     if (isMobile || !popup) return;
     console.log("Mobile:", isMobile);
     const channel = new BroadcastChannel("popup-channel");
-    const listener = (event: MessageEvent) => {
+    const listener = async (event: MessageEvent) => {
       if (event.origin !== window.location.origin) return;
 
-      if (event.data?.authResultCode) {
+      const code = event.data?.authResultCode;
+      if (!code) return;
+
+      setPopup(null);
+
+      const supabase = createClient();
+      // it is important to trigger the exchangeCodeForSession for userProvider
+      const { error } = await supabase.auth.exchangeCodeForSession(code);
+      if (error) {
+        console.error("Failed to exchange code", error);
+        return;
+      }
+      router.replace("/"); // or any other route you want to redirect to after login
+      /* if (code) {
         setPopup(null);
 
-        // window.location.href = `/auth/callback?code=${event.data.authResultCode}`;
-        router.push(`/auth/callback?code=${event.data.authResultCode}`);
-      }
+        router.replace(`/auth/callback?code=${event.data.authResultCode}`);
+        // router.push(`/auth/callback?code=${event.data.authResultCode}`);
+      } */
     };
 
     channel.addEventListener("message", listener);
