@@ -1,7 +1,11 @@
 "use client";
+
+import React, { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+
+// import { useGoogleLogin } from "@/hooks/useGoogleLogin";
+// import { usePopupChannel } from "@/hooks/usePopupChannel";
 
 const getRedirectUrl = () => {
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -15,18 +19,21 @@ const getRedirectUrl = () => {
       base = "http://localhost:3000";
     }
     if (!base.endsWith("/")) base += "/";
-    console.log("Redirect base for mobile:", base);
     return base + "auth/callback";
   } else {
-    console.log(
-      "Redirect for desktop:",
-      window.location.origin + "/auth/popup-callback"
-    );
     return window.location.origin + "/auth/popup-callback";
   }
 };
 
+//OAuth flow	in useGoogleLogin
+//listen channel in 	usePopupChannel
+//update session in 	usePopupChannel
 const GoogleBtn = () => {
+  // const { handleGoogleLogin, popup } = useGoogleLogin();
+
+  // usePopupChannel(popup, () => {
+  //   if (popup) popup.close();
+  // });
   const router = useRouter();
   const [popup, setPopup] = useState<Window | null>(null);
 
@@ -51,12 +58,6 @@ const GoogleBtn = () => {
         return;
       }
       router.replace("/"); // or any other route you want to redirect to after login
-      /* if (code) {
-        setPopup(null);
-
-        router.replace(`/auth/callback?code=${event.data.authResultCode}`);
-        // router.push(`/auth/callback?code=${event.data.authResultCode}`);
-      } */
     };
 
     channel.addEventListener("message", listener);
@@ -66,16 +67,29 @@ const GoogleBtn = () => {
       channel.close();
     };
   }, [popup, router]);
+  // const { handleGoogleLogin, popup } = useGoogleLogin();
 
   const handleGoogleLogin = async () => {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const supabase = createClient();
-    // const redirectUrl = isMobile
-    //   ? `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback`
-    //   : `${window.location.origin}/auth/popup-callback`;
 
     const redirectUrl = getRedirectUrl();
 
+    // to prevent popup blocker on Desktop
+    // FIRST - If not mobile, open a empty popup window before starting the OAuth flow
+    let popup: Window | null = null;
+    if (!isMobile) {
+      const width = 500;
+      const height = 600;
+      const left = window.screen.width / 2 - width / 2;
+      const top = window.screen.height / 2 - height / 2;
+      popup = window.open(
+        "",
+        "GoogleAuthPopup",
+        `width=${width},height=${height},top=${top},left=${left}`
+      );
+      if (popup) setPopup(popup);
+    }
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
@@ -89,51 +103,18 @@ const GoogleBtn = () => {
 
     if (error || !data?.url) {
       console.error("OAuth login error", error);
+      if (popup) popup.close();
       return;
     }
-    if (isMobile) return;
-    const width = 500;
-    const height = 600;
-    const left = window.screen.width / 2 - width / 2;
-    const top = window.screen.height / 2 - height / 2;
-
-    const newPopup = window.open(
-      data.url,
-      "GoogleAuthPopup",
-      `width=${width},height=${height},top=${top},left=${left}`
-    );
-    if (newPopup) setPopup(newPopup);
-
-    //
-    //-----------------------------
-    // if (isMobile) {
-    //   await supabase.auth.signInWithOAuth({
-    //     provider: "google",
-    //     options: {
-    //       redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback`,
-    //       // skipBrowserRedirect: true, // Adjust this to your callback URL
-    //       //redirectTo: "http://localhost:3000/auth/callback",
-    //       /*  queryParams: {
-    //       access_type: "offline", // to get refresh_token
-    //       prompt: "consent", // to ensure the user is prompted for consent
-    //     }, */
-    //     },
-    //   });
-    //   return;
-    // }
-    // Десктоп — открываем попап
-    // const { data, error } = await supabase.auth.signInWithOAuth({
-    //   provider: "google",
-    //   options: {
-    //     redirectTo: `${window.location.origin}/auth/popup-callback`,
-    //     skipBrowserRedirect: true,
-    //   },
+    if (isMobile) return; // if we are on mobile, we will redirect to the redirectUrl
+    if (popup) {
+      popup.location.href = data.url; // open the OAuth URL in the popup
+    }
+    // usePopupChannel(popup, () => {
+    //   if (popup) popup.close();
     // });
 
-    // if (error || !data?.url) {
-    //   console.error("OAuth login error", error);
-    //   return;
-    // }
+    // if (newPopup) setPopup(newPopup);
   };
   return (
     <button
@@ -184,3 +165,34 @@ export default GoogleBtn;
 //   });
 //   if (error) console.error(error.message);
 // };
+
+//
+//-----------------------------
+// if (isMobile) {
+//   await supabase.auth.signInWithOAuth({
+//     provider: "google",
+//     options: {
+//       redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback`,
+//       // skipBrowserRedirect: true, // Adjust this to your callback URL
+//       //redirectTo: "http://localhost:3000/auth/callback",
+//       /*  queryParams: {
+//       access_type: "offline", // to get refresh_token
+//       prompt: "consent", // to ensure the user is prompted for consent
+//     }, */
+//     },
+//   });
+//   return;
+// }
+// Десктоп — открываем попап
+// const { data, error } = await supabase.auth.signInWithOAuth({
+//   provider: "google",
+//   options: {
+//     redirectTo: `${window.location.origin}/auth/popup-callback`,
+//     skipBrowserRedirect: true,
+//   },
+// });
+
+// if (error || !data?.url) {
+//   console.error("OAuth login error", error);
+//   return;
+// }
