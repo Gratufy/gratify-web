@@ -1,7 +1,11 @@
 "use client";
+
+import React, { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+
+// import { useGoogleLogin } from "@/hooks/useGoogleLogin";
+// import { usePopupChannel } from "@/hooks/usePopupChannel";
 
 const getRedirectUrl = () => {
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -21,7 +25,15 @@ const getRedirectUrl = () => {
   }
 };
 
+//OAuth flow	in useGoogleLogin
+//listen channel in 	usePopupChannel
+//update session in 	usePopupChannel
 const GoogleBtn = () => {
+  // const { handleGoogleLogin, popup } = useGoogleLogin();
+
+  // usePopupChannel(popup, () => {
+  //   if (popup) popup.close();
+  // });
   const router = useRouter();
   const [popup, setPopup] = useState<Window | null>(null);
 
@@ -55,6 +67,7 @@ const GoogleBtn = () => {
       channel.close();
     };
   }, [popup, router]);
+  // const { handleGoogleLogin, popup } = useGoogleLogin();
 
   const handleGoogleLogin = async () => {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -97,6 +110,9 @@ const GoogleBtn = () => {
     if (popup) {
       popup.location.href = data.url; // open the OAuth URL in the popup
     }
+    // usePopupChannel(popup, () => {
+    //   if (popup) popup.close();
+    // });
 
     // if (newPopup) setPopup(newPopup);
   };

@@ -3,8 +3,9 @@ import { createClient } from "@/utils/supabase/client";
 
 export const useGoogleLogin = () => {
   const [popup, setPopup] = useState<Window | null>(null);
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
   const getRedirectUrl = () => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile) {
       let base = process.env.NEXT_PUBLIC_BASE_URL?.trim() || "";
       if (!base && process.env.NEXT_PUBLIC_VERCEL_URL?.trim()) {
@@ -21,6 +22,7 @@ export const useGoogleLogin = () => {
   };
 
   const handleGoogleLogin = async () => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const supabase = createClient();
     const redirectUrl = getRedirectUrl();
     // to prevent popup blocker on Desktop
