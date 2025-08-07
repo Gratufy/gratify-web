@@ -28,3 +28,6 @@ export async function createClient() {
     }
   );
 }
+// for server-side usage
+//(SSR, API, RSC)
+//Server Actions, layout.tsx, API routes, middleware

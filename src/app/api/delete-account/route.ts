@@ -1,4 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
+import { supabaseAdmin } from "@/utils/supabase/supabaseAdmin";
 import { db } from "@/db";
 import { userProfiles } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -22,10 +23,10 @@ export async function DELETE() {
     // Delete user account from Supabase Auth
 
     // ATTENTION: for delene I need process.env.SUPABASE_SERVICE_ROLE_KEY!
-    // see unter code !
-
-    await supabase.auth.admin.deleteUser(user.id);
-
+    const { error } = await supabaseAdmin.auth.admin.deleteUser(user.id);
+    //soft delete user unactive
+    //const { error } = await supabaseAdmin.auth.admin.deleteUser(user.id, true);
+    if (error) throw error;
     return new Response("User account deleted", { status: 200 });
   } catch (err) {
     console.error("Delete account error:", err);
