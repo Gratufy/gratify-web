@@ -22,6 +22,20 @@
       "when": 1754671183250,
       "tag": "0002_furry_guardsmen",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1754683219550,
+      "tag": "0003_careful_ironclad",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1754687395827,
+      "tag": "0004_warm_northstar",
+      "breakpoints": true
     }
   ]
 }

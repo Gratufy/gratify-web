@@ -19,7 +19,12 @@ export const BUSINESS_REVIEW_STATUS_ENUM = pgEnum("business_review_status", [
   "approved",
   "rejected",
 ]);
-
+export const businessStatusEnum = pgEnum("business_status", [
+  "pending", // on moderation
+  "approved", // approved and active
+  "hidden", // hidden by admin or owner
+  "archived", // deleted/archived
+]);
 //User profiles table
 export const userProfiles = pgTable("user_profiles", {
   userId: uuid("user_id").primaryKey(), // refers to auth.users.id manually (not FK)
@@ -47,20 +52,17 @@ export const businessCategories = pgTable("business_categories", {
 });
 
 //for voting
-// export const votes = pgTable("votes", {
-//   voteId: uuid("vote_id").defaultRandom().primaryKey(),
-//   userId: uuid("user_id").notNull(),
-//   businessId: uuid("business_id").notNull(),
-//   createdAt: timestamp("created_at", {
-//     withTimezone: true,
-//   }).defaultNow(),
-// });
+
 export const businessVotes = pgTable(
   "business_votes",
   {
     id: uuid("id").defaultRandom().primaryKey(),
-    userId: uuid("user_id").notNull(),
-    businessId: uuid("business_id").notNull(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => userProfiles.userId, { onDelete: "cascade" }),
+    businessId: uuid("business_id")
+      .notNull()
+      .references(() => businesses.id, { onDelete: "cascade" }),
     vote: integer("vote").notNull(), // +1 or -1
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
@@ -97,17 +99,7 @@ export const businessReviews = pgTable("business_reviews", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
 //business open hours table
-export const businessOpenHours = pgTable("business_open_hours", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  businessId: uuid("business_id")
-    .notNull()
-    .references(() => businesses.id, { onDelete: "cascade" }),
-  dayOfWeek: integer("day_of_week").notNull(), // 0 = Sunday, 6 = Saturday
-  openTime: text("open_time").notNull(), // e.g. "09:00"
-  closeTime: text("close_time").notNull(), // e.g. "17:00"
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
-});
+
 export const businessHours = pgTable(
   "business_hours",
   {
@@ -131,4 +123,21 @@ export const businessHours = pgTable(
 //BUSINESS TABLE
 export const businesses = pgTable("businesses", {
   id: uuid("id").defaultRandom().primaryKey(),
+  ownerId: uuid("owner_id")
+    .notNull()
+    .references(() => userProfiles.userId, { onDelete: "cascade" }),
+  categoryId: uuid("category_id")
+    .default("11111111-1111-1111-1111-111111111111") // UUID  "Інше"
+    .notNull(),
+  name: text("name").notNull(),
+  description: text("description"),
+  city: text("city").notNull(),
+  district: text("district"),
+  address: text("address").notNull(),
+  website: text("website"),
+  karma: integer("karma").default(0),
+  reviewCount: integer("review_count").default(0),
+  status: businessStatusEnum("status").default("pending").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
