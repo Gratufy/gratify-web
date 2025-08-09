@@ -1,0 +1,1 @@
+ALTER TABLE "businesses" ADD CONSTRAINT "businesses_category_id_business_categories_category_id_fk" FOREIGN KEY ("category_id") REFERENCES "public"."business_categories"("category_id") ON DELETE set default ON UPDATE no action;

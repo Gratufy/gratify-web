@@ -36,6 +36,20 @@
       "when": 1754687395827,
       "tag": "0004_warm_northstar",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1754765196772,
+      "tag": "0005_sad_meggan",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1754765842906,
+      "tag": "0006_slimy_tattoo",
+      "breakpoints": true
     }
   ]
 }

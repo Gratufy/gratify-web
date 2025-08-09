@@ -92,12 +92,10 @@ export const businessReviews = pgTable("business_reviews", {
     .references(() => userProfiles.userId, { onDelete: "cascade" }),
   status: BUSINESS_REVIEW_STATUS_ENUM("status").default("pending"),
   text: text("text"),
-  // rating: integer("rating")
-  //   .notNull()
-  //   .check(sql`rating BETWEEN 1 AND 5`),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
+
 //business open hours table
 
 export const businessHours = pgTable(
@@ -129,6 +127,7 @@ export const businesses = pgTable("businesses", {
   categoryId: uuid("category_id")
     .default("11111111-1111-1111-1111-111111111111") // UUID  "Інше"
     .notNull(),
+
   name: text("name").notNull(),
   description: text("description"),
   city: text("city").notNull(),
