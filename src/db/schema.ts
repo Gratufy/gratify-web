@@ -22,8 +22,9 @@ export const BUSINESS_REVIEW_STATUS_ENUM = pgEnum("business_review_status", [
 export const businessStatusEnum = pgEnum("business_status", [
   "pending", // on moderation
   "approved", // approved and active
-  "hidden", // hidden by admin or owner
-  "archived", // deleted/archived
+  "hidden", // hidden by admin
+  "rejected", // rejected by admin
+  "deleted", // deleted/archived
 ]);
 //User profiles table
 export const userProfiles = pgTable("user_profiles", {
@@ -37,6 +38,29 @@ export const userProfiles = pgTable("user_profiles", {
   lastActivity: timestamp("last_activity", {
     withTimezone: true,
   }).defaultNow(),
+});
+
+//BUSINESS TABLE
+export const businesses = pgTable("businesses", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  ownerId: uuid("owner_id")
+    .notNull()
+    .references(() => userProfiles.userId, { onDelete: "cascade" }),
+  categoryId: uuid("category_id")
+    .default("11111111-1111-1111-1111-111111111111") // UUID  "Інше"
+    .notNull(),
+
+  name: text("name").notNull(),
+  description: text("description").notNull(),
+  city: text("city").notNull(),
+  district: text("district"),
+  address: text("address").notNull(),
+  website: text("website"),
+  karma: integer("karma").default(0),
+  reviewCount: integer("review_count").default(0),
+  status: businessStatusEnum("status").default("pending").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
 
 // business categories table
@@ -91,7 +115,7 @@ export const businessReviews = pgTable("business_reviews", {
     .notNull()
     .references(() => userProfiles.userId, { onDelete: "cascade" }),
   status: BUSINESS_REVIEW_STATUS_ENUM("status").default("pending"),
-  text: text("text"),
+  text: text("text").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
@@ -118,25 +142,3 @@ export const businessHours = pgTable(
     uniqueIndex("business_day_unique").on(t.businessId, t.dayOfWeek),
   ]
 );
-//BUSINESS TABLE
-export const businesses = pgTable("businesses", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  ownerId: uuid("owner_id")
-    .notNull()
-    .references(() => userProfiles.userId, { onDelete: "cascade" }),
-  categoryId: uuid("category_id")
-    .default("11111111-1111-1111-1111-111111111111") // UUID  "Інше"
-    .notNull(),
-
-  name: text("name").notNull(),
-  description: text("description"),
-  city: text("city").notNull(),
-  district: text("district"),
-  address: text("address").notNull(),
-  website: text("website"),
-  karma: integer("karma").default(0),
-  reviewCount: integer("review_count").default(0),
-  status: businessStatusEnum("status").default("pending").notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
-});
