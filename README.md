@@ -9,12 +9,94 @@ https://github.com/Chensokheng/next-rbac/blob/master/app/auth/_action/login-with
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Створити гугauth
+## Створити гугл auth
 
 1. створити тут проєкт
    https://console.cloud.google.com/cloud-resource-manager?inv=1&invt=Ab4g_A
 2. потім тут налаштування api and survices
    https://console.cloud.google.com/
+
+# Attention !!!!
+
+hier supabase\migrations\0006_slimy_tattoo.sql
+I created trigger and function to prevent delete category Інше.
+
+```sql
+BEGIN
+IF OLD.category_id = '11111111-1111-1111-1111-111111111111' THEN
+RAISE EXCEPTION 'Cannot delete category Інше';
+END IF;
+RETURN OLD;
+END;
+
+to check
+SELECT proname, prosrc
+FROM pg_proc
+WHERE proname = 'prevent_delete_inche';
+
+and
+SELECT tgname, tgrelid::regclass AS table_name
+FROM pg_trigger
+WHERE tgname = 'trg_prevent_delete_inche';
+```
+
+# RLS
+
+## only ADMIN
+
+```sql
+EXISTS (
+  SELECT 1
+  FROM user_profiles up
+  WHERE ((up.user_id = auth.uid()) AND (up.role = 'ADMIN'::role))
+) OR (user_id = auth.uid())
+```
+
+## ADMIN and user
+
+```sql
+EXISTS (
+SELECT 1
+FROM user_profiles up
+WHERE up.user_id = auth.uid()
+AND up.role = 'ADMIN'::role
+)
+```
+
+## only user
+
+```sql
+auth.uid() = user_id
+```
+
+## Admib or owner
+
+```sql
+EXISTS (
+    SELECT 1
+    FROM user_profiles up
+    WHERE up.user_id = auth.uid()
+      AND up.role = 'ADMIN'::role
+  )
+  OR owner_id = auth.uid()
+```
+
+## for relative tables
+
+```sql
+  EXISTS (
+    SELECT 1
+    FROM user_profiles up
+    WHERE up.user_id = auth.uid()
+      AND up.role = 'ADMIN'::role
+  )
+  OR EXISTS (
+    SELECT 1
+    FROM businesses b
+    WHERE b.owner_id = auth.uid()
+      AND b.id = business_id  --
+  )
+```
 
 ## Getting Started
 
