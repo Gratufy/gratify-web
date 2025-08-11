@@ -5,8 +5,20 @@ import { createClient } from "@/utils/supabase/server";
 import { db } from "@/db";
 import { businessCategories } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { userProfiles } from "@/db/schema";
 
 const PROTECTED_CATEGORY_ID = "11111111-1111-1111-1111-111111111111";
+
+async function isAdmin(userId: string) {
+  const profile = await db
+    .select()
+    .from(userProfiles)
+    .where(eq(userProfiles.userId, userId))
+    .limit(1)
+    .then((rows) => rows[0]);
+
+  return profile?.role === "ADMIN";
+}
 
 export async function getAllBusinessCategories() {
   return db.select().from(businessCategories).orderBy(businessCategories.name);
@@ -17,7 +29,8 @@ export async function addBusinessCategory(name: string) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user || user.role !== "ADMIN") throw new Error("Forbidden");
+  if (!user) throw new Error("Not authenticated");
+  if (!(await isAdmin(user.id))) throw new Error("Forbidden");
 
   await db.insert(businessCategories).values({ name });
 }
