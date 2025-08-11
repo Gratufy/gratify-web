@@ -18,6 +18,9 @@ function AdminHeader() {
             <Link href="/admin/business">Усі Businesses</Link>
           </li>
           <li>
+            <Link href="/admin/category">Усі Categories</Link>
+          </li>
+          <li>
             <Link href="/admin/business/new">Form+</Link>
           </li>
         </ul>

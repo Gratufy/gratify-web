@@ -1,8 +1,17 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import { queryKeys } from "@/lib/reactQuery/queryKeys";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ReactQueryProvider } from "@/components/providers/ReactQueryProvider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import ClientProvider from "@/components/providers/UserProvider";
+import { getAllBusinessCategories } from "@/lib/actions/businessCategories";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +34,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   //const supabase = await createClient();
-
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.businessCategories,
+    queryFn: getAllBusinessCategories,
+  });
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -37,8 +50,14 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ClientProvider />
-          {children}
+          <ReactQueryProvider>
+            <HydrationBoundary state={dehydrate(queryClient)}>
+              {children}
+              <ClientProvider />
+            </HydrationBoundary>
+
+            <ReactQueryDevtools initialIsOpen={false} />
+          </ReactQueryProvider>
         </ThemeProvider>
       </body>
     </html>
