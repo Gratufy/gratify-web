@@ -30,7 +30,8 @@ export async function addBusinessCategory(name: string) {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) throw new Error("Not authenticated");
-  if (!(await isAdmin(user.id))) throw new Error("Forbidden");
+  if (!(await isAdmin(user.id)))
+    throw new Error("Forbidden for non-admin users");
 
   await db.insert(businessCategories).values({ name });
 }
@@ -40,11 +41,13 @@ export async function renameBusinessCategory(id: string, newName: string) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user || user.role !== "ADMIN") throw new Error("Forbidden");
+  if (!user) throw new Error("Not authenticated");
+  if (!(await isAdmin(user.id)))
+    throw new Error("Forbidden for non-admin users");
 
   await db
     .update(businessCategories)
-    .set({ name: newName })
+    .set({ name: newName, updatedAt: new Date() })
     .where(eq(businessCategories.categoryId, id));
 }
 
@@ -53,7 +56,9 @@ export async function deleteBusinessCategory(id: string) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user || user.role !== "ADMIN") throw new Error("Forbidden");
+  if (!user) throw new Error("Not authenticated");
+  if (!(await isAdmin(user.id)))
+    throw new Error("Forbidden for non-admin users");
   if (id === PROTECTED_CATEGORY_ID)
     throw new Error("Cannot delete protected category");
 

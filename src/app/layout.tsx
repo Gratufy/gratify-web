@@ -8,9 +8,9 @@ import {
 } from "@tanstack/react-query";
 import { queryKeys } from "@/lib/reactQuery/queryKeys";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { ReactQueryProvider } from "@/components/providers/ReactQueryProvider";
-import { ThemeProvider } from "@/components/providers/theme-provider";
-import ClientProvider from "@/components/providers/UserProvider";
+import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
+import { ThemeProvider } from "@/providers/theme-provider";
+import ClientProvider from "@/providers/UserProvider";
 import { getAllBusinessCategories } from "@/lib/actions/businessCategories";
 
 const geistSans = Geist({
