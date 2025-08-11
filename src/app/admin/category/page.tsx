@@ -38,8 +38,9 @@ export default function AdminCategory() {
     try {
       await addCategory(newName);
       setNewName("");
-    } catch (e) {
+    } catch (error) {
       alert("Помилка при додаванні категорії");
+      console.log("Error adding category:", error);
     }
   };
 
@@ -57,7 +58,7 @@ export default function AdminCategory() {
     setEditState({ id, name: currentName, editing: true });
   };
   //------- Cancel Editing
-  const cancelEditing = (id: string) => {
+  const cancelEditing = () => {
     setEditState(null);
   };
   //------- Save Editing
@@ -160,7 +161,7 @@ export default function AdminCategory() {
                   </button>
                   <button
                     className="cursor-pointer border border-black"
-                    onClick={() => cancelEditing(categoryId)}
+                    onClick={() => cancelEditing()}
                     disabled={isUpdating}
                   >
                     Відміна
@@ -184,7 +185,7 @@ export default function AdminCategory() {
                       // categoryId === "11111111-1111-1111-1111-111111111111"
                     }
                   >
-                    Удалить
+                    Видалити
                   </button>
                 </>
               )}
