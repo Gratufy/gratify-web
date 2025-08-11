@@ -13,7 +13,7 @@ export function useBusinessCategories() {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: queryKeys.businessCategories,
     queryFn: getAllBusinessCategories,
-    staleTime: 1000 * 60 * 5, // 5 минут кэш
+    staleTime: 1000 * 60 * 5, // 5 минут кеш
   });
 
   const addMutation = useMutation({

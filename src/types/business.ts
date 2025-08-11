@@ -14,7 +14,8 @@ export type Businesses = {
   createdAt: Date;
   updatedAt: Date;
 };
-
+// Partial<...> makes all properties optional except for "id"
+export type BusinessUpdate = Partial<Omit<Businesses, "id">>;
 export type BusinessCategory = {
   categoryId: string; // uuid
   name: string; // уникальное название категории

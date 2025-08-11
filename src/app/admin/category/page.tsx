@@ -181,6 +181,7 @@ export default function AdminCategory() {
                     onClick={() => handleDelete(categoryId)}
                     disabled={
                       isDeleting
+                      //we can make disabled by default for this category
                       // isDeleting ||
                       // categoryId === "11111111-1111-1111-1111-111111111111"
                     }
