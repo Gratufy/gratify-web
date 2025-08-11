@@ -1,8 +1,18 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import ClientProvider from "@/components/providers/UserProvider";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import { queryKeys } from "@/lib/reactQuery/queryKeys";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
+import { ThemeProvider } from "@/providers/theme-provider";
+import ClientProvider from "@/providers/UserProvider";
+import { getAllBusinessCategories } from "@/lib/actions/businessCategories";
+import { getAllBusinesses } from "@/lib/actions/businesses";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +35,15 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   //const supabase = await createClient();
-
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.businessCategories,
+    queryFn: getAllBusinessCategories,
+  });
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.businesses,
+    queryFn: getAllBusinesses,
+  });
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -37,8 +55,14 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ClientProvider />
-          {children}
+          <ReactQueryProvider>
+            <HydrationBoundary state={dehydrate(queryClient)}>
+              {children}
+              <ClientProvider />
+            </HydrationBoundary>
+
+            <ReactQueryDevtools initialIsOpen={false} />
+          </ReactQueryProvider>
         </ThemeProvider>
       </body>
     </html>

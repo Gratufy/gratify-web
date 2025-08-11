@@ -3,17 +3,7 @@
 // //import type { UserProfile } from "@/types/user";
 import { create } from "zustand";
 import type { Session } from "@supabase/supabase-js";
-
-type Role = "USER" | "BUSINESS" | "ADMIN";
-
-interface UserProfile {
-  userId: string;
-  email: string;
-  role: Role;
-  status: string;
-  createdAt: string;
-  lastActivity: string;
-}
+import { UserProfile } from "@/types";
 
 interface UserState {
   session: Session | null;
