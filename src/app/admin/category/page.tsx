@@ -2,10 +2,10 @@
 import React, { useState } from "react";
 import * as v from "valibot";
 import { useBusinessCategories } from "@/hooks/useBusinessCategories";
-
-export const categorySchema = v.object({
-  name: v.pipe(v.string(), v.nonEmpty("Введіть назву категорії")),
-});
+import { categorySchema } from "@/lib/validators/categorySchema";
+// export const categorySchema = v.object({
+//   name: v.pipe(v.string(), v.nonEmpty("Введіть назву категорії")),
+// });
 
 export default function AdminCategory() {
   const {
