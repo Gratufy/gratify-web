@@ -12,7 +12,7 @@ import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import ClientProvider from "@/providers/UserProvider";
 import { getAllBusinessCategories } from "@/lib/actions/businessCategories";
-import { getAllBusinesses } from "@/lib/actions/businesses";
+import { getBusinesses } from "@/lib/actions/businesses";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,9 +40,21 @@ export default async function RootLayout({
     queryKey: queryKeys.businessCategories,
     queryFn: getAllBusinessCategories,
   });
+  // await queryClient.prefetchQuery({
+  //   queryKey: queryKeys.businesses,
+  //   queryFn: getAllBusinesses,
+  // });
   await queryClient.prefetchQuery({
-    queryKey: queryKeys.businesses,
-    queryFn: getAllBusinesses,
+    queryKey: [
+      "businesses",
+      { city: "__all__", categoryId: "__all__", sortBy: "newest" },
+    ],
+    queryFn: () =>
+      getBusinesses({
+        city: "__all__",
+        categoryId: "__all__",
+        sortBy: "newest",
+      }),
   });
   return (
     <html lang="en" suppressHydrationWarning>

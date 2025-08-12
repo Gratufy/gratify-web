@@ -1,52 +1,52 @@
-"use client";
-import React from "react";
-import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+// "use client";
+// import React from "react";
+// import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectGroup,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
 
-interface CitySelectProps {
-  value: string | undefined;
-  onChange: (city: string) => void;
-  label?: string;
-  error?: string;
-}
-function CitySelect({ value, onChange, label, error }: CitySelectProps) {
-  return (
-    <div>
-      {label && (
-        <label
-          htmlFor="city-select"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          {label}
-        </label>
-      )}
-      <Select>
-        <SelectTrigger className="w-[280px]">
-          <SelectValue placeholder="Оберіть місто" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            {UKRAINE_REGIONAL_CENTERS.map((city, ind) => (
-              <SelectItem key={city + ind} value={city}>
-                {city}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-      {error && <p className="text-red-600 text-sm mt-1">{error}</p>}
-    </div>
-  );
-}
+// interface CitySelectProps {
+//   value: string | undefined;
+//   onChange: (city: string) => void;
+//   label?: string;
+//   error?: string;
+// }
+// function CitySelect({ value, onChange, label, error }: CitySelectProps) {
+//   return (
+//     <div>
+//       {label && (
+//         <label
+//           htmlFor="city-select"
+//           className="block text-sm font-medium text-gray-700 mb-1"
+//         >
+//           {label}
+//         </label>
+//       )}
+//       <Select>
+//         <SelectTrigger className="w-[280px]">
+//           <SelectValue placeholder="Оберіть місто" />
+//         </SelectTrigger>
+//         <SelectContent>
+//           <SelectGroup>
+//             {UKRAINE_REGIONAL_CENTERS.map((city, ind) => (
+//               <SelectItem key={city + ind} value={city}>
+//                 {city}
+//               </SelectItem>
+//             ))}
+//           </SelectGroup>
+//         </SelectContent>
+//       </Select>
+//       {error && <p className="text-red-600 text-sm mt-1">{error}</p>}
+//     </div>
+//   );
+// }
 
-export default CitySelect;
+// export default CitySelect;
 
 // import React, { useState } from "react";
 // import { CitySelect } from "./CitySelect";

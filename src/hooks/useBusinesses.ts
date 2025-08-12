@@ -1,22 +1,40 @@
 "use client";
+import { useState } from "react";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "@/lib/reactQuery/queryKeys";
 import {
-  getAllBusinesses,
+  //   getAllBusinesses,
   getBusinessById,
   createBusiness,
   updateBusiness,
   deleteBusiness,
+  getBusinesses,
 } from "@/lib/actions/businesses";
 import { BusinessUpdate } from "@/types";
 
+interface UseBusinessesParams {
+  city?: string;
+  categoryId?: string;
+  sortBy?: "newest" | "mostKarma";
+}
 // all businesses
-export function useBusinesses() {
+// export function useBusinesses() {
+//   return useQuery({
+//     queryKey: queryKeys.businesses,
+//     queryFn: getAllBusinesses,
+//     staleTime: 1000 * 60 * 5, // 5 минут кеш
+//   });
+// }
+export function useBusinesses({
+  city,
+  categoryId,
+  sortBy = "newest",
+}: UseBusinessesParams = {}) {
   return useQuery({
-    queryKey: queryKeys.businesses,
-    queryFn: getAllBusinesses,
-    staleTime: 1000 * 60 * 5, // 5 минут кеш
+    queryKey: ["businesses", { city, categoryId, sortBy }],
+    queryFn: () => getBusinesses({ city, categoryId, sortBy }),
+    staleTime: 1000 * 60 * 5, // кеш 5 минут
   });
 }
 

@@ -1,14 +1,33 @@
 "use client";
 import { useState } from "react";
 import { useBusinesses } from "@/hooks/useBusinesses";
-import CitySelect from "@/components/ui/CitySelect";
+import { useBusinessCategories } from "@/hooks/useBusinessCategories";
+import CustomSelect from "@/components/ui/CustomSelect";
+import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
 
 export default function AdminBusiness() {
-  const { data: businesses, isLoading, isError, error } = useBusinesses();
-  const [city, setCity] = useState<string | undefined>(undefined);
+  const {
+    categories,
+    isLoading: isCategoriesLoading,
+    isError: isCategoriesError,
+  } = useBusinessCategories();
+  const [city, setCity] = useState<string | undefined>("__all__");
+  const [categoryId, setCategoryId] = useState<string>("__all__");
 
-  if (isLoading) return <p>Загрузка...</p>;
-  if (isError) return <p>Ошибка: {error.message}</p>;
+  const {
+    data: businesses,
+    isLoading: isBusinessesLoading,
+    isError: isBusinessesError,
+    error,
+  } = useBusinesses({ city, categoryId });
+  if (isBusinessesLoading || isCategoriesLoading) return <p>Загрузка...</p>;
+  if (isBusinessesError || isCategoriesError)
+    return <p>Ошибка: {error?.message}</p>;
+  const categoriesWithAll = [
+    { categoryId: "__all__", name: "Всі" }, // пуста строка для "всi"
+    ...(categories || []),
+  ];
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <h1 className="text-2xl font-bold mb-2">
@@ -29,11 +48,26 @@ export default function AdminBusiness() {
       <p className="italic mb-2">
         На навігацію поки не звертати увагу. Це виключно для мене і тимчасово
       </p>
-      <CitySelect
+      <CustomSelect
+        value={categoryId}
+        onChange={setCategoryId}
+        options={categoriesWithAll}
+        getOptionValue={(c) => c.categoryId}
+        getOptionLabel={(c) => c.name}
+        label="Категорія"
+        placeholder="Оберіть категорію"
+      />
+      <p>Обрана категорія: {categoryId || "—"}</p>
+      <CustomSelect
         label="Місто"
         value={city}
-        onChange={(value) => setCity(value)}
+        onChange={setCity}
+        options={UKRAINE_REGIONAL_CENTERS}
+        getOptionValue={(option) => option.value}
+        getOptionLabel={(option) => option.label}
+        placeholder="Оберіть місто"
       />
+      <p>Обране місто: {city || "—"}</p>
       <h2 className="text-xl font-bold mb-2">Список бізнесів</h2>
       {businesses?.length ? (
         <ul>
