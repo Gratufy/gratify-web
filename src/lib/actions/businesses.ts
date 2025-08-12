@@ -28,7 +28,10 @@ export async function getBusinesses(params: GetBusinessesParams = {}) {
   const { city, categoryId, sortBy = "newest" } = params;
 
   const filters = [];
-  if (city) filters.push(eq(businesses.city, city));
+
+  if (city && city !== "__all__") {
+    filters.push(eq(businesses.city, city));
+  }
 
   if (categoryId && categoryId !== "__all__")
     filters.push(eq(businesses.categoryId, categoryId));

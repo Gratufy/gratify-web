@@ -11,7 +11,7 @@ export default function AdminBusiness() {
     isLoading: isCategoriesLoading,
     isError: isCategoriesError,
   } = useBusinessCategories();
-  const [city, setCity] = useState<string | undefined>(undefined);
+  const [city, setCity] = useState<string | undefined>("__all__");
   const [categoryId, setCategoryId] = useState<string>("__all__");
 
   const {
@@ -27,6 +27,7 @@ export default function AdminBusiness() {
     { categoryId: "__all__", name: "Всі" }, // пуста строка для "всi"
     ...(categories || []),
   ];
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <h1 className="text-2xl font-bold mb-2">
@@ -60,8 +61,10 @@ export default function AdminBusiness() {
       <CustomSelect
         label="Місто"
         value={city}
-        onChange={(v) => setCity(v || undefined)}
+        onChange={setCity}
         options={UKRAINE_REGIONAL_CENTERS}
+        getOptionValue={(option) => option.value}
+        getOptionLabel={(option) => option.label}
         placeholder="Оберіть місто"
       />
       <p>Обране місто: {city || "—"}</p>

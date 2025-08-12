@@ -47,11 +47,11 @@ export default async function RootLayout({
   await queryClient.prefetchQuery({
     queryKey: [
       "businesses",
-      { city: undefined, categoryId: "__all__", sortBy: "newest" },
+      { city: "__all__", categoryId: "__all__", sortBy: "newest" },
     ],
     queryFn: () =>
       getBusinesses({
-        city: undefined,
+        city: "__all__",
         categoryId: "__all__",
         sortBy: "newest",
       }),
