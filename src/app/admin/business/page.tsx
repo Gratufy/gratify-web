@@ -7,22 +7,26 @@ import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
 
 export default function AdminBusiness() {
   const {
-    data: businesses,
-    isLoading: isBusinessesLoading,
-    isError: isBusinessesError,
-    error,
-  } = useBusinesses();
-  const {
     categories,
     isLoading: isCategoriesLoading,
     isError: isCategoriesError,
   } = useBusinessCategories();
   const [city, setCity] = useState<string | undefined>(undefined);
-  const [categoryId, setCategoryId] = useState<string | undefined>(undefined);
+  const [categoryId, setCategoryId] = useState<string>("__all__");
 
+  const {
+    data: businesses,
+    isLoading: isBusinessesLoading,
+    isError: isBusinessesError,
+    error,
+  } = useBusinesses({ city, categoryId });
   if (isBusinessesLoading || isCategoriesLoading) return <p>Загрузка...</p>;
   if (isBusinessesError || isCategoriesError)
     return <p>Ошибка: {error?.message}</p>;
+  const categoriesWithAll = [
+    { categoryId: "__all__", name: "Всі" }, // пуста строка для "всi"
+    ...(categories || []),
+  ];
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <h1 className="text-2xl font-bold mb-2">
@@ -46,12 +50,13 @@ export default function AdminBusiness() {
       <CustomSelect
         value={categoryId}
         onChange={setCategoryId}
-        options={categories}
+        options={categoriesWithAll}
         getOptionValue={(c) => c.categoryId}
         getOptionLabel={(c) => c.name}
         label="Категорія"
         placeholder="Оберіть категорію"
       />
+      <p>Обрана категорія: {categoryId || "—"}</p>
       <CustomSelect
         label="Місто"
         value={city}

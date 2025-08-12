@@ -3,22 +3,60 @@
 import { createClient } from "@/utils/supabase/server";
 import { db } from "@/db";
 import { businesses } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, desc, sql, and } from "drizzle-orm";
+import { SortBy } from "@/types/business";
+
+interface GetBusinessesParams {
+  city?: string;
+  categoryId?: string;
+  sortBy?: SortBy;
+}
 
 // get all businesses
-export async function getAllBusinesses() {
+// export async function getAllBusinesses() {
+//   try {
+//     const orderBy = desc(businesses.createdAt);
+//     const data = await db.select().from(businesses).orderBy(orderBy);
+//     return data;
+//   } catch (error) {
+//     console.error("Error fetching businesses:", error);
+//     throw new Error("Failed to fetch businesses");
+//   }
+// }
+// get businesses with filters
+export async function getBusinesses(params: GetBusinessesParams = {}) {
+  const { city, categoryId, sortBy = "newest" } = params;
+
+  const filters = [];
+  if (city) filters.push(eq(businesses.city, city));
+
+  if (categoryId && categoryId !== "__all__")
+    filters.push(eq(businesses.categoryId, categoryId));
+
+  const whereClause = filters.length > 0 ? and(...filters) : sql`TRUE`;
+  let orderBy;
+  switch (sortBy) {
+    case "mostKarma":
+      orderBy = sql`${desc(businesses.karma)} NULLS LAST`;
+      break;
+    case "newest":
+    default:
+      orderBy = desc(businesses.createdAt);
+  }
+
   try {
-    const data = await db
+    const results = await db
       .select()
       .from(businesses)
-      .orderBy(businesses.createdAt);
-    return data;
+      .where(whereClause)
+      .orderBy(orderBy);
+
+    return results;
   } catch (error) {
-    console.error("Error fetching businesses:", error);
+    console.error("Error fetching businesses with filters:", error);
     throw new Error("Failed to fetch businesses");
   }
 }
-
 // get business by ID
 export async function getBusinessById(id: string) {
   try {

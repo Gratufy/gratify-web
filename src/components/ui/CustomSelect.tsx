@@ -12,7 +12,7 @@ import {
 
 interface CustomSelectProps<T> {
   value: string | undefined;
-  onChange: (val: string | undefined) => void;
+  onChange: (val: string) => void;
   options: T[];
   label?: string;
   error?: string;
@@ -42,7 +42,7 @@ function CustomSelect<T>({
           {label}
         </label>
       )}
-      <Select value={value} onValueChange={(v) => onChange(v || undefined)}>
+      <Select value={value} onValueChange={(v) => onChange(v)}>
         <SelectTrigger className={className ?? "w-[280px]"}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
@@ -56,7 +56,7 @@ function CustomSelect<T>({
                 ? getOptionLabel(option)
                 : (option as unknown as string);
               return (
-                <SelectItem key={val ?? index} value={val}>
+                <SelectItem key={val ?? index} value={val ?? ""}>
                   {label}
                 </SelectItem>
               );
