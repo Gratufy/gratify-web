@@ -56,3 +56,5 @@ export type BusinessHour = {
   openTime: string; // format "09:00:00"
   closeTime: string; // format "18:00:00"
 };
+
+export type SortBy = "newest" | "mostKarma";
