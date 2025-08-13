@@ -3,7 +3,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
+
 import AdminFooter from "@/components/admin/AdminFooter/AdminFooter";
 import AdminHeader from "@/components/admin/AdminHeader/AdminHeader";
 import { getBusinesses } from "@/lib/actions/businesses";

@@ -7,7 +7,7 @@ import { eq, desc, sql, and } from "drizzle-orm";
 import { SortBy } from "@/types/business";
 import { isAdmin } from "@/lib/helpers/isAdmin";
 
-type Scope = "public" | "user" | "admin";
+type Scope = "public" | "business_user" | "admin";
 interface GetBusinessesParams {
   city?: string;
   categoryId?: string;
@@ -64,14 +64,13 @@ interface GetBusinessesParams {
 // }
 // get businesses with filters
 export async function getBusinesses(params: GetBusinessesParams) {
-  console.log("🔍 RAW CALL", params);
   const {
     city = "__all__",
     categoryId = "__all__",
     sortBy = "newest",
     scope = "public",
   } = params ?? {};
-  console.log("📌 Final parsed params", { city, categoryId, sortBy, scope });
+
   const supabase = await createClient();
   const {
     data: { user },
@@ -88,16 +87,18 @@ export async function getBusinesses(params: GetBusinessesParams) {
 
   if (scope === "public") {
     conditions.push(eq(businesses.status, "approved"));
-  } else if (scope === "user") {
+  } else if (scope === "business_user") {
     if (!user) throw new Error("Not authenticated");
     conditions.push(eq(businesses.ownerId, user.id));
   } else if (scope === "admin") {
     if (!user) throw new Error("Not authenticated");
-    if (!(await isAdmin(user.id))) {
+
+    const isAdminUser = await isAdmin(user.id);
+    if (!isAdminUser) {
       throw new Error("Forbidden for non-admin users");
     }
   }
-  console.log("scope:", scope, "user:", user?.id);
+
   const whereClause = conditions.length > 0 ? and(...conditions) : sql`TRUE`;
   let orderBy;
   switch (sortBy) {

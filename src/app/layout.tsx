@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { queryKeys } from "@/lib/reactQuery/queryKeys";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import ClientProvider from "@/providers/UserProvider";
 import { getAllBusinessCategories } from "@/lib/actions/businessCategories";
-import { getBusinesses } from "@/lib/actions/businesses";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -65,12 +60,8 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <ReactQueryProvider dehydratedState={dehydratedState}>
-            {/* <HydrationBoundary state={dehydratedState}> */}
             {children}
             <ClientProvider />
-            {/* </HydrationBoundary> */}
-
-            <ReactQueryDevtools initialIsOpen={false} />
           </ReactQueryProvider>
         </ThemeProvider>
       </body>

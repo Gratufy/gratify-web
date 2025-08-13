@@ -31,7 +31,9 @@ export function useBusinesses({
   categoryId,
   sortBy = "newest",
   scope = "public",
-}: UseBusinessesParams & { scope?: "public" | "user" | "admin" } = {}) {
+}: UseBusinessesParams & {
+  scope?: "public" | "business_user" | "admin";
+} = {}) {
   return useQuery({
     queryKey: ["businesses", { city, categoryId, sortBy, scope }],
     queryFn: () => getBusinesses({ city, categoryId, sortBy, scope }),
