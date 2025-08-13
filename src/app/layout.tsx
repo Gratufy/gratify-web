@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { queryKeys } from "@/lib/reactQuery/queryKeys";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import ClientProvider from "@/providers/UserProvider";
 import { getAllBusinessCategories } from "@/lib/actions/businessCategories";
-import { getBusinesses } from "@/lib/actions/businesses";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,22 +35,19 @@ export default async function RootLayout({
     queryKey: queryKeys.businessCategories,
     queryFn: getAllBusinessCategories,
   });
+  const dehydratedState = dehydrate(queryClient);
   // await queryClient.prefetchQuery({
-  //   queryKey: queryKeys.businesses,
-  //   queryFn: getAllBusinesses,
+  //   queryKey: [
+  //     "businesses",
+  //     { city: "__all__", categoryId: "__all__", sortBy: "newest" },
+  //   ],
+  //   queryFn: () =>
+  //     getBusinesses({
+  //       city: "__all__",
+  //       categoryId: "__all__",
+  //       sortBy: "newest",
+  //     }),
   // });
-  await queryClient.prefetchQuery({
-    queryKey: [
-      "businesses",
-      { city: "__all__", categoryId: "__all__", sortBy: "newest" },
-    ],
-    queryFn: () =>
-      getBusinesses({
-        city: "__all__",
-        categoryId: "__all__",
-        sortBy: "newest",
-      }),
-  });
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -67,13 +59,9 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ReactQueryProvider>
-            <HydrationBoundary state={dehydrate(queryClient)}>
-              {children}
-              <ClientProvider />
-            </HydrationBoundary>
-
-            <ReactQueryDevtools initialIsOpen={false} />
+          <ReactQueryProvider dehydratedState={dehydratedState}>
+            {children}
+            <ClientProvider />
           </ReactQueryProvider>
         </ThemeProvider>
       </body>

@@ -5,38 +5,54 @@ import { db } from "@/db";
 import { businesses } from "@/db/schema";
 import { eq, desc, sql, and } from "drizzle-orm";
 import { SortBy } from "@/types/business";
+import { isAdmin } from "@/lib/helpers/isAdmin";
 
+type Scope = "public" | "business_user" | "admin";
 interface GetBusinessesParams {
   city?: string;
   categoryId?: string;
   sortBy?: SortBy;
+  scope?: Scope;
 }
 
-// get all businesses
-// export async function getAllBusinesses() {
-//   try {
-//     const orderBy = desc(businesses.createdAt);
-//     const data = await db.select().from(businesses).orderBy(orderBy);
-//     return data;
-//   } catch (error) {
-//     console.error("Error fetching businesses:", error);
-//     throw new Error("Failed to fetch businesses");
-//   }
-// }
 // get businesses with filters
-export async function getBusinesses(params: GetBusinessesParams = {}) {
-  const { city, categoryId, sortBy = "newest" } = params;
+export async function getBusinesses(params: GetBusinessesParams) {
+  const {
+    city = "__all__",
+    categoryId = "__all__",
+    sortBy = "newest",
+    scope = "public",
+  } = params ?? {};
 
-  const filters = [];
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const conditions = [];
 
   if (city && city !== "__all__") {
-    filters.push(eq(businesses.city, city));
+    conditions.push(eq(businesses.city, city));
   }
 
   if (categoryId && categoryId !== "__all__")
-    filters.push(eq(businesses.categoryId, categoryId));
+    conditions.push(eq(businesses.categoryId, categoryId));
 
-  const whereClause = filters.length > 0 ? and(...filters) : sql`TRUE`;
+  if (scope === "public") {
+    conditions.push(eq(businesses.status, "approved"));
+  } else if (scope === "business_user") {
+    if (!user) throw new Error("Not authenticated");
+    conditions.push(eq(businesses.ownerId, user.id));
+  } else if (scope === "admin") {
+    if (!user) throw new Error("Not authenticated");
+
+    const isAdminUser = await isAdmin(user.id);
+    if (!isAdminUser) {
+      throw new Error("Forbidden for non-admin users");
+    }
+  }
+
+  const whereClause = conditions.length > 0 ? and(...conditions) : sql`TRUE`;
   let orderBy;
   switch (sortBy) {
     case "mostKarma":
@@ -92,9 +108,45 @@ export async function updateBusiness(
   values: Partial<typeof businesses.$inferInsert>
 ) {
   try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) throw new Error("Not authenticated");
+    const business = await db
+      .select()
+      .from(businesses)
+      .where(eq(businesses.id, id))
+      .limit(1);
+    if (!business.length) throw new Error("Business not found");
+    const isAdminUser = await isAdmin(user.id);
+    if (!isAdminUser && business[0].ownerId !== user.id) {
+      throw new Error("Forbidden for non-admin or not owner");
+    }
+    const allowedFieldsForOwner: (keyof typeof businesses.$inferInsert)[] = [
+      "categoryId",
+      "name",
+      "description",
+      "city",
+      "district",
+      "address",
+      "website",
+    ];
+    const allowedFieldsForAdmin = [...allowedFieldsForOwner, "status"];
+    const allowedFields = isAdminUser
+      ? allowedFieldsForAdmin
+      : allowedFieldsForOwner;
+    const filteredValues = Object.fromEntries(
+      Object.entries(values).filter(([key]) =>
+        allowedFields.includes(key as keyof typeof businesses.$inferInsert)
+      )
+    );
+    if (Object.keys(filteredValues).length === 0) {
+      throw new Error("No valid fields to update");
+    }
     const updated = await db
       .update(businesses)
-      .set(values)
+      .set(filteredValues)
       .where(eq(businesses.id, id))
       .returning();
     return updated[0];
@@ -107,6 +159,21 @@ export async function updateBusiness(
 // delete business
 export async function deleteBusiness(id: string) {
   try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) throw new Error("Not authenticated");
+    const business = await db
+      .select()
+      .from(businesses)
+      .where(eq(businesses.id, id))
+      .limit(1);
+    if (!business.length) throw new Error("Business not found");
+    const isAdminUser = await isAdmin(user.id);
+    if (!isAdminUser && business[0].ownerId !== user.id) {
+      throw new Error("Forbidden for non-admin or not owner");
+    }
     await db.delete(businesses).where(eq(businesses.id, id));
     return { success: true };
   } catch (error) {

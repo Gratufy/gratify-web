@@ -4,12 +4,13 @@ import { useBusinesses } from "@/hooks/useBusinesses";
 import { useBusinessCategories } from "@/hooks/useBusinessCategories";
 import CustomSelect from "@/components/ui/CustomSelect";
 import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
+import Link from "next/link";
 
 export default function AdminBusiness() {
   const {
     categories,
-    isLoading: isCategoriesLoading,
-    isError: isCategoriesError,
+    // isLoading: isCategoriesLoading,
+    // isError: isCategoriesError,
   } = useBusinessCategories();
   const [city, setCity] = useState<string | undefined>("__all__");
   const [categoryId, setCategoryId] = useState<string>("__all__");
@@ -19,12 +20,13 @@ export default function AdminBusiness() {
     isLoading: isBusinessesLoading,
     isError: isBusinessesError,
     error,
-  } = useBusinesses({ city, categoryId });
-  if (isBusinessesLoading || isCategoriesLoading) return <p>Загрузка...</p>;
-  if (isBusinessesError || isCategoriesError)
-    return <p>Ошибка: {error?.message}</p>;
+  } = useBusinesses({ city, categoryId, scope: "admin" });
+  // if (isBusinessesLoading || isCategoriesLoading) return <p>Загрузка...</p>;
+  // if (isBusinessesError || isCategoriesError)
+  //   return <p>Помилка: {error?.message}</p>;
+
   const categoriesWithAll = [
-    { categoryId: "__all__", name: "Всі" }, // пуста строка для "всi"
+    { categoryId: "__all__", name: "Всі" }, //index "__all__" for   "всi"
     ...(categories || []),
   ];
 
@@ -68,16 +70,28 @@ export default function AdminBusiness() {
         placeholder="Оберіть місто"
       />
       <p>Обране місто: {city || "—"}</p>
-      <h2 className="text-xl font-bold mb-2">Список бізнесів</h2>
+      <h2 className="text-xl font-bold mb-2">
+        Список бізнесів with all status
+      </h2>
+      {isBusinessesLoading && <p>Loading...</p>}
+      {isBusinessesError && <p>Помилка: {error?.message}</p>}
       {businesses?.length ? (
         <ul>
           {businesses.map((b) => (
             <li
               key={b.id}
-              className="mb-2 p-2 border border-gray-300 rounded-4xl w-40 flex flex-col items-center justify-center"
+              className="mb-2 p-2 border border-gray-300 rounded-4xl w-60 flex flex-col items-center justify-center"
             >
               <p>name: {b.name}</p>
               <p>city: {b.city}</p>
+
+              <p>status: {b.status}</p>
+              <Link
+                href={`./business/${b.id}`}
+                className="p-2 bg-chart-2 text-white rounded-full cursor-pointer"
+              >
+                See more
+              </Link>
             </li>
           ))}
         </ul>
