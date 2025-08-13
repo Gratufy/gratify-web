@@ -4,6 +4,7 @@ import { useBusinesses } from "@/hooks/useBusinesses";
 import { useBusinessCategories } from "@/hooks/useBusinessCategories";
 import CustomSelect from "@/components/ui/CustomSelect";
 import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
+import Link from "next/link";
 
 export default function AdminBusiness() {
   const {
@@ -85,6 +86,12 @@ export default function AdminBusiness() {
               <p>city: {b.city}</p>
 
               <p>status: {b.status}</p>
+              <Link
+                href={`./business/${b.id}`}
+                className="p-2 bg-chart-2 text-white rounded-full cursor-pointer"
+              >
+                See more
+              </Link>
             </li>
           ))}
         </ul>

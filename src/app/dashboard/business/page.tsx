@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useBusinesses } from "@/hooks/useBusinesses";
+import Link from "next/link";
 
 export default function BusinessHome() {
   const {
@@ -44,6 +45,12 @@ export default function BusinessHome() {
               <p>city: {b.city}</p>
 
               <p>status: {b.status}</p>
+              <Link
+                href={`./business/${b.id}`}
+                className="p-2 bg-chart-2 text-white rounded-full cursor-pointer"
+              >
+                See more
+              </Link>
             </li>
           ))}
         </ul>

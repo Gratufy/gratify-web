@@ -15,53 +15,6 @@ interface GetBusinessesParams {
   scope?: Scope;
 }
 
-// get all businesses
-// export async function getAllBusinesses() {
-//   try {
-//     const orderBy = desc(businesses.createdAt);
-//     const data = await db.select().from(businesses).orderBy(orderBy);
-//     return data;
-//   } catch (error) {
-//     console.error("Error fetching businesses:", error);
-//     throw new Error("Failed to fetch businesses");
-//   }
-// }
-// export async function getAllBusinesses(params: GetBusinessesParams = {}) {
-//   const { city, categoryId, sortBy = "newest" } = params;
-
-//   const filters = [];
-
-//   if (city && city !== "__all__") {
-//     filters.push(eq(businesses.city, city));
-//   }
-
-//   if (categoryId && categoryId !== "__all__")
-//     filters.push(eq(businesses.categoryId, categoryId));
-
-//   const whereClause = filters.length > 0 ? and(...filters) : sql`TRUE`;
-//   let orderBy;
-//   switch (sortBy) {
-//     case "mostKarma":
-//       orderBy = sql`${desc(businesses.karma)} NULLS LAST`;
-//       break;
-//     case "newest":
-//     default:
-//       orderBy = desc(businesses.createdAt);
-//   }
-
-//   try {
-//     const results = await db
-//       .select()
-//       .from(businesses)
-//       .where(whereClause)
-//       .orderBy(orderBy);
-
-//     return results;
-//   } catch (error) {
-//     console.error("Error fetching businesses with filters:", error);
-//     throw new Error("Failed to fetch businesses");
-//   }
-// }
 // get businesses with filters
 export async function getBusinesses(params: GetBusinessesParams) {
   const {

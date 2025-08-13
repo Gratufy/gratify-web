@@ -6,13 +6,14 @@ import { useBusinesses } from "@/hooks/useBusinesses";
 import { useBusinessCategories } from "@/hooks/useBusinessCategories";
 import CustomSelect from "@/components/ui/CustomSelect";
 import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
+import Link from "next/link";
 
 export default function PublicHome() {
   const user = useUserStore((s) => s.profile);
   const {
     categories,
-    isLoading: isCategoriesLoading,
-    isError: isCategoriesError,
+    // isLoading: isCategoriesLoading,
+    // isError: isCategoriesError,
   } = useBusinessCategories();
   const [city, setCity] = useState<string | undefined>("__all__");
   const [categoryId, setCategoryId] = useState<string>("__all__");
@@ -76,6 +77,12 @@ export default function PublicHome() {
               <p>city: {b.city}</p>
 
               <p>status: {b.status}</p>
+              <Link
+                href={`./business/${b.id}`}
+                className="p-2 bg-chart-2 text-white rounded-full cursor-pointer"
+              >
+                See more
+              </Link>
             </li>
           ))}
         </ul>
