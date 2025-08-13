@@ -9,15 +9,6 @@ export function ReactQueryProvider({
 }) {
   const [queryClient] = useState(() => new QueryClient());
   return (
-    /*   const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: 30 * 1000,
-          },
-        },
-      }) */
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 }

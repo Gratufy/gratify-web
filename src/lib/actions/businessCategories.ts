@@ -1,24 +1,23 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
-
 import { db } from "@/db";
 import { businessCategories } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { userProfiles } from "@/db/schema";
+import { isAdmin } from "@/lib/helpers/isAdmin";
 
 const PROTECTED_CATEGORY_ID = "11111111-1111-1111-1111-111111111111";
 
-async function isAdmin(userId: string) {
-  const profile = await db
-    .select()
-    .from(userProfiles)
-    .where(eq(userProfiles.userId, userId))
-    .limit(1)
-    .then((rows) => rows[0]);
+// async function isAdmin(userId: string) {
+//   const profile = await db
+//     .select()
+//     .from(userProfiles)
+//     .where(eq(userProfiles.userId, userId))
+//     .limit(1)
+//     .then((rows) => rows[0]);
 
-  return profile?.role === "ADMIN";
-}
+//   return profile?.role === "ADMIN";
+// }
 
 export async function getAllBusinessCategories() {
   return db.select().from(businessCategories).orderBy(businessCategories.name);
