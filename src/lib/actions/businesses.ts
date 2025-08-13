@@ -7,10 +7,12 @@ import { eq, desc, sql, and } from "drizzle-orm";
 import { SortBy } from "@/types/business";
 import { isAdmin } from "@/lib/helpers/isAdmin";
 
+type Scope = "public" | "user" | "admin";
 interface GetBusinessesParams {
   city?: string;
   categoryId?: string;
   sortBy?: SortBy;
+  scope?: Scope;
 }
 
 // get all businesses
@@ -61,21 +63,42 @@ interface GetBusinessesParams {
 //   }
 // }
 // get businesses with filters
-export async function getBusinesses(params: GetBusinessesParams = {}) {
-  const { city, categoryId, sortBy = "newest" } = params;
+export async function getBusinesses(params: GetBusinessesParams) {
+  console.log("🔍 RAW CALL", params);
+  const {
+    city = "__all__",
+    categoryId = "__all__",
+    sortBy = "newest",
+    scope = "public",
+  } = params ?? {};
+  console.log("📌 Final parsed params", { city, categoryId, sortBy, scope });
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  const filters = [
-    eq(businesses.status, "approved"), //only approved
-  ];
+  const conditions = [];
 
   if (city && city !== "__all__") {
-    filters.push(eq(businesses.city, city));
+    conditions.push(eq(businesses.city, city));
   }
 
   if (categoryId && categoryId !== "__all__")
-    filters.push(eq(businesses.categoryId, categoryId));
+    conditions.push(eq(businesses.categoryId, categoryId));
 
-  const whereClause = filters.length > 0 ? and(...filters) : sql`TRUE`;
+  if (scope === "public") {
+    conditions.push(eq(businesses.status, "approved"));
+  } else if (scope === "user") {
+    if (!user) throw new Error("Not authenticated");
+    conditions.push(eq(businesses.ownerId, user.id));
+  } else if (scope === "admin") {
+    if (!user) throw new Error("Not authenticated");
+    if (!(await isAdmin(user.id))) {
+      throw new Error("Forbidden for non-admin users");
+    }
+  }
+  console.log("scope:", scope, "user:", user?.id);
+  const whereClause = conditions.length > 0 ? and(...conditions) : sql`TRUE`;
   let orderBy;
   switch (sortBy) {
     case "mostKarma":

@@ -40,22 +40,19 @@ export default async function RootLayout({
     queryKey: queryKeys.businessCategories,
     queryFn: getAllBusinessCategories,
   });
+  const dehydratedState = dehydrate(queryClient);
   // await queryClient.prefetchQuery({
-  //   queryKey: queryKeys.businesses,
-  //   queryFn: getAllBusinesses,
+  //   queryKey: [
+  //     "businesses",
+  //     { city: "__all__", categoryId: "__all__", sortBy: "newest" },
+  //   ],
+  //   queryFn: () =>
+  //     getBusinesses({
+  //       city: "__all__",
+  //       categoryId: "__all__",
+  //       sortBy: "newest",
+  //     }),
   // });
-  await queryClient.prefetchQuery({
-    queryKey: [
-      "businesses",
-      { city: "__all__", categoryId: "__all__", sortBy: "newest" },
-    ],
-    queryFn: () =>
-      getBusinesses({
-        city: "__all__",
-        categoryId: "__all__",
-        sortBy: "newest",
-      }),
-  });
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -67,11 +64,11 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ReactQueryProvider>
-            <HydrationBoundary state={dehydrate(queryClient)}>
-              {children}
-              <ClientProvider />
-            </HydrationBoundary>
+          <ReactQueryProvider dehydratedState={dehydratedState}>
+            {/* <HydrationBoundary state={dehydratedState}> */}
+            {children}
+            <ClientProvider />
+            {/* </HydrationBoundary> */}
 
             <ReactQueryDevtools initialIsOpen={false} />
           </ReactQueryProvider>

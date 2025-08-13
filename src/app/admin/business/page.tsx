@@ -19,7 +19,7 @@ export default function AdminBusiness() {
     isLoading: isBusinessesLoading,
     isError: isBusinessesError,
     error,
-  } = useBusinesses({ city, categoryId });
+  } = useBusinesses({ city, categoryId, scope: "admin" });
   if (isBusinessesLoading || isCategoriesLoading) return <p>Загрузка...</p>;
   if (isBusinessesError || isCategoriesError)
     return <p>Ошибка: {error?.message}</p>;
@@ -78,6 +78,8 @@ export default function AdminBusiness() {
             >
               <p>name: {b.name}</p>
               <p>city: {b.city}</p>
+
+              <p>status: {b.status}</p>
             </li>
           ))}
         </ul>

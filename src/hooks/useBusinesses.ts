@@ -30,10 +30,11 @@ export function useBusinesses({
   city,
   categoryId,
   sortBy = "newest",
-}: UseBusinessesParams = {}) {
+  scope = "public",
+}: UseBusinessesParams & { scope?: "public" | "user" | "admin" } = {}) {
   return useQuery({
-    queryKey: ["businesses", { city, categoryId, sortBy }],
-    queryFn: () => getBusinesses({ city, categoryId, sortBy }),
+    queryKey: ["businesses", { city, categoryId, sortBy, scope }],
+    queryFn: () => getBusinesses({ city, categoryId, sortBy, scope }),
     staleTime: 1000 * 60 * 5, // кеш 5 минут
   });
 }
