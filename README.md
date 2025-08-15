@@ -28,16 +28,23 @@ RAISE EXCEPTION 'Cannot delete category Інше';
 END IF;
 RETURN OLD;
 END;
+```
 
 to check
+
+```sql
 SELECT proname, prosrc
 FROM pg_proc
 WHERE proname = 'prevent_delete_inche';
+```
 
 and
+
+```sql
 SELECT tgname, tgrelid::regclass AS table_name
 FROM pg_trigger
 WHERE tgname = 'trg_prevent_delete_inche';
+
 ```
 
 # RLS

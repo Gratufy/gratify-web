@@ -5,6 +5,11 @@ import { db } from "@/db";
 import { businessCategories } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { isAdmin } from "@/lib/helpers/isAdmin";
+import {
+  BusinessCategory,
+  NewBusinessCategory,
+  RenameCategoryInput,
+} from "@/types";
 
 const PROTECTED_CATEGORY_ID = "11111111-1111-1111-1111-111111111111";
 
@@ -19,11 +24,11 @@ const PROTECTED_CATEGORY_ID = "11111111-1111-1111-1111-111111111111";
 //   return profile?.role === "ADMIN";
 // }
 
-export async function getAllBusinessCategories() {
+export async function getAllBusinessCategories(): Promise<BusinessCategory[]> {
   return db.select().from(businessCategories).orderBy(businessCategories.name);
 }
 
-export async function addBusinessCategory(name: string) {
+export async function addBusinessCategory(category: NewBusinessCategory) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -32,10 +37,13 @@ export async function addBusinessCategory(name: string) {
   if (!(await isAdmin(user.id)))
     throw new Error("Forbidden for non-admin users");
 
-  await db.insert(businessCategories).values({ name });
+  await db.insert(businessCategories).values(category);
 }
 
-export async function renameBusinessCategory(id: string, newName: string) {
+export async function renameBusinessCategory({
+  id,
+  name,
+}: RenameCategoryInput) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -46,7 +54,7 @@ export async function renameBusinessCategory(id: string, newName: string) {
 
   await db
     .update(businessCategories)
-    .set({ name: newName, updatedAt: new Date() })
+    .set({ name, updatedAt: new Date() })
     .where(eq(businessCategories.categoryId, id));
 }
 

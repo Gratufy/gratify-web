@@ -36,7 +36,7 @@ export default function AdminCategory() {
       return;
     }
     try {
-      await addCategory(newName);
+      await addCategory({ name: newName });
       setNewName("");
     } catch (error) {
       alert("Помилка при додаванні категорії");
@@ -63,16 +63,14 @@ export default function AdminCategory() {
   };
   //------- Save Editing
   const saveEditing = async (id: string) => {
-    const state = editState;
-
-    if (!state) return;
-    const result = v.safeParse(categorySchema, { name: state.name });
+    if (!editState) return;
+    const result = v.safeParse(categorySchema, { name: editState.name });
     if (!result.success) {
       alert(result.issues[0].message);
       return;
     }
     try {
-      await renameCategory({ id, name: state.name });
+      await renameCategory({ id, name: editState.name });
       setEditState(null);
     } catch {
       alert("Помилка при зміні назви категорії");
