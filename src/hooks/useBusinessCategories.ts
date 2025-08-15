@@ -6,18 +6,19 @@ import {
   renameBusinessCategory,
   deleteBusinessCategory,
 } from "@/lib/actions/businessCategories";
+import { BusinessCategory, NewBusinessCategory } from "@/types";
 
 export function useBusinessCategories() {
   const queryClient = useQueryClient();
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error } = useQuery<BusinessCategory[]>({
     queryKey: queryKeys.businessCategories,
     queryFn: getAllBusinessCategories,
     staleTime: 1000 * 60 * 5, // 5 минут кеш
   });
 
   const addMutation = useMutation({
-    mutationFn: addBusinessCategory,
+    mutationFn: (payload: NewBusinessCategory) => addBusinessCategory(payload),
     onSuccess: () =>
       queryClient.invalidateQueries({
         queryKey: queryKeys.businessCategories,
@@ -25,8 +26,7 @@ export function useBusinessCategories() {
   });
 
   const renameMutation = useMutation({
-    mutationFn: ({ id, name }: { id: string; name: string }) =>
-      renameBusinessCategory(id, name),
+    mutationFn: renameBusinessCategory,
     onSuccess: () =>
       queryClient.invalidateQueries({
         queryKey: queryKeys.businessCategories,

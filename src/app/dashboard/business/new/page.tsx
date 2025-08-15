@@ -1,3 +1,4 @@
+import { BusinessForm } from "@/components/shared/BusinessForm";
 import React from "react";
 
 export default function BusinessNew() {
@@ -13,6 +14,7 @@ export default function BusinessNew() {
       <p className="italic">
         На навігацію поки не звертати увагу. Це виключно для мене і тимчасово
       </p>
+      <BusinessForm />
     </div>
   );
 }

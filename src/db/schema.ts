@@ -24,7 +24,7 @@ export const businessStatusEnum = pgEnum("business_status", [
   "approved", // approved and active
   "hidden", // hidden by admin
   "rejected", // rejected by admin
-  "deleted", // deleted/archived
+  // "deleted", // deleted/archived
 ]);
 //User profiles table
 export const userProfiles = pgTable("user_profiles", {
@@ -49,15 +49,14 @@ export const businesses = pgTable("businesses", {
   categoryId: uuid("category_id")
     .default("11111111-1111-1111-1111-111111111111") // UUID  "Інше"
     .notNull(),
-
   name: text("name").notNull(),
   description: text("description").notNull(),
   city: text("city").notNull(),
   district: text("district"),
   address: text("address").notNull(),
   website: text("website"),
-  karma: integer("karma").default(0),
-  reviewCount: integer("review_count").default(0),
+  karma: integer("karma").default(0).notNull(),
+  reviewCount: integer("review_count").default(0).notNull(),
   status: businessStatusEnum("status").default("pending").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
@@ -114,7 +113,7 @@ export const businessReviews = pgTable("business_reviews", {
   userId: uuid("user_id")
     .notNull()
     .references(() => userProfiles.userId, { onDelete: "cascade" }),
-  status: BUSINESS_REVIEW_STATUS_ENUM("status").default("pending"),
+  status: BUSINESS_REVIEW_STATUS_ENUM("status").default("pending").notNull(),
   text: text("text").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
