@@ -136,7 +136,7 @@ BusinessFormProps) {
         // update Zustand profile
         useUserStore.getState().setProfile(profile);
         alert("Business created successfully!");
-        console.log("New business created with data:", data);
+        console.log("New business created :", business);
       }
 
       // If we need to do something on success
