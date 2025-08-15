@@ -19,7 +19,7 @@ import CustomSelect from "../ui/CustomSelect";
 import { useBusinessCategories } from "@/hooks/useBusinessCategories";
 import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
 import { useCreateBusiness, useUpdateBusiness } from "@/hooks/useBusinesses";
-import { BusinessUpdate, NewBusiness } from "@/types";
+import { BusinessUpdate } from "@/types";
 import { useUserStore } from "@/stores/useUserStore";
 
 const emptyToUndefined = v.transform((value: unknown) => {
@@ -67,7 +67,7 @@ export const businessFormSchema = v.object({
   ),
 });
 type BusinessFormProps = {
-  businessId?: string; // если редактируем
+  businessId?: string; // if edit
   defaultValues?: v.InferOutput<typeof businessFormSchema>;
   onSuccess?: () => void;
 };
@@ -100,10 +100,9 @@ BusinessFormProps) {
 
   async function onSubmit(data: v.InferOutput<typeof businessFormSchema>) {
     try {
-      // Подготовим данные для базы
-
       if (businessId) {
         // editing
+        // Prepare data for the database
         const updateData: BusinessUpdate = {
           name: data.name,
           description: data.description,
@@ -120,7 +119,7 @@ BusinessFormProps) {
         alert("Business edited successfully!");
         console.log("Business edited with data:", data);
       } else {
-        // Создание нового бизнеса
+        // Creating a new business
         const newBusinessData = {
           name: data.name,
           description: data.description,
@@ -152,7 +151,7 @@ BusinessFormProps) {
   const onError = (
     errors: FieldErrors<v.InferOutput<typeof businessFormSchema>>
   ) => {
-    console.log("❌ Ошибки формы", errors);
+    console.log("❌ Form Error", errors);
   };
   return (
     <Form {...form}>
