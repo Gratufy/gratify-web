@@ -4,19 +4,13 @@ import { createClient } from "@/utils/supabase/server";
 import { db } from "@/db";
 import { businesses } from "@/db/schema";
 import { eq, desc, sql, and } from "drizzle-orm";
-import { SortBy } from "@/types/business";
+import { GetBusinessesParams, Business } from "@/types/business";
 import { isAdmin } from "@/lib/helpers/isAdmin";
 
-type Scope = "public" | "business_user" | "admin";
-interface GetBusinessesParams {
-  city?: string;
-  categoryId?: string;
-  sortBy?: SortBy;
-  scope?: Scope;
-}
-
 // get businesses with filters
-export async function getBusinesses(params: GetBusinessesParams) {
+export async function getBusinesses(
+  params: GetBusinessesParams
+): Promise<Business[]> {
   const {
     city = "__all__",
     categoryId = "__all__",
@@ -77,7 +71,7 @@ export async function getBusinesses(params: GetBusinessesParams) {
   }
 }
 // get business by ID
-export async function getBusinessById(id: string) {
+export async function getBusinessById(id: string): Promise<Business | null> {
   try {
     const data = await db
       .select()

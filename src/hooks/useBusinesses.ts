@@ -10,7 +10,7 @@ import {
   deleteBusiness,
   getBusinesses,
 } from "@/lib/actions/businesses";
-import { BusinessUpdate } from "@/types";
+import { BusinessUpdate, Scope } from "@/types";
 
 interface UseBusinessesParams {
   city?: string;
@@ -18,24 +18,34 @@ interface UseBusinessesParams {
   sortBy?: "newest" | "mostKarma";
 }
 // all businesses
-// export function useBusinesses() {
-//   return useQuery({
-//     queryKey: queryKeys.businesses,
-//     queryFn: getAllBusinesses,
-//     staleTime: 1000 * 60 * 5, // 5 минут кеш
-//   });
-// }
+
 export function useBusinesses({
   city,
   categoryId,
-  sortBy = "newest",
-  scope = "public",
-}: UseBusinessesParams & {
-  scope?: "public" | "business_user" | "admin";
-} = {}) {
+  sortBy,
+  scope,
+}: UseBusinessesParams & { scope?: Scope } = {}) {
+  const cityValue = city ?? "__all__";
+  const categoryValue = categoryId ?? "__all__";
+  const sortValue = sortBy ?? "newest";
+  const scopeValue = scope ?? "public";
   return useQuery({
-    queryKey: ["businesses", { city, categoryId, sortBy, scope }],
-    queryFn: () => getBusinesses({ city, categoryId, sortBy, scope }),
+    queryKey: [
+      "businesses",
+      {
+        city: cityValue,
+        categoryId: categoryValue,
+        sortBy: sortValue,
+        scope: scopeValue,
+      },
+    ],
+    queryFn: () =>
+      getBusinesses({
+        city: cityValue,
+        categoryId: categoryValue,
+        sortBy: sortValue,
+        scope: scopeValue,
+      }),
     staleTime: 1000 * 60 * 5, // кеш 5 минут
   });
 }

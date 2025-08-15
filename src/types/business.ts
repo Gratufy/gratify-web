@@ -79,8 +79,15 @@ export type NewBusinessReview = typeof businessReviews.$inferInsert;
 export type BusinessHour = typeof businessHours.$inferSelect;
 export type NewBusinessHour = typeof businessHours.$inferInsert;
 
-export type SortBy = "newest" | "mostKarma";
 export type RenameCategoryInput = {
   id: string;
   name: string;
 };
+export type SortBy = "newest" | "mostKarma";
+export type Scope = "public" | "business_user" | "admin";
+export interface GetBusinessesParams {
+  city?: string;
+  categoryId?: string;
+  sortBy?: SortBy;
+  scope?: Scope;
+}
