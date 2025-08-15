@@ -18,6 +18,14 @@ import { Button } from "@/components/ui/button";
 import CustomSelect from "../ui/CustomSelect";
 import { useBusinessCategories } from "@/hooks/useBusinessCategories";
 import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
+import { useCreateBusiness, useUpdateBusiness } from "@/hooks/useBusinesses";
+import { BusinessUpdate, NewBusiness } from "@/types";
+import { useUserStore } from "@/stores/useUserStore";
+
+const emptyToUndefined = v.transform((value: unknown) => {
+  if (typeof value === "string" && value.trim() === "") return undefined;
+  return value;
+});
 
 export const businessFormSchema = v.object({
   name: v.pipe(
@@ -28,13 +36,20 @@ export const businessFormSchema = v.object({
     v.string(),
     v.nonEmpty("errors.description.required@@Please enter a description.")
   ),
-  website: v.optional(
-    v.pipe(
-      v.string(),
-      v.regex(
-        /^https?:\/\/.+\..+/,
-        "errors.website.invalid@@Invalid website URL."
-      )
+  //   website: v.optional(
+  //     v.pipe(
+  //       v.string(),
+  //       v.regex(
+  //         /^https?:\/\/.+\..+/,
+  //         "errors.website.invalid@@Invalid website URL."
+  //       )
+  //     )
+  //   ),
+  website: v.pipe(
+    v.any(),
+    emptyToUndefined,
+    v.optional(
+      v.pipe(v.string(), v.url("errors.website.invalid@@Invalid website URL."))
     )
   ),
   category: v.pipe(
@@ -51,16 +66,28 @@ export const businessFormSchema = v.object({
     v.nonEmpty("errors.address.required@@Please enter the address.")
   ),
 });
+type BusinessFormProps = {
+  businessId?: string; // если редактируем
+  defaultValues?: v.InferOutput<typeof businessFormSchema>;
+  onSuccess?: () => void;
+};
 
-export function BusinessForm() {
+export function BusinessForm({
+  defaultValues,
+  businessId,
+}: //onSuccess,
+BusinessFormProps) {
   const {
     categories,
     // isLoading: isCategoriesLoading,
     // isError: isCategoriesError,
   } = useBusinessCategories();
+  const createBusinessMutation = useCreateBusiness();
+  const updateBusinessMutation = useUpdateBusiness();
+
   const form = useForm<v.InferOutput<typeof businessFormSchema>>({
     resolver: valibotResolver(businessFormSchema),
-    defaultValues: {
+    defaultValues: defaultValues ?? {
       name: "",
       description: "",
       website: "",
@@ -71,14 +98,56 @@ export function BusinessForm() {
     },
   });
 
-  function onSubmit(data: v.InferOutput<typeof businessFormSchema>) {
-    // await fetch("/api/businesses", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(data),
-    // });
-    alert("Form submitted successfully!");
-    console.log("Form submitted with data:", data);
+  async function onSubmit(data: v.InferOutput<typeof businessFormSchema>) {
+    try {
+      // Подготовим данные для базы
+
+      if (businessId) {
+        // editing
+        const updateData: BusinessUpdate = {
+          name: data.name,
+          description: data.description,
+          website: data.website ?? null,
+          categoryId: data.category,
+          city: data.city,
+          district: data.district ?? null,
+          address: data.address,
+        };
+        await updateBusinessMutation.mutateAsync({
+          id: businessId,
+          values: updateData,
+        });
+        alert("Business edited successfully!");
+        console.log("Business edited with data:", data);
+      } else {
+        // Создание нового бизнеса
+        const newBusinessData = {
+          name: data.name,
+          description: data.description,
+          website: data.website ?? null,
+          categoryId: data.category,
+          city: data.city,
+          district: data.district ?? null,
+          address: data.address,
+        };
+        const { business, profile } = await createBusinessMutation.mutateAsync(
+          newBusinessData
+        );
+        // update Zustand profile
+        useUserStore.getState().setProfile(profile);
+        alert("Business created successfully!");
+        console.log("New business created with data:", data);
+      }
+
+      // If we need to do something on success
+      // onSuccess?.();
+
+      // Reset form
+      form.reset();
+    } catch (error) {
+      console.error("Error creating/updating business:", error);
+      alert("Something went wrong");
+    }
   }
   const onError = (
     errors: FieldErrors<v.InferOutput<typeof businessFormSchema>>

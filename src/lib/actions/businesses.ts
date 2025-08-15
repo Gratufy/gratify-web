@@ -6,6 +6,7 @@ import { businesses } from "@/db/schema";
 import { eq, desc, sql, and } from "drizzle-orm";
 import { GetBusinessesParams, Business } from "@/types/business";
 import { isAdmin } from "@/lib/helpers/isAdmin";
+import { userProfiles } from "@/db/schema";
 
 // get businesses with filters
 export async function getBusinesses(
@@ -86,10 +87,54 @@ export async function getBusinessById(id: string): Promise<Business | null> {
 }
 
 // create business
-export async function createBusiness(values: typeof businesses.$inferInsert) {
+type NewBusinessFormData = {
+  name: string;
+  description: string;
+  website?: string | null;
+  categoryId: string;
+  city: string;
+  district?: string | null;
+  address: string;
+};
+export async function createBusiness(values: NewBusinessFormData) {
   try {
-    const inserted = await db.insert(businesses).values(values).returning();
-    return inserted[0];
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) throw new Error("Not authenticated");
+    // check profile
+    let [profile] = await db
+      .select()
+      .from(userProfiles)
+      .where(eq(userProfiles.userId, user.id))
+      .limit(1);
+
+    if (!profile) throw new Error("Profile not found");
+    //------
+    // change role
+    if (profile.role === "USER") {
+      const [updatedProfile] = await db
+        .update(userProfiles)
+        .set({ role: "BUSINESS", lastActivity: new Date() })
+        .where(eq(userProfiles.userId, user.id))
+        .returning();
+      profile = updatedProfile;
+    }
+    //-------
+    // ctreate new business
+    const newBusiness = await db
+      .insert(businesses)
+      .values({
+        ...values,
+        ownerId: user.id, // insert ownerId
+      })
+      .returning();
+    return {
+      business: newBusiness[0],
+      profile,
+    };
   } catch (error) {
     console.error("Error creating business:", error);
     throw new Error("Failed to create business");
