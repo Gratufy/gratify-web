@@ -17,8 +17,15 @@ export function BusinessStatusForm({
   const mutation = useUpdateBusiness();
 
   const handleChange = async (newStatus: string) => {
+    const confirmed = confirm(
+      `Ви впевнені, що хочете змінити статус ${status} на ${newStatus}?`
+    );
+    if (!confirmed) {
+      setStatus(currentStatus);
+      return;
+    }
     const statusValue = newStatus as BusinessStatus;
-    setStatus(newStatus); // локально сразу меняем для UI
+    setStatus(newStatus); // locally update status for UI
     try {
       await mutation.mutateAsync({
         id: businessId,
@@ -26,7 +33,7 @@ export function BusinessStatusForm({
       });
     } catch (error) {
       console.error("Failed to update status:", error);
-      setStatus(currentStatus); // откатываем при ошибке
+      setStatus(currentStatus); // rollback on error
     }
   };
 
@@ -37,9 +44,9 @@ export function BusinessStatusForm({
       options={BUSINESS_STATUS}
       getOptionValue={(s) => s}
       getOptionLabel={(s) => s.charAt(0).toUpperCase() + s.slice(1)}
-      label="Статус"
       placeholder="Оберіть статус"
       className="w-36"
+      statusForm={true}
     />
   );
 }

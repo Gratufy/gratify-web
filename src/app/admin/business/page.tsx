@@ -83,12 +83,11 @@ export default function AdminBusiness() {
           {businesses.map((b) => (
             <li
               key={b.id}
-              className="mb-2 p-2 border border-gray-300 rounded-4xl w-260 flex gap-8 items-center justify-center"
+              className="mb-2 px-4 py-2 border border-gray-300 rounded-xl flex gap-8 items-center justify-center"
             >
-              <p>name: {b.name}</p>
-              <p>city: {b.city}</p>
+              <p className="flex-1/5">name: {b.name}</p>
+              <p className="flex-1/5">city: {b.city}</p>
 
-              <p>status: {b.status}</p>
               <BusinessStatusForm businessId={b.id} currentStatus={b.status} />
               <Link
                 href={`./business/${b.id}`}
