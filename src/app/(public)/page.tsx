@@ -50,7 +50,7 @@ export default function PublicHome() {
         label="Категорія"
         placeholder="Оберіть категорію"
       />
-      <p>Обрана категорія: {categoryId || "—"}</p>
+      {/* <p>Обрана категорія: {categoryId || "—"}</p> */}
       <CustomSelect
         label="Місто"
         value={city}
@@ -60,7 +60,7 @@ export default function PublicHome() {
         getOptionLabel={(option) => option.label}
         placeholder="Оберіть місто"
       />
-      <p>Обране місто: {city || "—"}</p>
+      {/* <p>Обране місто: {city || "—"}</p> */}
       <h2 className="text-xl font-bold mb-2">
         Список бізнесів with status APPROVED
       </h2>
@@ -71,15 +71,15 @@ export default function PublicHome() {
           {businesses.map((b) => (
             <li
               key={b.id}
-              className="mb-2 p-2 border border-gray-300 rounded-4xl w-60 flex flex-col items-center justify-center"
+              className="mb-2 p-2 border border-gray-300 rounded-4xl w-160 flex flex-col items-center justify-center"
             >
               <p>name: {b.name}</p>
               <p>city: {b.city}</p>
-
+              <p>category: {b.categoryName}</p>
               <p>status: {b.status}</p>
               <Link
                 href={`./business/${b.id}`}
-                className="p-2 bg-chart-2 text-white rounded-full cursor-pointer"
+                className="px-4 py-2 bg-chart-2 text-white rounded-full cursor-pointer"
               >
                 See more
               </Link>

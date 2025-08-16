@@ -28,6 +28,9 @@ import {
 
 //NEW
 export type Business = typeof businesses.$inferSelect;
+export type BusinessWithCategoryName = Business & {
+  categoryName: string | null;
+};
 export type NewBusiness = typeof businesses.$inferInsert;
 export type BusinessUpdate = Partial<Omit<Business, "id">>;
 

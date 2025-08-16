@@ -2,16 +2,37 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { db } from "@/db";
-import { businesses } from "@/db/schema";
+import { businessCategories, businesses } from "@/db/schema";
 import { eq, desc, sql, and } from "drizzle-orm";
-import { GetBusinessesParams, Business } from "@/types/business";
+import {
+  GetBusinessesParams,
+  // Business,
+  BusinessWithCategoryName,
+} from "@/types/business";
 import { isAdmin } from "@/lib/helpers/isAdmin";
 import { userProfiles } from "@/db/schema";
 
+const businessSelectFields = {
+  id: businesses.id,
+  name: businesses.name,
+  city: businesses.city,
+  categoryId: businesses.categoryId,
+  categoryName: businessCategories.name,
+  description: businesses.description,
+  website: businesses.website,
+  district: businesses.district,
+  address: businesses.address,
+  karma: businesses.karma,
+  status: businesses.status,
+  createdAt: businesses.createdAt,
+  updatedAt: businesses.updatedAt,
+  ownerId: businesses.ownerId,
+  reviewCount: businesses.reviewCount,
+};
 // get businesses with filters
 export async function getBusinesses(
   params: GetBusinessesParams
-): Promise<Business[]> {
+): Promise<BusinessWithCategoryName[]> {
   const {
     city = "__all__",
     categoryId = "__all__",
@@ -60,8 +81,12 @@ export async function getBusinesses(
 
   try {
     const results = await db
-      .select()
+      .select(businessSelectFields)
       .from(businesses)
+      .leftJoin(
+        businessCategories,
+        eq(businesses.categoryId, businessCategories.categoryId)
+      )
       .where(whereClause)
       .orderBy(orderBy);
 
@@ -72,11 +97,17 @@ export async function getBusinesses(
   }
 }
 // get business by ID
-export async function getBusinessById(id: string): Promise<Business | null> {
+export async function getBusinessById(
+  id: string
+): Promise<BusinessWithCategoryName | null> {
   try {
     const data = await db
-      .select()
+      .select(businessSelectFields)
       .from(businesses)
+      .leftJoin(
+        businessCategories,
+        eq(businesses.categoryId, businessCategories.categoryId)
+      )
       .where(eq(businesses.id, id))
       .limit(1);
     return data[0] || null;
@@ -185,7 +216,10 @@ export async function updateBusiness(
     }
     const updated = await db
       .update(businesses)
-      .set(filteredValues)
+      .set({
+        ...filteredValues,
+        updatedAt: new Date(),
+      })
       .where(eq(businesses.id, id))
       .returning();
     return updated[0];

@@ -112,12 +112,20 @@ BusinessFormProps) {
           district: data.district ?? null,
           address: data.address,
         };
-        await updateBusinessMutation.mutateAsync({
+        const updatedBusiness = await updateBusinessMutation.mutateAsync({
           id: businessId,
           values: updateData,
         });
         alert("Business edited successfully!");
-        console.log("Business edited with data:", data);
+        form.reset({
+          name: updatedBusiness.name,
+          description: updatedBusiness.description,
+          website: updatedBusiness.website ?? undefined, // null → undefined
+          category: updatedBusiness.categoryId, // categoryId → category
+          city: updatedBusiness.city,
+          district: updatedBusiness.district ?? undefined,
+          address: updatedBusiness.address,
+        });
       } else {
         // Creating a new business
         const newBusinessData = {
@@ -129,20 +137,20 @@ BusinessFormProps) {
           district: data.district ?? null,
           address: data.address,
         };
-        const { business, profile } = await createBusinessMutation.mutateAsync(
+        //{ business, profile }
+        const { profile } = await createBusinessMutation.mutateAsync(
           newBusinessData
         );
         // update Zustand profile
         useUserStore.getState().setProfile(profile);
         alert("Business created successfully!");
-        console.log("New business created :", business);
+        form.reset();
       }
 
       // If we need to do something on success
       // onSuccess?.();
 
       // Reset form
-      form.reset();
     } catch (error) {
       console.error("Error creating/updating business:", error);
       alert("Something went wrong");
