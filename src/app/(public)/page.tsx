@@ -50,7 +50,7 @@ export default function PublicHome() {
         label="Категорія"
         placeholder="Оберіть категорію"
       />
-      <p>Обрана категорія: {categoryId || "—"}</p>
+      {/* <p>Обрана категорія: {categoryId || "—"}</p> */}
       <CustomSelect
         label="Місто"
         value={city}
@@ -60,7 +60,7 @@ export default function PublicHome() {
         getOptionLabel={(option) => option.label}
         placeholder="Оберіть місто"
       />
-      <p>Обране місто: {city || "—"}</p>
+      {/* <p>Обране місто: {city || "—"}</p> */}
       <h2 className="text-xl font-bold mb-2">
         Список бізнесів with status APPROVED
       </h2>

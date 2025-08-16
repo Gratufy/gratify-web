@@ -126,7 +126,6 @@ BusinessFormProps) {
           district: updatedBusiness.district ?? undefined,
           address: updatedBusiness.address,
         });
-        console.log("Business edited with data:", data);
       } else {
         // Creating a new business
         const newBusinessData = {
@@ -138,14 +137,14 @@ BusinessFormProps) {
           district: data.district ?? null,
           address: data.address,
         };
-        const { business, profile } = await createBusinessMutation.mutateAsync(
+        //{ business, profile }
+        const { profile } = await createBusinessMutation.mutateAsync(
           newBusinessData
         );
         // update Zustand profile
         useUserStore.getState().setProfile(profile);
         alert("Business created successfully!");
         form.reset();
-        console.log("New business created :", business);
       }
 
       // If we need to do something on success
