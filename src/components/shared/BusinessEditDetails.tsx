@@ -9,7 +9,7 @@ interface Props {
   href: string;
 }
 
-function BusinessFullDetails({ id, href }: Props) {
+function BusinessEditDetails({ id, href }: Props) {
   const { data, isLoading, error } = useBusiness(id);
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -22,6 +22,8 @@ function BusinessFullDetails({ id, href }: Props) {
       <div className="flex flex-col items-center justify-center  p-4">
         <p className="text-2xl mb-4">Name: {data?.name}</p>
         <p className="text-2xl mb-4">City: {data?.city}</p>
+
+        <p className="text-2xl ">Category: {data?.categoryId}</p>
         <p className="text-2xl ">Status: {data?.status}</p>
       </div>
       <Link
@@ -34,4 +36,4 @@ function BusinessFullDetails({ id, href }: Props) {
   );
 }
 
-export default BusinessFullDetails;
+export default BusinessEditDetails;
