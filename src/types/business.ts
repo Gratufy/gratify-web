@@ -83,6 +83,7 @@ export type RenameCategoryInput = {
   id: string;
   name: string;
 };
+
 export type SortBy = "newest" | "mostKarma";
 export type Scope = "public" | "business_user" | "admin";
 export interface GetBusinessesParams {
@@ -91,3 +92,4 @@ export interface GetBusinessesParams {
   sortBy?: SortBy;
   scope?: Scope;
 }
+export type BusinessStatus = "pending" | "approved" | "hidden" | "rejected";

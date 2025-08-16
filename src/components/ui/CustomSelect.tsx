@@ -20,18 +20,38 @@ interface CustomSelectProps<T> {
   getOptionValue?: (option: T) => string;
   placeholder?: string;
   className?: string;
+  statusForm?: boolean;
 }
 function CustomSelect<T>({
   value,
   onChange,
   options,
   label,
-  error,
   getOptionLabel,
   getOptionValue,
   placeholder = "Оберіть...",
   className,
+  statusForm = false,
 }: CustomSelectProps<T>) {
+  let triggerClass = "";
+  if (statusForm) {
+    switch (value as string) {
+      case "pending":
+        triggerClass = "bg-yellow-200 text-yellow-900";
+        break;
+      case "approved":
+        triggerClass = "bg-green-200 text-green-900";
+        break;
+      case "hidden":
+        triggerClass = "bg-gray-200 text-gray-900";
+        break;
+      case "rejected":
+        triggerClass = "bg-red-200 text-red-900";
+        break;
+      default:
+        triggerClass = "bg-white text-black";
+    }
+  }
   return (
     <div>
       {label && (
@@ -43,7 +63,9 @@ function CustomSelect<T>({
         </label>
       )}
       <Select value={value} onValueChange={(v) => onChange(v)}>
-        <SelectTrigger className={className ?? "w-[280px]"}>
+        <SelectTrigger
+          className={`${className ?? "w-[280px]"} ${triggerClass}`}
+        >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
@@ -64,7 +86,6 @@ function CustomSelect<T>({
           </SelectGroup>
         </SelectContent>
       </Select>
-      {error && <p className="text-red-600 text-sm mt-1">{error}</p>}
     </div>
   );
 }
