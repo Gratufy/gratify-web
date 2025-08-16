@@ -1,5 +1,5 @@
-import { BusinessForm } from "@/components/shared/BusinessForm";
 import React from "react";
+import { BusinessForm } from "@/components/shared/BusinessForm";
 
 export default function BusinessNew() {
   return (

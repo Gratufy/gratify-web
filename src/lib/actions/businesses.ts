@@ -185,7 +185,10 @@ export async function updateBusiness(
     }
     const updated = await db
       .update(businesses)
-      .set(filteredValues)
+      .set({
+        ...filteredValues,
+        updatedAt: new Date(),
+      })
       .where(eq(businesses.id, id))
       .returning();
     return updated[0];

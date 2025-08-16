@@ -112,11 +112,20 @@ BusinessFormProps) {
           district: data.district ?? null,
           address: data.address,
         };
-        await updateBusinessMutation.mutateAsync({
+        const updatedBusiness = await updateBusinessMutation.mutateAsync({
           id: businessId,
           values: updateData,
         });
         alert("Business edited successfully!");
+        form.reset({
+          name: updatedBusiness.name,
+          description: updatedBusiness.description,
+          website: updatedBusiness.website ?? undefined, // null → undefined
+          category: updatedBusiness.categoryId, // categoryId → category
+          city: updatedBusiness.city,
+          district: updatedBusiness.district ?? undefined,
+          address: updatedBusiness.address,
+        });
         console.log("Business edited with data:", data);
       } else {
         // Creating a new business
@@ -135,6 +144,7 @@ BusinessFormProps) {
         // update Zustand profile
         useUserStore.getState().setProfile(profile);
         alert("Business created successfully!");
+        form.reset();
         console.log("New business created :", business);
       }
 
@@ -142,7 +152,6 @@ BusinessFormProps) {
       // onSuccess?.();
 
       // Reset form
-      form.reset();
     } catch (error) {
       console.error("Error creating/updating business:", error);
       alert("Something went wrong");
