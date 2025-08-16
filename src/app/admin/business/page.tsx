@@ -4,7 +4,9 @@ import { useBusinesses } from "@/hooks/useBusinesses";
 import { useBusinessCategories } from "@/hooks/useBusinessCategories";
 import CustomSelect from "@/components/ui/CustomSelect";
 import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
+
 import Link from "next/link";
+import { BusinessStatusForm } from "@/components/admin/BusinessStatusForm";
 
 export default function AdminBusiness() {
   const {
@@ -14,6 +16,7 @@ export default function AdminBusiness() {
   } = useBusinessCategories();
   const [city, setCity] = useState<string | undefined>("__all__");
   const [categoryId, setCategoryId] = useState<string>("__all__");
+  // const [status, setStatus] = useState<string>("");
 
   const {
     data: businesses,
@@ -80,12 +83,13 @@ export default function AdminBusiness() {
           {businesses.map((b) => (
             <li
               key={b.id}
-              className="mb-2 p-2 border border-gray-300 rounded-4xl w-60 flex flex-col items-center justify-center"
+              className="mb-2 p-2 border border-gray-300 rounded-4xl w-260 flex gap-8 items-center justify-center"
             >
               <p>name: {b.name}</p>
               <p>city: {b.city}</p>
 
               <p>status: {b.status}</p>
+              <BusinessStatusForm businessId={b.id} currentStatus={b.status} />
               <Link
                 href={`./business/${b.id}`}
                 className="p-2 bg-chart-2 text-white rounded-full cursor-pointer"
