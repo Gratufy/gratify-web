@@ -13,6 +13,7 @@ function BusinessEditDetails({ id, href }: Props) {
   const { data, isLoading, error } = useBusiness(id);
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
+  console.log("Business data:", data);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <BackButton href={href} />
@@ -23,14 +24,14 @@ function BusinessEditDetails({ id, href }: Props) {
         <p className="text-2xl mb-4">Name: {data?.name}</p>
         <p className="text-2xl mb-4">City: {data?.city}</p>
 
-        <p className="text-2xl ">Category: {data?.categoryId}</p>
+        <p className="text-2xl ">Category: {data?.categoryName}</p>
         <p className="text-2xl ">Status: {data?.status}</p>
       </div>
       <Link
         href={`./${id}/edit`}
         className="p-2 text-xl w-40 flex justify-center items-center bg-chart-2 text-white rounded-full cursor-pointer"
       >
-        Edit
+        EditId
       </Link>
     </div>
   );

@@ -85,13 +85,14 @@ export default function AdminBusiness() {
               key={b.id}
               className="mb-2 px-4 py-2 border border-gray-300 rounded-xl flex gap-8 items-center justify-center"
             >
-              <p className="flex-1/5">name: {b.name}</p>
-              <p className="flex-1/5">city: {b.city}</p>
+              <p className="flex-1/6">{b.name}</p>
+              <p className="flex-1/6">{b.city}</p>
+              <p className="flex-1/6">{b.categoryName}</p>
 
               <BusinessStatusForm businessId={b.id} currentStatus={b.status} />
               <Link
                 href={`./business/${b.id}`}
-                className="p-2 bg-chart-2 text-white rounded-full cursor-pointer"
+                className="px-4 py-2 bg-chart-2 text-white rounded-full cursor-pointer"
               >
                 See more
               </Link>
