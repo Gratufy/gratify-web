@@ -2,8 +2,8 @@
 import React from "react";
 import { useBusiness } from "@/hooks/useBusinesses";
 import BackButton from "../ui/BackButton";
-import { useUserVote, useVoteBusiness } from "@/hooks/useVoteBusiness";
-import { useUserStore } from "@/stores/useUserStore";
+
+import Karma from "./Karma";
 
 interface Props {
   id: string;
@@ -11,13 +11,8 @@ interface Props {
 }
 
 function BusinessDetails({ id, href }: Props) {
-  const { data: userVote } = useUserVote(id);
-  const voteMutation = useVoteBusiness(id);
   const { data, isLoading, error } = useBusiness(id);
 
-  const user = useUserStore((state) => state.profile);
-  console.log("user", user);
-  console.log("voteMutation", voteMutation);
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
   return (
@@ -32,30 +27,7 @@ function BusinessDetails({ id, href }: Props) {
         <p className="text-2xl ">Category: {data?.categoryName}</p>
         <p className="text-2xl ">Status: {data?.status}</p>
         {/* karma */}
-        <div className="flex gap-4 mt-4">
-          <button
-            className={`cursor-pointer  w-8 h-8 rounded-xl flex items-center justify-center ${
-              userVote?.vote === 1 ? "bg-blue-400" : ""
-            }`}
-            onClick={() => voteMutation.mutate(-1)}
-            disabled={voteMutation.isPending}
-          >
-            👍
-          </button>
-
-          <p>Karma: {data?.karma}</p>
-
-          <button
-            className={`cursor-pointer w-8 h-8 rounded-xl flex items-center justify-center ${
-              userVote?.vote === -1 ? "bg-red-400" : ""
-            }`}
-            onClick={() => voteMutation.mutate(1)}
-            disabled={voteMutation.isPending}
-          >
-            👎
-          </button>
-        </div>
-        {/* end karma */}
+        <Karma businessId={id} />
       </div>
     </div>
   );
