@@ -12,15 +12,21 @@ function Karma({ businessId }: KarmaProps) {
   const { data: userVote } = useUserVote(businessId);
   const voteMutation = useVoteBusiness(businessId);
   const user = useUserStore((state) => state.profile);
-  console.log("user", user);
-  console.log("userVote", userVote);
+
+  function handleVote(vote: 1 | -1) {
+    if (!user) {
+      alert("Please log in to vote");
+      return;
+    }
+    voteMutation.mutate(vote);
+  }
   return (
     <div className="flex gap-4 mt-4">
       <button
         className={`cursor-pointer  w-8 h-8 rounded-xl flex items-center justify-center ${
           userVote?.vote === 1 ? "bg-blue-400" : ""
         }`}
-        onClick={() => voteMutation.mutate(1)}
+        onClick={() => handleVote(1)}
         disabled={voteMutation.isPending}
       >
         👍
@@ -32,7 +38,7 @@ function Karma({ businessId }: KarmaProps) {
         className={`cursor-pointer w-8 h-8 rounded-xl flex items-center justify-center ${
           userVote?.vote === -1 ? "bg-red-400" : ""
         }`}
-        onClick={() => voteMutation.mutate(-1)}
+        onClick={() => handleVote(-1)}
         disabled={voteMutation.isPending}
       >
         👎
