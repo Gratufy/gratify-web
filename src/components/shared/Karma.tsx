@@ -1,0 +1,50 @@
+"use client";
+import React from "react";
+import { useBusiness } from "@/hooks/useBusinesses";
+import { useUserVote, useVoteBusiness } from "@/hooks/useVoteBusiness";
+import { useUserStore } from "@/stores/useUserStore";
+
+type KarmaProps = {
+  businessId: string;
+};
+function Karma({ businessId }: KarmaProps) {
+  const { data: business } = useBusiness(businessId);
+  const { data: userVote } = useUserVote(businessId);
+  const voteMutation = useVoteBusiness(businessId);
+  const user = useUserStore((state) => state.profile);
+
+  function handleVote(vote: 1 | -1) {
+    if (!user) {
+      alert("Please log in to vote");
+      return;
+    }
+    voteMutation.mutate(vote);
+  }
+  return (
+    <div className="flex gap-4 mt-4">
+      <button
+        className={`cursor-pointer  w-8 h-8 rounded-xl flex items-center justify-center ${
+          userVote?.vote === 1 ? "bg-blue-400" : ""
+        }`}
+        onClick={() => handleVote(1)}
+        disabled={voteMutation.isPending}
+      >
+        👍
+      </button>
+
+      <p>Karma: {business?.karma}</p>
+
+      <button
+        className={`cursor-pointer w-8 h-8 rounded-xl flex items-center justify-center ${
+          userVote?.vote === -1 ? "bg-red-400" : ""
+        }`}
+        onClick={() => handleVote(-1)}
+        disabled={voteMutation.isPending}
+      >
+        👎
+      </button>
+    </div>
+  );
+}
+
+export default Karma;

@@ -7,6 +7,7 @@ import { useBusinessCategories } from "@/hooks/useBusinessCategories";
 import CustomSelect from "@/components/ui/CustomSelect";
 import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
 import Link from "next/link";
+import Karma from "@/components/shared/Karma";
 
 export default function PublicHome() {
   const user = useUserStore((s) => s.profile);
@@ -77,6 +78,8 @@ export default function PublicHome() {
               <p>city: {b.city}</p>
               <p>category: {b.categoryName}</p>
               <p>status: {b.status}</p>
+              {/* karma */}
+              <Karma businessId={b.id} />
               <Link
                 href={`./business/${b.id}`}
                 className="px-4 py-2 bg-chart-2 text-white rounded-full cursor-pointer"

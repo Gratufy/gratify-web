@@ -3,6 +3,8 @@ import React from "react";
 import { useBusiness } from "@/hooks/useBusinesses";
 import BackButton from "../ui/BackButton";
 
+import Karma from "./Karma";
+
 interface Props {
   id: string;
   href: string;
@@ -10,6 +12,7 @@ interface Props {
 
 function BusinessDetails({ id, href }: Props) {
   const { data, isLoading, error } = useBusiness(id);
+
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
   return (
@@ -23,6 +26,8 @@ function BusinessDetails({ id, href }: Props) {
         <p className="text-2xl mb-4">City: {data?.city}</p>
         <p className="text-2xl ">Category: {data?.categoryName}</p>
         <p className="text-2xl ">Status: {data?.status}</p>
+        {/* karma */}
+        <Karma businessId={id} />
       </div>
     </div>
   );
