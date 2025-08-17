@@ -75,7 +75,6 @@ export const businessCategories = pgTable("business_categories", {
 });
 
 //for voting
-
 export const businessVotes = pgTable(
   "business_votes",
   {
