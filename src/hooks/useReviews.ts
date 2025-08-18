@@ -9,31 +9,36 @@ import {
   updateReviewStatus,
   getBusinessReviews,
 } from "@/lib/actions/reviews";
+import { ScopeReview } from "@/types";
 
-export function useBusinessReviews(businessId: string) {
+export function useBusinessReviews(
+  businessId: string,
+  scope: ScopeReview = "public"
+) {
   return useQuery({
-    queryKey: queryKeys.businessReviews(businessId),
-    queryFn: () => getBusinessReviews(businessId),
+    queryKey: queryKeys.businessReviews(businessId, scope),
+    queryFn: () => getBusinessReviews(businessId, scope),
+    staleTime: 1000 * 60 * 5,
   });
 }
 
-export function useCreateReview(businessId: string) {
+export function useCreateReview() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createReview,
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
-        queryKey: queryKeys.businessReviews(businessId),
+        queryKey: queryKeys.businessReviews(variables.businessId),
       });
       queryClient.invalidateQueries({
-        queryKey: [...queryKeys.businesses, businessId],
+        queryKey: [...queryKeys.businesses, variables.businessId],
         exact: true,
       });
       queryClient.invalidateQueries({ queryKey: queryKeys.businesses });
     },
   });
 }
-
+//text
 export function useUpdateReview(businessId: string) {
   const queryClient = useQueryClient();
   return useMutation({
@@ -67,7 +72,7 @@ export function useDeleteReview(businessId: string) {
     },
   });
 }
-
+// for Admin
 export function useUpdateReviewStatus(businessId: string) {
   const queryClient = useQueryClient();
   return useMutation({

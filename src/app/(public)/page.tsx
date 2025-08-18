@@ -78,6 +78,7 @@ export default function PublicHome() {
               <p>city: {b.city}</p>
               <p>category: {b.categoryName}</p>
               <p>status: {b.status}</p>
+              <p>review : {b.reviewCount}</p>
               {/* karma */}
               <Karma businessId={b.id} />
               <Link

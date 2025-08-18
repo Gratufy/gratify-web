@@ -96,3 +96,6 @@ export interface GetBusinessesParams {
   scope?: Scope;
 }
 export type BusinessStatus = "pending" | "approved" | "hidden" | "rejected";
+
+export type ScopeReview = "public" | "admin";
+export type BusinessReviewStatus = "pending" | "approved" | "rejected";

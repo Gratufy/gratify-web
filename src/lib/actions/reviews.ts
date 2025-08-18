@@ -4,6 +4,7 @@ import { db } from "@/db";
 import { businesses, businessReviews } from "@/db/schema";
 import { eq, and, sql } from "drizzle-orm";
 import { isAdmin } from "../helpers/isAdmin";
+import { BusinessReviewStatus, ScopeReview } from "@/types";
 
 export async function createReview({
   businessId,
@@ -91,7 +92,7 @@ export async function updateReviewStatus({
   status,
 }: {
   reviewId: string;
-  status: "pending" | "approved" | "rejected";
+  status: BusinessReviewStatus;
 }) {
   const supabase = await createClient();
   const {
@@ -136,10 +137,32 @@ export async function updateReviewStatus({
   return review;
 }
 
-export async function getBusinessReviews(businessId: string) {
-  return await db
-    .select()
-    .from(businessReviews)
-    .where(eq(businessReviews.businessId, businessId))
-    .orderBy(businessReviews.createdAt);
+export async function getBusinessReviews(
+  businessId: string,
+  scope: ScopeReview
+) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (scope === "public") {
+    return await db
+      .select()
+      .from(businessReviews)
+      .where(
+        and(
+          eq(businessReviews.businessId, businessId),
+          eq(businessReviews.status, "approved")
+        )
+      )
+      .orderBy(businessReviews.createdAt);
+  } else {
+    if (!user) throw new Error("Unauthorized");
+    const isAdminUser = await isAdmin(user.id);
+    if (!isAdminUser) throw new Error("Forbidden");
+    return await db
+      .select()
+      .from(businessReviews)
+      .where(eq(businessReviews.businessId, businessId));
+  }
 }
