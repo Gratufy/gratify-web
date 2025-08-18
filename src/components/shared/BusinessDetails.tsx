@@ -4,6 +4,7 @@ import { useBusiness } from "@/hooks/useBusinesses";
 import BackButton from "../ui/BackButton";
 
 import Karma from "./Karma";
+import BusinessReviews from "./BusinessReviews";
 
 interface Props {
   id: string;
@@ -28,6 +29,13 @@ function BusinessDetails({ id, href }: Props) {
         <p className="text-2xl ">Status: {data?.status}</p>
         {/* karma */}
         <Karma businessId={id} />
+        {/* {data?.reviewCount && <p>Review: {data.reviewCount}</p>}
+        {data?.reviewCount ? (
+          <BusinessReviews businessId={id} />
+        ) : (
+          <p>No reviews yet.</p>
+        )} */}
+        <BusinessReviews businessId={id} />
       </div>
     </div>
   );

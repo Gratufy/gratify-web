@@ -31,6 +31,9 @@ export type Business = typeof businesses.$inferSelect;
 export type BusinessWithCategoryName = Business & {
   categoryName: string | null;
 };
+export type AdminBusinessRow = Business & {
+  filteredReviewCount: number; // dynamic count based on selected status
+};
 export type NewBusiness = typeof businesses.$inferInsert;
 export type BusinessUpdate = Partial<Omit<Business, "id">>;
 
@@ -96,3 +99,6 @@ export interface GetBusinessesParams {
   scope?: Scope;
 }
 export type BusinessStatus = "pending" | "approved" | "hidden" | "rejected";
+
+export type ScopeReview = "public" | "admin";
+export type BusinessReviewStatus = "pending" | "approved" | "rejected";

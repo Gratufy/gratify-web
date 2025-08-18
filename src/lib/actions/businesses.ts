@@ -2,12 +2,14 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { db } from "@/db";
-import { businessCategories, businesses } from "@/db/schema";
+import { businessCategories, businesses, businessReviews } from "@/db/schema";
 import { eq, desc, sql, and } from "drizzle-orm";
 import {
   GetBusinessesParams,
   // Business,
   BusinessWithCategoryName,
+  BusinessReviewStatus,
+  AdminBusinessRow,
 } from "@/types/business";
 import { isAdmin } from "@/lib/helpers/isAdmin";
 import { userProfiles } from "@/db/schema";
@@ -253,4 +255,51 @@ export async function deleteBusiness(id: string) {
     console.error("Error deleting business:", error);
     throw new Error("Failed to delete business");
   }
+}
+
+//
+export async function getBusinessesWithReviewStatus(
+  reviewStatus?: BusinessReviewStatus,
+  categoryId?: string
+): Promise<AdminBusinessRow[]> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("Unauthorized");
+
+  const isAdminUser = await isAdmin(user.id);
+  if (!isAdminUser) throw new Error("Forbidden");
+
+  const conditions = [
+    reviewStatus ? eq(businessReviews.status, reviewStatus) : undefined,
+    categoryId ? eq(businesses.categoryId, categoryId) : undefined,
+  ].filter(Boolean);
+  // businesses with matching review status and category
+  const businessesRows = await db
+    .select({
+      id: businesses.id,
+      name: businesses.name,
+      city: businesses.city,
+      categoryId: businesses.categoryId,
+      description: businesses.description,
+      website: businesses.website,
+      district: businesses.district,
+      address: businesses.address,
+      karma: businesses.karma,
+      status: businesses.status,
+      createdAt: businesses.createdAt,
+      updatedAt: businesses.updatedAt,
+      ownerId: businesses.ownerId,
+      reviewCount: businesses.reviewCount,
+
+      // dynamic review count
+      filteredReviewCount: sql<number>`COUNT(${businessReviews.id})`,
+    })
+    .from(businesses)
+    .leftJoin(businessReviews, eq(businesses.id, businessReviews.businessId))
+    .where(conditions.length ? and(...conditions) : undefined)
+    .groupBy(businesses.id);
+
+  return businessesRows;
 }
