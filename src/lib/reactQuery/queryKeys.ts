@@ -14,4 +14,8 @@ export const queryKeys = {
   ) => ["businessReviews", businessId, scope, status] as const,
   userReview: (businessId: string, userId: string) =>
     ["userReview", businessId, userId] as const,
+  adminBusinessesByReviewStatus: (
+    status?: BusinessReviewStatus,
+    categoryId?: string | null
+  ) => ["adminBusinessesByReviewStatus", { status, categoryId }] as const,
 };

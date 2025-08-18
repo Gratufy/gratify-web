@@ -9,8 +9,9 @@ import {
   updateBusiness,
   deleteBusiness,
   getBusinesses,
+  getBusinessesWithReviewStatus,
 } from "@/lib/actions/businesses";
-import { BusinessUpdate, Scope } from "@/types";
+import { BusinessReviewStatus, BusinessUpdate, Scope } from "@/types";
 
 interface UseBusinessesParams {
   city?: string;
@@ -91,5 +92,17 @@ export function useDeleteBusiness() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.businesses });
     },
+  });
+}
+//get businesses by review status
+export function useAdminBusinessesByReviewStatus(
+  status: BusinessReviewStatus,
+  categoryId?: string | null
+) {
+  return useQuery({
+    queryKey: ["adminBusinessesByReviewStatus", { status, categoryId }],
+    queryFn: () =>
+      getBusinessesWithReviewStatus(status, categoryId ?? undefined),
+    staleTime: 1000 * 60 * 5,
   });
 }
