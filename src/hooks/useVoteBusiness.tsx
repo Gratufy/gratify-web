@@ -22,7 +22,7 @@ export function useVoteBusiness(businessId: string) {
       // refresh all business lists (different filters, scope)
       queryClient.invalidateQueries({
         queryKey: queryKeys.businesses,
-        exact: false,
+        //exact: false,
       });
     },
   });
