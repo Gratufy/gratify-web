@@ -9,15 +9,16 @@ import {
   updateReviewStatus,
   getBusinessReviews,
 } from "@/lib/actions/reviews";
-import { ScopeReview } from "@/types";
+import { BusinessReviewStatus, ScopeReview } from "@/types";
 
 export function useBusinessReviews(
   businessId: string,
-  scope: ScopeReview = "public"
+  scope: ScopeReview = "public",
+  status?: BusinessReviewStatus
 ) {
   return useQuery({
-    queryKey: queryKeys.businessReviews(businessId, scope),
-    queryFn: () => getBusinessReviews(businessId, scope),
+    queryKey: queryKeys.businessReviews(businessId, scope, status),
+    queryFn: () => getBusinessReviews(businessId, scope, status),
     staleTime: 1000 * 60 * 5,
   });
 }

@@ -2,7 +2,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { db } from "@/db";
 import { businesses, businessReviews } from "@/db/schema";
-import { eq, and, sql } from "drizzle-orm";
+import { eq, and, desc, sql } from "drizzle-orm";
 import { isAdmin } from "../helpers/isAdmin";
 import { BusinessReviewStatus, ScopeReview } from "@/types";
 
@@ -139,7 +139,8 @@ export async function updateReviewStatus({
 
 export async function getBusinessReviews(
   businessId: string,
-  scope: ScopeReview
+  scope: ScopeReview,
+  status?: BusinessReviewStatus
 ) {
   const supabase = await createClient();
   const {
@@ -155,14 +156,22 @@ export async function getBusinessReviews(
           eq(businessReviews.status, "approved")
         )
       )
-      .orderBy(businessReviews.createdAt);
+      .orderBy(desc(businessReviews.createdAt));
   } else {
     if (!user) throw new Error("Unauthorized");
     const isAdminUser = await isAdmin(user.id);
     if (!isAdminUser) throw new Error("Forbidden");
+
+    const conditions = [eq(businessReviews.businessId, businessId)];
+
+    if (status) {
+      conditions.push(eq(businessReviews.status, status));
+    }
+
     return await db
       .select()
       .from(businessReviews)
-      .where(eq(businessReviews.businessId, businessId));
+      .where(and(...conditions))
+      .orderBy(desc(businessReviews.createdAt));
   }
 }
