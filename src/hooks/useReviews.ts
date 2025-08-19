@@ -56,7 +56,7 @@ export function useUpdateReview(businessId: string) {
     },
   });
 }
-
+//delete
 export function useDeleteReview(businessId: string) {
   const queryClient = useQueryClient();
   return useMutation({
@@ -74,13 +74,18 @@ export function useDeleteReview(businessId: string) {
   });
 }
 // for Admin
-export function useUpdateReviewStatus(businessId: string) {
+export function useUpdateReviewStatus() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateReviewStatus,
-    onSuccess: () => {
+    onSuccess: (review) => {
       queryClient.invalidateQueries({
-        queryKey: queryKeys.businessReviews(businessId),
+        queryKey: ["businessReviews", review.businessId],
+        exact: false, // инвалидируются все запросы, начинающиеся с ["businessReviews", review.businessId]
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["adminBusinessesByReviewStatus"],
+        exact: false,
       });
     },
   });
