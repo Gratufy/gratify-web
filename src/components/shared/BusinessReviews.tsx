@@ -105,7 +105,7 @@ export default function BusinessReviews({ businessId }: Props) {
                         Edit
                       </button>
                       <button
-                        className="border rounded-3xl border-red cursor-pointer px-4 py-2 flex items-center justify-center"
+                        className="border rounded-3xl border-red-500 cursor-pointer px-4 py-2 flex items-center justify-center"
                         onClick={() => handleDelete(r.id)}
                       >
                         Delete
