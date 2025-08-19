@@ -17,12 +17,12 @@ function BusinessDetails({ id, href }: Props) {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen  w-full">
       <BackButton href={href} />
       <h1 className="text-4xl font-bold mb-4">
         Business Details for {data?.name}
       </h1>
-      <div className="flex flex-col items-center justify-center  p-4">
+      <div className="flex flex-col items-center justify-center  w-full">
         <p className="text-2xl mb-4">Name: {data?.name}</p>
         <p className="text-2xl mb-4">City: {data?.city}</p>
         <p className="text-2xl ">Category: {data?.categoryName}</p>

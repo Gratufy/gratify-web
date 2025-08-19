@@ -42,9 +42,9 @@ const BusinessTable = ({ initialData }: BusinessTableProps) => {
           {businesses.map((b) => (
             <div key={b.id}>
               <li className="mb-2 px-4 py-2 border border-gray-300 rounded-xl flex gap-8 items-center justify-center">
-                <p className="flex-1/6">{b.name}</p>
-                <p className="flex-1/6">{b.city}</p>
-                <p className="flex-1/6">
+                <p className="flex-1/7">{b.name}</p>
+                <p className="flex-1/7">{b.city}</p>
+                <p className="flex-1/7">
                   {status}: {b.filteredReviewCount}
                 </p>
                 <button
@@ -57,7 +57,7 @@ const BusinessTable = ({ initialData }: BusinessTableProps) => {
 
                 <Link
                   href={`/admin/business/${b.id}`}
-                  className="px-4 py-2 bg-chart-2 text-white rounded-full cursor-pointer"
+                  className="px-4 py-2 bg-chart-2 text-white rounded-3xl cursor-pointer flex justify-center items-center"
                 >
                   See more
                 </Link>

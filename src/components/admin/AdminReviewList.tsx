@@ -15,7 +15,10 @@ function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
     currentStatus
   );
   const deleteReviewMutation = useDeleteReview(businessId);
+
   const handleDelete = async (reviewId: string) => {
+    const confirmed = confirm("Are you sure you want to delete this review?");
+    if (!confirmed) return;
     await deleteReviewMutation.mutateAsync(reviewId);
     alert("Review deleted successfully!");
   };
@@ -27,10 +30,10 @@ function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
           key={r.id}
           className="border-b py-2 flex gap-8 items-center justify-center"
         >
-          <p className="text-sm text-gray-600 flex-1/5">
+          <p className="text-sm text-gray-600 flex-1/6">
             {r.createdAt?.toLocaleDateString()}
           </p>
-          <p className="flex-1/5">{r.text}</p>
+          <p className="flex-1/6">{r.text}</p>
           <BusinessReviewForm
             businessId={businessId}
             reviewId={r.id}
