@@ -30,6 +30,7 @@ export default function BusinessReviews({ businessId }: Props) {
     if (!newText.trim()) return;
     await createReviewMutation.mutateAsync({ businessId, text: newText });
     setNewText("");
+    alert("Review added successfully!");
   };
 
   const handleEdit = async (reviewId: string) => {
@@ -37,10 +38,12 @@ export default function BusinessReviews({ businessId }: Props) {
     await updateReview.mutateAsync({ reviewId, text: editingText });
     setEditingId(null);
     setEditingText("");
+    alert("Review updated successfully!");
   };
 
   const handleDelete = async (reviewId: string) => {
     await deleteReviewMutation.mutateAsync(reviewId);
+    alert("Review deleted successfully!");
   };
   if (isLoading) return <p>Loading reviews...</p>;
   return (
