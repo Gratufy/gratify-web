@@ -26,7 +26,7 @@ function PublicHeader() {
               <Link href="/dashboard/business">Business</Link>
             </li>
             <li>
-              <Link href="admin">Admin</Link>
+              <Link href="/admin">Admin</Link>
             </li>
             <li>
               <Link href="/favorites" className="">

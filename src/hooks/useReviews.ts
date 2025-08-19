@@ -13,7 +13,7 @@ import { BusinessReviewStatus, ScopeReview } from "@/types";
 
 export function useBusinessReviews(
   businessId: string,
-  scope: ScopeReview = "public",
+  scope: ScopeReview,
   status?: BusinessReviewStatus
 ) {
   return useQuery({
@@ -29,13 +29,17 @@ export function useCreateReview() {
     mutationFn: createReview,
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
-        queryKey: queryKeys.businessReviews(variables.businessId),
+        queryKey: queryKeys.businessReviewsRoot(variables.businessId),
       });
       queryClient.invalidateQueries({
         queryKey: [...queryKeys.businesses, variables.businessId],
         exact: true,
       });
       queryClient.invalidateQueries({ queryKey: queryKeys.businesses });
+
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.adminBusinessesByReviewStatusRoot,
+      });
     },
   });
 }
@@ -44,9 +48,10 @@ export function useUpdateReview(businessId: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateReviewText,
+
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: queryKeys.businessReviews(businessId),
+        queryKey: queryKeys.businessReviewsRoot(businessId),
       });
       queryClient.invalidateQueries({
         queryKey: [...queryKeys.businesses, businessId],
@@ -62,14 +67,21 @@ export function useDeleteReview(businessId: string) {
   return useMutation({
     mutationFn: deleteReview,
     onSuccess: () => {
+      // 1. update list reviews for this business
       queryClient.invalidateQueries({
-        queryKey: queryKeys.businessReviews(businessId),
+        queryKey: queryKeys.businessReviewsRoot(businessId),
       });
+      // 2. update business (detailed card)
       queryClient.invalidateQueries({
         queryKey: [...queryKeys.businesses, businessId],
         exact: true,
       });
+      // 3. update general list of businesses
       queryClient.invalidateQueries({ queryKey: queryKeys.businesses });
+      // 4. update admin list of businesses
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.adminBusinessesByReviewStatusRoot,
+      });
     },
   });
 }
@@ -80,12 +92,10 @@ export function useUpdateReviewStatus() {
     mutationFn: updateReviewStatus,
     onSuccess: (review) => {
       queryClient.invalidateQueries({
-        queryKey: ["businessReviews", review.businessId],
-        exact: false, // инвалидируются все запросы, начинающиеся с ["businessReviews", review.businessId]
+        queryKey: queryKeys.businessReviewsRoot(review.businessId),
       });
       queryClient.invalidateQueries({
-        queryKey: ["adminBusinessesByReviewStatus"],
-        exact: false,
+        queryKey: queryKeys.adminBusinessesByReviewStatusRoot,
       });
     },
   });

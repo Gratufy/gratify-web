@@ -7,13 +7,21 @@ export const queryKeys = {
   userVote: (businessId: string, userId?: string) =>
     ["userVote", businessId, userId] as const,
   // --- Reviews ---
+
+  businessReviewsRoot: (businessId: string) =>
+    ["businessReviews", businessId] as const,
+
   businessReviews: (
     businessId: string,
-    scope: ScopeReview = "public",
+    scope: ScopeReview,
     status?: BusinessReviewStatus
   ) => ["businessReviews", businessId, scope, status] as const,
+
   userReview: (businessId: string, userId: string) =>
     ["userReview", businessId, userId] as const,
+
+  adminBusinessesByReviewStatusRoot: ["adminBusinessesByReviewStatus"] as const,
+
   adminBusinessesByReviewStatus: (
     status?: BusinessReviewStatus,
     categoryId?: string | null

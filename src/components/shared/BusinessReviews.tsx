@@ -42,6 +42,8 @@ export default function BusinessReviews({ businessId }: Props) {
   };
 
   const handleDelete = async (reviewId: string) => {
+    const confirmed = confirm("Are you sure you want to delete this review?");
+    if (!confirmed) return;
     await deleteReviewMutation.mutateAsync(reviewId);
     alert("Review deleted successfully!");
   };
@@ -92,7 +94,7 @@ export default function BusinessReviews({ businessId }: Props) {
             {user &&
               (user.userId === r.userId || user.role === "ADMIN") &&
               editingId !== r.id && (
-                <div className="mt-1 flex gap-2">
+                <div className="mt-1 flex gap-2 justify-end">
                   {user.userId === r.userId && (
                     <>
                       <button
@@ -105,7 +107,7 @@ export default function BusinessReviews({ businessId }: Props) {
                         Edit
                       </button>
                       <button
-                        className="border rounded-3xl border-red cursor-pointer px-4 py-2 flex items-center justify-center"
+                        className="border rounded-3xl border-red-500 cursor-pointer px-4 py-2 flex items-center justify-center"
                         onClick={() => handleDelete(r.id)}
                       >
                         Delete
