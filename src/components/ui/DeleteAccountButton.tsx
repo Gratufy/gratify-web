@@ -3,14 +3,16 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useUserStore } from "@/stores/useUserStore";
-import { createClient } from "@/utils/supabase/client";
+//import { createClient } from "@/utils/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function DeleteAccountButton() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  //   const clear = useUserStore((s) => s.clear);
+  const clear = useUserStore((s) => s.clear);
   const setError = useUserStore((s) => s.setError);
 
+  const queryClient = useQueryClient();
   const handleDelete = async () => {
     const confirmed = window.confirm("Confirm account deletion?");
     if (!confirmed) return;
@@ -26,9 +28,10 @@ export default function DeleteAccountButton() {
         const text = await res.text();
         throw new Error(`Error: ${text}`);
       }
-      const supabase = createClient();
-      await supabase.auth.signOut();
-      //   clear();
+      // const supabase = createClient();
+      // await supabase.auth.signOut();
+      clear();
+      queryClient.clear();
       alert("Your account has been successfully deleted.");
       router.push("/"); // or wherever you want to redirect
     } catch (err) {

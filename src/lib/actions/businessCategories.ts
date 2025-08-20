@@ -2,7 +2,7 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { db } from "@/db";
-import { businessCategories } from "@/db/schema";
+import { businessCategories, businesses } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { isAdmin } from "@/lib/helpers/isAdmin";
 import {
@@ -68,8 +68,28 @@ export async function deleteBusinessCategory(id: string) {
     throw new Error("Forbidden for non-admin users");
   if (id === PROTECTED_CATEGORY_ID)
     throw new Error("Cannot delete protected category");
-
+  /*  // update businesses categoryId that has deleted category
+  await db
+    .update(businesses)
+    .set({ categoryId: PROTECTED_CATEGORY_ID })
+    .where(eq(businesses.categoryId, id));
+  // delete the category
   await db
     .delete(businessCategories)
-    .where(eq(businessCategories.categoryId, id));
+    .where(eq(businessCategories.categoryId, id)); */
+  const result = await db.transaction(async (tx) => {
+    // update businesses categoryId that has deleted category
+    const updated = await tx
+      .update(businesses)
+      .set({ categoryId: PROTECTED_CATEGORY_ID })
+      .where(eq(businesses.categoryId, id))
+      .returning();
+
+    // delete the category
+    await tx
+      .delete(businessCategories)
+      .where(eq(businessCategories.categoryId, id));
+    return { success: true, reassignedCount: updated.length };
+  });
+  return result;
 }

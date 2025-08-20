@@ -40,8 +40,8 @@ const BusinessTable = ({ initialData }: BusinessTableProps) => {
       {businesses?.length ? (
         <ul className="w-3/4 max-w-4xl mt-4">
           {businesses.map((b) => (
-            <div key={b.id}>
-              <li className="mb-2 px-4 py-2 border border-gray-300 rounded-xl flex gap-8 items-center justify-center">
+            <li key={b.id}>
+              <div className="mb-2 px-4 py-2 border border-gray-300 rounded-xl flex gap-8 items-center justify-center">
                 <p className="flex-1/7">{b.name}</p>
                 <p className="flex-1/7">{b.city}</p>
                 <p className="flex-1/7">
@@ -61,11 +61,11 @@ const BusinessTable = ({ initialData }: BusinessTableProps) => {
                 >
                   See more
                 </Link>
-              </li>
+              </div>
               {showReviews && (
                 <AdminReviewList businessId={b.id} currentStatus={status} />
               )}
-            </div>
+            </li>
           ))}
         </ul>
       ) : (

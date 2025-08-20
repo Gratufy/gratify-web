@@ -35,10 +35,15 @@ export function useBusinessCategories() {
 
   const deleteMutation = useMutation({
     mutationFn: deleteBusinessCategory,
-    onSuccess: () =>
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: queryKeys.businessCategories,
-      }),
+      });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.businesses,
+        exact: false,
+      });
+    },
   });
 
   return {

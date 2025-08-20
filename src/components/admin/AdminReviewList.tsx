@@ -23,10 +23,10 @@ function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
     alert("Review deleted successfully!");
   };
   return (
-    <div>
+    <ul>
       {reviews && !reviews.length && <p>No reviews yet.</p>}
       {reviews?.map((r) => (
-        <div
+        <li
           key={r.id}
           className="border-b py-2 flex gap-8 items-center justify-center"
         >
@@ -45,9 +45,9 @@ function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
           >
             Delete
           </button>
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
 
