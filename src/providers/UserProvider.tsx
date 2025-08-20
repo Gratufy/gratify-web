@@ -17,20 +17,36 @@ export default function ClientProvider() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === "SIGNED_OUT") {
-        clear();
-      } else if (event === "SIGNED_IN" || event === "INITIAL_SESSION") {
-        if (!session) return;
-        console.log("in UserProvider SIGNED_IN");
+        clear(); // clear user store
+        return;
+      }
+      // SIGNED_IN или INITIAL_SESSION → try to fetch user profile
+      if ((event === "SIGNED_IN" || event === "INITIAL_SESSION") && session) {
+        setLoading(true);
+        setSession(session);
+
         try {
-          console.log("in UserProvider try block");
-          setLoading(true);
-          setSession(session);
+          // const res = await fetch("/api/user-profile", {
+          //   method: "POST",
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //   },
           const res = await fetch("/api/user-profile", { method: "POST" });
+          if (!res.ok) {
+            // id 401/403 → delete in user store
+            clear();
+            setSession(null);
+            setError("Unauthorized. Please log in again.");
+            return;
+          }
           const profile = await res.json();
           setProfile(profile);
-        } catch (e) {
-          if (e instanceof Error) {
-            setError(e.message);
+        } catch (err) {
+          console.error("Error fetching user profile:", err);
+          clear();
+          setSession(null);
+          if (err instanceof Error) {
+            setError(err.message);
           } else {
             setError("Unknown error");
           }
