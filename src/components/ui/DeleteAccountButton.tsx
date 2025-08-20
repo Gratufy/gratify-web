@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useUserStore } from "@/stores/useUserStore";
-import { createClient } from "@/utils/supabase/client";
+//import { createClient } from "@/utils/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function DeleteAccountButton() {

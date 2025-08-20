@@ -1,11 +1,12 @@
 "use client";
 import React from "react";
-
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useUserStore } from "@/stores/useUserStore";
 import { createClient } from "@/utils/supabase/client";
 
 const Logout = () => {
+  const router = useRouter();
   const clear = useUserStore((s) => s.clear);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -24,6 +25,7 @@ const Logout = () => {
       }
 
       clear();
+      router.push("/"); // or wherever you want to redirect
     } catch (err) {
       console.error("Unexpected logout error:", err);
     } finally {
