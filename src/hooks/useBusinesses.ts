@@ -26,27 +26,15 @@ export function useBusinesses({
   sortBy,
   scope,
 }: UseBusinessesParams & { scope?: Scope } = {}) {
-  const cityValue = city ?? "__all__";
-  const categoryValue = categoryId ?? "__all__";
-  const sortValue = sortBy ?? "newest";
-  const scopeValue = scope ?? "public";
+  const filters = {
+    city: city ?? "__all__",
+    categoryId: categoryId ?? "__all__",
+    sortBy: sortBy ?? "newest",
+    scope: scope ?? ("public" as Scope),
+  };
   return useQuery({
-    queryKey: [
-      "businesses",
-      {
-        city: cityValue,
-        categoryId: categoryValue,
-        sortBy: sortValue,
-        scope: scopeValue,
-      },
-    ],
-    queryFn: () =>
-      getBusinesses({
-        city: cityValue,
-        categoryId: categoryValue,
-        sortBy: sortValue,
-        scope: scopeValue,
-      }),
+    queryKey: queryKeys.businessList(filters),
+    queryFn: () => getBusinesses(filters),
     staleTime: 1000 * 60 * 5, // кеш 5 минут
   });
 }
@@ -54,7 +42,7 @@ export function useBusinesses({
 // one business
 export function useBusiness(id: string) {
   return useQuery({
-    queryKey: [...queryKeys.businesses, id],
+    queryKey: queryKeys.businessById(id),
     queryFn: () => getBusinessById(id),
     staleTime: 1000 * 60 * 5, // 5 минут кеш
     enabled: !!id,
@@ -67,7 +55,11 @@ export function useCreateBusiness() {
   return useMutation({
     mutationFn: createBusiness,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.businesses });
+      // update all business lists
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.businesses,
+        exact: false,
+      });
     },
   });
 }
@@ -78,8 +70,17 @@ export function useUpdateBusiness() {
   return useMutation({
     mutationFn: ({ id, values }: { id: string; values: BusinessUpdate }) =>
       updateBusiness(id, values),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.businesses });
+    onSuccess: (_data, variables) => {
+      // one business
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.businessById(variables.id),
+        exact: true,
+      });
+      // all lists
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.businesses,
+        exact: false,
+      });
     },
   });
 }
@@ -89,8 +90,17 @@ export function useDeleteBusiness() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteBusiness,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.businesses });
+    onSuccess: (_data, id) => {
+      // one business
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.businessById(id),
+        exact: true,
+      });
+      // all lists
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.businesses,
+        exact: false,
+      });
     },
   });
 }

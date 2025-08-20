@@ -31,14 +31,21 @@ export function useCreateReview() {
       queryClient.invalidateQueries({
         queryKey: queryKeys.businessReviewsRoot(variables.businessId),
       });
+      // карточка бизнеса (reviewCount и т.п.)
       queryClient.invalidateQueries({
-        queryKey: [...queryKeys.businesses, variables.businessId],
+        queryKey: queryKeys.businessById(variables.businessId),
         exact: true,
       });
-      queryClient.invalidateQueries({ queryKey: queryKeys.businesses });
+      // все списки бизнесов (мог измениться счетчик/сортировка)
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.businesses,
+        exact: false,
+      });
 
+      // админ-агрегаты по статусам
       queryClient.invalidateQueries({
         queryKey: queryKeys.adminBusinessesByReviewStatusRoot,
+        exact: false,
       });
     },
   });
@@ -54,10 +61,13 @@ export function useUpdateReview(businessId: string) {
         queryKey: queryKeys.businessReviewsRoot(businessId),
       });
       queryClient.invalidateQueries({
-        queryKey: [...queryKeys.businesses, businessId],
+        queryKey: queryKeys.businessById(businessId),
         exact: true,
       });
-      queryClient.invalidateQueries({ queryKey: queryKeys.businesses });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.businesses,
+        exact: false,
+      });
     },
   });
 }
@@ -73,14 +83,18 @@ export function useDeleteReview(businessId: string) {
       });
       // 2. update business (detailed card)
       queryClient.invalidateQueries({
-        queryKey: [...queryKeys.businesses, businessId],
+        queryKey: queryKeys.businessById(businessId),
         exact: true,
       });
       // 3. update general list of businesses
-      queryClient.invalidateQueries({ queryKey: queryKeys.businesses });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.businesses,
+        exact: false,
+      });
       // 4. update admin list of businesses
       queryClient.invalidateQueries({
         queryKey: queryKeys.adminBusinessesByReviewStatusRoot,
+        exact: false,
       });
     },
   });

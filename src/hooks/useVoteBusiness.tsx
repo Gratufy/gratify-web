@@ -15,14 +15,13 @@ export function useVoteBusiness(businessId: string) {
       });
       // refresh the specific business
       queryClient.invalidateQueries({
-        queryKey: [...queryKeys.businesses, businessId],
+        queryKey: queryKeys.businessById(businessId),
         exact: true,
       });
-
-      // refresh all business lists (different filters, scope)
+      //refresh all business lists (different filters, scope)
       queryClient.invalidateQueries({
         queryKey: queryKeys.businesses,
-        //exact: false,
+        exact: false,
       });
     },
   });

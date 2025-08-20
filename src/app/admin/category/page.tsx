@@ -85,7 +85,12 @@ export default function AdminCategory() {
     if (!confirm("Видалити категорію?")) return;
 
     try {
-      await deleteCategory(id);
+      const res = await deleteCategory(id);
+      if (res.success) {
+        alert(
+          `Категорію видалено. Перепризначено бізнесів: ${res.reassignedCount}`
+        );
+      }
     } catch {
       alert("Помилка при видаленні категорії");
     }
