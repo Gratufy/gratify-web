@@ -239,6 +239,7 @@ export async function deleteBusiness(id: string) {
       data: { user },
     } = await supabase.auth.getUser();
     if (!user) throw new Error("Not authenticated");
+
     const business = await db
       .select()
       .from(businesses)

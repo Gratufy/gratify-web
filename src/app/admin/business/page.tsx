@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { useBusinesses } from "@/hooks/useBusinesses";
+import { useBusinesses, useDeleteBusiness } from "@/hooks/useBusinesses";
 import { useBusinessCategories } from "@/hooks/useBusinessCategories";
 import CustomSelect from "@/components/ui/CustomSelect";
 import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
@@ -32,7 +32,13 @@ export default function AdminBusiness() {
     { categoryId: "__all__", name: "Всі" }, //index "__all__" for   "всi"
     ...(categories || []),
   ];
-
+  const deleteBusinessMutation = useDeleteBusiness();
+  const handleDelete = async (businessId: string) => {
+    const confirmed = confirm("Are you sure you want to delete this business?");
+    if (!confirmed) return;
+    await deleteBusinessMutation.mutateAsync(businessId);
+    alert("Business deleted successfully!");
+  };
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <h1 className="text-2xl font-bold mb-2">
@@ -85,9 +91,9 @@ export default function AdminBusiness() {
               key={b.id}
               className="mb-2 px-4 py-2 border border-gray-300 rounded-xl flex gap-8 items-center justify-center"
             >
-              <p className="flex-1/6">{b.name}</p>
-              <p className="flex-1/6">{b.city}</p>
-              <p className="flex-1/6">{b.categoryName}</p>
+              <p className="flex-1/8">{b.name}</p>
+              <p className="flex-1/8">{b.city}</p>
+              <p className="flex-1/8">{b.categoryName}</p>
 
               <BusinessStatusForm businessId={b.id} currentStatus={b.status} />
               <Link
@@ -96,6 +102,12 @@ export default function AdminBusiness() {
               >
                 See more
               </Link>
+              <button
+                className="border rounded-3xl border-red-500 cursor-pointer px-4 py-2 flex items-center justify-center"
+                onClick={() => handleDelete(b.id)}
+              >
+                Delete
+              </button>
             </li>
           ))}
         </ul>
