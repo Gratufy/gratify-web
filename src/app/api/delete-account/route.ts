@@ -14,19 +14,23 @@ export async function DELETE() {
 
     if (!user) return new Response("Unauthorized", { status: 401 });
 
-    // Delete user profile from the database
+    // 2. Delete user profile from the database (cascade delete all businesses, reviews, votes)
+
     await db
       .delete(userProfiles)
       .where(eq(userProfiles.userId, user.id))
       .execute();
-
-    // Delete user account from Supabase Auth
+    // 1. Удаляем пользователя из Auth
+    const { error: authError } = await supabaseAdmin.auth.admin.deleteUser(
+      user.id
+    );
+    if (authError) {
+      console.error("Auth deletion failed:", authError);
+      return new Response("Failed to delete user from Auth", { status: 500 });
+    }
 
     // ATTENTION: for delene I need process.env.SUPABASE_SERVICE_ROLE_KEY!
-    const { error } = await supabaseAdmin.auth.admin.deleteUser(user.id);
-    //soft delete user unactive
-    //const { error } = await supabaseAdmin.auth.admin.deleteUser(user.id, true);
-    if (error) throw error;
+
     return new Response("User account deleted", { status: 200 });
   } catch (err) {
     console.error("Delete account error:", err);
