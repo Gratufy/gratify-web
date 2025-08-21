@@ -2,7 +2,12 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { db } from "@/db";
-import { businessCategories, businesses, businessReviews } from "@/db/schema";
+import {
+  businessCategories,
+  businesses,
+  businessLocations,
+  businessReviews,
+} from "@/db/schema";
 import { eq, desc, sql, and } from "drizzle-orm";
 import {
   GetBusinessesParams,
@@ -13,6 +18,7 @@ import {
 } from "@/types/business";
 import { isAdmin } from "@/lib/helpers/isAdmin";
 import { userProfiles } from "@/db/schema";
+import { checkAddress } from "./businessLocation";
 
 const businessSelectFields = {
   id: businesses.id,
@@ -31,6 +37,33 @@ const businessSelectFields = {
   ownerId: businesses.ownerId,
   reviewCount: businesses.reviewCount,
 };
+// get coordinates by city and address
+export async function getCoordinatesStructured(city: string, address: string) {
+  const url = new URL("https://nominatim.openstreetmap.org/search");
+  url.searchParams.set("format", "json");
+  url.searchParams.set("limit", "1");
+  url.searchParams.set("addressdetails", "1");
+  url.searchParams.set("street", address);
+  url.searchParams.set("city", city);
+  url.searchParams.set("country", "Ukraine");
+
+  const response = await fetch(url.toString(), {
+    headers: {
+      "User-Agent": "MyApp/1.0 (myemail@example.com)",
+    },
+  });
+
+  if (!response.ok) throw new Error("Nominatim request failed");
+  const data = await response.json();
+  if (!data[0]) return null;
+
+  return {
+    latitude: parseFloat(data[0].lat),
+    longitude: parseFloat(data[0].lon),
+    displayName: data[0].display_name,
+    address: data[0].address,
+  };
+}
 // get businesses with filters
 export async function getBusinesses(
   params: GetBusinessesParams
@@ -128,6 +161,8 @@ type NewBusinessFormData = {
   city: string;
   district?: string | null;
   address: string;
+  latitude?: number | null;
+  longitude?: number | null;
 };
 export async function createBusiness(values: NewBusinessFormData) {
   try {
@@ -156,16 +191,40 @@ export async function createBusiness(values: NewBusinessFormData) {
       profile = updatedProfile;
     }
     //-------
-    // ctreate new business
-    const newBusiness = await db
+    // get coordinates
+    // const coords = await getCoordinatesStructured(values.city, values.address);
+    // if (!coords) throw new Error("Address not found");
+    let lat = values.latitude ?? null;
+    let lng = values.longitude ?? null;
+    if (lat == null || lng == null) {
+      //getCoordinatesStructured=checkAddress
+      const coords = await checkAddress(values.city, values.address);
+      if (!coords) throw new Error("Address not found");
+      lat = coords.latitude;
+      lng = coords.longitude;
+    }
+    // create new business
+    const [newBusiness] = await db
       .insert(businesses)
       .values({
         ...values,
         ownerId: user.id, // insert ownerId
       })
       .returning();
+    // add location
+    await db.insert(businessLocations).values({
+      businessId: newBusiness.id,
+      latitude: lat!,
+      longitude: lng!,
+    });
+    // await db.insert(businessLocations).values({
+    //   businessId: newBusiness[0].id,
+    //   latitude: coords.latitude,
+    //   longitude: coords.longitude,
+    // });
     return {
-      business: newBusiness[0],
+      business: newBusiness,
+      // check if we need profile??????!
       profile,
     };
   } catch (error) {
