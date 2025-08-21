@@ -18,9 +18,21 @@ import { Button } from "@/components/ui/button";
 import CustomSelect from "../ui/CustomSelect";
 import { useBusinessCategories } from "@/hooks/useBusinessCategories";
 import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
+import {
+  useCheckAddress,
+  useBusinessLocation,
+  useUpdateBusinessLocation,
+} from "@/hooks/useBusinessLocation";
+
 import { useCreateBusiness, useUpdateBusiness } from "@/hooks/useBusinesses";
 import { BusinessUpdate } from "@/types";
 import { useUserStore } from "@/stores/useUserStore";
+//import BusinessMap from "@/components/shared/BusinessMap";
+import { useState } from "react";
+import dynamic from "next/dynamic";
+const BusinessMap = dynamic(() => import("@/components/shared/BusinessMap"), {
+  ssr: false,
+});
 
 const emptyToUndefined = v.transform((value: unknown) => {
   if (typeof value === "string" && value.trim() === "") return undefined;
@@ -36,15 +48,7 @@ export const businessFormSchema = v.object({
     v.string(),
     v.nonEmpty("errors.description.required@@Please enter a description.")
   ),
-  //   website: v.optional(
-  //     v.pipe(
-  //       v.string(),
-  //       v.regex(
-  //         /^https?:\/\/.+\..+/,
-  //         "errors.website.invalid@@Invalid website URL."
-  //       )
-  //     )
-  //   ),
+
   website: v.pipe(
     v.any(),
     emptyToUndefined,
@@ -65,13 +69,21 @@ export const businessFormSchema = v.object({
     v.string(),
     v.nonEmpty("errors.address.required@@Please enter the address.")
   ),
+  latitude: v.optional(v.number()),
+  longitude: v.optional(v.number()),
 });
+
+type FormValues = v.InferOutput<typeof businessFormSchema>;
 type BusinessFormProps = {
   businessId?: string; // if edit
-  defaultValues?: v.InferOutput<typeof businessFormSchema>;
-  onSuccess?: () => void;
+  defaultValues?: FormValues;
+  //onSuccess?: () => void;
 };
 
+// type BusinessFormProps = {
+//   businessId?: string;
+//   defaultValues?: Partial<FormValues>;
+// };
 export function BusinessForm({
   defaultValues,
   businessId,
@@ -84,8 +96,10 @@ BusinessFormProps) {
   } = useBusinessCategories();
   const createBusinessMutation = useCreateBusiness();
   const updateBusinessMutation = useUpdateBusiness();
+  const updateLocationMutation = useUpdateBusinessLocation();
+  const checkAddressMutation = useCheckAddress();
 
-  const form = useForm<v.InferOutput<typeof businessFormSchema>>({
+  const form = useForm<FormValues>({
     resolver: valibotResolver(businessFormSchema),
     defaultValues: defaultValues ?? {
       name: "",
@@ -95,11 +109,64 @@ BusinessFormProps) {
       city: "",
       district: "",
       address: "",
+      latitude: undefined,
+      longitude: undefined,
     },
   });
+  // local state for check
+  const [mapOpen, setMapOpen] = useState(false);
+  const [tempLatLng, setTempLatLng] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+  const [locationConfirmed, setLocationConfirmed] = useState(false);
 
-  async function onSubmit(data: v.InferOutput<typeof businessFormSchema>) {
+  // if editing and you want to load the saved location by button - you can pull it here
+  const { data: existingLoc } = useBusinessLocation(businessId ?? "");
+
+  // open map and check location
+  async function handleOpenCheck() {
+    const city = form.getValues("city");
+    const address = form.getValues("address");
+
+    if (businessId && existingLoc) {
+      // editing : if there are saved coordinates - show them
+      setTempLatLng({ lat: existingLoc.latitude, lng: existingLoc.longitude });
+      setMapOpen(true);
+      setLocationConfirmed(false);
+      return;
+    }
+
+    if (!city || !address) {
+      alert("First specify the city and address");
+      return;
+    }
+
+    const res = await checkAddressMutation.mutateAsync({ city, address });
+    if (!res) {
+      alert("Address not found");
+      return;
+    }
+    setTempLatLng({ lat: res.latitude, lng: res.longitude });
+    setMapOpen(true);
+    setLocationConfirmed(false);
+  }
+  // to confirm location
+  function handleConfirmLocation() {
+    if (!tempLatLng) return;
+    form.setValue("latitude", tempLatLng.lat, { shouldValidate: true });
+    form.setValue("longitude", tempLatLng.lng, { shouldValidate: true });
+    setLocationConfirmed(true);
+    setMapOpen(false);
+  }
+
+  // on Submit
+  async function onSubmit(data: FormValues) {
     try {
+      if (!data.latitude || !data.longitude) {
+        alert("Please check and confirm the location before saving.");
+        return;
+      }
       if (businessId) {
         // editing
         // Prepare data for the database
@@ -112,11 +179,21 @@ BusinessFormProps) {
           district: data.district ?? null,
           address: data.address,
         };
+
         const updatedBusiness = await updateBusinessMutation.mutateAsync({
           id: businessId,
           values: updateData,
         });
+
+        // then update location
+        await updateLocationMutation.mutateAsync({
+          businessId,
+          latitude: data.latitude,
+          longitude: data.longitude,
+        });
+
         alert("Business edited successfully!");
+        // Reset form
         form.reset({
           name: updatedBusiness.name,
           description: updatedBusiness.description,
@@ -136,21 +213,24 @@ BusinessFormProps) {
           city: data.city,
           district: data.district ?? null,
           address: data.address,
+          latitude: data.latitude,
+          longitude: data.longitude,
         };
         //{ business, profile }
         const { profile } = await createBusinessMutation.mutateAsync(
           newBusinessData
         );
-        // update Zustand profile
+        // Update Zustand profile
         useUserStore.getState().setProfile(profile);
         alert("Business created successfully!");
+        // Reset form
         form.reset();
+        setTempLatLng(null);
+        setLocationConfirmed(false);
       }
 
       // If we need to do something on success
       // onSuccess?.();
-
-      // Reset form
     } catch (error) {
       console.error("Error creating/updating business:", error);
       alert("Something went wrong");
@@ -165,14 +245,14 @@ BusinessFormProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit, onError)}
-        className="space-y-8"
+        className="space-y-8 w-2/3 flex flex-col justify-center items-center"
       >
         {/* Name Field */}
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-full">
               <FormLabel>Name</FormLabel>
               <FormControl>
                 <Input placeholder="shadcn" {...field} />
@@ -233,7 +313,7 @@ BusinessFormProps) {
           control={form.control}
           name="description"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-full">
               <FormLabel>Description</FormLabel>
               <FormControl>
                 <Input placeholder="shadcn" {...field} />
@@ -248,7 +328,7 @@ BusinessFormProps) {
           control={form.control}
           name="website"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-full">
               <FormLabel>Website</FormLabel>
               <FormControl>
                 <Input placeholder="shadcn" {...field} />
@@ -263,7 +343,7 @@ BusinessFormProps) {
           control={form.control}
           name="district"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-full">
               <FormLabel>District</FormLabel>
               <FormControl>
                 <Input placeholder="shadcn" {...field} />
@@ -278,7 +358,7 @@ BusinessFormProps) {
           control={form.control}
           name="address"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-full">
               <FormLabel>Address</FormLabel>
               <FormControl>
                 <Input placeholder="shadcn" {...field} />
@@ -288,6 +368,59 @@ BusinessFormProps) {
             </FormItem>
           )}
         />
+        {/* Кнопка проверки локации */}
+        <div className="flex items-center gap-3">
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={handleOpenCheck}
+            disabled={checkAddressMutation.isPending}
+          >
+            {checkAddressMutation.isPending ? "Checking..." : "Check location"}
+          </Button>
+
+          {locationConfirmed &&
+          form.getValues("latitude") &&
+          form.getValues("longitude") ? (
+            <span className="text-sm text-muted-foreground">
+              Location confirmed: {form.getValues("latitude")?.toFixed(6)},{" "}
+              {form.getValues("longitude")?.toFixed(6)}
+            </span>
+          ) : (
+            <span className="text-sm text-muted-foreground">
+              Location not confirmed
+            </span>
+          )}
+        </div>
+        {/* Map to check location- Opened with Btn */}
+        {mapOpen && tempLatLng && (
+          <div className="rounded-xl border p-3 space-y-3">
+            <BusinessMap
+              lat={tempLatLng.lat}
+              lng={tempLatLng.lng}
+              draggable
+              onDragEnd={(lat, lng) => setTempLatLng({ lat, lng })}
+              height={360}
+              isForm
+            />
+            <div className="flex gap-3">
+              <Button type="button" onClick={handleConfirmLocation}>
+                Submit Location
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => setMapOpen(false)}
+              >
+                Cancel
+              </Button>
+              <div className="ml-auto text-sm text-muted-foreground">
+                Current: {tempLatLng.lat.toFixed(6)},{" "}
+                {tempLatLng.lng.toFixed(6)}
+              </div>
+            </div>
+          </div>
+        )}
         <Button type="submit">Submit</Button>
       </form>
     </Form>

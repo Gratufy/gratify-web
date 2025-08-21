@@ -35,4 +35,12 @@ export const queryKeys = {
     status?: BusinessReviewStatus,
     categoryId?: string | null
   ) => ["adminBusinessesByReviewStatus", { status, categoryId }] as const,
+
+  // ...businessLocation
+  businessLocation: (businessId: string) =>
+    ["businessLocation", businessId] as const,
+
+  // if i need it
+  // checkAddress: (city: string, address: string) =>
+  //   ["checkAddress", { city, address }] as const,
 };

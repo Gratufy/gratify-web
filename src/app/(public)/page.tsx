@@ -96,7 +96,7 @@ export default function PublicHome() {
               </li>
             ))}
           </ul>
-          <BusinessMap />
+          {/* <BusinessMap /> */}
         </>
       ) : (
         <p className="text-2xl"> Нема бізнесів</p>
