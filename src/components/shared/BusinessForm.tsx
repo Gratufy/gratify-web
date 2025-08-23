@@ -38,40 +38,61 @@ const emptyToUndefined = v.transform((value: unknown) => {
   if (typeof value === "string" && value.trim() === "") return undefined;
   return value;
 });
-
-export const businessFormSchema = v.object({
-  name: v.pipe(
-    v.string(),
-    v.nonEmpty("errors.name.required@@Please enter the business name.")
+type Location = {
+  city?: string;
+  address?: string;
+  latitude?: number;
+  longitude?: number;
+};
+export const businessFormSchema = v.pipe(
+  v.object({
+    isOnline: v.boolean(), // checkbox for online status
+    name: v.pipe(
+      v.string(),
+      v.nonEmpty("errors.name.required@@Please enter the business name.")
+    ),
+    description: v.pipe(
+      v.string(),
+      v.nonEmpty("errors.description.required@@Please enter a description.")
+    ),
+    website: v.pipe(
+      v.any(),
+      emptyToUndefined,
+      v.optional(
+        v.pipe(
+          v.string(),
+          v.url("errors.website.invalid@@Invalid website URL.")
+        )
+      )
+    ),
+    category: v.pipe(
+      v.string(),
+      v.nonEmpty("errors.category.required@@Please select a category.")
+    ),
+    locations: v.array(
+      v.object({
+        city: v.optional(v.string()),
+        address: v.optional(v.string()),
+        latitude: v.optional(v.number()),
+        longitude: v.optional(v.number()),
+      })
+    ),
+  }),
+  // check 1: if online - true , website is required
+  v.check(
+    (data) => !(data.isOnline && !data.website),
+    "errors.website.required@@Website is required for online businesses."
   ),
-  description: v.pipe(
-    v.string(),
-    v.nonEmpty("errors.description.required@@Please enter a description.")
-  ),
-
-  website: v.pipe(
-    v.any(),
-    emptyToUndefined,
-    v.optional(
-      v.pipe(v.string(), v.url("errors.website.invalid@@Invalid website URL."))
-    )
-  ),
-  category: v.pipe(
-    v.string(),
-    v.nonEmpty("errors.category.required@@Please select a category.")
-  ),
-  city: v.pipe(
-    v.string(),
-    v.nonEmpty("errors.city.required@@Please select a city.")
-  ),
-  district: v.optional(v.string()),
-  address: v.pipe(
-    v.string(),
-    v.nonEmpty("errors.address.required@@Please enter the address.")
-  ),
-  latitude: v.optional(v.number()),
-  longitude: v.optional(v.number()),
-});
+  // check 2: if offline or address is specified, city is required
+  v.check(
+    (data) =>
+      data.isOnline ||
+      data.locations.every(
+        (loc: Location) => !loc.address || (loc.address && loc.city)
+      ),
+    "errors.city.required@@City is required for physical locations."
+  )
+);
 
 type FormValues = v.InferOutput<typeof businessFormSchema>;
 type BusinessFormProps = {

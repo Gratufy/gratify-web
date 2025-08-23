@@ -102,3 +102,20 @@ export type BusinessStatus = "pending" | "approved" | "hidden" | "rejected";
 
 export type ScopeReview = "public" | "admin";
 export type BusinessReviewStatus = "pending" | "approved" | "rejected";
+
+export type LocationFormData = {
+  city?: string | null;
+  district?: string | null;
+  address?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+};
+
+export type NewBusinessFormData = {
+  name: string;
+  description: string;
+  website?: string | null;
+  categoryId: string;
+  isOnline: boolean;
+  locations: LocationFormData[];
+};

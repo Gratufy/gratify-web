@@ -15,6 +15,7 @@ import {
   BusinessWithCategoryName,
   BusinessReviewStatus,
   AdminBusinessRow,
+  NewBusinessFormData,
 } from "@/types/business";
 import { isAdmin } from "@/lib/helpers/isAdmin";
 import { userProfiles } from "@/db/schema";
@@ -153,17 +154,7 @@ export async function getBusinessById(
 }
 
 // create business
-type NewBusinessFormData = {
-  name: string;
-  description: string;
-  website?: string | null;
-  categoryId: string;
-  city: string;
-  district?: string | null;
-  address: string;
-  latitude?: number | null;
-  longitude?: number | null;
-};
+
 export async function createBusiness(values: NewBusinessFormData) {
   try {
     const supabase = await createClient();
@@ -191,37 +182,42 @@ export async function createBusiness(values: NewBusinessFormData) {
       profile = updatedProfile;
     }
     //-------
-    // get coordinates
-    // const coords = await getCoordinatesStructured(values.city, values.address);
-    // if (!coords) throw new Error("Address not found");
-    let lat = values.latitude ?? null;
-    let lng = values.longitude ?? null;
-    if (lat == null || lng == null) {
-      //getCoordinatesStructured=checkAddress
-      const coords = await checkAddress(values.city, values.address);
-      if (!coords) throw new Error("Address not found");
-      lat = coords.latitude;
-      lng = coords.longitude;
-    }
     // create new business
     const [newBusiness] = await db
       .insert(businesses)
       .values({
-        ...values,
+        name: values.name,
+        description: values.description,
+        website: values.website ?? null,
+        categoryId: values.categoryId,
         ownerId: user.id, // insert ownerId
       })
       .returning();
-    // add location
-    await db.insert(businessLocations).values({
-      businessId: newBusiness.id,
-      latitude: lat!,
-      longitude: lng!,
-    });
-    // await db.insert(businessLocations).values({
-    //   businessId: newBusiness[0].id,
-    //   latitude: coords.latitude,
-    //   longitude: coords.longitude,
-    // });
+
+    // add all locations
+    for (const loc of values.locations) {
+      let lat = loc.latitude ?? null;
+      let lng = loc.longitude ?? null;
+      // if there is no coordinates but city and address are present
+      if ((lat == null || lng == null) && loc.city && loc.address) {
+        //getCoordinatesStructured=checkAddress
+        const coords = await checkAddress(loc.city, loc.address);
+        if (coords) {
+          lat = coords.latitude;
+          lng = coords.longitude;
+        }
+      }
+      // insert only if есть city and coords (not to add empty)
+      if (loc.city && lat != null && lng != null) {
+        await db.insert(businessLocations).values({
+          businessId: newBusiness.id,
+          city: loc.city ?? null,
+          address: loc.address ?? null,
+          latitude: lat,
+          longitude: lng,
+        });
+      }
+    }
     return {
       business: newBusiness,
       // check if we need profile??????!
@@ -236,7 +232,7 @@ export async function createBusiness(values: NewBusinessFormData) {
 // update business
 export async function updateBusiness(
   id: string,
-  values: Partial<typeof businesses.$inferInsert>
+  values: Partial<NewBusinessFormData>
 ) {
   try {
     const supabase = await createClient();
@@ -244,12 +240,15 @@ export async function updateBusiness(
       data: { user },
     } = await supabase.auth.getUser();
     if (!user) throw new Error("Not authenticated");
+
     const business = await db
       .select()
       .from(businesses)
       .where(eq(businesses.id, id))
       .limit(1);
+
     if (!business.length) throw new Error("Business not found");
+
     const isAdminUser = await isAdmin(user.id);
     if (!isAdminUser && business[0].ownerId !== user.id) {
       throw new Error("Forbidden for non-admin or not owner");
@@ -258,12 +257,10 @@ export async function updateBusiness(
       "categoryId",
       "name",
       "description",
-      "city",
-      "district",
-      "address",
       "website",
     ];
     const allowedFieldsForAdmin = [...allowedFieldsForOwner, "status"];
+
     const allowedFields = isAdminUser
       ? allowedFieldsForAdmin
       : allowedFieldsForOwner;
@@ -283,6 +280,35 @@ export async function updateBusiness(
       })
       .where(eq(businesses.id, id))
       .returning();
+    // update locations: delete old and insert new
+    if (values.locations) {
+      await db
+        .delete(businessLocations)
+        .where(eq(businessLocations.businessId, id));
+
+      for (const loc of values.locations) {
+        let lat = loc.latitude ?? null;
+        let lng = loc.longitude ?? null;
+
+        if ((lat == null || lng == null) && loc.city && loc.address) {
+          const coords = await checkAddress(loc.city, loc.address);
+          if (coords) {
+            lat = coords.latitude;
+            lng = coords.longitude;
+          }
+        }
+
+        if (loc.city || lat != null || lng != null) {
+          await db.insert(businessLocations).values({
+            businessId: id,
+            city: loc.city!,
+            address: loc.address ?? null,
+            latitude: loc.latitude ?? null,
+            longitude: loc.longitude ?? null,
+          });
+        }
+      }
+    }
     return updated[0];
   } catch (error) {
     console.error("Error updating business:", error);

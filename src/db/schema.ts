@@ -9,6 +9,7 @@ import {
   doublePrecision,
   check,
   time,
+  boolean,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 
@@ -41,23 +42,47 @@ export const userProfiles = pgTable("user_profiles", {
 });
 
 //BUSINESS TABLE
+// export const businesses = pgTable("businesses", {
+//   id: uuid("id").defaultRandom().primaryKey(),
+//   ownerId: uuid("owner_id")
+//     .notNull()
+//     .references(() => userProfiles.userId, { onDelete: "cascade" }),
+//   categoryId: uuid("category_id")
+//     .default("11111111-1111-1111-1111-111111111111") // UUID  "Інше"
+//     .notNull(),
+//   name: text("name").notNull(),
+//   description: text("description").notNull(),
+//   city: text("city").notNull(),
+//   district: text("district"),
+//   address: text("address").notNull(),
+//   website: text("website"),
+//   karma: integer("karma").default(0).notNull(),
+//   reviewCount: integer("review_count").default(0).notNull(),
+//   status: businessStatusEnum("status").default("pending").notNull(),
+//   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+//   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+// });
+
 export const businesses = pgTable("businesses", {
   id: uuid("id").defaultRandom().primaryKey(),
   ownerId: uuid("owner_id")
     .notNull()
     .references(() => userProfiles.userId, { onDelete: "cascade" }),
   categoryId: uuid("category_id")
-    .default("11111111-1111-1111-1111-111111111111") // UUID  "Інше"
+    .default("11111111-1111-1111-1111-111111111111") // "Інше"
     .notNull(),
+
   name: text("name").notNull(),
   description: text("description").notNull(),
-  city: text("city").notNull(),
-  district: text("district"),
-  address: text("address").notNull(),
   website: text("website"),
+
+  // main flag
+  isOnline: boolean("is_online").default(false).notNull(),
+
   karma: integer("karma").default(0).notNull(),
   reviewCount: integer("review_count").default(0).notNull(),
   status: businessStatusEnum("status").default("pending").notNull(),
+
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
@@ -92,15 +117,29 @@ export const businessVotes = pgTable(
   (t) => [uniqueIndex("business_user_vote_unique").on(t.userId, t.businessId)]
 );
 // business locations table
+// export const businessLocations = pgTable("business_locations", {
+//   id: uuid("id").defaultRandom().primaryKey(),
+//   businessId: uuid("business_id")
+//     .notNull()
+//     .references(() => businesses.id, {
+//       onDelete: "cascade",
+//     }), //if deleted business, delete locations
+//   latitude: doublePrecision("latitude").notNull(),
+//   longitude: doublePrecision("longitude").notNull(),
+// });
+
 export const businessLocations = pgTable("business_locations", {
   id: uuid("id").defaultRandom().primaryKey(),
   businessId: uuid("business_id")
     .notNull()
-    .references(() => businesses.id, {
-      onDelete: "cascade",
-    }), //if deleted business, delete locations
-  latitude: doublePrecision("latitude").notNull(),
-  longitude: doublePrecision("longitude").notNull(),
+    .references(() => businesses.id, { onDelete: "cascade" }),
+
+  city: text("city").notNull(),
+  // district: text("district"),
+  address: text("address"), // can be  NULL, if only city is specified
+
+  latitude: doublePrecision("latitude"),
+  longitude: doublePrecision("longitude"),
 });
 //business reviews table
 
