@@ -30,6 +30,12 @@ import {
 export type Business = typeof businesses.$inferSelect;
 export type BusinessWithCategoryName = Business & {
   categoryName: string | null;
+  locations: {
+    city: string;
+    address?: string | null;
+    latitude?: number | null;
+    longitude?: number | null;
+  }[];
 };
 export type AdminBusinessRow = Business & {
   filteredReviewCount: number; // dynamic count based on selected status
@@ -92,11 +98,13 @@ export type RenameCategoryInput = {
 
 export type SortBy = "newest" | "mostKarma";
 export type Scope = "public" | "business_user" | "admin";
+export type OnlineFilter = "all" | "online" | "offline";
 export interface GetBusinessesParams {
   city?: string;
   categoryId?: string;
   sortBy?: SortBy;
   scope?: Scope;
+  showOnlineStatus?: OnlineFilter;
 }
 export type BusinessStatus = "pending" | "approved" | "hidden" | "rejected";
 

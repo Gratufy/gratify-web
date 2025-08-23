@@ -10,6 +10,7 @@ import {
 import { businessLocations } from "@/db/schema";
 import { db } from "@/db";
 import { eq, desc, sql, and } from "drizzle-orm";
+import { LocationFormData } from "@/types";
 
 // useBusinessLocation.ts
 export function useBusinessLocation(businessId?: string) {
@@ -45,14 +46,9 @@ export function useCheckAddress() {
 }
 
 // for create and update business
-async function saveBusinessLocations(
+export async function saveBusinessLocations(
   businessId: string,
-  locations: {
-    city: string | null;
-    address?: string | null;
-    latitude?: number | null;
-    longitude?: number | null;
-  }[],
+  locations: LocationFormData[] = [],
   replaceExisting = false
 ) {
   if (replaceExisting) {
@@ -62,23 +58,27 @@ async function saveBusinessLocations(
   }
 
   for (const loc of locations) {
+    const city = loc.city ?? null;
+    const address = loc.address ?? null;
     let lat = loc.latitude ?? null;
     let lng = loc.longitude ?? null;
 
-    if ((lat == null || lng == null) && loc.city && loc.address) {
-      const coords = await checkAddress(loc.city, loc.address);
+    if (!city) continue;
+
+    if ((lat == null || lng == null) && city && address) {
+      const coords = await checkAddress(city, address);
       if (coords) {
         lat = coords.latitude;
         lng = coords.longitude;
       }
     }
 
-    // insert only if there is a city and at least one coordinate
-    if (loc.city && lat != null && lng != null) {
+    // insert only if there is a city
+    if (city) {
       await db.insert(businessLocations).values({
         businessId,
-        city: loc.city,
-        address: loc.address ?? null,
+        city,
+        address,
         latitude: lat,
         longitude: lng,
       });

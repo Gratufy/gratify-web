@@ -27,7 +27,6 @@ import {
 import { useCreateBusiness, useUpdateBusiness } from "@/hooks/useBusinesses";
 import { BusinessUpdate } from "@/types";
 import { useUserStore } from "@/stores/useUserStore";
-//import BusinessMap from "@/components/shared/BusinessMap";
 import { useState } from "react";
 import dynamic from "next/dynamic";
 const BusinessMap = dynamic(() => import("@/components/shared/BusinessMap"), {
@@ -101,10 +100,6 @@ type BusinessFormProps = {
   //onSuccess?: () => void;
 };
 
-// type BusinessFormProps = {
-//   businessId?: string;
-//   defaultValues?: Partial<FormValues>;
-// };
 export function BusinessForm({
   defaultValues,
   businessId,
