@@ -20,7 +20,7 @@ import {
 import { isAdmin } from "@/lib/helpers/isAdmin";
 import { userProfiles } from "@/db/schema";
 import { checkAddress } from "./businessLocation";
-import { saveBusinessLocations } from "@/lib/actions/businessLocation"
+import { saveBusinessLocations } from "@/lib/actions/businessLocation";
 
 const businessSelectFields = {
   id: businesses.id,
@@ -196,6 +196,7 @@ export async function getBusinessById(
 // create business
 
 export async function createBusiness(values: NewBusinessFormData) {
+  console.log("Creating business with values:", values);
   try {
     const supabase = await createClient();
     const {
@@ -228,6 +229,7 @@ export async function createBusiness(values: NewBusinessFormData) {
       .values({
         name: values.name,
         description: values.description,
+        isOnline: values.isOnline,
         website: values.website ?? null,
         categoryId: values.categoryId,
         ownerId: user.id, // insert ownerId

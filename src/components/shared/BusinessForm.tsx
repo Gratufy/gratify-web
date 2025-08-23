@@ -166,6 +166,9 @@ BusinessFormProps) {
     setMapOpenIndex(null);
   }
 
+  console.log("isOnline:", form.getValues("isOnline"));
+  console.log("website:", form.getValues("website"));
+  console.log("name", form.getValues("name"));
   // on Submit
   async function onSubmit(data: FormValues) {
     try {
@@ -318,10 +321,10 @@ BusinessFormProps) {
             <FormItem>
               <FormLabel>Online business</FormLabel>
               <FormControl>
-                <Checkbox
+                <input
+                  type="checkbox"
                   checked={field.value}
-                  onCheckedChange={field.onChange}
-                  ref={field.ref}
+                  onChange={(e) => field.onChange(e.target.checked)}
                 />
               </FormControl>
               <FormMessage />
@@ -332,6 +335,12 @@ BusinessFormProps) {
         <FormField
           control={form.control}
           name="website"
+          // rules={{
+          //   validate: (value) =>
+          //     form.getValues("isOnline") && !value
+          //       ? "Website is required for online businesses."
+          //       : true,
+          // }}
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel>Website</FormLabel>
