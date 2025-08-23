@@ -5,6 +5,7 @@ import { db } from "@/db";
 
 import { businessLocations } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { LocationFormData } from "@/types";
 
 // get business location
 export async function getBusinessLocation(businessId: string) {
@@ -72,4 +73,43 @@ export async function checkAddress(city: string, address: string) {
     // latitude: parseFloat(data[0].lat),
     // longitude: parseFloat(data[0].lon),
   };
+}
+export async function saveBusinessLocations(
+  businessId: string,
+  locations: LocationFormData[] = [],
+  replaceExisting = false
+) {
+  if (replaceExisting) {
+    await db
+      .delete(businessLocations)
+      .where(eq(businessLocations.businessId, businessId));
+  }
+
+  for (const loc of locations) {
+    const city = loc.city ?? null;
+    const address = loc.address ?? null;
+    let lat = loc.latitude ?? null;
+    let lng = loc.longitude ?? null;
+
+    if (!city) continue;
+
+    if ((lat == null || lng == null) && city && address) {
+      const coords = await checkAddress(city, address);
+      if (coords) {
+        lat = coords.latitude;
+        lng = coords.longitude;
+      }
+    }
+
+    // insert only if there is a city
+    if (city) {
+      await db.insert(businessLocations).values({
+        businessId,
+        city,
+        address,
+        latitude: lat,
+        longitude: lng,
+      });
+    }
+  }
 }

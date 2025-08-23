@@ -2,7 +2,7 @@
 
 import * as v from "valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import type { FieldErrors } from "react-hook-form";
 import {
   Form,
@@ -13,22 +13,20 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import CustomSelect from "../ui/CustomSelect";
 import { useBusinessCategories } from "@/hooks/useBusinessCategories";
 import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
-import {
-  useCheckAddress,
-  useBusinessLocation,
-  useUpdateBusinessLocation,
-} from "@/hooks/useBusinessLocation";
+import { useCheckAddress } from "@/hooks/useBusinessLocation";
 
 import { useCreateBusiness, useUpdateBusiness } from "@/hooks/useBusinesses";
 import { BusinessUpdate } from "@/types";
 import { useUserStore } from "@/stores/useUserStore";
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import { saveBusinessLocations } from "@/lib/actions/businessLocation";
 const BusinessMap = dynamic(() => import("@/components/shared/BusinessMap"), {
   ssr: false,
 });
@@ -46,28 +44,14 @@ type Location = {
 export const businessFormSchema = v.pipe(
   v.object({
     isOnline: v.boolean(), // checkbox for online status
-    name: v.pipe(
-      v.string(),
-      v.nonEmpty("errors.name.required@@Please enter the business name.")
-    ),
-    description: v.pipe(
-      v.string(),
-      v.nonEmpty("errors.description.required@@Please enter a description.")
-    ),
+    name: v.pipe(v.string(), v.nonEmpty("Please enter a name")),
+    description: v.pipe(v.string(), v.nonEmpty("Please enter a description")),
     website: v.pipe(
       v.any(),
       emptyToUndefined,
-      v.optional(
-        v.pipe(
-          v.string(),
-          v.url("errors.website.invalid@@Invalid website URL.")
-        )
-      )
+      v.optional(v.pipe(v.string(), v.url("Invalid website URL")))
     ),
-    category: v.pipe(
-      v.string(),
-      v.nonEmpty("errors.category.required@@Please select a category.")
-    ),
+    category: v.pipe(v.string(), v.nonEmpty("Please select a category.")),
     locations: v.array(
       v.object({
         city: v.optional(v.string()),
@@ -80,7 +64,7 @@ export const businessFormSchema = v.pipe(
   // check 1: if online - true , website is required
   v.check(
     (data) => !(data.isOnline && !data.website),
-    "errors.website.required@@Website is required for online businesses."
+    "Website is required for online businesses."
   ),
   // check 2: if offline or address is specified, city is required
   v.check(
@@ -89,11 +73,12 @@ export const businessFormSchema = v.pipe(
       data.locations.every(
         (loc: Location) => !loc.address || (loc.address && loc.city)
       ),
-    "errors.city.required@@City is required for physical locations."
+    "City is required for physical locations."
   )
 );
 
 type FormValues = v.InferOutput<typeof businessFormSchema>;
+
 type BusinessFormProps = {
   businessId?: string; // if edit
   defaultValues?: FormValues;
@@ -112,7 +97,7 @@ BusinessFormProps) {
   } = useBusinessCategories();
   const createBusinessMutation = useCreateBusiness();
   const updateBusinessMutation = useUpdateBusiness();
-  const updateLocationMutation = useUpdateBusinessLocation();
+
   const checkAddressMutation = useCheckAddress();
 
   const form = useForm<FormValues>({
@@ -122,103 +107,113 @@ BusinessFormProps) {
       description: "",
       website: "",
       category: "",
-      city: "",
-      district: "",
-      address: "",
-      latitude: undefined,
-      longitude: undefined,
+
+      isOnline: false,
+      locations: [],
     },
   });
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "locations",
+  });
+
   // local state for check
-  const [mapOpen, setMapOpen] = useState(false);
+  const [mapOpenIndex, setMapOpenIndex] = useState<number | null>(null);
   const [tempLatLng, setTempLatLng] = useState<{
     lat: number;
     lng: number;
   } | null>(null);
-  const [locationConfirmed, setLocationConfirmed] = useState(false);
-
+  // const [confirmedIndexes, setConfirmedIndexes] = useState<number[]>([]);
+  // -------------
   // if editing and you want to load the saved location by button - you can pull it here
-  const { data: existingLoc } = useBusinessLocation(businessId ?? "");
+  //const { data: existingLoc } = useBusinessLocation(businessId ?? "");
 
-  // open map and check location
-  async function handleOpenCheck() {
-    const city = form.getValues("city");
-    const address = form.getValues("address");
-
-    if (businessId && existingLoc) {
-      // editing : if there are saved coordinates - show them
-      setTempLatLng({ lat: existingLoc.latitude, lng: existingLoc.longitude });
-      setMapOpen(true);
-      setLocationConfirmed(false);
+  // open map and check location for a specific location index
+  async function handleOpenCheck(index: number) {
+    const loc = form.getValues(`locations.${index}`);
+    if (!loc.city) {
+      alert("Please specify a city first");
       return;
     }
 
-    if (!city || !address) {
-      alert("First specify the city and address");
+    if (!loc.address) {
+      alert("Please specify an address");
       return;
     }
+    const res = await checkAddressMutation.mutateAsync({
+      city: loc.city,
+      address: loc.address,
+    });
 
-    const res = await checkAddressMutation.mutateAsync({ city, address });
     if (!res) {
-      alert("Address not found");
+      alert("Address not found. Please refine your input.");
       return;
     }
     setTempLatLng({ lat: res.latitude, lng: res.longitude });
-    setMapOpen(true);
-    setLocationConfirmed(false);
+    setMapOpenIndex(index);
   }
   // to confirm location
   function handleConfirmLocation() {
-    if (!tempLatLng) return;
-    form.setValue("latitude", tempLatLng.lat, { shouldValidate: true });
-    form.setValue("longitude", tempLatLng.lng, { shouldValidate: true });
-    setLocationConfirmed(true);
-    setMapOpen(false);
+    if (tempLatLng === null || mapOpenIndex === null) return;
+    form.setValue(`locations.${mapOpenIndex}.latitude`, tempLatLng.lat, {
+      shouldValidate: true,
+    });
+    form.setValue(`locations.${mapOpenIndex}.longitude`, tempLatLng.lng, {
+      shouldValidate: true,
+    });
+
+    setMapOpenIndex(null);
   }
 
   // on Submit
   async function onSubmit(data: FormValues) {
     try {
-      if (!data.latitude || !data.longitude) {
-        alert("Please check and confirm the location before saving.");
-        return;
-      }
+      const locationsWithCoords = await Promise.all(
+        data.locations.map(async (loc) => {
+          // if coords already confirmed (in  "Check") — use them
+          if (loc.latitude != null && loc.longitude != null) {
+            return loc;
+          }
+
+          // if there is city and address find coords
+          if (loc.city && loc.address) {
+            const coords = await checkAddressMutation.mutateAsync({
+              city: loc.city,
+              address: loc.address,
+            });
+            return {
+              ...loc,
+              latitude: coords?.latitude ?? null,
+              longitude: coords?.longitude ?? null,
+            };
+          }
+
+          // if there is only city or nothing — leave as is
+          return loc;
+        })
+      );
       if (businessId) {
-        // editing
+        // update existing business
         // Prepare data for the database
         const updateData: BusinessUpdate = {
+          isOnline: data.isOnline,
           name: data.name,
           description: data.description,
           website: data.website ?? null,
           categoryId: data.category,
-          city: data.city,
-          district: data.district ?? null,
-          address: data.address,
         };
 
-        const updatedBusiness = await updateBusinessMutation.mutateAsync({
+        await updateBusinessMutation.mutateAsync({
           id: businessId,
           values: updateData,
         });
 
-        // then update location
-        await updateLocationMutation.mutateAsync({
-          businessId,
-          latitude: data.latitude,
-          longitude: data.longitude,
-        });
-
+        // update all locations at once
+        await saveBusinessLocations(businessId, locationsWithCoords, true);
         alert("Business edited successfully!");
         // Reset form
-        form.reset({
-          name: updatedBusiness.name,
-          description: updatedBusiness.description,
-          website: updatedBusiness.website ?? undefined, // null → undefined
-          category: updatedBusiness.categoryId, // categoryId → category
-          city: updatedBusiness.city,
-          district: updatedBusiness.district ?? undefined,
-          address: updatedBusiness.address,
-        });
+        form.reset(defaultValues);
       } else {
         // Creating a new business
         const newBusinessData = {
@@ -226,11 +221,8 @@ BusinessFormProps) {
           description: data.description,
           website: data.website ?? null,
           categoryId: data.category,
-          city: data.city,
-          district: data.district ?? null,
-          address: data.address,
-          latitude: data.latitude,
-          longitude: data.longitude,
+          locations: locationsWithCoords,
+          isOnline: data.isOnline,
         };
         //{ business, profile }
         const { profile } = await createBusinessMutation.mutateAsync(
@@ -241,8 +233,8 @@ BusinessFormProps) {
         alert("Business created successfully!");
         // Reset form
         form.reset();
-        setTempLatLng(null);
-        setLocationConfirmed(false);
+        // setTempLatLng(null);
+        // setLocationConfirmed(false);
       }
 
       // If we need to do something on success
@@ -257,6 +249,7 @@ BusinessFormProps) {
   ) => {
     console.log("❌ Form Error", errors);
   };
+
   return (
     <Form {...form}>
       <form
@@ -302,28 +295,6 @@ BusinessFormProps) {
             </FormItem>
           )}
         />
-        {/** City Field */}
-        <FormField
-          control={form.control}
-          name="city"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>City</FormLabel>
-              <FormControl>
-                <CustomSelect
-                  value={field.value}
-                  onChange={field.onChange}
-                  options={UKRAINE_REGIONAL_CENTERS}
-                  getOptionValue={(option) => option.value}
-                  getOptionLabel={(option) => option.label}
-                  placeholder="Оберіть місто"
-                  error={form.formState.errors.city?.message as string}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         {/* Description Field */}
         <FormField
           control={form.control}
@@ -335,6 +306,24 @@ BusinessFormProps) {
                 <Input placeholder="shadcn" {...field} />
               </FormControl>
               <FormDescription>Description.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* Online checkbox */}
+        <FormField
+          control={form.control}
+          name="isOnline"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Online business</FormLabel>
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  ref={field.ref}
+                />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -354,62 +343,77 @@ BusinessFormProps) {
             </FormItem>
           )}
         />
-        {/* District Field */}
-        <FormField
-          control={form.control}
-          name="district"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>District</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>Your district.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {/* Address Field */}
-        <FormField
-          control={form.control}
-          name="address"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Address</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>Your address.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {/* Кнопка проверки локации */}
-        <div className="flex items-center gap-3">
+        {/* ------ */}
+        {/* location*/}
+        <div className="space-y-4">
+          {fields.map((field, index) => (
+            <div key={field.id} className="p-4 border rounded space-y-2">
+              <FormField
+                control={form.control}
+                name={`locations.${index}.city`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>City</FormLabel>
+                    <FormControl>
+                      <CustomSelect
+                        value={field.value}
+                        onChange={field.onChange}
+                        options={UKRAINE_REGIONAL_CENTERS}
+                        getOptionValue={(o) => o.value}
+                        getOptionLabel={(o) => o.label}
+                        placeholder="Оберіть місто"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={`locations.${index}.address`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Address (optional)</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="Address" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {field.address && (
+                <Button
+                  type="button"
+                  variant="secondary"
+                  // onClick={() => checkAddress(index)}
+                  onClick={() => handleOpenCheck(index)}
+                  disabled={checkAddressMutation.isPending}
+                >
+                  {checkAddressMutation.isPending
+                    ? "Checking..."
+                    : "Check location"}
+                </Button>
+              )}
+              <Button
+                type="button"
+                variant="destructive"
+                onClick={() => remove(index)}
+              >
+                Remove location
+              </Button>
+            </div>
+          ))}
+
           <Button
             type="button"
-            variant="secondary"
-            onClick={handleOpenCheck}
-            disabled={checkAddressMutation.isPending}
+            onClick={() => append({ city: "", address: "" })}
           >
-            {checkAddressMutation.isPending ? "Checking..." : "Check location"}
+            Add location
           </Button>
-
-          {locationConfirmed &&
-          form.getValues("latitude") &&
-          form.getValues("longitude") ? (
-            <span className="text-sm text-muted-foreground">
-              Location confirmed: {form.getValues("latitude")?.toFixed(6)},{" "}
-              {form.getValues("longitude")?.toFixed(6)}
-            </span>
-          ) : (
-            <span className="text-sm text-muted-foreground">
-              Location not confirmed
-            </span>
-          )}
         </div>
+        {/* ------ */}
         {/* Map to check location- Opened with Btn */}
-        {mapOpen && tempLatLng && (
+        {mapOpenIndex !== null && tempLatLng && (
           <div className="rounded-xl border p-3 space-y-3">
             <BusinessMap
               lat={tempLatLng.lat}
@@ -426,17 +430,14 @@ BusinessFormProps) {
               <Button
                 type="button"
                 variant="ghost"
-                onClick={() => setMapOpen(false)}
+                onClick={() => setMapOpenIndex(null)}
               >
                 Cancel
               </Button>
-              <div className="ml-auto text-sm text-muted-foreground">
-                Current: {tempLatLng.lat.toFixed(6)},{" "}
-                {tempLatLng.lng.toFixed(6)}
-              </div>
             </div>
           </div>
         )}
+
         <Button type="submit">Submit</Button>
       </form>
     </Form>
