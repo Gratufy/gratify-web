@@ -15,55 +15,37 @@ import {
   BusinessWithCategoryName,
   BusinessReviewStatus,
   AdminBusinessRow,
+  NewBusinessFormData,
 } from "@/types/business";
 import { isAdmin } from "@/lib/helpers/isAdmin";
 import { userProfiles } from "@/db/schema";
 import { checkAddress } from "./businessLocation";
+import { saveBusinessLocations } from "@/lib/actions/businessLocation";
 
 const businessSelectFields = {
   id: businesses.id,
   name: businesses.name,
-  city: businesses.city,
   categoryId: businesses.categoryId,
+  //join
   categoryName: businessCategories.name,
+  //-----
+  isOnline: businesses.isOnline,
   description: businesses.description,
   website: businesses.website,
-  district: businesses.district,
-  address: businesses.address,
   karma: businesses.karma,
   status: businesses.status,
   createdAt: businesses.createdAt,
   updatedAt: businesses.updatedAt,
   ownerId: businesses.ownerId,
   reviewCount: businesses.reviewCount,
+  //join
+  city: businessLocations.city,
+  address: businessLocations.address,
+  latitude: businessLocations.latitude,
+  longitude: businessLocations.longitude,
+  //----
 };
-// get coordinates by city and address
-export async function getCoordinatesStructured(city: string, address: string) {
-  const url = new URL("https://nominatim.openstreetmap.org/search");
-  url.searchParams.set("format", "json");
-  url.searchParams.set("limit", "1");
-  url.searchParams.set("addressdetails", "1");
-  url.searchParams.set("street", address);
-  url.searchParams.set("city", city);
-  url.searchParams.set("country", "Ukraine");
 
-  const response = await fetch(url.toString(), {
-    headers: {
-      "User-Agent": "MyApp/1.0 (myemail@example.com)",
-    },
-  });
-
-  if (!response.ok) throw new Error("Nominatim request failed");
-  const data = await response.json();
-  if (!data[0]) return null;
-
-  return {
-    latitude: parseFloat(data[0].lat),
-    longitude: parseFloat(data[0].lon),
-    displayName: data[0].display_name,
-    address: data[0].address,
-  };
-}
 // get businesses with filters
 export async function getBusinesses(
   params: GetBusinessesParams
@@ -73,6 +55,7 @@ export async function getBusinesses(
     categoryId = "__all__",
     sortBy = "newest",
     scope = "public",
+    showOnlineStatus = "all",
   } = params ?? {};
 
   const supabase = await createClient();
@@ -81,14 +64,17 @@ export async function getBusinesses(
   } = await supabase.auth.getUser();
 
   const conditions = [];
-
-  if (city && city !== "__all__") {
-    conditions.push(eq(businesses.city, city));
-  }
-
+  //category filter
   if (categoryId && categoryId !== "__all__")
     conditions.push(eq(businesses.categoryId, categoryId));
 
+  //  online/offline
+  if (showOnlineStatus === "online") {
+    conditions.push(eq(businesses.isOnline, true));
+  } else if (showOnlineStatus === "offline") {
+    conditions.push(eq(businesses.isOnline, false));
+  }
+  // scope
   if (scope === "public") {
     conditions.push(eq(businesses.status, "approved"));
   } else if (scope === "business_user") {
@@ -96,7 +82,6 @@ export async function getBusinesses(
     conditions.push(eq(businesses.ownerId, user.id));
   } else if (scope === "admin") {
     if (!user) throw new Error("Not authenticated");
-
     const isAdminUser = await isAdmin(user.id);
     if (!isAdminUser) {
       throw new Error("Forbidden for non-admin users");
@@ -115,15 +100,50 @@ export async function getBusinesses(
   }
 
   try {
-    const results = await db
+    const rows = await db
       .select(businessSelectFields)
       .from(businesses)
       .leftJoin(
         businessCategories,
         eq(businesses.categoryId, businessCategories.categoryId)
       )
+      .leftJoin(
+        businessLocations,
+        eq(businesses.id, businessLocations.businessId)
+      )
       .where(whereClause)
       .orderBy(orderBy);
+
+    // Map businesses by ID
+    const businessMap = new Map<string, BusinessWithCategoryName>();
+    for (const row of rows) {
+      if (!businessMap.has(row.id)) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { city, address, latitude, longitude, ...businessData } = row;
+
+        // const _ = { city, address, latitude, longitude };
+        businessMap.set(row.id, {
+          ...businessData,
+          locations: [],
+        });
+      }
+
+      if (row.city) {
+        businessMap.get(row.id)?.locations.push({
+          city: row.city,
+          address: row.address ?? null,
+          latitude: row.latitude ?? null,
+          longitude: row.longitude ?? null,
+        });
+      }
+    }
+
+    let results = Array.from(businessMap.values());
+    if (city && city !== "__all__") {
+      results = results.filter(
+        (b) => b.isOnline || b.locations.some((loc) => loc.city === city)
+      );
+    }
 
     return results;
   } catch (error) {
@@ -136,16 +156,37 @@ export async function getBusinessById(
   id: string
 ): Promise<BusinessWithCategoryName | null> {
   try {
-    const data = await db
+    const rows = await db
       .select(businessSelectFields)
       .from(businesses)
       .leftJoin(
         businessCategories,
         eq(businesses.categoryId, businessCategories.categoryId)
       )
-      .where(eq(businesses.id, id))
-      .limit(1);
-    return data[0] || null;
+      .leftJoin(
+        businessLocations,
+        eq(businesses.id, businessLocations.businessId)
+      )
+      .where(eq(businesses.id, id));
+
+    if (!rows.length) return null;
+    const businessData = {
+      ...rows[0],
+      locations: [],
+    } as BusinessWithCategoryName;
+
+    for (const row of rows) {
+      if (row.city) {
+        businessData.locations.push({
+          city: row.city,
+          address: row.address ?? null,
+          latitude: row.latitude ?? null,
+          longitude: row.longitude ?? null,
+        });
+      }
+    }
+
+    return businessData;
   } catch (error) {
     console.error("Error fetching business:", error);
     throw new Error("Failed to fetch business");
@@ -153,18 +194,9 @@ export async function getBusinessById(
 }
 
 // create business
-type NewBusinessFormData = {
-  name: string;
-  description: string;
-  website?: string | null;
-  categoryId: string;
-  city: string;
-  district?: string | null;
-  address: string;
-  latitude?: number | null;
-  longitude?: number | null;
-};
+
 export async function createBusiness(values: NewBusinessFormData) {
+  console.log("Creating business with values:", values);
   try {
     const supabase = await createClient();
     const {
@@ -191,37 +223,21 @@ export async function createBusiness(values: NewBusinessFormData) {
       profile = updatedProfile;
     }
     //-------
-    // get coordinates
-    // const coords = await getCoordinatesStructured(values.city, values.address);
-    // if (!coords) throw new Error("Address not found");
-    let lat = values.latitude ?? null;
-    let lng = values.longitude ?? null;
-    if (lat == null || lng == null) {
-      //getCoordinatesStructured=checkAddress
-      const coords = await checkAddress(values.city, values.address);
-      if (!coords) throw new Error("Address not found");
-      lat = coords.latitude;
-      lng = coords.longitude;
-    }
     // create new business
     const [newBusiness] = await db
       .insert(businesses)
       .values({
-        ...values,
+        name: values.name,
+        description: values.description,
+        isOnline: values.isOnline,
+        website: values.website ?? null,
+        categoryId: values.categoryId,
         ownerId: user.id, // insert ownerId
       })
       .returning();
-    // add location
-    await db.insert(businessLocations).values({
-      businessId: newBusiness.id,
-      latitude: lat!,
-      longitude: lng!,
-    });
-    // await db.insert(businessLocations).values({
-    //   businessId: newBusiness[0].id,
-    //   latitude: coords.latitude,
-    //   longitude: coords.longitude,
-    // });
+
+    // add all locations
+    await saveBusinessLocations(newBusiness.id, values.locations ?? []);
     return {
       business: newBusiness,
       // check if we need profile??????!
@@ -236,7 +252,7 @@ export async function createBusiness(values: NewBusinessFormData) {
 // update business
 export async function updateBusiness(
   id: string,
-  values: Partial<typeof businesses.$inferInsert>
+  values: Partial<NewBusinessFormData>
 ) {
   try {
     const supabase = await createClient();
@@ -244,26 +260,26 @@ export async function updateBusiness(
       data: { user },
     } = await supabase.auth.getUser();
     if (!user) throw new Error("Not authenticated");
-    const business = await db
+
+    const existing = await db
       .select()
       .from(businesses)
       .where(eq(businesses.id, id))
       .limit(1);
-    if (!business.length) throw new Error("Business not found");
+    if (!existing.length) throw new Error("Business not found");
+
     const isAdminUser = await isAdmin(user.id);
-    if (!isAdminUser && business[0].ownerId !== user.id) {
+    if (!isAdminUser && existing[0].ownerId !== user.id) {
       throw new Error("Forbidden for non-admin or not owner");
     }
     const allowedFieldsForOwner: (keyof typeof businesses.$inferInsert)[] = [
       "categoryId",
       "name",
       "description",
-      "city",
-      "district",
-      "address",
       "website",
     ];
     const allowedFieldsForAdmin = [...allowedFieldsForOwner, "status"];
+
     const allowedFields = isAdminUser
       ? allowedFieldsForAdmin
       : allowedFieldsForOwner;
@@ -272,18 +288,28 @@ export async function updateBusiness(
         allowedFields.includes(key as keyof typeof businesses.$inferInsert)
       )
     );
-    if (Object.keys(filteredValues).length === 0) {
+    if (Object.keys(filteredValues).length === 0 && !values.locations) {
       throw new Error("No valid fields to update");
     }
-    const updated = await db
-      .update(businesses)
-      .set({
-        ...filteredValues,
-        updatedAt: new Date(),
-      })
-      .where(eq(businesses.id, id))
-      .returning();
-    return updated[0];
+
+    let updatedBusiness = existing[0];
+    if (Object.keys(filteredValues).length > 0) {
+      const [updated] = await db
+        .update(businesses)
+        .set({
+          ...filteredValues,
+          updatedAt: new Date(),
+        })
+        .where(eq(businesses.id, id))
+        .returning();
+      updatedBusiness = updated;
+    }
+
+    // update locations: delete old and insert new
+    if (values.locations) {
+      await saveBusinessLocations(id, values.locations, true);
+    }
+    return updatedBusiness;
   } catch (error) {
     console.error("Error updating business:", error);
     throw new Error("Failed to update business");
@@ -317,10 +343,11 @@ export async function deleteBusiness(id: string) {
   }
 }
 
-//
+//for admin
 export async function getBusinessesWithReviewStatus(
   reviewStatus?: BusinessReviewStatus,
-  categoryId?: string
+  categoryId?: string,
+  city?: string
 ): Promise<AdminBusinessRow[]> {
   const supabase = await createClient();
   const {
@@ -336,16 +363,15 @@ export async function getBusinessesWithReviewStatus(
     categoryId ? eq(businesses.categoryId, categoryId) : undefined,
   ].filter(Boolean);
   // businesses with matching review status and category
-  const businessesRows = await db
+  const rows = await db
     .select({
       id: businesses.id,
       name: businesses.name,
-      city: businesses.city,
+      isOnline: businesses.isOnline,
       categoryId: businesses.categoryId,
       description: businesses.description,
       website: businesses.website,
-      district: businesses.district,
-      address: businesses.address,
+
       karma: businesses.karma,
       status: businesses.status,
       createdAt: businesses.createdAt,
@@ -355,11 +381,21 @@ export async function getBusinessesWithReviewStatus(
 
       // dynamic review count
       filteredReviewCount: sql<number>`COUNT(${businessReviews.id})`,
+      city: businessLocations.city, // to filter by city
     })
     .from(businesses)
     .leftJoin(businessReviews, eq(businesses.id, businessReviews.businessId))
+    .leftJoin(
+      businessLocations,
+      eq(businesses.id, businessLocations.businessId)
+    )
     .where(conditions.length ? and(...conditions) : undefined)
-    .groupBy(businesses.id);
+    .groupBy(businesses.id, businessLocations.city);
 
-  return businessesRows;
+  // if city filter
+  let results = rows;
+  if (city && city !== "__all__") {
+    results = rows.filter((b) => b.isOnline || b.city === city);
+  }
+  return results;
 }

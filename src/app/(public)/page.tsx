@@ -81,7 +81,7 @@ export default function PublicHome() {
                 className="mb-2 p-2 border border-gray-300 rounded-4xl w-160 flex flex-col items-center justify-center"
               >
                 <p>name: {b.name}</p>
-                <p>city: {b.city}</p>
+                {/* <p>city: {b.city}</p> */}
                 <p>category: {b.categoryName}</p>
                 <p>status: {b.status}</p>
                 <p>review : {b.reviewCount}</p>
