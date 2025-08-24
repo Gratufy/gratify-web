@@ -51,6 +51,14 @@ export const businessFormSchema = v.pipe(
       emptyToUndefined,
       v.optional(v.pipe(v.string(), v.url("Invalid website URL")))
     ),
+    // website: v.union([
+    //   v.undefined_(),
+    //   v.pipe(
+    //     v.string(),
+    //     v.url("Invalid website URL"),
+    //     v.nonEmpty("Website is required for online businesses.")
+    //   ),
+    //]),
     category: v.pipe(v.string(), v.nonEmpty("Please select a category.")),
     locations: v.array(
       v.object({
@@ -62,18 +70,57 @@ export const businessFormSchema = v.pipe(
     ),
   }),
   // check 1: if online - true , website is required
-  v.check(
-    (data) => !(data.isOnline && !data.website),
-    "Website is required for online businesses."
+  v.forward(
+    v.partialCheck(
+      [["isOnline"], ["website"]],
+      (data) => {
+        // if online but no website -> error
+        return !(data.isOnline && !data.website);
+      },
+      "Website is required for online businesses."
+    ),
+    ["website"]
   ),
+
   // check 2: if offline or address is specified, city is required
-  v.check(
-    (data) =>
-      data.isOnline ||
-      data.locations.every(
-        (loc: Location) => !loc.address || (loc.address && loc.city)
-      ),
-    "City is required for physical locations."
+  // v.forward(
+  //   v.partialCheck(
+  //     [["isOnline"], ["locations"]],
+  //     (data) => {
+  //       if (data.isOnline) return true; // онлайн → не проверяем
+  //       // офлайн → у каждой локации, где есть адрес, должен быть city
+  //       return data.locations.every(
+  //         (loc: Location) => !loc.address || (loc.address && loc.city)
+  //       );
+  //     },
+  //     "City is required for physical locations."
+  //   ),
+  //   ["locations"]
+  // )
+  // v.check(
+  //   (data) =>
+  //     data.isOnline ||
+  //     (data.locations.length > 0 &&
+  //       data.locations.every((loc) => loc.city && loc.city.trim() !== "")),
+  //   "Offline businesses must have at least one city specified."
+  // )
+  v.forward(
+    v.partialCheck(
+      [["isOnline"], ["locations"]],
+      (data) => {
+        if (data.isOnline) return true; // онлайн → не проверяем
+
+        // офлайн → должна быть хотя бы одна локация с городом
+        return (
+          data.locations.length > 0 &&
+          data.locations.every(
+            (loc: Location) => loc.city && loc.city.trim() !== ""
+          )
+        );
+      },
+      "At least one location with a city is required for offline businesses."
+    ),
+    ["isOnline"]
   )
 );
 
@@ -166,9 +213,6 @@ BusinessFormProps) {
     setMapOpenIndex(null);
   }
 
-  console.log("isOnline:", form.getValues("isOnline"));
-  console.log("website:", form.getValues("website"));
-  console.log("name", form.getValues("name"));
   // on Submit
   async function onSubmit(data: FormValues) {
     try {
@@ -390,7 +434,7 @@ BusinessFormProps) {
                   </FormItem>
                 )}
               />
-              {field.address && (
+              {field.address && field.address.trim() !== "" && (
                 <Button
                   type="button"
                   variant="secondary"
