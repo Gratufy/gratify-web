@@ -18,7 +18,7 @@ export default function BusinessEditClient({ id, href }: Props) {
   return (
     <>
       <BackButton href={href} />
-      <BusinessForm
+      {/* <BusinessForm
         businessId={id}
         defaultValues={{
           name: data.name,
@@ -29,7 +29,7 @@ export default function BusinessEditClient({ id, href }: Props) {
           district: data.district ?? "",
           address: data.address,
         }}
-      />
+      /> */}
     </>
   );
 }

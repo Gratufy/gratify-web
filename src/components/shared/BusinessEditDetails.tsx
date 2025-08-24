@@ -32,7 +32,7 @@ function BusinessEditDetails({ id, href }: Props) {
           </h1>
           <div className="flex flex-col items-center justify-center  p-4">
             <p className="text-2xl mb-4">Name: {data.name}</p>
-            <p className="text-2xl mb-4">City: {data.city}</p>
+            {/* <p className="text-2xl mb-4">City: {data.city}</p> */}
 
             <p className="text-2xl ">Category: {data.categoryName}</p>
             <p className="text-2xl ">Status: {data.status}</p>

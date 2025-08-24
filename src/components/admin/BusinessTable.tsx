@@ -43,7 +43,7 @@ const BusinessTable = ({ initialData }: BusinessTableProps) => {
             <li key={b.id}>
               <div className="mb-2 px-4 py-2 border border-gray-300 rounded-xl flex gap-8 items-center justify-center">
                 <p className="flex-1/7">{b.name}</p>
-                <p className="flex-1/7">{b.city}</p>
+                {/* <p className="flex-1/7">{b.city}</p> */}
                 <p className="flex-1/7">
                   {status}: {b.filteredReviewCount}
                 </p>
