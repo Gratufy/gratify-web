@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import * as v from "valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { useForm, useFieldArray } from "react-hook-form";
@@ -120,7 +122,7 @@ export const businessFormSchema = v.pipe(
       },
       "At least one location with a city is required for offline businesses."
     ),
-    ["isOnline"]
+    ["locations"]
   )
 );
 
@@ -137,6 +139,8 @@ export function BusinessForm({
   businessId,
 }: //onSuccess,
 BusinessFormProps) {
+  const router = useRouter();
+
   const {
     categories,
     // isLoading: isCategoriesLoading,
@@ -171,6 +175,8 @@ BusinessFormProps) {
     lat: number;
     lng: number;
   } | null>(null);
+
+  //const addressWatch = form.watch(`locations.${mapOpenIndex}.address`);
   // const [confirmedIndexes, setConfirmedIndexes] = useState<number[]>([]);
   // -------------
   // if editing and you want to load the saved location by button - you can pull it here
@@ -197,6 +203,8 @@ BusinessFormProps) {
       alert("Address not found. Please refine your input.");
       return;
     }
+    console.log("coords", res.latitude, res.longitude);
+    console.log("index", index);
     setTempLatLng({ lat: res.latitude, lng: res.longitude });
     setMapOpenIndex(index);
   }
@@ -286,6 +294,7 @@ BusinessFormProps) {
 
       // If we need to do something on success
       // onSuccess?.();
+      router.push("/dashboard/business");
     } catch (error) {
       console.error("Error creating/updating business:", error);
       alert("Something went wrong");
@@ -397,8 +406,13 @@ BusinessFormProps) {
           )}
         />
         {/* ------ */}
+        {form.formState.errors.locations && (
+          <div className="p-2 mb-4 text-red-600 bg-red-100 rounded">
+            {form.formState.errors.locations.message}
+          </div>
+        )}
         {/* location*/}
-        <div className="space-y-4">
+        <div className="space-y-4 w-full">
           {fields.map((field, index) => (
             <div key={field.id} className="p-4 border rounded space-y-2">
               <FormField
@@ -434,19 +448,20 @@ BusinessFormProps) {
                   </FormItem>
                 )}
               />
-              {field.address && field.address.trim() !== "" && (
-                <Button
-                  type="button"
-                  variant="secondary"
-                  // onClick={() => checkAddress(index)}
-                  onClick={() => handleOpenCheck(index)}
-                  disabled={checkAddressMutation.isPending}
-                >
-                  {checkAddressMutation.isPending
-                    ? "Checking..."
-                    : "Check location"}
-                </Button>
-              )}
+              {/* {`locations.${index}.address` &&
+                `locations.${index}.address`.trim() !== "" && ( */}
+              <Button
+                type="button"
+                variant="secondary"
+                // onClick={() => checkAddress(index)}
+                onClick={() => handleOpenCheck(index)}
+                disabled={checkAddressMutation.isPending}
+              >
+                {checkAddressMutation.isPending
+                  ? "Checking..."
+                  : "Check location"}
+              </Button>
+              {/* )} */}
               <Button
                 type="button"
                 variant="destructive"
@@ -459,7 +474,10 @@ BusinessFormProps) {
 
           <Button
             type="button"
-            onClick={() => append({ city: "", address: "" })}
+            onClick={() => {
+              append({ city: "", address: "" });
+              setMapOpenIndex(null);
+            }}
           >
             Add location
           </Button>
@@ -467,7 +485,7 @@ BusinessFormProps) {
         {/* ------ */}
         {/* Map to check location- Opened with Btn */}
         {mapOpenIndex !== null && tempLatLng && (
-          <div className="rounded-xl border p-3 space-y-3">
+          <div className="rounded-xl border p-3 space-y-3 w-full">
             <BusinessMap
               lat={tempLatLng.lat}
               lng={tempLatLng.lng}
