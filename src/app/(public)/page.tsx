@@ -97,7 +97,11 @@ export default function PublicHome() {
               </li>
             ))}
           </ul>
-          <BusinessMapAll businesses={businesses} className="w-full" />
+          <BusinessMapAll
+            businesses={businesses}
+            className="w-full"
+            selectedCity={city}
+          />
         </>
       ) : (
         <p className="text-2xl"> Нема бізнесів</p>
