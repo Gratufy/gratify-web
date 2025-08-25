@@ -20,7 +20,7 @@ import {
 } from "@/types/business";
 import { isAdmin } from "@/lib/helpers/isAdmin";
 import { userProfiles } from "@/db/schema";
-import { checkAddress } from "./businessLocation";
+//import { checkAddress } from "./businessLocation";
 import { saveBusinessLocations } from "@/lib/actions/businessLocation";
 
 function filterByCityAndOnline(

@@ -13,9 +13,12 @@ import { OnlineFilter, SortBy } from "@/types";
 import OnlineStatusFilter from "@/components/shared/OnlineStatusFilter";
 import BusinessCardShot from "@/components/shared/BusinessCardShot";
 
-const BusinessMap = dynamic(() => import("@/components/shared/BusinessMap"), {
-  ssr: false,
-});
+const BusinessMapAll = dynamic(
+  () => import("@/components/shared/BusinessMapAll"),
+  {
+    ssr: false,
+  }
+);
 
 export default function PublicHome() {
   const user = useUserStore((s) => s.profile);
@@ -40,9 +43,7 @@ export default function PublicHome() {
     showOnlineStatus,
     sortBy,
   });
-  // if (isBusinessesLoading || isCategoriesLoading) return <p>Loading...</p>;
-  // if (isBusinessesError || isCategoriesError)
-  //   return <p>Ошибка: {error?.message}</p>;
+
   const categoriesWithAll = [
     { categoryId: "__all__", name: "Всі" }, //index "__all__" for   "всi"
     ...(categories || []),
@@ -67,7 +68,7 @@ export default function PublicHome() {
         label="Категорія"
         placeholder="Оберіть категорію"
       />
-      {/* <p>Обрана категорія: {categoryId || "—"}</p> */}
+
       <CustomSelect
         label="Місто"
         value={city}
@@ -91,30 +92,12 @@ export default function PublicHome() {
         <>
           <ul className="w-full justify-center items-center flex flex-col">
             {businesses.map((b) => (
-              // <li
-              //   key={b.id}
-              //   className="mb-2 p-2 border border-gray-300 rounded-4xl w-160 flex flex-col items-center justify-center"
-              // >
-              //   <p>name: {b.name}</p>
-              //   {/* <p>city: {b.city}</p> */}
-              //   <p>category: {b.categoryName}</p>
-              //   <p>status: {b.status}</p>
-              //   <p>review : {b.reviewCount}</p>
-              //   {/* karma */}
-              //   <Karma businessId={b.id} />
-              //   <Link
-              //     href={`./business/${b.id}`}
-              //     className="px-4 py-2 bg-chart-2 text-white rounded-full cursor-pointer"
-              //   >
-              //     See more
-              //   </Link>
-              // </li>
               <li key={b.id}>
                 <BusinessCardShot business={b} selectedCity={city} />
               </li>
             ))}
           </ul>
-          {/* <BusinessMap /> */}
+          <BusinessMapAll businesses={businesses} className="w-full" />
         </>
       ) : (
         <p className="text-2xl"> Нема бізнесів</p>
