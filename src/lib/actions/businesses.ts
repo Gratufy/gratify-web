@@ -26,9 +26,6 @@ const businessSelectFields = {
   id: businesses.id,
   name: businesses.name,
   categoryId: businesses.categoryId,
-  //join
-  categoryName: businessCategories.name,
-  //-----
   isOnline: businesses.isOnline,
   description: businesses.description,
   website: businesses.website,
@@ -39,6 +36,7 @@ const businessSelectFields = {
   ownerId: businesses.ownerId,
   reviewCount: businesses.reviewCount,
   //join
+  categoryName: businessCategories.name,
   city: businessLocations.city,
   address: businessLocations.address,
   latitude: businessLocations.latitude,
@@ -71,9 +69,10 @@ export async function getBusinesses(
   //  online/offline
   if (showOnlineStatus === "online") {
     conditions.push(eq(businesses.isOnline, true));
-  } else if (showOnlineStatus === "offline") {
-    conditions.push(eq(businesses.isOnline, false));
   }
+  //  else if (showOnlineStatus === "offline") {
+  //   conditions.push(eq(businesses.isOnline, false));
+  // }
   // scope
   if (scope === "public") {
     conditions.push(eq(businesses.status, "approved"));
@@ -140,9 +139,20 @@ export async function getBusinesses(
 
     let results = Array.from(businessMap.values());
     if (city && city !== "__all__") {
-      results = results.filter(
-        (b) => b.isOnline || b.locations.some((loc) => loc.city === city)
-      );
+      if (showOnlineStatus === "online") {
+        // only online, city is not important
+        results = results.filter((b) => b.isOnline);
+      } else if (showOnlineStatus === "offline") {
+        // all with a physical office in the city
+        results = results.filter((b) =>
+          b.locations.some((loc) => loc.city === city)
+        );
+      } else {
+        // all (both checkboxes are unchecked)
+        results = results.filter(
+          (b) => b.isOnline || b.locations.some((loc) => loc.city === city)
+        );
+      }
     }
 
     return results;

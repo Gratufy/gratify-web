@@ -9,6 +9,8 @@ import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
 import Link from "next/link";
 import Karma from "@/components/shared/Karma";
 import dynamic from "next/dynamic";
+import { OnlineFilter, SortBy } from "@/types";
+import OnlineStatusFilter from "@/components/shared/OnlineStatusFilter";
 
 const BusinessMap = dynamic(() => import("@/components/shared/BusinessMap"), {
   ssr: false,
@@ -23,12 +25,20 @@ export default function PublicHome() {
   } = useBusinessCategories();
   const [city, setCity] = useState<string | undefined>("__all__");
   const [categoryId, setCategoryId] = useState<string>("__all__");
+  const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>("all");
+  const [sortBy, setSortBy] = useState<SortBy>("newest");
   const {
     data: businesses,
     isLoading: isBusinessesLoading,
     isError: isBusinessesError,
     error,
-  } = useBusinesses({ city, categoryId, scope: "public" });
+  } = useBusinesses({
+    city,
+    categoryId,
+    scope: "public",
+    showOnlineStatus,
+    sortBy,
+  });
   // if (isBusinessesLoading || isCategoriesLoading) return <p>Loading...</p>;
   // if (isBusinessesError || isCategoriesError)
   //   return <p>Ошибка: {error?.message}</p>;
@@ -65,6 +75,10 @@ export default function PublicHome() {
         getOptionValue={(option) => option.value}
         getOptionLabel={(option) => option.label}
         placeholder="Оберіть місто"
+      />
+      <OnlineStatusFilter
+        value={showOnlineStatus}
+        onChange={setShowOnlineStatus}
       />
       {/* <p>Обране місто: {city || "—"}</p> */}
       <h2 className="text-xl font-bold mb-2">
