@@ -11,13 +11,14 @@ import {
   getBusinesses,
   getBusinessesWithReviewStatus,
 } from "@/lib/actions/businesses";
-import { BusinessReviewStatus, BusinessUpdate, Scope } from "@/types";
+import {
+  BusinessReviewStatus,
+  BusinessUpdate,
+  GetBusinessesParams,
+  Scope,
+} from "@/types";
 
-interface UseBusinessesParams {
-  city?: string;
-  categoryId?: string;
-  sortBy?: "newest" | "mostKarma";
-}
+export type UseBusinessesParams = GetBusinessesParams;
 // all businesses
 
 export function useBusinesses({
@@ -25,12 +26,14 @@ export function useBusinesses({
   categoryId,
   sortBy,
   scope,
-}: UseBusinessesParams & { scope?: Scope } = {}) {
+  showOnlineStatus,
+}: UseBusinessesParams = {}) {
   const filters = {
     city: city ?? "__all__",
     categoryId: categoryId ?? "__all__",
     sortBy: sortBy ?? "newest",
-    scope: scope ?? ("public" as Scope),
+    scope: scope ?? "public",
+    showOnlineStatus: showOnlineStatus ?? "all",
   };
   return useQuery({
     queryKey: queryKeys.businessList(filters),

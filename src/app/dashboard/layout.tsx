@@ -22,6 +22,7 @@ export default async function PublicLayout({
         categoryId: "__all__",
         sortBy: "newest",
         scope: "business_user",
+        showOnlineStatus: "all",
       },
     ],
     queryFn: () =>
@@ -30,6 +31,7 @@ export default async function PublicLayout({
         categoryId: "__all__",
         sortBy: "newest",
         scope: "business_user",
+        showOnlineStatus: "all",
       }),
   });
   const dehydratedState = dehydrate(queryClient);

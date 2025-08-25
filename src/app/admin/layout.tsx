@@ -23,6 +23,7 @@ export default async function AdminLayout({
         categoryId: "__all__",
         sortBy: "newest",
         scope: "admin",
+        showOnlineStatus: "all",
       },
     ],
     queryFn: () =>
@@ -31,6 +32,7 @@ export default async function AdminLayout({
         categoryId: "__all__",
         sortBy: "newest",
         scope: "admin",
+        showOnlineStatus: "all",
       }),
   });
   const dehydratedState = dehydrate(queryClient);

@@ -1,15 +1,21 @@
-import { BusinessReviewStatus, Scope, ScopeReview } from "@/types";
+import {
+  BusinessReviewStatus,
+  GetBusinessesParams,
+  ScopeReview,
+} from "@/types";
 
 export const queryKeys = {
   businessCategories: ["businessCategories"] as const,
   businesses: ["businesses"] as const,
 
-  businessList: (filters: {
-    city: string;
-    categoryId: string;
-    sortBy: string;
-    scope: Scope;
-  }) => ["businesses", filters] as const,
+  // businessList: (filters: {
+  //   city: string;
+  //   categoryId: string;
+  //   sortBy: string;
+  //   scope: Scope;
+  // }) => ["businesses", filters] as const,
+  businessList: (filters: GetBusinessesParams) =>
+    ["businesses", filters] as const,
 
   businessById: (id: string) => ["businesses", "byId", id] as const,
   // karma

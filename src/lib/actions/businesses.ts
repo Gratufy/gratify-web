@@ -16,19 +16,49 @@ import {
   BusinessReviewStatus,
   AdminBusinessRow,
   NewBusinessFormData,
+  OnlineFilter,
 } from "@/types/business";
 import { isAdmin } from "@/lib/helpers/isAdmin";
 import { userProfiles } from "@/db/schema";
-import { checkAddress } from "./businessLocation";
+//import { checkAddress } from "./businessLocation";
 import { saveBusinessLocations } from "@/lib/actions/businessLocation";
 
+function filterByCityAndOnline(
+  businesses: BusinessWithCategoryName[],
+  city: string,
+  showOnlineStatus: OnlineFilter
+) {
+  // если выбран "Всі" (city = "__all__")
+  if (!city || city === "__all__") {
+    if (showOnlineStatus === "online") {
+      return businesses.filter((b) => b.isOnline);
+    }
+    if (showOnlineStatus === "offline") {
+      // все бизнесы с хотя бы одной физической локацией
+      return businesses.filter((b) => b.locations.length > 0);
+    }
+    // showOnlineStatus === "all"
+    return businesses;
+  }
+
+  // если выбран конкретный город
+  if (showOnlineStatus === "online") {
+    return businesses.filter((b) => b.isOnline);
+  }
+  if (showOnlineStatus === "offline") {
+    return businesses.filter((b) =>
+      b.locations.some((loc) => loc.city === city)
+    );
+  }
+  // showOnlineStatus === "all": и онлайн, и физические в этом городе
+  return businesses.filter(
+    (b) => b.isOnline || b.locations.some((loc) => loc.city === city)
+  );
+}
 const businessSelectFields = {
   id: businesses.id,
   name: businesses.name,
   categoryId: businesses.categoryId,
-  //join
-  categoryName: businessCategories.name,
-  //-----
   isOnline: businesses.isOnline,
   description: businesses.description,
   website: businesses.website,
@@ -39,6 +69,7 @@ const businessSelectFields = {
   ownerId: businesses.ownerId,
   reviewCount: businesses.reviewCount,
   //join
+  categoryName: businessCategories.name,
   city: businessLocations.city,
   address: businessLocations.address,
   latitude: businessLocations.latitude,
@@ -71,9 +102,10 @@ export async function getBusinesses(
   //  online/offline
   if (showOnlineStatus === "online") {
     conditions.push(eq(businesses.isOnline, true));
-  } else if (showOnlineStatus === "offline") {
-    conditions.push(eq(businesses.isOnline, false));
   }
+  //  else if (showOnlineStatus === "offline") {
+  //   conditions.push(eq(businesses.isOnline, false));
+  // }
   // scope
   if (scope === "public") {
     conditions.push(eq(businesses.status, "approved"));
@@ -139,12 +171,8 @@ export async function getBusinesses(
     }
 
     let results = Array.from(businessMap.values());
-    if (city && city !== "__all__") {
-      results = results.filter(
-        (b) => b.isOnline || b.locations.some((loc) => loc.city === city)
-      );
-    }
-
+    // help function to filter businesses by city and online status
+    results = filterByCityAndOnline(results, city, showOnlineStatus);
     return results;
   } catch (error) {
     console.error("Error fetching businesses with filters:", error);

@@ -7,6 +7,8 @@ import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
 
 import Link from "next/link";
 import { BusinessStatusForm } from "@/components/admin/BusinessStatusForm";
+import { OnlineFilter, SortBy } from "@/types";
+import OnlineStatusFilter from "@/components/shared/OnlineStatusFilter";
 
 export default function AdminBusiness() {
   const {
@@ -16,6 +18,8 @@ export default function AdminBusiness() {
   } = useBusinessCategories();
   const [city, setCity] = useState<string | undefined>("__all__");
   const [categoryId, setCategoryId] = useState<string>("__all__");
+  const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>("all");
+  const [sortBy, setSortBy] = useState<SortBy>("newest");
   // const [status, setStatus] = useState<string>("");
 
   const {
@@ -23,7 +27,13 @@ export default function AdminBusiness() {
     isLoading: isBusinessesLoading,
     isError: isBusinessesError,
     error,
-  } = useBusinesses({ city, categoryId, scope: "admin" });
+  } = useBusinesses({
+    city,
+    categoryId,
+    scope: "admin",
+    showOnlineStatus,
+    sortBy,
+  });
   // if (isBusinessesLoading || isCategoriesLoading) return <p>Загрузка...</p>;
   // if (isBusinessesError || isCategoriesError)
   //   return <p>Помилка: {error?.message}</p>;
@@ -77,6 +87,11 @@ export default function AdminBusiness() {
         getOptionValue={(option) => option.value}
         getOptionLabel={(option) => option.label}
         placeholder="Оберіть місто"
+      />
+
+      <OnlineStatusFilter
+        value={showOnlineStatus}
+        onChange={setShowOnlineStatus}
       />
       {/* <p>Обране місто: {city || "—"}</p> */}
       <h2 className="text-xl font-bold mb-2">
