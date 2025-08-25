@@ -11,6 +11,7 @@ import Karma from "@/components/shared/Karma";
 import dynamic from "next/dynamic";
 import { OnlineFilter, SortBy } from "@/types";
 import OnlineStatusFilter from "@/components/shared/OnlineStatusFilter";
+import BusinessCardShot from "@/components/shared/BusinessCardShot";
 
 const BusinessMap = dynamic(() => import("@/components/shared/BusinessMap"), {
   ssr: false,
@@ -90,23 +91,26 @@ export default function PublicHome() {
         <>
           <ul className="w-full justify-center items-center flex flex-col">
             {businesses.map((b) => (
-              <li
-                key={b.id}
-                className="mb-2 p-2 border border-gray-300 rounded-4xl w-160 flex flex-col items-center justify-center"
-              >
-                <p>name: {b.name}</p>
-                {/* <p>city: {b.city}</p> */}
-                <p>category: {b.categoryName}</p>
-                <p>status: {b.status}</p>
-                <p>review : {b.reviewCount}</p>
-                {/* karma */}
-                <Karma businessId={b.id} />
-                <Link
-                  href={`./business/${b.id}`}
-                  className="px-4 py-2 bg-chart-2 text-white rounded-full cursor-pointer"
-                >
-                  See more
-                </Link>
+              // <li
+              //   key={b.id}
+              //   className="mb-2 p-2 border border-gray-300 rounded-4xl w-160 flex flex-col items-center justify-center"
+              // >
+              //   <p>name: {b.name}</p>
+              //   {/* <p>city: {b.city}</p> */}
+              //   <p>category: {b.categoryName}</p>
+              //   <p>status: {b.status}</p>
+              //   <p>review : {b.reviewCount}</p>
+              //   {/* karma */}
+              //   <Karma businessId={b.id} />
+              //   <Link
+              //     href={`./business/${b.id}`}
+              //     className="px-4 py-2 bg-chart-2 text-white rounded-full cursor-pointer"
+              //   >
+              //     See more
+              //   </Link>
+              // </li>
+              <li key={b.id}>
+                <BusinessCardShot business={b} selectedCity={city} />
               </li>
             ))}
           </ul>
