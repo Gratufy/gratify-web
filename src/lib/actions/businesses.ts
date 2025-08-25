@@ -16,12 +16,45 @@ import {
   BusinessReviewStatus,
   AdminBusinessRow,
   NewBusinessFormData,
+  OnlineFilter,
 } from "@/types/business";
 import { isAdmin } from "@/lib/helpers/isAdmin";
 import { userProfiles } from "@/db/schema";
 import { checkAddress } from "./businessLocation";
 import { saveBusinessLocations } from "@/lib/actions/businessLocation";
 
+function filterByCityAndOnline(
+  businesses: BusinessWithCategoryName[],
+  city: string,
+  showOnlineStatus: OnlineFilter
+) {
+  // если выбран "Всі" (city = "__all__")
+  if (!city || city === "__all__") {
+    if (showOnlineStatus === "online") {
+      return businesses.filter((b) => b.isOnline);
+    }
+    if (showOnlineStatus === "offline") {
+      // все бизнесы с хотя бы одной физической локацией
+      return businesses.filter((b) => b.locations.length > 0);
+    }
+    // showOnlineStatus === "all"
+    return businesses;
+  }
+
+  // если выбран конкретный город
+  if (showOnlineStatus === "online") {
+    return businesses.filter((b) => b.isOnline);
+  }
+  if (showOnlineStatus === "offline") {
+    return businesses.filter((b) =>
+      b.locations.some((loc) => loc.city === city)
+    );
+  }
+  // showOnlineStatus === "all": и онлайн, и физические в этом городе
+  return businesses.filter(
+    (b) => b.isOnline || b.locations.some((loc) => loc.city === city)
+  );
+}
 const businessSelectFields = {
   id: businesses.id,
   name: businesses.name,
@@ -138,23 +171,8 @@ export async function getBusinesses(
     }
 
     let results = Array.from(businessMap.values());
-    if (city && city !== "__all__") {
-      if (showOnlineStatus === "online") {
-        // only online, city is not important
-        results = results.filter((b) => b.isOnline);
-      } else if (showOnlineStatus === "offline") {
-        // all with a physical office in the city
-        results = results.filter((b) =>
-          b.locations.some((loc) => loc.city === city)
-        );
-      } else {
-        // all (both checkboxes are unchecked)
-        results = results.filter(
-          (b) => b.isOnline || b.locations.some((loc) => loc.city === city)
-        );
-      }
-    }
-
+    // help function to filter businesses by city and online status
+    results = filterByCityAndOnline(results, city, showOnlineStatus);
     return results;
   } catch (error) {
     console.error("Error fetching businesses with filters:", error);
