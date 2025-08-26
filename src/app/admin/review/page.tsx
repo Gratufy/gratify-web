@@ -1,6 +1,7 @@
 import React from "react";
-import BusinessTable from "@/components/admin/BusinessTable";
+
 import { getBusinessesWithReviewStatus } from "@/lib/actions/businesses";
+import BusinessReviewTable from "@/components/admin/BusinessReviewTable";
 
 const AdminReviewPage = async () => {
   const businessesFiltered = await getBusinessesWithReviewStatus();
@@ -9,7 +10,7 @@ const AdminReviewPage = async () => {
       <h1 className="text-2xl font-bold mb-4">Admin: Businesses and Reviews</h1>
 
       <p>Here you can manage all business reviews.</p>
-      <BusinessTable initialData={businessesFiltered} />
+      <BusinessReviewTable initialData={businessesFiltered} />
     </div>
   );
 };

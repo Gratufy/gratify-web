@@ -11,10 +11,10 @@ import BusinessReviewForm from "./BusinessReviewForm";
 import { useBusinessReviews } from "@/hooks/useReviews";
 import AdminReviewList from "./AdminReviewList";
 
-interface BusinessTableProps {
+interface BusinessReviewTableProps {
   initialData: AdminBusinessRow[];
 }
-const BusinessTable = ({ initialData }: BusinessTableProps) => {
+const BusinessReviewTable = ({ initialData }: BusinessReviewTableProps) => {
   const [status, setStatus] = useState<BusinessReviewStatus>("pending");
   const [showReviews, setShowReviews] = useState(false);
   const { data: businesses, isLoading } = useAdminBusinessesByReviewStatus(
@@ -75,4 +75,4 @@ const BusinessTable = ({ initialData }: BusinessTableProps) => {
   );
 };
 
-export default BusinessTable;
+export default BusinessReviewTable;
