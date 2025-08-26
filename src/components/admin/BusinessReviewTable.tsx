@@ -1,14 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { AdminBusinessRow, BusinessReviewStatus } from "@/types";
+import { BusinessReviewStatus } from "@/types";
 
 import CustomSelect from "../ui/CustomSelect";
 import { BUSINESS_REVIEW_STATUS } from "@/const/review";
 
 import Link from "next/link";
 import { useAdminBusinessesByReviewStatus } from "@/hooks/useBusinesses";
-import BusinessReviewForm from "./BusinessReviewForm";
-import { useBusinessReviews } from "@/hooks/useReviews";
+
 import AdminReviewList from "./AdminReviewList";
 import { useBusinessCategories } from "@/hooks/useBusinessCategories";
 
@@ -23,12 +22,18 @@ const BusinessReviewTable = () => {
   } = useBusinessCategories();
   const [categoryId, setCategoryId] = useState<string>("__all__");
   const [status, setStatus] = useState<BusinessReviewStatus>("pending");
-  const [showReviewsInd, setShowReviewsInd] = useState<number | null>(null);
-  const { data: businesses, isLoading } = useAdminBusinessesByReviewStatus(
-    status,
-    categoryId
+  const [showReviewsMap, setShowReviewsMap] = useState<Record<string, boolean>>(
+    {}
   );
+  const { data: businesses, isLoading: isBusinessesLoading } =
+    useAdminBusinessesByReviewStatus(status, categoryId);
 
+  function toggleReviews(businessId: string) {
+    setShowReviewsMap((prev) => ({
+      ...prev,
+      [businessId]: !prev[businessId],
+    }));
+  }
   function handleStatusChange(value: string) {
     setStatus(value as BusinessReviewStatus);
   }
@@ -57,9 +62,10 @@ const BusinessReviewTable = () => {
         label="Категорія"
         placeholder="Оберіть категорію"
       />
+      {isBusinessesLoading && <p>Loading businesses...</p>}
       {businesses?.length ? (
         <ul className="w-3/4 max-w-4xl mt-4">
-          {businesses.map((b, ind) => (
+          {businesses.map((b) => (
             <li key={b.id}>
               <div className="mb-2 px-4 py-2 border border-gray-300 rounded-xl flex gap-8 items-center justify-center">
                 <p className="flex-1/7">{b.name}</p>
@@ -69,9 +75,9 @@ const BusinessReviewTable = () => {
                 </p>
                 <button
                   className="border rounded-3xl border-black btn-secondary cursor-pointer px-4 py-2 flex items-center justify-center"
-                  onClick={() => setShowReviewsInd(ind)}
+                  onClick={() => toggleReviews(b.id)}
                 >
-                  {showReviewsInd === ind ? "Hide Reviews" : "Show Reviews"}
+                  {showReviewsMap[b.id] ? "Hide Reviews" : "Show Reviews"}
                 </button>
                 {/* <p className="flex-1/6">{b.categoryName}</p> */}
 
@@ -82,7 +88,7 @@ const BusinessReviewTable = () => {
                   See more
                 </Link>
               </div>
-              {showReviewsInd === ind && (
+              {showReviewsMap[b.id] && (
                 <AdminReviewList businessId={b.id} currentStatus={status} />
               )}
             </li>
