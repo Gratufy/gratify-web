@@ -53,12 +53,14 @@ export default function BusinessReviews({ businessId }: Props) {
       <p className="text-2xl font-semibold mb-2">
         Reviews ({reviews?.length || 0})
       </p>
-      <button
-        className="border rounded-3xl border-black btn-secondary cursor-pointer px-4 py-2 flex items-center justify-center"
-        onClick={() => setShowReviews(!showReviews)}
-      >
-        {showReviews ? "Hide Reviews" : "Show Reviews"}
-      </button>
+      {reviews && reviews.length > 0 && (
+        <button
+          className="border rounded-3xl border-black btn-secondary cursor-pointer px-4 py-2 flex items-center justify-center"
+          onClick={() => setShowReviews(!showReviews)}
+        >
+          {showReviews ? "Hide Reviews" : "Show Reviews"}
+        </button>
+      )}
       {showReviews && reviews && !reviews.length && <p>No reviews yet.</p>}
       {showReviews &&
         reviews?.map((r) => (
@@ -70,6 +72,7 @@ export default function BusinessReviews({ businessId }: Props) {
             {editingId === r.id ? (
               <>
                 <textarea
+                  name="review"
                   value={editingText}
                   onChange={(e) => setEditingText(e.target.value)}
                   className="w-full border rounded p-2"
