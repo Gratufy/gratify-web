@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import * as v from "valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
@@ -131,6 +131,7 @@ type FormValues = v.InferOutput<typeof businessFormSchema>;
 type BusinessFormProps = {
   businessId?: string; // if edit
   defaultValues?: FormValues;
+
   //onSuccess?: () => void;
 };
 
@@ -140,6 +141,7 @@ export function BusinessForm({
 }: //onSuccess,
 BusinessFormProps) {
   const router = useRouter();
+  const pathname = usePathname();
 
   const {
     categories,
@@ -274,7 +276,7 @@ BusinessFormProps) {
           locations: locationsWithCoords,
           isOnline: data.isOnline,
         };
-        //{ business, profile }
+        // Create the business-user
         const { profile } = await createBusinessMutation.mutateAsync(
           newBusinessData
         );
@@ -287,9 +289,11 @@ BusinessFormProps) {
         // setLocationConfirmed(false);
       }
 
-      // If we need to do something on success
-      // onSuccess?.();
-      router.push("/dashboard/business");
+      if (pathname.startsWith("/admin")) {
+        router.push("/admin/business");
+      } else {
+        router.push("/dashboard/business");
+      }
     } catch (error) {
       console.error("Error creating/updating business:", error);
       alert("Something went wrong");
@@ -369,10 +373,14 @@ BusinessFormProps) {
             <FormItem>
               <FormLabel>Online business</FormLabel>
               <FormControl>
-                <input
+                {/* <input
                   type="checkbox"
                   checked={field.value}
                   onChange={(e) => field.onChange(e.target.checked)}
+                /> */}
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={(val) => field.onChange(val)}
                 />
               </FormControl>
               <FormMessage />
