@@ -1,7 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+//, Popup
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
 
 import L from "leaflet";
 
@@ -31,8 +32,8 @@ function BusinessMap({
   onDragEnd,
   className,
   height = 320,
-  isForm = false,
-}: BusinessMapProps) {
+}: // isForm = false,
+BusinessMapProps) {
   const [pos, setPos] = useState<[number, number]>([lat, lng]);
   useEffect(() => {
     setPos([lat, lng]);

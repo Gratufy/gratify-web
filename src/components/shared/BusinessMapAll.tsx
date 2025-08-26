@@ -2,7 +2,8 @@
 
 import React, { useEffect, useMemo } from "react";
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+//, Popup
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import L from "leaflet";
 import type { BusinessWithCategoryName } from "@/types/business";
 import { useMap } from "react-leaflet/hooks";
