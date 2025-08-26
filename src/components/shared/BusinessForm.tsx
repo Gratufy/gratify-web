@@ -176,14 +176,9 @@ BusinessFormProps) {
     lng: number;
   } | null>(null);
 
-  //const addressWatch = form.watch(`locations.${mapOpenIndex}.address`);
-  // const [confirmedIndexes, setConfirmedIndexes] = useState<number[]>([]);
-  // -------------
-  // if editing and you want to load the saved location by button - you can pull it here
-  //const { data: existingLoc } = useBusinessLocation(businessId ?? "");
-
   // open map and check location for a specific location index
   async function handleOpenCheck(index: number) {
+    setMapOpenIndex(null);
     const loc = form.getValues(`locations.${index}`);
     if (!loc.city) {
       alert("Please specify a city first");
@@ -388,12 +383,6 @@ BusinessFormProps) {
         <FormField
           control={form.control}
           name="website"
-          // rules={{
-          //   validate: (value) =>
-          //     form.getValues("isOnline") && !value
-          //       ? "Website is required for online businesses."
-          //       : true,
-          // }}
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel>Website</FormLabel>
