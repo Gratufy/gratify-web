@@ -2,7 +2,8 @@
 
 import React, { useEffect, useMemo } from "react";
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+//, Popup
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import L from "leaflet";
 import type { BusinessWithCategoryName } from "@/types/business";
 import { useMap } from "react-leaflet/hooks";
@@ -58,28 +59,32 @@ function BusinessMapAll({
     [businesses, selectedCity]
   );
 
-  console.log("coords", coords);
-  console.log("city", selectedCity);
   const center: [number, number] = coords.length > 0 ? coords[0] : [49.0, 32.0];
 
   return (
     <div className={className} style={{ height }}>
-      <MapContainer
-        center={center as [number, number]}
-        zoom={coords.length > 1 ? 6 : 14} // если несколько городов → зум пошире
-        scrollWheelZoom={false}
-        style={{ height: "100%", width: "100%", borderRadius: 16 }}
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        />
-        {coords.map((pos, idx) => (
-          <Marker key={idx} position={pos} />
-        ))}
+      {coords.length > 0 ? (
+        <MapContainer
+          center={center as [number, number]}
+          zoom={coords.length > 1 ? 6 : 14} // если несколько городов → зум пошире
+          scrollWheelZoom={false}
+          style={{ height: "100%", width: "100%", borderRadius: 16 }}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+          {coords.map((pos, idx) => (
+            <Marker key={idx} position={pos} />
+          ))}
 
-        <FitBounds coords={coords} />
-      </MapContainer>
+          <FitBounds coords={coords} />
+        </MapContainer>
+      ) : (
+        <p className="text-gray-500 text-2xl text-center">
+          Адреса не була додана
+        </p>
+      )}
     </div>
   );
 }

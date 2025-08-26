@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import * as v from "valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
@@ -131,6 +131,7 @@ type FormValues = v.InferOutput<typeof businessFormSchema>;
 type BusinessFormProps = {
   businessId?: string; // if edit
   defaultValues?: FormValues;
+
   //onSuccess?: () => void;
 };
 
@@ -140,6 +141,7 @@ export function BusinessForm({
 }: //onSuccess,
 BusinessFormProps) {
   const router = useRouter();
+  const pathname = usePathname();
 
   const {
     categories,
@@ -176,14 +178,9 @@ BusinessFormProps) {
     lng: number;
   } | null>(null);
 
-  //const addressWatch = form.watch(`locations.${mapOpenIndex}.address`);
-  // const [confirmedIndexes, setConfirmedIndexes] = useState<number[]>([]);
-  // -------------
-  // if editing and you want to load the saved location by button - you can pull it here
-  //const { data: existingLoc } = useBusinessLocation(businessId ?? "");
-
   // open map and check location for a specific location index
   async function handleOpenCheck(index: number) {
+    setMapOpenIndex(null);
     const loc = form.getValues(`locations.${index}`);
     if (!loc.city) {
       alert("Please specify a city first");
@@ -203,8 +200,7 @@ BusinessFormProps) {
       alert("Address not found. Please refine your input.");
       return;
     }
-    console.log("coords", res.latitude, res.longitude);
-    console.log("index", index);
+
     setTempLatLng({ lat: res.latitude, lng: res.longitude });
     setMapOpenIndex(index);
   }
@@ -279,7 +275,7 @@ BusinessFormProps) {
           locations: locationsWithCoords,
           isOnline: data.isOnline,
         };
-        //{ business, profile }
+        // Create the business-user
         const { profile } = await createBusinessMutation.mutateAsync(
           newBusinessData
         );
@@ -292,9 +288,11 @@ BusinessFormProps) {
         // setLocationConfirmed(false);
       }
 
-      // If we need to do something on success
-      // onSuccess?.();
-      router.push("/dashboard/business");
+      if (pathname.startsWith("/admin")) {
+        router.push("/admin/business");
+      } else {
+        router.push("/dashboard/business");
+      }
     } catch (error) {
       console.error("Error creating/updating business:", error);
       alert("Something went wrong");
@@ -374,10 +372,14 @@ BusinessFormProps) {
             <FormItem>
               <FormLabel>Online business</FormLabel>
               <FormControl>
-                <input
+                {/* <input
                   type="checkbox"
                   checked={field.value}
                   onChange={(e) => field.onChange(e.target.checked)}
+                /> */}
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={(val) => field.onChange(val)}
                 />
               </FormControl>
               <FormMessage />
@@ -388,12 +390,6 @@ BusinessFormProps) {
         <FormField
           control={form.control}
           name="website"
-          // rules={{
-          //   validate: (value) =>
-          //     form.getValues("isOnline") && !value
-          //       ? "Website is required for online businesses."
-          //       : true,
-          // }}
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel>Website</FormLabel>

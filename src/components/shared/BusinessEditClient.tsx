@@ -18,18 +18,22 @@ export default function BusinessEditClient({ id, href }: Props) {
   return (
     <>
       <BackButton href={href} />
-      {/* <BusinessForm
+      <BusinessForm
         businessId={id}
         defaultValues={{
           name: data.name,
           description: data.description ?? "",
           website: data.website ?? "",
           category: data.categoryId ?? "",
-          city: data.city,
-          district: data.district ?? "",
-          address: data.address,
+          isOnline: data.isOnline ?? false,
+          locations: (data.locations || []).map((loc) => ({
+            city: loc.city ?? undefined,
+            address: loc.address ?? undefined,
+            latitude: loc.latitude ?? undefined,
+            longitude: loc.longitude ?? undefined,
+          })),
         }}
-      /> */}
+      />
     </>
   );
 }

@@ -1,30 +1,46 @@
 "use client";
 import React, { useState } from "react";
-import { AdminBusinessRow, BusinessReviewStatus } from "@/types";
+import { BusinessReviewStatus } from "@/types";
 
 import CustomSelect from "../ui/CustomSelect";
 import { BUSINESS_REVIEW_STATUS } from "@/const/review";
 
 import Link from "next/link";
 import { useAdminBusinessesByReviewStatus } from "@/hooks/useBusinesses";
-import BusinessReviewForm from "./BusinessReviewForm";
-import { useBusinessReviews } from "@/hooks/useReviews";
+
 import AdminReviewList from "./AdminReviewList";
+import { useBusinessCategories } from "@/hooks/useBusinessCategories";
 
-interface BusinessTableProps {
-  initialData: AdminBusinessRow[];
-}
-const BusinessTable = ({ initialData }: BusinessTableProps) => {
+// interface BusinessReviewTableProps {
+//   initialData: AdminBusinessRow[];
+// }
+const BusinessReviewTable = () => {
+  const {
+    categories,
+    // isLoading: isCategoriesLoading,
+    // isError: isCategoriesError,
+  } = useBusinessCategories();
+  const [categoryId, setCategoryId] = useState<string>("__all__");
   const [status, setStatus] = useState<BusinessReviewStatus>("pending");
-  const [showReviews, setShowReviews] = useState(false);
-  const { data: businesses, isLoading } = useAdminBusinessesByReviewStatus(
-    status
-    //categoryId ?? undefined
+  const [showReviewsMap, setShowReviewsMap] = useState<Record<string, boolean>>(
+    {}
   );
+  const { data: businesses, isLoading: isBusinessesLoading } =
+    useAdminBusinessesByReviewStatus(status, categoryId);
 
+  function toggleReviews(businessId: string) {
+    setShowReviewsMap((prev) => ({
+      ...prev,
+      [businessId]: !prev[businessId],
+    }));
+  }
   function handleStatusChange(value: string) {
     setStatus(value as BusinessReviewStatus);
   }
+  const categoriesWithAll = [
+    { categoryId: "__all__", name: "Всі" }, //index "__all__" for   "всi"
+    ...(categories || []),
+  ];
   return (
     <div className="flex flex-col items-center justify-center w-full ">
       <CustomSelect
@@ -37,6 +53,16 @@ const BusinessTable = ({ initialData }: BusinessTableProps) => {
         className="w-36"
         statusForm={true}
       />
+      <CustomSelect
+        value={categoryId}
+        onChange={setCategoryId}
+        options={categoriesWithAll}
+        getOptionValue={(c) => c.categoryId}
+        getOptionLabel={(c) => c.name}
+        label="Категорія"
+        placeholder="Оберіть категорію"
+      />
+      {isBusinessesLoading && <p>Loading businesses...</p>}
       {businesses?.length ? (
         <ul className="w-3/4 max-w-4xl mt-4">
           {businesses.map((b) => (
@@ -49,9 +75,9 @@ const BusinessTable = ({ initialData }: BusinessTableProps) => {
                 </p>
                 <button
                   className="border rounded-3xl border-black btn-secondary cursor-pointer px-4 py-2 flex items-center justify-center"
-                  onClick={() => setShowReviews(!showReviews)}
+                  onClick={() => toggleReviews(b.id)}
                 >
-                  {showReviews ? "Hide Reviews" : "Show Reviews"}
+                  {showReviewsMap[b.id] ? "Hide Reviews" : "Show Reviews"}
                 </button>
                 {/* <p className="flex-1/6">{b.categoryName}</p> */}
 
@@ -62,7 +88,7 @@ const BusinessTable = ({ initialData }: BusinessTableProps) => {
                   See more
                 </Link>
               </div>
-              {showReviews && (
+              {showReviewsMap[b.id] && (
                 <AdminReviewList businessId={b.id} currentStatus={status} />
               )}
             </li>
@@ -75,4 +101,4 @@ const BusinessTable = ({ initialData }: BusinessTableProps) => {
   );
 };
 
-export default BusinessTable;
+export default BusinessReviewTable;
