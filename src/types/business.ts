@@ -18,8 +18,23 @@ export type BusinessWithCategoryName = Business & {
     longitude?: number | null;
   }[];
 };
-export type AdminBusinessRow = Business & {
-  filteredReviewCount: number; // dynamic count based on selected status
+// export type AdminBusinessRow = Business & {
+//   filteredReviewCount: number; // dynamic count based on selected status
+// };
+export type AdminBusinessRow = {
+  id: string;
+  name: string;
+  isOnline: boolean | null;
+  categoryId: string;
+  status: string;
+  createdAt: Date | null;
+  updatedAt: Date | null;
+  ownerId: string;
+  reviewCount: number;
+  filteredReviewCount: number;
+  // locations: {
+  //   city: string | null;
+  // }[];
 };
 export type NewBusiness = typeof businesses.$inferInsert;
 export type BusinessUpdate = Partial<Omit<Business, "id">>;

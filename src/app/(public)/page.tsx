@@ -6,8 +6,7 @@ import { useBusinesses } from "@/hooks/useBusinesses";
 import { useBusinessCategories } from "@/hooks/useBusinessCategories";
 import CustomSelect from "@/components/ui/CustomSelect";
 import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
-import Link from "next/link";
-import Karma from "@/components/shared/Karma";
+
 import dynamic from "next/dynamic";
 import { OnlineFilter, SortBy } from "@/types";
 import OnlineStatusFilter from "@/components/shared/OnlineStatusFilter";

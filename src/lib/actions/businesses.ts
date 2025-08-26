@@ -373,9 +373,8 @@ export async function deleteBusiness(id: string) {
 
 //for admin
 export async function getBusinessesWithReviewStatus(
-  reviewStatus?: BusinessReviewStatus,
-  categoryId?: string,
-  city?: string
+  reviewStatus: BusinessReviewStatus,
+  categoryId?: string
 ): Promise<AdminBusinessRow[]> {
   const supabase = await createClient();
   const {
@@ -386,10 +385,11 @@ export async function getBusinessesWithReviewStatus(
   const isAdminUser = await isAdmin(user.id);
   if (!isAdminUser) throw new Error("Forbidden");
 
-  const conditions = [
-    reviewStatus ? eq(businessReviews.status, reviewStatus) : undefined,
-    categoryId ? eq(businesses.categoryId, categoryId) : undefined,
-  ].filter(Boolean);
+  const conditions = [];
+  if (categoryId && categoryId !== "__all__")
+    conditions.push(eq(businesses.categoryId, categoryId));
+  if (reviewStatus) conditions.push(eq(businessReviews.status, reviewStatus));
+
   // businesses with matching review status and category
   const rows = await db
     .select({
@@ -397,33 +397,19 @@ export async function getBusinessesWithReviewStatus(
       name: businesses.name,
       isOnline: businesses.isOnline,
       categoryId: businesses.categoryId,
-      description: businesses.description,
-      website: businesses.website,
-
-      karma: businesses.karma,
       status: businesses.status,
       createdAt: businesses.createdAt,
       updatedAt: businesses.updatedAt,
       ownerId: businesses.ownerId,
       reviewCount: businesses.reviewCount,
-
-      // dynamic review count
+      // считаем отзывы выбранного статуса для каждого бизнеса
       filteredReviewCount: sql<number>`COUNT(${businessReviews.id})`,
-      city: businessLocations.city, // to filter by city
     })
     .from(businesses)
     .leftJoin(businessReviews, eq(businesses.id, businessReviews.businessId))
-    .leftJoin(
-      businessLocations,
-      eq(businesses.id, businessLocations.businessId)
-    )
-    .where(conditions.length ? and(...conditions) : undefined)
-    .groupBy(businesses.id, businessLocations.city);
 
-  // if city filter
-  let results = rows;
-  if (city && city !== "__all__") {
-    results = rows.filter((b) => b.isOnline || b.city === city);
-  }
-  return results;
+    .where(conditions.length ? and(...conditions) : undefined)
+    .groupBy(businesses.id);
+
+  return rows;
 }

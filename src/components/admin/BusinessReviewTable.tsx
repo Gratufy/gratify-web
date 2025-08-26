@@ -10,21 +10,32 @@ import { useAdminBusinessesByReviewStatus } from "@/hooks/useBusinesses";
 import BusinessReviewForm from "./BusinessReviewForm";
 import { useBusinessReviews } from "@/hooks/useReviews";
 import AdminReviewList from "./AdminReviewList";
+import { useBusinessCategories } from "@/hooks/useBusinessCategories";
 
-interface BusinessReviewTableProps {
-  initialData: AdminBusinessRow[];
-}
-const BusinessReviewTable = ({ initialData }: BusinessReviewTableProps) => {
+// interface BusinessReviewTableProps {
+//   initialData: AdminBusinessRow[];
+// }
+const BusinessReviewTable = () => {
+  const {
+    categories,
+    // isLoading: isCategoriesLoading,
+    // isError: isCategoriesError,
+  } = useBusinessCategories();
+  const [categoryId, setCategoryId] = useState<string>("__all__");
   const [status, setStatus] = useState<BusinessReviewStatus>("pending");
-  const [showReviews, setShowReviews] = useState(false);
+  const [showReviewsInd, setShowReviewsInd] = useState<number | null>(null);
   const { data: businesses, isLoading } = useAdminBusinessesByReviewStatus(
-    status
-    //categoryId ?? undefined
+    status,
+    categoryId
   );
 
   function handleStatusChange(value: string) {
     setStatus(value as BusinessReviewStatus);
   }
+  const categoriesWithAll = [
+    { categoryId: "__all__", name: "Всі" }, //index "__all__" for   "всi"
+    ...(categories || []),
+  ];
   return (
     <div className="flex flex-col items-center justify-center w-full ">
       <CustomSelect
@@ -37,9 +48,18 @@ const BusinessReviewTable = ({ initialData }: BusinessReviewTableProps) => {
         className="w-36"
         statusForm={true}
       />
+      <CustomSelect
+        value={categoryId}
+        onChange={setCategoryId}
+        options={categoriesWithAll}
+        getOptionValue={(c) => c.categoryId}
+        getOptionLabel={(c) => c.name}
+        label="Категорія"
+        placeholder="Оберіть категорію"
+      />
       {businesses?.length ? (
         <ul className="w-3/4 max-w-4xl mt-4">
-          {businesses.map((b) => (
+          {businesses.map((b, ind) => (
             <li key={b.id}>
               <div className="mb-2 px-4 py-2 border border-gray-300 rounded-xl flex gap-8 items-center justify-center">
                 <p className="flex-1/7">{b.name}</p>
@@ -49,9 +69,9 @@ const BusinessReviewTable = ({ initialData }: BusinessReviewTableProps) => {
                 </p>
                 <button
                   className="border rounded-3xl border-black btn-secondary cursor-pointer px-4 py-2 flex items-center justify-center"
-                  onClick={() => setShowReviews(!showReviews)}
+                  onClick={() => setShowReviewsInd(ind)}
                 >
-                  {showReviews ? "Hide Reviews" : "Show Reviews"}
+                  {showReviewsInd === ind ? "Hide Reviews" : "Show Reviews"}
                 </button>
                 {/* <p className="flex-1/6">{b.categoryName}</p> */}
 
@@ -62,7 +82,7 @@ const BusinessReviewTable = ({ initialData }: BusinessReviewTableProps) => {
                   See more
                 </Link>
               </div>
-              {showReviews && (
+              {showReviewsInd === ind && (
                 <AdminReviewList businessId={b.id} currentStatus={status} />
               )}
             </li>

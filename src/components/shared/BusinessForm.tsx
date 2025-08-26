@@ -200,8 +200,7 @@ BusinessFormProps) {
       alert("Address not found. Please refine your input.");
       return;
     }
-    console.log("coords", res.latitude, res.longitude);
-    console.log("index", index);
+
     setTempLatLng({ lat: res.latitude, lng: res.longitude });
     setMapOpenIndex(index);
   }
