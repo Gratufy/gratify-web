@@ -32,6 +32,7 @@ export default function BusinessEditClient({ id, href }: Props) {
             latitude: loc.latitude ?? undefined,
             longitude: loc.longitude ?? undefined,
           })),
+          specialOffers: (data.specialOffers || []).map((o) => o.offerId) ?? [],
         }}
       />
     </>

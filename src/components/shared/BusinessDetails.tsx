@@ -6,7 +6,10 @@ import BackButton from "../ui/BackButton";
 import Karma from "./Karma";
 import BusinessReviews from "./BusinessReviews";
 import { renderLocations } from "@/lib/helpers/renderLocations";
-import BusinessMapAll from "./BusinessMapAll";
+import dynamic from "next/dynamic";
+const BusinessMapAll = dynamic(() => import("./BusinessMapAll"), {
+  ssr: false,
+});
 
 interface Props {
   id: string;
@@ -32,15 +35,16 @@ function BusinessDetails({ id, href }: Props) {
         {/* <p className="text-2xl mb-4">City: {data?.locations}</p> */}
         <p className="text-2xl ">Category: {data?.categoryName}</p>
         {CityListElements}
+        {data?.specialOffers.length &&
+          data.specialOffers.map((offer) => (
+            <p key={offer.offerId} className="text-xl ">
+              - {offer.title}
+            </p>
+          ))}
         <p className="text-2xl ">Status: {data?.status}</p>
         {/* karma */}
         <Karma businessId={id} />
-        {/* {data?.reviewCount && <p>Review: {data.reviewCount}</p>}
-        {data?.reviewCount ? (
-          <BusinessReviews businessId={id} />
-        ) : (
-          <p>No reviews yet.</p>
-        )} */}
+
         <BusinessReviews businessId={id} />
         {data.locations && data.locations.length > 0 && (
           <BusinessMapAll

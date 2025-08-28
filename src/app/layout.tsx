@@ -8,6 +8,7 @@ import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import ClientProvider from "@/providers/UserProvider";
 import { getAllBusinessCategories } from "@/lib/actions/businessCategories";
+import { getAllSpecialOffers } from "@/lib/actions/specialOffers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,19 +36,14 @@ export default async function RootLayout({
     queryKey: queryKeys.businessCategories,
     queryFn: getAllBusinessCategories,
   });
+
+  // Prefetch global special offers
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.specialOffers,
+    queryFn: getAllSpecialOffers,
+  });
   const dehydratedState = dehydrate(queryClient);
-  // await queryClient.prefetchQuery({
-  //   queryKey: [
-  //     "businesses",
-  //     { city: "__all__", categoryId: "__all__", sortBy: "newest" },
-  //   ],
-  //   queryFn: () =>
-  //     getBusinesses({
-  //       city: "__all__",
-  //       categoryId: "__all__",
-  //       sortBy: "newest",
-  //     }),
-  // });
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body

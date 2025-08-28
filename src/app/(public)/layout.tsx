@@ -6,6 +6,8 @@ import {
 import PublicFooter from "@/components/public/PublicFooter/PublicFooter";
 import PublicHeader from "@/components/public/PublicHeader/PublicHeader";
 import { getBusinesses } from "@/lib/actions/businesses";
+import { PAGE_SIZE } from "@/const/business";
+import { queryKeys } from "@/lib/reactQuery/queryKeys";
 
 export default async function PublicLayout({
   children,
@@ -15,6 +17,26 @@ export default async function PublicLayout({
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
+    queryKey: queryKeys.businessList({
+      city: "__all__",
+      categoryId: "__all__",
+      sortBy: "newest",
+      scope: "public",
+      showOnlineStatus: "all",
+    }),
+    // queryFn: () =>
+    //   getBusinesses({
+    //     city: "__all__",
+    //     categoryId: "__all__",
+    //     sortBy: "newest",
+    //     scope: "public",
+    //     showOnlineStatus: "all",
+    //     limit: PAGE_SIZE,
+    //     offset: 0,
+    //   }),
+  });
+
+  await queryClient.prefetchInfiniteQuery({
     queryKey: [
       "businesses",
       {
@@ -25,14 +47,19 @@ export default async function PublicLayout({
         showOnlineStatus: "all",
       },
     ],
-    queryFn: () =>
-      getBusinesses({
+    queryFn: async ({ pageParam = 0 }) => {
+      const result = await getBusinesses({
         city: "__all__",
         categoryId: "__all__",
         sortBy: "newest",
         scope: "public",
         showOnlineStatus: "all",
-      }),
+        limit: PAGE_SIZE,
+        offset: pageParam,
+      });
+      return result;
+    },
+    initialPageParam: 0,
   });
   const dehydratedState = dehydrate(queryClient);
   return (

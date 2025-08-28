@@ -19,7 +19,7 @@ export function useBusinessReviews(
   return useQuery({
     queryKey: queryKeys.businessReviews(businessId, scope, status),
     queryFn: () => getBusinessReviews(businessId, scope, status),
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 10, // 10 минут кеш
   });
 }
 
@@ -27,7 +27,7 @@ export function useCreateReview() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createReview,
-    onSuccess: (_data, variables) => {
+    onSuccess: (review, variables) => {
       queryClient.invalidateQueries({
         queryKey: queryKeys.businessReviewsRoot(variables.businessId),
       });
@@ -38,13 +38,13 @@ export function useCreateReview() {
       });
       // все списки бизнесов (мог измениться счетчик/сортировка)
       queryClient.invalidateQueries({
-        queryKey: queryKeys.businesses,
+        queryKey: ["businesses"], // вместо queryKeys.businesses
         exact: false,
       });
 
       // админ-агрегаты по статусам
       queryClient.invalidateQueries({
-        queryKey: queryKeys.adminBusinessesByReviewStatusRoot,
+        queryKey: queryKeys.adminBusinesses({ reviewStatus: review.status }),
         exact: false,
       });
     },
@@ -65,7 +65,7 @@ export function useUpdateReview(businessId: string) {
         exact: true,
       });
       queryClient.invalidateQueries({
-        queryKey: queryKeys.businesses,
+        queryKey: ["businesses"], // вместо queryKeys.businesses
         exact: false,
       });
     },
@@ -88,12 +88,12 @@ export function useDeleteReview(businessId: string) {
       });
       // 3. update general list of businesses
       queryClient.invalidateQueries({
-        queryKey: queryKeys.businesses,
+        queryKey: ["businesses"], // вместо queryKeys.businesses
         exact: false,
       });
       // 4. update admin list of businesses
       queryClient.invalidateQueries({
-        queryKey: queryKeys.adminBusinessesByReviewStatusRoot,
+        queryKey: queryKeys.adminBusinesses({ reviewStatus: undefined }),
         exact: false,
       });
     },
@@ -109,7 +109,7 @@ export function useUpdateReviewStatus() {
         queryKey: queryKeys.businessReviewsRoot(review.businessId),
       });
       queryClient.invalidateQueries({
-        queryKey: queryKeys.adminBusinessesByReviewStatusRoot,
+        queryKey: queryKeys.adminBusinesses({ reviewStatus: review.status }),
       });
     },
   });

@@ -6,7 +6,7 @@ import CustomSelect from "../ui/CustomSelect";
 import { BUSINESS_REVIEW_STATUS } from "@/const/review";
 
 import Link from "next/link";
-import { useAdminBusinessesByReviewStatus } from "@/hooks/useBusinesses";
+import { useAdminBusinesses } from "@/hooks/useBusinesses";
 
 import AdminReviewList from "./AdminReviewList";
 import { useBusinessCategories } from "@/hooks/useBusinessCategories";
@@ -25,9 +25,21 @@ const BusinessReviewTable = () => {
   const [showReviewsMap, setShowReviewsMap] = useState<Record<string, boolean>>(
     {}
   );
-  const { data: businesses, isLoading: isBusinessesLoading } =
-    useAdminBusinessesByReviewStatus(status, categoryId);
+  // const { data: businesses, isLoading: isBusinessesLoading } =
+  //   useAdminBusinessesByReviewStatus(status, categoryId);
 
+  const {
+    data: businesses = [],
+    isLoading: isBusinessesLoading,
+    // isError,
+    // error,
+  } = useAdminBusinesses({
+    reviewStatus: status,
+    categoryId,
+    city: "__all__",
+    showOnlineStatus: "all",
+    sortBy: "newest",
+  });
   function toggleReviews(businessId: string) {
     setShowReviewsMap((prev) => ({
       ...prev,

@@ -2,18 +2,13 @@ import {
   BusinessReviewStatus,
   GetBusinessesParams,
   ScopeReview,
+  UseAdminBusinessesParams,
 } from "@/types";
 
 export const queryKeys = {
   businessCategories: ["businessCategories"] as const,
-  businesses: ["businesses"] as const,
 
-  // businessList: (filters: {
-  //   city: string;
-  //   categoryId: string;
-  //   sortBy: string;
-  //   scope: Scope;
-  // }) => ["businesses", filters] as const,
+  // businesses: ["businesses"] as const,
   businessList: (filters: GetBusinessesParams) =>
     ["businesses", filters] as const,
 
@@ -34,8 +29,11 @@ export const queryKeys = {
 
   userReview: (businessId: string, userId: string) =>
     ["userReview", businessId, userId] as const,
-
+  // old
   adminBusinessesByReviewStatusRoot: ["adminBusinessesByReviewStatus"] as const,
+  //new
+  adminBusinesses: (params: UseAdminBusinessesParams) =>
+    ["adminBusinesses", params] as const,
 
   adminBusinessesByReviewStatus: (
     status?: BusinessReviewStatus,
@@ -49,4 +47,8 @@ export const queryKeys = {
   // if i need it
   // checkAddress: (city: string, address: string) =>
   //   ["checkAddress", { city, address }] as const,
+  // Special Offers
+  specialOffers: ["specialOffers"] as const,
+  businessSpecialOffers: (businessId: string) =>
+    ["businessSpecialOffers", businessId] as const,
 };

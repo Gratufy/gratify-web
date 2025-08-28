@@ -17,6 +17,12 @@ function BusinessCardShot({
       <p>name: {business.name}</p>
 
       <p>category: {business.categoryName}</p>
+      {business?.specialOffers.length > 0 &&
+        business.specialOffers.map((offer) => (
+          <p key={offer.offerId} className="text-sm ">
+            - {offer.title}
+          </p>
+        ))}
       {CityListElements}
       <p>status: {business.status}</p>
       <p>review : {business.reviewCount}</p>
