@@ -2,23 +2,15 @@
 import React, { useState } from "react";
 import { useUserStore } from "@/stores/useUserStore";
 import DeleteAccountButton from "@/components/ui/DeleteAccountButton";
-import { useBusinesses, useInfiniteBusinesses } from "@/hooks/useBusinesses";
+
 import { useBusinessCategories } from "@/hooks/useBusinessCategories";
 import CustomSelect from "@/components/ui/CustomSelect";
 import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
 
-import dynamic from "next/dynamic";
 import { OnlineFilter, SortBy } from "@/types";
 import OnlineStatusFilter from "@/components/shared/OnlineStatusFilter";
-import BusinessCardShot from "@/components/shared/BusinessCardShot";
-import BusinessList from "@/components/shared/BusinessList";
 
-const BusinessMapAll = dynamic(
-  () => import("@/components/shared/BusinessMapAll"),
-  {
-    ssr: false,
-  }
-);
+import BusinessList from "@/components/shared/BusinessList";
 
 export default function PublicHome() {
   const user = useUserStore((s) => s.profile);

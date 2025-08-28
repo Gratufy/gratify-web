@@ -10,6 +10,7 @@ import {
   check,
   time,
   boolean,
+  primaryKey,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 
@@ -116,17 +117,6 @@ export const businessVotes = pgTable(
   },
   (t) => [uniqueIndex("business_user_vote_unique").on(t.userId, t.businessId)]
 );
-// business locations table
-// export const businessLocations = pgTable("business_locations", {
-//   id: uuid("id").defaultRandom().primaryKey(),
-//   businessId: uuid("business_id")
-//     .notNull()
-//     .references(() => businesses.id, {
-//       onDelete: "cascade",
-//     }), //if deleted business, delete locations
-//   latitude: doublePrecision("latitude").notNull(),
-//   longitude: doublePrecision("longitude").notNull(),
-// });
 
 export const businessLocations = pgTable("business_locations", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -178,4 +168,26 @@ export const businessHours = pgTable(
     // unique constraint for business and day of week to prevent duplicates
     uniqueIndex("business_day_unique").on(t.businessId, t.dayOfWeek),
   ]
+);
+
+// OFFERS
+export const specialOffers = pgTable("special_offers", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  title: text("title").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+});
+
+// business_special_offers.ts
+export const businessSpecialOffers = pgTable(
+  "business_special_offers",
+  {
+    businessId: uuid("business_id")
+      .notNull()
+      .references(() => businesses.id, { onDelete: "cascade" }),
+    offerId: uuid("offer_id")
+      .notNull()
+      .references(() => specialOffers.id, { onDelete: "cascade" }),
+  },
+  (t) => [primaryKey({ columns: [t.businessId, t.offerId] })]
 );

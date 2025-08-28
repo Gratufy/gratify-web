@@ -4,7 +4,9 @@ import {
   businessHours,
   businessLocations,
   businessReviews,
+  businessSpecialOffers,
   businessVotes,
+  specialOffers,
 } from "@/db/schema";
 
 //Business
@@ -101,3 +103,10 @@ export type LocationFormData = {
 //Business Hours
 export type BusinessHour = typeof businessHours.$inferSelect;
 export type NewBusinessHour = typeof businessHours.$inferInsert;
+
+//OFFERS
+export type SpecialOffer = typeof specialOffers.$inferSelect;
+export type NewSpecialOffer = typeof specialOffers.$inferInsert;
+
+export type BusinessSpecialOffer = typeof businessSpecialOffers.$inferSelect;
+export type NewBusinessSpecialOffer = typeof businessSpecialOffers.$inferInsert;

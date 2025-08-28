@@ -71,6 +71,13 @@
       "when": 1755964125531,
       "tag": "0009_modern_katie_power",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1756377563640,
+      "tag": "0010_talented_sleeper",
+      "breakpoints": true
     }
   ]
 }
