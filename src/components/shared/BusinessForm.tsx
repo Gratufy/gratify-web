@@ -231,6 +231,8 @@ BusinessFormProps) {
           description: data.description,
           website: data.website ?? null,
           categoryId: data.category,
+          locations: locationsWithCoords,
+          specialOffers: data.specialOffers ?? [],
         };
 
         await updateBusinessMutation.mutateAsync({
@@ -239,7 +241,7 @@ BusinessFormProps) {
         });
 
         // update all locations at once
-        await saveBusinessLocations(businessId, locationsWithCoords, true);
+        //await saveBusinessLocations(businessId, locationsWithCoords, true);
         alert("Business edited successfully!");
         // Reset form
         form.reset(defaultValues);

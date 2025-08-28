@@ -38,7 +38,16 @@ export type AdminBusinessRow = {
   filteredReviewCount: number;
 };
 export type NewBusiness = typeof businesses.$inferInsert;
-export type BusinessUpdate = Partial<Omit<Business, "id">>;
+// export type BusinessUpdate = Partial<Omit<Business, "id">>;
+export type BusinessUpdate = Partial<
+  Omit<
+    Business,
+    "id" | "karma" | "reviewCount" | "createdAt" | "updatedAt" | "ownerId"
+  >
+> & {
+  locations?: LocationFormData[];
+  specialOffers?: string[];
+};
 
 export interface GetBusinessesParams {
   city?: string;
