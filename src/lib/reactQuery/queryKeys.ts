@@ -2,6 +2,7 @@ import {
   BusinessReviewStatus,
   GetBusinessesParams,
   ScopeReview,
+  UseAdminBusinessesParams,
 } from "@/types";
 
 export const queryKeys = {
@@ -28,8 +29,11 @@ export const queryKeys = {
 
   userReview: (businessId: string, userId: string) =>
     ["userReview", businessId, userId] as const,
-
+  // old
   adminBusinessesByReviewStatusRoot: ["adminBusinessesByReviewStatus"] as const,
+  //new
+  adminBusinesses: (params: UseAdminBusinessesParams) =>
+    ["adminBusinesses", params] as const,
 
   adminBusinessesByReviewStatus: (
     status?: BusinessReviewStatus,

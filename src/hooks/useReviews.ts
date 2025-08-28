@@ -27,7 +27,7 @@ export function useCreateReview() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createReview,
-    onSuccess: (_data, variables) => {
+    onSuccess: (review, variables) => {
       queryClient.invalidateQueries({
         queryKey: queryKeys.businessReviewsRoot(variables.businessId),
       });
@@ -44,7 +44,7 @@ export function useCreateReview() {
 
       // админ-агрегаты по статусам
       queryClient.invalidateQueries({
-        queryKey: queryKeys.adminBusinessesByReviewStatusRoot,
+        queryKey: queryKeys.adminBusinesses({ reviewStatus: review.status }),
         exact: false,
       });
     },
@@ -93,7 +93,7 @@ export function useDeleteReview(businessId: string) {
       });
       // 4. update admin list of businesses
       queryClient.invalidateQueries({
-        queryKey: queryKeys.adminBusinessesByReviewStatusRoot,
+        queryKey: queryKeys.adminBusinesses({ reviewStatus: undefined }),
         exact: false,
       });
     },
@@ -109,7 +109,7 @@ export function useUpdateReviewStatus() {
         queryKey: queryKeys.businessReviewsRoot(review.businessId),
       });
       queryClient.invalidateQueries({
-        queryKey: queryKeys.adminBusinessesByReviewStatusRoot,
+        queryKey: queryKeys.adminBusinesses({ reviewStatus: review.status }),
       });
     },
   });

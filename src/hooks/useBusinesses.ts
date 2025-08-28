@@ -145,7 +145,7 @@ export function useAdminBusinessesByReviewStatus(
 // new one
 export function useAdminBusinesses(params: UseAdminBusinessesParams) {
   return useQuery<AdminBusinessRowType[]>({
-    queryKey: ["adminBusinesses", params],
+    queryKey: queryKeys.adminBusinesses(params),
     queryFn: () => getBusinessesForAdmin(params),
     staleTime: 1000 * 60 * 10,
     placeholderData: keepPreviousData,
