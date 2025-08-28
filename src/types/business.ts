@@ -27,6 +27,8 @@ export type BusinessWithCategoryName = Business & {
 // export type AdminBusinessRow = Business & {
 //   filteredReviewCount: number; // dynamic count based on selected status
 // };
+
+//old one
 export type AdminBusinessRow = {
   id: string;
   name: string;
@@ -39,6 +41,30 @@ export type AdminBusinessRow = {
   reviewCount: number;
   filteredReviewCount: number;
 };
+
+//new one
+export type AdminBusinessRowType = {
+  id: string;
+  name: string;
+  isOnline: boolean | null;
+  categoryId: string;
+  categoryName: string | null;
+  status: string;
+  createdAt: Date | null;
+  updatedAt: Date | null;
+  ownerId: string;
+  reviewCount: number;
+  filteredReviewCount: number;
+};
+
+export interface UseAdminBusinessesParams {
+  reviewStatus?: BusinessReviewStatus; // для фильтра по отзывам
+  businessStatus?: BusinessStatus;
+  categoryId?: string;
+  city?: string;
+  showOnlineStatus?: OnlineFilter;
+  sortBy?: "newest" | "oldest";
+}
 export type NewBusiness = typeof businesses.$inferInsert;
 // export type BusinessUpdate = Partial<Omit<Business, "id">>;
 export type BusinessUpdate = Partial<

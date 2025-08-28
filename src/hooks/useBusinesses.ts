@@ -5,10 +5,9 @@ import {
   useMutation,
   useQueryClient,
   useInfiniteQuery,
-  UseInfiniteQueryResult,
+  keepPreviousData,
 } from "@tanstack/react-query";
 import { queryKeys } from "@/lib/reactQuery/queryKeys";
-import type { InfiniteData } from "@tanstack/react-query";
 
 import {
   //   getAllBusinesses,
@@ -18,14 +17,14 @@ import {
   deleteBusiness,
   getBusinesses,
   getBusinessesWithReviewStatus,
+  getBusinessesForAdmin,
 } from "@/lib/actions/businesses";
 import {
-  BusinessesResponse,
+  AdminBusinessRowType,
   BusinessReviewStatus,
   BusinessUpdate,
-  BusinessWithCategoryName,
   GetBusinessesParams,
-  Scope,
+  UseAdminBusinessesParams,
 } from "@/types";
 import { PAGE_SIZE } from "@/const/business";
 
@@ -140,5 +139,16 @@ export function useAdminBusinessesByReviewStatus(
     queryFn: () =>
       getBusinessesWithReviewStatus(status, categoryId ?? undefined),
     staleTime: 1000 * 60 * 5,
+  });
+}
+
+// new one
+export function useAdminBusinesses(params: UseAdminBusinessesParams) {
+  return useQuery<AdminBusinessRowType[]>({
+    queryKey: ["adminBusinesses", params],
+    queryFn: () => getBusinessesForAdmin(params),
+    staleTime: 1000 * 60 * 10,
+    placeholderData: keepPreviousData,
+    //keepPreviousData: true, // чтобы UI не дергался при смене фильтров
   });
 }
