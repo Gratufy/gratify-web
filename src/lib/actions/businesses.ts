@@ -2,8 +2,7 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { db } from "@/db";
-import { PgSelect } from "drizzle-orm/pg-core";
-import { inArray } from "drizzle-orm";
+
 import {
   businessCategories,
   businesses,
@@ -12,7 +11,7 @@ import {
   businessSpecialOffers,
   specialOffers,
 } from "@/db/schema";
-import { eq, desc, sql, and, SQL } from "drizzle-orm";
+import { eq, desc, sql, and, SQL, inArray } from "drizzle-orm";
 import {
   GetBusinessesParams,
   // Business,
@@ -29,6 +28,7 @@ import { userProfiles } from "@/db/schema";
 //import { checkAddress } from "./businessLocation";
 import { saveBusinessLocations } from "@/lib/actions/businessLocation";
 import { PAGE_SIZE } from "@/const/business";
+import { getSpecialOffersForBusinesses } from "../helpers/getSpecialOffersForBusinesses";
 
 function filterByCityAndOnline(
   businesses: BusinessWithCategoryName[],
@@ -178,7 +178,7 @@ export async function getBusinesses(
 
   try {
     // Подзапрос: сначала берем только id нужных бизнесов
-    console.log("step: businessIdsQuery");
+
     const pageIdsRows = await db
       .select({ id: businesses.id })
       .from(businesses)
@@ -190,10 +190,8 @@ export async function getBusinesses(
 
     const ids = pageIdsRows.map((r) => String(r.id));
     if (ids.length === 0) return { data: [], nextOffset: undefined };
-    console.log("pageIds", ids);
 
     // Главный запрос: подтягиваем все поля + локации
-    console.log("step: rows query");
 
     const rows = await db
       .select(businessSelectFields)
@@ -238,18 +236,20 @@ export async function getBusinesses(
     }
 
     // --- Теперь подтягиваем specialOffers ---
-    const offerRows = await db
-      .select({
-        businessId: businessSpecialOffers.businessId,
-        offerId: businessSpecialOffers.offerId,
-        title: specialOffers.title, // если нужно больше полей оффера
-      })
-      .from(businessSpecialOffers)
-      .leftJoin(
-        specialOffers,
-        eq(businessSpecialOffers.offerId, specialOffers.id)
-      )
-      .where(inArray(businessSpecialOffers.businessId, ids));
+    // const offerRows = await db
+    //   .select({
+    //     businessId: businessSpecialOffers.businessId,
+    //     offerId: businessSpecialOffers.offerId,
+    //     title: specialOffers.title, // если нужно больше полей оффера
+    //   })
+    //   .from(businessSpecialOffers)
+    //   .leftJoin(
+    //     specialOffers,
+    //     eq(businessSpecialOffers.offerId, specialOffers.id)
+    //   )
+    //   .where(inArray(businessSpecialOffers.businessId, ids));
+
+    const offerRows = await getSpecialOffersForBusinesses(ids);
 
     for (const offer of offerRows) {
       const business = businessMap.get(offer.businessId);
@@ -312,18 +312,20 @@ export async function getBusinessById(
       }
     }
     // 2. Получаем все specialOffers для этого бизнеса
-    const offerRows = await db
-      .select({
-        businessId: businessSpecialOffers.businessId,
-        offerId: businessSpecialOffers.offerId,
-        title: specialOffers.title,
-      })
-      .from(businessSpecialOffers)
-      .leftJoin(
-        specialOffers,
-        eq(businessSpecialOffers.offerId, specialOffers.id)
-      )
-      .where(eq(businessSpecialOffers.businessId, id));
+    // const offerRows = await db
+    //   .select({
+    //     businessId: businessSpecialOffers.businessId,
+    //     offerId: businessSpecialOffers.offerId,
+    //     title: specialOffers.title,
+    //   })
+    //   .from(businessSpecialOffers)
+    //   .leftJoin(
+    //     specialOffers,
+    //     eq(businessSpecialOffers.offerId, specialOffers.id)
+    //   )
+    //   .where(eq(businessSpecialOffers.businessId, id));
+
+    const offerRows = await getSpecialOffersForBusinesses([id]);
 
     for (const offer of offerRows) {
       businessData.specialOffers.push({
