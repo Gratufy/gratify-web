@@ -10,6 +10,7 @@ import {
   businessLocations,
   businessReviews,
   businessSpecialOffers,
+  specialOffers,
 } from "@/db/schema";
 import { eq, desc, sql, and, SQL } from "drizzle-orm";
 import {
@@ -83,7 +84,7 @@ const businessSelectFields = {
   //----
 };
 
-// get businesses with filters
+// getgetBusinesses businesses with filters
 export async function getBusinesses(
   params: GetBusinessesWithPagination
 ): Promise<{
@@ -149,11 +150,6 @@ export async function getBusinesses(
     }
   }
   //-----------------
-
-  // //  online/offline
-  // if (showOnlineStatus === "online") {
-  //   conditions.push(eq(businesses.isOnline, true));
-  // }
 
   // scope
   if (scope === "public") {
@@ -227,6 +223,7 @@ export async function getBusinesses(
         businessMap.set(row.id, {
           ...businessData,
           locations: [],
+          specialOffers: [],
         });
       }
 
@@ -240,6 +237,30 @@ export async function getBusinesses(
       }
     }
 
+    // --- Теперь подтягиваем specialOffers ---
+    const offerRows = await db
+      .select({
+        businessId: businessSpecialOffers.businessId,
+        offerId: businessSpecialOffers.offerId,
+        title: specialOffers.title, // если нужно больше полей оффера
+      })
+      .from(businessSpecialOffers)
+      .leftJoin(
+        specialOffers,
+        eq(businessSpecialOffers.offerId, specialOffers.id)
+      )
+      .where(inArray(businessSpecialOffers.businessId, ids));
+
+    for (const offer of offerRows) {
+      const business = businessMap.get(offer.businessId);
+      if (business) {
+        business.specialOffers.push({
+          businessId: offer.businessId,
+          offerId: offer.offerId,
+          //title: offer.title,
+        });
+      }
+    }
     const results = Array.from(businessMap.values());
     console.log("Fetched businesses:", results.length);
     console.log("results", results);
@@ -282,6 +303,7 @@ export async function getBusinessById(
     const businessData = {
       ...rows[0],
       locations: [],
+      specialOffers: [],
     } as BusinessWithCategoryName;
 
     for (const row of rows) {
@@ -294,7 +316,21 @@ export async function getBusinessById(
         });
       }
     }
+    // 2. Получаем все specialOffers для этого бизнеса
+    const offerRows = await db
+      .select({
+        businessId: businessSpecialOffers.businessId,
+        offerId: businessSpecialOffers.offerId,
+      })
+      .from(businessSpecialOffers)
+      .where(eq(businessSpecialOffers.businessId, id));
 
+    for (const offer of offerRows) {
+      businessData.specialOffers.push({
+        businessId: offer.businessId,
+        offerId: offer.offerId,
+      });
+    }
     return businessData;
   } catch (error) {
     console.error("Error fetching business:", error);
@@ -427,6 +463,24 @@ export async function updateBusiness(
     // update locations: delete old and insert new
     if (values.locations) {
       await saveBusinessLocations(id, values.locations, true);
+    }
+
+    // --- update special offers ---
+    if (values.specialOffers) {
+      // remove old offers
+      await db
+        .delete(businessSpecialOffers)
+        .where(eq(businessSpecialOffers.businessId, id));
+
+      // insert new offers
+      const newOffers = values.specialOffers.map((offerId) => ({
+        businessId: id,
+        offerId,
+      }));
+
+      if (newOffers.length > 0) {
+        await db.insert(businessSpecialOffers).values(newOffers);
+      }
     }
     return updatedBusiness;
   } catch (error) {

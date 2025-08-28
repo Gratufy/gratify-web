@@ -1,6 +1,5 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
 import { db } from "@/db";
 
 import { businessLocations } from "@/db/schema";

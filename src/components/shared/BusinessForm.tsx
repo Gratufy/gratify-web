@@ -231,7 +231,6 @@ BusinessFormProps) {
           description: data.description,
           website: data.website ?? null,
           categoryId: data.category,
-          // specialOffers: data.specialOffers,
         };
 
         await updateBusinessMutation.mutateAsync({

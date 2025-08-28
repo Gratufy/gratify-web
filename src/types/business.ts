@@ -11,6 +11,7 @@ import {
 
 //Business
 export type Business = typeof businesses.$inferSelect;
+
 export type BusinessWithCategoryName = Business & {
   categoryName: string | null;
   locations: {
@@ -19,6 +20,7 @@ export type BusinessWithCategoryName = Business & {
     latitude?: number | null;
     longitude?: number | null;
   }[];
+  specialOffers: BusinessSpecialOffer[];
 };
 // export type AdminBusinessRow = Business & {
 //   filteredReviewCount: number; // dynamic count based on selected status
@@ -34,9 +36,6 @@ export type AdminBusinessRow = {
   ownerId: string;
   reviewCount: number;
   filteredReviewCount: number;
-  // locations: {
-  //   city: string | null;
-  // }[];
 };
 export type NewBusiness = typeof businesses.$inferInsert;
 export type BusinessUpdate = Partial<Omit<Business, "id">>;
