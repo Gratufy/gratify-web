@@ -20,7 +20,9 @@ export type BusinessWithCategoryName = Business & {
     latitude?: number | null;
     longitude?: number | null;
   }[];
-  specialOffers: BusinessSpecialOffer[];
+  specialOffers: (BusinessSpecialOffer & {
+    title: string | null;
+  })[];
 };
 // export type AdminBusinessRow = Business & {
 //   filteredReviewCount: number; // dynamic count based on selected status

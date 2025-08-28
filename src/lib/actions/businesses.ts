@@ -257,17 +257,12 @@ export async function getBusinesses(
         business.specialOffers.push({
           businessId: offer.businessId,
           offerId: offer.offerId,
-          //title: offer.title,
+          title: offer.title,
         });
       }
     }
     const results = Array.from(businessMap.values());
-    console.log("Fetched businesses:", results.length);
-    console.log("results", results);
-    console.log(
-      "results.length === limit ? offset + limit",
-      results.length === limit ? offset + limit : undefined
-    );
+
     // help function to filter businesses by city and online status
     //results = filterByCityAndOnline(results, city, showOnlineStatus);
     return {
@@ -321,14 +316,20 @@ export async function getBusinessById(
       .select({
         businessId: businessSpecialOffers.businessId,
         offerId: businessSpecialOffers.offerId,
+        title: specialOffers.title,
       })
       .from(businessSpecialOffers)
+      .leftJoin(
+        specialOffers,
+        eq(businessSpecialOffers.offerId, specialOffers.id)
+      )
       .where(eq(businessSpecialOffers.businessId, id));
 
     for (const offer of offerRows) {
       businessData.specialOffers.push({
         businessId: offer.businessId,
         offerId: offer.offerId,
+        title: offer.title,
       });
     }
     return businessData;

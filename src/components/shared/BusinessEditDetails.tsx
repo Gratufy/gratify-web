@@ -38,6 +38,12 @@ function BusinessEditDetails({ id, href }: Props) {
             {/* <p className="text-2xl mb-4">City: {data.city}</p> */}
 
             <p className="text-2xl ">Category: {data.categoryName}</p>
+            {data?.specialOffers.length &&
+              data.specialOffers.map((offer) => (
+                <p key={offer.offerId} className="text-xl ">
+                  - {offer.title}
+                </p>
+              ))}
             {CityListElements}
             <p className="text-2xl ">Status: {data.status}</p>
           </div>
