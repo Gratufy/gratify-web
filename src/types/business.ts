@@ -57,6 +57,8 @@ export type BusinessesResponse = {
   businesses: BusinessWithCategoryName[];
   total: number;
 };
+
+//FORM
 export type NewBusinessFormData = {
   name: string;
   description: string;
@@ -64,8 +66,10 @@ export type NewBusinessFormData = {
   categoryId: string;
   isOnline: boolean;
   locations: LocationFormData[];
+  specialOffers: NewBusinessSpecialOffer["offerId"][];
 };
 
+//Sort
 export type SortBy = "newest" | "mostKarma";
 export type Scope = "public" | "business_user" | "admin";
 export type OnlineFilter = "all" | "online" | "offline";

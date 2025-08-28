@@ -24,11 +24,14 @@ import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
 import { useCheckAddress } from "@/hooks/useBusinessLocation";
 
 import { useCreateBusiness, useUpdateBusiness } from "@/hooks/useBusinesses";
-import { BusinessUpdate } from "@/types";
+import { BusinessUpdate, LocationFormData } from "@/types";
 import { useUserStore } from "@/stores/useUserStore";
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { saveBusinessLocations } from "@/lib/actions/businessLocation";
+import { useAllSpecialOffers } from "@/hooks/useSpecialOffers";
+import CustomCheckBox from "../ui/CustomCheckBox";
+import { specialOffers } from "@/db/schema";
 const BusinessMap = dynamic(() => import("@/components/shared/BusinessMap"), {
   ssr: false,
 });
@@ -37,12 +40,12 @@ const emptyToUndefined = v.transform((value: unknown) => {
   if (typeof value === "string" && value.trim() === "") return undefined;
   return value;
 });
-type Location = {
-  city?: string;
-  address?: string;
-  latitude?: number;
-  longitude?: number;
-};
+// type Location = {
+//   city?: string;
+//   address?: string;
+//   latitude?: number;
+//   longitude?: number;
+// };
 export const businessFormSchema = v.pipe(
   v.object({
     isOnline: v.boolean(), // checkbox for online status
@@ -53,14 +56,10 @@ export const businessFormSchema = v.pipe(
       emptyToUndefined,
       v.optional(v.pipe(v.string(), v.url("Invalid website URL")))
     ),
-    // website: v.union([
-    //   v.undefined_(),
-    //   v.pipe(
-    //     v.string(),
-    //     v.url("Invalid website URL"),
-    //     v.nonEmpty("Website is required for online businesses.")
-    //   ),
-    //]),
+    specialOffers: v.pipe(
+      v.array(v.string()),
+      v.minLength(1, "Please select at least one offer.")
+    ), // array of offer IDs
     category: v.pipe(v.string(), v.nonEmpty("Please select a category.")),
     locations: v.array(
       v.object({
@@ -84,28 +83,6 @@ export const businessFormSchema = v.pipe(
     ["website"]
   ),
 
-  // check 2: if offline or address is specified, city is required
-  // v.forward(
-  //   v.partialCheck(
-  //     [["isOnline"], ["locations"]],
-  //     (data) => {
-  //       if (data.isOnline) return true; // онлайн → не проверяем
-  //       // офлайн → у каждой локации, где есть адрес, должен быть city
-  //       return data.locations.every(
-  //         (loc: Location) => !loc.address || (loc.address && loc.city)
-  //       );
-  //     },
-  //     "City is required for physical locations."
-  //   ),
-  //   ["locations"]
-  // )
-  // v.check(
-  //   (data) =>
-  //     data.isOnline ||
-  //     (data.locations.length > 0 &&
-  //       data.locations.every((loc) => loc.city && loc.city.trim() !== "")),
-  //   "Offline businesses must have at least one city specified."
-  // )
   v.forward(
     v.partialCheck(
       [["isOnline"], ["locations"]],
@@ -116,7 +93,7 @@ export const businessFormSchema = v.pipe(
         return (
           data.locations.length > 0 &&
           data.locations.every(
-            (loc: Location) => loc.city && loc.city.trim() !== ""
+            (loc: LocationFormData) => loc.city && loc.city.trim() !== ""
           )
         );
       },
@@ -152,6 +129,7 @@ BusinessFormProps) {
   const updateBusinessMutation = useUpdateBusiness();
 
   const checkAddressMutation = useCheckAddress();
+  const { data: allSpecialOffers } = useAllSpecialOffers();
 
   const form = useForm<FormValues>({
     resolver: valibotResolver(businessFormSchema),
@@ -160,9 +138,9 @@ BusinessFormProps) {
       description: "",
       website: "",
       category: "",
-
       isOnline: false,
       locations: [],
+      specialOffers: [],
     },
   });
 
@@ -253,6 +231,7 @@ BusinessFormProps) {
           description: data.description,
           website: data.website ?? null,
           categoryId: data.category,
+          // specialOffers: data.specialOffers,
         };
 
         await updateBusinessMutation.mutateAsync({
@@ -274,6 +253,7 @@ BusinessFormProps) {
           categoryId: data.category,
           locations: locationsWithCoords,
           isOnline: data.isOnline,
+          specialOffers: data.specialOffers,
         };
         // Create the business-user
         const { profile } = await createBusinessMutation.mutateAsync(
@@ -333,16 +313,43 @@ BusinessFormProps) {
           name="category"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Category</FormLabel>
+              <FormLabel className="mb-4 text-2xl">Category</FormLabel>
               <FormControl>
                 <CustomSelect
                   value={field.value}
                   onChange={field.onChange}
-                  options={categories} // массив объектов или строк
+                  options={categories} // array of category objects
                   getOptionValue={(c) => c.categoryId}
                   getOptionLabel={(c) => c.name}
                   placeholder="Оберіть категорію"
                   error={form.formState.errors.category?.message as string}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* Special offers Field */}
+        <FormField
+          control={form.control}
+          name="specialOffers"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="mb-4 text-2xl">Special Offers</FormLabel>
+              <FormControl>
+                <CustomCheckBox
+                  offers={allSpecialOffers ?? []}
+                  selectedOfferIds={field.value ?? []}
+                  onChange={(offerId, checked) => {
+                    let newValue = field.value ?? [];
+                    if (checked) {
+                      newValue = [...newValue, offerId];
+                    } else {
+                      newValue = newValue.filter((id) => id !== offerId);
+                    }
+                    field.onChange(newValue);
+                  }}
+                  // error={form.formState.errors.specialOffers?.message as string}
                 />
               </FormControl>
               <FormMessage />

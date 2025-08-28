@@ -9,6 +9,7 @@ import {
   businesses,
   businessLocations,
   businessReviews,
+  businessSpecialOffers,
 } from "@/db/schema";
 import { eq, desc, sql, and, SQL } from "drizzle-orm";
 import {
@@ -346,6 +347,16 @@ export async function createBusiness(values: NewBusinessFormData) {
 
     // add all locations
     await saveBusinessLocations(newBusiness.id, values.locations ?? []);
+
+    // save Special offers
+    if (values.specialOffers?.length) {
+      await db.insert(businessSpecialOffers).values(
+        values.specialOffers.map((offerId) => ({
+          businessId: newBusiness.id,
+          offerId,
+        }))
+      );
+    }
     return {
       business: newBusiness,
       // check if we need profile??????!

@@ -43,4 +43,8 @@ export const queryKeys = {
   // if i need it
   // checkAddress: (city: string, address: string) =>
   //   ["checkAddress", { city, address }] as const,
+  // Special Offers
+  specialOffers: ["specialOffers"] as const,
+  businessSpecialOffers: (businessId: string) =>
+    ["businessSpecialOffers", businessId] as const,
 };
