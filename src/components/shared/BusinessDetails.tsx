@@ -6,7 +6,10 @@ import BackButton from "../ui/BackButton";
 import Karma from "./Karma";
 import BusinessReviews from "./BusinessReviews";
 import { renderLocations } from "@/lib/helpers/renderLocations";
-import BusinessMapAll from "./BusinessMapAll";
+import dynamic from "next/dynamic";
+const BusinessMapAll = dynamic(() => import("./BusinessMapAll"), {
+  ssr: false,
+});
 
 interface Props {
   id: string;

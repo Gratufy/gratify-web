@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useBusinesses } from "@/hooks/useBusinesses";
-import Link from "next/link";
+
 import BusinessCardShot from "@/components/shared/BusinessCardShot";
 
 export default function BusinessHome() {

@@ -4,7 +4,13 @@ import { useBusiness, useDeleteBusiness } from "@/hooks/useBusinesses";
 import BackButton from "../ui/BackButton";
 import Link from "next/link";
 import { renderLocations } from "@/lib/helpers/renderLocations";
-import BusinessMapAll from "./BusinessMapAll";
+import dynamic from "next/dynamic";
+const BusinessMapAll = dynamic(
+  () => import("@/components/shared/BusinessMapAll"),
+  {
+    ssr: false,
+  }
+);
 
 interface Props {
   id: string;

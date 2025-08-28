@@ -23,24 +23,7 @@ export default function PublicHome() {
   const [categoryId, setCategoryId] = useState<string>("__all__");
   const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>("all");
   const [sortBy, setSortBy] = useState<SortBy>("newest");
-  // const {
-  //   data,
-  //   fetchNextPage,
-  //   hasNextPage,
-  //   isFetchingNextPage,
-  //   isLoading: isBusinessesLoading,
-  //   isFetching,
-  //   error,
-  //   isError: isBusinessesError,
-  // } = useInfiniteBusinesses({
-  //   city,
-  //   categoryId,
-  //   scope: "public",
-  //   showOnlineStatus,
-  //   sortBy,
-  // });
-  // const businesses =
-  //   data?.pages?.flatMap((page) => page.businesses ?? []) || [];
+
   const categoriesWithAll = [
     { categoryId: "__all__", name: "Всі" }, //index "__all__" for   "всi"
     ...(categories || []),
@@ -86,27 +69,6 @@ export default function PublicHome() {
         sortBy={sortBy}
         scope="public"
       />
-
-      {/* {isBusinessesLoading && <p>Loading...</p>}
-      {isBusinessesError && <p>Помилка: {error?.message}</p>}
-      {businesses?.length ? (
-        <>
-          <ul className="w-full justify-center items-center flex flex-col">
-            {businesses.map((b) => (
-              <li key={b.id}>
-                <BusinessCardShot business={b} selectedCity={city} />
-              </li>
-            ))}
-          </ul>
-          <BusinessMapAll
-            businesses={businesses}
-            className="w-full"
-            selectedCity={city}
-          />
-        </>
-      ) : (
-        <p className="text-2xl"> Нема бізнесів</p>
-      )} */}
     </div>
   );
 }

@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { useInfiniteBusinesses } from "@/hooks/useBusinesses";
-import { BusinessWithCategoryName, OnlineFilter, Scope, SortBy } from "@/types";
+import { OnlineFilter, Scope, SortBy } from "@/types";
 import BusinessCardShot from "./BusinessCardShot";
 import dynamic from "next/dynamic";
 const BusinessMapAll = dynamic(
