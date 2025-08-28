@@ -2,13 +2,15 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { db } from "@/db";
+import { PgSelect } from "drizzle-orm/pg-core";
+import { inArray } from "drizzle-orm";
 import {
   businessCategories,
   businesses,
   businessLocations,
   businessReviews,
 } from "@/db/schema";
-import { eq, desc, sql, and } from "drizzle-orm";
+import { eq, desc, sql, and, SQL } from "drizzle-orm";
 import {
   GetBusinessesParams,
   // Business,
@@ -17,11 +19,14 @@ import {
   AdminBusinessRow,
   NewBusinessFormData,
   OnlineFilter,
+  BusinessesResponse,
+  GetBusinessesWithPagination,
 } from "@/types/business";
 import { isAdmin } from "@/lib/helpers/isAdmin";
 import { userProfiles } from "@/db/schema";
 //import { checkAddress } from "./businessLocation";
 import { saveBusinessLocations } from "@/lib/actions/businessLocation";
+import { PAGE_SIZE } from "@/const/business";
 
 function filterByCityAndOnline(
   businesses: BusinessWithCategoryName[],
@@ -79,9 +84,15 @@ const businessSelectFields = {
 
 // get businesses with filters
 export async function getBusinesses(
-  params: GetBusinessesParams
-): Promise<BusinessWithCategoryName[]> {
+  params: GetBusinessesWithPagination
+): Promise<{
+  data: BusinessWithCategoryName[];
+  nextOffset?: number; // для useInfiniteQuery
+}> {
+  console.log(">>> getBusinesses called with", params);
   const {
+    limit = PAGE_SIZE,
+    offset = 0,
     city = "__all__",
     categoryId = "__all__",
     sortBy = "newest",
@@ -90,22 +101,59 @@ export async function getBusinesses(
   } = params ?? {};
 
   const supabase = await createClient();
+  console.log("step: getUser");
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const conditions = [];
+  const conditions: SQL[] = [];
   //category filter
   if (categoryId && categoryId !== "__all__")
     conditions.push(eq(businesses.categoryId, categoryId));
-
-  //  online/offline
-  if (showOnlineStatus === "online") {
-    conditions.push(eq(businesses.isOnline, true));
+  //-----------------
+  // фильтр по city и онлайн/офлайн
+  if (!city || city === "__all__") {
+    // "__all__"
+    if (showOnlineStatus === "online") {
+      conditions.push(eq(businesses.isOnline, true));
+    } else if (showOnlineStatus === "offline") {
+      // есть хотя бы одна физическая локация
+      conditions.push(sql`
+        EXISTS (
+          SELECT 1 FROM ${businessLocations} bl
+          WHERE bl.business_id = ${businesses.id}
+        )
+      `);
+    }
+    // "all" — не добавляем условий
+  } else {
+    // выбран конкретный город
+    if (showOnlineStatus === "online") {
+      conditions.push(eq(businesses.isOnline, true));
+    } else if (showOnlineStatus === "offline") {
+      conditions.push(sql`
+        EXISTS (
+          SELECT 1 FROM ${businessLocations} bl
+          WHERE bl.business_id = ${businesses.id} AND bl.city = ${city}
+        )
+      `);
+    } else if (showOnlineStatus === "all") {
+      // объединяем онлайн или с локацией в этом городе
+      conditions.push(sql`
+        ${businesses.isOnline} = true OR EXISTS (
+          SELECT 1 FROM ${businessLocations} bl
+          WHERE bl.business_id = ${businesses.id} AND bl.city = ${city}
+        )
+      `);
+    }
   }
-  //  else if (showOnlineStatus === "offline") {
-  //   conditions.push(eq(businesses.isOnline, false));
+  //-----------------
+
+  // //  online/offline
+  // if (showOnlineStatus === "online") {
+  //   conditions.push(eq(businesses.isOnline, true));
   // }
+
   // scope
   if (scope === "public") {
     conditions.push(eq(businesses.status, "approved"));
@@ -132,9 +180,28 @@ export async function getBusinesses(
   }
 
   try {
+    // Подзапрос: сначала берем только id нужных бизнесов
+    console.log("step: businessIdsQuery");
+    const pageIdsRows = await db
+      .select({ id: businesses.id })
+      .from(businesses)
+
+      .where(whereClause)
+      .orderBy(orderBy)
+      .limit(limit)
+      .offset(offset);
+
+    const ids = pageIdsRows.map((r) => String(r.id));
+    if (ids.length === 0) return { data: [], nextOffset: undefined };
+    console.log("pageIds", ids);
+
+    // Главный запрос: подтягиваем все поля + локации
+    console.log("step: rows query");
+
     const rows = await db
       .select(businessSelectFields)
       .from(businesses)
+
       .leftJoin(
         businessCategories,
         eq(businesses.categoryId, businessCategories.categoryId)
@@ -143,11 +210,13 @@ export async function getBusinesses(
         businessLocations,
         eq(businesses.id, businessLocations.businessId)
       )
-      .where(whereClause)
+      .where(inArray(businesses.id, ids))
       .orderBy(orderBy);
 
     // Map businesses by ID
+    // собираем бизнесы с массивом локаций
     const businessMap = new Map<string, BusinessWithCategoryName>();
+
     for (const row of rows) {
       if (!businessMap.has(row.id)) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -170,10 +239,21 @@ export async function getBusinesses(
       }
     }
 
-    let results = Array.from(businessMap.values());
+    const results = Array.from(businessMap.values());
+    console.log("Fetched businesses:", results.length);
+    console.log("results", results);
+    console.log(
+      "results.length === limit ? offset + limit",
+      results.length === limit ? offset + limit : undefined
+    );
     // help function to filter businesses by city and online status
-    results = filterByCityAndOnline(results, city, showOnlineStatus);
-    return results;
+    //results = filterByCityAndOnline(results, city, showOnlineStatus);
+    return {
+      data: results ?? [],
+      nextOffset: results?.length === limit ? offset + limit : undefined,
+      //nextOffset: offset + limit,
+    };
+    //return results;
   } catch (error) {
     console.error("Error fetching businesses with filters:", error);
     throw new Error("Failed to fetch businesses");

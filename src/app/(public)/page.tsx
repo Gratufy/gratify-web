@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useUserStore } from "@/stores/useUserStore";
 import DeleteAccountButton from "@/components/ui/DeleteAccountButton";
-import { useBusinesses } from "@/hooks/useBusinesses";
+import { useBusinesses, useInfiniteBusinesses } from "@/hooks/useBusinesses";
 import { useBusinessCategories } from "@/hooks/useBusinessCategories";
 import CustomSelect from "@/components/ui/CustomSelect";
 import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 import { OnlineFilter, SortBy } from "@/types";
 import OnlineStatusFilter from "@/components/shared/OnlineStatusFilter";
 import BusinessCardShot from "@/components/shared/BusinessCardShot";
+import BusinessList from "@/components/shared/BusinessList";
 
 const BusinessMapAll = dynamic(
   () => import("@/components/shared/BusinessMapAll"),
@@ -30,19 +31,24 @@ export default function PublicHome() {
   const [categoryId, setCategoryId] = useState<string>("__all__");
   const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>("all");
   const [sortBy, setSortBy] = useState<SortBy>("newest");
-  const {
-    data: businesses,
-    isLoading: isBusinessesLoading,
-    isError: isBusinessesError,
-    error,
-  } = useBusinesses({
-    city,
-    categoryId,
-    scope: "public",
-    showOnlineStatus,
-    sortBy,
-  });
-
+  // const {
+  //   data,
+  //   fetchNextPage,
+  //   hasNextPage,
+  //   isFetchingNextPage,
+  //   isLoading: isBusinessesLoading,
+  //   isFetching,
+  //   error,
+  //   isError: isBusinessesError,
+  // } = useInfiniteBusinesses({
+  //   city,
+  //   categoryId,
+  //   scope: "public",
+  //   showOnlineStatus,
+  //   sortBy,
+  // });
+  // const businesses =
+  //   data?.pages?.flatMap((page) => page.businesses ?? []) || [];
   const categoriesWithAll = [
     { categoryId: "__all__", name: "Всі" }, //index "__all__" for   "всi"
     ...(categories || []),
@@ -52,11 +58,7 @@ export default function PublicHome() {
       <h1 className="text-2xl font-bold mb-2">
         Welcome to the Public Home Page
       </h1>
-      <p className="mb-1 text-lg">Тут будуть картки бізнесів та фільтри</p>
-      <p className="mb-1 text-lg">З можливістю переходити на окрему картку</p>
-      <p className="italic">
-        На навігацію поки не звертати увагу. Це виключно для мене і тимчасово
-      </p>
+
       {user && <DeleteAccountButton />}
       <CustomSelect
         value={categoryId}
@@ -85,7 +87,15 @@ export default function PublicHome() {
       <h2 className="text-xl font-bold mb-2">
         Список бізнесів with status APPROVED
       </h2>
-      {isBusinessesLoading && <p>Loading...</p>}
+      <BusinessList
+        city={city}
+        categoryId={categoryId}
+        showOnlineStatus={showOnlineStatus}
+        sortBy={sortBy}
+        scope="public"
+      />
+
+      {/* {isBusinessesLoading && <p>Loading...</p>}
       {isBusinessesError && <p>Помилка: {error?.message}</p>}
       {businesses?.length ? (
         <>
@@ -104,7 +114,7 @@ export default function PublicHome() {
         </>
       ) : (
         <p className="text-2xl"> Нема бізнесів</p>
-      )}
+      )} */}
     </div>
   );
 }

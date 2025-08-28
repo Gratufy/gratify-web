@@ -6,14 +6,8 @@ import {
 
 export const queryKeys = {
   businessCategories: ["businessCategories"] as const,
-  businesses: ["businesses"] as const,
 
-  // businessList: (filters: {
-  //   city: string;
-  //   categoryId: string;
-  //   sortBy: string;
-  //   scope: Scope;
-  // }) => ["businesses", filters] as const,
+  // businesses: ["businesses"] as const,
   businessList: (filters: GetBusinessesParams) =>
     ["businesses", filters] as const,
 

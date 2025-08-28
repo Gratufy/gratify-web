@@ -1,7 +1,15 @@
 "use client";
 
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  useInfiniteQuery,
+  UseInfiniteQueryResult,
+} from "@tanstack/react-query";
 import { queryKeys } from "@/lib/reactQuery/queryKeys";
+import type { InfiniteData } from "@tanstack/react-query";
+
 import {
   //   getAllBusinesses,
   getBusinessById,
@@ -12,33 +20,51 @@ import {
   getBusinessesWithReviewStatus,
 } from "@/lib/actions/businesses";
 import {
+  BusinessesResponse,
   BusinessReviewStatus,
   BusinessUpdate,
+  BusinessWithCategoryName,
   GetBusinessesParams,
   Scope,
 } from "@/types";
+import { PAGE_SIZE } from "@/const/business";
 
 export type UseBusinessesParams = GetBusinessesParams;
 // all businesses
-
-export function useBusinesses({
-  city,
-  categoryId,
-  sortBy,
-  scope,
-  showOnlineStatus,
-}: UseBusinessesParams = {}) {
-  const filters = {
-    city: city ?? "__all__",
-    categoryId: categoryId ?? "__all__",
-    sortBy: sortBy ?? "newest",
-    scope: scope ?? "public",
-    showOnlineStatus: showOnlineStatus ?? "all",
-  };
+//simple
+export function useBusinesses(params: GetBusinessesParams = {}) {
   return useQuery({
-    queryKey: queryKeys.businessList(filters),
-    queryFn: () => getBusinesses(filters),
-    staleTime: 1000 * 60 * 5, // кеш 5 минут
+    queryKey: queryKeys.businessList(params),
+    queryFn: () => getBusinesses(params),
+    staleTime: 1000 * 60 * 5,
+  });
+}
+
+//infinity
+export function useInfiniteBusinesses(
+  params: Omit<GetBusinessesParams, "limit" | "offset">
+) {
+  return useInfiniteQuery({
+    //queryKey: queryKeys.businessList(params),
+    queryKey: ["businesses", params],
+    queryFn: async ({ pageParam = 0 }) => {
+      const result = await getBusinesses({
+        ...params,
+        offset: pageParam,
+        limit: PAGE_SIZE,
+      });
+      return {
+        data: result.data ?? [],
+        nextOffset: result.nextOffset,
+      };
+    },
+    //getNextPageParam: (lastPage) => lastPage.nextOffset,
+    getNextPageParam: (lastPage) => {
+      console.log("lastPage in getNextPageParam:", lastPage);
+      return lastPage?.nextOffset ?? undefined;
+    },
+    staleTime: 1000 * 60 * 10, // 10 минут кеш
+    initialPageParam: 0,
   });
 }
 
@@ -47,7 +73,7 @@ export function useBusiness(id: string) {
   return useQuery({
     queryKey: queryKeys.businessById(id),
     queryFn: () => getBusinessById(id),
-    staleTime: 1000 * 60 * 5, // 5 минут кеш
+    staleTime: 1000 * 60 * 10, // 10 минут кеш
     enabled: !!id,
   });
 }
@@ -60,8 +86,7 @@ export function useCreateBusiness() {
     onSuccess: () => {
       // update all business lists
       queryClient.invalidateQueries({
-        queryKey: queryKeys.businesses,
-        exact: false,
+        queryKey: ["businesses"],
       });
     },
   });
@@ -81,8 +106,7 @@ export function useUpdateBusiness() {
       });
       // all lists
       queryClient.invalidateQueries({
-        queryKey: queryKeys.businesses,
-        exact: false,
+        queryKey: ["businesses"],
       });
     },
   });
@@ -101,8 +125,7 @@ export function useDeleteBusiness() {
       });
       // all lists
       queryClient.invalidateQueries({
-        queryKey: queryKeys.businesses,
-        exact: false,
+        queryKey: ["businesses"],
       });
     },
   });

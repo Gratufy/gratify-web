@@ -20,24 +20,15 @@ export default function BusinessHome() {
       <h1 className="text-2xl font-bold mb-2">
         Welcome to the Business Home Page
       </h1>
-      <p className="mb-1 text-lg">
-        Ця сторінка призначена для перегляду власних бізнесів
-      </p>
-      <p className="mb-1 text-lg">
-        Тут будуть картки ВЛАСНИХ бізнесів та фільтри
-      </p>
-      <p className="mb-1 text-lg">З можливістю переходити на окрему картку</p>
-      <p className="italic">
-        На навігацію поки не звертати увагу. Це виключно для мене і тимчасово
-      </p>
+
       <h2 className="text-xl font-bold mb-2">
         Список ВЛАСНИХ бізнесів with all status
       </h2>
       {isBusinessesLoading && <p>Loading...</p>}
       {isBusinessesError && <p>Помилка: {error?.message}</p>}
-      {businesses?.length ? (
+      {businesses?.data.length ? (
         <ul>
-          {businesses.map((b) => (
+          {businesses.data.map((b) => (
             <li key={b.id}>
               <BusinessCardShot business={b} selectedCity="__all__" />
             </li>

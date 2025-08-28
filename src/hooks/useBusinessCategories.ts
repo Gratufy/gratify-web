@@ -14,7 +14,7 @@ export function useBusinessCategories() {
   const { data, isLoading, isError, error } = useQuery<BusinessCategory[]>({
     queryKey: queryKeys.businessCategories,
     queryFn: getAllBusinessCategories,
-    staleTime: 1000 * 60 * 5, // 5 минут кеш
+    staleTime: 1000 * 60 * 10, // 5 минут кеш
   });
 
   const addMutation = useMutation({
@@ -40,7 +40,7 @@ export function useBusinessCategories() {
         queryKey: queryKeys.businessCategories,
       });
       queryClient.invalidateQueries({
-        queryKey: queryKeys.businesses,
+        queryKey: ["businesses"], // вместо queryKeys.businesses
         exact: false,
       });
     },

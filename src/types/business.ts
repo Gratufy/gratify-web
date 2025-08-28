@@ -47,6 +47,14 @@ export interface GetBusinessesParams {
   showOnlineStatus?: OnlineFilter;
 }
 
+export type GetBusinessesWithPagination = GetBusinessesParams & {
+  limit?: number;
+  offset?: number;
+};
+export type BusinessesResponse = {
+  businesses: BusinessWithCategoryName[];
+  total: number;
+};
 export type NewBusinessFormData = {
   name: string;
   description: string;

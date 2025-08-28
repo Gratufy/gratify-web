@@ -20,7 +20,7 @@ export function useVoteBusiness(businessId: string) {
       });
       //refresh all business lists (different filters, scope)
       queryClient.invalidateQueries({
-        queryKey: queryKeys.businesses,
+        queryKey: ["businesses"], // вместо queryKeys.businesses
         exact: false,
       });
     },
@@ -33,6 +33,6 @@ export function useUserVote(businessId: string) {
     queryKey: queryKeys.userVote(businessId, user?.userId),
     queryFn: () => (user ? getUserVote(businessId) : null),
     enabled: !!user, //if there is no user we do not make the request
-    staleTime: 1000 * 60, // 1 min
+    staleTime: 1000 * 60 * 5, // 5 min
   });
 }

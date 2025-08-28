@@ -19,7 +19,7 @@ export function useBusinessReviews(
   return useQuery({
     queryKey: queryKeys.businessReviews(businessId, scope, status),
     queryFn: () => getBusinessReviews(businessId, scope, status),
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 10, // 10 минут кеш
   });
 }
 
@@ -38,7 +38,7 @@ export function useCreateReview() {
       });
       // все списки бизнесов (мог измениться счетчик/сортировка)
       queryClient.invalidateQueries({
-        queryKey: queryKeys.businesses,
+        queryKey: ["businesses"], // вместо queryKeys.businesses
         exact: false,
       });
 
@@ -65,7 +65,7 @@ export function useUpdateReview(businessId: string) {
         exact: true,
       });
       queryClient.invalidateQueries({
-        queryKey: queryKeys.businesses,
+        queryKey: ["businesses"], // вместо queryKeys.businesses
         exact: false,
       });
     },
@@ -88,7 +88,7 @@ export function useDeleteReview(businessId: string) {
       });
       // 3. update general list of businesses
       queryClient.invalidateQueries({
-        queryKey: queryKeys.businesses,
+        queryKey: ["businesses"], // вместо queryKeys.businesses
         exact: false,
       });
       // 4. update admin list of businesses
