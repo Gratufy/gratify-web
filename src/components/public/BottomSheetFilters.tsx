@@ -5,7 +5,6 @@ import {
   SheetContent,
   SheetTitle,
   SheetTrigger,
-  SheetClose,
 } from '@/components/ui/sheet';
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 import SortIcon from '@/assets/icons/filters/icon-sort.svg';
@@ -34,7 +33,13 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
   const renderContent = () => {
     switch (activeFilter) {
       case 'city':
-        return <CityFilter city={props.city} setCity={props.setCity} />;
+        return (
+          <CityFilter
+            city={props.city}
+            setCity={props.setCity}
+            onApply={() => setActiveFilter(null)}
+          />
+        );
       case 'sort':
         return (
           <SortFilter
