@@ -11,9 +11,6 @@ import DeleteAccountButton from '@/components/ui/DeleteAccountButton';
 import CustomSelect from '@/components/ui/CustomSelect';
 import BottomSheetFilters from './BottomSheetFilters';
 
-import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
-
-
 function PublicHomeClient() {
   const user = useUserStore((s) => s.profile);
   const {
@@ -66,8 +63,8 @@ function PublicHomeClient() {
         sortBy={sortBy}
         scope="public"
       />
-      <CityIcon className="h-4 w-4" />
-      {/* <BottomSheetFilters
+
+      <BottomSheetFilters
         city={city}
         setCity={setCity}
         categoryId={categoryId}
@@ -77,7 +74,7 @@ function PublicHomeClient() {
         showOnlineStatus={showOnlineStatus}
         setShowOnlineStatus={setShowOnlineStatus}
         categories={categoriesWithAll}
-      /> */}
+      />
     </>
   );
 }
