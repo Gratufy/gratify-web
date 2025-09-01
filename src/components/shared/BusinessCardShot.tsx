@@ -1,8 +1,8 @@
-import React from "react";
-import Karma from "./Karma";
-import { BusinessWithCategoryName } from "@/types";
-import Link from "next/link";
-import { renderLocations } from "@/lib/helpers/renderLocations";
+import React from 'react';
+import Karma from './Karma';
+import { BusinessWithCategoryName } from '@/types';
+import Link from 'next/link';
+import { renderLocations } from '@/lib/helpers/renderLocations';
 
 function BusinessCardShot({
   business,
@@ -13,13 +13,13 @@ function BusinessCardShot({
 }) {
   const CityListElements = renderLocations(business, selectedCity);
   return (
-    <div className="mb-2 p-2 border border-gray-300 rounded-4xl w-160 flex flex-col items-center justify-center">
+    <div className="rounded-4xl lg:w-160 mb-2 flex flex-col items-center justify-center border border-gray-300 p-2">
       <p>name: {business.name}</p>
 
       <p>category: {business.categoryName}</p>
       {business?.specialOffers.length > 0 &&
         business.specialOffers.map((offer) => (
-          <p key={offer.offerId} className="text-sm ">
+          <p key={offer.offerId} className="text-sm">
             - {offer.title}
           </p>
         ))}
@@ -30,7 +30,7 @@ function BusinessCardShot({
       <Karma businessId={business.id} />
       <Link
         href={`./business/${business.id}`}
-        className="px-4 py-2 bg-chart-2 text-white rounded-full cursor-pointer"
+        className="bg-chart-2 cursor-pointer rounded-full px-4 py-2 text-white"
       >
         See more
       </Link>

@@ -1,10 +1,10 @@
-"use client";
-import React from "react";
-import ThemeSwitch from "@/components/shared/ThemeSwitch";
-import Link from "next/link";
-import GoogleBtn from "@/components/ui/GoogleBtn";
-import Logout from "@/components/ui/Logout";
-import { useUserStore } from "@/stores/useUserStore";
+'use client';
+import React from 'react';
+import ThemeSwitch from '@/components/shared/ThemeSwitch';
+import Link from 'next/link';
+import GoogleBtn from '@/components/ui/GoogleBtn';
+import Logout from '@/components/ui/Logout';
+import { useUserStore } from '@/stores/useUserStore';
 
 function PublicHeader() {
   const session = useUserStore((s) => s.session);
@@ -14,11 +14,11 @@ function PublicHeader() {
   // if (isLoading) return <p>Загрузка...</p>;
   // if (!session) return null;
   return (
-    <div className="border-muted-foreground border-b bg-input dark:bg-background py-8 w-full flex flex-col items-center justify-center">
-      <h1 className="text-xl font-bold mx-0">Public Header</h1>
-      <div className="flex justify-around items-center w-full ">
-        <nav className="flex items-center justify-center">
-          <ul className="flex items-center gap-10 text-lg font-semibold text-sidebar-accent-foreground ">
+    <div className="border-muted-foreground bg-input dark:bg-background flex w-full flex-col items-center justify-center border-b py-8">
+      <h1 className="mx-0 text-xl font-bold">Public Header</h1>
+      <div className="flex w-full flex-col items-center justify-around lg:flex-row">
+        <nav className="flex flex-col items-center justify-center">
+          <ul className="text-sidebar-accent-foreground flex flex-col items-center gap-10 text-lg font-semibold lg:flex-row">
             <li>
               <Link href="/">START</Link>
             </li>
