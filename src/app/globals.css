@@ -223,6 +223,9 @@
   @apply text-xs leading-[140%];
 }
 
+@utility placeholder-sm {
+  @apply text-sm leading-[130%];
+}
 /* @layer components; .card .modal Повторно используемые UI-компоненты*/
 /*EXMP !!!  @layer components {
   .btn-primary {
@@ -233,3 +236,17 @@
     @apply rounded-lg bg-white p-4 shadow-md;
   }
 } */
+
+@layer components {
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}

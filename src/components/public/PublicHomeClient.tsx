@@ -52,7 +52,7 @@ function PublicHomeClient() {
         value={showOnlineStatus}
         onChange={setShowOnlineStatus}
       />
-      {/* <p>Обране місто: {city || "—"}</p> */}
+
       <h2 className="mb-2 text-xl font-bold">
         Список бізнесів with status APPROVED
       </h2>
@@ -63,7 +63,17 @@ function PublicHomeClient() {
         sortBy={sortBy}
         scope="public"
       />
-      <BottomSheetFilters />
+      <BottomSheetFilters
+        city={city}
+        setCity={setCity}
+        categoryId={categoryId}
+        setCategoryId={setCategoryId}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+        showOnlineStatus={showOnlineStatus}
+        setShowOnlineStatus={setShowOnlineStatus}
+        categories={categoriesWithAll}
+      />
     </>
   );
 }

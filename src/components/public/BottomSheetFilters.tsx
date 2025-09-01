@@ -1,49 +1,95 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
   SheetTitle,
   SheetTrigger,
+  SheetClose,
 } from '@/components/ui/sheet';
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 import SortIcon from '@/assets/icons/filters/icon-sort.svg';
 import MapIcon from '@/assets/icons/filters/icon-map.svg';
 import CategoryIcon from '@/assets/icons/filters/icon-favor.svg';
+import { OnlineFilter, SortBy } from '@/types';
+import CityFilter from './mobiles-filters/CityFilter';
+import SortFilter from './mobiles-filters/SortFilter';
 
-function BottomSheetFilters() {
+type BottomSheetFiltersProps = {
+  city: string | undefined;
+  setCity: (city: string) => void;
+  categoryId: string;
+  setCategoryId: (id: string) => void;
+  sortBy: SortBy;
+  setSortBy: (sort: SortBy) => void;
+  showOnlineStatus: OnlineFilter;
+  setShowOnlineStatus: (status: OnlineFilter) => void;
+  categories: { categoryId: string; name: string }[];
+};
+
+function BottomSheetFilters(props: BottomSheetFiltersProps) {
+  const [activeFilter, setActiveFilter] = useState<
+    'city' | 'sort' | 'category' | 'map' | null
+  >(null);
+  const renderContent = () => {
+    switch (activeFilter) {
+      case 'city':
+        return <CityFilter city={props.city} setCity={props.setCity} />;
+      case 'sort':
+        return (
+          <SortFilter
+            sortBy={props.sortBy}
+            setSortBy={props.setSortBy}
+            showOnlineStatus={props.showOnlineStatus}
+            setShowOnlineStatus={props.setShowOnlineStatus}
+          />
+        );
+      case 'category':
+        return <div>Фільтр послуг</div>;
+      case 'map':
+        return <div>Мапа</div>;
+      default:
+        return null;
+    }
+  };
   return (
     <div className="bg-background-main-200 border-elements-grey-200 fixed inset-x-0 bottom-0 w-full border-[0.5px] px-4 py-2 lg:hidden">
       <Sheet>
         <SheetTrigger className="flex w-full items-center justify-center py-3">
           <div className="flex">
-            <div className="flex flex-col items-center justify-center gap-1 px-5">
-              <CityIcon />
+            <div
+              className="flex flex-col items-center justify-center gap-1 px-5"
+              onClick={() => setActiveFilter('city')}
+            >
+              <CityIcon className="h-4 w-4" />
               <p className="placeholder-xs">Місто</p>
             </div>
-            <div className="flex flex-col items-center justify-center gap-1 px-5">
-              <SortIcon />
+            <div
+              className="flex flex-col items-center justify-center gap-1 px-5"
+              onClick={() => setActiveFilter('sort')}
+            >
+              <SortIcon className="h-4 w-4" />
               <p className="placeholder-xs">Сортувати</p>
             </div>
-            <div className="flex flex-col items-center justify-center gap-1 px-5">
-              <CategoryIcon />
+            <div
+              className="flex flex-col items-center justify-center gap-1 px-5"
+              onClick={() => setActiveFilter('category')}
+            >
+              <CategoryIcon className="h-4 w-4" />
               <p className="placeholder-xs">Послуги</p>
             </div>
-            <div className="flex flex-col items-center justify-center gap-1 px-5">
-              <MapIcon />
+            <div
+              className="flex flex-col items-center justify-center gap-1 px-5"
+              onClick={() => setActiveFilter('map')}
+            >
+              <MapIcon className="h-4 w-4" />
               <p className="placeholder-xs">Мапа</p>
             </div>
           </div>
         </SheetTrigger>
-        <SheetContent side="bottom">
-          <SheetHeader>
-            <SheetTitle>Are you absolutely sure?</SheetTitle>
-            <SheetDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </SheetDescription>
-          </SheetHeader>
+        <SheetContent side="bottom" className="mx-auto h-auto w-4/5">
+          <SheetTitle className="sr-only">Застосувати фільтри</SheetTitle>
+          {renderContent()}
         </SheetContent>
       </Sheet>
     </div>
