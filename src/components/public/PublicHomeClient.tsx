@@ -10,7 +10,9 @@ import BusinessList from '@/components/shared/BusinessList';
 import DeleteAccountButton from '@/components/ui/DeleteAccountButton';
 import CustomSelect from '@/components/ui/CustomSelect';
 import BottomSheetFilters from './BottomSheetFilters';
+
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
+
 
 function PublicHomeClient() {
   const user = useUserStore((s) => s.profile);
