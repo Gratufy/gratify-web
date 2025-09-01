@@ -43,7 +43,7 @@ function CityFilter({ city, setCity, onApply }: CityFilterProps) {
           <CrossIcon className="h-3 w-3" />
           <span>Скасувати</span>
         </button>
-        <SheetClose
+        {/* <SheetClose
           onClick={() => {
             setCity(tempCity);
             onApply(); // close Sheet
@@ -51,7 +51,7 @@ function CityFilter({ city, setCity, onApply }: CityFilterProps) {
           className="placeholder-xs bg-background-main-300 w-30 border-background-main-300 flex h-8 items-center justify-center gap-1 border p-2 shadow-[1px_2px_10px_2px_var(--elements-grey-50)]"
         >
           <CheckIcon className="h-4 w-4" /> <span>Застосувати</span>
-        </SheetClose>
+        </SheetClose> */}
       </div>
     </div>
   );
