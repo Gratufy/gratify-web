@@ -5,6 +5,8 @@ import {
   SheetContent,
   SheetTitle,
   SheetTrigger,
+  SheetHeader,
+  SheetDescription,
 } from '@/components/ui/sheet';
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 import SortIcon from '@/assets/icons/filters/icon-sort.svg';
@@ -93,7 +95,13 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
           </div>
         </SheetTrigger>
         <SheetContent side="bottom" className="mx-auto h-auto w-4/5">
-          <SheetTitle className="sr-only">Застосувати фільтри</SheetTitle>
+          <SheetHeader className="sr-only">
+            <SheetTitle>Застосувати фільтри</SheetTitle>
+            <SheetDescription>
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+            </SheetDescription>
+          </SheetHeader>
           {renderContent()}
         </SheetContent>
       </Sheet>

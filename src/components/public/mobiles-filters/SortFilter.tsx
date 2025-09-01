@@ -1,3 +1,4 @@
+'use client';
 import { OnlineFilter, SortBy } from '@/types';
 import React from 'react';
 
