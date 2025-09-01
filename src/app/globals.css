@@ -219,6 +219,10 @@
   }
 }
 
+@utility placeholder-xs {
+  @apply text-xs leading-[140%];
+}
+
 /* @layer components; .card .modal Повторно используемые UI-компоненты*/
 /*EXMP !!!  @layer components {
   .btn-primary {
