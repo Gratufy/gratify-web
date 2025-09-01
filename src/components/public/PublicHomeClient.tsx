@@ -63,7 +63,7 @@ function PublicHomeClient() {
         sortBy={sortBy}
         scope="public"
       />
-      <BottomSheetFilters
+      {/* <BottomSheetFilters
         city={city}
         setCity={setCity}
         categoryId={categoryId}
@@ -73,7 +73,7 @@ function PublicHomeClient() {
         showOnlineStatus={showOnlineStatus}
         setShowOnlineStatus={setShowOnlineStatus}
         categories={categoriesWithAll}
-      />
+      /> */}
     </>
   );
 }
