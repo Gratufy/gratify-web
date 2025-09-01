@@ -3,14 +3,7 @@ const nextConfig = {
   turbopack: {
     rules: {
       '*.svg': {
-        loaders: [
-          {
-            loader: '@svgr/webpack',
-            options: {
-              icon: true, // for example, to make svgs responsive like icons
-            },
-          },
-        ],
+        loaders: ['@svgr/webpack'],
         as: '*.js',
       },
     },
