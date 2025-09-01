@@ -1,7 +1,9 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
+
+/* h1–h6  p, a, ul, li → стандартные отступы, цвет, line-height*/
 
 @theme inline {
   --color-background: var(--background);
@@ -41,6 +43,55 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  /* ...........................................; */
+  --breakpoint-*: initial; /*remove default*/
+  --breakpoint-sm: 375px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1440px;
+  --font-family: var(--font-family);
+  --font-second: var(--second-family);
+  --color-icons-grey-950: var(--grey-950);
+  --color-text-500-grey: var(--grey-500);
+  --color-text-950-grey: var(--grey-950);
+  --color-icons-grey-50: var(--grey-50);
+  --color-icons-grey-100: var(--grey-100);
+  --color-icons-grey-300: var(--grey-300);
+  --color-text-50-grey: var(--grey-50);
+  --color-background-white: var(--white);
+  --color-text-700-grey: var(--grey-700);
+  --color-icons-color-white: var(--white);
+  --color-icons-color-error: var(--error);
+  --color-icons-color-success: var(--success);
+  --color-icons-color-accent: var(--accent);
+  --color-text-link: var(--link);
+  --color-icons-main-600: var(--main-600);
+  --color-elements-main-500: var(--main-500-def);
+  --color-background-main-200: var(--main-200);
+  --color-background-main-100: var(--main-100);
+  --color-background-main-300: var(--main-300);
+  --color-text-white: var(--white);
+  --color-background-main-400: var(--main-400);
+  --color-elements-main-600: var(--main-600);
+  --color-background-main-500: var(--main-500-def);
+  --color-elements-grey-400-grey: var(--grey-400);
+  --color-text-800-grey: var(--grey-800);
+  --color-icons-grey-400: var(--grey-400);
+  --color-background-grey-100: var(--grey-100);
+  --color-elements-grey-200: var(--grey-200);
+  --color-elements-grey-300: var(--grey-300);
+  --color-icons-main-700: var(--main-700);
+  --color-icons-main-50: var(--main-50);
+  --color-icons-main-100: var(--main-200);
+  --color-icons-main-800: var(--main-800);
+  --color-background-main-50: var(--main-50);
+  --color-background-main-600: var(--main-600);
+  --color-background-grey-200: var(--grey-200);
+  --color-background-grey-300: var(--grey-300);
+  --color-elements-grey-100: var(--grey-100);
+  --color-elements-grey-50: var(--grey-50);
+  --color-text-800-main: var(--main-700);
+  --color-background-grey-50: var(--grey-50);
+  --color-icons-main-500: var(--main-500-def);
 }
 
 :root {
@@ -76,6 +127,36 @@
   --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.705 0.015 286.067);
+  /* ...............................................................; */
+  --font-family: 'Ubuntu Sans', sans-serif;
+  --second-family: 'Roboto', sans-serif;
+  --white: #fff;
+  --accent: #c71143;
+  --error: #dc0b0e;
+  --success: #05b456;
+  --grey-50: #f9f9f9;
+  --grey-100: #efefef;
+  --grey-200: #dcdcdc;
+  --grey-300: #bdbdbd;
+  --grey-400: #989898;
+  --grey-500: #7c7c7c;
+  --grey-600: #656565;
+  --grey-700: #525252;
+  --grey-800: #464646;
+  --grey-900: #3d3d3d;
+  --grey-950: #292929;
+  --link: #139cc7;
+  --main-50: #f5f3f0;
+  --main-100: #eae7dd;
+  --main-200: #d7d2bf;
+  --main-300: #bdb699;
+  --main-400: #a49c77;
+  --main-500-def: #8b845c;
+  --main-600: #6b6645;
+  --main-700: #535038;
+  --main-800: #444230;
+  --main-900: #3b3a2c;
+  --main-950: #1f1e14;
 }
 
 .dark {
@@ -110,6 +191,7 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.552 0.016 285.938);
+  /* ................................................................; */
 }
 
 @layer base {
@@ -117,6 +199,54 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    /* @apply bg-background text-foreground; */
+    @apply bg-background-white text-text-950-grey;
+    font-family: var(--font-family);
+  }
+}
+
+@utility container {
+  margin-inline: auto;
+
+  padding-inline: 0px;
+
+  @media (min-width: 1024px) {
+    padding-inline: 50px;
+  }
+
+  @media (min-width: 1440px) {
+    padding-inline: 150px;
+  }
+}
+
+@utility placeholder-xs {
+  @apply text-xs leading-[140%];
+}
+
+@utility placeholder-sm {
+  @apply text-sm leading-[130%];
+}
+/* @layer components; .card .modal Повторно используемые UI-компоненты*/
+/*EXMP !!!  @layer components {
+  .btn-primary {
+    @apply bg-accent hover:bg-accent/80 rounded-md px-4 py-2 text-white;
+  }
+
+  .card {
+    @apply rounded-lg bg-white p-4 shadow-md;
+  }
+} */
+
+@layer components {
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 }

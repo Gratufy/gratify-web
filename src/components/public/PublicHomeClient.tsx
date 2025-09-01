@@ -1,14 +1,15 @@
-"use client";
-import React, { useState } from "react";
-import { useUserStore } from "@/stores/useUserStore";
-import { useBusinessCategories } from "@/hooks/useBusinessCategories";
-import { OnlineFilter, SortBy } from "@/types";
-import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
+'use client';
+import React, { useState } from 'react';
+import { useUserStore } from '@/stores/useUserStore';
+import { useBusinessCategories } from '@/hooks/useBusinessCategories';
+import { OnlineFilter, SortBy } from '@/types';
+import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 
-import OnlineStatusFilter from "@/components/shared/OnlineStatusFilter";
-import BusinessList from "@/components/shared/BusinessList";
-import DeleteAccountButton from "@/components/ui/DeleteAccountButton";
-import CustomSelect from "@/components/ui/CustomSelect";
+import OnlineStatusFilter from '@/components/shared/OnlineStatusFilter';
+import BusinessList from '@/components/shared/BusinessList';
+import DeleteAccountButton from '@/components/ui/DeleteAccountButton';
+import CustomSelect from '@/components/ui/CustomSelect';
+import BottomSheetFilters from './BottomSheetFilters';
 
 function PublicHomeClient() {
   const user = useUserStore((s) => s.profile);
@@ -17,13 +18,13 @@ function PublicHomeClient() {
     // isLoading: isCategoriesLoading,
     // isError: isCategoriesError,
   } = useBusinessCategories();
-  const [city, setCity] = useState<string | undefined>("__all__");
-  const [categoryId, setCategoryId] = useState<string>("__all__");
-  const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>("all");
+  const [city, setCity] = useState<string | undefined>('__all__');
+  const [categoryId, setCategoryId] = useState<string>('__all__');
+  const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>('all');
 
-  const [sortBy, setSortBy] = useState<SortBy>("newest");
+  const [sortBy, setSortBy] = useState<SortBy>('newest');
   const categoriesWithAll = [
-    { categoryId: "__all__", name: "Всі" },
+    { categoryId: '__all__', name: 'Всі' },
     ...categories,
   ];
   return (
@@ -51,8 +52,8 @@ function PublicHomeClient() {
         value={showOnlineStatus}
         onChange={setShowOnlineStatus}
       />
-      {/* <p>Обране місто: {city || "—"}</p> */}
-      <h2 className="text-xl font-bold mb-2">
+
+      <h2 className="mb-2 text-xl font-bold">
         Список бізнесів with status APPROVED
       </h2>
       <BusinessList
@@ -61,6 +62,18 @@ function PublicHomeClient() {
         showOnlineStatus={showOnlineStatus}
         sortBy={sortBy}
         scope="public"
+      />
+
+      <BottomSheetFilters
+        city={city}
+        setCity={setCity}
+        categoryId={categoryId}
+        setCategoryId={setCategoryId}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+        showOnlineStatus={showOnlineStatus}
+        setShowOnlineStatus={setShowOnlineStatus}
+        categories={categoriesWithAll}
       />
     </>
   );
