@@ -6,6 +6,7 @@ import { OnlineFilter, SortBy } from '@/types';
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 import SortIcon from '@/assets/icons/filters/icon-sort.svg';
 import CategoryIcon from '@/assets/icons/filters/icon-favor.svg';
+import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 
 type SidebarFiltersProps = {
   city: string | undefined;
@@ -31,7 +32,8 @@ function SidebarFilters({
   categoriesWithAll,
 }: SidebarFiltersProps) {
   return (
-    <aside className="border-elements-grey-200 hidden flex-col gap-4 border-[0.5px] px-2 pb-4 pt-2 lg:flex">
+    // треба gap-4
+    <aside className="w-54 border-elements-grey-200 hidden flex-col gap-6 border-[0.5px] px-2 pb-4 pt-2 lg:flex">
       <div>
         <label
           htmlFor="city"
@@ -83,7 +85,19 @@ function SidebarFilters({
           placeholder="Оберіть категорію"
         />
       </div>
-      <p>Delete</p>
+      <button
+        type="button"
+        className="placeholder-sm flex w-full items-center justify-center gap-3 px-4 py-1"
+        onClick={() => {
+          setCity('__all__');
+          setCategoryId('__all__');
+          setShowOnlineStatus('all');
+          setSortBy('newest');
+        }}
+      >
+        <CrossIcon className="h-4 w-4" />
+        <span>Очистити все</span>
+      </button>
     </aside>
   );
 }

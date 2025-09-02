@@ -45,7 +45,6 @@ function BusinessList({
   });
   const businesses = data?.pages.flatMap((page) => page.data) ?? [];
 
-  // const businesses = data?.pages?.flatMap((page) => page.data ?? []) ?? [];
   useEffect(() => {
     if (!loadMoreRef.current) return;
     const observer = new IntersectionObserver((entries) => {
@@ -59,24 +58,30 @@ function BusinessList({
 
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Помилка: {error?.message}</p>;
-  if (businesses.length === 0)
-    return <p className="text-2xl"> Нема бізнесів</p>;
   return (
-    <section className="flex flex-col items-center">
-      <ul className="flex w-full flex-col items-center justify-center">
-        {businesses.map((b) => (
-          <li key={b.id}>
-            <BusinessCardShot business={b} selectedCity={city} />
-          </li>
-        ))}
-      </ul>
+    <section className="flex flex-1 flex-col items-center">
+      {isError && <p>Помилка: {error?.message}</p>}
+      {isLoading && <p>Loading...</p>}
+      {businesses.length > 0 && (
+        <ul className="flex w-full flex-col items-center justify-center">
+          {businesses.map((b) => (
+            <li key={b.id}>
+              <BusinessCardShot business={b} selectedCity={city} />
+            </li>
+          ))}
+        </ul>
+      )}
       <div ref={loadMoreRef} className="h-4">
         {isFetchingNextPage && <p>Loading more...</p>}
-        {!hasNextPage && <p className="text-gray-500">Більше бізнесів немає</p>}
+        {/* {!hasNextPage && <p className="text-gray-500">Більше бізнесів немає</p>} */}
       </div>
-      <Button onClick={() => setShowMap((prev) => !prev)}>Show Map</Button>
+      {businesses.length === 0 && !isLoading && !isError && (
+        <p className="text-2xl"> Нема бізнесів в цьому місті</p>
+      )}
+
+      {businesses.length > 0 && (
+        <Button onClick={() => setShowMap((prev) => !prev)}>Show Map</Button>
+      )}
       {showMap && (
         <BusinessMapAll
           businesses={businesses}

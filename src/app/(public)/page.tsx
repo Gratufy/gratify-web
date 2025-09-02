@@ -3,7 +3,7 @@ import PublicHomeClient from '@/components/public/PublicHomeClient';
 
 export default function PublicHome() {
   return (
-    <div className="container flex min-h-[calc(100dvh-env(safe-area-inset-bottom))] flex-col items-center justify-center pt-2">
+    <div className="container flex min-h-[calc(100dvh-env(safe-area-inset-bottom))] flex-col items-center pt-2">
       <PublicHomeClient />
     </div>
   );

@@ -25,12 +25,12 @@ function PublicHomeClient() {
 
   const [sortBy, setSortBy] = useState<SortBy>('newest');
   const categoriesWithAll = [
-    { categoryId: '__all__', name: 'Всі' },
+    { categoryId: '__all__', name: 'Всі категорії' },
     ...categories,
   ];
   return (
     <>
-      {user && <DeleteAccountButton />}
+      {/* {user && <DeleteAccountButton />} */}
       {/* <CustomSelect
         value={categoryId}
         onChange={setCategoryId}
@@ -53,7 +53,7 @@ function PublicHomeClient() {
         value={showOnlineStatus}
         onChange={setShowOnlineStatus}
       /> */}
-      <div className="flex flex-col gap-6 lg:flex-row">
+      <div className="flex w-full flex-col gap-6 lg:flex-row">
         <SidebarFilters
           city={city}
           setCity={setCity}
