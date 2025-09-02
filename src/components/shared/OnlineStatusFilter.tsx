@@ -22,23 +22,21 @@ function OnlineStatusFilter({
         className="flex flex-col gap-4"
       >
         <div className="flex items-center space-x-1">
-          <RadioGroupItem value="all" id="all" />
-          <Label htmlFor="all" className="placeholder-xs">
-            Всі
-          </Label>
-        </div>
-
-        <div className="flex items-center space-x-1">
           <RadioGroupItem value="online" id="online" />
           <Label htmlFor="online" className="placeholder-xs">
             Тільки он-лайн
           </Label>
         </div>
-
         <div className="flex items-center space-x-1">
           <RadioGroupItem value="offline" id="offline" />
           <Label htmlFor="offline" className="placeholder-xs">
             Тільки з фізичною адресою
+          </Label>
+        </div>
+        <div className="flex items-center space-x-1">
+          <RadioGroupItem value="all" id="all" />
+          <Label htmlFor="all" className="placeholder-xs">
+            Всі
           </Label>
         </div>
       </RadioGroup>
