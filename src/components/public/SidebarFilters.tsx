@@ -4,6 +4,8 @@ import OnlineStatusFilter from '../shared/OnlineStatusFilter';
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 import { OnlineFilter, SortBy } from '@/types';
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
+import SortIcon from '@/assets/icons/filters/icon-sort.svg';
+import CategoryIcon from '@/assets/icons/filters/icon-favor.svg';
 
 type SidebarFiltersProps = {
   city: string | undefined;
@@ -53,16 +55,31 @@ function SidebarFilters({
           onChange={setShowOnlineStatus}
         />
       </div>
-      <div>Sort</div>
       <div>
+        <label
+          htmlFor="sort"
+          className="placeholder-sm mb-1 flex items-center gap-3 px-3"
+        >
+          <SortIcon className="h-4 w-4" />
+          <span>Сортувати</span>
+        </label>
+      </div>
+      <div>
+        <label
+          htmlFor="categories"
+          className="placeholder-sm mb-1 flex items-center gap-3 px-3"
+        >
+          <CategoryIcon className="h-4 w-4" />
+          <span>Послуги</span>
+        </label>
         <CustomSelect
-          className="w-50"
+          className="w-50 rounded-none px-3 py-1.5"
+          id="categories"
           value={categoryId}
           onChange={setCategoryId}
           options={categoriesWithAll}
           getOptionValue={(c) => c.categoryId}
           getOptionLabel={(c) => c.name}
-          label="Категорія"
           placeholder="Оберіть категорію"
         />
       </div>
