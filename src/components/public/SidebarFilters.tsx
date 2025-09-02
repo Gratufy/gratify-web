@@ -32,72 +32,74 @@ function SidebarFilters({
   categoriesWithAll,
 }: SidebarFiltersProps) {
   return (
-    // треба gap-4
-    <aside className="w-54 border-elements-grey-200 hidden flex-col gap-6 border-[0.5px] px-2 pb-4 pt-2 lg:flex">
-      <div>
-        <label
-          htmlFor="city"
-          className="placeholder-sm mb-1 flex items-center gap-3 px-3"
+    <aside className="lg:w-54 xl:w-70 lg:align-items mt-2 hidden lg:flex lg:items-start">
+      {/* // треба lg:gap-4 xl:gap-6 */}
+      <div className="lg:border-elements-grey-200 w-full lg:flex lg:flex-col lg:gap-6 lg:border-[0.5px] lg:px-2 lg:pb-4 lg:pt-2 xl:gap-8 xl:px-4 xl:pb-8 xl:pt-3">
+        <div>
+          <label
+            htmlFor="city"
+            className="placeholder-sm xl:placeholder-base mb-1 flex items-center gap-3 px-3 xl:mb-2 xl:px-4"
+          >
+            <CityIcon className="h-4 w-4 xl:h-5 xl:w-5" />
+            <span>Місто</span>
+          </label>
+          <CustomSelect
+            className="w-full rounded-none px-3 py-1.5 xl:px-4"
+            id="city"
+            value={city}
+            onChange={setCity}
+            options={UKRAINE_REGIONAL_CENTERS}
+            getOptionValue={(option) => option.value}
+            getOptionLabel={(option) => option.label}
+            placeholder="Оберіть місто"
+          />
+          <OnlineStatusFilter
+            value={showOnlineStatus}
+            onChange={setShowOnlineStatus}
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="sort"
+            className="placeholder-sm xl:placeholder-base mb-1 flex items-center gap-3 px-3 xl:mb-2 xl:px-4"
+          >
+            <SortIcon className="h-4 w-4 xl:h-5 xl:w-5" />
+            <span>Сортувати</span>
+          </label>
+        </div>
+        <div>
+          <label
+            htmlFor="categories"
+            className="placeholder-sm xl:placeholder-base mb-1 flex items-center gap-3 px-3 xl:mb-2 xl:px-4"
+          >
+            <CategoryIcon className="h-4 w-4 xl:h-5 xl:w-5" />
+            <span>Послуги</span>
+          </label>
+          <CustomSelect
+            className="w-full rounded-none px-3 py-1.5 xl:px-4"
+            id="categories"
+            value={categoryId}
+            onChange={setCategoryId}
+            options={categoriesWithAll}
+            getOptionValue={(c) => c.categoryId}
+            getOptionLabel={(c) => c.name}
+            placeholder="Оберіть категорію"
+          />
+        </div>
+        <button
+          type="button"
+          className="placeholder-sm xl:placeholder-base flex w-full items-center justify-center gap-3 px-4 py-1 xl:px-4"
+          onClick={() => {
+            setCity('__all__');
+            setCategoryId('__all__');
+            setShowOnlineStatus('all');
+            setSortBy('newest');
+          }}
         >
-          <CityIcon className="h-4 w-4" />
-          <span>Місто</span>
-        </label>
-        <CustomSelect
-          className="w-50 rounded-none px-3 py-1.5"
-          id="city"
-          value={city}
-          onChange={setCity}
-          options={UKRAINE_REGIONAL_CENTERS}
-          getOptionValue={(option) => option.value}
-          getOptionLabel={(option) => option.label}
-          placeholder="Оберіть місто"
-        />
-        <OnlineStatusFilter
-          value={showOnlineStatus}
-          onChange={setShowOnlineStatus}
-        />
+          <CrossIcon className="h-4 w-4 xl:h-5 xl:w-5" />
+          <span>Очистити все</span>
+        </button>
       </div>
-      <div>
-        <label
-          htmlFor="sort"
-          className="placeholder-sm mb-1 flex items-center gap-3 px-3"
-        >
-          <SortIcon className="h-4 w-4" />
-          <span>Сортувати</span>
-        </label>
-      </div>
-      <div>
-        <label
-          htmlFor="categories"
-          className="placeholder-sm mb-1 flex items-center gap-3 px-3"
-        >
-          <CategoryIcon className="h-4 w-4" />
-          <span>Послуги</span>
-        </label>
-        <CustomSelect
-          className="w-50 rounded-none px-3 py-1.5"
-          id="categories"
-          value={categoryId}
-          onChange={setCategoryId}
-          options={categoriesWithAll}
-          getOptionValue={(c) => c.categoryId}
-          getOptionLabel={(c) => c.name}
-          placeholder="Оберіть категорію"
-        />
-      </div>
-      <button
-        type="button"
-        className="placeholder-sm flex w-full items-center justify-center gap-3 px-4 py-1"
-        onClick={() => {
-          setCity('__all__');
-          setCategoryId('__all__');
-          setShowOnlineStatus('all');
-          setSortBy('newest');
-        }}
-      >
-        <CrossIcon className="h-4 w-4" />
-        <span>Очистити все</span>
-      </button>
     </aside>
   );
 }
