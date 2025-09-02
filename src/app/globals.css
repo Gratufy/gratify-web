@@ -226,6 +226,9 @@
 @utility placeholder-sm {
   @apply text-sm leading-[140%];
 }
+@utility placeholder-base {
+  @apply text-base leading-[140%];
+}
 /* @layer components; .card .modal Повторно используемые UI-компоненты*/
 /*EXMP !!!  @layer components {
   .btn-primary {

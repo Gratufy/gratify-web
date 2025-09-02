@@ -3,12 +3,10 @@ import React, { useState } from 'react';
 import { useUserStore } from '@/stores/useUserStore';
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 import { OnlineFilter, SortBy } from '@/types';
-import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 
-import OnlineStatusFilter from '@/components/shared/OnlineStatusFilter';
 import BusinessList from '@/components/shared/BusinessList';
-import DeleteAccountButton from '@/components/ui/DeleteAccountButton';
-import CustomSelect from '@/components/ui/CustomSelect';
+//import DeleteAccountButton from '@/components/ui/DeleteAccountButton';
+
 import BottomSheetFilters from './BottomSheetFilters';
 import SidebarFilters from './SidebarFilters';
 
@@ -30,29 +28,6 @@ function PublicHomeClient() {
   ];
   return (
     <>
-      {/* {user && <DeleteAccountButton />} */}
-      {/* <CustomSelect
-        value={categoryId}
-        onChange={setCategoryId}
-        options={categoriesWithAll}
-        getOptionValue={(c) => c.categoryId}
-        getOptionLabel={(c) => c.name}
-        label="Категорія"
-        placeholder="Оберіть категорію"
-      />
-      <CustomSelect
-        label="Місто"
-        value={city}
-        onChange={setCity}
-        options={UKRAINE_REGIONAL_CENTERS}
-        getOptionValue={(option) => option.value}
-        getOptionLabel={(option) => option.label}
-        placeholder="Оберіть місто"
-      />
-      <OnlineStatusFilter
-        value={showOnlineStatus}
-        onChange={setShowOnlineStatus}
-      /> */}
       <div className="flex w-full flex-col gap-6 lg:flex-row">
         <SidebarFilters
           city={city}
