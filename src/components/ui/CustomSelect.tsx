@@ -1,5 +1,5 @@
-"use client";
-import React from "react";
+'use client';
+import React, { useId } from 'react';
 
 import {
   Select,
@@ -8,7 +8,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+  SelectLabel,
+} from '@/components/ui/select';
 
 interface CustomSelectProps<T> {
   value: string | undefined;
@@ -21,6 +22,7 @@ interface CustomSelectProps<T> {
   placeholder?: string;
   className?: string;
   statusForm?: boolean;
+  id?: string;
 }
 function CustomSelect<T>({
   value,
@@ -29,42 +31,47 @@ function CustomSelect<T>({
   label,
   getOptionLabel,
   getOptionValue,
-  placeholder = "Оберіть...",
+  placeholder = 'Оберіть...',
   className,
   statusForm = false,
+  id,
 }: CustomSelectProps<T>) {
-  let triggerClass = "";
+  let triggerClass = '';
   if (statusForm) {
     switch (value as string) {
-      case "pending":
-        triggerClass = "bg-yellow-200 text-yellow-900";
+      case 'pending':
+        triggerClass = 'bg-yellow-200 text-yellow-900';
         break;
-      case "approved":
-        triggerClass = "bg-green-200 text-green-900";
+      case 'approved':
+        triggerClass = 'bg-green-200 text-green-900';
         break;
-      case "hidden":
-        triggerClass = "bg-gray-200 text-gray-900";
+      case 'hidden':
+        triggerClass = 'bg-gray-200 text-gray-900';
         break;
-      case "rejected":
-        triggerClass = "bg-red-200 text-red-900";
+      case 'rejected':
+        triggerClass = 'bg-red-200 text-red-900';
         break;
       default:
-        triggerClass = "bg-white text-black";
+        triggerClass = 'bg-white text-black';
     }
   }
+
+  const autoId = useId();
+  const selectId = id ?? autoId;
   return (
     <div>
       {label && (
         <label
-          htmlFor="custom-select"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          htmlFor={selectId}
+          className="mb-1 block text-sm font-medium text-gray-700"
         >
           {label}
         </label>
       )}
       <Select value={value} onValueChange={(v) => onChange(v)}>
         <SelectTrigger
-          className={`${className ?? "w-[280px]"} ${triggerClass}`}
+          id={selectId}
+          className={`${className ?? 'w-[280px]'} ${triggerClass}`}
         >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
@@ -78,7 +85,7 @@ function CustomSelect<T>({
                 ? getOptionLabel(option)
                 : (option as unknown as string);
               return (
-                <SelectItem key={val ?? index} value={val ?? ""}>
+                <SelectItem key={val ?? index} value={val ?? ''}>
                   {label}
                 </SelectItem>
               );

@@ -25,7 +25,7 @@ type BottomSheetFiltersProps = {
   setSortBy: (sort: SortBy) => void;
   showOnlineStatus: OnlineFilter;
   setShowOnlineStatus: (status: OnlineFilter) => void;
-  categories: { categoryId: string; name: string }[];
+  categoriesWithAll: { categoryId: string; name: string }[];
 };
 
 function BottomSheetFilters(props: BottomSheetFiltersProps) {

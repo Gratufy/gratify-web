@@ -10,6 +10,7 @@ import BusinessList from '@/components/shared/BusinessList';
 import DeleteAccountButton from '@/components/ui/DeleteAccountButton';
 import CustomSelect from '@/components/ui/CustomSelect';
 import BottomSheetFilters from './BottomSheetFilters';
+import SidebarFilters from './SidebarFilters';
 
 function PublicHomeClient() {
   const user = useUserStore((s) => s.profile);
@@ -30,7 +31,7 @@ function PublicHomeClient() {
   return (
     <>
       {user && <DeleteAccountButton />}
-      <CustomSelect
+      {/* <CustomSelect
         value={categoryId}
         onChange={setCategoryId}
         options={categoriesWithAll}
@@ -51,18 +52,28 @@ function PublicHomeClient() {
       <OnlineStatusFilter
         value={showOnlineStatus}
         onChange={setShowOnlineStatus}
-      />
+      /> */}
+      <div className="flex flex-col gap-6 lg:flex-row">
+        <SidebarFilters
+          city={city}
+          setCity={setCity}
+          showOnlineStatus={showOnlineStatus}
+          setShowOnlineStatus={setShowOnlineStatus}
+          categoryId={categoryId}
+          setCategoryId={setCategoryId}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          categoriesWithAll={categoriesWithAll}
+        />
 
-      <h2 className="mb-2 text-xl font-bold">
-        Список бізнесів with status APPROVED
-      </h2>
-      <BusinessList
-        city={city}
-        categoryId={categoryId}
-        showOnlineStatus={showOnlineStatus}
-        sortBy={sortBy}
-        scope="public"
-      />
+        <BusinessList
+          city={city}
+          categoryId={categoryId}
+          showOnlineStatus={showOnlineStatus}
+          sortBy={sortBy}
+          scope="public"
+        />
+      </div>
 
       <BottomSheetFilters
         city={city}
@@ -73,7 +84,7 @@ function PublicHomeClient() {
         setSortBy={setSortBy}
         showOnlineStatus={showOnlineStatus}
         setShowOnlineStatus={setShowOnlineStatus}
-        categories={categoriesWithAll}
+        categoriesWithAll={categoriesWithAll}
       />
     </>
   );

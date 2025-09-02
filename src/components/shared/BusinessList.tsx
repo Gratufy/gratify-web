@@ -1,17 +1,17 @@
-"use client";
-import { useEffect, useRef, useState } from "react";
+'use client';
+import { useEffect, useRef, useState } from 'react';
 
-import { useInfiniteBusinesses } from "@/hooks/useBusinesses";
-import { OnlineFilter, Scope, SortBy } from "@/types";
-import BusinessCardShot from "./BusinessCardShot";
-import dynamic from "next/dynamic";
+import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
+import { OnlineFilter, Scope, SortBy } from '@/types';
+import BusinessCardShot from './BusinessCardShot';
+import dynamic from 'next/dynamic';
 const BusinessMapAll = dynamic(
-  () => import("@/components/shared/BusinessMapAll"),
+  () => import('@/components/shared/BusinessMapAll'),
   {
     ssr: false,
   }
 );
-import { Button } from "../ui/button";
+import { Button } from '../ui/button';
 
 interface BusinessListProps {
   city?: string;
@@ -64,8 +64,8 @@ function BusinessList({
   if (businesses.length === 0)
     return <p className="text-2xl"> Нема бізнесів</p>;
   return (
-    <>
-      <ul className="w-full justify-center items-center flex flex-col">
+    <section className="flex flex-col items-center">
+      <ul className="flex w-full flex-col items-center justify-center">
         {businesses.map((b) => (
           <li key={b.id}>
             <BusinessCardShot business={b} selectedCity={city} />
@@ -84,7 +84,7 @@ function BusinessList({
           selectedCity={city}
         />
       )}
-    </>
+    </section>
   );
 }
 
