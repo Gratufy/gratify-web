@@ -25,9 +25,10 @@ function CityFilter({ city, setCity, onApply }: CityFilterProps) {
       <div className="grid grid-cols-2 gap-x-5 py-2">
         {UKRAINE_REGIONAL_CENTERS.map((c) => (
           <button
+            type="button"
             key={c.value}
             onClick={() => setTempCity(c.value)}
-            className={`placeholder-xs rounded py-1 text-left ${
+            className={`placeholder-xs rounded py-2 text-left ${
               tempCity === c.value ? 'font-medium' : 'font-normal'
             }`}
           >
@@ -37,6 +38,7 @@ function CityFilter({ city, setCity, onApply }: CityFilterProps) {
       </div>
       <div className="mx-auto flex gap-4">
         <button
+          type="button"
           onClick={() => setTempCity('__all__')}
           className="placeholder-xs w-30 border-background-main-400 flex h-8 items-center justify-center gap-1 border p-2"
         >

@@ -1,6 +1,6 @@
 export const UKRAINE_REGIONAL_CENTERS = [
   { value: 'Київ', label: 'Київ' },
-  { value: '__all__', label: 'Всі' },
+  { value: '__all__', label: 'Вся Україна' },
   { value: 'Вінниця', label: 'Вінниця' },
   { value: 'Дніпро', label: 'Дніпро' },
   { value: 'Донецьк', label: 'Донецьк' },

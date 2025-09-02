@@ -10,6 +10,7 @@ import BusinessList from '@/components/shared/BusinessList';
 import DeleteAccountButton from '@/components/ui/DeleteAccountButton';
 import CustomSelect from '@/components/ui/CustomSelect';
 import BottomSheetFilters from './BottomSheetFilters';
+import SidebarFilters from './SidebarFilters';
 
 function PublicHomeClient() {
   const user = useUserStore((s) => s.profile);
@@ -24,13 +25,13 @@ function PublicHomeClient() {
 
   const [sortBy, setSortBy] = useState<SortBy>('newest');
   const categoriesWithAll = [
-    { categoryId: '__all__', name: 'Всі' },
+    { categoryId: '__all__', name: 'Всі категорії' },
     ...categories,
   ];
   return (
     <>
-      {user && <DeleteAccountButton />}
-      <CustomSelect
+      {/* {user && <DeleteAccountButton />} */}
+      {/* <CustomSelect
         value={categoryId}
         onChange={setCategoryId}
         options={categoriesWithAll}
@@ -51,18 +52,28 @@ function PublicHomeClient() {
       <OnlineStatusFilter
         value={showOnlineStatus}
         onChange={setShowOnlineStatus}
-      />
+      /> */}
+      <div className="flex w-full flex-col gap-6 lg:flex-row">
+        <SidebarFilters
+          city={city}
+          setCity={setCity}
+          showOnlineStatus={showOnlineStatus}
+          setShowOnlineStatus={setShowOnlineStatus}
+          categoryId={categoryId}
+          setCategoryId={setCategoryId}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          categoriesWithAll={categoriesWithAll}
+        />
 
-      <h2 className="mb-2 text-xl font-bold">
-        Список бізнесів with status APPROVED
-      </h2>
-      <BusinessList
-        city={city}
-        categoryId={categoryId}
-        showOnlineStatus={showOnlineStatus}
-        sortBy={sortBy}
-        scope="public"
-      />
+        <BusinessList
+          city={city}
+          categoryId={categoryId}
+          showOnlineStatus={showOnlineStatus}
+          sortBy={sortBy}
+          scope="public"
+        />
+      </div>
 
       <BottomSheetFilters
         city={city}
@@ -73,7 +84,7 @@ function PublicHomeClient() {
         setSortBy={setSortBy}
         showOnlineStatus={showOnlineStatus}
         setShowOnlineStatus={setShowOnlineStatus}
-        categories={categoriesWithAll}
+        categoriesWithAll={categoriesWithAll}
       />
     </>
   );
