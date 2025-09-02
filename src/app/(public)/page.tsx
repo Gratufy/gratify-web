@@ -1,10 +1,10 @@
-import React from "react";
-import PublicHomeClient from "@/components/public/PublicHomeClient";
+import React from 'react';
+import PublicHomeClient from '@/components/public/PublicHomeClient';
 
 export default function PublicHome() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <h1 className="text-2xl font-bold mb-2">
+    <div className="flex min-h-[100dvh] flex-col items-center justify-center p-4">
+      <h1 className="mb-2 text-2xl font-bold">
         Welcome to the Public Home Page
       </h1>
 

@@ -60,38 +60,42 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
     }
   };
   return (
-    <div className="bg-background-main-200 border-elements-grey-200 fixed inset-x-0 bottom-0 w-full border-[0.5px] px-4 py-2 lg:hidden">
+    <div className="bg-background-main-200 border-elements-grey-200 fixed inset-x-0 bottom-0 w-full border-[0.5px] px-4 py-2 pb-[env(safe-area-inset-bottom)] lg:hidden">
       <Sheet>
-        <SheetTrigger className="flex w-full items-center justify-center py-3">
-          <div className="flex">
-            <div
+        <SheetTrigger asChild>
+          <div className="flex w-full items-center justify-center py-3">
+            <button
+              type="button"
               className="flex flex-col items-center justify-center gap-1 px-5"
               onClick={() => setActiveFilter('city')}
             >
               <CityIcon className="h-4 w-4" />
               <p className="placeholder-xs">Місто</p>
-            </div>
-            <div
+            </button>
+            <button
+              type="button"
               className="flex flex-col items-center justify-center gap-1 px-5"
               onClick={() => setActiveFilter('sort')}
             >
               <SortIcon className="h-4 w-4" />
               <p className="placeholder-xs">Сортувати</p>
-            </div>
-            <div
+            </button>
+            <button
+              type="button"
               className="flex flex-col items-center justify-center gap-1 px-5"
               onClick={() => setActiveFilter('category')}
             >
               <CategoryIcon className="h-4 w-4" />
               <p className="placeholder-xs">Послуги</p>
-            </div>
-            <div
+            </button>
+            <button
+              type="button"
               className="flex flex-col items-center justify-center gap-1 px-5"
               onClick={() => setActiveFilter('map')}
             >
               <MapIcon className="h-4 w-4" />
               <p className="placeholder-xs">Мапа</p>
-            </div>
+            </button>
           </div>
         </SheetTrigger>
         <SheetContent side="bottom" className="mx-auto h-auto w-4/5">

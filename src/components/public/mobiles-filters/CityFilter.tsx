@@ -27,7 +27,7 @@ function CityFilter({ city, setCity, onApply }: CityFilterProps) {
           <button
             key={c.value}
             onClick={() => setTempCity(c.value)}
-            className={`placeholder-xs rounded py-1 text-left ${
+            className={`placeholder-xs rounded py-2 text-left ${
               tempCity === c.value ? 'font-medium' : 'font-normal'
             }`}
           >
