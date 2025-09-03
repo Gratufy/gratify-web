@@ -31,19 +31,21 @@ function Karma({ businessId }: KarmaProps) {
         onClick={() => handleVote(1)}
         disabled={voteMutation.isPending}
       >
-        <Plus className="h-4 w-4" />
+        <Plus className="h-4 w-4 xl:h-5 xl:w-5" />
       </button>
 
-      <p className="placeholder-sm font-medium">{business?.karma}</p>
+      <p className="placeholder-sm xl:placeholder-base font-medium">
+        {business?.karma}
+      </p>
 
       <button
-        className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded-xl ${
+        className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded-xl xl:h-6 xl:w-6 ${
           userVote?.vote === -1 ? 'bg-icons-color-error/50' : ''
         }`}
         onClick={() => handleVote(-1)}
         disabled={voteMutation.isPending}
       >
-        <Minus className="h-4 w-4" />
+        <Minus className="h-4 w-4 xl:h-5 xl:w-5" />
       </button>
     </div>
   );

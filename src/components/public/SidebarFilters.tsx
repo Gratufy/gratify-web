@@ -32,7 +32,7 @@ function SidebarFilters({
   categoriesWithAll,
 }: SidebarFiltersProps) {
   return (
-    <aside className="lg:w-54 xl:w-70 lg:align-items mt-2 hidden lg:flex lg:items-start">
+    <aside className="lg:w-54 xl:w-70 lg:align-items hidden lg:flex lg:items-start">
       {/* // треба lg:gap-4 xl:gap-6 */}
       <div className="lg:border-elements-grey-200 w-full lg:flex lg:flex-col lg:gap-6 lg:border-[0.5px] lg:px-2 lg:pb-4 lg:pt-2 xl:gap-8 xl:px-4 xl:pb-8 xl:pt-3">
         <div>
