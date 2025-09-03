@@ -63,9 +63,9 @@ function BusinessList({
       {isError && <p>Помилка: {error?.message}</p>}
       {isLoading && <p>Loading...</p>}
       {businesses.length > 0 && (
-        <ul className="flex w-full flex-col items-center justify-center">
+        <ul className="flex w-full flex-col items-center justify-center gap-5 xl:gap-10">
           {businesses.map((b) => (
-            <li key={b.id}>
+            <li key={b.id} className="shadow-card w-full">
               <BusinessCardShot business={b} selectedCity={city} />
             </li>
           ))}
