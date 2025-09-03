@@ -23,7 +23,7 @@ function Karma({ businessId }: KarmaProps) {
     voteMutation.mutate(vote);
   }
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 lg:gap-2">
       <button
         className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded-xl ${
           userVote?.vote === 1 ? 'bg-icons-color-success/50' : ''

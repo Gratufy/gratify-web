@@ -237,14 +237,14 @@
 /* H3 */
 @layer utilities {
   .title-h3 {
-    @apply text-xl font-bold leading-[120%];
+    @apply text-xl font-bold leading-[120%] lg:text-3xl;
   }
 }
 
 /* H4 */
 @layer utilities {
   .title-h4 {
-    @apply text-base font-medium leading-[130%];
+    @apply text-base font-medium leading-[130%] lg:text-xl;
   }
 }
 /* @layer components; .card .modal Повторно используемые UI-компоненты*/
