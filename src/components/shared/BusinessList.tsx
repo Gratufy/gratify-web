@@ -60,10 +60,10 @@ function BusinessList({
 
   return (
     <section className="flex flex-1 flex-col items-center pb-20 lg:pb-8">
-      {isError && <p>Помилка: {error?.message}</p>}
-      {isLoading && <p>Loading...</p>}
+      {/* {isError && <p>Помилка: {error?.message}</p>}
+      {isLoading && <p>Loading...</p>} */}
       {businesses.length > 0 && (
-        <ul className="flex w-full flex-col items-center justify-center gap-5 xl:gap-10">
+        <ul className="flex w-full flex-col items-center justify-center gap-5 lg:gap-10">
           {businesses.map((b) => (
             <li key={b.id} className="shadow-card w-full">
               <BusinessCardShot business={b} selectedCity={city} />

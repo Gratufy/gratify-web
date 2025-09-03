@@ -28,7 +28,7 @@ function PublicHomeClient() {
   ];
   return (
     <>
-      <div className="flex w-full flex-col gap-6 lg:flex-row">
+      <div className="flex w-full flex-col gap-6 pt-2 lg:flex-row">
         <SidebarFilters
           city={city}
           setCity={setCity}
