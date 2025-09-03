@@ -59,7 +59,7 @@ function BusinessList({
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section className="flex flex-1 flex-col items-center">
+    <section className="flex flex-1 flex-col items-center pb-20 lg:pb-8">
       {isError && <p>Помилка: {error?.message}</p>}
       {isLoading && <p>Loading...</p>}
       {businesses.length > 0 && (
