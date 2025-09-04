@@ -18,6 +18,8 @@ function FitBounds({ coords }: { coords: [number, number][] }) {
   const map = useMap();
 
   useEffect(() => {
+    // 👉 fix white space on map load
+    // map.invalidateSize();
     if (!coords.length) {
       map.setView([49.0, 32.0], 6); // default center (Ukraine)
       return;
@@ -33,6 +35,18 @@ function FitBounds({ coords }: { coords: [number, number][] }) {
 
   return null;
 }
+
+// function FixMapResize() {
+//   const map = useMap();
+
+//   useEffect(() => {
+//     setTimeout(() => {
+//       map.invalidateSize();
+//     }, 100);
+//   }, [map]);
+
+//   return null;
+// }
 type BusinessMapAllProps = {
   businesses: BusinessWithCategoryName[];
   height?: number | string;
@@ -62,7 +76,7 @@ function BusinessMapAll({
   const center: [number, number] = coords.length > 0 ? coords[0] : [49.0, 32.0];
 
   return (
-    <div className={className} style={{ height }}>
+    <div className={'overflow-hidden ' + className} style={{ height }}>
       {coords.length > 0 ? (
         <MapContainer
           center={center as [number, number]}
@@ -70,7 +84,11 @@ function BusinessMapAll({
           zoom={coords.length > 1 ? 10 : 13} // если несколько городов → зум пошире
           scrollWheelZoom={false}
           //, borderRadius: 16
-          style={{ height: '100%', width: '100%' }}
+          style={{
+            height: '100%',
+            width: '100%',
+            backgroundColor: '#dcd5d5' /* for leaflet map */,
+          }}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -81,6 +99,7 @@ function BusinessMapAll({
           ))}
 
           <FitBounds coords={coords} />
+          {/* <FixMapResize /> */}
         </MapContainer>
       ) : (
         <p className="text-center text-2xl text-gray-500">

@@ -1,19 +1,16 @@
 'use client';
 import React, { useState } from 'react';
-import { useUserStore } from '@/stores/useUserStore';
+//import { useUserStore } from '@/stores/useUserStore';
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 import { OnlineFilter, SortBy } from '@/types';
 
-import BusinessList from '@/components/shared/BusinessList';
 //import DeleteAccountButton from '@/components/ui/DeleteAccountButton';
 
-import BottomSheetFilters from './BottomSheetFilters';
-import SidebarFilters from './SidebarFilters';
 import HomeSectionMobile from './HomeSectionMobile';
 import HomeSectionDesktop from './HomeSectionDesktop';
 
 function PublicHomeClient() {
-  const user = useUserStore((s) => s.profile);
+  //const user = useUserStore((s) => s.profile);
   const {
     categories,
     // isLoading: isCategoriesLoading,

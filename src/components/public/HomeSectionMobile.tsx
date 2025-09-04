@@ -1,15 +1,9 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import BusinessList from '../shared/BusinessList';
 import BottomSheetFilters from './BottomSheetFilters';
 import { OnlineFilter, Scope, SortBy } from '@/types';
-import dynamic from 'next/dynamic';
-const BusinessMapAll = dynamic(
-  () => import('@/components/shared/BusinessMapAll'),
-  {
-    ssr: false,
-  }
-);
+
 import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
 
 type HomeSectionMobileProps = {
@@ -37,7 +31,6 @@ function HomeSectionMobile({
   categoriesWithAll,
   scope = 'public',
 }: HomeSectionMobileProps) {
-  const [showMap, setShowMap] = useState(false);
   const {
     data,
     fetchNextPage,

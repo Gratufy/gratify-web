@@ -105,7 +105,7 @@ function HomeSectionDesktop({
       </div>
 
       {showMap && (
-        <div className="pt-13 flex-1">
+        <div className="pt-13 top-13 sticky h-screen w-[450px]">
           <BusinessMapAll
             businesses={businesses}
             className="w-full"

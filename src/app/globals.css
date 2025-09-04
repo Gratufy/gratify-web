@@ -271,3 +271,15 @@
     border: 0;
   }
 }
+
+/* Leaflet map styles to prevent white stripe*/
+.leaflet-container .leaflet-tile {
+  image-rendering: optimizeSpeed;
+}
+.leaflet-container .leaflet-tile {
+  background-color: #c7c7cf;
+}
+
+.leaflet-container .leaflet-tile-pane img {
+  will-change: transform;
+}
