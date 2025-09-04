@@ -1,8 +1,8 @@
 import React from 'react';
 import Karma from './Karma';
 import { BusinessWithCategoryName } from '@/types';
-import Link from 'next/link';
-import { renderLocations } from '@/lib/helpers/renderLocations';
+// import Link from 'next/link';
+// import { renderLocations } from '@/lib/helpers/renderLocations';
 import Image from 'next/image';
 import CheckIcon from '@/assets/icons/general/icon-check.svg';
 
