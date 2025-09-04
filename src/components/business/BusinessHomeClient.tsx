@@ -1,8 +1,8 @@
-"use client";
-import React from "react";
-import { useBusinesses } from "@/hooks/useBusinesses";
+'use client';
+import React from 'react';
+import { useBusinesses } from '@/hooks/useBusinesses';
 
-import BusinessCardShot from "@/components/shared/BusinessCardShot";
+import BusinessCardShot from '@/components/shared/BusinessCardShot';
 
 function BusinessHomeClient() {
   const {
@@ -11,9 +11,9 @@ function BusinessHomeClient() {
     isError: isBusinessesError,
     error,
   } = useBusinesses({
-    city: "__all__",
-    categoryId: "__all__",
-    scope: "business_user",
+    city: '__all__',
+    categoryId: '__all__',
+    scope: 'business_user',
   });
   return (
     <>
@@ -23,7 +23,8 @@ function BusinessHomeClient() {
         <ul>
           {businesses.data.map((b) => (
             <li key={b.id}>
-              <BusinessCardShot business={b} selectedCity="__all__" />
+              {/* selectedCity="__all__" */}
+              <BusinessCardShot business={b} />
             </li>
           ))}
         </ul>

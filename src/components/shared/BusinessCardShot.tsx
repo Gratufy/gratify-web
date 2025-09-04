@@ -1,8 +1,8 @@
 import React from 'react';
 import Karma from './Karma';
 import { BusinessWithCategoryName } from '@/types';
-import Link from 'next/link';
-import { renderLocations } from '@/lib/helpers/renderLocations';
+// import Link from 'next/link';
+// import { renderLocations } from '@/lib/helpers/renderLocations';
 import Image from 'next/image';
 import CheckIcon from '@/assets/icons/general/icon-check.svg';
 
@@ -10,14 +10,14 @@ import ReviewIcon from '@/assets/icons/general/icon-bubble.svg';
 
 function BusinessCardShot({
   business,
-  selectedCity,
+  // selectedCity,
   imageUrl,
 }: {
   business: BusinessWithCategoryName;
-  selectedCity?: string;
+  // selectedCity?: string;
   imageUrl?: string;
 }) {
-  const CityListElements = renderLocations(business, selectedCity);
+  // const CityListElements = renderLocations(business, selectedCity);
   return (
     <div className="w-full bg-white pb-5">
       {/* header */}

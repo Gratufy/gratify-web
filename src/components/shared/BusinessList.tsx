@@ -1,50 +1,27 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
-import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
-import { OnlineFilter, Scope, SortBy } from '@/types';
+import { BusinessWithCategoryName } from '@/types';
 import BusinessCardShot from './BusinessCardShot';
-import dynamic from 'next/dynamic';
-const BusinessMapAll = dynamic(
-  () => import('@/components/shared/BusinessMapAll'),
-  {
-    ssr: false,
-  }
-);
-import { Button } from '../ui/button';
 
 interface BusinessListProps {
-  city?: string;
-  categoryId?: string;
-  showOnlineStatus?: OnlineFilter;
-  sortBy?: SortBy;
-  scope: Scope;
+  businesses: BusinessWithCategoryName[];
+  fetchNextPage: () => void; // если нужен infinite scroll
+  hasNextPage?: boolean;
+  isFetchingNextPage?: boolean;
+  isLoading?: boolean;
+  isError?: boolean;
+  error?: Error | null;
 }
 function BusinessList({
-  city,
-  categoryId,
-  showOnlineStatus,
-  sortBy,
-  scope,
+  businesses,
+  fetchNextPage,
+  hasNextPage,
+  isFetchingNextPage,
+  isError,
+  isLoading,
+  // error,
 }: BusinessListProps) {
-  const [showMap, setShowMap] = useState(false);
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    isError,
-    error,
-  } = useInfiniteBusinesses({
-    city,
-    categoryId,
-    showOnlineStatus,
-    sortBy,
-    scope,
-  });
-  const businesses = data?.pages.flatMap((page) => page.data) ?? [];
-
   useEffect(() => {
     if (!loadMoreRef.current) return;
     const observer = new IntersectionObserver((entries) => {
@@ -66,7 +43,8 @@ function BusinessList({
         <ul className="flex w-full flex-col items-center justify-center gap-5 lg:gap-10">
           {businesses.map((b) => (
             <li key={b.id} className="shadow-card w-full">
-              <BusinessCardShot business={b} selectedCity={city} />
+              {/* selectedCity={city} */}
+              <BusinessCardShot business={b} />
             </li>
           ))}
         </ul>
@@ -77,17 +55,6 @@ function BusinessList({
       </div>
       {businesses.length === 0 && !isLoading && !isError && (
         <p className="text-2xl"> Нема бізнесів в цьому місті</p>
-      )}
-
-      {businesses.length > 0 && (
-        <Button onClick={() => setShowMap((prev) => !prev)}>Show Map</Button>
-      )}
-      {showMap && (
-        <BusinessMapAll
-          businesses={businesses}
-          className="w-full"
-          selectedCity={city}
-        />
       )}
     </section>
   );
