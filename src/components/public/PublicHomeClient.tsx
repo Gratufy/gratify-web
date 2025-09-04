@@ -55,38 +55,6 @@ function PublicHomeClient() {
         categoriesWithAll={categoriesWithAll}
         scope="public"
       />
-      {/* <SidebarFilters
-        city={city}
-        setCity={setCity}
-        showOnlineStatus={showOnlineStatus}
-        setShowOnlineStatus={setShowOnlineStatus}
-        categoryId={categoryId}
-        setCategoryId={setCategoryId}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-        categoriesWithAll={categoriesWithAll}
-      /> */}
-
-      {/* <BusinessList
-          city={city}
-          categoryId={categoryId}
-          showOnlineStatus={showOnlineStatus}
-          sortBy={sortBy}
-          scope="public"
-        /> */}
-      {/* </div> */}
-
-      {/* <BottomSheetFilters
-        city={city}
-        setCity={setCity}
-        categoryId={categoryId}
-        setCategoryId={setCategoryId}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-        showOnlineStatus={showOnlineStatus}
-        setShowOnlineStatus={setShowOnlineStatus}
-        categoriesWithAll={categoriesWithAll}
-      /> */}
     </>
   );
 }

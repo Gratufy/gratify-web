@@ -2,48 +2,62 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
-import { OnlineFilter, Scope, SortBy } from '@/types';
+import {
+  Business,
+  BusinessWithCategoryName,
+  OnlineFilter,
+  Scope,
+  SortBy,
+} from '@/types';
 import BusinessCardShot from './BusinessCardShot';
-import dynamic from 'next/dynamic';
-const BusinessMapAll = dynamic(
-  () => import('@/components/shared/BusinessMapAll'),
-  {
-    ssr: false,
-  }
-);
+// import dynamic from 'next/dynamic';
+// const BusinessMapAll = dynamic(
+//   () => import('@/components/shared/BusinessMapAll'),
+//   {
+//     ssr: false,
+//   }
+// );
 import { Button } from '../ui/button';
 
 interface BusinessListProps {
-  city?: string;
-  categoryId?: string;
-  showOnlineStatus?: OnlineFilter;
-  sortBy?: SortBy;
-  scope: Scope;
+  // categoryId?: string;
+  // showOnlineStatus?: OnlineFilter;
+  // sortBy?: SortBy;
+  // scope: Scope;
+  businesses: BusinessWithCategoryName[];
+  fetchNextPage: () => void; // если нужен infinite scroll
+  hasNextPage?: boolean;
+  isFetchingNextPage?: boolean;
+  isLoading?: boolean;
+  isError?: boolean;
+  error?: Error | null;
 }
 function BusinessList({
-  city,
-  categoryId,
-  showOnlineStatus,
-  sortBy,
-  scope,
+  businesses,
+  fetchNextPage,
+  hasNextPage,
+  isFetchingNextPage,
+  isError,
+  isLoading,
+  error,
 }: BusinessListProps) {
-  const [showMap, setShowMap] = useState(false);
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    isError,
-    error,
-  } = useInfiniteBusinesses({
-    city,
-    categoryId,
-    showOnlineStatus,
-    sortBy,
-    scope,
-  });
-  const businesses = data?.pages.flatMap((page) => page.data) ?? [];
+  //const [showMap, setShowMap] = useState(false);
+  // const {
+  //   data,
+  //   fetchNextPage,
+  //   hasNextPage,
+  //   isFetchingNextPage,
+  //   isLoading,
+  //   isError,
+  //   error,
+  // } = useInfiniteBusinesses({
+  //   city,
+  //   categoryId,
+  //   showOnlineStatus,
+  //   sortBy,
+  //   scope,
+  // });
+  // const businesses = data?.pages.flatMap((page) => page.data) ?? [];
 
   useEffect(() => {
     if (!loadMoreRef.current) return;
@@ -66,7 +80,8 @@ function BusinessList({
         <ul className="flex w-full flex-col items-center justify-center gap-5 lg:gap-10">
           {businesses.map((b) => (
             <li key={b.id} className="shadow-card w-full">
-              <BusinessCardShot business={b} selectedCity={city} />
+              {/* selectedCity={city} */}
+              <BusinessCardShot business={b} />
             </li>
           ))}
         </ul>
@@ -79,8 +94,10 @@ function BusinessList({
         <p className="text-2xl"> Нема бізнесів в цьому місті</p>
       )}
 
-      {businesses.length > 0 && (
-        <Button onClick={() => setShowMap((prev) => !prev)}>Show Map</Button>
+      {/* {businesses.length > 0 && (
+        <Button onClick={() => setShowMap((prev) => !prev)}>
+          {!showMap ? 'Show Map' : 'Hide Map'}
+        </Button>
       )}
       {showMap && (
         <BusinessMapAll
@@ -88,7 +105,7 @@ function BusinessList({
           className="w-full"
           selectedCity={city}
         />
-      )}
+      )} */}
     </section>
   );
 }

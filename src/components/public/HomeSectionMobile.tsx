@@ -1,7 +1,16 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import BusinessList from '../shared/BusinessList';
 import BottomSheetFilters from './BottomSheetFilters';
 import { OnlineFilter, Scope, SortBy } from '@/types';
+import dynamic from 'next/dynamic';
+const BusinessMapAll = dynamic(
+  () => import('@/components/shared/BusinessMapAll'),
+  {
+    ssr: false,
+  }
+);
+import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
 
 type HomeSectionMobileProps = {
   city: string | undefined;
@@ -28,14 +37,38 @@ function HomeSectionMobile({
   categoriesWithAll,
   scope = 'public',
 }: HomeSectionMobileProps) {
+  const [showMap, setShowMap] = useState(false);
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+    error,
+  } = useInfiniteBusinesses({
+    city,
+    categoryId,
+    showOnlineStatus,
+    sortBy,
+    scope,
+  });
+  const businesses = data?.pages.flatMap((page) => page.data) ?? [];
   return (
     <div className="flex w-full flex-col pt-2 lg:hidden">
       <BusinessList
-        city={city}
-        categoryId={categoryId}
-        showOnlineStatus={showOnlineStatus}
-        sortBy={sortBy}
-        scope={scope}
+        businesses={businesses}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        isLoading={isLoading}
+        isError={isError}
+        error={error}
+        // city={city}
+        // categoryId={categoryId}
+        // showOnlineStatus={showOnlineStatus}
+        // sortBy={sortBy}
+        // scope={scope}
       />
       <BottomSheetFilters
         city={city}
