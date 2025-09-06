@@ -12,15 +12,16 @@ const BusinessMapAll = dynamic(
   }
 );
 import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
-import MapIcon from '@/assets/icons/filters/icon-map.svg';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
+
+import ShowMap from '../ui/ShowMap';
 
 type HomeSectionDesktopProps = {
   city: string | undefined;
   setCity: (city: string) => void;
   categoryId: string;
   setCategoryId: (id: string) => void;
+  categoryName: string;
+  setCategoryName: (name: string) => void;
   sortBy: SortBy;
   setSortBy: (sort: SortBy) => void;
   showOnlineStatus: OnlineFilter;
@@ -34,6 +35,8 @@ function HomeSectionDesktop({
   setCity,
   categoryId,
   setCategoryId,
+  categoryName,
+  setCategoryName,
   sortBy,
   setSortBy,
   showOnlineStatus,
@@ -59,61 +62,55 @@ function HomeSectionDesktop({
   });
   const businesses = data?.pages.flatMap((page) => page.data) ?? [];
   return (
-    <div className="hidden w-full lg:flex lg:flex-row lg:gap-6">
-      {!showMap && (
-        <SidebarFilters
-          city={city}
-          setCity={setCity}
-          showOnlineStatus={showOnlineStatus}
-          setShowOnlineStatus={setShowOnlineStatus}
-          categoryId={categoryId}
-          setCategoryId={setCategoryId}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-          categoriesWithAll={categoriesWithAll}
-        />
+    <>
+      {businesses.length > 0 && (
+        <ShowMap showMap={showMap} setShowMap={setShowMap} />
       )}
-      <div className="flex flex-1 flex-col">
-        {businesses.length > 0 && (
-          <div className="ml-auto flex items-center py-3">
-            <MapIcon className="mr-2 inline h-4 w-4" />
-            <span className="placeholder-sm mr-3">Мапа</span>
-            <Switch
-              id="map-show"
-              checked={showMap}
-              onCheckedChange={setShowMap}
-              className=""
-            />
-            <Label htmlFor="map-show" className="sr-only">
-              Показати мапу
-            </Label>
-          </div>
+      <div className="hidden w-full lg:flex lg:flex-row lg:gap-6">
+        {!showMap && (
+          <SidebarFilters
+            city={city}
+            setCity={setCity}
+            showOnlineStatus={showOnlineStatus}
+            setShowOnlineStatus={setShowOnlineStatus}
+            categoryId={categoryId}
+            setCategoryId={setCategoryId}
+            categoryName={categoryName}
+            setCategoryName={setCategoryName}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            categoriesWithAll={categoriesWithAll}
+          />
         )}
-        <BusinessList
-          businesses={businesses}
-          fetchNextPage={fetchNextPage}
-          hasNextPage={hasNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-          isLoading={isLoading}
-          isError={isError}
-          error={error}
-          // categoryId={categoryId}
-          // showOnlineStatus={showOnlineStatus}
-          // sortBy={sortBy}
-          // scope={scope}
-        />
-      </div>
 
-      {showMap && (
-        <div className="pt-13 top-13 sticky h-screen w-[450px]">
-          <BusinessMapAll
+        <div className="flex flex-1 flex-col">
+          <BusinessList
             businesses={businesses}
-            className="w-full"
-            selectedCity={city}
+            fetchNextPage={fetchNextPage}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            isLoading={isLoading}
+            isError={isError}
+            error={error}
+            // categoryId={categoryId}
+            // showOnlineStatus={showOnlineStatus}
+            // sortBy={sortBy}
+            // scope={scope}
           />
         </div>
-      )}
-    </div>
+
+        {showMap && (
+          // count width of footer+32px
+          <div className="top-13 sticky h-screen w-[450px] pb-32">
+            <BusinessMapAll
+              businesses={businesses}
+              className="w-full"
+              selectedCity={city}
+            />
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 

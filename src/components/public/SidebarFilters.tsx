@@ -15,6 +15,8 @@ type SidebarFiltersProps = {
   setShowOnlineStatus: (status: OnlineFilter) => void;
   categoryId: string;
   setCategoryId: (id: string) => void;
+  categoryName: string;
+  setCategoryName: (name: string) => void;
   sortBy: SortBy;
   setSortBy: (sort: SortBy) => void;
   categoriesWithAll: { categoryId: string; name: string }[];
@@ -27,6 +29,8 @@ function SidebarFilters({
   setShowOnlineStatus,
   categoryId,
   setCategoryId,
+  categoryName,
+  setCategoryName,
   sortBy,
   setSortBy,
   categoriesWithAll,

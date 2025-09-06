@@ -18,6 +18,7 @@ function PublicHomeClient() {
   } = useBusinessCategories();
   const [city, setCity] = useState<string | undefined>('__all__');
   const [categoryId, setCategoryId] = useState<string>('__all__');
+  const [categoryName, setCategoryName] = useState<string>('Всі категорії');
   const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>('all');
 
   const [sortBy, setSortBy] = useState<SortBy>('newest');
@@ -45,6 +46,8 @@ function PublicHomeClient() {
         setCity={setCity}
         categoryId={categoryId}
         setCategoryId={setCategoryId}
+        categoryName={categoryName}
+        setCategoryName={setCategoryName}
         sortBy={sortBy}
         setSortBy={setSortBy}
         showOnlineStatus={showOnlineStatus}
