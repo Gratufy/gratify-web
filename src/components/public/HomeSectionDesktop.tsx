@@ -69,7 +69,7 @@ function HomeSectionDesktop({
   return (
     <>
       {businesses.length > 0 && (
-        <div className="flex w-full justify-between bg-white p-3">
+        <div className="flex w-full justify-between bg-white px-3 py-3 xl:px-4">
           {showMap && (
             <TopSheetFilter
               cityName={cityName}
