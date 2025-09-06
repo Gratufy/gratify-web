@@ -10,7 +10,7 @@ type ShowMapProps = {
 
 function ShowMap({ showMap, setShowMap }: ShowMapProps) {
   return (
-    <div className="ml-auto flex items-center py-3">
+    <div className="ml-auto flex items-center">
       <MapIcon className="mr-2 inline h-4 w-4" />
       <span className="placeholder-sm mr-3">Мапа</span>
       <Switch id="map-show" checked={showMap} onCheckedChange={setShowMap} />

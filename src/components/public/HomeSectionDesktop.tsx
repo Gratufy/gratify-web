@@ -14,10 +14,13 @@ const BusinessMapAll = dynamic(
 import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
 
 import ShowMap from '../ui/ShowMap';
+import TopSheetFilter from './TopSheetFilter';
 
 type HomeSectionDesktopProps = {
   city: string | undefined;
   setCity: (city: string) => void;
+  cityName: string;
+  setCityName: (label: string) => void;
   categoryId: string;
   setCategoryId: (id: string) => void;
   categoryName: string;
@@ -33,6 +36,8 @@ type HomeSectionDesktopProps = {
 function HomeSectionDesktop({
   city,
   setCity,
+  cityName,
+  setCityName,
   categoryId,
   setCategoryId,
   categoryName,
@@ -64,18 +69,27 @@ function HomeSectionDesktop({
   return (
     <>
       {businesses.length > 0 && (
-        <ShowMap showMap={showMap} setShowMap={setShowMap} />
+        <div className="flex w-full justify-between bg-white p-3">
+          {showMap && (
+            <TopSheetFilter
+              cityName={cityName}
+              sortBy={sortBy}
+              categoryName={categoryName}
+            />
+          )}
+          <ShowMap showMap={showMap} setShowMap={setShowMap} />
+        </div>
       )}
       <div className="hidden w-full lg:flex lg:flex-row lg:gap-6">
         {!showMap && (
           <SidebarFilters
             city={city}
             setCity={setCity}
+            setCityName={setCityName}
             showOnlineStatus={showOnlineStatus}
             setShowOnlineStatus={setShowOnlineStatus}
             categoryId={categoryId}
             setCategoryId={setCategoryId}
-            categoryName={categoryName}
             setCategoryName={setCategoryName}
             sortBy={sortBy}
             setSortBy={setSortBy}

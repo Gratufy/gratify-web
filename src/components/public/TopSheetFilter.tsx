@@ -5,31 +5,35 @@ import CategoryIcon from '@/assets/icons/filters/icon-favor.svg';
 import { SortBy } from '@/types';
 
 type TopSheetFilterProps = {
-  city: string | undefined;
-  sort: SortBy;
-  category: string;
+  cityName: string | undefined;
+  sortBy: SortBy;
+  categoryName: string;
 };
 
-function TopSheetFilter({ city, sort, category }: TopSheetFilterProps) {
+function TopSheetFilter({
+  cityName,
+  sortBy,
+  categoryName,
+}: TopSheetFilterProps) {
   return (
-    <div className="flex items-center bg-white p-3">
+    <>
       <div className="flex items-center gap-8">
         <div className="flex items-center px-3 py-1">
           <CityIcon className="mr-2 size-4" />
-          <span className="placeholder-sm">{city}</span>
+          <span className="placeholder-sm">{cityName}</span>
         </div>
 
         <div className="flex items-center px-3 py-1">
           <SortIcon className="mr-2 size-4" />
-          <span className="placeholder-sm">{sort}</span>
+          <span className="placeholder-sm">{sortBy}</span>
         </div>
 
         <div className="flex items-center px-3 py-1">
           <CategoryIcon className="mr-2 size-4" />
-          <span className="placeholder-sm">{category}</span>
+          <span className="placeholder-sm">{categoryName}</span>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

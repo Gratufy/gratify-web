@@ -11,11 +11,11 @@ import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 type SidebarFiltersProps = {
   city: string | undefined;
   setCity: (city: string) => void;
+  setCityName: (label: string) => void;
   showOnlineStatus: OnlineFilter;
   setShowOnlineStatus: (status: OnlineFilter) => void;
   categoryId: string;
   setCategoryId: (id: string) => void;
-  categoryName: string;
   setCategoryName: (name: string) => void;
   sortBy: SortBy;
   setSortBy: (sort: SortBy) => void;
@@ -25,11 +25,12 @@ type SidebarFiltersProps = {
 function SidebarFilters({
   city,
   setCity,
+  setCityName,
   showOnlineStatus,
   setShowOnlineStatus,
   categoryId,
   setCategoryId,
-  categoryName,
+
   setCategoryName,
   sortBy,
   setSortBy,
@@ -51,7 +52,13 @@ function SidebarFilters({
             className="w-full rounded-none px-3 py-1.5 xl:px-4"
             id="city"
             value={city}
-            onChange={setCity}
+            onChange={(val) => {
+              setCity(val);
+              const city = UKRAINE_REGIONAL_CENTERS.find(
+                (c) => c.value === val
+              );
+              setCityName(city?.label ?? '');
+            }}
             options={UKRAINE_REGIONAL_CENTERS}
             getOptionValue={(option) => option.value}
             getOptionLabel={(option) => option.label}
@@ -83,7 +90,14 @@ function SidebarFilters({
             className="w-full rounded-none px-3 py-1.5 xl:px-4"
             id="categories"
             value={categoryId}
-            onChange={setCategoryId}
+            //onChange={setCategoryId}
+            onChange={(val) => {
+              setCategoryId(val); // id категории
+              const category = categoriesWithAll.find(
+                (c) => c.categoryId === val
+              );
+              setCategoryName(category?.name ?? '');
+            }}
             options={categoriesWithAll}
             getOptionValue={(c) => c.categoryId}
             getOptionLabel={(c) => c.name}
