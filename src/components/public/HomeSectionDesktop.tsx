@@ -70,10 +70,14 @@ function HomeSectionDesktop({
   });
   const businesses = data?.pages.flatMap((page) => page.data) ?? [];
   return (
-    <>
+    <div
+      className={`w-full lg:max-w-[1024px] xl:max-w-[1440px] ${showMap ? 'lg:pl-[50px] xl:pl-[150px]' : 'lg:px-[50px] xl:px-[150px]'}`}
+    >
       {businesses.length > 0 && (
-        <>
-          <div className="flex w-full justify-between bg-white px-3 py-3 xl:px-4">
+        <div
+          className={`w-full ${showMap ? 'lg:pr-[50px] xl:pr-[150px]' : ''}`}
+        >
+          <div className="flex w-full justify-between bg-white py-3">
             {showMap && (
               <TopSheetFilter
                 cityName={cityName}
@@ -132,7 +136,7 @@ function HomeSectionDesktop({
               />
             </div>
           )}
-        </>
+        </div>
       )}
       <div className="hidden w-full lg:flex lg:flex-row lg:gap-6">
         {!showMap && (
@@ -169,7 +173,7 @@ function HomeSectionDesktop({
 
         {showMap && (
           // count width of footer+32px
-          <div className="top-13 sticky h-screen w-[450px] pb-32 pt-2">
+          <div className="top-13 sticky h-screen pb-32 pt-2 lg:w-[500px] xl:w-[708px]">
             <BusinessMapAll
               businesses={businesses}
               className="w-full"
@@ -178,7 +182,7 @@ function HomeSectionDesktop({
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 

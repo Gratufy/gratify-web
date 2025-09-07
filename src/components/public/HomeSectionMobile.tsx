@@ -48,7 +48,7 @@ function HomeSectionMobile({
   });
   const businesses = data?.pages.flatMap((page) => page.data) ?? [];
   return (
-    <div className="flex w-full flex-col pt-2 lg:hidden">
+    <div className="container flex w-full flex-col pt-2 lg:hidden">
       <BusinessList
         businesses={businesses}
         fetchNextPage={fetchNextPage}

@@ -17,24 +17,22 @@ function TopSheetFilter({
   categoryName,
 }: TopSheetFilterProps) {
   return (
-    <>
-      <div className="flex items-center gap-8 xl:gap-10">
-        <div className="flex items-center px-3 py-1 xl:px-4">
-          <CityIcon className="mr-2 size-4 xl:mr-3 xl:size-5" />
-          <span className="placeholder-sm xl:placeholder-base">{cityName}</span>
-        </div>
-
-        <div className="flex items-center px-3 py-1 xl:px-4">
-          <SortIcon className="mr-2 size-4 xl:mr-3 xl:size-5" />
-          <span className="placeholder-sm xl:placeholder-base">Сортувати</span>
-        </div>
-
-        <div className="flex items-center px-3 py-1 xl:px-4">
-          <CategoryIcon className="mr-2 size-4 xl:mr-3 xl:size-5" />
-          <span className="placeholder-sm xl:placeholder-base">Послуги</span>
-        </div>
+    <div className="flex items-center gap-8 px-3 xl:gap-10 xl:px-4">
+      <div className="flex items-center px-3 py-1 xl:px-4">
+        <CityIcon className="mr-2 size-4 xl:mr-3 xl:size-5" />
+        <span className="placeholder-sm xl:placeholder-base">{cityName}</span>
       </div>
-    </>
+
+      <div className="flex items-center px-3 py-1 xl:px-4">
+        <SortIcon className="mr-2 size-4 xl:mr-3 xl:size-5" />
+        <span className="placeholder-sm xl:placeholder-base">Сортувати</span>
+      </div>
+
+      <div className="flex items-center px-3 py-1 xl:px-4">
+        <CategoryIcon className="mr-2 size-4 xl:mr-3 xl:size-5" />
+        <span className="placeholder-sm xl:placeholder-base">Послуги</span>
+      </div>
+    </div>
   );
 }
 
