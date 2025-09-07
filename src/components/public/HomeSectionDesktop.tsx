@@ -17,6 +17,7 @@ import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
 import ShowMap from '../ui/ShowMap';
 import TopSheetFilter from './TopSheetFilter';
 import { ONLINE_STATUS_LABELS } from '@/const/business';
+import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
 
 type HomeSectionDesktopProps = {
   city: string | undefined;
@@ -88,31 +89,47 @@ function HomeSectionDesktop({
                 <span className="lg:placeholder-xs xl:placeholder-sm">
                   {ONLINE_STATUS_LABELS[showOnlineStatus]}
                 </span>
-                <CrossIcon className="cursor-pointer lg:size-4 xl:size-5" />
+                {/* <CrossIcon
+                  className="cursor-pointer lg:size-4 xl:size-5"
+                  onClick={() => {
+                    setShowOnlineStatus('all');
+                  }}
+                /> */}
               </div>
               <div className="bg-background-grey-100 flex lg:gap-2 lg:px-2 lg:py-2">
                 {' '}
                 <span className="lg:placeholder-xs xl:placeholder-sm">
                   {sortBy}
                 </span>
-                <CrossIcon className="cursor-pointer lg:size-4 xl:size-5" />
+                {/* <CrossIcon
+                  className="cursor-pointer lg:size-4 xl:size-5"
+                  onClick={() => {
+                    setSortBy('newest');
+                  }}
+                /> */}
               </div>
               <div className="bg-background-grey-100 flex lg:gap-2 lg:px-2 lg:py-2">
                 <span className="lg:placeholder-xs xl:placeholder-sm">
                   {categoryName}
                 </span>
-                <CrossIcon className="cursor-pointer lg:size-4 xl:size-5" />
+                {/* <CrossIcon
+                  className="cursor-pointer lg:size-4 xl:size-5"
+                  onClick={() => {
+                    setCategoryId('__all__');
+                  }}
+                /> */}
               </div>
-              <button
-                type="button"
-                // onClick={() => setTempCity('__all__')}
-                className="border-elements-grey-200 flex cursor-pointer border bg-white py-1.5 lg:gap-2 lg:px-2"
-              >
-                <span className="lg:placeholder-xs xl:placeholder-sm">
-                  Скасувати
-                </span>
-                <CrossIcon className="lg:size-4 xl:size-5" />
-              </button>
+
+              <DeleteAllFiltersBtn
+                isSecondVariant
+                setCity={setCity}
+                setCityName={setCityName}
+                setCategoryId={setCategoryId}
+                setShowOnlineStatus={setShowOnlineStatus}
+                setSortBy={setSortBy}
+                setCategoryName={setCategoryName}
+                className="lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 flex cursor-pointer border bg-white py-1.5 lg:gap-2 lg:px-2"
+              />
             </div>
           )}
         </>
