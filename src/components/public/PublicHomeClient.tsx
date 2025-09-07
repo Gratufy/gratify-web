@@ -17,7 +17,9 @@ function PublicHomeClient() {
     // isError: isCategoriesError,
   } = useBusinessCategories();
   const [city, setCity] = useState<string | undefined>('__all__');
+  const [cityName, setCityName] = useState<string>('Всі міста');
   const [categoryId, setCategoryId] = useState<string>('__all__');
+  const [categoryName, setCategoryName] = useState<string>('Всі категорії');
   const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>('all');
 
   const [sortBy, setSortBy] = useState<SortBy>('newest');
@@ -43,8 +45,12 @@ function PublicHomeClient() {
       <HomeSectionDesktop
         city={city}
         setCity={setCity}
+        cityName={cityName}
+        setCityName={setCityName}
         categoryId={categoryId}
         setCategoryId={setCategoryId}
+        categoryName={categoryName}
+        setCategoryName={setCategoryName}
         sortBy={sortBy}
         setSortBy={setSortBy}
         showOnlineStatus={showOnlineStatus}

@@ -7,14 +7,17 @@ import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 import SortIcon from '@/assets/icons/filters/icon-sort.svg';
 import CategoryIcon from '@/assets/icons/filters/icon-favor.svg';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
+import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
 
 type SidebarFiltersProps = {
   city: string | undefined;
   setCity: (city: string) => void;
+  setCityName: (label: string) => void;
   showOnlineStatus: OnlineFilter;
   setShowOnlineStatus: (status: OnlineFilter) => void;
   categoryId: string;
   setCategoryId: (id: string) => void;
+  setCategoryName: (name: string) => void;
   sortBy: SortBy;
   setSortBy: (sort: SortBy) => void;
   categoriesWithAll: { categoryId: string; name: string }[];
@@ -23,10 +26,13 @@ type SidebarFiltersProps = {
 function SidebarFilters({
   city,
   setCity,
+  setCityName,
   showOnlineStatus,
   setShowOnlineStatus,
   categoryId,
   setCategoryId,
+
+  setCategoryName,
   sortBy,
   setSortBy,
   categoriesWithAll,
@@ -47,7 +53,13 @@ function SidebarFilters({
             className="w-full rounded-none px-3 py-1.5 xl:px-4"
             id="city"
             value={city}
-            onChange={setCity}
+            onChange={(val) => {
+              setCity(val);
+              const city = UKRAINE_REGIONAL_CENTERS.find(
+                (c) => c.value === val
+              );
+              setCityName(city?.label ?? '');
+            }}
             options={UKRAINE_REGIONAL_CENTERS}
             getOptionValue={(option) => option.value}
             getOptionLabel={(option) => option.label}
@@ -79,26 +91,44 @@ function SidebarFilters({
             className="w-full rounded-none px-3 py-1.5 xl:px-4"
             id="categories"
             value={categoryId}
-            onChange={setCategoryId}
+            //onChange={setCategoryId}
+            onChange={(val) => {
+              setCategoryId(val); // id категории
+              const category = categoriesWithAll.find(
+                (c) => c.categoryId === val
+              );
+              setCategoryName(category?.name ?? '');
+            }}
             options={categoriesWithAll}
             getOptionValue={(c) => c.categoryId}
             getOptionLabel={(c) => c.name}
             placeholder="Оберіть категорію"
           />
         </div>
-        <button
+        {/* <button
           type="button"
           className="placeholder-sm xl:placeholder-base flex w-full items-center justify-center gap-3 px-4 py-1 xl:px-4"
           onClick={() => {
             setCity('__all__');
+            setCityName('Всі міста');
             setCategoryId('__all__');
             setShowOnlineStatus('all');
             setSortBy('newest');
+            setCategoryName('Всі категорії');
           }}
         >
           <CrossIcon className="h-4 w-4 xl:h-5 xl:w-5" />
           <span>Очистити все</span>
-        </button>
+        </button> */}
+        <DeleteAllFiltersBtn
+          setCity={setCity}
+          setCityName={setCityName}
+          setCategoryId={setCategoryId}
+          setShowOnlineStatus={setShowOnlineStatus}
+          setSortBy={setSortBy}
+          setCategoryName={setCategoryName}
+          className="placeholder-sm xl:placeholder-base flex w-full items-center justify-center gap-3 px-4 py-1 xl:px-4"
+        />
       </div>
     </aside>
   );
