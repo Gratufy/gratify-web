@@ -81,8 +81,13 @@ function HomeSectionDesktop({
             {showMap && (
               <TopSheetFilter
                 cityName={cityName}
+                city={city}
+                setCity={setCity}
+                setCityName={setCityName}
                 sortBy={sortBy}
                 categoryName={categoryName}
+                showOnlineStatus={showOnlineStatus}
+                setShowOnlineStatus={setShowOnlineStatus}
               />
             )}
             <ShowMap showMap={showMap} setShowMap={setShowMap} />
