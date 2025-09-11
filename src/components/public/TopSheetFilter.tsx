@@ -145,14 +145,6 @@ function TopSheetFilter({
           </div>
         </div>
         <div className="mx-auto flex gap-4">
-          <button
-            type="button"
-            onClick={() => setTempCity('__all__')}
-            className="placeholder-xs w-30 border-background-main-400 flex h-8 items-center justify-center gap-1 border p-2"
-          >
-            <CrossIcon className="h-3 w-3" />
-            <span>Скасувати</span>
-          </button>
           <DeleteAllFiltersBtn
             isSecondVariant
             setCity={setTempCity}
