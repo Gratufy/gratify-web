@@ -53,6 +53,11 @@ function HomeSectionDesktop({
   scope = 'public',
 }: HomeSectionDesktopProps) {
   const [showMap, setShowMap] = useState(false);
+  console.log('City', city);
+  console.log('CategoryId', categoryId);
+  // console.log('CategoryName', categoryName);
+  // console.log('SortBy', sortBy);
+  // console.log('ShowOnlineStatus', showOnlineStatus);
   const {
     data,
     fetchNextPage,
@@ -85,9 +90,14 @@ function HomeSectionDesktop({
                 setCity={setCity}
                 setCityName={setCityName}
                 sortBy={sortBy}
+                setSortBy={setSortBy}
                 categoryName={categoryName}
                 showOnlineStatus={showOnlineStatus}
                 setShowOnlineStatus={setShowOnlineStatus}
+                categoryId={categoryId}
+                categoriesWithAll={categoriesWithAll}
+                setCategoryName={setCategoryName}
+                setCategoryId={setCategoryId}
               />
             )}
             <ShowMap showMap={showMap} setShowMap={setShowMap} />
@@ -98,35 +108,17 @@ function HomeSectionDesktop({
                 <span className="lg:placeholder-xs xl:placeholder-sm">
                   {ONLINE_STATUS_LABELS[showOnlineStatus]}
                 </span>
-                {/* <CrossIcon
-                  className="cursor-pointer lg:size-4 xl:size-5"
-                  onClick={() => {
-                    setShowOnlineStatus('all');
-                  }}
-                /> */}
               </div>
               <div className="bg-background-grey-100 flex lg:gap-2 lg:px-2 lg:py-2">
                 {' '}
                 <span className="lg:placeholder-xs xl:placeholder-sm">
                   {sortBy}
                 </span>
-                {/* <CrossIcon
-                  className="cursor-pointer lg:size-4 xl:size-5"
-                  onClick={() => {
-                    setSortBy('newest');
-                  }}
-                /> */}
               </div>
               <div className="bg-background-grey-100 flex lg:gap-2 lg:px-2 lg:py-2">
                 <span className="lg:placeholder-xs xl:placeholder-sm">
                   {categoryName}
                 </span>
-                {/* <CrossIcon
-                  className="cursor-pointer lg:size-4 xl:size-5"
-                  onClick={() => {
-                    setCategoryId('__all__');
-                  }}
-                /> */}
               </div>
 
               <DeleteAllFiltersBtn

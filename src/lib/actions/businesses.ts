@@ -1,7 +1,7 @@
-"use server";
+'use server';
 
-import { createClient } from "@/utils/supabase/server";
-import { db } from "@/db";
+import { createClient } from '@/utils/supabase/server';
+import { db } from '@/db';
 
 import {
   businessCategories,
@@ -10,8 +10,8 @@ import {
   businessReviews,
   businessSpecialOffers,
   specialOffers,
-} from "@/db/schema";
-import { eq, desc, sql, and, SQL, inArray } from "drizzle-orm";
+} from '@/db/schema';
+import { eq, desc, sql, and, SQL, inArray, or } from 'drizzle-orm';
 import {
   GetBusinessesParams,
   // Business,
@@ -24,13 +24,13 @@ import {
   GetBusinessesWithPagination,
   AdminBusinessRowType,
   UseAdminBusinessesParams,
-} from "@/types/business";
-import { isAdmin } from "@/lib/helpers/isAdmin";
-import { userProfiles } from "@/db/schema";
+} from '@/types/business';
+import { isAdmin } from '@/lib/helpers/isAdmin';
+import { userProfiles } from '@/db/schema';
 //import { checkAddress } from "./businessLocation";
-import { saveBusinessLocations } from "@/lib/actions/businessLocation";
-import { PAGE_SIZE } from "@/const/business";
-import { getSpecialOffersForBusinesses } from "../helpers/getSpecialOffersForBusinesses";
+import { saveBusinessLocations } from '@/lib/actions/businessLocation';
+import { PAGE_SIZE } from '@/const/business';
+import { getSpecialOffersForBusinesses } from '../helpers/getSpecialOffersForBusinesses';
 
 function filterByCityAndOnline(
   businesses: BusinessWithCategoryName[],
@@ -38,11 +38,11 @@ function filterByCityAndOnline(
   showOnlineStatus: OnlineFilter
 ) {
   // если выбран "Всі" (city = "__all__")
-  if (!city || city === "__all__") {
-    if (showOnlineStatus === "online") {
+  if (!city || city === '__all__') {
+    if (showOnlineStatus === 'online') {
       return businesses.filter((b) => b.isOnline);
     }
-    if (showOnlineStatus === "offline") {
+    if (showOnlineStatus === 'offline') {
       // все бизнесы с хотя бы одной физической локацией
       return businesses.filter((b) => b.locations.length > 0);
     }
@@ -51,10 +51,10 @@ function filterByCityAndOnline(
   }
 
   // если выбран конкретный город
-  if (showOnlineStatus === "online") {
+  if (showOnlineStatus === 'online') {
     return businesses.filter((b) => b.isOnline);
   }
-  if (showOnlineStatus === "offline") {
+  if (showOnlineStatus === 'offline') {
     return businesses.filter((b) =>
       b.locations.some((loc) => loc.city === city)
     );
@@ -93,34 +93,34 @@ export async function getBusinesses(
   data: BusinessWithCategoryName[];
   nextOffset?: number; // для useInfiniteQuery
 }> {
-  console.log(">>> getBusinesses called with", params);
+  // console.log(">>> getBusinesses called with", params);
   const {
     limit = PAGE_SIZE,
     offset = 0,
-    city = "__all__",
-    categoryId = "__all__",
-    sortBy = "newest",
-    scope = "public",
-    showOnlineStatus = "all",
+    city = '__all__',
+    categoryId = '__all__',
+    sortBy = 'newest',
+    scope = 'public',
+    showOnlineStatus = 'all',
   } = params ?? {};
 
   const supabase = await createClient();
-  console.log("step: getUser");
+  console.log('step: getUser');
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   const conditions: SQL[] = [];
   //category filter
-  if (categoryId && categoryId !== "__all__")
+  if (categoryId && categoryId !== '__all__')
     conditions.push(eq(businesses.categoryId, categoryId));
   //-----------------
   // фильтр по city и онлайн/офлайн
-  if (!city || city === "__all__") {
+  if (!city || city === '__all__') {
     // "__all__"
-    if (showOnlineStatus === "online") {
+    if (showOnlineStatus === 'online') {
       conditions.push(eq(businesses.isOnline, true));
-    } else if (showOnlineStatus === "offline") {
+    } else if (showOnlineStatus === 'offline') {
       // есть хотя бы одна физическая локация
       conditions.push(sql`
         EXISTS (
@@ -132,16 +132,16 @@ export async function getBusinesses(
     // "all" — не добавляем условий
   } else {
     // выбран конкретный город
-    if (showOnlineStatus === "online") {
+    if (showOnlineStatus === 'online') {
       conditions.push(eq(businesses.isOnline, true));
-    } else if (showOnlineStatus === "offline") {
+    } else if (showOnlineStatus === 'offline') {
       conditions.push(sql`
         EXISTS (
           SELECT 1 FROM ${businessLocations} bl
           WHERE bl.business_id = ${businesses.id} AND bl.city = ${city}
         )
       `);
-    } else if (showOnlineStatus === "all") {
+    } else if (showOnlineStatus === 'all') {
       // объединяем онлайн или с локацией в этом городе
       conditions.push(sql`
         ${businesses.isOnline} = true OR EXISTS (
@@ -154,26 +154,26 @@ export async function getBusinesses(
   //-----------------
 
   // scope
-  if (scope === "public") {
-    conditions.push(eq(businesses.status, "approved"));
-  } else if (scope === "business_user") {
-    if (!user) throw new Error("Not authenticated");
+  if (scope === 'public') {
+    conditions.push(eq(businesses.status, 'approved'));
+  } else if (scope === 'business_user') {
+    if (!user) throw new Error('Not authenticated');
     conditions.push(eq(businesses.ownerId, user.id));
-  } else if (scope === "admin") {
-    if (!user) throw new Error("Not authenticated");
+  } else if (scope === 'admin') {
+    if (!user) throw new Error('Not authenticated');
     const isAdminUser = await isAdmin(user.id);
     if (!isAdminUser) {
-      throw new Error("Forbidden for non-admin users");
+      throw new Error('Forbidden for non-admin users');
     }
   }
 
   const whereClause = conditions.length > 0 ? and(...conditions) : sql`TRUE`;
   let orderBy;
   switch (sortBy) {
-    case "mostKarma":
+    case 'mostKarma':
       orderBy = sql`${desc(businesses.karma)} NULLS LAST`;
       break;
-    case "newest":
+    case 'newest':
     default:
       orderBy = desc(businesses.createdAt);
   }
@@ -274,8 +274,8 @@ export async function getBusinesses(
     };
     //return results;
   } catch (error) {
-    console.error("Error fetching businesses with filters:", error);
-    throw new Error("Failed to fetch businesses");
+    console.error('Error fetching businesses with filters:', error);
+    throw new Error('Failed to fetch businesses');
   }
 }
 // get business by ID
@@ -338,22 +338,22 @@ export async function getBusinessById(
     }
     return businessData;
   } catch (error) {
-    console.error("Error fetching business:", error);
-    throw new Error("Failed to fetch business");
+    console.error('Error fetching business:', error);
+    throw new Error('Failed to fetch business');
   }
 }
 
 // create business
 
 export async function createBusiness(values: NewBusinessFormData) {
-  console.log("Creating business with values:", values);
+  console.log('Creating business with values:', values);
   try {
     const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
 
-    if (!user) throw new Error("Not authenticated");
+    if (!user) throw new Error('Not authenticated');
     // check profile
     let [profile] = await db
       .select()
@@ -361,13 +361,13 @@ export async function createBusiness(values: NewBusinessFormData) {
       .where(eq(userProfiles.userId, user.id))
       .limit(1);
 
-    if (!profile) throw new Error("Profile not found");
+    if (!profile) throw new Error('Profile not found');
     //------
     // change role
-    if (profile.role === "USER") {
+    if (profile.role === 'USER') {
       const [updatedProfile] = await db
         .update(userProfiles)
-        .set({ role: "BUSINESS", lastActivity: new Date() })
+        .set({ role: 'BUSINESS', lastActivity: new Date() })
         .where(eq(userProfiles.userId, user.id))
         .returning();
       profile = updatedProfile;
@@ -404,8 +404,8 @@ export async function createBusiness(values: NewBusinessFormData) {
       profile,
     };
   } catch (error) {
-    console.error("Error creating business:", error);
-    throw new Error("Failed to create business");
+    console.error('Error creating business:', error);
+    throw new Error('Failed to create business');
   }
 }
 
@@ -419,26 +419,26 @@ export async function updateBusiness(
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    if (!user) throw new Error("Not authenticated");
+    if (!user) throw new Error('Not authenticated');
 
     const existing = await db
       .select()
       .from(businesses)
       .where(eq(businesses.id, id))
       .limit(1);
-    if (!existing.length) throw new Error("Business not found");
+    if (!existing.length) throw new Error('Business not found');
 
     const isAdminUser = await isAdmin(user.id);
     if (!isAdminUser && existing[0].ownerId !== user.id) {
-      throw new Error("Forbidden for non-admin or not owner");
+      throw new Error('Forbidden for non-admin or not owner');
     }
     const allowedFieldsForOwner: (keyof typeof businesses.$inferInsert)[] = [
-      "categoryId",
-      "name",
-      "description",
-      "website",
+      'categoryId',
+      'name',
+      'description',
+      'website',
     ];
-    const allowedFieldsForAdmin = [...allowedFieldsForOwner, "status"];
+    const allowedFieldsForAdmin = [...allowedFieldsForOwner, 'status'];
 
     const allowedFields = isAdminUser
       ? allowedFieldsForAdmin
@@ -449,7 +449,7 @@ export async function updateBusiness(
       )
     );
     if (Object.keys(filteredValues).length === 0 && !values.locations) {
-      throw new Error("No valid fields to update");
+      throw new Error('No valid fields to update');
     }
 
     let updatedBusiness = existing[0];
@@ -489,8 +489,8 @@ export async function updateBusiness(
     }
     return updatedBusiness;
   } catch (error) {
-    console.error("Error updating business:", error);
-    throw new Error("Failed to update business");
+    console.error('Error updating business:', error);
+    throw new Error('Failed to update business');
   }
 }
 
@@ -501,23 +501,23 @@ export async function deleteBusiness(id: string) {
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    if (!user) throw new Error("Not authenticated");
+    if (!user) throw new Error('Not authenticated');
 
     const business = await db
       .select()
       .from(businesses)
       .where(eq(businesses.id, id))
       .limit(1);
-    if (!business.length) throw new Error("Business not found");
+    if (!business.length) throw new Error('Business not found');
     const isAdminUser = await isAdmin(user.id);
     if (!isAdminUser && business[0].ownerId !== user.id) {
-      throw new Error("Forbidden for non-admin or not owner");
+      throw new Error('Forbidden for non-admin or not owner');
     }
     await db.delete(businesses).where(eq(businesses.id, id));
     return { success: true };
   } catch (error) {
-    console.error("Error deleting business:", error);
-    throw new Error("Failed to delete business");
+    console.error('Error deleting business:', error);
+    throw new Error('Failed to delete business');
   }
 }
 
@@ -530,13 +530,13 @@ export async function getBusinessesWithReviewStatus(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) throw new Error("Unauthorized");
+  if (!user) throw new Error('Unauthorized');
 
   const isAdminUser = await isAdmin(user.id);
-  if (!isAdminUser) throw new Error("Forbidden");
+  if (!isAdminUser) throw new Error('Forbidden');
 
   const conditions = [];
-  if (categoryId && categoryId !== "__all__")
+  if (categoryId && categoryId !== '__all__')
     conditions.push(eq(businesses.categoryId, categoryId));
   if (reviewStatus) conditions.push(eq(businessReviews.status, reviewStatus));
 
@@ -570,31 +570,31 @@ export async function getBusinessesForAdmin({
   businessStatus,
   categoryId,
   city,
-  showOnlineStatus = "all",
-  sortBy = "newest",
+  showOnlineStatus = 'all',
+  sortBy = 'newest',
 }: UseAdminBusinessesParams): Promise<AdminBusinessRowType[]> {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) throw new Error("Unauthorized");
+  if (!user) throw new Error('Unauthorized');
 
   const isAdminUser = await isAdmin(user.id);
-  if (!isAdminUser) throw new Error("Forbidden");
+  if (!isAdminUser) throw new Error('Forbidden');
 
   const conditions: SQL[] = [];
-  if (categoryId && categoryId !== "__all__")
+  if (categoryId && categoryId !== '__all__')
     conditions.push(eq(businesses.categoryId, categoryId));
 
   if (reviewStatus) conditions.push(eq(businessReviews.status, reviewStatus));
   if (businessStatus) conditions.push(eq(businesses.status, businessStatus));
 
   // фильтр по city и онлайн/офлайн
-  if (!city || city === "__all__") {
+  if (!city || city === '__all__') {
     // "__all__"
-    if (showOnlineStatus === "online") {
+    if (showOnlineStatus === 'online') {
       conditions.push(eq(businesses.isOnline, true));
-    } else if (showOnlineStatus === "offline") {
+    } else if (showOnlineStatus === 'offline') {
       // есть хотя бы одна физическая локация
       conditions.push(sql`
         EXISTS (
@@ -606,16 +606,16 @@ export async function getBusinessesForAdmin({
     // "all" — не добавляем условий
   } else {
     // выбран конкретный город
-    if (showOnlineStatus === "online") {
+    if (showOnlineStatus === 'online') {
       conditions.push(eq(businesses.isOnline, true));
-    } else if (showOnlineStatus === "offline") {
+    } else if (showOnlineStatus === 'offline') {
       conditions.push(sql`
         EXISTS (
           SELECT 1 FROM ${businessLocations} bl
           WHERE bl.business_id = ${businesses.id} AND bl.city = ${city}
         )
       `);
-    } else if (showOnlineStatus === "all") {
+    } else if (showOnlineStatus === 'all') {
       // объединяем онлайн или с локацией в этом городе
       conditions.push(sql`
         ${businesses.isOnline} = true OR EXISTS (
@@ -653,7 +653,7 @@ export async function getBusinessesForAdmin({
     .where(conditions.length ? and(...conditions) : undefined)
     .groupBy(businesses.id)
     .orderBy(
-      sortBy === "newest"
+      sortBy === 'newest'
         ? sql`${businesses.createdAt} DESC`
         : sql`${businesses.createdAt} ASC`
     );
