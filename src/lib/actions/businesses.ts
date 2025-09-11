@@ -112,47 +112,81 @@ export async function getBusinesses(
 
   const conditions: SQL[] = [];
   //category filter
-  if (categoryId && categoryId !== '__all__')
-    conditions.push(eq(businesses.categoryId, categoryId));
+  // if (categoryId && categoryId !== '__all__')
+  //   conditions.push(eq(businesses.categoryId, categoryId));
+  const categoryFilter =
+    categoryId && categoryId !== '__all__'
+      ? eq(businesses.categoryId, categoryId)
+      : undefined;
   //-----------------
   // фильтр по city и онлайн/офлайн
+  let statusFilter: SQL | undefined;
   if (!city || city === '__all__') {
     // "__all__"
     if (showOnlineStatus === 'online') {
-      conditions.push(eq(businesses.isOnline, true));
+      // conditions.push(eq(businesses.isOnline, true));
+      statusFilter = eq(businesses.isOnline, true);
     } else if (showOnlineStatus === 'offline') {
       // есть хотя бы одна физическая локация
-      conditions.push(sql`
-        EXISTS (
-          SELECT 1 FROM ${businessLocations} bl
-          WHERE bl.business_id = ${businesses.id}
-        )
-      `);
+      // conditions.push(sql`
+      //   EXISTS (
+      //     SELECT 1 FROM ${businessLocations} bl
+      //     WHERE bl.business_id = ${businesses.id}
+      //   )
+      // `);
+      statusFilter = sql`
+      EXISTS (
+        SELECT 1 FROM ${businessLocations} bl
+        WHERE bl.business_id = ${businesses.id}
+      )
+    `;
+    } else if (showOnlineStatus === 'all') {
+      // никаких условий по статусу не добавляем
+      statusFilter = undefined;
     }
     // "all" — не добавляем условий
   } else {
     // выбран конкретный город
     if (showOnlineStatus === 'online') {
-      conditions.push(eq(businesses.isOnline, true));
+      // conditions.push(eq(businesses.isOnline, true));
+      statusFilter = eq(businesses.isOnline, true);
     } else if (showOnlineStatus === 'offline') {
-      conditions.push(sql`
-        EXISTS (
-          SELECT 1 FROM ${businessLocations} bl
-          WHERE bl.business_id = ${businesses.id} AND bl.city = ${city}
-        )
-      `);
+      // conditions.push(sql`
+      //   EXISTS (
+      //     SELECT 1 FROM ${businessLocations} bl
+      //     WHERE bl.business_id = ${businesses.id} AND bl.city = ${city}
+      //   )
+      // `);
+      statusFilter = sql`
+      EXISTS (
+        SELECT 1 FROM ${businessLocations} bl
+        WHERE bl.business_id = ${businesses.id}
+        AND bl.city = ${city}
+      )
+    `;
     } else if (showOnlineStatus === 'all') {
       // объединяем онлайн или с локацией в этом городе
-      conditions.push(sql`
-        ${businesses.isOnline} = true OR EXISTS (
+      // conditions.push(sql`
+      //   ${businesses.isOnline} = true OR EXISTS (
+      //     SELECT 1 FROM ${businessLocations} bl
+      //     WHERE bl.business_id = ${businesses.id} AND bl.city = ${city}
+      //   )
+      // `);
+      statusFilter = or(
+        eq(businesses.isOnline, true),
+        sql`
+        EXISTS (
           SELECT 1 FROM ${businessLocations} bl
-          WHERE bl.business_id = ${businesses.id} AND bl.city = ${city}
+          WHERE bl.business_id = ${businesses.id}
+          AND bl.city = ${city}
         )
-      `);
+      `
+      );
     }
   }
   //-----------------
-
+  if (categoryFilter) conditions.push(categoryFilter);
+  if (statusFilter) conditions.push(statusFilter);
   // scope
   if (scope === 'public') {
     conditions.push(eq(businesses.status, 'approved'));
