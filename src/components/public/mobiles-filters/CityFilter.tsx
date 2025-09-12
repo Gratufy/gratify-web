@@ -14,7 +14,7 @@ type CityFilterProps = {
 
 function CityFilter({ city, setCity, onApply }: CityFilterProps) {
   const [tempCity, setTempCity] = useState<string>(city || '__all__');
-  console.log('CityIcon:', CityIcon);
+
   return (
     <div className="flex flex-col gap-4 p-5">
       <div className="flex items-center gap-3 py-1.5">
