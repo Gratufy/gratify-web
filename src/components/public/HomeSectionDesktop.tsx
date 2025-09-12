@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import SidebarFilters from './SidebarFilters';
 import BusinessList from '../shared/BusinessList';
 import { OnlineFilter, Scope, SortBy } from '@/types';
-import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 
 import dynamic from 'next/dynamic';
 const BusinessMapAll = dynamic(
@@ -53,8 +52,8 @@ function HomeSectionDesktop({
   scope = 'public',
 }: HomeSectionDesktopProps) {
   const [showMap, setShowMap] = useState(false);
-  console.log('City', city);
-  console.log('CategoryId', categoryId);
+  // console.log('City', city);
+  // console.log('CategoryId', categoryId);
   // console.log('CategoryName', categoryName);
   // console.log('SortBy', sortBy);
   // console.log('ShowOnlineStatus', showOnlineStatus);
@@ -74,11 +73,18 @@ function HomeSectionDesktop({
     scope,
   });
   const businesses = data?.pages.flatMap((page) => page.data) ?? [];
+
   useEffect(() => {
-    if (businesses.length === 0 && showMap) {
+    if (
+      !isLoading &&
+      !isFetchingNextPage &&
+      businesses.length === 0 &&
+      showMap
+    ) {
       setShowMap(false);
     }
-  }, [businesses.length, showMap]);
+  }, [businesses.length, isLoading, isFetchingNextPage, showMap]);
+
   return (
     <div
       className={`w-full lg:max-w-[1024px] xl:max-w-[1440px] ${showMap ? 'lg:pl-[50px] xl:pl-[150px]' : 'lg:px-[50px] xl:px-[150px]'}`}

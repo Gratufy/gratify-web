@@ -54,10 +54,14 @@ function TopSheetFilter({
 }: TopSheetFilterProps) {
   const [tempCity, setTempCity] = useState<string>(city || '__all__');
   const [tempCategoryId, setTempCategoryId] = useState<string>('__all__');
+  const [showTempOnlineStatus, setShowTempOnlineStatus] =
+    useState<OnlineFilter>('all');
+  useState<OnlineFilter>(showOnlineStatus);
   useEffect(() => {
     setTempCity(city || '__all__');
     setTempCategoryId(categoryId || '__all__');
-  }, [city, categoryId]);
+    setShowTempOnlineStatus(showOnlineStatus);
+  }, [city, categoryId, showOnlineStatus]);
 
   return (
     <Sheet>
@@ -110,8 +114,8 @@ function TopSheetFilter({
               placeholder="Оберіть місто"
             />
             <OnlineStatusFilter
-              value={showOnlineStatus}
-              onChange={setShowOnlineStatus}
+              value={showTempOnlineStatus}
+              onChange={setShowTempOnlineStatus}
             />
           </div>
           <div className="flex items-center px-3 py-1 xl:px-4">
@@ -147,10 +151,10 @@ function TopSheetFilter({
         <div className="mx-auto flex gap-4">
           <DeleteAllFiltersBtn
             isSecondVariant
-            setCity={setTempCity}
+            setCity={setTempCity} //
             setCityName={setCityName}
-            setCategoryId={setTempCategoryId}
-            setShowOnlineStatus={setShowOnlineStatus}
+            setCategoryId={setTempCategoryId} //
+            setShowOnlineStatus={setShowTempOnlineStatus} //
             setSortBy={setSortBy}
             setCategoryName={setCategoryName}
             className="lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 flex cursor-pointer border bg-white py-1.5 lg:gap-2 lg:px-2"
@@ -169,9 +173,11 @@ function TopSheetFilter({
                 (c) => c.categoryId === tempCategoryId
               );
               setCategoryName(category?.name ?? '');
+              //------
+              setShowOnlineStatus(showTempOnlineStatus);
               // onApply(); // close Sheet
             }}
-            className="placeholder-xs bg-background-main-300 w-30 border-background-main-300 flex h-8 items-center justify-center gap-1 border p-2 shadow-[1px_2px_10px_2px_var(--elements-grey-50)]"
+            className="placeholder-xs bg-background-main-300 w-30 border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2 shadow-[1px_2px_10px_2px_var(--elements-grey-50)]"
           >
             <CheckIcon className="h-4 w-4" /> <span>Застосувати</span>
           </SheetClose>
