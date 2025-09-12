@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SidebarFilters from './SidebarFilters';
 import BusinessList from '../shared/BusinessList';
 import { OnlineFilter, Scope, SortBy } from '@/types';
@@ -74,6 +74,11 @@ function HomeSectionDesktop({
     scope,
   });
   const businesses = data?.pages.flatMap((page) => page.data) ?? [];
+  useEffect(() => {
+    if (businesses.length === 0 && showMap) {
+      setShowMap(false);
+    }
+  }, [businesses.length, showMap]);
   return (
     <div
       className={`w-full lg:max-w-[1024px] xl:max-w-[1440px] ${showMap ? 'lg:pl-[50px] xl:pl-[150px]' : 'lg:px-[50px] xl:px-[150px]'}`}
