@@ -9,6 +9,7 @@ import {
   businessLocations,
   businessReviews,
   businessSpecialOffers,
+  businessVotes,
   specialOffers,
 } from '@/db/schema';
 import { eq, desc, sql, and, SQL, inArray, or } from 'drizzle-orm';
@@ -206,6 +207,15 @@ export async function getBusinesses(
   switch (sortBy) {
     case 'mostKarma':
       orderBy = sql`${desc(businesses.karma)} NULLS LAST`;
+      break;
+    case 'hot':
+      orderBy = sql`
+      (SELECT COALESCE(SUM(v.vote), 0)
+       FROM ${businessVotes} v
+       WHERE v.business_id = ${businesses.id}
+         AND v.created_at >= NOW() - interval '7 days'
+      ) DESC
+    `;
       break;
     case 'newest':
     default:

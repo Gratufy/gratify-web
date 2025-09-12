@@ -7,7 +7,7 @@ import {
   businessSpecialOffers,
   businessVotes,
   specialOffers,
-} from "@/db/schema";
+} from '@/db/schema';
 
 //Business
 export type Business = typeof businesses.$inferSelect;
@@ -63,14 +63,14 @@ export interface UseAdminBusinessesParams {
   categoryId?: string;
   city?: string;
   showOnlineStatus?: OnlineFilter;
-  sortBy?: "newest" | "oldest";
+  sortBy?: 'newest' | 'oldest';
 }
 export type NewBusiness = typeof businesses.$inferInsert;
 // export type BusinessUpdate = Partial<Omit<Business, "id">>;
 export type BusinessUpdate = Partial<
   Omit<
     Business,
-    "id" | "karma" | "reviewCount" | "createdAt" | "updatedAt" | "ownerId"
+    'id' | 'karma' | 'reviewCount' | 'createdAt' | 'updatedAt' | 'ownerId'
   >
 > & {
   locations?: LocationFormData[];
@@ -102,20 +102,20 @@ export type NewBusinessFormData = {
   categoryId: string;
   isOnline: boolean;
   locations: LocationFormData[];
-  specialOffers: NewBusinessSpecialOffer["offerId"][];
+  specialOffers: NewBusinessSpecialOffer['offerId'][];
 };
 
 //Sort
-export type SortBy = "newest" | "mostKarma";
-export type Scope = "public" | "business_user" | "admin";
-export type OnlineFilter = "all" | "online" | "offline";
-export type BusinessStatus = "pending" | "approved" | "hidden" | "rejected";
+export type SortBy = 'newest' | 'mostKarma' | 'hot';
+export type Scope = 'public' | 'business_user' | 'admin';
+export type OnlineFilter = 'all' | 'online' | 'offline';
+export type BusinessStatus = 'pending' | 'approved' | 'hidden' | 'rejected';
 
 //Review
 export type BusinessReview = typeof businessReviews.$inferSelect;
 export type NewBusinessReview = typeof businessReviews.$inferInsert;
-export type BusinessReviewStatus = "pending" | "approved" | "rejected";
-export type ScopeReview = "public" | "admin";
+export type BusinessReviewStatus = 'pending' | 'approved' | 'rejected';
+export type ScopeReview = 'public' | 'admin';
 
 // Category
 export type BusinessCategory = typeof businessCategories.$inferSelect;
