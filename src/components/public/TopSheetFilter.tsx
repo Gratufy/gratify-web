@@ -156,7 +156,6 @@ function TopSheetFilter({
         </div>
         <div className="mx-auto flex gap-4">
           <DeleteAllFiltersBtn
-            isSecondVariant
             setCity={setTempCity} //
             setCityName={setCityName}
             setCategoryId={setTempCategoryId} //
