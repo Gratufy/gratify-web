@@ -1,8 +1,12 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+
+import { OnlineFilter, Scope, SortBy } from '@/types';
+
+import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
+
 import SidebarFilters from './SidebarFilters';
 import BusinessList from '../shared/BusinessList';
-import { OnlineFilter, Scope, SortBy } from '@/types';
 
 import dynamic from 'next/dynamic';
 const BusinessMapAll = dynamic(
@@ -11,11 +15,9 @@ const BusinessMapAll = dynamic(
     ssr: false,
   }
 );
-import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
 
 import ShowMap from '../ui/ShowMap';
 import TopSheetFilter from './TopSheetFilter';
-
 import SelectedFiltersPanel from '../shared/SelectedFiltersPanel';
 
 type HomeSectionDesktopProps = {

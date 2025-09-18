@@ -1,9 +1,12 @@
 'use client';
 import React, { useState } from 'react';
-import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
+
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
+
+import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import CheckIcon from '@/assets/icons/general/icon-check.svg';
+
 import { SheetClose } from '@/components/ui/sheet';
 
 type CityFilterProps = {
@@ -17,7 +20,7 @@ function CityFilter({ city, setCity, onApply }: CityFilterProps) {
 
   return (
     <div className="flex flex-col gap-4 p-5">
-      <div className="flex items-center gap-3 py-1.5">
+      <div className="flex items-center gap-3 py-2">
         <CityIcon className="h-5 w-5" />
         <h2 className="placeholder-sm font-medium">Оберіть місто</h2>
       </div>
@@ -40,7 +43,7 @@ function CityFilter({ city, setCity, onApply }: CityFilterProps) {
         <button
           type="button"
           onClick={() => setTempCity('__all__')}
-          className="placeholder-xs w-30 border-background-main-400 flex h-8 items-center justify-center gap-1 border p-2"
+          className="placeholder-xs w-30 border-background-main-400 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2"
         >
           <CrossIcon className="h-3 w-3" />
           <span>Скасувати</span>

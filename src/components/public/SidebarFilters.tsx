@@ -1,12 +1,15 @@
 import React from 'react';
-import CustomSelect from '../ui/CustomSelect';
-import OnlineStatusFilter from '../shared/OnlineStatusFilter';
-import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
+
 import { OnlineFilter, SortBy } from '@/types';
+
+import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
+
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 import SortIcon from '@/assets/icons/filters/icon-sort.svg';
 import CategoryIcon from '@/assets/icons/filters/icon-favor.svg';
 
+import CustomSelect from '../ui/CustomSelect';
+import OnlineStatusFilter from '../shared/OnlineStatusFilter';
 import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
 import SortFilterComponent from '../shared/SortFilterComponent';
 
@@ -66,7 +69,9 @@ function SidebarFilters({
             getOptionLabel={(option) => option.label}
             placeholder="Оберіть місто"
           />
+
           <OnlineStatusFilter
+            classNameDiv="p-3 xl:p-4 placeholder-xs xl:placeholder-sm"
             value={showOnlineStatus}
             onChange={setShowOnlineStatus}
           />
@@ -79,7 +84,11 @@ function SidebarFilters({
             <SortIcon className="h-4 w-4 xl:h-5 xl:w-5" />
             <span>Сортувати</span>
           </label>
-          <SortFilterComponent value={sortBy} onChange={setSortBy} />
+          <SortFilterComponent
+            classNameDiv="p-3 xl:p-4 placeholder-xs xl:placeholder-sm"
+            value={sortBy}
+            onChange={setSortBy}
+          />
         </div>
         <div>
           <label

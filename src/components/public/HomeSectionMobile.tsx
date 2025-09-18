@@ -1,10 +1,12 @@
 'use client';
 import React from 'react';
-import BusinessList from '../shared/BusinessList';
-import BottomSheetFilters from './BottomSheetFilters';
+
 import { OnlineFilter, Scope, SortBy } from '@/types';
 
 import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
+
+import BusinessList from '../shared/BusinessList';
+import BottomSheetFilters from './BottomSheetFilters';
 import SelectedFiltersPanel from '../shared/SelectedFiltersPanel';
 
 type HomeSectionMobileProps = {

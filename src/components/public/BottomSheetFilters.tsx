@@ -1,5 +1,12 @@
 'use client';
 import React, { useState } from 'react';
+import { OnlineFilter, SortBy } from '@/types';
+
+import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
+import SortIcon from '@/assets/icons/filters/icon-sort.svg';
+import MapIcon from '@/assets/icons/filters/icon-map.svg';
+import CategoryIcon from '@/assets/icons/filters/icon-favor.svg';
+
 import {
   Sheet,
   SheetContent,
@@ -8,11 +15,7 @@ import {
   SheetHeader,
   SheetDescription,
 } from '@/components/ui/sheet';
-import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
-import SortIcon from '@/assets/icons/filters/icon-sort.svg';
-import MapIcon from '@/assets/icons/filters/icon-map.svg';
-import CategoryIcon from '@/assets/icons/filters/icon-favor.svg';
-import { OnlineFilter, SortBy } from '@/types';
+
 import CityFilter from './mobiles-filters/CityFilter';
 import SortFilter from './mobiles-filters/SortFilter';
 
@@ -60,13 +63,14 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
     }
   };
   return (
-    <div className="bg-background-main-200 border-elements-grey-200 fixed inset-x-0 bottom-0 z-50 w-full border-[0.5px] px-4 py-2 pb-[env(safe-area-inset-bottom)] lg:hidden">
+    // pb-[env(safe-area-inset-bottom)]
+    <div className="bg-background-main-200 border-elements-grey-200 fixed inset-x-0 bottom-0 z-50 w-full border-[0.5px] px-4 py-2 lg:hidden">
       <Sheet>
         <SheetTrigger asChild>
-          <div className="flex w-full cursor-pointer items-center justify-center py-3">
+          <div className="flex w-full items-center justify-center">
             <button
               type="button"
-              className="flex flex-col items-center justify-center gap-1 px-5"
+              className="flex cursor-pointer flex-col items-center justify-center gap-1 px-5"
               onClick={() => setActiveFilter('city')}
             >
               <CityIcon className="h-4 w-4" />
@@ -74,7 +78,7 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
             </button>
             <button
               type="button"
-              className="flex flex-col items-center justify-center gap-1 px-5"
+              className="flex cursor-pointer flex-col items-center justify-center gap-1 px-5"
               onClick={() => setActiveFilter('sort')}
             >
               <SortIcon className="h-4 w-4" />
@@ -82,7 +86,7 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
             </button>
             <button
               type="button"
-              className="flex flex-col items-center justify-center gap-1 px-5"
+              className="flex cursor-pointer flex-col items-center justify-center gap-1 px-5"
               onClick={() => setActiveFilter('category')}
             >
               <CategoryIcon className="h-4 w-4" />
@@ -98,7 +102,7 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
             </button>
           </div>
         </SheetTrigger>
-        <SheetContent side="bottom" className="mx-auto h-auto w-4/5">
+        <SheetContent side="bottom" className="mx-auto mb-14 h-auto w-4/5">
           <SheetHeader className="sr-only">
             <SheetTitle>Застосувати фільтри</SheetTitle>
             <SheetDescription>

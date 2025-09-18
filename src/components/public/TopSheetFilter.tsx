@@ -1,8 +1,13 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import { OnlineFilter, SortBy } from '@/types';
+import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
+
+import CheckIcon from '@/assets/icons/general/icon-check.svg';
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 import SortIcon from '@/assets/icons/filters/icon-sort.svg';
 import CategoryIcon from '@/assets/icons/filters/icon-favor.svg';
+
 import {
   Sheet,
   SheetContent,
@@ -12,14 +17,12 @@ import {
   SheetDescription,
   SheetClose,
 } from '@/components/ui/sheet';
-import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
-import CheckIcon from '@/assets/icons/general/icon-check.svg';
+// import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 
-import { OnlineFilter, SortBy } from '@/types';
 import CustomSelect from '../ui/CustomSelect';
-import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
-import OnlineStatusFilter from '../shared/OnlineStatusFilter';
 import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
+
+import OnlineStatusFilter from '../shared/OnlineStatusFilter';
 import SortFilterComponent from '../shared/SortFilterComponent';
 
 type TopSheetFilterProps = {
@@ -95,17 +98,17 @@ function TopSheetFilter({
             account and remove your data from our servers.
           </SheetDescription>
         </SheetHeader>
-        <div className="flex gap-6">
-          <div>
+        <div className="flex justify-around gap-6">
+          <div className="px-3 xl:px-4">
             <label
               htmlFor="city"
-              className="placeholder-sm xl:placeholder-base mb-1 flex items-center gap-3 px-3 xl:mb-2 xl:px-4"
+              className="placeholder-sm xl:placeholder-base mb-3 flex items-center gap-3 xl:mb-4"
             >
               <CityIcon className="h-4 w-4 xl:h-5 xl:w-5" />
               <span>Місто</span>
             </label>
             <CustomSelect
-              className="w-full rounded-none px-3 py-1.5 xl:px-4"
+              className="w-50 rounded-none px-3 py-1.5 xl:px-4"
               id="city"
               value={tempCity}
               onChange={(val) => {
@@ -117,30 +120,36 @@ function TopSheetFilter({
               placeholder="Оберіть місто"
             />
             <OnlineStatusFilter
+              classNameDiv="py-3 xl:py-4 placeholder-xs xl:placeholder-sm"
               value={showTempOnlineStatus}
               onChange={setShowTempOnlineStatus}
             />
           </div>
-          <div>
-            <div className="flex items-center px-3 py-1 xl:px-4">
+
+          <div className="px-3 xl:px-4">
+            <div className="mb-3 flex items-center xl:mb-4">
               <SortIcon className="mr-2 size-4 xl:mr-3 xl:size-5" />
               <span className="placeholder-sm xl:placeholder-base">
                 Сортувати
               </span>
             </div>
-            <SortFilterComponent value={tempSortBy} onChange={setTempSortBy} />
+            <SortFilterComponent
+              value={tempSortBy}
+              onChange={setTempSortBy}
+              classNameDiv=" placeholder-xs xl:placeholder-sm"
+            />
           </div>
 
-          <div>
+          <div className="px-3 xl:px-4">
             <label
               htmlFor="categories"
-              className="placeholder-sm xl:placeholder-base mb-1 flex items-center gap-3 px-3 xl:mb-2 xl:px-4"
+              className="placeholder-sm xl:placeholder-base mb-3 flex items-center gap-3 xl:mb-4"
             >
               <CategoryIcon className="h-4 w-4 xl:h-5 xl:w-5" />
               <span>Послуги</span>
             </label>
             <CustomSelect
-              className="w-full rounded-none px-3 py-1.5 xl:px-4"
+              className="w-60 rounded-none px-3 py-1.5 xl:px-4"
               id="categories"
               value={tempCategoryId}
               //onChange={setCategoryId}
