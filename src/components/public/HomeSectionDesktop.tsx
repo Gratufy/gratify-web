@@ -19,7 +19,7 @@ import { ONLINE_STATUS_LABELS, SORT_BY_LABELS } from '@/const/business';
 import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
 
 type HomeSectionDesktopProps = {
-  city: string | undefined;
+  city: string;
   setCity: (city: string) => void;
   cityName: string;
   setCityName: (label: string) => void;

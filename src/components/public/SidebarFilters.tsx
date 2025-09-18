@@ -6,12 +6,12 @@ import { OnlineFilter, SortBy } from '@/types';
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 import SortIcon from '@/assets/icons/filters/icon-sort.svg';
 import CategoryIcon from '@/assets/icons/filters/icon-favor.svg';
-import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
+
 import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
 import SortFilterComponent from '../shared/SortFilterComponent';
 
 type SidebarFiltersProps = {
-  city: string | undefined;
+  city: string;
   setCity: (city: string) => void;
   setCityName: (label: string) => void;
   showOnlineStatus: OnlineFilter;

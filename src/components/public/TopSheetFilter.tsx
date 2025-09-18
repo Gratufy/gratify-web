@@ -23,8 +23,8 @@ import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
 import SortFilterComponent from '../shared/SortFilterComponent';
 
 type TopSheetFilterProps = {
-  city: string | undefined;
-  cityName: string | undefined;
+  city: string;
+  cityName: string;
   setCity: (city: string) => void;
   setCityName: (label: string) => void;
   sortBy: SortBy;
@@ -53,17 +53,17 @@ function TopSheetFilter({
   setCategoryName,
   setCategoryId,
 }: TopSheetFilterProps) {
-  const [tempCity, setTempCity] = useState<string>(city || '__all__');
-  const [tempCategoryId, setTempCategoryId] = useState<string>('__all__');
+  const [tempCity, setTempCity] = useState<string>(city);
+  const [tempCategoryId, setTempCategoryId] = useState<string>(categoryId);
   const [showTempOnlineStatus, setShowTempOnlineStatus] =
-    useState<OnlineFilter>('all');
+    useState<OnlineFilter>(showOnlineStatus);
   const [tempSortBy, setTempSortBy] = useState<SortBy>(sortBy);
 
   useEffect(() => {
-    setTempCity(city || '__all__');
-    setTempCategoryId(categoryId || '__all__');
-    setShowTempOnlineStatus(showOnlineStatus || 'all');
-    setTempSortBy(sortBy || 'newest');
+    setTempCity(city);
+    setTempCategoryId(categoryId);
+    setShowTempOnlineStatus(showOnlineStatus);
+    setTempSortBy(sortBy);
   }, [city, categoryId, showOnlineStatus, sortBy]);
 
   return (
