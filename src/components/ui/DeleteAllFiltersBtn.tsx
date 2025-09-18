@@ -26,7 +26,7 @@ function DeleteAllFiltersBtn({
   return (
     <button
       type="button"
-      className={`cursor-pointer ${className}`}
+      className={`flex cursor-pointer items-center ${className}`}
       onClick={() => {
         setCity('__all__');
         setCityName('Всі міста');
@@ -38,13 +38,13 @@ function DeleteAllFiltersBtn({
     >
       {!isSecondVariant ? (
         <>
-          <CrossIcon className="h-4 w-4 xl:h-5 xl:w-5" />
+          <CrossIcon className="size-3 lg:size-4 xl:size-5" />
           <span>Очистити все</span>
         </>
       ) : (
         <>
           <span>Очистити все</span>
-          <CrossIcon className="h-4 w-4 xl:h-5 xl:w-5" />
+          <CrossIcon className="size-3 lg:size-4 xl:size-5" />
         </>
       )}
     </button>

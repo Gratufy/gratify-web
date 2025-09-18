@@ -30,19 +30,19 @@ function SelectedFiltersPanel({
   setCategoryName,
 }: SelectedFiltersPanelProps) {
   return (
-    <div className="flex w-full lg:gap-2">
-      <div className="bg-background-grey-100 flex lg:gap-2 lg:px-2 lg:py-2">
-        <span className="lg:placeholder-xs xl:placeholder-sm">
+    <div className="flex w-full gap-2">
+      <div className="bg-background-grey-100 flex gap-1 px-2 py-2 lg:gap-2">
+        <span className="placeholder-small lg:placeholder-xs xl:placeholder-sm">
           {ONLINE_STATUS_LABELS[showOnlineStatus]}
         </span>
       </div>
-      <div className="bg-background-grey-100 flex lg:gap-2 lg:px-2 lg:py-2">
-        <span className="lg:placeholder-xs xl:placeholder-sm">
+      <div className="bg-background-grey-100 flex gap-1 px-2 py-2 lg:gap-2">
+        <span className="placeholder-small lg:placeholder-xs xl:placeholder-sm">
           {SORT_BY_LABELS[sortBy]}
         </span>
       </div>
-      <div className="bg-background-grey-100 flex lg:gap-2 lg:px-2 lg:py-2">
-        <span className="lg:placeholder-xs xl:placeholder-sm">
+      <div className="bg-background-grey-100 flex gap-1 px-2 py-2 lg:gap-2">
+        <span className="placeholder-small lg:placeholder-xs xl:placeholder-sm">
           {categoryName}
         </span>
       </div>
@@ -55,7 +55,7 @@ function SelectedFiltersPanel({
         setShowOnlineStatus={setShowOnlineStatus}
         setSortBy={setSortBy}
         setCategoryName={setCategoryName}
-        className="lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 flex cursor-pointer border bg-white py-1.5 lg:gap-2 lg:px-2"
+        className="placeholder-small lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 gap-1 border bg-white px-2 py-2 lg:gap-2"
       />
     </div>
   );

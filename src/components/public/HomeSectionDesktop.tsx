@@ -15,8 +15,7 @@ import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
 
 import ShowMap from '../ui/ShowMap';
 import TopSheetFilter from './TopSheetFilter';
-import { ONLINE_STATUS_LABELS, SORT_BY_LABELS } from '@/const/business';
-import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
+
 import SelectedFiltersPanel from '../shared/SelectedFiltersPanel';
 
 type HomeSectionDesktopProps = {
@@ -143,17 +142,19 @@ function HomeSectionDesktop({
             //     className="lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 flex cursor-pointer border bg-white py-1.5 lg:gap-2 lg:px-2"
             //   />
             // </div>
-            <SelectedFiltersPanel
-              setCity={setCity}
-              setCityName={setCityName}
-              showOnlineStatus={showOnlineStatus}
-              setShowOnlineStatus={setShowOnlineStatus}
-              sortBy={sortBy}
-              setSortBy={setSortBy}
-              setCategoryId={setCategoryId}
-              categoryName={categoryName}
-              setCategoryName={setCategoryName}
-            />
+            <div className="pb-2">
+              <SelectedFiltersPanel
+                setCity={setCity}
+                setCityName={setCityName}
+                showOnlineStatus={showOnlineStatus}
+                setShowOnlineStatus={setShowOnlineStatus}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                setCategoryId={setCategoryId}
+                categoryName={categoryName}
+                setCategoryName={setCategoryName}
+              />
+            </div>
           )}
         </div>
       )}
@@ -174,7 +175,7 @@ function HomeSectionDesktop({
           />
         )}
 
-        <div className="flex flex-1 flex-col pt-2">
+        <div className="flex flex-1 flex-col lg:pb-8">
           <BusinessList
             businesses={businesses}
             fetchNextPage={fetchNextPage}
