@@ -1,8 +1,12 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+
+import { OnlineFilter, Scope, SortBy } from '@/types';
+
+import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
+
 import SidebarFilters from './SidebarFilters';
 import BusinessList from '../shared/BusinessList';
-import { OnlineFilter, Scope, SortBy } from '@/types';
 
 import dynamic from 'next/dynamic';
 const BusinessMapAll = dynamic(
@@ -11,15 +15,13 @@ const BusinessMapAll = dynamic(
     ssr: false,
   }
 );
-import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
 
 import ShowMap from '../ui/ShowMap';
 import TopSheetFilter from './TopSheetFilter';
-import { ONLINE_STATUS_LABELS } from '@/const/business';
-import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
+import SelectedFiltersPanel from '../shared/SelectedFiltersPanel';
 
 type HomeSectionDesktopProps = {
-  city: string | undefined;
+  city: string;
   setCity: (city: string) => void;
   cityName: string;
   setCityName: (label: string) => void;
@@ -102,45 +104,57 @@ function HomeSectionDesktop({
                 setCityName={setCityName}
                 sortBy={sortBy}
                 setSortBy={setSortBy}
-                categoryName={categoryName}
                 showOnlineStatus={showOnlineStatus}
                 setShowOnlineStatus={setShowOnlineStatus}
                 categoryId={categoryId}
+                setCategoryId={setCategoryId}
+                // categoryName={categoryName}
                 categoriesWithAll={categoriesWithAll}
                 setCategoryName={setCategoryName}
-                setCategoryId={setCategoryId}
               />
             )}
             <ShowMap showMap={showMap} setShowMap={setShowMap} />
           </div>
           {showMap && (
-            <div className="flex w-full lg:gap-2">
-              <div className="bg-background-grey-100 flex lg:gap-2 lg:px-2 lg:py-2">
-                <span className="lg:placeholder-xs xl:placeholder-sm">
-                  {ONLINE_STATUS_LABELS[showOnlineStatus]}
-                </span>
-              </div>
-              <div className="bg-background-grey-100 flex lg:gap-2 lg:px-2 lg:py-2">
-                {' '}
-                <span className="lg:placeholder-xs xl:placeholder-sm">
-                  {sortBy}
-                </span>
-              </div>
-              <div className="bg-background-grey-100 flex lg:gap-2 lg:px-2 lg:py-2">
-                <span className="lg:placeholder-xs xl:placeholder-sm">
-                  {categoryName}
-                </span>
-              </div>
+            // <div className="flex w-full lg:gap-2">
+            //   <div className="bg-background-grey-100 flex lg:gap-2 lg:px-2 lg:py-2">
+            //     <span className="lg:placeholder-xs xl:placeholder-sm">
+            //       {ONLINE_STATUS_LABELS[showOnlineStatus]}
+            //     </span>
+            //   </div>
+            //   <div className="bg-background-grey-100 flex lg:gap-2 lg:px-2 lg:py-2">
+            //     <span className="lg:placeholder-xs xl:placeholder-sm">
+            //       {SORT_BY_LABELS[sortBy]}
+            //     </span>
+            //   </div>
+            //   <div className="bg-background-grey-100 flex lg:gap-2 lg:px-2 lg:py-2">
+            //     <span className="lg:placeholder-xs xl:placeholder-sm">
+            //       {categoryName}
+            //     </span>
+            //   </div>
 
-              <DeleteAllFiltersBtn
-                isSecondVariant
+            //   <DeleteAllFiltersBtn
+            //     isSecondVariant
+            //     setCity={setCity}
+            //     setCityName={setCityName}
+            //     setCategoryId={setCategoryId}
+            //     setShowOnlineStatus={setShowOnlineStatus}
+            //     setSortBy={setSortBy}
+            //     setCategoryName={setCategoryName}
+            //     className="lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 flex cursor-pointer border bg-white py-1.5 lg:gap-2 lg:px-2"
+            //   />
+            // </div>
+            <div className="pb-2">
+              <SelectedFiltersPanel
                 setCity={setCity}
                 setCityName={setCityName}
-                setCategoryId={setCategoryId}
+                showOnlineStatus={showOnlineStatus}
                 setShowOnlineStatus={setShowOnlineStatus}
+                sortBy={sortBy}
                 setSortBy={setSortBy}
+                setCategoryId={setCategoryId}
+                categoryName={categoryName}
                 setCategoryName={setCategoryName}
-                className="lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 flex cursor-pointer border bg-white py-1.5 lg:gap-2 lg:px-2"
               />
             </div>
           )}
@@ -163,7 +177,7 @@ function HomeSectionDesktop({
           />
         )}
 
-        <div className="flex flex-1 flex-col pt-2">
+        <div className="flex flex-1 flex-col lg:pb-8">
           <BusinessList
             businesses={businesses}
             fetchNextPage={fetchNextPage}

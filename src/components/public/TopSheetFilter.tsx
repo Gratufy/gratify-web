@@ -1,8 +1,13 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import { OnlineFilter, SortBy } from '@/types';
+import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
+
+import CheckIcon from '@/assets/icons/general/icon-check.svg';
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 import SortIcon from '@/assets/icons/filters/icon-sort.svg';
 import CategoryIcon from '@/assets/icons/filters/icon-favor.svg';
+
 import {
   Sheet,
   SheetContent,
@@ -12,18 +17,17 @@ import {
   SheetDescription,
   SheetClose,
 } from '@/components/ui/sheet';
-import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
-import CheckIcon from '@/assets/icons/general/icon-check.svg';
+// import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 
-import { OnlineFilter, SortBy } from '@/types';
 import CustomSelect from '../ui/CustomSelect';
-import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
-import OnlineStatusFilter from '../shared/OnlineStatusFilter';
 import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
 
+import OnlineStatusFilter from '../shared/OnlineStatusFilter';
+import SortFilterComponent from '../shared/SortFilterComponent';
+
 type TopSheetFilterProps = {
-  city: string | undefined;
-  cityName: string | undefined;
+  city: string;
+  cityName: string;
   setCity: (city: string) => void;
   setCityName: (label: string) => void;
   sortBy: SortBy;
@@ -31,7 +35,7 @@ type TopSheetFilterProps = {
   showOnlineStatus: OnlineFilter;
   setShowOnlineStatus: (status: OnlineFilter) => void;
   categoryId: string;
-  categoryName: string;
+  // categoryName: string;
   categoriesWithAll: { categoryId: string; name: string }[];
   setCategoryName: (name: string) => void;
   setCategoryId: (id: string) => void;
@@ -45,23 +49,25 @@ function TopSheetFilter({
   sortBy,
   setSortBy,
   showOnlineStatus,
-  categoryName,
+  // categoryName,
   categoryId,
   categoriesWithAll,
   setShowOnlineStatus,
   setCategoryName,
   setCategoryId,
 }: TopSheetFilterProps) {
-  const [tempCity, setTempCity] = useState<string>(city || '__all__');
-  const [tempCategoryId, setTempCategoryId] = useState<string>('__all__');
+  const [tempCity, setTempCity] = useState<string>(city);
+  const [tempCategoryId, setTempCategoryId] = useState<string>(categoryId);
   const [showTempOnlineStatus, setShowTempOnlineStatus] =
-    useState<OnlineFilter>('all');
-  useState<OnlineFilter>(showOnlineStatus);
+    useState<OnlineFilter>(showOnlineStatus);
+  const [tempSortBy, setTempSortBy] = useState<SortBy>(sortBy);
+
   useEffect(() => {
-    setTempCity(city || '__all__');
-    setTempCategoryId(categoryId || '__all__');
+    setTempCity(city);
+    setTempCategoryId(categoryId);
     setShowTempOnlineStatus(showOnlineStatus);
-  }, [city, categoryId, showOnlineStatus]);
+    setTempSortBy(sortBy);
+  }, [city, categoryId, showOnlineStatus, sortBy]);
 
   return (
     <Sheet>
@@ -92,17 +98,17 @@ function TopSheetFilter({
             account and remove your data from our servers.
           </SheetDescription>
         </SheetHeader>
-        <div className="flex gap-6">
-          <div>
+        <div className="flex justify-around gap-6">
+          <div className="px-3 xl:px-4">
             <label
               htmlFor="city"
-              className="placeholder-sm xl:placeholder-base mb-1 flex items-center gap-3 px-3 xl:mb-2 xl:px-4"
+              className="placeholder-sm xl:placeholder-base mb-3 flex items-center gap-3 xl:mb-4"
             >
               <CityIcon className="h-4 w-4 xl:h-5 xl:w-5" />
               <span>Місто</span>
             </label>
             <CustomSelect
-              className="w-full rounded-none px-3 py-1.5 xl:px-4"
+              className="w-50 rounded-none px-3 py-1.5 xl:px-4"
               id="city"
               value={tempCity}
               onChange={(val) => {
@@ -114,27 +120,36 @@ function TopSheetFilter({
               placeholder="Оберіть місто"
             />
             <OnlineStatusFilter
+              classNameDiv="py-3 xl:py-4 placeholder-xs xl:placeholder-sm"
               value={showTempOnlineStatus}
               onChange={setShowTempOnlineStatus}
             />
           </div>
-          <div className="flex items-center px-3 py-1 xl:px-4">
-            <SortIcon className="mr-2 size-4 xl:mr-3 xl:size-5" />
-            <span className="placeholder-sm xl:placeholder-base">
-              Сортувати
-            </span>
+
+          <div className="px-3 xl:px-4">
+            <div className="mb-3 flex items-center xl:mb-4">
+              <SortIcon className="mr-2 size-4 xl:mr-3 xl:size-5" />
+              <span className="placeholder-sm xl:placeholder-base">
+                Сортувати
+              </span>
+            </div>
+            <SortFilterComponent
+              value={tempSortBy}
+              onChange={setTempSortBy}
+              classNameDiv=" placeholder-xs xl:placeholder-sm"
+            />
           </div>
 
-          <div>
+          <div className="px-3 xl:px-4">
             <label
               htmlFor="categories"
-              className="placeholder-sm xl:placeholder-base mb-1 flex items-center gap-3 px-3 xl:mb-2 xl:px-4"
+              className="placeholder-sm xl:placeholder-base mb-3 flex items-center gap-3 xl:mb-4"
             >
               <CategoryIcon className="h-4 w-4 xl:h-5 xl:w-5" />
               <span>Послуги</span>
             </label>
             <CustomSelect
-              className="w-full rounded-none px-3 py-1.5 xl:px-4"
+              className="w-60 rounded-none px-3 py-1.5 xl:px-4"
               id="categories"
               value={tempCategoryId}
               //onChange={setCategoryId}
@@ -150,12 +165,11 @@ function TopSheetFilter({
         </div>
         <div className="mx-auto flex gap-4">
           <DeleteAllFiltersBtn
-            isSecondVariant
             setCity={setTempCity} //
             setCityName={setCityName}
             setCategoryId={setTempCategoryId} //
             setShowOnlineStatus={setShowTempOnlineStatus} //
-            setSortBy={setSortBy}
+            setSortBy={setTempSortBy} //
             setCategoryName={setCategoryName}
             className="lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 flex cursor-pointer border bg-white py-1.5 lg:gap-2 lg:px-2"
           />
@@ -175,6 +189,7 @@ function TopSheetFilter({
               setCategoryName(category?.name ?? '');
               //------
               setShowOnlineStatus(showTempOnlineStatus);
+              setSortBy(tempSortBy);
               // onApply(); // close Sheet
             }}
             className="placeholder-xs bg-background-main-300 w-30 border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2 shadow-[1px_2px_10px_2px_var(--elements-grey-50)]"

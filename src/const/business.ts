@@ -14,3 +14,9 @@ export const ONLINE_STATUS_LABELS: Record<string, string> = {
   offline: 'Тільки з фізичною адресою',
   all: 'Всі',
 };
+
+export const SORT_BY_LABELS: Record<string, string> = {
+  newest: 'Нові',
+  mostKarma: 'Популярні',
+  hot: 'Стрімкий ріст',
+};
