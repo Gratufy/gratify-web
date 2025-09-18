@@ -15,7 +15,7 @@ import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
 
 import ShowMap from '../ui/ShowMap';
 import TopSheetFilter from './TopSheetFilter';
-import { ONLINE_STATUS_LABELS } from '@/const/business';
+import { ONLINE_STATUS_LABELS, SORT_BY_LABELS } from '@/const/business';
 import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
 
 type HomeSectionDesktopProps = {
@@ -102,13 +102,13 @@ function HomeSectionDesktop({
                 setCityName={setCityName}
                 sortBy={sortBy}
                 setSortBy={setSortBy}
-                categoryName={categoryName}
                 showOnlineStatus={showOnlineStatus}
                 setShowOnlineStatus={setShowOnlineStatus}
                 categoryId={categoryId}
+                setCategoryId={setCategoryId}
+                // categoryName={categoryName}
                 categoriesWithAll={categoriesWithAll}
                 setCategoryName={setCategoryName}
-                setCategoryId={setCategoryId}
               />
             )}
             <ShowMap showMap={showMap} setShowMap={setShowMap} />
@@ -121,9 +121,8 @@ function HomeSectionDesktop({
                 </span>
               </div>
               <div className="bg-background-grey-100 flex lg:gap-2 lg:px-2 lg:py-2">
-                {' '}
                 <span className="lg:placeholder-xs xl:placeholder-sm">
-                  {sortBy}
+                  {SORT_BY_LABELS[sortBy]}
                 </span>
               </div>
               <div className="bg-background-grey-100 flex lg:gap-2 lg:px-2 lg:py-2">

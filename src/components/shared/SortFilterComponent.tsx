@@ -3,7 +3,7 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { SortBy } from '@/types';
 
-function OnlineSortFilter({
+function SortFilterComponent({
   value,
   onChange,
 }: {
@@ -59,4 +59,4 @@ function OnlineSortFilter({
   );
 }
 
-export default OnlineSortFilter;
+export default SortFilterComponent;

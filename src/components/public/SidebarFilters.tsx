@@ -8,7 +8,7 @@ import SortIcon from '@/assets/icons/filters/icon-sort.svg';
 import CategoryIcon from '@/assets/icons/filters/icon-favor.svg';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
-import OnlineSortFilter from '../shared/OnlineSortFilter';
+import SortFilterComponent from '../shared/SortFilterComponent';
 
 type SidebarFiltersProps = {
   city: string | undefined;
@@ -79,7 +79,7 @@ function SidebarFilters({
             <SortIcon className="h-4 w-4 xl:h-5 xl:w-5" />
             <span>Сортувати</span>
           </label>
-          <OnlineSortFilter value={sortBy} onChange={setSortBy} />
+          <SortFilterComponent value={sortBy} onChange={setSortBy} />
         </div>
         <div>
           <label
