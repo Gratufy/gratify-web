@@ -19,7 +19,7 @@ function BusinessCardShot({
 }) {
   // const CityListElements = renderLocations(business, selectedCity);
   return (
-    <div className="w-full bg-white pb-5">
+    <>
       {/* header */}
       <div className="lg:h-22 relative mb-4 flex h-16 items-center">
         {/* block with image */}
@@ -96,7 +96,7 @@ function BusinessCardShot({
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
