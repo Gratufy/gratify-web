@@ -7,7 +7,7 @@ type CategoryRadioProps = {
   onChange: (value: string) => void;
   children: React.ReactNode;
   className?: string;
-  groupName?: string; // можно пробросить имя группы
+  groupName?: string;
 };
 
 function CategoryRadio({

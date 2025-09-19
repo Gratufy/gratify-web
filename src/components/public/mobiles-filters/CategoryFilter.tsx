@@ -5,6 +5,7 @@ import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import CheckIcon from '@/assets/icons/general/icon-check.svg';
 
 import { SheetClose } from '@/components/ui/sheet';
+import CategoryRadio from '@/components/shared/CategoryRadio';
 
 type CategoryFilterProps = {
   categoryId: string;
@@ -35,24 +36,15 @@ function CategoryFilter({
         className="flex flex-wrap gap-x-2 gap-y-4 py-2"
       >
         {categories.map((category) => (
-          <label
+          <CategoryRadio
             key={category.categoryId}
-            className={`placeholder-small border-elements-main-500 flex cursor-pointer items-center border px-4 py-2 ${
-              tempCategoryId === category.categoryId
-                ? 'bg-elements-grey-200 font-medium'
-                : 'bg-background-white'
-            }`}
+            value={category.categoryId}
+            checked={tempCategoryId === category.categoryId}
+            onChange={setTempCategoryId}
+            className="placeholder-small border-elements-main-500 border px-4 py-2"
           >
-            <input
-              type="radio"
-              name="category"
-              value={category.categoryId}
-              checked={tempCategoryId === category.categoryId}
-              onChange={() => setTempCategoryId(category.categoryId)}
-              className="sr-only"
-            />
             {category.name}
-          </label>
+          </CategoryRadio>
         ))}
       </div>
 
