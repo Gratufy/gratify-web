@@ -23,23 +23,27 @@ function BusinessCardShot({
       {/* header */}
       <div className="lg:h-22 relative mb-4 flex h-16 items-center">
         {/* block with image */}
-        <div className="ml-15 lg:ml-26 xl:ml-67 relative h-full flex-1 overflow-hidden">
-          {imageUrl ? (
-            <>
-              <Image
-                src={imageUrl}
-                alt={business.name}
-                fill
-                style={{ objectFit: 'cover' }}
-                className="relative z-0"
-              />
-            </>
-          ) : (
-            <div className="absolute inset-0 z-0 flex items-center justify-center bg-blue-300"></div>
-          )}
+        {/* <div className="ml-15 lg:ml-26 xl:ml-67 relative h-full flex-1 overflow-hidden"> */}
+        <div className="relative flex h-full flex-1 justify-end">
+          <div className="xl:w-7/10 w-6/7 relative h-full overflow-hidden">
+            {imageUrl ? (
+              <>
+                <Image
+                  src={imageUrl}
+                  alt={business.name}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  className="relative z-0"
+                />
+              </>
+            ) : (
+              <div className="absolute inset-0 z-0 flex items-center justify-center bg-blue-300"></div>
+            )}
+          </div>
         </div>
+
         {/* Gradient over the image from-white/70 to-[rgb(217,217,217)/70*/}
-        <div className="ml-15 z-5 bg-linear-to-r/increasing pointer-events-none absolute inset-0 from-white/95 to-gray-300/50"></div>
+        <div className="z-5 bg-linear-to-r/increasing pointer-events-none absolute inset-0 from-white/95 to-gray-300/50"></div>
         {/* name */}
         <div className="absolute z-10 bg-transparent py-2 pl-4 lg:pl-2">
           <h2 className="title-h3">{business.name}</h2>
