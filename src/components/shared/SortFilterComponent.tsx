@@ -15,9 +15,9 @@ function SortFilterComponent({
   return (
     // p-3 xl:p-4 placeholder-xs xl:placeholder-sm
     <div className={`w-full ${classNameDiv}`}>
-      <Label htmlFor="online-status" className="sr-only">
+      <label htmlFor="sortby-status" className="sr-only">
         SORT BY
-      </Label>
+      </label>
       <RadioGroup
         id="sortby-status"
         value={value}

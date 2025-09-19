@@ -15,9 +15,9 @@ function OnlineStatusFilter({
   return (
     // p-3 xl:p-4 placeholder-xs xl:placeholder-sm
     <div className={`w-full ${classNameDiv}`}>
-      <Label htmlFor="online-status" className="sr-only">
+      <label htmlFor="online-status" className="sr-only">
         Online Status
-      </Label>
+      </label>
       <RadioGroup
         id="online-status"
         value={value}

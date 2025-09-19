@@ -50,6 +50,7 @@
   --breakpoint-xl: 1440px;
   --font-family: var(--font-family);
   --font-second: var(--second-family);
+  --color-overlay-background: var(--overlay-background);
   --color-icons-grey-950: var(--grey-950);
   --color-text-500-grey: var(--grey-500);
   --color-text-950-grey: var(--grey-950);
@@ -131,6 +132,7 @@
   /* ...............................................................; */
   --font-family: 'Ubuntu Sans', sans-serif;
   --second-family: 'Roboto', sans-serif;
+  --overlay-background: #f5f3f059;
   --white: #fff;
   --accent: #c71143;
   --error: #dc0b0e;
@@ -193,6 +195,7 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.552 0.016 285.938);
   /* ................................................................; */
+  --color-overlay-background: var(--overlay-background);
 }
 
 @layer base {
