@@ -90,6 +90,7 @@ function HomeSectionMobile({
         setCity={setCity}
         categoryId={categoryId}
         setCategoryId={setCategoryId}
+        setCategoryName={setCategoryName}
         sortBy={sortBy}
         setSortBy={setSortBy}
         showOnlineStatus={showOnlineStatus}

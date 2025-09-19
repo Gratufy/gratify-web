@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 
 import { BusinessWithCategoryName } from '@/types';
 import BusinessCardShot from './BusinessCardShot';
+import Link from 'next/link';
 
 interface BusinessListProps {
   businesses: BusinessWithCategoryName[];
@@ -42,9 +43,13 @@ function BusinessList({
       {businesses.length > 0 && (
         <ul className="flex w-full flex-col items-center justify-center gap-5 lg:gap-10">
           {businesses.map((b) => (
-            <li key={b.id} className="shadow-card w-full">
+            <li key={b.id} className="w-full">
               {/* selectedCity={city} */}
-              <BusinessCardShot business={b} />
+              <Link href={`./business/${b.id}`} className="block h-full w-full">
+                <article className="shadow-card w-full overflow-hidden bg-white pb-5">
+                  <BusinessCardShot business={b} />
+                </article>
+              </Link>
             </li>
           ))}
         </ul>

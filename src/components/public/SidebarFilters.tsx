@@ -12,6 +12,7 @@ import CustomSelect from '../ui/CustomSelect';
 import OnlineStatusFilter from '../shared/OnlineStatusFilter';
 import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
 import SortFilterComponent from '../shared/SortFilterComponent';
+import CategoryRadio from '../shared/CategoryRadio';
 
 type SidebarFiltersProps = {
   city: string;
@@ -48,7 +49,7 @@ function SidebarFilters({
         <div>
           <label
             htmlFor="city"
-            className="placeholder-sm xl:placeholder-base mb-1 flex items-center gap-3 px-3 xl:mb-2 xl:px-4"
+            className="placeholder-sm xl:placeholder-base flex items-center gap-3 px-4 py-1 xl:mb-2"
           >
             <CityIcon className="h-4 w-4 xl:h-5 xl:w-5" />
             <span>Місто</span>
@@ -79,7 +80,7 @@ function SidebarFilters({
         <div>
           <label
             htmlFor="sort"
-            className="placeholder-sm xl:placeholder-base mb-1 flex items-center gap-3 px-3 xl:mb-2 xl:px-4"
+            className="placeholder-sm xl:placeholder-base flex items-center gap-3 px-4 py-1 xl:mb-2"
           >
             <SortIcon className="h-4 w-4 xl:h-5 xl:w-5" />
             <span>Сортувати</span>
@@ -93,12 +94,35 @@ function SidebarFilters({
         <div>
           <label
             htmlFor="categories"
-            className="placeholder-sm xl:placeholder-base mb-1 flex items-center gap-3 px-3 xl:mb-2 xl:px-4"
+            className="placeholder-sm xl:placeholder-base flex items-center gap-3 px-4 py-1 xl:mb-2"
           >
             <CategoryIcon className="h-4 w-4 xl:h-5 xl:w-5" />
             <span>Послуги</span>
           </label>
-          <CustomSelect
+          <div
+            role="radiogroup"
+            aria-label="Category options"
+            className="flex flex-wrap gap-x-2 gap-y-4 py-2"
+          >
+            {categoriesWithAll.map((category) => (
+              <CategoryRadio
+                key={category.categoryId}
+                value={category.categoryId}
+                checked={categoryId === category.categoryId}
+                onChange={(val) => {
+                  setCategoryId(val); // id категории
+                  const selected = categoriesWithAll.find(
+                    (c) => c.categoryId === val
+                  );
+                  setCategoryName(selected?.name ?? '');
+                }}
+                className="placeholder-xs xl:placeholder-sm border-elements-main-500 border px-4 py-2"
+              >
+                {category.name}
+              </CategoryRadio>
+            ))}
+          </div>
+          {/* <CustomSelect
             className="w-full rounded-none px-3 py-1.5 xl:px-4"
             id="categories"
             value={categoryId}
@@ -114,7 +138,7 @@ function SidebarFilters({
             getOptionValue={(c) => c.categoryId}
             getOptionLabel={(c) => c.name}
             placeholder="Оберіть категорію"
-          />
+          /> */}
         </div>
         {/* <button
           type="button"

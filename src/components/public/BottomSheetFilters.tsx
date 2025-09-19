@@ -18,12 +18,14 @@ import {
 
 import CityFilter from './mobiles-filters/CityFilter';
 import SortFilter from './mobiles-filters/SortFilter';
+import CategoryFilter from './mobiles-filters/CategoryFilter';
 
 type BottomSheetFiltersProps = {
   city: string | undefined;
   setCity: (city: string) => void;
   categoryId: string;
   setCategoryId: (id: string) => void;
+  setCategoryName: (name: string) => void;
   sortBy: SortBy;
   setSortBy: (sort: SortBy) => void;
   showOnlineStatus: OnlineFilter;
@@ -55,7 +57,14 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
           />
         );
       case 'category':
-        return <div>Фільтр послуг</div>;
+        return (
+          <CategoryFilter
+            categoryId={props.categoryId}
+            setCategoryId={props.setCategoryId}
+            categories={props.categoriesWithAll}
+            setCategoryName={props.setCategoryName}
+          />
+        );
       case 'map':
         return <div>Мапа</div>;
       default:
