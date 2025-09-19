@@ -24,7 +24,15 @@ function OnlineStatusFilter({
         onValueChange={onChange}
         className="flex flex-col gap-2 xl:gap-3"
       >
-        <div className="flex items-center gap-2 xl:gap-2">
+        <div className="flex items-center gap-1 xl:gap-2">
+          <RadioGroupItem
+            value="all"
+            id="all"
+            className="h-3 w-3 xl:h-4 xl:w-4"
+          />
+          <Label htmlFor="all">Всі</Label>
+        </div>
+        <div className="flex items-center gap-1 xl:gap-2">
           <RadioGroupItem
             value="online"
             id="online"
@@ -40,14 +48,6 @@ function OnlineStatusFilter({
           />
           {/* className="placeholder-xs xl:placeholder-sm" */}
           <Label htmlFor="offline">Тільки з фізичною адресою</Label>
-        </div>
-        <div className="flex items-center gap-1 xl:gap-2">
-          <RadioGroupItem
-            value="all"
-            id="all"
-            className="h-3 w-3 xl:h-4 xl:w-4"
-          />
-          <Label htmlFor="all">Всі</Label>
         </div>
       </RadioGroup>
     </div>
