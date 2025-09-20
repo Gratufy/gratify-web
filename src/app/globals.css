@@ -294,11 +294,9 @@
 @keyframes slide-in-from-under-trigger {
   from {
     transform: translateY(56px);
-    opacity: 0;
   }
   to {
     transform: translateY(0);
-    opacity: 1;
   }
 }
 
