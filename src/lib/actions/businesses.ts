@@ -2,7 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server';
 import { db } from '@/db';
-
+import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 import {
   businessCategories,
   businesses,
@@ -10,18 +10,18 @@ import {
   businessReviews,
   businessSpecialOffers,
   businessVotes,
-  specialOffers,
+  // specialOffers,
 } from '@/db/schema';
 import { eq, desc, sql, and, SQL, inArray, or } from 'drizzle-orm';
 import {
-  GetBusinessesParams,
+  // GetBusinessesParams,
   // Business,
   BusinessWithCategoryName,
   BusinessReviewStatus,
   AdminBusinessRow,
   NewBusinessFormData,
-  OnlineFilter,
-  BusinessesResponse,
+  // OnlineFilter,
+  // BusinessesResponse,
   GetBusinessesWithPagination,
   AdminBusinessRowType,
   UseAdminBusinessesParams,
@@ -33,38 +33,38 @@ import { saveBusinessLocations } from '@/lib/actions/businessLocation';
 import { PAGE_SIZE } from '@/const/business';
 import { getSpecialOffersForBusinesses } from '../helpers/getSpecialOffersForBusinesses';
 
-function filterByCityAndOnline(
-  businesses: BusinessWithCategoryName[],
-  city: string,
-  showOnlineStatus: OnlineFilter
-) {
-  // если выбран "Всі" (city = "__all__")
-  if (!city || city === '__all__') {
-    if (showOnlineStatus === 'online') {
-      return businesses.filter((b) => b.isOnline);
-    }
-    if (showOnlineStatus === 'offline') {
-      // все бизнесы с хотя бы одной физической локацией
-      return businesses.filter((b) => b.locations.length > 0);
-    }
-    // showOnlineStatus === "all"
-    return businesses;
-  }
+// function filterByCityAndOnline(
+//   businesses: BusinessWithCategoryName[],
+//   city: string,
+//   showOnlineStatus: OnlineFilter
+// ) {
+//   // если выбран "Всі" (city = "__all__")
+//   if (!city || city === '__all__') {
+//     if (showOnlineStatus === 'online') {
+//       return businesses.filter((b) => b.isOnline);
+//     }
+//     if (showOnlineStatus === 'offline') {
+//       // все бизнесы с хотя бы одной физической локацией
+//       return businesses.filter((b) => b.locations.length > 0);
+//     }
+//     // showOnlineStatus === "all"
+//     return businesses;
+//   }
 
-  // если выбран конкретный город
-  if (showOnlineStatus === 'online') {
-    return businesses.filter((b) => b.isOnline);
-  }
-  if (showOnlineStatus === 'offline') {
-    return businesses.filter((b) =>
-      b.locations.some((loc) => loc.city === city)
-    );
-  }
-  // showOnlineStatus === "all": и онлайн, и физические в этом городе
-  return businesses.filter(
-    (b) => b.isOnline || b.locations.some((loc) => loc.city === city)
-  );
-}
+//   // если выбран конкретный город
+//   if (showOnlineStatus === 'online') {
+//     return businesses.filter((b) => b.isOnline);
+//   }
+//   if (showOnlineStatus === 'offline') {
+//     return businesses.filter((b) =>
+//       b.locations.some((loc) => loc.city === city)
+//     );
+//   }
+//   // showOnlineStatus === "all": и онлайн, и физические в этом городе
+//   return businesses.filter(
+//     (b) => b.isOnline || b.locations.some((loc) => loc.city === city)
+//   );
+// }
 const businessSelectFields = {
   id: businesses.id,
   name: businesses.name,
@@ -106,15 +106,14 @@ export async function getBusinesses(
   } = params ?? {};
 
   const supabase = await createClient();
-  console.log('step: getUser');
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   const conditions: SQL[] = [];
   //category filter
-  // if (categoryId && categoryId !== '__all__')
-  //   conditions.push(eq(businesses.categoryId, categoryId));
+
   const categoryFilter =
     categoryId && categoryId !== '__all__'
       ? eq(businesses.categoryId, categoryId)
@@ -122,6 +121,11 @@ export async function getBusinesses(
   //-----------------
   // фильтр по city и онлайн/офлайн
   let statusFilter: SQL | undefined;
+
+  let cityLabel: string | undefined;
+  if (city && city !== '__all__') {
+    cityLabel = UKRAINE_REGIONAL_CENTERS.find((c) => c.value === city)?.label;
+  }
   if (!city || city === '__all__') {
     // "__all__"
     if (showOnlineStatus === 'online') {
@@ -129,12 +133,7 @@ export async function getBusinesses(
       statusFilter = eq(businesses.isOnline, true);
     } else if (showOnlineStatus === 'offline') {
       // есть хотя бы одна физическая локация
-      // conditions.push(sql`
-      //   EXISTS (
-      //     SELECT 1 FROM ${businessLocations} bl
-      //     WHERE bl.business_id = ${businesses.id}
-      //   )
-      // `);
+
       statusFilter = sql`
       EXISTS (
         SELECT 1 FROM ${businessLocations} bl
@@ -152,34 +151,23 @@ export async function getBusinesses(
       // conditions.push(eq(businesses.isOnline, true));
       statusFilter = eq(businesses.isOnline, true);
     } else if (showOnlineStatus === 'offline') {
-      // conditions.push(sql`
-      //   EXISTS (
-      //     SELECT 1 FROM ${businessLocations} bl
-      //     WHERE bl.business_id = ${businesses.id} AND bl.city = ${city}
-      //   )
-      // `);
       statusFilter = sql`
       EXISTS (
         SELECT 1 FROM ${businessLocations} bl
         WHERE bl.business_id = ${businesses.id}
-        AND bl.city = ${city}
+        AND bl.city = ${cityLabel}
       )
     `;
     } else if (showOnlineStatus === 'all') {
       // объединяем онлайн или с локацией в этом городе
-      // conditions.push(sql`
-      //   ${businesses.isOnline} = true OR EXISTS (
-      //     SELECT 1 FROM ${businessLocations} bl
-      //     WHERE bl.business_id = ${businesses.id} AND bl.city = ${city}
-      //   )
-      // `);
+
       statusFilter = or(
         eq(businesses.isOnline, true),
         sql`
         EXISTS (
           SELECT 1 FROM ${businessLocations} bl
           WHERE bl.business_id = ${businesses.id}
-          AND bl.city = ${city}
+          AND bl.city = ${cityLabel}
         )
       `
       );
@@ -634,6 +622,10 @@ export async function getBusinessesForAdmin({
   if (reviewStatus) conditions.push(eq(businessReviews.status, reviewStatus));
   if (businessStatus) conditions.push(eq(businesses.status, businessStatus));
 
+  let cityLabel: string | undefined;
+  if (city && city !== '__all__') {
+    cityLabel = UKRAINE_REGIONAL_CENTERS.find((c) => c.value === city)?.label;
+  }
   // фильтр по city и онлайн/офлайн
   if (!city || city === '__all__') {
     // "__all__"
@@ -657,7 +649,7 @@ export async function getBusinessesForAdmin({
       conditions.push(sql`
         EXISTS (
           SELECT 1 FROM ${businessLocations} bl
-          WHERE bl.business_id = ${businesses.id} AND bl.city = ${city}
+          WHERE bl.business_id = ${businesses.id} AND bl.city = ${cityLabel}
         )
       `);
     } else if (showOnlineStatus === 'all') {
@@ -665,7 +657,7 @@ export async function getBusinessesForAdmin({
       conditions.push(sql`
         ${businesses.isOnline} = true OR EXISTS (
           SELECT 1 FROM ${businessLocations} bl
-          WHERE bl.business_id = ${businesses.id} AND bl.city = ${city}
+          WHERE bl.business_id = ${businesses.id} AND bl.city = ${cityLabel}
         )
       `);
     }

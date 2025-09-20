@@ -1,12 +1,18 @@
+import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 import { BusinessWithCategoryName } from '@/types';
 
 export function renderLocations(
   b: BusinessWithCategoryName,
   selectedCity: string
 ) {
+  const selectedCityLabel =
+    selectedCity === '__all__'
+      ? '__all__'
+      : UKRAINE_REGIONAL_CENTERS.find((c) => c.value === selectedCity)?.label;
   // 1. city = "__all__"
-  if (selectedCity === '__all__') {
+  if (selectedCityLabel === '__all__') {
     if (b.isOnline && b.locations.length > 0) {
+      console.log('object', b.locations);
       return (
         <>
           <p>ONLINE</p>
@@ -45,12 +51,14 @@ export function renderLocations(
   }
 
   // 2.city != "__all__"  we filter by specific city
-  const cityLocations = b.locations.filter((loc) => loc.city === selectedCity);
+  const cityLocations = b.locations.filter(
+    (loc) => loc.city === selectedCityLabel
+  );
 
   if (cityLocations.length > 0) {
     return (
       <>
-        <p>{selectedCity}</p>
+        <p>{selectedCityLabel}</p>
         <ul>
           {cityLocations.length ? (
             cityLocations.map((loc, idx) => (
