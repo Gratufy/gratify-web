@@ -293,10 +293,12 @@
 /* Slide in from under the trigger */
 @keyframes slide-in-from-under-trigger {
   from {
-    transform: translateY(56px); /* высота триггера */
+    transform: translateY(56px);
+    opacity: 0;
   }
   to {
     transform: translateY(0);
+    opacity: 1;
   }
 }
 
@@ -309,11 +311,11 @@
   }
 }
 
-/* @layer utilities {
-  .animate-in-from-under-trigger {
-    animation: slide-in-from-under-trigger 0.3s ease-out forwards;
+@layer utilities {
+  .slide-in-from-under-trigger {
+    animation: slide-in-from-under-trigger 0.3s ease-in-out forwards;
   }
-  .animate-out-to-under-trigger {
-    animation: slide-out-to-under-trigger 0.3s ease-in forwards;
+  .slide-out-to-under-trigger {
+    animation: slide-out-to-under-trigger 0.3s ease-in-out forwards;
   }
-} */
+}

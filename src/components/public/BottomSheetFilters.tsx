@@ -77,10 +77,10 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
   };
   return (
     // pb-[env(safe-area-inset-bottom)]
-    <div className="bg-background-main-200 border-elements-grey-200 fixed inset-x-0 bottom-0 z-50 w-full border-[0.5px] px-4 py-2 lg:hidden">
+    <div className="bg-background-main-200 border-elements-grey-200 fixed inset-x-0 bottom-0 w-full border-[0.5px] lg:hidden">
       <Sheet>
         <SheetTrigger asChild>
-          <div className="flex w-full items-center justify-center">
+          <div className="z-80 flex w-full items-center justify-center py-2">
             <button
               type="button"
               className="flex cursor-pointer flex-col items-center justify-center gap-1 px-5"
