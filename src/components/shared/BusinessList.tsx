@@ -7,6 +7,7 @@ import Link from 'next/link';
 
 interface BusinessListProps {
   businesses: BusinessWithCategoryName[];
+  selectedCity: string;
   fetchNextPage: () => void; // если нужен infinite scroll
   hasNextPage?: boolean;
   isFetchingNextPage?: boolean;
@@ -16,6 +17,7 @@ interface BusinessListProps {
 }
 function BusinessList({
   businesses,
+  selectedCity,
   fetchNextPage,
   hasNextPage,
   isFetchingNextPage,

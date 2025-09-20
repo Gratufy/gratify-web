@@ -380,6 +380,7 @@ export async function getBusinessById(
         title: offer.title,
       });
     }
+    console.log('One business fetched:', businessData);
     return businessData;
   } catch (error) {
     console.error('Error fetching business:', error);

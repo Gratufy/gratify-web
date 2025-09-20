@@ -186,6 +186,7 @@ function HomeSectionDesktop({
             isLoading={isLoading}
             isError={isError}
             error={error}
+            selectedCity={city}
             // categoryId={categoryId}
             // showOnlineStatus={showOnlineStatus}
             // sortBy={sortBy}
