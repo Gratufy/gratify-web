@@ -24,6 +24,7 @@ import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
 
 import OnlineStatusFilter from '../shared/OnlineStatusFilter';
 import SortFilterComponent from '../shared/SortFilterComponent';
+import CategoryRadio from '../shared/CategoryRadio';
 
 type TopSheetFilterProps = {
   city: string;
@@ -148,7 +149,30 @@ function TopSheetFilter({
               <CategoryIcon className="h-4 w-4 xl:h-5 xl:w-5" />
               <span>Послуги</span>
             </label>
-            <CustomSelect
+            <div
+              role="radiogroup"
+              aria-label="Category options"
+              className="flex flex-wrap gap-x-2 gap-y-4 py-2"
+            >
+              {categoriesWithAll.map((category) => (
+                <CategoryRadio
+                  key={category.categoryId}
+                  value={category.categoryId}
+                  checked={categoryId === category.categoryId}
+                  onChange={(val) => {
+                    setCategoryId(val); // id категории
+                    const selected = categoriesWithAll.find(
+                      (c) => c.categoryId === val
+                    );
+                    setCategoryName(selected?.name ?? '');
+                  }}
+                  className="placeholder-xs xl:placeholder-sm border-elements-main-500 border px-4 py-2"
+                >
+                  {category.name}
+                </CategoryRadio>
+              ))}
+            </div>
+            {/* <CustomSelect
               className="w-60 rounded-none px-3 py-1.5 xl:px-4"
               id="categories"
               value={tempCategoryId}
@@ -160,7 +184,7 @@ function TopSheetFilter({
               getOptionValue={(c) => c.categoryId}
               getOptionLabel={(c) => c.name}
               placeholder="Оберіть категорію"
-            />
+            /> */}
           </div>
         </div>
         <div className="mx-auto flex gap-4">

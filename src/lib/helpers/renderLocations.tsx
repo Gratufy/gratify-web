@@ -12,7 +12,6 @@ export function renderLocations(
   // 1. city = "__all__"
   if (selectedCityLabel === '__all__') {
     if (b.isOnline && b.locations.length > 0) {
-      console.log('object', b.locations);
       return (
         <>
           <p>ONLINE</p>
