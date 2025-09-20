@@ -23,6 +23,7 @@ import CategoryFilter from './mobiles-filters/CategoryFilter';
 type BottomSheetFiltersProps = {
   city: string | undefined;
   setCity: (city: string) => void;
+  setCityName: (label: string) => void;
   categoryId: string;
   setCategoryId: (id: string) => void;
   setCategoryName: (name: string) => void;
@@ -45,6 +46,7 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
             city={props.city}
             setCity={props.setCity}
             onApply={() => setActiveFilter(null)}
+            setCityName={props.setCityName}
           />
         );
       case 'sort':
@@ -54,6 +56,7 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
             setSortBy={props.setSortBy}
             showOnlineStatus={props.showOnlineStatus}
             setShowOnlineStatus={props.setShowOnlineStatus}
+            onApply={() => setActiveFilter(null)}
           />
         );
       case 'category':
@@ -63,6 +66,7 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
             setCategoryId={props.setCategoryId}
             categories={props.categoriesWithAll}
             setCategoryName={props.setCategoryName}
+            onApply={() => setActiveFilter(null)}
           />
         );
       case 'map':
