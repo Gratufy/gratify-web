@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from 'next/navigation';
 
-import * as v from "valibot";
-import { valibotResolver } from "@hookform/resolvers/valibot";
-import { useForm, useFieldArray } from "react-hook-form";
-import type { FieldErrors } from "react-hook-form";
+import * as v from 'valibot';
+import { valibotResolver } from '@hookform/resolvers/valibot';
+import { useForm, useFieldArray } from 'react-hook-form';
+import type { FieldErrors } from 'react-hook-form';
 import {
   Form,
   FormControl,
@@ -14,53 +14,48 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import CustomSelect from "../ui/CustomSelect";
-import { useBusinessCategories } from "@/hooks/useBusinessCategories";
-import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
-import { useCheckAddress } from "@/hooks/useBusinessLocation";
+} from '@/components/ui/form';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import CustomSelect from '../ui/CustomSelect';
+import { useBusinessCategories } from '@/hooks/useBusinessCategories';
+import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
+import { useCheckAddress } from '@/hooks/useBusinessLocation';
 
-import { useCreateBusiness, useUpdateBusiness } from "@/hooks/useBusinesses";
-import { BusinessUpdate, LocationFormData } from "@/types";
-import { useUserStore } from "@/stores/useUserStore";
-import { useState } from "react";
-import dynamic from "next/dynamic";
-import { saveBusinessLocations } from "@/lib/actions/businessLocation";
-import { useAllSpecialOffers } from "@/hooks/useSpecialOffers";
-import CustomCheckBox from "../ui/CustomCheckBox";
-import { specialOffers } from "@/db/schema";
-const BusinessMap = dynamic(() => import("@/components/shared/BusinessMap"), {
+import { useCreateBusiness, useUpdateBusiness } from '@/hooks/useBusinesses';
+import { BusinessUpdate, LocationFormData } from '@/types';
+import { useUserStore } from '@/stores/useUserStore';
+import { useState } from 'react';
+import dynamic from 'next/dynamic';
+import { saveBusinessLocations } from '@/lib/actions/businessLocation';
+import { useAllSpecialOffers } from '@/hooks/useSpecialOffers';
+import CustomCheckBox from '../ui/CustomCheckBox';
+import { specialOffers } from '@/db/schema';
+const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
 });
 
 const emptyToUndefined = v.transform((value: unknown) => {
-  if (typeof value === "string" && value.trim() === "") return undefined;
+  if (typeof value === 'string' && value.trim() === '') return undefined;
   return value;
 });
-// type Location = {
-//   city?: string;
-//   address?: string;
-//   latitude?: number;
-//   longitude?: number;
-// };
+
 export const businessFormSchema = v.pipe(
   v.object({
     isOnline: v.boolean(), // checkbox for online status
-    name: v.pipe(v.string(), v.nonEmpty("Please enter a name")),
-    description: v.pipe(v.string(), v.nonEmpty("Please enter a description")),
+    name: v.pipe(v.string(), v.nonEmpty('Please enter a name')),
+    description: v.pipe(v.string(), v.nonEmpty('Please enter a description')),
     website: v.pipe(
       v.any(),
       emptyToUndefined,
-      v.optional(v.pipe(v.string(), v.url("Invalid website URL")))
+      v.optional(v.pipe(v.string(), v.url('Invalid website URL')))
     ),
     specialOffers: v.pipe(
       v.array(v.string()),
-      v.minLength(1, "Please select at least one offer.")
+      v.minLength(1, 'Please select at least one offer.')
     ), // array of offer IDs
-    category: v.pipe(v.string(), v.nonEmpty("Please select a category.")),
+    category: v.pipe(v.string(), v.nonEmpty('Please select a category.')),
     locations: v.array(
       v.object({
         city: v.optional(v.string()),
@@ -73,19 +68,19 @@ export const businessFormSchema = v.pipe(
   // check 1: if online - true , website is required
   v.forward(
     v.partialCheck(
-      [["isOnline"], ["website"]],
+      [['isOnline'], ['website']],
       (data) => {
         // if online but no website -> error
         return !(data.isOnline && !data.website);
       },
-      "Website is required for online businesses."
+      'Website is required for online businesses.'
     ),
-    ["website"]
+    ['website']
   ),
 
   v.forward(
     v.partialCheck(
-      [["isOnline"], ["locations"]],
+      [['isOnline'], ['locations']],
       (data) => {
         if (data.isOnline) return true; // онлайн → не проверяем
 
@@ -93,13 +88,13 @@ export const businessFormSchema = v.pipe(
         return (
           data.locations.length > 0 &&
           data.locations.every(
-            (loc: LocationFormData) => loc.city && loc.city.trim() !== ""
+            (loc: LocationFormData) => loc.city && loc.city.trim() !== ''
           )
         );
       },
-      "At least one location with a city is required for offline businesses."
+      'At least one location with a city is required for offline businesses.'
     ),
-    ["locations"]
+    ['locations']
   )
 );
 
@@ -134,10 +129,10 @@ BusinessFormProps) {
   const form = useForm<FormValues>({
     resolver: valibotResolver(businessFormSchema),
     defaultValues: defaultValues ?? {
-      name: "",
-      description: "",
-      website: "",
-      category: "",
+      name: '',
+      description: '',
+      website: '',
+      category: '',
       isOnline: false,
       locations: [],
       specialOffers: [],
@@ -146,7 +141,7 @@ BusinessFormProps) {
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
-    name: "locations",
+    name: 'locations',
   });
 
   // local state for check
@@ -161,12 +156,12 @@ BusinessFormProps) {
     setMapOpenIndex(null);
     const loc = form.getValues(`locations.${index}`);
     if (!loc.city) {
-      alert("Please specify a city first");
+      alert('Please specify a city first');
       return;
     }
 
     if (!loc.address) {
-      alert("Please specify an address");
+      alert('Please specify an address');
       return;
     }
     const res = await checkAddressMutation.mutateAsync({
@@ -175,7 +170,7 @@ BusinessFormProps) {
     });
 
     if (!res) {
-      alert("Address not found. Please refine your input.");
+      alert('Address not found. Please refine your input.');
       return;
     }
 
@@ -242,7 +237,7 @@ BusinessFormProps) {
 
         // update all locations at once
         //await saveBusinessLocations(businessId, locationsWithCoords, true);
-        alert("Business edited successfully!");
+        alert('Business edited successfully!');
         // Reset form
         form.reset(defaultValues);
       } else {
@@ -257,39 +252,38 @@ BusinessFormProps) {
           specialOffers: data.specialOffers,
         };
         // Create the business-user
-        const { profile } = await createBusinessMutation.mutateAsync(
-          newBusinessData
-        );
+        const { profile } =
+          await createBusinessMutation.mutateAsync(newBusinessData);
         // Update Zustand profile
         useUserStore.getState().setProfile(profile);
-        alert("Business created successfully!");
+        alert('Business created successfully!');
         // Reset form
         form.reset();
         // setTempLatLng(null);
         // setLocationConfirmed(false);
       }
 
-      if (pathname.startsWith("/admin")) {
-        router.push("/admin/business");
+      if (pathname.startsWith('/admin')) {
+        router.push('/admin/business');
       } else {
-        router.push("/dashboard/business");
+        router.push('/dashboard/business');
       }
     } catch (error) {
-      console.error("Error creating/updating business:", error);
-      alert("Something went wrong");
+      console.error('Error creating/updating business:', error);
+      alert('Something went wrong');
     }
   }
   const onError = (
     errors: FieldErrors<v.InferOutput<typeof businessFormSchema>>
   ) => {
-    console.log("❌ Form Error", errors);
+    console.log('❌ Form Error', errors);
   };
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit, onError)}
-        className="space-y-8 w-2/3 flex flex-col justify-center items-center"
+        className="flex w-2/3 flex-col items-center justify-center space-y-8"
       >
         {/* Name Field */}
         <FormField
@@ -411,14 +405,14 @@ BusinessFormProps) {
         />
         {/* ------ */}
         {form.formState.errors.locations && (
-          <div className="p-2 mb-4 text-red-600 bg-red-100 rounded">
+          <div className="mb-4 rounded bg-red-100 p-2 text-red-600">
             {form.formState.errors.locations.message}
           </div>
         )}
         {/* location*/}
-        <div className="space-y-4 w-full">
+        <div className="w-full space-y-4">
           {fields.map((field, index) => (
-            <div key={field.id} className="p-4 border rounded space-y-2">
+            <div key={field.id} className="space-y-2 rounded border p-4">
               <FormField
                 control={form.control}
                 name={`locations.${index}.city`}
@@ -462,8 +456,8 @@ BusinessFormProps) {
                 disabled={checkAddressMutation.isPending}
               >
                 {checkAddressMutation.isPending
-                  ? "Checking..."
-                  : "Check location"}
+                  ? 'Checking...'
+                  : 'Check location'}
               </Button>
               {/* )} */}
               <Button
@@ -479,7 +473,7 @@ BusinessFormProps) {
           <Button
             type="button"
             onClick={() => {
-              append({ city: "", address: "" });
+              append({ city: '', address: '' });
               setMapOpenIndex(null);
             }}
           >
@@ -489,7 +483,7 @@ BusinessFormProps) {
         {/* ------ */}
         {/* Map to check location- Opened with Btn */}
         {mapOpenIndex !== null && tempLatLng && (
-          <div className="rounded-xl border p-3 space-y-3 w-full">
+          <div className="w-full space-y-3 rounded-xl border p-3">
             <BusinessMap
               lat={tempLatLng.lat}
               lng={tempLatLng.lng}

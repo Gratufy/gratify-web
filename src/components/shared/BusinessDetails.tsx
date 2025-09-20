@@ -14,14 +14,15 @@ const BusinessMapAll = dynamic(() => import('./BusinessMapAll'), {
 interface Props {
   id: string;
   href: string;
+  selectedCity: string;
 }
 
-function BusinessDetails({ id, href }: Props) {
+function BusinessDetails({ id, href, selectedCity }: Props) {
   const { data, isLoading, error } = useBusiness(id);
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  const selectedCity = '__all__';
+
   if (!data) return <p>No business found</p>;
   //sort location depends on selectedCity
   const CityListElements = renderLocations(data, selectedCity);

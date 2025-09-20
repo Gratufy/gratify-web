@@ -10,7 +10,7 @@ import BottomSheetFilters from './BottomSheetFilters';
 import SelectedFiltersPanel from '../shared/SelectedFiltersPanel';
 
 type HomeSectionMobileProps = {
-  city: string | undefined;
+  city: string;
   setCity: (city: string) => void;
   cityName: string;
   setCityName: (label: string) => void;
@@ -86,6 +86,7 @@ function HomeSectionMobile({
           isLoading={isLoading}
           isError={isError}
           error={error}
+          selectedCity={city}
         />
       </div>
 
