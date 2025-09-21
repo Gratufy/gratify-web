@@ -17,6 +17,7 @@ type SortFilterProps = {
   setSortBy: (sort: SortBy) => void;
   showOnlineStatus: OnlineFilter;
   setShowOnlineStatus: (status: OnlineFilter) => void;
+  onApply: () => void;
 };
 
 function SortFilter({
@@ -24,6 +25,7 @@ function SortFilter({
   setSortBy,
   showOnlineStatus,
   setShowOnlineStatus,
+  onApply,
 }: SortFilterProps) {
   const [tempOnlineStatus, setTempOnlineStatus] =
     useState<OnlineFilter>(showOnlineStatus);
@@ -66,7 +68,7 @@ function SortFilter({
           onClick={() => {
             setShowOnlineStatus(tempOnlineStatus);
             setSortBy(tempSortBy);
-            // onApply(); // close Sheet
+            onApply(); // close Sheet
           }}
           className="placeholder-sm bg-background-main-300 w-30 border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2 shadow-[1px_2px_10px_2px_var(--elements-grey-50)]"
         >

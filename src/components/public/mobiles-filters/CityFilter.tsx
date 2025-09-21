@@ -13,9 +13,10 @@ type CityFilterProps = {
   city: string | undefined;
   setCity: (city: string) => void;
   onApply: () => void;
+  setCityName: (label: string) => void;
 };
 
-function CityFilter({ city, setCity, onApply }: CityFilterProps) {
+function CityFilter({ city, setCity, onApply, setCityName }: CityFilterProps) {
   const [tempCity, setTempCity] = useState<string>(city || '__all__');
 
   return (
@@ -32,7 +33,7 @@ function CityFilter({ city, setCity, onApply }: CityFilterProps) {
             key={c.value}
             onClick={() => setTempCity(c.value)}
             className={`placeholder-xs rounded py-2 text-left ${
-              tempCity === c.value ? 'font-medium' : 'font-normal'
+              tempCity === c.value ? 'font-medium underline' : 'font-normal'
             }`}
           >
             {c.label}
@@ -51,6 +52,10 @@ function CityFilter({ city, setCity, onApply }: CityFilterProps) {
         <SheetClose
           onClick={() => {
             setCity(tempCity);
+            const city = UKRAINE_REGIONAL_CENTERS.find(
+              (c) => c.value === tempCity
+            );
+            setCityName(city?.label ?? '');
             onApply(); // close Sheet
           }}
           className="placeholder-sm bg-background-main-300 w-30 border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2 shadow-[1px_2px_10px_2px_var(--elements-grey-50)]"

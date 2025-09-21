@@ -1,7 +1,7 @@
-"use client";
-import { useEffect, useState } from "react";
-import { useTheme } from "next-themes";
-import { Moon, Sun } from "lucide-react";
+'use client';
+import { useEffect, useState } from 'react';
+import { useTheme } from 'next-themes';
+import { Moon, Sun } from 'lucide-react';
 
 export default function ThemeSwitch() {
   const [mounted, setMounted] = useState(false);
@@ -14,17 +14,21 @@ export default function ThemeSwitch() {
   if (!mounted) {
     return null;
   }
-  return resolvedTheme === "dark" ? (
-    <Sun
-      onClick={() => setTheme("light")}
-      className="cursor-pointer w-6 h-6"
-      aria-label="Switch to light"
-    />
-  ) : (
-    <Moon
-      onClick={() => setTheme("dark")}
-      className="cursor-pointer w-6 h-6"
-      aria-label="Switch to dark"
-    />
+  return (
+    <div className="bg-icons-grey-50 p-1.5">
+      {resolvedTheme === 'dark' ? (
+        <Sun
+          onClick={() => setTheme('light')}
+          className="size-5 cursor-pointer"
+          aria-label="Switch to light"
+        />
+      ) : (
+        <Moon
+          onClick={() => setTheme('dark')}
+          className="size-5 cursor-pointer"
+          aria-label="Switch to dark"
+        />
+      )}
+    </div>
   );
 }

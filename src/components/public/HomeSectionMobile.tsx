@@ -2,7 +2,7 @@
 import React from 'react';
 
 import { OnlineFilter, Scope, SortBy } from '@/types';
-
+import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
 
 import BusinessList from '../shared/BusinessList';
@@ -10,7 +10,7 @@ import BottomSheetFilters from './BottomSheetFilters';
 import SelectedFiltersPanel from '../shared/SelectedFiltersPanel';
 
 type HomeSectionMobileProps = {
-  city: string | undefined;
+  city: string;
   setCity: (city: string) => void;
   cityName: string;
   setCityName: (label: string) => void;
@@ -60,6 +60,10 @@ function HomeSectionMobile({
   const businesses = data?.pages.flatMap((page) => page.data) ?? [];
   return (
     <div className="container flex w-full flex-col pt-2 lg:hidden">
+      <div className="flex items-center px-2 pb-2">
+        <CityIcon className="mr-2 size-4" />
+        <span className="placeholder-xs">{cityName}</span>
+      </div>
       <div className="px-2 pb-2">
         <SelectedFiltersPanel
           setCity={setCity}
@@ -82,12 +86,14 @@ function HomeSectionMobile({
           isLoading={isLoading}
           isError={isError}
           error={error}
+          selectedCity={city}
         />
       </div>
 
       <BottomSheetFilters
         city={city}
         setCity={setCity}
+        setCityName={setCityName}
         categoryId={categoryId}
         setCategoryId={setCategoryId}
         setCategoryName={setCategoryName}

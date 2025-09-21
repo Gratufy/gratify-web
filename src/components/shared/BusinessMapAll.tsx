@@ -7,6 +7,7 @@ import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import type { BusinessWithCategoryName } from '@/types/business';
 import { useMap } from 'react-leaflet/hooks';
+import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: '/icons/leaflet/marker-icon-2x.png',
@@ -53,12 +54,18 @@ type BusinessMapAllProps = {
   className?: string;
   selectedCity?: string;
 };
+
 function BusinessMapAll({
   businesses,
   height = 400,
   className,
   selectedCity = '__all__',
 }: BusinessMapAllProps) {
+  const cityLabel =
+    selectedCity === '__all__'
+      ? '__all__'
+      : UKRAINE_REGIONAL_CENTERS.find((c) => c.value === selectedCity)?.label;
+
   const coords = useMemo(
     () =>
       businesses
@@ -67,10 +74,10 @@ function BusinessMapAll({
           (loc) =>
             loc.latitude &&
             loc.longitude &&
-            (selectedCity === '__all__' || loc.city === selectedCity)
+            (cityLabel === '__all__' || loc.city === cityLabel)
         )
         .map((loc) => [loc.latitude!, loc.longitude!] as [number, number]),
-    [businesses, selectedCity]
+    [businesses, cityLabel]
   );
 
   const center: [number, number] = coords.length > 0 ? coords[0] : [49.0, 32.0];

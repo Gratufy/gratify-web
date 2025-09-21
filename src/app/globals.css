@@ -289,3 +289,35 @@
 .leaflet-container .leaflet-tile-pane img {
   will-change: transform;
 }
+
+/* Slide in from under the trigger */
+@keyframes slide-in-from-under-trigger {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out-to-under-trigger {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@layer utilities {
+  .animate-in-from-under-trigger {
+    animation: slide-in-from-under-trigger 0.3s ease-out forwards;
+  }
+  .animate-out-to-under-trigger {
+    animation: slide-out-to-under-trigger 0.3s ease-in forwards;
+  }
+}

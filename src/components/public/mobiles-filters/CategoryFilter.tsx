@@ -13,6 +13,7 @@ type CategoryFilterProps = {
 
   categories: { categoryId: string; name: string }[];
   setCategoryName: (name: string) => void;
+  onApply: () => void;
 };
 
 function CategoryFilter({
@@ -20,6 +21,7 @@ function CategoryFilter({
   setCategoryId,
   categories,
   setCategoryName,
+  onApply,
 }: CategoryFilterProps) {
   const [tempCategoryId, setTempCategoryId] = useState<string>(categoryId);
   // const [selected, setSelected] = useState<string>(categoryId);
@@ -66,6 +68,7 @@ function CategoryFilter({
             if (category) {
               setCategoryName(category.name);
             }
+            onApply(); // close Sheet
           }}
           className="placeholder-sm bg-background-main-300 w-30 border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2 shadow-[1px_2px_10px_2px_var(--elements-grey-50)]"
         >

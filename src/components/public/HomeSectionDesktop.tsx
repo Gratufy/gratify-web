@@ -89,7 +89,7 @@ function HomeSectionDesktop({
 
   return (
     <div
-      className={`w-full lg:max-w-[1024px] xl:max-w-[1440px] ${showMap ? 'lg:pl-[50px] xl:pl-[150px]' : 'lg:px-[50px] xl:px-[150px]'}`}
+      className={`hidden w-full lg:block lg:max-w-[1024px] xl:max-w-[1440px] ${showMap ? 'lg:pl-[50px] xl:pl-[150px]' : 'lg:px-[50px] xl:px-[150px]'}`}
     >
       {businesses.length > 0 && (
         <div
@@ -186,6 +186,7 @@ function HomeSectionDesktop({
             isLoading={isLoading}
             isError={isError}
             error={error}
+            selectedCity={city}
             // categoryId={categoryId}
             // showOnlineStatus={showOnlineStatus}
             // sortBy={sortBy}

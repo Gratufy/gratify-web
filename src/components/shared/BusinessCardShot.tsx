@@ -10,11 +10,11 @@ import ReviewIcon from '@/assets/icons/general/icon-bubble.svg';
 
 function BusinessCardShot({
   business,
-  // selectedCity,
+
   imageUrl,
 }: {
   business: BusinessWithCategoryName;
-  // selectedCity?: string;
+
   imageUrl?: string;
 }) {
   // const CityListElements = renderLocations(business, selectedCity);
