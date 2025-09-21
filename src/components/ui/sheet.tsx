@@ -68,7 +68,7 @@ function SheetContent({
           side === 'bottom' &&
             'data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom inset-x-0 bottom-0 h-auto border-t',
           side === 'bottomTrigger' &&
-            'data-[state=open]:slide-in-from-under-trigger data-[state=closed]:slide-out-to-under-trigger inset-x-0 bottom-14 h-auto border-t',
+            'data-[state=open]:animate-in-from-under-trigger data-[state=closed]:animate-out-to-under-trigger inset-x-0 bottom-14 h-auto border-t',
           className
         )}
         {...props}
