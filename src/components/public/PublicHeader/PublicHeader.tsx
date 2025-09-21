@@ -7,6 +7,9 @@ import Logout from '@/components/ui/Logout';
 import { useUserStore } from '@/stores/useUserStore';
 import Image from 'next/image';
 
+import InputSearch from './InputSearch';
+import LoginHeaderBtn from './LoginHeaderBtn';
+
 function PublicHeader() {
   const session = useUserStore((s) => s.session);
   const isLoading = useUserStore((s) => s.isLoading);
@@ -47,36 +50,49 @@ function PublicHeader() {
           {/* {isLoading && <p>Loading...</p>} */}
           {session && <p>{user?.email}</p>}
         </div>
-        <div className="gap-63 bg-background-main-50 container hidden items-center py-3 lg:flex">
-          <div className="w-[169px] xl:w-[181px]">
-            <Image
-              src="/images/logo.png"
-              width={181}
-              height={38}
-              alt="Logo"
-              className="h-auto w-full"
-            />
-          </div>
-          <div>input</div>
-          <div>TEMA and LOGIN</div>
-        </div>
-        <div className="bg-background-main-50 flex w-full flex-col px-4 py-3 lg:hidden">
-          <div className="container">
-            {' '}
-            <div>
-              <div>
-                <Image
-                  src="/images/logo.png"
-                  width={169}
-                  height={35}
-                  alt="Logo"
-                />
-              </div>
-              <div>TEMA and LOGIN</div>
+        {/* xl:gap-63 lg:gap-42 */}
+        <header className="w-full">
+          <div className="bg-background-main-50 container hidden items-center py-3 lg:flex lg:justify-between">
+            <div className="w-[169px] xl:w-[181px]">
+              <Image
+                src="/images/logo.png"
+                width={181}
+                height={38}
+                alt="Logo"
+                className="h-auto w-full"
+              />
             </div>
-            <div>input</div>
+
+            <InputSearch id="search-desktop" name="search-desktop" />
+            <div className="flex items-center lg:gap-11 xl:gap-20">
+              <ThemeSwitch />
+
+              <LoginHeaderBtn />
+            </div>
           </div>
-        </div>
+          {/* mobile */}
+          <div className="bg-background-main-50 flex w-full flex-col px-4 py-3 lg:hidden">
+            <div className="container">
+              <div className="flex items-center justify-between">
+                <div>
+                  <Image
+                    src="/images/logo.png"
+                    width={169}
+                    height={35}
+                    alt="Logo"
+                  />
+                </div>
+                <div className="flex items-center gap-5">
+                  <ThemeSwitch />
+
+                  <LoginHeaderBtn />
+                </div>
+              </div>
+
+              <InputSearch id="search-mobile" name="search-mobile" />
+            </div>
+          </div>
+        </header>
       </div>
     </>
   );
