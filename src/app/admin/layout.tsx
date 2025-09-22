@@ -2,11 +2,11 @@ import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
-} from "@tanstack/react-query";
+} from '@tanstack/react-query';
 
-import AdminFooter from "@/components/admin/AdminFooter/AdminFooter";
-import AdminHeader from "@/components/admin/AdminHeader/AdminHeader";
-import { getBusinesses } from "@/lib/actions/businesses";
+import AdminFooter from '@/components/admin/AdminFooter/AdminFooter';
+import AdminHeader from '@/components/admin/AdminHeader/AdminHeader';
+import { getBusinesses } from '@/lib/actions/businesses';
 
 export default async function AdminLayout({
   children,
@@ -17,30 +17,35 @@ export default async function AdminLayout({
 
   await queryClient.prefetchQuery({
     queryKey: [
-      "businesses",
+      'businesses',
       {
-        city: "__all__",
-        categoryId: "__all__",
-        sortBy: "newest",
-        scope: "admin",
-        showOnlineStatus: "all",
+        city: '__all__',
+        categoryId: '__all__',
+        sortBy: 'newest',
+        scope: 'admin',
+        showOnlineStatus: 'all',
       },
     ],
     queryFn: () =>
       getBusinesses({
-        city: "__all__",
-        categoryId: "__all__",
-        sortBy: "newest",
-        scope: "admin",
-        showOnlineStatus: "all",
+        city: '__all__',
+        categoryId: '__all__',
+        sortBy: 'newest',
+        scope: 'admin',
+        showOnlineStatus: 'all',
       }),
   });
   const dehydratedState = dehydrate(queryClient);
   return (
     <HydrationBoundary state={dehydratedState}>
-      <AdminHeader />
-      <main>{children}</main>
-      <AdminFooter />
+      <div className="flex min-h-screen flex-col">
+        {' '}
+        <AdminHeader />
+        <main className="flex flex-1 items-center justify-center">
+          {children}
+        </main>
+        <AdminFooter />
+      </div>
     </HydrationBoundary>
   );
 }

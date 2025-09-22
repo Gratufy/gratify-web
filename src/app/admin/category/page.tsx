@@ -1,8 +1,8 @@
-"use client";
-import React, { useState } from "react";
-import * as v from "valibot";
-import { useBusinessCategories } from "@/hooks/useBusinessCategories";
-import { categorySchema } from "@/lib/validators/categorySchema";
+'use client';
+import React, { useState } from 'react';
+import * as v from 'valibot';
+import { useBusinessCategories } from '@/hooks/useBusinessCategories';
+import { categorySchema } from '@/lib/validators/categorySchema';
 // export const categorySchema = v.object({
 //   name: v.pipe(v.string(), v.nonEmpty("Введіть назву категорії")),
 // });
@@ -21,7 +21,7 @@ export default function AdminCategory() {
     error,
   } = useBusinessCategories();
 
-  const [newName, setNewName] = useState("");
+  const [newName, setNewName] = useState('');
   const [editState, setEditState] = useState<{
     id: string;
     name: string;
@@ -29,7 +29,7 @@ export default function AdminCategory() {
   } | null>(null);
 
   const handleAdd = async () => {
-    console.log("Adding category:", newName);
+    console.log('Adding category:', newName);
     const result = v.safeParse(categorySchema, { name: newName });
     if (!result.success) {
       alert(result.issues[0].message);
@@ -37,19 +37,19 @@ export default function AdminCategory() {
     }
     try {
       await addCategory({ name: newName });
-      setNewName("");
+      setNewName('');
     } catch (error) {
-      alert("Помилка при додаванні категорії");
-      console.log("Error adding category:", error);
+      alert('Помилка при додаванні категорії');
+      console.log('Error adding category:', error);
     }
   };
 
   if (isLoading) return <div>Loading...</div>;
   if (isError)
-    return <div>Error Categories: {error?.message ?? "Unknown error"}</div>;
+    return <div>Error Categories: {error?.message ?? 'Unknown error'}</div>;
   //------- Editing
   const startEditing = (id: string, currentName: string) => {
-    if (id === "11111111-1111-1111-1111-111111111111") {
+    if (id === '11111111-1111-1111-1111-111111111111') {
       alert('Увага! Це особлива категорія "Інше"');
     }
     // setEditStates(() => ({
@@ -73,16 +73,16 @@ export default function AdminCategory() {
       await renameCategory({ id, name: editState.name });
       setEditState(null);
     } catch {
-      alert("Помилка при зміні назви категорії");
+      alert('Помилка при зміні назви категорії');
     }
   };
   // ----- Deleting
   const handleDelete = async (id: string) => {
-    if (id === "11111111-1111-1111-1111-111111111111") {
+    if (id === '11111111-1111-1111-1111-111111111111') {
       alert('Видалення категорії "Інше" заборонено');
       return;
     }
-    if (!confirm("Видалити категорію?")) return;
+    if (!confirm('Видалити категорію?')) return;
 
     try {
       const res = await deleteCategory(id);
@@ -92,12 +92,12 @@ export default function AdminCategory() {
         );
       }
     } catch {
-      alert("Помилка при видаленні категорії");
+      alert('Помилка при видаленні категорії');
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <h1 className="text-2xl font-bold mb-2">
+    <div className="flex flex-col items-center justify-center p-4">
+      <h1 className="mb-2 text-2xl font-bold">
         Welcome to the Admin Category Page
       </h1>
       <p className="mb-1 text-lg">
@@ -110,8 +110,8 @@ export default function AdminCategory() {
       <h2>Business Categories</h2>
       <div>
         <input
-          className={`border border-gray-500 p-2 rounded-md mb-8 ${
-            isAdding ? "opacity-50 cursor-not-allowed" : ""
+          className={`mb-8 rounded-md border border-gray-500 p-2 ${
+            isAdding ? 'cursor-not-allowed opacity-50' : ''
           }`}
           type="text"
           placeholder="Новая категория"
@@ -124,14 +124,14 @@ export default function AdminCategory() {
           disabled={isAdding || !newName.trim()}
           className="cursor-pointer border border-green-500"
         >
-          {isAdding ? "Додаємо..." : "Додати"}
+          {isAdding ? 'Додаємо...' : 'Додати'}
         </button>
       </div>
       <ul>
         {categories.map(({ categoryId, name }) => {
           // const isEditing = editState?.editing || false;
           const isEditingCategory = editState?.id === categoryId || false;
-          const editName = editState?.name || "";
+          const editName = editState?.name || '';
 
           return (
             <li
@@ -142,8 +142,8 @@ export default function AdminCategory() {
               {isEditingCategory ? (
                 <>
                   <input
-                    className={`border p-2 rounded-md opacity-50 cursor-not-allowed ${
-                      isEditingCategory ? " border-gray-500 cursor-text" : ""
+                    className={`cursor-not-allowed rounded-md border p-2 opacity-50 ${
+                      isEditingCategory ? 'cursor-text border-gray-500' : ''
                     }`}
                     type="text"
                     value={editName}
@@ -197,7 +197,7 @@ export default function AdminCategory() {
           );
         })}
       </ul>
-      {error && <div style={{ color: "red" }}>Ошибка: {error.message}</div>}
+      {error && <div style={{ color: 'red' }}>Ошибка: {error.message}</div>}
       {/* <ul>
         {categories?.map((category) => (
           <li key={category.categoryId}>{category.name}</li>
