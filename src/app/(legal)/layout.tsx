@@ -7,12 +7,12 @@ export default function LegalLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <PublicHeader />
-      <main className="flex min-h-screen items-center justify-center">
+      <main className="flex flex-1 items-center justify-center">
         {children}
       </main>
       <PublicFooter />
-    </>
+    </div>
   );
 }
