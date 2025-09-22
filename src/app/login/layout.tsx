@@ -1,5 +1,5 @@
-import PublicHeader from '@/components/public/PublicHeader/PublicHeader';
 import PublicFooter from '@/components/public/PublicFooter/PublicFooter';
+import LoginHeader from '@/components/login/LoginHeader';
 
 export default function LoginLayout({
   children,
@@ -8,7 +8,7 @@ export default function LoginLayout({
 }) {
   return (
     <>
-      <PublicHeader />
+      <LoginHeader />
       <main className="flex min-h-screen items-center justify-center">
         {children}
       </main>

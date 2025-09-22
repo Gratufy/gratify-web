@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
-
+import React, { useEffect, useState } from 'react';
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
+import IconGoogle from '@/assets/icons/general/icon-google.svg';
 // import { useGoogleLogin } from "@/hooks/useGoogleLogin";
 // import { usePopupChannel } from "@/hooks/usePopupChannel";
 
@@ -11,17 +11,17 @@ const getRedirectUrl = () => {
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   if (isMobile) {
-    let base = process.env.NEXT_PUBLIC_BASE_URL?.trim() || "";
+    let base = process.env.NEXT_PUBLIC_BASE_URL?.trim() || '';
     if (!base && process.env.NEXT_PUBLIC_VERCEL_URL?.trim()) {
       base = `https://${process.env.NEXT_PUBLIC_VERCEL_URL.trim()}`;
     }
     if (!base) {
-      base = "http://localhost:3000";
+      base = 'http://localhost:3000';
     }
-    if (!base.endsWith("/")) base += "/";
-    return base + "auth/callback";
+    if (!base.endsWith('/')) base += '/';
+    return base + 'auth/callback';
   } else {
-    return window.location.origin + "/auth/popup-callback";
+    return window.location.origin + '/auth/popup-callback';
   }
 };
 
@@ -40,8 +40,8 @@ const GoogleBtn = () => {
   useEffect(() => {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile || !popup) return;
-    console.log("Mobile:", isMobile);
-    const channel = new BroadcastChannel("popup-channel");
+    console.log('Mobile:', isMobile);
+    const channel = new BroadcastChannel('popup-channel');
     const listener = async (event: MessageEvent) => {
       if (event.origin !== window.location.origin) return;
 
@@ -54,16 +54,16 @@ const GoogleBtn = () => {
       // it is important to trigger the exchangeCodeForSession for userProvider
       const { error } = await supabase.auth.exchangeCodeForSession(code);
       if (error) {
-        console.error("Failed to exchange code", error);
+        console.error('Failed to exchange code', error);
         return;
       }
-      router.replace("/"); // or any other route you want to redirect to after login
+      router.replace('/'); // or any other route you want to redirect to after login
     };
 
-    channel.addEventListener("message", listener);
+    channel.addEventListener('message', listener);
 
     return () => {
-      channel.removeEventListener("message", listener);
+      channel.removeEventListener('message', listener);
       channel.close();
     };
   }, [popup, router]);
@@ -84,25 +84,25 @@ const GoogleBtn = () => {
       const left = window.screen.width / 2 - width / 2;
       const top = window.screen.height / 2 - height / 2;
       popup = window.open(
-        "",
-        "GoogleAuthPopup",
+        '',
+        'GoogleAuthPopup',
         `width=${width},height=${height},top=${top},left=${left}`
       );
       if (popup) setPopup(popup);
     }
     const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
+      provider: 'google',
       options: {
         redirectTo: redirectUrl,
         skipBrowserRedirect: !isMobile,
         queryParams: {
-          prompt: "select_account",
+          prompt: 'select_account',
         },
       },
     });
 
     if (error || !data?.url) {
-      console.error("OAuth login error", error);
+      console.error('OAuth login error', error);
       if (popup) popup.close();
       return;
     }
@@ -118,38 +118,14 @@ const GoogleBtn = () => {
   };
   return (
     <button
-      className="flex items-center cursor-pointer gap-3 py-2 rounded-sm h-10 px-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-black text-sm font-medium text-gray-800 dark:text-gray-200 shadow hover:shadow-md transition"
+      className="flex cursor-pointer items-center border border-gray-950 px-5 py-3"
       onClick={handleGoogleLogin}
     >
-      <div className="w-6 h-6">
-        <svg
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 48 48"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
-          style={{ display: "block" }}
-        >
-          <path
-            fill="#EA4335"
-            d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
-          ></path>
-          <path
-            fill="#4285F4"
-            d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"
-          ></path>
-          <path
-            fill="#FBBC05"
-            d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"
-          ></path>
-          <path
-            fill="#34A853"
-            d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
-          ></path>
-          <path fill="none" d="M0 0h48v48H0z"></path>
-        </svg>
-      </div>
+      <IconGoogle className="mr-3 size-4 xl:size-6" />
 
-      <span>Sign in with Google</span>
+      <span className="xl:placeholder-base lg:placeholder-sm placeholder-xs">
+        Продовжити з Google
+      </span>
     </button>
   );
 };
