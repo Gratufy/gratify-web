@@ -240,6 +240,12 @@
   @apply text-base leading-[140%];
 }
 
+/* H1 */
+@layer utilities {
+  .title-h1 {
+    @apply text-2xl font-bold lg:text-4xl xl:text-5xl;
+  }
+}
 /* H3 */
 @layer utilities {
   .title-h3 {
@@ -251,6 +257,13 @@
 @layer utilities {
   .title-h4 {
     @apply text-base font-medium leading-[130%] lg:text-xl;
+  }
+}
+
+/* H5 */
+@layer utilities {
+  .title-h5 {
+    @apply text-sm font-medium leading-[130%] lg:text-lg xl:text-2xl;
   }
 }
 /* @layer components; .card .modal Повторно используемые UI-компоненты*/
@@ -283,7 +296,7 @@
   image-rendering: optimizeSpeed;
 }
 .leaflet-container .leaflet-tile {
-  background-color: #c7c7cf;
+  background-color: rgb(219, 30, 197);
 }
 
 .leaflet-container .leaflet-tile-pane img {
