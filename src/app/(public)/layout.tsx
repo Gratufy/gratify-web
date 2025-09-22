@@ -67,12 +67,14 @@ export default async function PublicLayout({
   return (
     <HydrationBoundary state={dehydratedState}>
       <FakePublicHeader />
-      <PublicHeader />
-      <main>
-        <HeroSection />
-        {children}
-      </main>
-      <PublicFooter />
+      <div className="flex min-h-screen flex-col">
+        <PublicHeader />
+        <main className="flex flex-1 flex-col">
+          <HeroSection />
+          {children}
+        </main>
+        <PublicFooter />
+      </div>
     </HydrationBoundary>
   );
 }

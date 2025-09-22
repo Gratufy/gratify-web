@@ -2,11 +2,11 @@ import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
-} from "@tanstack/react-query";
-import { getBusinessesForAdmin } from "@/lib/actions/businesses";
-import BusinessFooter from "@/components/business/BusinessFooter/BusinessFooter";
-import BusinessHeader from "@/components/business/BusinessHeader/BusinessHeader";
-import { queryKeys } from "@/lib/reactQuery/queryKeys";
+} from '@tanstack/react-query';
+import { getBusinessesForAdmin } from '@/lib/actions/businesses';
+import BusinessFooter from '@/components/business/BusinessFooter/BusinessFooter';
+import BusinessHeader from '@/components/business/BusinessHeader/BusinessHeader';
+import { queryKeys } from '@/lib/reactQuery/queryKeys';
 
 export default async function PublicLayout({
   children,
@@ -35,32 +35,34 @@ export default async function PublicLayout({
   // });
   await queryClient.prefetchQuery({
     queryKey: [
-      "adminBusinesses",
+      'adminBusinesses',
       {
         reviewStatus: undefined,
         businessStatus: undefined,
-        city: "__all__",
-        categoryId: "__all__",
-        showOnlineStatus: "all",
-        sortBy: "newest",
+        city: '__all__',
+        categoryId: '__all__',
+        showOnlineStatus: 'all',
+        sortBy: 'newest',
       },
     ],
     queryFn: () =>
       getBusinessesForAdmin({
         reviewStatus: undefined,
         businessStatus: undefined,
-        city: "__all__",
-        categoryId: "__all__",
-        showOnlineStatus: "all",
-        sortBy: "newest",
+        city: '__all__',
+        categoryId: '__all__',
+        showOnlineStatus: 'all',
+        sortBy: 'newest',
       }),
   });
   const dehydratedState = dehydrate(queryClient);
   return (
     <HydrationBoundary state={dehydratedState}>
-      <BusinessHeader />
-      <main>{children}</main>
-      <BusinessFooter />
+      <div className="flex min-h-screen flex-col">
+        <BusinessHeader />
+        <main className="flex flex-1 flex-col">{children}</main>
+        <BusinessFooter />
+      </div>
     </HydrationBoundary>
   );
 }
