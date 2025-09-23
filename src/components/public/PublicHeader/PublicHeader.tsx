@@ -10,6 +10,7 @@ import LoginHeaderBtn from './LoginHeaderBtn';
 import FavoriteHeaderIcon from '@/assets/icons/general/favorite-h.svg';
 import IconUser from '@/assets/icons/general/icon-user.svg';
 import UserMenu from './UserMenu';
+import BusinessMenu from '@/components/business/BusinessHeader/BusinessMenu';
 
 function PublicHeader() {
   const session = useUserStore((s) => s.session);
@@ -34,9 +35,7 @@ function PublicHeader() {
           {session ? (
             <div className="flex items-center gap-1 lg:gap-3">
               {user?.role === 'USER' && <UserMenu />}
-              {user?.role === 'BUSINESS' && (
-                <IconUser className="text-icons-grey-950 size-5" />
-              )}
+              {user?.role === 'BUSINESS' && <BusinessMenu />}
               {user?.role === 'ADMIN' && (
                 <IconUser className="text-icons-grey-950 size-5" />
               )}

@@ -7,28 +7,38 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import IconUser from '@/assets/icons/general/icon-user.svg';
+import IconBusinessUser from '@/assets/icons/general/icon-business-user.svg';
 import Link from 'next/link';
 import LogoutBtn from '@/components/ui/LogoutBtn';
 import DeleteAccountButton from '@/components/ui/DeleteAccountButton';
 
-function UserMenu() {
+function BusinessMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="outline-hidden cursor-pointer border-none focus:ring-0">
-          <IconUser className="text-icons-grey-950 size-5" />
+          <IconBusinessUser className="text-icons-grey-950 h-6 w-[18px]" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="start" side="bottom">
-        <DropdownMenuLabel className="sr-only">My Account</DropdownMenuLabel>
+        <DropdownMenuLabel className="sr-only">
+          Business Account
+        </DropdownMenuLabel>
 
         <DropdownMenuGroup className="p-3">
           <DropdownMenuItem
             asChild
             className="cursor-pointer text-base leading-[140%]"
           >
-            <Link href="/business/new">Створити бізнес-картку</Link>
+            <Link href="/dashboard/business/new">Створити бізнес-картку</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            asChild
+            className="cursor-pointer text-base leading-[140%]"
+          >
+            <Link href="/dashboard/business">
+              Переглянути створені карточки
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <LogoutBtn />
@@ -42,4 +52,4 @@ function UserMenu() {
   );
 }
 
-export default UserMenu;
+export default BusinessMenu;
