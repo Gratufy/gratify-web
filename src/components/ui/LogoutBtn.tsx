@@ -1,3 +1,4 @@
+// NEW;
 'use client';
 import React from 'react';
 import { useRouter } from 'next/navigation';
@@ -33,18 +34,16 @@ const LogoutBtn = () => {
     }
   };
   return (
-    <div>
-      <button
-        //onClick={handleLogout}
-        onClick={handleLogout}
-        disabled={loading}
-        className="placeholder-base flex cursor-pointer items-center border-none bg-white px-2 py-1.5"
-      >
-        {loading ? 'Logging out...' : 'Log out'}
-      </button>
-      {/* I change it later for TOAST */}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </div>
+    <button
+      //onClick={handleLogout}
+      onClick={handleLogout}
+      disabled={loading}
+      className="focus:bg-elements-grey-200 hover:bg-elements-grey-200 placeholder-base flex w-full cursor-pointer items-center rounded-sm border-none bg-white px-2 py-1.5 disabled:opacity-50"
+    >
+      {loading ? 'Виходимо...' : 'Вихід'}
+    </button>
+    /* I change it later for TOAST */
+    /* {error && <p style={{ color: 'red' }}>{error}</p>} */
   );
 };
 

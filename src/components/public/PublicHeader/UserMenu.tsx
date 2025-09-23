@@ -5,17 +5,12 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import IconUser from '@/assets/icons/general/icon-user.svg';
 import Link from 'next/link';
 import LogoutBtn from '@/components/ui/LogoutBtn';
+import DeleteAccountButton from '@/components/ui/DeleteAccountButton';
 
 function UserMenu() {
   return (
@@ -29,12 +24,17 @@ function UserMenu() {
         <DropdownMenuLabel className="sr-only">My Account</DropdownMenuLabel>
 
         <DropdownMenuGroup className="p-3">
-          <DropdownMenuItem asChild className="text-base leading-[140%]">
+          <DropdownMenuItem
+            asChild
+            className="cursor-pointer text-base leading-[140%]"
+          >
             <Link href="/dashboard/business">Створити бізнес-картку</Link>
           </DropdownMenuItem>
-
           <DropdownMenuItem asChild>
             <LogoutBtn />
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <DeleteAccountButton />
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
