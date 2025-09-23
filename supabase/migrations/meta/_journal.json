@@ -78,6 +78,13 @@
       "when": 1756377563640,
       "tag": "0010_talented_sleeper",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1758661612841,
+      "tag": "0011_cheerful_terror",
+      "breakpoints": true
     }
   ]
 }

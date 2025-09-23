@@ -5,8 +5,10 @@ import {
 } from '@tanstack/react-query';
 import { getBusinessesForAdmin } from '@/lib/actions/businesses';
 import BusinessFooter from '@/components/business/BusinessFooter/BusinessFooter';
-import BusinessHeader from '@/components/business/BusinessHeader/BusinessHeader';
+
 import { queryKeys } from '@/lib/reactQuery/queryKeys';
+import PublicHeader from '@/components/public/PublicHeader/PublicHeader';
+import FakeBusinessHeader from '@/components/business/BusinessHeader/FakeBusinessHeader';
 
 export default async function PublicLayout({
   children,
@@ -59,7 +61,8 @@ export default async function PublicLayout({
   return (
     <HydrationBoundary state={dehydratedState}>
       <div className="flex min-h-screen flex-col">
-        <BusinessHeader />
+        <FakeBusinessHeader />
+        <PublicHeader />
         <main className="flex flex-1 flex-col">{children}</main>
         <BusinessFooter />
       </div>

@@ -8,6 +8,7 @@ import { OnlineFilter, SortBy } from '@/types';
 
 import HomeSectionMobile from './HomeSectionMobile';
 import HomeSectionDesktop from './HomeSectionDesktop';
+import { UserFavoritesProvider } from '@/providers/UserFavoritesProvider';
 
 function PublicHomeClient() {
   //const user = useUserStore((s) => s.profile);
@@ -28,7 +29,7 @@ function PublicHomeClient() {
     ...categories,
   ];
   return (
-    <>
+    <UserFavoritesProvider>
       {/* <div className="flex w-full flex-col gap-6 pt-2 lg:flex-row"> */}
       <HomeSectionMobile
         city={city}
@@ -62,7 +63,7 @@ function PublicHomeClient() {
         categoriesWithAll={categoriesWithAll}
         scope="public"
       />
-    </>
+    </UserFavoritesProvider>
   );
 }
 

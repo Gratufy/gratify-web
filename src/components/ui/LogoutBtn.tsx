@@ -1,4 +1,4 @@
-// OLD
+// NEW;
 'use client';
 import React from 'react';
 import { useRouter } from 'next/navigation';
@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useUserStore } from '@/stores/useUserStore';
 import { createClient } from '@/utils/supabase/client';
 
-const Logout = () => {
+const LogoutBtn = () => {
   const router = useRouter();
   const clear = useUserStore((s) => s.clear);
   const [loading, setLoading] = useState(false);
@@ -34,19 +34,17 @@ const Logout = () => {
     }
   };
   return (
-    <div>
-      <button
-        //onClick={handleLogout}
-        onClick={handleLogout}
-        disabled={loading}
-        className="flex cursor-pointer items-center gap-3 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 shadow transition hover:shadow-md dark:border-gray-600 dark:bg-black dark:text-gray-200"
-      >
-        {loading ? 'Logging out...' : 'Log out'}
-      </button>
-      {/* I change it later for TOAST */}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </div>
+    <button
+      //onClick={handleLogout}
+      onClick={handleLogout}
+      disabled={loading}
+      className="focus:bg-elements-grey-200 hover:bg-elements-grey-200 placeholder-base flex w-full cursor-pointer items-center rounded-sm border-none bg-white px-2 py-1.5 disabled:opacity-50"
+    >
+      {loading ? 'Виходимо...' : 'Вихід'}
+    </button>
+    /* I change it later for TOAST */
+    /* {error && <p style={{ color: 'red' }}>{error}</p>} */
   );
 };
 
-export default Logout;
+export default LogoutBtn;

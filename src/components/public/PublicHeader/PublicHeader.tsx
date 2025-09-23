@@ -1,13 +1,21 @@
 'use client';
 import React from 'react';
+import { useUserStore } from '@/stores/useUserStore';
 import ThemeSwitch from '@/components/shared/ThemeSwitch';
 
 import Image from 'next/image';
 
 import InputSearch from './InputSearch';
 import LoginHeaderBtn from './LoginHeaderBtn';
+import FavoriteHeaderIcon from '@/assets/icons/general/favorite-h.svg';
+import IconUser from '@/assets/icons/general/icon-user.svg';
+import UserMenu from './UserMenu';
+import BusinessMenu from '@/components/business/BusinessHeader/BusinessMenu';
+import Link from 'next/link';
 
 function PublicHeader() {
+  const session = useUserStore((s) => s.session);
+  const user = useUserStore((s) => s.profile);
   return (
     <header className="bg-background-main-50 w-full">
       <div className="container hidden items-center py-3 lg:flex lg:justify-between">
@@ -25,7 +33,20 @@ function PublicHeader() {
         <div className="flex items-center lg:gap-11 xl:gap-20">
           <ThemeSwitch />
 
-          <LoginHeaderBtn />
+          {session ? (
+            <div className="flex items-center gap-1 lg:gap-3">
+              {user?.role === 'USER' && <UserMenu />}
+              {user?.role === 'BUSINESS' && <BusinessMenu />}
+              {user?.role === 'ADMIN' && (
+                <IconUser className="text-icons-grey-950 size-5" />
+              )}
+              <Link href="/favorites">
+                <FavoriteHeaderIcon className="text-background-white h-5 w-4" />
+              </Link>
+            </div>
+          ) : (
+            <LoginHeaderBtn />
+          )}
         </div>
       </div>
       {/* mobile */}

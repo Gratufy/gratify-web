@@ -47,17 +47,18 @@ function BusinessList({
           {businesses.map((b) => (
             <li key={b.id} className="w-full">
               {/* selectedCity={city} */}
-              <Link
+              {/* <Link
                 href={{
                   pathname: `/business/${b.id}`,
                   query: { city: selectedCity },
                 }}
                 className="block h-full w-full"
-              >
+              > */}
+              <div>
                 <article className="shadow-card w-full overflow-hidden bg-white pb-5">
-                  <BusinessCardShot business={b} />
+                  <BusinessCardShot business={b} selectedCity={selectedCity} />
                 </article>
-              </Link>
+              </div>
             </li>
           ))}
         </ul>

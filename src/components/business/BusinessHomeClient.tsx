@@ -24,7 +24,7 @@ function BusinessHomeClient() {
           {businesses.data.map((b) => (
             <li key={b.id}>
               {/* selectedCity="__all__" */}
-              <BusinessCardShot business={b} />
+              <BusinessCardShot business={b} selectedCity="__all__" />
             </li>
           ))}
         </ul>
