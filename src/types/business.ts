@@ -6,6 +6,7 @@ import {
   businessReviews,
   businessSpecialOffers,
   businessVotes,
+  favorites,
   specialOffers,
 } from '@/db/schema';
 
@@ -150,3 +151,6 @@ export type NewSpecialOffer = typeof specialOffers.$inferInsert;
 
 export type BusinessSpecialOffer = typeof businessSpecialOffers.$inferSelect;
 export type NewBusinessSpecialOffer = typeof businessSpecialOffers.$inferInsert;
+
+//FAVORITES
+export type Favorite = typeof favorites.$inferSelect;

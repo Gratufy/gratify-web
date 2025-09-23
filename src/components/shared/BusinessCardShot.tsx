@@ -23,8 +23,8 @@ function BusinessCardShot({
   return (
     <>
       {/* header */}
-      <div className="lg:h-22 relative mb-4 flex h-16 items-center border-none bg-transparent px-2 pb-1 outline-none">
-        <button className="absolute right-11 top-0 z-10">
+      <div className="lg:h-22 relative mb-4 flex h-16 items-center">
+        <button className="absolute right-11 top-0 z-10 cursor-pointer border-none bg-transparent px-2 pb-1 outline-none">
           <IconFavorite className="text-background-white h-5 w-4" />
         </button>
 

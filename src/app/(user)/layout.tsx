@@ -4,8 +4,9 @@
 //   QueryClient,
 // } from "@tanstack/react-query";
 // import { getBusinesses } from "@/lib/actions/businesses";
-import UserFooter from "@/components/user/UserFooter/UserFooter";
-import UserHeader from "@/components/user/UserHeader/UserHeader";
+import PublicFooter from '@/components/public/PublicFooter/PublicFooter';
+import PublicHeader from '@/components/public/PublicHeader/PublicHeader';
+import HeroSection from '@/components/shared/HeroSection';
 
 export default async function UserLayout({
   children,
@@ -34,13 +35,17 @@ export default async function UserLayout({
   }); */
   // const dehydratedState = dehydrate(queryClient);
   return (
-    // <HydrationBoundary state={dehydratedState}>
     <>
-      <UserHeader />
-      <main>{children}</main>
-      <UserFooter />
+      <div className="flex min-h-screen flex-col">
+        <PublicHeader />
+        <main className="flex flex-1 flex-col">
+          <HeroSection />
+          {children}
+        </main>
+        <PublicFooter />
+      </div>
     </>
 
-    // </HydrationBoundary>
+    //  </HydrationBoundary>
   );
 }

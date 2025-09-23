@@ -11,6 +11,7 @@ import FavoriteHeaderIcon from '@/assets/icons/general/favorite-h.svg';
 import IconUser from '@/assets/icons/general/icon-user.svg';
 import UserMenu from './UserMenu';
 import BusinessMenu from '@/components/business/BusinessHeader/BusinessMenu';
+import Link from 'next/link';
 
 function PublicHeader() {
   const session = useUserStore((s) => s.session);
@@ -39,8 +40,9 @@ function PublicHeader() {
               {user?.role === 'ADMIN' && (
                 <IconUser className="text-icons-grey-950 size-5" />
               )}
-
-              <FavoriteHeaderIcon className="text-background-white h-5 w-4" />
+              <Link href="/favorites">
+                <FavoriteHeaderIcon className="text-background-white h-5 w-4" />
+              </Link>
             </div>
           ) : (
             <LoginHeaderBtn />
