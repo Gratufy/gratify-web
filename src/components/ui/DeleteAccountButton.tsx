@@ -54,7 +54,7 @@ export default function DeleteAccountButton() {
       disabled={loading}
       className="focus:bg-elements-grey-200 hover:bg-elements-grey-200 placeholder-base flex w-full cursor-pointer items-center rounded-sm border-none bg-white px-2 py-1.5 disabled:opacity-50"
     >
-      {loading ? 'Deleting...' : 'Delete Account'}
+      {loading ? 'Видаляємо...' : 'Видалити акаунт'}
     </button>
   );
 }

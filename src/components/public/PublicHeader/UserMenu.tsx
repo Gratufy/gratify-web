@@ -28,7 +28,7 @@ function UserMenu() {
             asChild
             className="cursor-pointer text-base leading-[140%]"
           >
-            <Link href="/dashboard/business">Створити бізнес-картку</Link>
+            <Link href="/business/new">Створити бізнес-картку</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <LogoutBtn />
