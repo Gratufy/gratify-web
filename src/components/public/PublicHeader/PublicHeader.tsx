@@ -7,6 +7,9 @@ import Image from 'next/image';
 
 import InputSearch from './InputSearch';
 import LoginHeaderBtn from './LoginHeaderBtn';
+import FavoriteHeaderIcon from '@/assets/icons/general/favorite-h.svg';
+import IconUser from '@/assets/icons/general/icon-user.svg';
+import UserMenu from './UserMenu';
 
 function PublicHeader() {
   const session = useUserStore((s) => s.session);
@@ -28,7 +31,21 @@ function PublicHeader() {
         <div className="flex items-center lg:gap-11 xl:gap-20">
           <ThemeSwitch />
 
-          <LoginHeaderBtn session={session} />
+          {session ? (
+            <div className="flex items-center gap-1 lg:gap-3">
+              {user?.role === 'USER' && <UserMenu />}
+              {user?.role === 'BUSINESS' && (
+                <IconUser className="text-icons-grey-950 size-5" />
+              )}
+              {user?.role === 'ADMIN' && (
+                <IconUser className="text-icons-grey-950 size-5" />
+              )}
+
+              <FavoriteHeaderIcon className="text-background-white h-5 w-4" />
+            </div>
+          ) : (
+            <LoginHeaderBtn />
+          )}
         </div>
       </div>
       {/* mobile */}
@@ -46,7 +63,7 @@ function PublicHeader() {
             <div className="flex items-center gap-5">
               <ThemeSwitch />
 
-              <LoginHeaderBtn session={session} />
+              <LoginHeaderBtn />
             </div>
           </div>
 
