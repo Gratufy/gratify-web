@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import { useUserStore } from '@/stores/useUserStore';
 import ThemeSwitch from '@/components/shared/ThemeSwitch';
 
 import Image from 'next/image';
@@ -8,6 +9,8 @@ import InputSearch from './InputSearch';
 import LoginHeaderBtn from './LoginHeaderBtn';
 
 function PublicHeader() {
+  const session = useUserStore((s) => s.session);
+  const user = useUserStore((s) => s.profile);
   return (
     <header className="bg-background-main-50 w-full">
       <div className="container hidden items-center py-3 lg:flex lg:justify-between">
@@ -25,7 +28,7 @@ function PublicHeader() {
         <div className="flex items-center lg:gap-11 xl:gap-20">
           <ThemeSwitch />
 
-          <LoginHeaderBtn />
+          <LoginHeaderBtn session={session} />
         </div>
       </div>
       {/* mobile */}
@@ -43,7 +46,7 @@ function PublicHeader() {
             <div className="flex items-center gap-5">
               <ThemeSwitch />
 
-              <LoginHeaderBtn />
+              <LoginHeaderBtn session={session} />
             </div>
           </div>
 
