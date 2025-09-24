@@ -7,7 +7,7 @@ import BusinessListSimple from '../shared/BusinessListSimple';
 import Link from 'next/link';
 import { BusinessWithCategoryName } from '@/types';
 
-type FavoritesSectionDesktopProps = {
+type FavoritesSectionMobileProps = {
   businesses: BusinessWithCategoryName[];
   isLoading: boolean;
   isError?: boolean;
@@ -20,7 +20,7 @@ type FavoritesSectionDesktopProps = {
   categoriesWithAll: { categoryId: string; name: string }[];
 };
 
-function FavoritesSectionDesktop({
+function FavoritesSectionMobile({
   businesses,
   isLoading,
   isError,
@@ -30,32 +30,24 @@ function FavoritesSectionDesktop({
   categoryName,
   setCategoryName,
   categoriesWithAll,
-}: FavoritesSectionDesktopProps) {
+}: FavoritesSectionMobileProps) {
   return (
-    <div className="container hidden w-full lg:block">
+    <div className="container flex w-full flex-col pt-2 lg:hidden">
       <div className="w-full">
-        <Link href="/" className="flex w-8 pb-4 pr-2 pt-2">
+        <Link href="/" className="flex w-10 px-2 py-3">
           <IconBack className="size-6" />
         </Link>
       </div>
-      <div className="hidden w-full lg:flex lg:flex-row lg:gap-6">
-        <SidebarFavorites
-          categoryId={categoryId}
-          setCategoryId={setCategoryId}
-          setCategoryName={setCategoryName}
-          categoriesWithAll={categoriesWithAll}
+      <div className="flex flex-1 flex-col pb-20 pt-3">
+        <BusinessListSimple
+          businesses={businesses ?? []}
+          isLoading={isLoading}
+          isError={isError}
+          error={error}
         />
-        <div className="flex flex-1 flex-col pb-20 lg:pb-8">
-          <BusinessListSimple
-            businesses={businesses ?? []}
-            isLoading={isLoading}
-            isError={isError}
-            error={error}
-          />
-        </div>
       </div>
     </div>
   );
 }
 
-export default FavoritesSectionDesktop;
+export default FavoritesSectionMobile;

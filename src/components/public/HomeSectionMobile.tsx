@@ -1,9 +1,8 @@
 'use client';
 import React from 'react';
 
-import { BusinessWithCategoryName, OnlineFilter, Scope, SortBy } from '@/types';
+import { BusinessWithCategoryName, OnlineFilter, SortBy } from '@/types';
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
-import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
 
 import BusinessList from '../shared/BusinessList';
 import BottomSheetFilters from './BottomSheetFilters';
@@ -30,7 +29,6 @@ type HomeSectionMobileProps = {
   showOnlineStatus: OnlineFilter;
   setShowOnlineStatus: (status: OnlineFilter) => void;
   categoriesWithAll: { categoryId: string; name: string }[];
-  scope: Scope;
 };
 
 function HomeSectionMobile({
@@ -54,24 +52,7 @@ function HomeSectionMobile({
   showOnlineStatus,
   setShowOnlineStatus,
   categoriesWithAll,
-  scope = 'public',
 }: HomeSectionMobileProps) {
-  // const {
-  //   data,
-  //   fetchNextPage,
-  //   hasNextPage,
-  //   isFetchingNextPage,
-  //   isLoading,
-  //   isError,
-  //   error,
-  // } = useInfiniteBusinesses({
-  //   city,
-  //   categoryId,
-  //   showOnlineStatus,
-  //   sortBy,
-  //   scope,
-  // });
-  // const businesses = data?.pages.flatMap((page) => page.data) ?? [];
   return (
     <div className="container flex w-full flex-col pt-2 lg:hidden">
       <div className="flex items-center px-2 pb-2">

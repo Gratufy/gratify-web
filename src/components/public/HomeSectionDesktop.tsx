@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 
-import { BusinessWithCategoryName, OnlineFilter, Scope, SortBy } from '@/types';
+import { BusinessWithCategoryName, OnlineFilter, SortBy } from '@/types';
 
 import SidebarFilters from './SidebarFilters';
 import BusinessList from '../shared/BusinessList';
@@ -39,7 +39,6 @@ type HomeSectionDesktopProps = {
   showOnlineStatus: OnlineFilter;
   setShowOnlineStatus: (status: OnlineFilter) => void;
   categoriesWithAll: { categoryId: string; name: string }[];
-  scope: Scope;
 };
 
 function HomeSectionDesktop({
@@ -63,7 +62,6 @@ function HomeSectionDesktop({
   showOnlineStatus,
   setShowOnlineStatus,
   categoriesWithAll,
-  scope = 'public',
 }: HomeSectionDesktopProps) {
   const [showMap, setShowMap] = useState(false);
   // console.log('City', city);

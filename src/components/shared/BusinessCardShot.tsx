@@ -7,7 +7,8 @@ import Image from 'next/image';
 import CheckIcon from '@/assets/icons/general/icon-check.svg';
 
 import ReviewIcon from '@/assets/icons/general/icon-bubble.svg';
-import IconFavorite from '@/assets/icons/general/favorite-h.svg';
+import IconFavoriteNo from '@/assets/icons/general/icon-favorite-no.svg';
+import IconFavoriteYes from '@/assets/icons/general/icon-favorite-yes.svg';
 import Link from 'next/link';
 import { useFavorites } from '@/providers/UserFavoritesProvider';
 import { useAddFavorite, useRemoveFavorite } from '@/hooks/useFavorites';
@@ -49,11 +50,13 @@ function BusinessCardShot({
       <div className="lg:h-22 relative mb-4 flex h-16 items-center">
         <button
           onClick={handleToggleFavorite}
-          className="absolute right-11 top-0 z-10 cursor-pointer border-none bg-transparent px-2 pb-1 outline-none"
+          className="absolute right-2 top-0 z-10 cursor-pointer border-none bg-transparent px-2 pb-1 outline-none lg:right-9"
         >
-          <IconFavorite
-            className={`text-background-white h-5 w-4 ${isFavorite ? 'text-icons-color-accent' : ''}`}
-          />
+          {isFavorite ? (
+            <IconFavoriteYes className="h-7 w-6 lg:h-10 lg:w-8" />
+          ) : (
+            <IconFavoriteNo className="h-7 w-6 lg:h-10 lg:w-8" />
+          )}
         </button>
 
         {/* block with image */}

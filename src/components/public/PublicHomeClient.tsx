@@ -72,7 +72,6 @@ function PublicHomeClient() {
         showOnlineStatus={showOnlineStatus}
         setShowOnlineStatus={setShowOnlineStatus}
         categoriesWithAll={categoriesWithAll}
-        scope="public"
       />
       <HomeSectionDesktop
         businesses={businesses}
@@ -95,7 +94,6 @@ function PublicHomeClient() {
         showOnlineStatus={showOnlineStatus}
         setShowOnlineStatus={setShowOnlineStatus}
         categoriesWithAll={categoriesWithAll}
-        scope="public"
       />
     </UserFavoritesProvider>
   );

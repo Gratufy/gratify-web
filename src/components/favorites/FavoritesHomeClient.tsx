@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 import FavoritesSectionDesktop from './FavoritesSectionDesktop';
 import { UserFavoritesProvider } from '@/providers/UserFavoritesProvider';
+import { useUserFavoriteBusinesses } from '@/hooks/useFavorites';
+import FavoritesSectionMobile from './FavoritesSectionMobile';
 
 function FavoritesHomeClient() {
   const {
@@ -18,9 +20,31 @@ function FavoritesHomeClient() {
     { categoryId: '__all__', name: 'Всі категорії' },
     ...categories,
   ];
+
+  const {
+    data: businesses,
+    isLoading,
+    isError,
+    error,
+  } = useUserFavoriteBusinesses(categoryId);
   return (
     <UserFavoritesProvider>
+      <FavoritesSectionMobile
+        businesses={businesses ?? []}
+        isLoading={isLoading}
+        isError={isError}
+        error={error}
+        categoryId={categoryId}
+        setCategoryId={setCategoryId}
+        categoryName={categoryName}
+        setCategoryName={setCategoryName}
+        categoriesWithAll={categoriesWithAll}
+      />
       <FavoritesSectionDesktop
+        businesses={businesses ?? []}
+        isLoading={isLoading}
+        isError={isError}
+        error={error}
         categoryId={categoryId}
         setCategoryId={setCategoryId}
         categoryName={categoryName}
