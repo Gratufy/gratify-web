@@ -68,7 +68,9 @@ function BusinessList({
         {/* {!hasNextPage && <p className="text-gray-500">Більше бізнесів немає</p>} */}
       </div>
       {businesses.length === 0 && !isLoading && !isError && (
-        <p className="text-2xl"> Нема бізнесів в цьому місті</p>
+        <p className="placeholder-sm lg:placeholder-base">
+          Ще не додано жодного бізнесу по цьому запиту
+        </p>
       )}
     </section>
   );

@@ -154,3 +154,9 @@ export type NewBusinessSpecialOffer = typeof businessSpecialOffers.$inferInsert;
 
 //FAVORITES
 export type Favorite = typeof favorites.$inferSelect;
+export type BusinessFavorite = Business & {
+  categoryName: string | null;
+  specialOffers: (BusinessSpecialOffer & {
+    title: string | null;
+  })[];
+};

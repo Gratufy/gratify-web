@@ -106,13 +106,13 @@ function BusinessCardShot({
               </span>
             </div>
           </div>
-          <div className="flex-1">
+          {/* <div className="flex-1">
             {business.isOnline && business.locations.length === 0 && (
               <span className="placeholder-xs lg:placeholder-sm xl:placeholder-base">
                 Он-лайн тільки
               </span>
             )}
-          </div>
+          </div> */}
         </div>
       </Link>
     </>
