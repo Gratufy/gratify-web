@@ -42,7 +42,7 @@ function FavoritesSectionDesktop({
           setCategoryName={setCategoryName}
           categoriesWithAll={categoriesWithAll}
         />
-        <div className="flex flex-1 flex-col lg:pb-8">
+        <div className="flex flex-1 flex-col pb-20 lg:pb-8">
           <BusinessListSimple
             businesses={businesses ?? []}
             isLoading={isLoading}

@@ -46,7 +46,7 @@ export const useRemoveFavorite = () => {
     mutationFn: removeUserFavorite,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['favorites'],
+        queryKey: queryKeys.favorites,
       });
     },
   });

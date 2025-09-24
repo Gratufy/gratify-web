@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Karma from './Karma';
 import { BusinessWithCategoryName } from '@/types';
 // import Link from 'next/link';
@@ -10,6 +10,7 @@ import ReviewIcon from '@/assets/icons/general/icon-bubble.svg';
 import IconFavorite from '@/assets/icons/general/favorite-h.svg';
 import Link from 'next/link';
 import { useFavorites } from '@/providers/UserFavoritesProvider';
+import { useAddFavorite, useRemoveFavorite } from '@/hooks/useFavorites';
 
 function BusinessCardShot({
   business,
@@ -24,15 +25,32 @@ function BusinessCardShot({
 }) {
   const favoritesSet = useFavorites();
   const isFavorite = favoritesSet.has(business.id);
-  console.log('Set', favoritesSet);
-  console.log('isFav', isFavorite);
+
+  const addFavorite = useAddFavorite();
+  const removeFavorite = useRemoveFavorite();
+
+  const handleToggleFavorite = () => {
+    if (isFavorite) {
+      const confirmed = confirm(
+        'Are you sure you want to delete this business?'
+      );
+      if (!confirmed) return;
+      removeFavorite.mutate(business.id);
+    } else {
+      addFavorite.mutate(business.id);
+      alert('Business added to favorites!');
+    }
+  };
 
   // const CityListElements = renderLocations(business, selectedCity);
   return (
     <>
       {/* header */}
       <div className="lg:h-22 relative mb-4 flex h-16 items-center">
-        <button className="absolute right-11 top-0 z-10 cursor-pointer border-none bg-transparent px-2 pb-1 outline-none">
+        <button
+          onClick={handleToggleFavorite}
+          className="absolute right-11 top-0 z-10 cursor-pointer border-none bg-transparent px-2 pb-1 outline-none"
+        >
           <IconFavorite
             className={`text-background-white h-5 w-4 ${isFavorite ? 'text-icons-color-accent' : ''}`}
           />
