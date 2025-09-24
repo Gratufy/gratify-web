@@ -1,11 +1,13 @@
 'use client';
 import React from 'react';
 import { useBusiness } from '@/hooks/useBusinesses';
-import BackButton from '../ui/BackButton';
 
+import { renderLocations } from '@/lib/helpers/renderLocations';
+
+import BackButton from '../ui/BackButton';
 import Karma from './Karma';
 import BusinessReviews from './BusinessReviews';
-import { renderLocations } from '@/lib/helpers/renderLocations';
+
 import dynamic from 'next/dynamic';
 const BusinessMapAll = dynamic(() => import('./BusinessMapAll'), {
   ssr: false,

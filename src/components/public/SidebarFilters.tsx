@@ -43,7 +43,7 @@ function SidebarFilters({
   categoriesWithAll,
 }: SidebarFiltersProps) {
   return (
-    <aside className="lg:w-54 xl:w-70 lg:align-items hidden pt-2 lg:flex lg:items-start">
+    <aside className="lg:w-54 xl:w-70 hidden lg:flex lg:items-start">
       {/* // треба lg:gap-4 xl:gap-6 */}
       <div className="lg:border-elements-grey-200 w-full lg:flex lg:flex-col lg:gap-2 lg:border-[0.5px] lg:px-2 lg:pb-4 lg:pt-2 xl:px-4 xl:pb-8 xl:pt-3">
         <div className="flex flex-col gap-6 xl:gap-8">
@@ -123,41 +123,9 @@ function SidebarFilters({
                 </CategoryRadio>
               ))}
             </div>
-            {/* <CustomSelect
-            className="w-full rounded-none px-3 py-1.5 xl:px-4"
-            id="categories"
-            value={categoryId}
-            //onChange={setCategoryId}
-            onChange={(val) => {
-              setCategoryId(val); // id категории
-              const category = categoriesWithAll.find(
-                (c) => c.categoryId === val
-              );
-              setCategoryName(category?.name ?? '');
-            }}
-            options={categoriesWithAll}
-            getOptionValue={(c) => c.categoryId}
-            getOptionLabel={(c) => c.name}
-            placeholder="Оберіть категорію"
-          /> */}
           </div>
         </div>
 
-        {/* <button
-          type="button"
-          className="placeholder-sm xl:placeholder-base flex w-full items-center justify-center gap-3 px-4 py-1 xl:px-4"
-          onClick={() => {
-            setCity('__all__');
-            setCityName('Всі міста');
-            setCategoryId('__all__');
-            setShowOnlineStatus('all');
-            setSortBy('newest');
-            setCategoryName('Всі категорії');
-          }}
-        >
-          <CrossIcon className="h-4 w-4 xl:h-5 xl:w-5" />
-          <span>Очистити все</span>
-        </button> */}
         <DeleteAllFiltersBtn
           setCity={setCity}
           setCityName={setCityName}

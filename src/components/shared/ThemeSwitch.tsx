@@ -15,7 +15,7 @@ export default function ThemeSwitch() {
     return null;
   }
   return (
-    <div className="bg-icons-grey-50 p-1.5">
+    <div className="bg-icons-grey-50 flex w-8 items-center justify-center p-1.5">
       {resolvedTheme === 'dark' ? (
         <Sun
           onClick={() => setTheme('light')}

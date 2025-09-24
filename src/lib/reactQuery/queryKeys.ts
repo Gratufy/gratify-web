@@ -55,5 +55,6 @@ export const queryKeys = {
   // Favorites
   // favorites: (userId: string) => ['favorites', userId] as const,
   favorites: ['favorites'] as const,
-  userFavorites: (userId: string) => ['favorites', 'user', userId] as const,
+  favoriteBusinesses: ['favoriteBusinesses'],
+  // userFavorites: (userId: string) => ['favorites', 'user', userId] as const,
 };

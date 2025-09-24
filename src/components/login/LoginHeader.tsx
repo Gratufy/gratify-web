@@ -19,13 +19,13 @@ function LoginHeader() {
               className="h-auto w-full"
             />
           </div>
-
-          <div className="flex items-center gap-5 lg:gap-11 xl:gap-20">
+          {/* gap-5 lg:gap-11 xl:gap-20 */}
+          <div className="w- w-25 lg:w-34 xl:w-42 flex items-center justify-between">
             <ThemeSwitch />
 
             <Link
               href="/"
-              className="placeholder-sm lg:placeholder-base font-medium"
+              className="placeholder-xs xl:placeholder-base lg:placeholder-sm"
             >
               На Головну
             </Link>

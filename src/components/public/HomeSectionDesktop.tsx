@@ -1,9 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 
-import { OnlineFilter, Scope, SortBy } from '@/types';
-
-import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
+import { BusinessWithCategoryName, OnlineFilter, SortBy } from '@/types';
 
 import SidebarFilters from './SidebarFilters';
 import BusinessList from '../shared/BusinessList';
@@ -21,6 +19,13 @@ import TopSheetFilter from './TopSheetFilter';
 import SelectedFiltersPanel from '../shared/SelectedFiltersPanel';
 
 type HomeSectionDesktopProps = {
+  businesses: BusinessWithCategoryName[];
+  fetchNextPage: () => void;
+  hasNextPage: boolean | undefined;
+  isFetchingNextPage: boolean;
+  isLoading: boolean;
+  isError?: boolean;
+  error?: Error | null;
   city: string;
   setCity: (city: string) => void;
   cityName: string;
@@ -34,10 +39,16 @@ type HomeSectionDesktopProps = {
   showOnlineStatus: OnlineFilter;
   setShowOnlineStatus: (status: OnlineFilter) => void;
   categoriesWithAll: { categoryId: string; name: string }[];
-  scope: Scope;
 };
 
 function HomeSectionDesktop({
+  businesses,
+  fetchNextPage,
+  hasNextPage,
+  isFetchingNextPage,
+  isLoading,
+  isError,
+  error,
   city,
   setCity,
   cityName,
@@ -51,7 +62,6 @@ function HomeSectionDesktop({
   showOnlineStatus,
   setShowOnlineStatus,
   categoriesWithAll,
-  scope = 'public',
 }: HomeSectionDesktopProps) {
   const [showMap, setShowMap] = useState(false);
   // console.log('City', city);
@@ -59,22 +69,22 @@ function HomeSectionDesktop({
   // console.log('CategoryName', categoryName);
   // console.log('SortBy', sortBy);
   // console.log('ShowOnlineStatus', showOnlineStatus);
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    isError,
-    error,
-  } = useInfiniteBusinesses({
-    city,
-    categoryId,
-    showOnlineStatus,
-    sortBy,
-    scope,
-  });
-  const businesses = data?.pages.flatMap((page) => page.data) ?? [];
+  // const {
+  //   data,
+  //   fetchNextPage,
+  //   hasNextPage,
+  //   isFetchingNextPage,
+  //   isLoading,
+  //   isError,
+  //   error,
+  // } = useInfiniteBusinesses({
+  //   city,
+  //   categoryId,
+  //   showOnlineStatus,
+  //   sortBy,
+  //   scope,
+  // });
+  // const businesses = data?.pages.flatMap((page) => page.data) ?? [];
 
   useEffect(() => {
     if (
@@ -196,7 +206,7 @@ function HomeSectionDesktop({
 
         {showMap && (
           // count width of footer+32px
-          <div className="top-13 sticky h-screen pb-32 pt-2 lg:w-[500px] xl:w-[708px]">
+          <div className="top-13 sticky h-screen pb-32 lg:w-[500px] xl:w-[708px]">
             <BusinessMapAll
               businesses={businesses}
               className="w-full"

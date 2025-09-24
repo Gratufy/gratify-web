@@ -2,8 +2,9 @@
 import { useEffect, useRef } from 'react';
 
 import { BusinessWithCategoryName } from '@/types';
+
 import BusinessCardShot from './BusinessCardShot';
-import Link from 'next/link';
+// import Link from 'next/link';
 
 interface BusinessListProps {
   businesses: BusinessWithCategoryName[];
@@ -68,7 +69,9 @@ function BusinessList({
         {/* {!hasNextPage && <p className="text-gray-500">Більше бізнесів немає</p>} */}
       </div>
       {businesses.length === 0 && !isLoading && !isError && (
-        <p className="text-2xl"> Нема бізнесів в цьому місті</p>
+        <p className="placeholder-sm lg:placeholder-base">
+          Ще не додано жодного бізнесу по цьому запиту
+        </p>
       )}
     </section>
   );

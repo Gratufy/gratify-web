@@ -1,0 +1,61 @@
+'use client';
+import React, { useState } from 'react';
+
+import { UserFavoritesProvider } from '@/providers/UserFavoritesProvider';
+import { useUserFavoriteBusinesses } from '@/hooks/useFavorites';
+import { useBusinessCategories } from '@/hooks/useBusinessCategories';
+
+import FavoritesSectionDesktop from './FavoritesSectionDesktop';
+
+import FavoritesSectionMobile from './FavoritesSectionMobile';
+
+function FavoritesHomeClient() {
+  const {
+    categories,
+    // isLoading: isCategoriesLoading,
+    // isError: isCategoriesError,
+  } = useBusinessCategories();
+
+  const [categoryId, setCategoryId] = useState<string>('__all__');
+  const [categoryName, setCategoryName] = useState<string>('Всі категорії');
+
+  const categoriesWithAll = [
+    { categoryId: '__all__', name: 'Всі категорії' },
+    ...categories,
+  ];
+
+  const {
+    data: businesses,
+    isLoading,
+    isError,
+    error,
+  } = useUserFavoriteBusinesses(categoryId);
+  return (
+    <UserFavoritesProvider>
+      <FavoritesSectionMobile
+        businesses={businesses ?? []}
+        isLoading={isLoading}
+        isError={isError}
+        error={error}
+        categoryId={categoryId}
+        setCategoryId={setCategoryId}
+        categoryName={categoryName}
+        setCategoryName={setCategoryName}
+        categoriesWithAll={categoriesWithAll}
+      />
+      <FavoritesSectionDesktop
+        businesses={businesses ?? []}
+        isLoading={isLoading}
+        isError={isError}
+        error={error}
+        categoryId={categoryId}
+        setCategoryId={setCategoryId}
+        // categoryName={categoryName}
+        setCategoryName={setCategoryName}
+        categoriesWithAll={categoriesWithAll}
+      />
+    </UserFavoritesProvider>
+  );
+}
+
+export default FavoritesHomeClient;

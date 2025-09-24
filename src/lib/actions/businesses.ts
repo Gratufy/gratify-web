@@ -368,7 +368,7 @@ export async function getBusinessById(
         title: offer.title,
       });
     }
-    console.log('One business fetched:', businessData);
+
     return businessData;
   } catch (error) {
     console.error('Error fetching business:', error);
@@ -379,7 +379,6 @@ export async function getBusinessById(
 // create business
 
 export async function createBusiness(values: NewBusinessFormData) {
-  console.log('Creating business with values:', values);
   try {
     const supabase = await createClient();
     const {

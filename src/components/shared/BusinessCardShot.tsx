@@ -1,31 +1,64 @@
 import React from 'react';
-import Karma from './Karma';
+import Image from 'next/image';
+import Link from 'next/link';
+
+import { useFavorites } from '@/providers/UserFavoritesProvider';
+import { useAddFavorite, useRemoveFavorite } from '@/hooks/useFavorites';
 import { BusinessWithCategoryName } from '@/types';
 // import Link from 'next/link';
 // import { renderLocations } from '@/lib/helpers/renderLocations';
-import Image from 'next/image';
-import CheckIcon from '@/assets/icons/general/icon-check.svg';
 
+import CheckIcon from '@/assets/icons/general/icon-check.svg';
 import ReviewIcon from '@/assets/icons/general/icon-bubble.svg';
-import IconFavorite from '@/assets/icons/general/favorite-h.svg';
-import Link from 'next/link';
+import IconFavoriteNo from '@/assets/icons/general/icon-favorite-no.svg';
+import IconFavoriteYes from '@/assets/icons/general/icon-favorite-yes.svg';
+
+import Karma from './Karma';
 
 function BusinessCardShot({
   business,
   selectedCity,
   imageUrl,
+  // isFavorite = false,
 }: {
   business: BusinessWithCategoryName;
   selectedCity: string;
   imageUrl?: string;
+  // isFavorite?: boolean;
 }) {
+  const favoritesSet = useFavorites();
+  const isFavorite = favoritesSet.has(business.id);
+
+  const addFavorite = useAddFavorite();
+  const removeFavorite = useRemoveFavorite();
+
+  const handleToggleFavorite = () => {
+    if (isFavorite) {
+      const confirmed = confirm(
+        'Are you sure you want to delete this business?'
+      );
+      if (!confirmed) return;
+      removeFavorite.mutate(business.id);
+    } else {
+      addFavorite.mutate(business.id);
+      alert('Business added to favorites!');
+    }
+  };
+
   // const CityListElements = renderLocations(business, selectedCity);
   return (
     <>
       {/* header */}
       <div className="lg:h-22 relative mb-4 flex h-16 items-center">
-        <button className="absolute right-11 top-0 z-10 cursor-pointer border-none bg-transparent px-2 pb-1 outline-none">
-          <IconFavorite className="text-background-white h-5 w-4" />
+        <button
+          onClick={handleToggleFavorite}
+          className="absolute right-2 top-0 z-10 cursor-pointer border-none bg-transparent px-2 pb-1 outline-none lg:right-9"
+        >
+          {isFavorite ? (
+            <IconFavoriteYes className="h-7 w-6 lg:h-10 lg:w-8" />
+          ) : (
+            <IconFavoriteNo className="h-7 w-6 lg:h-10 lg:w-8" />
+          )}
         </button>
 
         {/* block with image */}
@@ -106,13 +139,13 @@ function BusinessCardShot({
               </span>
             </div>
           </div>
-          <div className="flex-1">
+          {/* <div className="flex-1">
             {business.isOnline && business.locations.length === 0 && (
               <span className="placeholder-xs lg:placeholder-sm xl:placeholder-base">
                 Он-лайн тільки
               </span>
             )}
-          </div>
+          </div> */}
         </div>
       </Link>
     </>
