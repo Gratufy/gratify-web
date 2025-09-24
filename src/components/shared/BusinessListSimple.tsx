@@ -34,7 +34,11 @@ function BusinessListSimple({
               className="shadow-card w-full overflow-hidden bg-white pb-5"
             >
               <article className="w-full" key={b.id}>
-                <BusinessCardShot business={b} selectedCity="__all__" />
+                <BusinessCardShot
+                  business={b}
+                  selectedCity="__all__"
+                  isFavorite
+                />
               </article>
             </li>
           ))}

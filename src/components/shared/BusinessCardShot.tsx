@@ -14,10 +14,12 @@ function BusinessCardShot({
   business,
   selectedCity,
   imageUrl,
+  isFavorite = false,
 }: {
   business: BusinessWithCategoryName;
   selectedCity: string;
   imageUrl?: string;
+  isFavorite?: boolean;
 }) {
   // const CityListElements = renderLocations(business, selectedCity);
   return (
@@ -25,7 +27,9 @@ function BusinessCardShot({
       {/* header */}
       <div className="lg:h-22 relative mb-4 flex h-16 items-center">
         <button className="absolute right-11 top-0 z-10 cursor-pointer border-none bg-transparent px-2 pb-1 outline-none">
-          <IconFavorite className="text-background-white h-5 w-4" />
+          <IconFavorite
+            className={`text-background-white h-5 w-4 ${isFavorite ? 'text-icons-color-accent' : ''}`}
+          />
         </button>
 
         {/* block with image */}

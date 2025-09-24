@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import { useUserStore } from '@/stores/useUserStore';
 import ThemeSwitch from '@/components/shared/ThemeSwitch';
 
@@ -14,6 +15,12 @@ import BusinessMenu from '@/components/business/BusinessHeader/BusinessMenu';
 import Link from 'next/link';
 
 function PublicHeader() {
+  const pathname = usePathname();
+  // to highlight the current page in the menu if needed
+  // const isHome = pathname === '/';
+  // const isAbout = pathname === '/about';
+  // const isContact = pathname === '/contact';
+  const isFavorites = pathname === '/favorites';
   const session = useUserStore((s) => s.session);
   const user = useUserStore((s) => s.profile);
   return (
@@ -42,7 +49,9 @@ function PublicHeader() {
                 <IconUser className="text-icons-grey-950 size-5" />
               )}
               <Link href="/favorites">
-                <FavoriteHeaderIcon className="text-background-white h-5 w-4" />
+                <FavoriteHeaderIcon
+                  className={`text-background-white h-5 w-4 ${isFavorites ? 'text-icons-color-accent' : 'text-background-white'}`}
+                />
               </Link>
             </div>
           ) : (

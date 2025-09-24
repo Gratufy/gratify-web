@@ -1,8 +1,10 @@
 'use client';
 import React from 'react';
+import IconBack from '@/assets/icons/general/icon-back.svg';
 import SidebarFavorites from './SidebarFavorites';
 import BusinessListSimple from '../shared/BusinessListSimple';
 import { useUserFavoriteBusinesses } from '@/hooks/useFavorites';
+import Link from 'next/link';
 
 type FavoritesSectionDesktopProps = {
   categoryId: string;
@@ -28,6 +30,11 @@ function FavoritesSectionDesktop({
   } = useUserFavoriteBusinesses(categoryId);
   return (
     <div className="container hidden w-full lg:block">
+      <div className="w-full">
+        <Link href="/" className="flex pb-4 pr-2 pt-2">
+          <IconBack className="size-6" />
+        </Link>
+      </div>
       <div className="hidden w-full lg:flex lg:flex-row lg:gap-6">
         <SidebarFavorites
           categoryId={categoryId}

@@ -17,7 +17,7 @@ function SidebarFavorites({
   categoriesWithAll,
 }: SidebarFavoritesProps) {
   return (
-    <aside className="lg:w-54 xl:w-70 hidden pt-2 lg:flex lg:items-start">
+    <aside className="lg:w-54 xl:w-70 hidden lg:flex lg:items-start">
       <div className="lg:border-elements-grey-200 w-full lg:flex lg:flex-col lg:gap-2 lg:border-[0.5px] lg:px-2 lg:pb-4 lg:pt-2 xl:px-4 xl:pb-8 xl:pt-3">
         <div>
           <label
@@ -53,7 +53,7 @@ function SidebarFavorites({
         </div>
         <button
           type="button"
-          className="placeholder-sm xl:placeholder-base flex w-full items-center justify-center gap-3 px-4 py-1 xl:px-4"
+          className="placeholder-sm xl:placeholder-base flex w-full cursor-pointer items-center justify-center gap-3 px-4 py-1 xl:px-4"
           onClick={() => {
             setCategoryId('__all__');
             setCategoryName('Всі категорії');
