@@ -2,8 +2,9 @@
 import { useEffect, useRef } from 'react';
 
 import { BusinessWithCategoryName } from '@/types';
+
 import BusinessCardShot from './BusinessCardShot';
-import Link from 'next/link';
+// import Link from 'next/link';
 
 interface BusinessListProps {
   businesses: BusinessWithCategoryName[];

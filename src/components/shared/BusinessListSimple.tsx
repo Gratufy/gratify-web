@@ -1,7 +1,7 @@
 'use client';
-
-import { BusinessWithCategoryName } from '@/types';
 import React from 'react';
+import { BusinessWithCategoryName } from '@/types';
+
 import BusinessCardShot from './BusinessCardShot';
 
 interface BusinessListSimpleProps {

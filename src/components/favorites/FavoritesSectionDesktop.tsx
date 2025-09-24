@@ -1,11 +1,10 @@
-'use client';
 import React from 'react';
+import Link from 'next/link';
+import { BusinessWithCategoryName } from '@/types';
+
 import IconBack from '@/assets/icons/general/icon-back.svg';
 import SidebarFavorites from './SidebarFavorites';
 import BusinessListSimple from '../shared/BusinessListSimple';
-
-import Link from 'next/link';
-import { BusinessWithCategoryName } from '@/types';
 
 type FavoritesSectionDesktopProps = {
   businesses: BusinessWithCategoryName[];
@@ -14,7 +13,7 @@ type FavoritesSectionDesktopProps = {
   error?: Error | null;
   categoryId: string;
   setCategoryId: (id: string) => void;
-  categoryName: string;
+  // categoryName: string;
   setCategoryName: (name: string) => void;
 
   categoriesWithAll: { categoryId: string; name: string }[];
@@ -27,7 +26,7 @@ function FavoritesSectionDesktop({
   error,
   categoryId,
   setCategoryId,
-  categoryName,
+  // categoryName,
   setCategoryName,
   categoriesWithAll,
 }: FavoritesSectionDesktopProps) {

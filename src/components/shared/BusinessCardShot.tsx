@@ -1,17 +1,19 @@
 import React from 'react';
-import Karma from './Karma';
+import Image from 'next/image';
+import Link from 'next/link';
+
+import { useFavorites } from '@/providers/UserFavoritesProvider';
+import { useAddFavorite, useRemoveFavorite } from '@/hooks/useFavorites';
 import { BusinessWithCategoryName } from '@/types';
 // import Link from 'next/link';
 // import { renderLocations } from '@/lib/helpers/renderLocations';
-import Image from 'next/image';
-import CheckIcon from '@/assets/icons/general/icon-check.svg';
 
+import CheckIcon from '@/assets/icons/general/icon-check.svg';
 import ReviewIcon from '@/assets/icons/general/icon-bubble.svg';
 import IconFavoriteNo from '@/assets/icons/general/icon-favorite-no.svg';
 import IconFavoriteYes from '@/assets/icons/general/icon-favorite-yes.svg';
-import Link from 'next/link';
-import { useFavorites } from '@/providers/UserFavoritesProvider';
-import { useAddFavorite, useRemoveFavorite } from '@/hooks/useFavorites';
+
+import Karma from './Karma';
 
 function BusinessCardShot({
   business,

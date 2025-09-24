@@ -1,6 +1,9 @@
 'use client';
 import React, { useState } from 'react';
-//import { useUserStore } from '@/stores/useUserStore';
+
+import { UserFavoritesProvider } from '@/providers/UserFavoritesProvider';
+import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
+
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 import { OnlineFilter, SortBy } from '@/types';
 
@@ -8,9 +11,6 @@ import { OnlineFilter, SortBy } from '@/types';
 
 import HomeSectionMobile from './HomeSectionMobile';
 import HomeSectionDesktop from './HomeSectionDesktop';
-import { UserFavoritesProvider } from '@/providers/UserFavoritesProvider';
-import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
-import { useUserFavorites } from '@/hooks/useFavorites';
 
 function PublicHomeClient() {
   //const user = useUserStore((s) => s.profile);

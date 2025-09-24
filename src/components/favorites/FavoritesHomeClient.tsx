@@ -1,9 +1,12 @@
 'use client';
 import React, { useState } from 'react';
-import { useBusinessCategories } from '@/hooks/useBusinessCategories';
-import FavoritesSectionDesktop from './FavoritesSectionDesktop';
+
 import { UserFavoritesProvider } from '@/providers/UserFavoritesProvider';
 import { useUserFavoriteBusinesses } from '@/hooks/useFavorites';
+import { useBusinessCategories } from '@/hooks/useBusinessCategories';
+
+import FavoritesSectionDesktop from './FavoritesSectionDesktop';
+
 import FavoritesSectionMobile from './FavoritesSectionMobile';
 
 function FavoritesHomeClient() {
@@ -47,7 +50,7 @@ function FavoritesHomeClient() {
         error={error}
         categoryId={categoryId}
         setCategoryId={setCategoryId}
-        categoryName={categoryName}
+        // categoryName={categoryName}
         setCategoryName={setCategoryName}
         categoriesWithAll={categoriesWithAll}
       />

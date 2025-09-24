@@ -1,11 +1,9 @@
-'use client';
 import React from 'react';
-import IconBack from '@/assets/icons/general/icon-back.svg';
-import SidebarFavorites from './SidebarFavorites';
-import BusinessListSimple from '../shared/BusinessListSimple';
-
 import Link from 'next/link';
 import { BusinessWithCategoryName } from '@/types';
+import IconBack from '@/assets/icons/general/icon-back.svg';
+
+import BusinessListSimple from '../shared/BusinessListSimple';
 
 type FavoritesSectionMobileProps = {
   businesses: BusinessWithCategoryName[];

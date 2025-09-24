@@ -20,7 +20,6 @@ export function UserFavoritesProvider({
     () => new Set(favorites?.map((f) => f.businessId) ?? []),
     [favorites]
   );
-  console.log('FavoritesProvider set', favoritesSet);
 
   return (
     <FavoritesContext.Provider value={favoritesSet}>

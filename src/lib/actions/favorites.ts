@@ -1,14 +1,9 @@
 'use server';
-
-import { createClient } from '@/utils/supabase/server';
 import { db } from '@/db';
 import { businessCategories, businesses, favorites } from '@/db/schema';
-import { eq, desc, sql, and, SQL, inArray, or } from 'drizzle-orm';
-import type {
-  BusinessFavorite,
-  BusinessWithCategoryName,
-  Favorite,
-} from '@/types';
+import { eq, and } from 'drizzle-orm';
+import type { BusinessWithCategoryName, Favorite } from '@/types';
+import { createClient } from '@/utils/supabase/server';
 import { getSpecialOffersForBusinesses } from '../helpers/getSpecialOffersForBusinesses';
 
 export async function getUserFavorites(): Promise<Favorite[]> {
@@ -43,12 +38,12 @@ export async function getUserFavoriteBusinesses(
 
   if (!user) throw new Error('Not authenticated');
 
-  // базовые условия
+  //
   const conditions = [eq(favorites.userId, user.id)];
   if (categoryId !== '__all__') {
     conditions.push(eq(businesses.categoryId, categoryId));
   }
-  // достаём бизнесы через join
+  //
   const rows = await db
     .select({
       id: businesses.id,
@@ -63,7 +58,7 @@ export async function getUserFavoriteBusinesses(
       status: businesses.status,
       createdAt: businesses.createdAt,
       updatedAt: businesses.updatedAt,
-      categoryName: businessCategories.name, // ← имя категории
+      categoryName: businessCategories.name,
     })
     .from(favorites)
     .innerJoin(businesses, eq(favorites.businessId, businesses.id))
@@ -75,11 +70,11 @@ export async function getUserFavoriteBusinesses(
 
   if (rows.length === 0) return [];
 
-  // достаём спецпредложения для этих бизнесов
+  // Offers
   const ids = rows.map((b) => b.id);
   const offerRows = await getSpecialOffersForBusinesses(ids);
 
-  // мапа для быстрого добавления
+  // Mapping
   const businessMap = new Map<string, BusinessWithCategoryName>();
   for (const row of rows) {
     businessMap.set(row.id, {
@@ -89,7 +84,7 @@ export async function getUserFavoriteBusinesses(
     });
   }
 
-  // вставляем офферы
+  // add offers to businesses
   for (const offer of offerRows) {
     const business = businessMap.get(offer.businessId);
     if (business) {
