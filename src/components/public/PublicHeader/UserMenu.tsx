@@ -20,13 +20,18 @@ function UserMenu() {
           <IconUser className="text-icons-grey-950 size-5" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="start" side="bottom">
+      <DropdownMenuContent
+        // shadow-menu border-icons-grey-400 border
+        className="lg:w-55 w-50"
+        align="start"
+        side="bottom"
+      >
         <DropdownMenuLabel className="sr-only">My Account</DropdownMenuLabel>
 
-        <DropdownMenuGroup className="p-3">
+        <DropdownMenuGroup>
           <DropdownMenuItem
             asChild
-            className="cursor-pointer text-base leading-[140%]"
+            className="text-text-950-grey cursor-pointer px-3 text-sm leading-[140%] lg:px-2 xl:text-base"
           >
             <Link href="/business/new">Створити бізнес-картку</Link>
           </DropdownMenuItem>

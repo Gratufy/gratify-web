@@ -28,13 +28,14 @@ function PublicHeader() {
             className="h-auto w-full"
           />
         </div>
-
         <InputSearch id="search-desktop" name="search-desktop" />
-        <div className="flex items-center lg:gap-11 xl:gap-20">
+        {/* lg:gap-11 xl:gap-20 */}
+        <div className="w-25 lg:w-34 xl:w-42 flex items-center justify-between">
           <ThemeSwitch />
 
           {session ? (
-            <div className="flex items-center gap-1 lg:gap-3">
+            // gap-1 lg:gap-3
+            <div className="flex w-12 items-start justify-between">
               {user?.role === 'USER' && <UserMenu />}
               {user?.role === 'BUSINESS' && <BusinessMenu />}
               {user?.role === 'ADMIN' && (
@@ -61,10 +62,24 @@ function PublicHeader() {
                 alt="Logo"
               />
             </div>
-            <div className="flex items-center gap-5">
+            <div className="w-25 flex items-center justify-between">
               <ThemeSwitch />
 
-              <LoginHeaderBtn />
+              {session ? (
+                // gap-1 lg:gap-3
+                <div className="flex w-12 items-start justify-between">
+                  {user?.role === 'USER' && <UserMenu />}
+                  {user?.role === 'BUSINESS' && <BusinessMenu />}
+                  {user?.role === 'ADMIN' && (
+                    <IconUser className="text-icons-grey-950 size-5" />
+                  )}
+                  <Link href="/favorites">
+                    <FavoriteHeaderIcon className="text-background-white h-5 w-4" />
+                  </Link>
+                </div>
+              ) : (
+                <LoginHeaderBtn />
+              )}
             </div>
           </div>
 

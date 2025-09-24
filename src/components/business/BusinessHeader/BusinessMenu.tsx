@@ -20,21 +20,21 @@ function BusinessMenu() {
           <IconBusinessUser className="text-icons-grey-950 h-6 w-[18px]" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="start" side="bottom">
+      <DropdownMenuContent className="lg:w-55 w-50" align="start" side="bottom">
         <DropdownMenuLabel className="sr-only">
           Business Account
         </DropdownMenuLabel>
 
-        <DropdownMenuGroup className="p-3">
+        <DropdownMenuGroup>
           <DropdownMenuItem
             asChild
-            className="cursor-pointer text-base leading-[140%]"
+            className="text-text-950-grey cursor-pointer px-3 text-sm leading-[140%] lg:px-2 xl:text-base"
           >
             <Link href="/dashboard/business/new">Створити бізнес-картку</Link>
           </DropdownMenuItem>
           <DropdownMenuItem
             asChild
-            className="cursor-pointer text-base leading-[140%]"
+            className="text-text-950-grey cursor-pointer px-3 text-sm leading-[140%] lg:px-2 xl:text-base"
           >
             <Link href="/dashboard/business">
               Переглянути створені карточки
