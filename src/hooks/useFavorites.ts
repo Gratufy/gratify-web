@@ -34,6 +34,9 @@ export const useAddFavorite = () => {
       queryClient.invalidateQueries({
         queryKey: queryKeys.favorites,
       });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.favoriteBusinesses,
+      });
     },
   });
 };
@@ -47,6 +50,9 @@ export const useRemoveFavorite = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: queryKeys.favorites,
+      });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.favoriteBusinesses,
       });
     },
   });
