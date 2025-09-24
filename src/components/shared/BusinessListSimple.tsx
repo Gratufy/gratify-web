@@ -37,7 +37,7 @@ function BusinessListSimple({
                 <BusinessCardShot
                   business={b}
                   selectedCity="__all__"
-                  isFavorite
+                  // isFavorite
                 />
               </article>
             </li>

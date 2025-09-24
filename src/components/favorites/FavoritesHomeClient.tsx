@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 import FavoritesSectionDesktop from './FavoritesSectionDesktop';
+import { UserFavoritesProvider } from '@/providers/UserFavoritesProvider';
 
 function FavoritesHomeClient() {
   const {
@@ -18,7 +19,7 @@ function FavoritesHomeClient() {
     ...categories,
   ];
   return (
-    <>
+    <UserFavoritesProvider>
       <FavoritesSectionDesktop
         categoryId={categoryId}
         setCategoryId={setCategoryId}
@@ -26,7 +27,7 @@ function FavoritesHomeClient() {
         setCategoryName={setCategoryName}
         categoriesWithAll={categoriesWithAll}
       />
-    </>
+    </UserFavoritesProvider>
   );
 }
 

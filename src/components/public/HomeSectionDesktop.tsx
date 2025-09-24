@@ -1,9 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 
-import { OnlineFilter, Scope, SortBy } from '@/types';
-
-import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
+import { BusinessWithCategoryName, OnlineFilter, Scope, SortBy } from '@/types';
 
 import SidebarFilters from './SidebarFilters';
 import BusinessList from '../shared/BusinessList';
@@ -21,6 +19,13 @@ import TopSheetFilter from './TopSheetFilter';
 import SelectedFiltersPanel from '../shared/SelectedFiltersPanel';
 
 type HomeSectionDesktopProps = {
+  businesses: BusinessWithCategoryName[];
+  fetchNextPage: () => void;
+  hasNextPage: boolean | undefined;
+  isFetchingNextPage: boolean;
+  isLoading: boolean;
+  isError?: boolean;
+  error?: Error | null;
   city: string;
   setCity: (city: string) => void;
   cityName: string;
@@ -38,6 +43,13 @@ type HomeSectionDesktopProps = {
 };
 
 function HomeSectionDesktop({
+  businesses,
+  fetchNextPage,
+  hasNextPage,
+  isFetchingNextPage,
+  isLoading,
+  isError,
+  error,
   city,
   setCity,
   cityName,
@@ -59,22 +71,22 @@ function HomeSectionDesktop({
   // console.log('CategoryName', categoryName);
   // console.log('SortBy', sortBy);
   // console.log('ShowOnlineStatus', showOnlineStatus);
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    isError,
-    error,
-  } = useInfiniteBusinesses({
-    city,
-    categoryId,
-    showOnlineStatus,
-    sortBy,
-    scope,
-  });
-  const businesses = data?.pages.flatMap((page) => page.data) ?? [];
+  // const {
+  //   data,
+  //   fetchNextPage,
+  //   hasNextPage,
+  //   isFetchingNextPage,
+  //   isLoading,
+  //   isError,
+  //   error,
+  // } = useInfiniteBusinesses({
+  //   city,
+  //   categoryId,
+  //   showOnlineStatus,
+  //   sortBy,
+  //   scope,
+  // });
+  // const businesses = data?.pages.flatMap((page) => page.data) ?? [];
 
   useEffect(() => {
     if (

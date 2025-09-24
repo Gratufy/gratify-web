@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 
-import { OnlineFilter, Scope, SortBy } from '@/types';
+import { BusinessWithCategoryName, OnlineFilter, Scope, SortBy } from '@/types';
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
 
@@ -10,6 +10,13 @@ import BottomSheetFilters from './BottomSheetFilters';
 import SelectedFiltersPanel from '../shared/SelectedFiltersPanel';
 
 type HomeSectionMobileProps = {
+  businesses: BusinessWithCategoryName[];
+  fetchNextPage: () => void;
+  hasNextPage: boolean | undefined;
+  isFetchingNextPage: boolean;
+  isLoading: boolean;
+  isError?: boolean;
+  error?: Error | null;
   city: string;
   setCity: (city: string) => void;
   cityName: string;
@@ -27,6 +34,13 @@ type HomeSectionMobileProps = {
 };
 
 function HomeSectionMobile({
+  businesses,
+  fetchNextPage,
+  hasNextPage,
+  isFetchingNextPage,
+  isLoading,
+  isError,
+  error,
   city,
   setCity,
   cityName,
@@ -42,22 +56,22 @@ function HomeSectionMobile({
   categoriesWithAll,
   scope = 'public',
 }: HomeSectionMobileProps) {
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    isError,
-    error,
-  } = useInfiniteBusinesses({
-    city,
-    categoryId,
-    showOnlineStatus,
-    sortBy,
-    scope,
-  });
-  const businesses = data?.pages.flatMap((page) => page.data) ?? [];
+  // const {
+  //   data,
+  //   fetchNextPage,
+  //   hasNextPage,
+  //   isFetchingNextPage,
+  //   isLoading,
+  //   isError,
+  //   error,
+  // } = useInfiniteBusinesses({
+  //   city,
+  //   categoryId,
+  //   showOnlineStatus,
+  //   sortBy,
+  //   scope,
+  // });
+  // const businesses = data?.pages.flatMap((page) => page.data) ?? [];
   return (
     <div className="container flex w-full flex-col pt-2 lg:hidden">
       <div className="flex items-center px-2 pb-2">

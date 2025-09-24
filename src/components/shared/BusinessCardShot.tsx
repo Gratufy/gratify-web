@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Karma from './Karma';
 import { BusinessWithCategoryName } from '@/types';
 // import Link from 'next/link';
@@ -9,18 +9,24 @@ import CheckIcon from '@/assets/icons/general/icon-check.svg';
 import ReviewIcon from '@/assets/icons/general/icon-bubble.svg';
 import IconFavorite from '@/assets/icons/general/favorite-h.svg';
 import Link from 'next/link';
+import { useFavorites } from '@/providers/UserFavoritesProvider';
 
 function BusinessCardShot({
   business,
   selectedCity,
   imageUrl,
-  isFavorite = false,
+  // isFavorite = false,
 }: {
   business: BusinessWithCategoryName;
   selectedCity: string;
   imageUrl?: string;
-  isFavorite?: boolean;
+  // isFavorite?: boolean;
 }) {
+  const favoritesSet = useFavorites();
+  const isFavorite = favoritesSet.has(business.id);
+  console.log('Set', favoritesSet);
+  console.log('isFav', isFavorite);
+
   // const CityListElements = renderLocations(business, selectedCity);
   return (
     <>
