@@ -24,7 +24,7 @@ export const useUserFavoriteBusinesses = (categoryId = '__all__') => {
     queryFn: () => getUserFavoriteBusinesses(categoryId),
   });
 };
-// --- Хук для добавления фаворита ---
+// --- Hook for adding favorite ---
 export const useAddFavorite = () => {
   const queryClient = useQueryClient();
 
@@ -41,7 +41,7 @@ export const useAddFavorite = () => {
   });
 };
 
-// --- Хук для удаления фаворита ---
+// --- Delete favorite ---
 export const useRemoveFavorite = () => {
   const queryClient = useQueryClient();
 
