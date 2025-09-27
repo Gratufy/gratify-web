@@ -16,7 +16,7 @@ function FooterCategoryList() {
     <ul className="flex flex-col gap-2">
       {categoriesWithAll.map((category) => (
         <li key={category.categoryId}>
-          <p className="placeholder-sm">{category.name}</p>
+          <p className="lg:placeholder-xs xl:placeholder-sm">{category.name}</p>
         </li>
       ))}
     </ul>
