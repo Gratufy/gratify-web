@@ -11,6 +11,9 @@ import LoginHeaderBtn from './LoginHeaderBtn';
 import FavoriteHeaderIcon from '@/assets/icons/general/favorite-h.svg';
 import IconUser from '@/assets/icons/general/icon-user.svg';
 import UserMenu from './UserMenu';
+import { House } from 'lucide-react';
+<House size={20} strokeWidth={2.75} absoluteStrokeWidth />;
+
 import BusinessMenu from '@/components/business/BusinessHeader/BusinessMenu';
 import Link from 'next/link';
 
@@ -36,10 +39,16 @@ function PublicHeader() {
           />
         </div>
         <InputSearch id="search-desktop" name="search-desktop" />
-        {/* lg:gap-11 xl:gap-20 */}
-        <div className="w-25 lg:w-34 xl:w-42 flex items-center justify-between">
+        {/* lg:w-34 xl:w-42* was before House */}
+        <div className="w-25 lg:w-42 xl:w-50 flex items-center justify-between">
           <ThemeSwitch />
-
+          {/* <House className="size-5" /> */}
+          <Link
+            href="/"
+            className="bg-icons-grey-50 flex w-8 items-center justify-center p-1.5"
+          >
+            <House size={20} absoluteStrokeWidth />
+          </Link>
           {session ? (
             // gap-1 lg:gap-3
             <div className="flex w-12 items-start justify-between">
@@ -71,9 +80,16 @@ function PublicHeader() {
                 alt="Logo"
               />
             </div>
-            <div className="w-25 flex items-center justify-between">
+            {/* w-25 it was so before House */}
+            <div className="w-33 flex items-center justify-between">
               <ThemeSwitch />
-
+              <Link
+                href="/"
+                className="bg-icons-grey-50 flex w-8 items-center justify-center p-1.5"
+              >
+                {/* <House size={20} absoluteStrokeWidth /> */}
+                <House size={20} strokeWidth={2.4} absoluteStrokeWidth />;
+              </Link>
               {session ? (
                 // gap-1 lg:gap-3
                 <div className="flex w-12 items-start justify-between">

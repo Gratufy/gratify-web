@@ -3,6 +3,8 @@ import React from 'react';
 import { useBusinesses } from '@/hooks/useBusinesses';
 
 import BusinessCardShot from '@/components/shared/BusinessCardShot';
+import BusinessListSimple from '../shared/BusinessListSimple';
+import { UserFavoritesProvider } from '@/providers/UserFavoritesProvider';
 
 function BusinessHomeClient() {
   const {
@@ -16,22 +18,21 @@ function BusinessHomeClient() {
     scope: 'business_user',
   });
   return (
-    <>
-      {isBusinessesLoading && <p>Loading...</p>}
-      {isBusinessesError && <p>Помилка: {error?.message}</p>}
-      {businesses?.data.length ? (
-        <ul>
-          {businesses.data.map((b) => (
-            <li key={b.id}>
-              {/* selectedCity="__all__" */}
-              <BusinessCardShot business={b} selectedCity="__all__" />
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-2xl"> Нема бізнесів</p>
-      )}
-    </>
+    <UserFavoritesProvider>
+      {businesses?.data.length === 0 &&
+        !isBusinessesLoading &&
+        !isBusinessesError && (
+          <p className="placeholder-sm lg:placeholder-base">
+            Ви ще не додали жодного бізнесу до вашого акаунту
+          </p>
+        )}
+      <BusinessListSimple
+        businesses={businesses?.data ?? []}
+        isLoading={isBusinessesLoading}
+        isError={isBusinessesError}
+        error={error}
+      />
+    </UserFavoritesProvider>
   );
 }
 

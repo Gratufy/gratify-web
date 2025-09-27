@@ -4,6 +4,7 @@ import ThemeSwitch from '@/components/shared/ThemeSwitch';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { House } from 'lucide-react';
 
 function LoginHeader() {
   return (
@@ -25,9 +26,9 @@ function LoginHeader() {
 
             <Link
               href="/"
-              className="placeholder-xs xl:placeholder-base lg:placeholder-sm"
+              className="bg-icons-grey-50 flex w-8 items-center justify-center p-1.5"
             >
-              На Головну
+              <House size={20} absoluteStrokeWidth />
             </Link>
           </div>
         </div>
