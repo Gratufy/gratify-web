@@ -32,7 +32,9 @@ function BusinessCardShot({
   const addFavorite = useAddFavorite();
   const removeFavorite = useRemoveFavorite();
 
-  const handleToggleFavorite = () => {
+  const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent navigating to business detail page
+    e.stopPropagation(); // Stop event from bubbling up
     if (isFavorite) {
       const confirmed = confirm(
         'Are you sure you want to delete this business?'
@@ -89,65 +91,64 @@ function BusinessCardShot({
           <p className="title-h4">{business.categoryName}</p>
         </div>
       </div>
-      <Link
+      {/* <Link
         href={{
           pathname: `/business/${business.id}`,
           query: { city: selectedCity },
         }}
         className="block h-full w-full"
-      >
-        {' '}
-        {/* body */}
-        <div className="mb-4 flex gap-4 px-4 lg:mb-5 lg:gap-6 lg:px-2 xl:mb-3">
-          <div className="flex flex-1 flex-col gap-1">
-            {business?.specialOffers.length > 0 &&
-              business.specialOffers.map((offer) => (
-                <div key={offer.offerId} className="flex items-center gap-3">
-                  <CheckIcon className="h-3 w-3 lg:h-4 lg:w-4 xl:h-5 xl:w-5" />
-                  <span className="placeholder-xs lg:placeholder-sm xl:placeholder-base">
-                    {offer.title}
-                  </span>
-                </div>
-              ))}
-          </div>
-          <div className="flex-1">
-            <p className="placeholder-xs text-text-700-grey lg:placeholder-sm">
-              {business.description}
-            </p>
-          </div>
-          {/* {CityListElements}
+      > */}
+      {/* body */}
+      <div className="mb-4 flex gap-4 px-4 lg:mb-5 lg:gap-6 lg:px-2 xl:mb-3">
+        <div className="flex flex-1 flex-col gap-1">
+          {business?.specialOffers.length > 0 &&
+            business.specialOffers.map((offer) => (
+              <div key={offer.offerId} className="flex items-center gap-3">
+                <CheckIcon className="h-3 w-3 lg:h-4 lg:w-4 xl:h-5 xl:w-5" />
+                <span className="placeholder-xs lg:placeholder-sm xl:placeholder-base">
+                  {offer.title}
+                </span>
+              </div>
+            ))}
+        </div>
+        <div className="flex-1">
+          <p className="placeholder-xs text-text-700-grey lg:placeholder-sm">
+            {business.description}
+          </p>
+        </div>
+        {/* {CityListElements}
         <p>status: {business.status}</p>
         <p>review : {business.reviewCount}</p> */}
-          {/* karma */}
-          {/* <Karma businessId={business.id} />
+        {/* karma */}
+        {/* <Karma businessId={business.id} />
         <Link
           href={`./business/${business.id}`}
           className="bg-chart-2 cursor-pointer rounded-full px-4 py-2 text-white"
         >
           See more
         </Link> */}
-        </div>
-        {/* hot */}
-        <div className="flex gap-4 px-4 lg:gap-6 lg:px-2">
-          <div className="flex flex-1 items-center gap-4 lg:gap-3">
-            <Karma businessId={business.id} />
+      </div>
+      {/* hot */}
+      <div className="flex gap-4 px-4 lg:gap-6 lg:px-2">
+        <div className="flex flex-1 items-center gap-4 lg:gap-3">
+          <Karma businessId={business.id} />
 
-            <div className="flex items-center gap-0.5">
-              <ReviewIcon className="h-4 w-4 xl:h-5 xl:w-5" />
-              <span className="placeholder-sm xl:placeholder-base font-medium">
-                {business.reviewCount}
-              </span>
-            </div>
+          <div className="flex items-center gap-0.5">
+            <ReviewIcon className="h-4 w-4 xl:h-5 xl:w-5" />
+            <span className="placeholder-sm xl:placeholder-base font-medium">
+              {business.reviewCount}
+            </span>
           </div>
-          {/* <div className="flex-1">
+        </div>
+        {/* <div className="flex-1">
             {business.isOnline && business.locations.length === 0 && (
               <span className="placeholder-xs lg:placeholder-sm xl:placeholder-base">
                 Он-лайн тільки
               </span>
             )}
           </div> */}
-        </div>
-      </Link>
+      </div>
+      {/* </Link> */}
     </>
   );
 }

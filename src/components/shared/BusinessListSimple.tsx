@@ -1,3 +1,4 @@
+// for business accounts to see list of their businesses
 'use client';
 import React from 'react';
 import { BusinessWithCategoryName } from '@/types';
