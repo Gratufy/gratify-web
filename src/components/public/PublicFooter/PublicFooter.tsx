@@ -35,7 +35,7 @@ function PublicFooter() {
               </span>
             </div> */}
             <div className="flex items-center lg:gap-1">
-              <span className="placeholder-sm">&copy;</span>
+              <span className="placeholder-small">&copy;</span>
               <span className="placeholder-small">2025</span>
 
               <span className="placeholder-small text-icons-grey-950">
