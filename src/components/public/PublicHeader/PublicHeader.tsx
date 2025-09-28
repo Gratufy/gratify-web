@@ -88,7 +88,7 @@ function PublicHeader() {
                 className="bg-icons-grey-50 flex w-8 items-center justify-center p-1.5"
               >
                 {/* <House size={20} absoluteStrokeWidth /> */}
-                <House size={20} strokeWidth={2.4} absoluteStrokeWidth />;
+                <House size={20} strokeWidth={2.4} absoluteStrokeWidth />
               </Link>
               {session ? (
                 // gap-1 lg:gap-3
