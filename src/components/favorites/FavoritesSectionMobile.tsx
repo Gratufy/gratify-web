@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { BusinessWithCategoryName } from '@/types';
 import IconBack from '@/assets/icons/general/icon-back.svg';
 
-import BusinessListSimple from '../shared/BusinessListSimple';
+import BusinessList from '../shared/BusinessList';
 
 type FavoritesSectionMobileProps = {
   businesses: BusinessWithCategoryName[];
@@ -37,11 +37,21 @@ function FavoritesSectionMobile({
         </Link>
       </div>
       <div className="flex flex-1 flex-col pb-20 pt-3">
-        <BusinessListSimple
-          businesses={businesses ?? []}
+        {businesses.length === 0 && !isLoading && !isError && (
+          <p className="placeholder-sm lg:placeholder-base">
+            Ви ще не додали жодного бізнесу до улюблених
+          </p>
+        )}
+        <BusinessList
+          // businesses={businesses ?? []}
+          // isLoading={isLoading}
+          // isError={isError}
+          // error={error}
+          businesses={businesses}
           isLoading={isLoading}
           isError={isError}
           error={error}
+          linkPrefix="/favorites"
         />
       </div>
     </div>

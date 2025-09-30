@@ -1,3 +1,4 @@
+// small card fo List of businesses
 import React from 'react';
 import Image from 'next/image';
 
@@ -16,12 +17,12 @@ import Karma from './Karma';
 
 function BusinessCardShot({
   business,
-  selectedCity,
+  // selectedCity,
   imageUrl,
   // isFavorite = false,
 }: {
   business: BusinessWithCategoryName;
-  selectedCity: string;
+  // selectedCity: string;
   imageUrl?: string;
   // isFavorite?: boolean;
 }) {

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { BusinessWithCategoryName, OnlineFilter, SortBy } from '@/types';
 
 import SidebarFilters from './SidebarFilters';
-import BusinessList from '../shared/BusinessList';
+// import BusinessList from '../shared/BusinessListOld';
 
 import dynamic from 'next/dynamic';
 const BusinessMapAll = dynamic(
@@ -17,6 +17,7 @@ const BusinessMapAll = dynamic(
 import ShowMap from '../ui/ShowMap';
 import TopSheetFilter from './TopSheetFilter';
 import SelectedFiltersPanel from '../shared/SelectedFiltersPanel';
+import BusinessList from '../shared/BusinessList';
 
 type HomeSectionDesktopProps = {
   businesses: BusinessWithCategoryName[];
@@ -64,27 +65,6 @@ function HomeSectionDesktop({
   categoriesWithAll,
 }: HomeSectionDesktopProps) {
   const [showMap, setShowMap] = useState(false);
-  // console.log('City', city);
-  // console.log('CategoryId', categoryId);
-  // console.log('CategoryName', categoryName);
-  // console.log('SortBy', sortBy);
-  // console.log('ShowOnlineStatus', showOnlineStatus);
-  // const {
-  //   data,
-  //   fetchNextPage,
-  //   hasNextPage,
-  //   isFetchingNextPage,
-  //   isLoading,
-  //   isError,
-  //   error,
-  // } = useInfiniteBusinesses({
-  //   city,
-  //   categoryId,
-  //   showOnlineStatus,
-  //   sortBy,
-  //   scope,
-  // });
-  // const businesses = data?.pages.flatMap((page) => page.data) ?? [];
 
   useEffect(() => {
     if (
@@ -126,34 +106,6 @@ function HomeSectionDesktop({
             <ShowMap showMap={showMap} setShowMap={setShowMap} />
           </div>
           {showMap && (
-            // <div className="flex w-full lg:gap-2">
-            //   <div className="bg-background-grey-100 flex lg:gap-2 lg:px-2 lg:py-2">
-            //     <span className="lg:placeholder-xs xl:placeholder-sm">
-            //       {ONLINE_STATUS_LABELS[showOnlineStatus]}
-            //     </span>
-            //   </div>
-            //   <div className="bg-background-grey-100 flex lg:gap-2 lg:px-2 lg:py-2">
-            //     <span className="lg:placeholder-xs xl:placeholder-sm">
-            //       {SORT_BY_LABELS[sortBy]}
-            //     </span>
-            //   </div>
-            //   <div className="bg-background-grey-100 flex lg:gap-2 lg:px-2 lg:py-2">
-            //     <span className="lg:placeholder-xs xl:placeholder-sm">
-            //       {categoryName}
-            //     </span>
-            //   </div>
-
-            //   <DeleteAllFiltersBtn
-            //     isSecondVariant
-            //     setCity={setCity}
-            //     setCityName={setCityName}
-            //     setCategoryId={setCategoryId}
-            //     setShowOnlineStatus={setShowOnlineStatus}
-            //     setSortBy={setSortBy}
-            //     setCategoryName={setCategoryName}
-            //     className="lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 flex cursor-pointer border bg-white py-1.5 lg:gap-2 lg:px-2"
-            //   />
-            // </div>
             <div className="pb-2">
               <SelectedFiltersPanel
                 setCity={setCity}
@@ -188,19 +140,23 @@ function HomeSectionDesktop({
         )}
 
         <div className="flex flex-1 flex-col lg:pb-8">
+          {businesses.length === 0 && !isLoading && !isError && (
+            <p className="placeholder-sm lg:placeholder-base">
+              Немає жодного бізнесу, який відповідає вашим фільтрам
+            </p>
+          )}
           <BusinessList
             businesses={businesses}
+            selectedCity={city}
             fetchNextPage={fetchNextPage}
             hasNextPage={hasNextPage}
             isFetchingNextPage={isFetchingNextPage}
             isLoading={isLoading}
             isError={isError}
             error={error}
-            selectedCity={city}
-            // categoryId={categoryId}
-            // showOnlineStatus={showOnlineStatus}
-            // sortBy={sortBy}
-            // scope={scope}
+            enableInfiniteScroll
+            linkPrefix="/business"
+            includeCityQuery
           />
         </div>
 
