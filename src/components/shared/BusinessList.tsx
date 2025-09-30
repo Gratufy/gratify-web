@@ -22,8 +22,8 @@ type BusinessListProps = {
   fetchNextPage?: () => void;
   hasNextPage?: boolean;
   isFetchingNextPage?: boolean;
-  enableInfiniteScroll?: boolean; // 🔑 управляет включением/выключением скролла
-  linkPrefix?: string; // 🔑 для разных маршрутов: `/business` или `/dashboard/business`
+  enableInfiniteScroll?: boolean; // on/off infinity scroll
+  linkPrefix?: string; // for different routes: `/business` , `/dashboard/business`
   includeCityQuery?: boolean; // CityQuery only for public list for now
 };
 
@@ -74,10 +74,6 @@ function BusinessList({
               className="shadow-card w-full overflow-hidden bg-white pb-5"
             >
               <Link
-                // href={{
-                //   pathname: `/dashboard/business/${b.id}`,
-                //   // query: { city: selectedCity },
-                // }}
                 href={{
                   pathname: `${linkPrefix}/${b.id}`,
                   ...(includeCityQuery && selectedCity !== '__all__'
