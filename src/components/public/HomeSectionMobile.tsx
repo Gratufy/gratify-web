@@ -105,6 +105,7 @@ function HomeSectionMobile({
       </div>
 
       <BottomSheetFilters
+        businesses={businesses}
         city={city}
         setCity={setCity}
         setCityName={setCityName}

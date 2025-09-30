@@ -109,9 +109,11 @@ function BusinessMapAll({
           {/* <FixMapResize /> */}
         </MapContainer>
       ) : (
-        <p className="text-center text-2xl text-gray-500">
-          Адреса не була додана
-        </p>
+        <div className="bg-input flex h-full w-full items-center justify-center px-4">
+          <p className="text-center text-xl lg:text-2xl">
+            Немає доступних адрес для відображення на карті
+          </p>
+        </div>
       )}
     </div>
   );

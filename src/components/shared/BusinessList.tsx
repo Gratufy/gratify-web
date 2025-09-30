@@ -24,7 +24,7 @@ type BusinessListProps = {
   isFetchingNextPage?: boolean;
   enableInfiniteScroll?: boolean; // 🔑 управляет включением/выключением скролла
   linkPrefix?: string; // 🔑 для разных маршрутов: `/business` или `/dashboard/business`
-  includeCityQuery?: boolean; // 🔑 включать ли город в query параметры
+  includeCityQuery?: boolean; // CityQuery only for public list for now
 };
 
 function BusinessList({
