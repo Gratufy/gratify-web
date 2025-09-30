@@ -11,7 +11,7 @@ export default async function BusinessBusinessDetailsPage({
   const { id } = await params;
 
   return (
-    <div className="flex flex-col items-center justify-center p-4">
+    <div className="lg:pt-15 xl:pt-15 container flex min-h-screen flex-col items-center justify-center lg:pb-20 xl:pb-20">
       <h1 className="mb-4 text-2xl font-bold">Business details page</h1>
       <BusinessEditDetails id={id} href="/dashboard/business" />
     </div>

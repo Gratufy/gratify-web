@@ -1,15 +1,16 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import "leaflet/dist/leaflet.css";
+//if I need it
+'use client';
+import React, { useEffect, useState } from 'react';
+import 'leaflet/dist/leaflet.css';
 //, Popup
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 
-import L from "leaflet";
+import L from 'leaflet';
 
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: "/icons/leaflet/marker-icon-2x.png",
-  iconUrl: "/icons/leaflet/marker-icon.png",
-  shadowUrl: "/icons/leaflet/marker-shadow.png",
+  iconRetinaUrl: '/icons/leaflet/marker-icon-2x.png',
+  iconUrl: '/icons/leaflet/marker-icon.png',
+  shadowUrl: '/icons/leaflet/marker-shadow.png',
 });
 
 type BusinessMapProps = {
@@ -47,7 +48,7 @@ BusinessMapProps) {
         // className={` ${
         //   isForm ? `rounded-lg w-full h-[${height}px]` : `w-2/3 h-80`
         // }`}
-        style={{ height: "100%", width: "100%", borderRadius: 16 }}
+        style={{ height: '100%', width: '100%', borderRadius: 16 }}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

@@ -4,7 +4,7 @@ import { BusinessWithCategoryName } from '@/types';
 
 import IconBack from '@/assets/icons/general/icon-back.svg';
 import SidebarFavorites from './SidebarFavorites';
-import BusinessListSimple from '../shared/BusinessListSimple';
+import BusinessList from '../shared/BusinessList';
 
 type FavoritesSectionDesktopProps = {
   businesses: BusinessWithCategoryName[];
@@ -50,11 +50,16 @@ function FavoritesSectionDesktop({
               Ви ще не додали жодного бізнесу до улюблених
             </p>
           )}
-          <BusinessListSimple
-            businesses={businesses ?? []}
+          <BusinessList
+            // businesses={businesses ?? []}
+            // isLoading={isLoading}
+            // isError={isError}
+            // error={error}
+            businesses={businesses}
             isLoading={isLoading}
             isError={isError}
             error={error}
+            linkPrefix="/favorites"
           />
         </div>
       </div>

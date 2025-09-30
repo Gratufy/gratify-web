@@ -2,8 +2,7 @@
 import React from 'react';
 import { useBusinesses } from '@/hooks/useBusinesses';
 
-import BusinessCardShot from '@/components/shared/BusinessCardShot';
-import BusinessListSimple from '../shared/BusinessListSimple';
+import BusinessList from '../shared/BusinessList';
 import { UserFavoritesProvider } from '@/providers/UserFavoritesProvider';
 
 function BusinessHomeClient() {
@@ -26,11 +25,12 @@ function BusinessHomeClient() {
             Ви ще не додали жодного бізнесу до вашого акаунту
           </p>
         )}
-      <BusinessListSimple
+      <BusinessList
         businesses={businesses?.data ?? []}
         isLoading={isBusinessesLoading}
         isError={isBusinessesError}
         error={error}
+        linkPrefix="/dashboard/business"
       />
     </UserFavoritesProvider>
   );

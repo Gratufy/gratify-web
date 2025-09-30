@@ -39,7 +39,6 @@ export default async function AdminLayout({
   return (
     <HydrationBoundary state={dehydratedState}>
       <div className="flex min-h-screen flex-col">
-        {' '}
         <AdminHeader />
         <main className="flex flex-1 items-center justify-center">
           {children}

@@ -4,9 +4,10 @@ import React from 'react';
 import { BusinessWithCategoryName, OnlineFilter, SortBy } from '@/types';
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 
-import BusinessList from '../shared/BusinessList';
+// import BusinessList from '../shared/BusinessListOld';
 import BottomSheetFilters from './BottomSheetFilters';
 import SelectedFiltersPanel from '../shared/SelectedFiltersPanel';
+import BusinessList from '../shared/BusinessList';
 
 type HomeSectionMobileProps = {
   businesses: BusinessWithCategoryName[];
@@ -73,7 +74,7 @@ function HomeSectionMobile({
         />
       </div>
       <div className="flex flex-1 flex-col pb-20 pt-3">
-        <BusinessList
+        {/* <BusinessList
           businesses={businesses}
           fetchNextPage={fetchNextPage}
           hasNextPage={hasNextPage}
@@ -82,10 +83,29 @@ function HomeSectionMobile({
           isError={isError}
           error={error}
           selectedCity={city}
+        /> */}
+        {businesses.length === 0 && !isLoading && !isError && (
+          <p className="placeholder-sm lg:placeholder-base">
+            Немає жодного бізнесу, який відповідає вашим фільтрам
+          </p>
+        )}
+        <BusinessList
+          businesses={businesses}
+          selectedCity={city}
+          fetchNextPage={fetchNextPage}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          isLoading={isLoading}
+          isError={isError}
+          error={error}
+          enableInfiniteScroll
+          linkPrefix="/business"
+          includeCityQuery
         />
       </div>
 
       <BottomSheetFilters
+        businesses={businesses}
         city={city}
         setCity={setCity}
         setCityName={setCityName}

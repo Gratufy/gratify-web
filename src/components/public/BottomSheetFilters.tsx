@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { OnlineFilter, SortBy } from '@/types';
+import { BusinessWithCategoryName, OnlineFilter, SortBy } from '@/types';
 
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 import SortIcon from '@/assets/icons/filters/icon-sort.svg';
@@ -19,6 +19,7 @@ import {
 import CityFilter from './mobiles-filters/CityFilter';
 import SortFilter from './mobiles-filters/SortFilter';
 import CategoryFilter from './mobiles-filters/CategoryFilter';
+import MobileMapBottom from './mobiles-filters/MobileMapBottom';
 
 type BottomSheetFiltersProps = {
   city: string | undefined;
@@ -32,6 +33,7 @@ type BottomSheetFiltersProps = {
   showOnlineStatus: OnlineFilter;
   setShowOnlineStatus: (status: OnlineFilter) => void;
   categoriesWithAll: { categoryId: string; name: string }[];
+  businesses: BusinessWithCategoryName[]; // for Map
 };
 
 function BottomSheetFilters(props: BottomSheetFiltersProps) {
@@ -70,7 +72,13 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
           />
         );
       case 'map':
-        return <div>Мапа</div>;
+        return (
+          <MobileMapBottom
+            businesses={props.businesses}
+            className="w-full"
+            city={props.city}
+          />
+        );
       default:
         return null;
     }
@@ -107,7 +115,7 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
             </button>
             <button
               type="button"
-              className="flex flex-col items-center justify-center gap-1 px-5"
+              className="flex cursor-pointer flex-col items-center justify-center gap-1 px-5"
               onClick={() => setActiveFilter('map')}
             >
               <MapIcon className="h-4 w-4" />

@@ -1,9 +1,17 @@
-import React from "react";
+import React from 'react';
+import BusinessDetails from '@/components/shared/BusinessDetails';
 
-export default function UserBusinessDetailsPage() {
+interface UserBusinessDetailsPageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function UserBusinessDetailsPage({
+  params,
+}: UserBusinessDetailsPageProps) {
+  const { id } = await params;
   return (
-    <div>
-      <h1>User Business details page</h1>
+    <div className="lg:pt-15 xl:pt-15 container flex min-h-screen flex-col items-center justify-center lg:pb-20 xl:pb-20">
+      <BusinessDetails id={id} href="/favorites" selectedCity="__all__" />
     </div>
   );
 }

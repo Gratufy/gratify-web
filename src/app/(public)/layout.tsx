@@ -8,7 +8,7 @@ import PublicHeader from '@/components/public/PublicHeader/PublicHeader';
 import { getBusinesses } from '@/lib/actions/businesses';
 import { PAGE_SIZE } from '@/const/business';
 import { queryKeys } from '@/lib/reactQuery/queryKeys';
-import FakePublicHeader from '@/components/public/PublicHeader/FakePublicHeader';
+// import FakePublicHeader from '@/components/public/PublicHeader/FakePublicHeader';
 import HeroSection from '@/components/shared/HeroSection';
 
 export default async function PublicLayout({
@@ -66,7 +66,7 @@ export default async function PublicLayout({
   const dehydratedState = dehydrate(queryClient);
   return (
     <HydrationBoundary state={dehydratedState}>
-      <FakePublicHeader />
+      {/* <FakePublicHeader /> */}
       <div className="flex min-h-screen flex-col">
         <PublicHeader />
         <main className="flex flex-1 flex-col">
