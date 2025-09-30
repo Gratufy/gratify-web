@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import 'leaflet/dist/leaflet.css';
 //, Popup
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
@@ -37,22 +37,12 @@ function FitBounds({ coords }: { coords: [number, number][] }) {
   return null;
 }
 
-// function FixMapResize() {
-//   const map = useMap();
-
-//   useEffect(() => {
-//     setTimeout(() => {
-//       map.invalidateSize();
-//     }, 100);
-//   }, [map]);
-
-//   return null;
-// }
 type BusinessMapAllProps = {
   businesses: BusinessWithCategoryName[];
   height?: number | string;
   className?: string;
   selectedCity?: string;
+  hoveredId?: string | null;
 };
 
 function BusinessMapAll({
@@ -60,6 +50,7 @@ function BusinessMapAll({
   height = 400,
   className,
   selectedCity = '__all__',
+  hoveredId = null,
 }: BusinessMapAllProps) {
   const cityLabel =
     selectedCity === '__all__'
@@ -68,19 +59,39 @@ function BusinessMapAll({
 
   const coords = useMemo(
     () =>
-      businesses
-        .flatMap((b) => b.locations || [])
-        .filter(
-          (loc) =>
-            loc.latitude &&
-            loc.longitude &&
-            (cityLabel === '__all__' || loc.city === cityLabel)
-        )
-        .map((loc) => [loc.latitude!, loc.longitude!] as [number, number]),
+      businesses.flatMap((b) =>
+        (b.locations || [])
+          .filter(
+            (loc) =>
+              loc.latitude &&
+              loc.longitude &&
+              (cityLabel === '__all__' || loc.city === cityLabel)
+          )
+          .map((loc) => ({
+            businessId: b.id,
+            lat: loc.latitude!,
+            lng: loc.longitude!,
+          }))
+      ),
     [businesses, cityLabel]
   );
 
-  const center: [number, number] = coords.length > 0 ? coords[0] : [49.0, 32.0];
+  const { defaultIcon, hoveredIcon } = useMemo(() => {
+    return {
+      defaultIcon: new L.Icon.Default(),
+      hoveredIcon: new L.Icon({
+        iconUrl: '/icons/leaflet/marker-icon.png',
+        iconRetinaUrl: '/icons/leaflet/marker-icon-2x.png',
+        shadowUrl: '/icons/leaflet/marker-shadow.png',
+        iconSize: [35, 55],
+        iconAnchor: [17, 55],
+      }),
+    };
+  }, []);
+
+  // const center: [number, number] = coords.length > 0 ? coords[0] : [49.0, 32.0];
+  const center: [number, number] =
+    coords.length > 0 ? [coords[0].lat, coords[0].lng] : [49.0, 32.0];
 
   return (
     <div className={'overflow-hidden ' + className} style={{ height }}>
@@ -101,12 +112,18 @@ function BusinessMapAll({
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
-          {coords.map((pos, idx) => (
-            <Marker key={idx} position={pos} />
+          {coords.map((loc, idx) => (
+            <Marker
+              key={idx}
+              position={[loc.lat, loc.lng]}
+              icon={loc.businessId === hoveredId ? hoveredIcon : defaultIcon}
+            />
           ))}
 
-          <FitBounds coords={coords} />
-          {/* <FixMapResize /> */}
+          {/* <FitBounds coords={coords} /> */}
+          <FitBounds
+            coords={coords.map((c) => [c.lat, c.lng] as [number, number])}
+          />
         </MapContainer>
       ) : (
         <div className="bg-input flex h-full w-full items-center justify-center px-4">
@@ -120,3 +137,15 @@ function BusinessMapAll({
 }
 
 export default BusinessMapAll;
+
+// function FixMapResize() {
+//   const map = useMap();
+
+//   useEffect(() => {
+//     setTimeout(() => {
+//       map.invalidateSize();
+//     }, 100);
+//   }, [map]);
+
+//   return null;
+// }

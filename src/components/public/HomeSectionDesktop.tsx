@@ -65,6 +65,7 @@ function HomeSectionDesktop({
   categoriesWithAll,
 }: HomeSectionDesktopProps) {
   const [showMap, setShowMap] = useState(false);
+  const [hoveredId, setHoveredId] = useState<string | null>(null); // for map hover effect
 
   useEffect(() => {
     if (
@@ -157,6 +158,7 @@ function HomeSectionDesktop({
             enableInfiniteScroll
             linkPrefix="/business"
             includeCityQuery
+            onHover={setHoveredId}
           />
         </div>
 
@@ -167,6 +169,7 @@ function HomeSectionDesktop({
               businesses={businesses}
               className="w-full"
               selectedCity={city}
+              hoveredId={hoveredId}
             />
           </div>
         )}

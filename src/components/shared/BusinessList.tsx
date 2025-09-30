@@ -20,6 +20,7 @@ type BusinessListProps = {
   isError?: boolean;
   error?: Error | null;
   fetchNextPage?: () => void;
+  onHover?: (id: string | null) => void;
   hasNextPage?: boolean;
   isFetchingNextPage?: boolean;
   enableInfiniteScroll?: boolean; // on/off infinity scroll
@@ -39,6 +40,7 @@ function BusinessList({
   enableInfiniteScroll = false,
   linkPrefix = '/business',
   includeCityQuery = false,
+  onHover,
 }: BusinessListProps) {
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
@@ -72,6 +74,8 @@ function BusinessList({
             <li
               key={b.id}
               className="shadow-card w-full overflow-hidden bg-white pb-5"
+              onMouseEnter={() => onHover?.(b.id)}
+              onMouseLeave={() => onHover?.(null)}
             >
               <Link
                 href={{
