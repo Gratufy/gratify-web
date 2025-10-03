@@ -1,7 +1,7 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getUserVote, voteBusiness } from "@/lib/actions/vote";
-import { queryKeys } from "@/lib/reactQuery/queryKeys";
-import { useUserStore } from "@/stores/useUserStore";
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { getUserVote, voteBusiness } from '@/lib/actions/vote';
+import { queryKeys } from '@/lib/reactQuery/queryKeys';
+import { useUserStore } from '@/stores/useUserStore';
 
 export function useVoteBusiness(businessId: string) {
   const queryClient = useQueryClient();
@@ -20,7 +20,7 @@ export function useVoteBusiness(businessId: string) {
       });
       //refresh all business lists (different filters, scope)
       queryClient.invalidateQueries({
-        queryKey: ["businesses"], // вместо queryKeys.businesses
+        queryKey: ['businesses'], // вместо queryKeys.businesses
         exact: false,
       });
     },

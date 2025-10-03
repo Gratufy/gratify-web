@@ -94,7 +94,7 @@ export async function getBusinesses(
   data: BusinessWithCategoryName[];
   nextOffset?: number; // для useInfiniteQuery
 }> {
-  // console.log(">>> getBusinesses called with", params);
+  console.log('>>> getBusinesses called with');
   const {
     limit = PAGE_SIZE,
     offset = 0,
@@ -314,6 +314,7 @@ export async function getBusinesses(
 export async function getBusinessById(
   id: string
 ): Promise<BusinessWithCategoryName | null> {
+  console.log('>>> getBusinessById called with id:', id);
   try {
     const rows = await db
       .select(businessSelectFields)

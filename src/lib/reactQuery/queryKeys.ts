@@ -12,7 +12,7 @@ export const queryKeys = {
   businessList: (filters: GetBusinessesParams) =>
     ['businesses', filters] as const,
 
-  businessById: (id: string) => ['businesses', 'byId', id] as const,
+  businessById: (id: string) => ['businesses', 'byNewId', id] as const,
   // karma
   userVote: (businessId: string, userId?: string) =>
     ['userVote', businessId, userId] as const,

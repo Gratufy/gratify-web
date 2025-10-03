@@ -1,12 +1,12 @@
-"use client";
-import React from "react";
-import { useBusiness, useDeleteBusiness } from "@/hooks/useBusinesses";
-import BackButton from "../ui/BackButton";
-import Link from "next/link";
-import { renderLocations } from "@/lib/helpers/renderLocations";
-import dynamic from "next/dynamic";
+'use client';
+import React from 'react';
+import { useBusiness, useDeleteBusiness } from '@/hooks/useBusinesses';
+import BackButton from '../ui/BackButton';
+import Link from 'next/link';
+import { renderLocations } from '@/lib/helpers/renderLocations';
+import dynamic from 'next/dynamic';
 const BusinessMapAll = dynamic(
-  () => import("@/components/shared/BusinessMapAll"),
+  () => import('@/components/shared/BusinessMapAll'),
   {
     ssr: false,
   }
@@ -19,49 +19,50 @@ interface Props {
 
 function BusinessEditDetails({ id, href }: Props) {
   const { data, isLoading, error } = useBusiness(id);
+
   const deleteBusinessMutation = useDeleteBusiness();
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  const selectedCity = "__all__";
+  const selectedCity = '__all__';
   if (!data) return <p>No business found</p>;
   const CityListElements = renderLocations(data, selectedCity);
   const handleDelete = async (businessId: string) => {
-    const confirmed = confirm("Are you sure you want to delete this business?");
+    const confirmed = confirm('Are you sure you want to delete this business?');
     if (!confirmed) return;
     await deleteBusinessMutation.mutateAsync(businessId);
-    alert("Business deleted successfully!");
+    alert('Business deleted successfully!');
   };
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center p-4">
       <BackButton href={href} />
       {data ? (
         <>
-          <h1 className="text-4xl font-bold mb-4">
+          <h1 className="mb-4 text-4xl font-bold">
             Business Details for {data.name}
           </h1>
-          <div className="flex flex-col items-center justify-center  p-4">
-            <p className="text-2xl mb-4">Name: {data.name}</p>
+          <div className="flex flex-col items-center justify-center p-4">
+            <p className="mb-4 text-2xl">Name: {data.name}</p>
             {/* <p className="text-2xl mb-4">City: {data.city}</p> */}
 
-            <p className="text-2xl ">Category: {data.categoryName}</p>
+            <p className="text-2xl">Category: {data.categoryName}</p>
             {data?.specialOffers.length &&
               data.specialOffers.map((offer) => (
-                <p key={offer.offerId} className="text-xl ">
+                <p key={offer.offerId} className="text-xl">
                   - {offer.title}
                 </p>
               ))}
             {CityListElements}
-            <p className="text-2xl ">Status: {data.status}</p>
+            <p className="text-2xl">Status: {data.status}</p>
           </div>
-          <div className="flex items-center justify-center gap-4 mt-4">
+          <div className="mt-4 flex items-center justify-center gap-4">
             <Link
               href={`./${id}/edit`}
-              className="p-2 text-xl w-40 flex justify-center items-center bg-chart-2 text-white rounded-full cursor-pointer"
+              className="bg-chart-2 flex w-40 cursor-pointer items-center justify-center rounded-full p-2 text-xl text-white"
             >
               Edit
             </Link>
             <button
-              className="border rounded-3xl border-red-500 cursor-pointer px-4 py-2 flex items-center justify-center"
+              className="flex cursor-pointer items-center justify-center rounded-3xl border border-red-500 px-4 py-2"
               onClick={() => handleDelete(data.id)}
             >
               Delete
