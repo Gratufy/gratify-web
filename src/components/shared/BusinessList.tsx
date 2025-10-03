@@ -5,6 +5,8 @@ import { BusinessWithCategoryName } from '@/types';
 
 import BusinessCardShot from './BusinessCardShot';
 import Link from 'next/link';
+import BusinessListSkeleton from './BusinessListSkeleton';
+import { Spinner } from '../ui/spinner';
 
 // interface BusinessListSimpleProps {
 //   businesses: BusinessWithCategoryName[];
@@ -65,7 +67,7 @@ function BusinessList({
 
   return (
     <section className="flex flex-1 flex-col items-center">
-      {isLoading && <p>Loading...</p>}
+      {isLoading && <BusinessListSkeleton count={6} />}
       {isError && <p>Error: {error?.message}</p>}
 
       {businesses.length > 0 && (
@@ -78,6 +80,7 @@ function BusinessList({
               onMouseLeave={() => onHover?.(null)}
             >
               <Link
+                prefetch={false}
                 href={{
                   pathname: `${linkPrefix}/${b.id}`,
                   ...(includeCityQuery && selectedCity !== '__all__'
@@ -100,7 +103,7 @@ function BusinessList({
       )}
       {enableInfiniteScroll && (
         <div ref={loadMoreRef} className="h-4">
-          {isFetchingNextPage && <p>Loading more...</p>}
+          {isFetchingNextPage && <Spinner />}
         </div>
       )}
     </section>

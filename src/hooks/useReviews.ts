@@ -1,6 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { queryKeys } from "@/lib/reactQuery/queryKeys";
+import { queryKeys } from '@/lib/reactQuery/queryKeys';
 
 import {
   createReview,
@@ -8,8 +8,8 @@ import {
   deleteReview,
   updateReviewStatus,
   getBusinessReviews,
-} from "@/lib/actions/reviews";
-import { BusinessReviewStatus, ScopeReview } from "@/types";
+} from '@/lib/actions/reviews';
+import { BusinessReviewStatus, ScopeReview } from '@/types';
 
 export function useBusinessReviews(
   businessId: string,
@@ -38,7 +38,7 @@ export function useCreateReview() {
       });
       // все списки бизнесов (мог измениться счетчик/сортировка)
       queryClient.invalidateQueries({
-        queryKey: ["businesses"], // вместо queryKeys.businesses
+        queryKey: ['businesses'], // вместо queryKeys.businesses
         exact: false,
       });
 
@@ -65,7 +65,7 @@ export function useUpdateReview(businessId: string) {
         exact: true,
       });
       queryClient.invalidateQueries({
-        queryKey: ["businesses"], // вместо queryKeys.businesses
+        queryKey: ['businesses'], // вместо queryKeys.businesses
         exact: false,
       });
     },
@@ -88,7 +88,7 @@ export function useDeleteReview(businessId: string) {
       });
       // 3. update general list of businesses
       queryClient.invalidateQueries({
-        queryKey: ["businesses"], // вместо queryKeys.businesses
+        queryKey: ['businesses'], // вместо queryKeys.businesses
         exact: false,
       });
       // 4. update admin list of businesses

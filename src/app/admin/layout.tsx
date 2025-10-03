@@ -3,7 +3,8 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
-
+import { verifySession } from '@/lib/dal';
+import { redirect } from 'next/navigation';
 import AdminFooter from '@/components/admin/AdminFooter/AdminFooter';
 import AdminHeader from '@/components/admin/AdminHeader/AdminHeader';
 import { getBusinesses } from '@/lib/actions/businesses';
@@ -35,6 +36,17 @@ export default async function AdminLayout({
         showOnlineStatus: 'all',
       }),
   });
+
+  const session = await verifySession();
+
+  if (!session) {
+    redirect('/login');
+  }
+
+  if (session.role !== 'ADMIN') {
+    redirect('/no-access');
+  }
+
   const dehydratedState = dehydrate(queryClient);
   return (
     <HydrationBoundary state={dehydratedState}>

@@ -1,5 +1,5 @@
-import { createServerClient } from "@supabase/ssr";
-import { NextResponse, type NextRequest } from "next/server";
+import { createServerClient } from '@supabase/ssr';
+import { NextResponse, type NextRequest } from 'next/server';
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -40,7 +40,17 @@ export async function updateSession(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  console.log("user", user?.email);
+  console.log('user', user?.email);
+  const protectedPaths = ['/favorites', '/dashboard', '/admin'];
+  const path = request.nextUrl.pathname;
+  const isProtectedPath = protectedPaths.some((p) => path.startsWith(p));
+  console.log('isProtectedPath', isProtectedPath);
+  if (isProtectedPath && !user) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/login';
+    return NextResponse.redirect(url);
+  }
+
   //I do not need it yet
   // if (
   //   !user &&

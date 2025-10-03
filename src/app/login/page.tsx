@@ -3,7 +3,7 @@ import React from 'react';
 
 function LoginPage() {
   return (
-    <div className="container flex items-center justify-center">
+    <div className="container flex items-center justify-center py-20">
       <LoginHomeClient />
     </div>
   );
