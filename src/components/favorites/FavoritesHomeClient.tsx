@@ -8,8 +8,11 @@ import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 import FavoritesSectionDesktop from './FavoritesSectionDesktop';
 
 import FavoritesSectionMobile from './FavoritesSectionMobile';
+import { useUserStore } from '@/stores/useUserStore';
 
 function FavoritesHomeClient() {
+  const profile = useUserStore((s) => s.profile);
+
   const {
     categories,
     // isLoading: isCategoriesLoading,
@@ -29,7 +32,11 @@ function FavoritesHomeClient() {
     isLoading,
     isError,
     error,
-  } = useUserFavoriteBusinesses(categoryId);
+  } = useUserFavoriteBusinesses(categoryId ?? '__all__', !!profile); // only fetch if profile exists
+
+  if (!profile) {
+    return <p>Будь ласка, увійдіть, щоб побачити ваші улюблені бізнеси.</p>;
+  }
   return (
     <UserFavoritesProvider>
       <FavoritesSectionMobile

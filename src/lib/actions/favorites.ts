@@ -6,6 +6,7 @@ import type { BusinessWithCategoryName, Favorite } from '@/types';
 import { createClient } from '@/utils/supabase/server';
 import { getSpecialOffersForBusinesses } from '../helpers/getSpecialOffersForBusinesses';
 
+//provider of user favorites
 export async function getUserFavorites(): Promise<Favorite[]> {
   const supabase = await createClient();
 
@@ -13,7 +14,10 @@ export async function getUserFavorites(): Promise<Favorite[]> {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) throw new Error('Not authenticated');
+  // if (!user) throw new Error('Not authenticated');
+  if (!user) {
+    return []; // или null
+  }
 
   try {
     const userFavorites = await db
@@ -27,7 +31,7 @@ export async function getUserFavorites(): Promise<Favorite[]> {
     throw new Error('Failed to fetch favorites');
   }
 }
-
+// for fetching favorite businesses on page favorites
 export async function getUserFavoriteBusinesses(
   categoryId = '__all__'
 ): Promise<BusinessWithCategoryName[]> {
@@ -36,7 +40,10 @@ export async function getUserFavoriteBusinesses(
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) throw new Error('Not authenticated');
+  // if (!user) throw new Error('Not authenticated');
+  if (!user) {
+    return []; // или null
+  }
 
   //
   const conditions = [eq(favorites.userId, user.id)];

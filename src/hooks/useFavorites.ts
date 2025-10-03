@@ -18,10 +18,14 @@ export const useUserFavorites = () => {
   });
 };
 
-export const useUserFavoriteBusinesses = (categoryId = '__all__') => {
+export const useUserFavoriteBusinesses = (
+  categoryId = '__all__',
+  enabled = true
+) => {
   return useQuery({
     queryKey: [...queryKeys.favoriteBusinesses, categoryId],
     queryFn: () => getUserFavoriteBusinesses(categoryId),
+    enabled, // only fetch if profile exists
   });
 };
 // --- Hook for adding favorite ---
