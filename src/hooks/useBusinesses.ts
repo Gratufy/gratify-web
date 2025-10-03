@@ -64,6 +64,7 @@ export function useInfiniteBusinesses(
     },
     staleTime: 1000 * 60 * 10, // 10 минут кеш
     initialPageParam: 0,
+    //keepPreviousData: true,
   });
 }
 

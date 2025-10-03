@@ -9,6 +9,7 @@ import Karma from './Karma';
 import BusinessReviews from './BusinessReviews';
 
 import dynamic from 'next/dynamic';
+import { Spinner } from '../ui/spinner';
 const BusinessMapAll = dynamic(() => import('./BusinessMapAll'), {
   ssr: false,
 });
@@ -22,8 +23,8 @@ interface Props {
 function BusinessDetails({ id, href, selectedCity }: Props) {
   const { data, isLoading, error } = useBusiness(id);
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  // if (isLoading) return <p>Loading...</p>;
+  // if (error) return <p>Error: {error.message}</p>;
 
   if (!data) return <p>No business found</p>;
   //sort location depends on selectedCity
@@ -34,6 +35,7 @@ function BusinessDetails({ id, href, selectedCity }: Props) {
       <h1 className="mb-4 text-4xl font-bold">
         Business Details for {data?.name}
       </h1>
+      {isLoading && <Spinner />}
       <div className="flex w-full flex-col items-center justify-center">
         <p className="mb-4 text-2xl">Name: {data?.name}</p>
         {/* <p className="text-2xl mb-4">City: {data?.locations}</p> */}

@@ -10,7 +10,7 @@ import BusinessFooter from '@/components/business/BusinessFooter/BusinessFooter'
 import PublicHeader from '@/components/public/PublicHeader/PublicHeader';
 // import FakeBusinessHeader from '@/components/business/BusinessHeader/FakeBusinessHeader';
 
-export default async function PublicLayout({
+export default async function BusinessLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

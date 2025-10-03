@@ -18,25 +18,25 @@ export default async function PublicLayout({
 }>) {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: queryKeys.businessList({
-      city: '__all__',
-      categoryId: '__all__',
-      sortBy: 'newest',
-      scope: 'public',
-      showOnlineStatus: 'all',
-    }),
-    // queryFn: () =>
-    //   getBusinesses({
-    //     city: "__all__",
-    //     categoryId: "__all__",
-    //     sortBy: "newest",
-    //     scope: "public",
-    //     showOnlineStatus: "all",
-    //     limit: PAGE_SIZE,
-    //     offset: 0,
-    //   }),
-  });
+  // await queryClient.prefetchQuery({
+  //   queryKey: queryKeys.businessList({
+  //     city: '__all__',
+  //     categoryId: '__all__',
+  //     sortBy: 'newest',
+  //     scope: 'public',
+  //     showOnlineStatus: 'all',
+  //   }),
+  // queryFn: () =>
+  //   getBusinesses({
+  //     city: "__all__",
+  //     categoryId: "__all__",
+  //     sortBy: "newest",
+  //     scope: "public",
+  //     showOnlineStatus: "all",
+  //     limit: PAGE_SIZE,
+  //     offset: 0,
+  //   }),
+  //});
 
   await queryClient.prefetchInfiniteQuery({
     queryKey: [
