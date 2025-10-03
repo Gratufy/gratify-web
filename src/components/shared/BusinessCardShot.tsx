@@ -91,14 +91,7 @@ function BusinessCardShot({
           <p className="title-h4">{business.categoryName}</p>
         </div>
       </div>
-      {/* <Link
-        href={{
-          pathname: `/business/${business.id}`,
-          query: { city: selectedCity },
-        }}
-        className="block h-full w-full"
-      > */}
-      {/* body */}
+
       <div className="mb-4 flex gap-4 px-4 lg:mb-5 lg:gap-6 lg:px-2 xl:mb-3">
         <div className="flex flex-1 flex-col gap-1">
           {business?.specialOffers.length > 0 &&
@@ -116,22 +109,11 @@ function BusinessCardShot({
             {business.description}
           </p>
         </div>
-        {/* {CityListElements}
-        <p>status: {business.status}</p>
-        <p>review : {business.reviewCount}</p> */}
-        {/* karma */}
-        {/* <Karma businessId={business.id} />
-        <Link
-          href={`./business/${business.id}`}
-          className="bg-chart-2 cursor-pointer rounded-full px-4 py-2 text-white"
-        >
-          See more
-        </Link> */}
       </div>
       {/* hot */}
       <div className="flex gap-4 px-4 lg:gap-6 lg:px-2">
         <div className="flex flex-1 items-center gap-4 lg:gap-3">
-          <Karma businessId={business.id} />
+          <Karma businessId={business.id} initialKarma={business.karma} />
 
           <div className="flex items-center gap-0.5">
             <ReviewIcon className="h-4 w-4 xl:h-5 xl:w-5" />
@@ -140,15 +122,7 @@ function BusinessCardShot({
             </span>
           </div>
         </div>
-        {/* <div className="flex-1">
-            {business.isOnline && business.locations.length === 0 && (
-              <span className="placeholder-xs lg:placeholder-sm xl:placeholder-base">
-                Он-лайн тільки
-              </span>
-            )}
-          </div> */}
       </div>
-      {/* </Link> */}
     </>
   );
 }

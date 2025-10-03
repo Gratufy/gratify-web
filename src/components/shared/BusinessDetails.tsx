@@ -49,7 +49,7 @@ function BusinessDetails({ id, href, selectedCity }: Props) {
           ))}
         <p className="text-2xl">Status: {data?.status}</p>
         {/* karma */}
-        <Karma businessId={id} />
+        <Karma businessId={id} initialKarma={data.karma} />
 
         <BusinessReviews businessId={id} />
         {data.locations && data.locations.length > 0 && (
