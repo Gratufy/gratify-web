@@ -1,5 +1,12 @@
 import React from 'react';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
+import { getBusinessById } from '@/lib/actions/businesses';
 import BusinessDetails from '@/components/shared/BusinessDetails';
+import { queryKeys } from '@/lib/reactQuery/queryKeys';
 
 interface BusinessPageProps {
   params: Promise<{ id: string }>;
@@ -11,13 +18,22 @@ export default async function PublicBusinessDetailsPage({
   params,
   searchParams,
 }: BusinessPageProps) {
+  const queryClient = new QueryClient();
   const { id } = await params;
   const { city } = await searchParams;
   const selectedCity = city ?? '__all__';
 
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.businessById(id),
+    queryFn: () => getBusinessById(id),
+  });
+
+  const dehydratedState = dehydrate(queryClient);
   return (
-    <div className="lg:pt-15 xl:pt-15 container flex min-h-screen flex-col items-center justify-center lg:pb-20 xl:pb-20">
-      <BusinessDetails id={id} href="../" selectedCity={selectedCity} />
-    </div>
+    <HydrationBoundary state={dehydratedState}>
+      <div className="lg:pt-15 xl:pt-15 container flex min-h-screen flex-col items-center justify-center lg:pb-20 xl:pb-20">
+        <BusinessDetails id={id} href="../" selectedCity={selectedCity} />
+      </div>
+    </HydrationBoundary>
   );
 }

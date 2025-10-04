@@ -5,7 +5,7 @@ import { BusinessWithCategoryName } from '@/types';
 
 import BusinessCardShot from './BusinessCardShot';
 import Link from 'next/link';
-import BusinessListSkeleton from './BusinessListSkeleton';
+import BusinessListSkeleton from './skeletons/BusinessListSkeleton';
 import { Spinner } from '../ui/spinner';
 
 // interface BusinessListSimpleProps {
