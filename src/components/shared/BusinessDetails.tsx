@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { useBusiness } from '@/hooks/useBusinesses';
 
 import { renderLocations } from '@/lib/helpers/renderLocations';
@@ -11,6 +11,7 @@ import BusinessReviews from './BusinessReviews';
 import dynamic from 'next/dynamic';
 
 import BusinessCardSkeleton from './skeletons/BusinessCardSkeleton';
+import { BusinessWithCategoryName } from '@/types';
 const BusinessMapAll = dynamic(() => import('./BusinessMapAll'), {
   ssr: false,
 });
@@ -19,50 +20,52 @@ interface Props {
   id: string;
   href: string;
   selectedCity: string;
+  initialData: BusinessWithCategoryName;
 }
 
-function BusinessDetails({ id, href, selectedCity }: Props) {
+function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
   const { data, isLoading, error } = useBusiness(id);
+  const business = data ?? initialData;
 
-  if (!data && !isLoading) return <p>No business found</p>;
+  // if (!data && !isLoading) return <p>No business found</p>;
   //sort location depends on selectedCity
   const CityListElements = data ? renderLocations(data, selectedCity) : null;
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center">
       <BackButton href={href} />
       {/* Ошибка */}
-      {error && <p className="text-red-500">Error: {error.message}</p>}
+      {/* {error && <p className="text-red-500">Error: {error.message}</p>} */}
 
       {/* Скелетон при загрузке */}
-      {isLoading && <BusinessCardSkeleton />}
+      {/* {isLoading && <BusinessCardSkeleton />} */}
 
       {/* Нет данных */}
-      {!isLoading && !data && !error && <p>No business found</p>}
+      {/* {!isLoading && !data && !error && <p>No business found</p>} */}
       {/* Когда есть данные */}
-      {!isLoading && data && (
+      {business && (
         <>
           <h1 className="mb-4 text-4xl font-bold">
-            Business Details for {data?.name}
+            Business Details for {business?.name}
           </h1>
           <div className="flex w-full flex-col items-center justify-center">
-            <p className="mb-4 text-2xl">Name: {data?.name}</p>
-            {/* <p className="text-2xl mb-4">City: {data?.locations}</p> */}
-            <p className="text-2xl">Category: {data?.categoryName}</p>
+            <p className="mb-4 text-2xl">Name: {business?.name}</p>
+            {/* <p className="text-2xl mb-4">City: {business?.locations}</p> */}
+            <p className="text-2xl">Category: {business?.categoryName}</p>
             {CityListElements}
-            {data?.specialOffers.length &&
-              data.specialOffers.map((offer) => (
+            {business?.specialOffers.length &&
+              business.specialOffers.map((offer) => (
                 <p key={offer.offerId} className="text-xl">
                   - {offer.title}
                 </p>
               ))}
-            <p className="text-2xl">Status: {data?.status}</p>
+            <p className="text-2xl">Status: {business?.status}</p>
             {/* karma */}
-            <Karma businessId={id} initialKarma={data.karma} />
+            <Karma businessId={id} initialKarma={business.karma} />
 
             <BusinessReviews businessId={id} />
-            {data.locations && data.locations.length > 0 && (
+            {business.locations && business.locations.length > 0 && (
               <BusinessMapAll
-                businesses={[data]}
+                businesses={[business]}
                 className="w-full"
                 selectedCity={selectedCity}
               />

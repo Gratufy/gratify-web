@@ -1,4 +1,6 @@
 import React from 'react';
+import { notFound } from 'next/navigation';
+import { validate as uuidValidate } from 'uuid'; // npm install uuid
 import {
   dehydrate,
   HydrationBoundary,
@@ -20,20 +22,28 @@ export default async function PublicBusinessDetailsPage({
 }: BusinessPageProps) {
   const queryClient = new QueryClient();
   const { id } = await params;
+  if (!uuidValidate(id)) return notFound();
   const { city } = await searchParams;
   const selectedCity = city ?? '__all__';
+  const business = await getBusinessById(id);
+  if (!business) {
+    // если ID неправильный → NotFound
+    return notFound();
+  }
+  // await queryClient.prefetchQuery({
+  //   queryKey: queryKeys.businessById(id),
+  //   queryFn: () => Promise.resolve(business),
+  // });
 
-  await queryClient.prefetchQuery({
-    queryKey: queryKeys.businessById(id),
-    queryFn: () => getBusinessById(id),
-  });
-
-  const dehydratedState = dehydrate(queryClient);
+  // const dehydratedState = dehydrate(queryClient);
   return (
-    <HydrationBoundary state={dehydratedState}>
-      <div className="lg:pt-15 xl:pt-15 container flex min-h-screen flex-col items-center justify-center lg:pb-20 xl:pb-20">
-        <BusinessDetails id={id} href="../" selectedCity={selectedCity} />
-      </div>
-    </HydrationBoundary>
+    <div className="lg:pt-15 xl:pt-15 container flex min-h-screen flex-col items-center justify-center lg:pb-20 xl:pb-20">
+      <BusinessDetails
+        id={id}
+        href="../"
+        selectedCity={selectedCity}
+        initialData={business}
+      />
+    </div>
   );
 }

@@ -1,7 +1,8 @@
 'use server';
-import { notFound } from 'next/navigation';
+
 import { createClient } from '@/utils/supabase/server';
 import { db } from '@/db';
+
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 import {
   businessCategories,
@@ -315,6 +316,7 @@ export async function getBusinessById(
   id: string
 ): Promise<BusinessWithCategoryName | null> {
   try {
+    // if (!uuidValidate(id)) notFound();
     const rows = await db
       .select(businessSelectFields)
       .from(businesses)
@@ -328,7 +330,7 @@ export async function getBusinessById(
       )
       .where(eq(businesses.id, id));
 
-    if (!rows.length) notFound();
+    if (!rows.length) return null;
     const businessData = {
       ...rows[0],
       locations: [],
