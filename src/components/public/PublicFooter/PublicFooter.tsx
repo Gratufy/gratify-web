@@ -52,7 +52,7 @@ function PublicFooter() {
             <Link href="/privacy" className="placeholder-small">
               Політика конфеденційності
             </Link>
-            <Link href="/privacy" className="placeholder-small">
+            <Link href="/terms" className="placeholder-small">
               Умови використання
             </Link>
           </div>

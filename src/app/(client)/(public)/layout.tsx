@@ -3,13 +3,9 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
-import PublicFooter from '@/components/public/PublicFooter/PublicFooter';
-import PublicHeader from '@/components/public/PublicHeader/PublicHeader';
+
 import { getBusinesses } from '@/lib/actions/businesses';
 import { PAGE_SIZE } from '@/const/business';
-import { queryKeys } from '@/lib/reactQuery/queryKeys';
-// import FakePublicHeader from '@/components/public/PublicHeader/FakePublicHeader';
-import HeroSection from '@/components/shared/HeroSection';
 
 export default async function PublicLayout({
   children,
@@ -45,16 +41,6 @@ export default async function PublicLayout({
   });
   const dehydratedState = dehydrate(queryClient);
   return (
-    <HydrationBoundary state={dehydratedState}>
-      {/* <FakePublicHeader /> */}
-      <div className="flex min-h-screen flex-col">
-        <PublicHeader />
-        <main className="flex flex-1 flex-col">
-          <HeroSection />
-          {children}
-        </main>
-        <PublicFooter />
-      </div>
-    </HydrationBoundary>
+    <HydrationBoundary state={dehydratedState}>{children}</HydrationBoundary>
   );
 }
