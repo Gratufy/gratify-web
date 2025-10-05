@@ -27,21 +27,22 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
   const { data, isLoading, error } = useBusiness(id);
   const business = data ?? initialData;
 
-  // if (!data && !isLoading) return <p>No business found</p>;
   //sort location depends on selectedCity
   const CityListElements = data ? renderLocations(data, selectedCity) : null;
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center">
       <BackButton href={href} />
-      {/* Ошибка */}
-      {/* {error && <p className="text-red-500">Error: {error.message}</p>} */}
+      {/* Error */}
+      {error && <p className="text-red-500">Error: {error.message}</p>}
 
-      {/* Скелетон при загрузке */}
-      {/* {isLoading && <BusinessCardSkeleton />} */}
+      {/* Skeleton  */}
+      {isLoading && <BusinessCardSkeleton />}
 
-      {/* Нет данных */}
-      {/* {!isLoading && !data && !error && <p>No business found</p>} */}
-      {/* Когда есть данные */}
+      {/* No data */}
+      {!isLoading && !business && !error && (
+        <p>Упс... Ми не знайшли бізнес за цим ID</p>
+      )}
+      {/* There is data */}
       {business && (
         <>
           <h1 className="mb-4 text-4xl font-bold">
