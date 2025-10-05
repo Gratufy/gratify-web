@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useBusiness } from '@/hooks/useBusinesses';
 import { useUserVote, useVoteBusiness } from '@/hooks/useVoteBusiness';
 import { useUserStore } from '@/stores/useUserStore';
@@ -12,10 +12,16 @@ type KarmaProps = {
 };
 function Karma({ businessId, initialKarma }: KarmaProps) {
   const [karma, setKarma] = useState(initialKarma);
+  // если пропсы обновились (при возврате на страницу) — пересинхронизируем
+
   //const { data: business } = useBusiness(businessId);
   const { data: userVote } = useUserVote(businessId);
   const voteMutation = useVoteBusiness(businessId);
   const user = useUserStore((state) => state.profile);
+
+  useEffect(() => {
+    setKarma(initialKarma);
+  }, [initialKarma]);
 
   function handleVote(e: React.MouseEvent, vote: 1 | -1) {
     e.preventDefault(); // Prevent navigating to business detail page
@@ -24,17 +30,11 @@ function Karma({ businessId, initialKarma }: KarmaProps) {
       alert('Please log in to vote');
       return;
     }
-    // voteMutation.mutate(vote);
-    voteMutation.mutate(vote, {
-      onSuccess: () => {
-        if (userVote?.vote === vote) {
-          // if the same vote is clicked again, it means removing the vote
-          setKarma((k) => k - vote); // локально обновляем
-        } else {
-          setKarma((k) => k + vote); // локально обновляем
-        }
-      },
-    });
+    const prev = userVote?.vote ?? 0;
+    const newVote = prev === vote ? 0 : vote;
+    const delta = newVote - prev;
+    setKarma((k) => k + delta);
+    voteMutation.mutate(vote);
   }
   return (
     <div className="flex items-center gap-3 lg:gap-2">
@@ -50,9 +50,7 @@ function Karma({ businessId, initialKarma }: KarmaProps) {
         <Plus className="h-4 w-4 xl:h-5 xl:w-5" />
       </button>
 
-      <p className="placeholder-sm xl:placeholder-base font-medium">
-        {initialKarma}
-      </p>
+      <p className="placeholder-sm xl:placeholder-base font-medium">{karma}</p>
 
       <button
         className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded-xl xl:h-6 xl:w-6 ${

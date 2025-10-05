@@ -23,6 +23,7 @@ import {
   AdminBusinessRowType,
   BusinessReviewStatus,
   BusinessUpdate,
+  BusinessWithCategoryName,
   GetBusinessesParams,
   UseAdminBusinessesParams,
 } from '@/types';
@@ -69,15 +70,31 @@ export function useInfiniteBusinesses(
 }
 
 // one business
-export function useBusiness(id: string) {
+// export function useBusiness(id: string) {
+//   const queryClient = useQueryClient();
+
+//   return useQuery<BusinessWithCategoryName | null>({
+//     queryKey: queryKeys.businessById(id),
+//     queryFn: () => getBusinessById(id),
+//     initialData: () =>
+//       queryClient.getQueryData<BusinessWithCategoryName>(
+//         queryKeys.businessById(id)
+//       ) ?? null,
+//     staleTime: 1000 * 60 * 10,
+//     enabled: !!id,
+//   });
+// }
+export function useBusiness(
+  businessId: string,
+  initialData?: BusinessWithCategoryName
+) {
   return useQuery({
-    queryKey: queryKeys.businessById(id),
-    queryFn: () => getBusinessById(id),
-    staleTime: 1000 * 60 * 10, // 10 минут кеш
-    enabled: !!id,
+    queryKey: queryKeys.businessById(businessId),
+    queryFn: () => getBusinessById(businessId),
+    initialData,
+    enabled: false, // не делаем лишний запрос, если данные уже есть
   });
 }
-
 // create
 export function useCreateBusiness() {
   const queryClient = useQueryClient();

@@ -82,6 +82,9 @@ function HomeSectionDesktop({
     <div
       className={`hidden w-full lg:block lg:max-w-[1024px] xl:max-w-[1440px] ${showMap ? 'lg:pl-[50px] xl:pl-[150px]' : 'lg:px-[50px] xl:px-[150px]'}`}
     >
+      {businesses.length === 0 && (
+        <div className="lg:h-13 xl:g-14 w-full"></div>
+      )}
       {businesses.length > 0 && (
         <div
           className={`w-full ${showMap ? 'lg:pr-[50px] xl:pr-[150px]' : ''}`}

@@ -8,5 +8,13 @@ export default function LoadingBusinessPage() {
         <div className="h-40 w-full rounded bg-gray-100" />
       </div>
     </div>
+    // <div className="flex min-h-screen w-full flex-col items-center justify-center">
+    //   <div className="text-center">
+    //     <p className="mb-4 text-2xl font-semibold">
+    //       Loading business details...
+    //     </p>
+    //     <div className="border-t-primary h-10 w-10 animate-spin rounded-full border-4 border-green-500" />
+    //   </div>
+    // </div>
   );
 }

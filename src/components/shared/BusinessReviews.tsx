@@ -1,13 +1,14 @@
-"use client";
-import React, { useState } from "react";
-
-import { useUserStore } from "@/stores/useUserStore";
+'use client';
+import React, { useState } from 'react';
+import { Spinner } from '../ui/spinner';
+import { useUserStore } from '@/stores/useUserStore';
 import {
   useBusinessReviews,
   useCreateReview,
   useDeleteReview,
   useUpdateReview,
-} from "@/hooks/useReviews";
+} from '@/hooks/useReviews';
+import ReviewsSkeleton from './skeletons/ReviewsSkeleton';
 
 interface Props {
   businessId: string;
@@ -16,10 +17,10 @@ interface Props {
 export default function BusinessReviews({ businessId }: Props) {
   //   const queryClient = useQueryClient();
   const user = useUserStore((state) => state.profile);
-  const { data: reviews, isLoading } = useBusinessReviews(businessId, "public");
-  const [newText, setNewText] = useState("");
+  const { data: reviews, isLoading } = useBusinessReviews(businessId, 'public');
+  const [newText, setNewText] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editingText, setEditingText] = useState("");
+  const [editingText, setEditingText] = useState('');
   const [showReviews, setShowReviews] = useState(false);
 
   const createReviewMutation = useCreateReview();
@@ -29,36 +30,37 @@ export default function BusinessReviews({ businessId }: Props) {
   const handleAdd = async () => {
     if (!newText.trim()) return;
     await createReviewMutation.mutateAsync({ businessId, text: newText });
-    setNewText("");
-    alert("Review added successfully!");
+    setNewText('');
+    alert('Review added successfully!');
   };
 
   const handleEdit = async (reviewId: string) => {
     if (!editingText.trim()) return;
     await updateReview.mutateAsync({ reviewId, text: editingText });
     setEditingId(null);
-    setEditingText("");
-    alert("Review updated successfully!");
+    setEditingText('');
+    alert('Review updated successfully!');
   };
 
   const handleDelete = async (reviewId: string) => {
-    const confirmed = confirm("Are you sure you want to delete this review?");
+    const confirmed = confirm('Are you sure you want to delete this review?');
     if (!confirmed) return;
     await deleteReviewMutation.mutateAsync(reviewId);
-    alert("Review deleted successfully!");
+    alert('Review deleted successfully!');
   };
-  if (isLoading) return <p>Loading reviews...</p>;
+  // if (isLoading) return <p>Loading reviews...</p>;
   return (
     <div className="mt-6 w-full max-w-2xl">
-      <p className="text-2xl font-semibold mb-2">
+      <p className="mb-2 text-2xl font-semibold">
         Reviews ({reviews?.length || 0})
       </p>
+      {isLoading && <ReviewsSkeleton count={3} />}
       {reviews && reviews.length > 0 && (
         <button
-          className="border rounded-3xl border-black btn-secondary cursor-pointer px-4 py-2 flex items-center justify-center"
+          className="btn-secondary flex cursor-pointer items-center justify-center rounded-3xl border border-black px-4 py-2"
           onClick={() => setShowReviews(!showReviews)}
         >
-          {showReviews ? "Hide Reviews" : "Show Reviews"}
+          {showReviews ? 'Hide Reviews' : 'Show Reviews'}
         </button>
       )}
       {showReviews && reviews && !reviews.length && <p>No reviews yet.</p>}
@@ -75,17 +77,17 @@ export default function BusinessReviews({ businessId }: Props) {
                   name="review"
                   value={editingText}
                   onChange={(e) => setEditingText(e.target.value)}
-                  className="w-full border rounded p-2"
+                  className="w-full rounded border p-2"
                 />
                 <button
-                  className="border rounded-3xl border-black btn-primary cursor-pointer px-4 py-2 flex items-center justify-center"
+                  className="btn-primary flex cursor-pointer items-center justify-center rounded-3xl border border-black px-4 py-2"
                   onClick={() => handleEdit(r.id)}
                 >
                   Save
                 </button>
                 <button
                   onClick={() => setEditingId(null)}
-                  className="border rounded-3xl border-gray-800 btn-secondary cursor-pointer px-4 py-2 flex items-center justify-center"
+                  className="btn-secondary flex cursor-pointer items-center justify-center rounded-3xl border border-gray-800 px-4 py-2"
                 >
                   Cancel
                 </button>
@@ -95,9 +97,9 @@ export default function BusinessReviews({ businessId }: Props) {
             )}
 
             {user &&
-              (user.userId === r.userId || user.role === "ADMIN") &&
+              (user.userId === r.userId || user.role === 'ADMIN') &&
               editingId !== r.id && (
-                <div className="mt-1 flex gap-2 justify-end">
+                <div className="mt-1 flex justify-end gap-2">
                   {user.userId === r.userId && (
                     <>
                       <button
@@ -105,19 +107,19 @@ export default function BusinessReviews({ businessId }: Props) {
                           setEditingId(r.id);
                           setEditingText(r.text);
                         }}
-                        className="border rounded-3xl border-green-700  cursor-pointer px-4 py-2 flex items-center justify-center"
+                        className="flex cursor-pointer items-center justify-center rounded-3xl border border-green-700 px-4 py-2"
                       >
                         Edit
                       </button>
                       <button
-                        className="border rounded-3xl border-red-500 cursor-pointer px-4 py-2 flex items-center justify-center"
+                        className="flex cursor-pointer items-center justify-center rounded-3xl border border-red-500 px-4 py-2"
                         onClick={() => handleDelete(r.id)}
                       >
                         Delete
                       </button>
                     </>
                   )}
-                  {user.role === "ADMIN" && (
+                  {user.role === 'ADMIN' && (
                     <>{/* we can add a select for status change */}</>
                   )}
                 </div>
@@ -131,11 +133,11 @@ export default function BusinessReviews({ businessId }: Props) {
             placeholder="Write your review..."
             value={newText}
             onChange={(e) => setNewText(e.target.value)}
-            className="w-full border rounded p-2 mb-2"
+            className="mb-2 w-full rounded border p-2"
           />
           <button
             onClick={handleAdd}
-            className="border rounded-3xl border-green-700  cursor-pointer px-4 py-2 flex items-center justify-center"
+            className="flex cursor-pointer items-center justify-center rounded-3xl border border-green-700 px-4 py-2"
           >
             Add Review
           </button>
