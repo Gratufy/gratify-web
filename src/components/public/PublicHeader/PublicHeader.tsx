@@ -29,7 +29,7 @@ function PublicHeader() {
   return (
     <header className="bg-background-main-50 w-full">
       <div className="container hidden items-center py-3 lg:flex lg:justify-between">
-        <div className="w-[169px] xl:w-[181px]">
+        <Link href="/" className="w-[169px] xl:w-[181px]">
           <Image
             src="/images/logo.png"
             width={181}
@@ -37,18 +37,14 @@ function PublicHeader() {
             alt="Logo"
             className="h-auto w-full"
           />
-        </div>
+        </Link>
+
         <InputSearch id="search-desktop" name="search-desktop" />
         {/* lg:w-34 xl:w-42* was before House */}
-        <div className="w-25 lg:w-42 xl:w-50 flex items-center justify-between">
+        <div className="w-25 lg:w-34 xl:w-42 flex items-center justify-between">
           <ThemeSwitch />
           {/* <House className="size-5" /> */}
-          <Link
-            href="/"
-            className="bg-icons-grey-50 flex w-8 items-center justify-center p-1.5"
-          >
-            <House size={20} absoluteStrokeWidth />
-          </Link>
+
           {session ? (
             // gap-1 lg:gap-3
             <div className="flex w-12 items-start justify-between">
@@ -72,24 +68,19 @@ function PublicHeader() {
       <div className="bg-background-main-50 flex w-full flex-col px-4 py-3 lg:hidden">
         <div className="container">
           <div className="flex items-center justify-between">
-            <div>
+            <Link href="/" className="w-[169px] xl:w-[181px]">
               <Image
                 src="/images/logo.png"
                 width={169}
                 height={35}
                 alt="Logo"
               />
-            </div>
+            </Link>
+
             {/* w-25 it was so before House */}
-            <div className="w-33 flex items-center justify-between">
+            <div className="w-25 flex items-center justify-between">
               <ThemeSwitch />
-              <Link
-                href="/"
-                className="bg-icons-grey-50 flex w-8 items-center justify-center p-1.5"
-              >
-                {/* <House size={20} absoluteStrokeWidth /> */}
-                <House size={20} strokeWidth={2.4} absoluteStrokeWidth />
-              </Link>
+
               {session ? (
                 // gap-1 lg:gap-3
                 <div className="flex w-12 items-start justify-between">

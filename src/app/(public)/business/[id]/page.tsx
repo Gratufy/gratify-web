@@ -1,14 +1,14 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { validate as uuidValidate } from 'uuid'; // npm install uuid
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from '@tanstack/react-query';
+// import {
+//   dehydrate,
+//   HydrationBoundary,
+//   QueryClient,
+// } from '@tanstack/react-query';
 import { getBusinessById } from '@/lib/actions/businesses';
 import BusinessDetails from '@/components/shared/BusinessDetails';
-import { queryKeys } from '@/lib/reactQuery/queryKeys';
+// import { queryKeys } from '@/lib/reactQuery/queryKeys';
 
 interface BusinessPageProps {
   params: Promise<{ id: string }>;
@@ -20,7 +20,7 @@ export default async function PublicBusinessDetailsPage({
   params,
   searchParams,
 }: BusinessPageProps) {
-  const queryClient = new QueryClient();
+  // const queryClient = new QueryClient();
   const { id } = await params;
   if (!uuidValidate(id)) return notFound();
   const { city } = await searchParams;
