@@ -28,7 +28,9 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
   const business = data ?? initialData;
 
   //sort location depends on selectedCity
-  const CityListElements = data ? renderLocations(data, selectedCity) : null;
+  const CityListElements = business
+    ? renderLocations(business, selectedCity)
+    : null;
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center">
       <BackButton href={href} />

@@ -92,13 +92,13 @@ function BusinessCardShot({
         </div>
       </div>
 
-      <div className="mb-4 flex gap-4 px-4 lg:mb-5 lg:gap-6 lg:px-2 xl:mb-3">
-        <div className="flex flex-1 flex-col gap-1">
+      <div className="h-19 lg:h-17 xl:h-19 mb-4 flex gap-4 px-4 lg:mb-5 lg:gap-6 lg:px-2 xl:mb-3">
+        <div className="flex min-w-0 flex-[0_0_50%] flex-col gap-1">
           {business?.specialOffers.length > 0 &&
             business.specialOffers.map((offer) => (
               <div key={offer.offerId} className="flex items-center gap-3">
-                <CheckIcon className="h-3 w-3 lg:h-4 lg:w-4 xl:h-5 xl:w-5" />
-                <span className="placeholder-xs lg:placeholder-sm xl:placeholder-base">
+                <CheckIcon className="h-3 w-3 flex-shrink-0 lg:h-4 lg:w-4 xl:h-5 xl:w-5" />
+                <span className="placeholder-xs lg:placeholder-sm xl:placeholder-base block truncate">
                   {offer.title}
                 </span>
               </div>
@@ -112,7 +112,7 @@ function BusinessCardShot({
       </div>
       {/* hot */}
       <div className="flex gap-4 px-4 lg:gap-6 lg:px-2">
-        <div className="flex flex-1 items-center gap-4 lg:gap-3">
+        <div className="flex flex-1 items-center gap-4 py-1 lg:gap-3 xl:py-2">
           <Karma businessId={business.id} initialKarma={business.karma} />
 
           <div className="flex items-center gap-0.5">
