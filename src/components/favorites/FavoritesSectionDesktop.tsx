@@ -44,7 +44,7 @@ function FavoritesSectionDesktop({
           setCategoryName={setCategoryName}
           categoriesWithAll={categoriesWithAll}
         />
-        <div className="flex flex-1 flex-col pb-20 lg:pb-8">
+        <div className="flex flex-1 flex-col overflow-hidden pb-20 lg:pb-8">
           {businesses.length === 0 && !isLoading && !isError && (
             <p className="placeholder-sm lg:placeholder-base">
               Ви ще не додали жодного бізнесу до улюблених

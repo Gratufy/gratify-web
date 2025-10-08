@@ -93,6 +93,7 @@
   --color-text-800-main: var(--main-700);
   --color-background-grey-50: var(--grey-50);
   --color-icons-main-500: var(--main-500-def);
+  --color-gradient-card: var(--shadow-card);
   --shadow-card: 1px 2px 10px 2px rgba(229, 233, 235, 0.25);
   --shadow-menu: 1px 2px 10px 2px var(--elements-grey-50);
 }
@@ -161,6 +162,7 @@
   --main-800: #444230;
   --main-900: #3b3a2c;
   --main-950: #1f1e14;
+  --shadow-card: #d9d9d9;
 }
 
 .dark {

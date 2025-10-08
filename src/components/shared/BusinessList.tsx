@@ -66,12 +66,12 @@ function BusinessList({
   }, [fetchNextPage, hasNextPage, isFetchingNextPage, enableInfiniteScroll]);
 
   return (
-    <section className="flex flex-1 flex-col items-center">
+    <section className="flex flex-1 flex-col items-center overflow-hidden">
       {isLoading && <BusinessListSkeleton count={6} />}
       {isError && <p>Error: {error?.message}</p>}
 
       {businesses.length > 0 && (
-        <ul className="flex w-full flex-col items-center justify-center gap-5 lg:gap-10">
+        <ul className="flex w-full max-w-full flex-col items-center justify-center gap-5 overflow-hidden lg:gap-10">
           {businesses.map((b) => (
             <li
               key={b.id}
@@ -89,7 +89,7 @@ function BusinessList({
                 }}
                 className="block h-full w-full"
               >
-                <article className="w-full" key={b.id}>
+                <article className="w-full overflow-hidden" key={b.id}>
                   <BusinessCardShot
                     business={b}
                     // selectedCity="__all__"
