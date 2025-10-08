@@ -142,8 +142,8 @@ function HomeSectionDesktop({
             categoriesWithAll={categoriesWithAll}
           />
         )}
-
-        <div className="flex flex-1 flex-col lg:pb-8">
+        {/* !!!! overflow-hidden */}
+        <div className="flex flex-1 flex-col overflow-hidden lg:pb-8">
           {businesses.length === 0 && !isLoading && !isError && (
             <p className="placeholder-sm lg:placeholder-base">
               Немає жодного бізнесу, який відповідає вашим фільтрам
@@ -164,7 +164,6 @@ function HomeSectionDesktop({
             onHover={setHoveredId}
           />
         </div>
-
         {showMap && (
           // count width of footer+32px
           <div className="top-13 sticky h-screen pb-32 lg:w-[500px] xl:w-[708px]">

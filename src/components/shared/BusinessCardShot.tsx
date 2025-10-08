@@ -84,7 +84,7 @@ function BusinessCardShot({
         </div>
 
         {/* Gradient over the image from-white/70 to-[rgb(217,217,217)/70*/}
-        <div className="z-5 bg-linear-to-r/increasing pointer-events-none absolute inset-0 from-white/95 to-gray-300/50"></div>
+        <div className="z-5 bg-linear-to-r pointer-events-none absolute inset-0 from-white/100 to-[rgb(217,217,217,0)]"></div>
         {/* name */}
         <div className="absolute z-10 bg-transparent py-2 pl-4 lg:pl-2">
           <h2 className="title-h3">{business.name}</h2>
@@ -93,10 +93,13 @@ function BusinessCardShot({
       </div>
 
       <div className="h-19 lg:h-17 xl:h-19 mb-4 flex gap-4 px-4 lg:mb-5 lg:gap-6 lg:px-2 xl:mb-3">
-        <div className="flex min-w-0 flex-[0_0_50%] flex-col gap-1">
+        <div className="flex w-[calc(50%-0.5rem)] flex-col gap-1 overflow-hidden">
           {business?.specialOffers.length > 0 &&
             business.specialOffers.map((offer) => (
-              <div key={offer.offerId} className="flex items-center gap-3">
+              <div
+                key={offer.offerId}
+                className="flex items-center gap-3 overflow-hidden"
+              >
                 <CheckIcon className="h-3 w-3 flex-shrink-0 lg:h-4 lg:w-4 xl:h-5 xl:w-5" />
                 <span className="placeholder-xs lg:placeholder-sm xl:placeholder-base block truncate">
                   {offer.title}
