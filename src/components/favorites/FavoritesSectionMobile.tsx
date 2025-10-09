@@ -4,6 +4,7 @@ import { BusinessWithCategoryName } from '@/types';
 import IconBack from '@/assets/icons/general/icon-back.svg';
 
 import BusinessList from '../shared/BusinessList';
+import BottomSheetFavoriten from './BottomSheetFavoriten';
 
 type FavoritesSectionMobileProps = {
   businesses: BusinessWithCategoryName[];
@@ -54,6 +55,13 @@ function FavoritesSectionMobile({
           linkPrefix="/favorites"
         />
       </div>
+      <BottomSheetFavoriten
+        businesses={businesses}
+        categoryId={categoryId}
+        setCategoryId={setCategoryId}
+        setCategoryName={setCategoryName}
+        categoriesWithAll={categoriesWithAll}
+      />
     </div>
   );
 }
