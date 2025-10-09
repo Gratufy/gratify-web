@@ -1,9 +1,10 @@
-import React from "react";
+import React from 'react';
+import { Spinner } from '@/components/ui/spinner';
 
 function Loading() {
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <p>Loading component....</p>
+    <div className="flex min-h-screen justify-center pt-20">
+      <Spinner />
     </div>
   );
 }
