@@ -95,11 +95,14 @@ export async function getUserFavoriteBusinesses(
   for (const offer of offerRows) {
     const business = businessMap.get(offer.businessId);
     if (business) {
-      business.specialOffers.push({
-        businessId: offer.businessId,
-        offerId: offer.offerId,
-        title: offer.title,
-      });
+      if (business.specialOffers.length < 3) {
+        // limit to 3 offers for card shot
+        business.specialOffers.push({
+          businessId: offer.businessId,
+          offerId: offer.offerId,
+          title: offer.title,
+        });
+      }
     }
   }
 
