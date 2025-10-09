@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { BusinessWithCategoryName, OnlineFilter, SortBy } from '@/types';
+import { BusinessWithCategoryName } from '@/types';
 
 import CategoryIcon from '@/assets/icons/filters/icon-favor.svg';
 
