@@ -1,4 +1,4 @@
-import PublicFooter from '@/components/public/PublicFooter/PublicFooter';
+import PublicFooter from '@/components/public/PublicFooter/DesktopFooter';
 import PublicHeader from '@/components/public/PublicHeader/PublicHeader';
 import HeroSection from '@/components/shared/HeroSection';
 import React from 'react';

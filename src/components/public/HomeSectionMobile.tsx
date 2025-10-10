@@ -74,16 +74,6 @@ function HomeSectionMobile({
         />
       </div>
       <div className="flex flex-1 flex-col pb-20 pt-3">
-        {/* <BusinessList
-          businesses={businesses}
-          fetchNextPage={fetchNextPage}
-          hasNextPage={hasNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-          isLoading={isLoading}
-          isError={isError}
-          error={error}
-          selectedCity={city}
-        /> */}
         {businesses.length === 0 && !isLoading && !isError && (
           <p className="placeholder-sm lg:placeholder-base">
             Немає жодного бізнесу, який відповідає вашим фільтрам

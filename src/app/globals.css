@@ -228,6 +228,10 @@
     max-width: 1440px;
   }
 }
+
+@utility placeholder-extrasmall {
+  @apply text-[8px] leading-[145%];
+}
 @utility placeholder-small {
   @apply text-[10px] leading-[145%];
 }

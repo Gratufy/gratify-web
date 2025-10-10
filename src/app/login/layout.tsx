@@ -1,4 +1,4 @@
-import PublicFooter from '@/components/public/PublicFooter/PublicFooter';
+import PublicFooter from '@/components/public/PublicFooter/DesktopFooter';
 import LoginHeader from '@/components/login/LoginHeader';
 
 export default function LoginLayout({

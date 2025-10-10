@@ -1,4 +1,4 @@
-import PublicFooter from '@/components/public/PublicFooter/PublicFooter';
+import Footer from '@/components/public/PublicFooter/Footer';
 import PublicHeader from '@/components/public/PublicHeader/PublicHeader';
 import HeroSection from '@/components/shared/HeroSection';
 
@@ -14,7 +14,7 @@ export default async function UserLayout({
         <HeroSection />
         {children}
       </main>
-      <PublicFooter />
+      <Footer />
     </div>
   );
 }

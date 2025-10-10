@@ -1,12 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
 import IconMail from '@/assets/icons/footer/icon-mail.svg';
-import FooterCategoryList from './FooterCategoryList';
+//import FooterCategoryList from './FooterCategoryList';
 import Link from 'next/link';
 
-function PublicFooter() {
+function DesktopFooter() {
   return (
-    <div className="bg-background-main-200 hidden w-full lg:flex lg:py-5">
+    <footer className="bg-background-main-200 hidden w-full lg:flex lg:py-5">
       <div className="container mx-auto flex items-center">
         <div className="lg:mr-54 lg:w-[260px] xl:mr-60 xl:w-[344px]">
           <Image
@@ -46,8 +46,8 @@ function PublicFooter() {
           </div>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }
 
-export default PublicFooter;
+export default DesktopFooter;

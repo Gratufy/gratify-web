@@ -10,6 +10,7 @@ import { verifySession } from '@/lib/dal';
 import { redirect } from 'next/navigation';
 // import { queryKeys } from '@/lib/reactQuery/queryKeys';
 import PublicHeader from '@/components/public/PublicHeader/PublicHeader';
+import Footer from '@/components/public/PublicFooter/Footer';
 // import FakeBusinessHeader from '@/components/business/BusinessHeader/FakeBusinessHeader';
 
 export default async function BusinessLayout({
@@ -53,7 +54,7 @@ export default async function BusinessLayout({
         {/* <FakeBusinessHeader /> */}
         <PublicHeader />
         <main className="flex flex-1 flex-col">{children}</main>
-        <BusinessFooter />
+        <Footer />
       </div>
     </HydrationBoundary>
   );

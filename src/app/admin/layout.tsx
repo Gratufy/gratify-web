@@ -8,6 +8,7 @@ import { redirect } from 'next/navigation';
 import AdminFooter from '@/components/admin/AdminFooter/AdminFooter';
 import AdminHeader from '@/components/admin/AdminHeader/AdminHeader';
 import { getBusinesses } from '@/lib/actions/businesses';
+import Footer from '@/components/public/PublicFooter/Footer';
 
 export default async function AdminLayout({
   children,
@@ -55,7 +56,7 @@ export default async function AdminLayout({
         <main className="flex flex-1 items-center justify-center">
           {children}
         </main>
-        <AdminFooter />
+        <Footer />
       </div>
     </HydrationBoundary>
   );
