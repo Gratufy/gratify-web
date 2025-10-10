@@ -3,24 +3,22 @@ import Image from 'next/image';
 
 export default function NotFound() {
   return (
-    <section className="container flex items-center justify-center py-20">
-      <div className="lg:w-125 w-90 flex flex-col items-center">
-        <div className="lg:w-88 w-72">
-          <Image
-            src="/images/not-found.png"
-            width={358}
-            height={193}
-            alt="Logo"
-            className="h-auto w-full"
-          />
-        </div>
-
-        <p className="title-h4 text-center">Жодного збігу...</p>
-        <p className="title-h4 mb-8 text-center">
-          Але ми віримо, що скоро з’являться
-        </p>
-        <BackToHomeBtn />
+    <section className="container flex w-full flex-col items-center justify-center py-20">
+      <div className="w-72 lg:w-[1135px]">
+        <Image
+          src="/images/404.png"
+          width={1135}
+          height={600}
+          alt="Logo"
+          className="h-auto w-full"
+        />
       </div>
+
+      <p className="title-h4 text-center">
+        Навіть сторінки іноді беруть відпустку
+      </p>
+
+      <BackToHomeBtn />
     </section>
   );
 }
