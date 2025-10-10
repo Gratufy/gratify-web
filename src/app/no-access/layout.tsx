@@ -1,6 +1,6 @@
-import PublicFooter from '@/components/public/PublicFooter/DesktopFooter';
+import Footer from '@/components/public/PublicFooter/Footer';
 import PublicHeader from '@/components/public/PublicHeader/PublicHeader';
-import HeroSection from '@/components/shared/HeroSection';
+
 import React from 'react';
 
 export default async function NoAccessLayout({
@@ -9,13 +9,10 @@ export default async function NoAccessLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex flex-col">
+    <div className="flex min-h-screen flex-col">
       <PublicHeader />
-      <main className="flex flex-1 flex-col">
-        <HeroSection />
-        {children}
-      </main>
-      <PublicFooter />
+      <main className="flex flex-1 flex-col">{children}</main>
+      <Footer />
     </div>
   );
 }

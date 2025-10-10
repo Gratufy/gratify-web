@@ -6,8 +6,8 @@ import Link from 'next/link';
 
 function DesktopFooter() {
   return (
-    <footer className="bg-background-main-200 hidden w-full lg:flex lg:py-5">
-      <div className="container mx-auto flex items-center">
+    <>
+      <div className="container mx-auto hidden items-center lg:flex">
         <div className="lg:mr-54 lg:w-[260px] xl:mr-60 xl:w-[344px]">
           <Image
             src="/images/logo.png"
@@ -20,7 +20,7 @@ function DesktopFooter() {
         <div className="flex-col lg:flex lg:gap-4 xl:gap-7">
           <a
             href="mailto:info@example.com"
-            className="flex items-end lg:gap-1 xl:gap-2"
+            className="flex items-center lg:gap-1 xl:gap-2"
           >
             <IconMail className="lg:size-4 xl:size-5" />
             <span className="lg:placeholder-sm xl:placeholder-base underline">
@@ -46,7 +46,7 @@ function DesktopFooter() {
           </div>
         </div>
       </div>
-    </footer>
+    </>
   );
 }
 

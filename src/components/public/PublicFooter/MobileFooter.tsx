@@ -5,8 +5,8 @@ import Link from 'next/link';
 
 function MobileFooter() {
   return (
-    <footer className="bg-background-main-200 w-full px-4 py-5 lg:hidden">
-      <div className="container mx-auto items-center">
+    <>
+      <div className="container mx-auto items-center lg:hidden">
         <Image
           src="/images/logo.png"
           width={136}
@@ -16,7 +16,10 @@ function MobileFooter() {
         />
         <div className="flex gap-4">
           <div className="flex flex-1 flex-col gap-1">
-            <a href="mailto:info@example.com" className="flex items-end gap-2">
+            <a
+              href="mailto:info@example.com"
+              className="flex items-center gap-2"
+            >
               <IconMail className="size-3" />
               <span className="placeholder-xs underline">
                 Зв’язатись з нами
@@ -42,7 +45,7 @@ function MobileFooter() {
           </div>
         </div>
       </div>
-    </footer>
+    </>
   );
 }
 
