@@ -8,6 +8,7 @@ import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 import BottomSheetFilters from './BottomSheetFilters';
 import SelectedFiltersPanel from '../shared/SelectedFiltersPanel';
 import BusinessList from '../shared/BusinessList';
+import NotFoundComponent from '../shared/NotFoundComponent';
 
 type HomeSectionMobileProps = {
   businesses: BusinessWithCategoryName[];
@@ -75,9 +76,10 @@ function HomeSectionMobile({
       </div>
       <div className="flex flex-1 flex-col pb-20 pt-3">
         {businesses.length === 0 && !isLoading && !isError && (
-          <p className="placeholder-sm lg:placeholder-base">
-            Немає жодного бізнесу, який відповідає вашим фільтрам
-          </p>
+          // <p className="placeholder-sm lg:placeholder-base">
+          //   Немає жодного бізнесу, який відповідає вашим фільтрам
+          // </p>
+          <NotFoundComponent />
         )}
         <BusinessList
           businesses={businesses}

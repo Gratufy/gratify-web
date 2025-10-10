@@ -18,6 +18,7 @@ import ShowMap from '../ui/ShowMap';
 import TopSheetFilter from './TopSheetFilter';
 import SelectedFiltersPanel from '../shared/SelectedFiltersPanel';
 import BusinessList from '../shared/BusinessList';
+import NotFoundComponent from '../shared/NotFoundComponent';
 
 type HomeSectionDesktopProps = {
   businesses: BusinessWithCategoryName[];
@@ -145,9 +146,10 @@ function HomeSectionDesktop({
         {/* !!!! overflow-hidden */}
         <div className="flex flex-1 flex-col overflow-hidden lg:pb-8">
           {businesses.length === 0 && !isLoading && !isError && (
-            <p className="placeholder-sm lg:placeholder-base">
-              Немає жодного бізнесу, який відповідає вашим фільтрам
-            </p>
+            // <p className="placeholder-sm lg:placeholder-base">
+            //   Немає жодного бізнесу, який відповідає вашим фільтрам
+            // </p>
+            <NotFoundComponent />
           )}
           <BusinessList
             businesses={businesses}
