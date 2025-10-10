@@ -5,6 +5,7 @@ import IconBack from '@/assets/icons/general/icon-back.svg';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import BusinessList from '../shared/BusinessList';
 import BottomSheetFavoriten from './BottomSheetFavoriten';
+import NotFoundComponent from '../shared/NotFoundComponent';
 
 type FavoritesSectionMobileProps = {
   businesses: BusinessWithCategoryName[];
@@ -58,9 +59,10 @@ function FavoritesSectionMobile({
       </div>
       <div className="flex flex-1 flex-col pb-20 pt-3">
         {businesses.length === 0 && !isLoading && !isError && (
-          <p className="placeholder-sm lg:placeholder-base">
-            Ви ще не додали жодного бізнесу до улюблених
-          </p>
+          // <p className="placeholder-sm lg:placeholder-base">
+          //   Ви ще не додали жодного бізнесу до улюблених
+          // </p>
+          <NotFoundComponent favorites />
         )}
         <BusinessList
           // businesses={businesses ?? []}

@@ -1,5 +1,5 @@
-import PublicFooter from '@/components/public/PublicFooter/DesktopFooter';
 import LoginHeader from '@/components/login/LoginHeader';
+import Footer from '@/components/public/PublicFooter/Footer';
 
 export default function LoginLayout({
   children,
@@ -12,7 +12,7 @@ export default function LoginLayout({
       <main className="flex flex-1 items-center justify-center">
         {children}
       </main>
-      <PublicFooter />
+      <Footer />
     </div>
   );
 }
