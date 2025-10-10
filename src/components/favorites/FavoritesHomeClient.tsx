@@ -9,6 +9,7 @@ import FavoritesSectionDesktop from './FavoritesSectionDesktop';
 
 import FavoritesSectionMobile from './FavoritesSectionMobile';
 import { useUserStore } from '@/stores/useUserStore';
+import NotFoundComponent from '../shared/NotFoundComponent';
 
 function FavoritesHomeClient() {
   const profile = useUserStore((s) => s.profile);

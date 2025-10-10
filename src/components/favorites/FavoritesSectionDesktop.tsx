@@ -50,9 +50,6 @@ function FavoritesSectionDesktop({
           {businesses.length === 0 &&
             !isLoading &&
             !isError &&
-            // <p className="placeholder-sm lg:placeholder-base">
-            //   Ви ще не додали жодного бізнесу до улюблених
-            // </p>
             (categoryId === '__all__' ? (
               <NotFoundComponent favorites />
             ) : (

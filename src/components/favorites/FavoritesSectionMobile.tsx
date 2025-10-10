@@ -58,12 +58,14 @@ function FavoritesSectionMobile({
         </button>
       </div>
       <div className="flex flex-1 flex-col pb-20 pt-3">
-        {businesses.length === 0 && !isLoading && !isError && (
-          // <p className="placeholder-sm lg:placeholder-base">
-          //   Ви ще не додали жодного бізнесу до улюблених
-          // </p>
-          <NotFoundComponent favorites />
-        )}
+        {businesses.length === 0 &&
+          !isLoading &&
+          !isError &&
+          (categoryId === '__all__' ? (
+            <NotFoundComponent favorites />
+          ) : (
+            <NotFoundComponent />
+          ))}
         <BusinessList
           // businesses={businesses ?? []}
           // isLoading={isLoading}

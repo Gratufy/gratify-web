@@ -4,9 +4,10 @@ import Image from 'next/image';
 
 type NotFoundComponentProps = {
   favorites?: boolean;
+  business?: boolean;
 };
 
-function NotFoundComponent({ favorites }: NotFoundComponentProps) {
+function NotFoundComponent({ favorites, business }: NotFoundComponentProps) {
   return (
     <div className="lg:w-125 w-90 my-20 flex flex-col items-center self-center xl:my-40">
       <div className="lg:w-88 w-72">
@@ -20,7 +21,11 @@ function NotFoundComponent({ favorites }: NotFoundComponentProps) {
       </div>
 
       <p className="title-h4 text-center">
-        {favorites ? 'Жодного улюбленця...' : 'Жодного збігу...'}
+        {favorites
+          ? 'Жодного улюбленця...'
+          : business
+            ? 'Жодного бізнесу...'
+            : 'Жодного збігу...'}
       </p>
       <p className="title-h4 mb-8 text-center">
         Але ми віримо, що скоро з’являться

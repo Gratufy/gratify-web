@@ -4,6 +4,7 @@ import { useBusinesses } from '@/hooks/useBusinesses';
 
 import BusinessList from '../shared/BusinessList';
 import { UserFavoritesProvider } from '@/providers/UserFavoritesProvider';
+import NotFoundComponent from '../shared/NotFoundComponent';
 
 function BusinessHomeClient() {
   const {
@@ -21,9 +22,10 @@ function BusinessHomeClient() {
       {businesses?.data.length === 0 &&
         !isBusinessesLoading &&
         !isBusinessesError && (
-          <p className="placeholder-sm lg:placeholder-base">
-            Ви ще не додали жодного бізнесу до вашого акаунту
-          </p>
+          // <p className="placeholder-sm lg:placeholder-base">
+          //   Ви ще не додали жодного бізнесу до вашого акаунту
+          // </p>
+          <NotFoundComponent business />
         )}
       <BusinessList
         businesses={businesses?.data ?? []}
