@@ -6,6 +6,7 @@ import {
 
 import { getBusinesses } from '@/lib/actions/businesses';
 import { PAGE_SIZE } from '@/const/business';
+import HeroSection from '@/components/shared/HeroSection';
 
 export default async function PublicLayout({
   children,
@@ -41,6 +42,12 @@ export default async function PublicLayout({
   });
   const dehydratedState = dehydrate(queryClient);
   return (
-    <HydrationBoundary state={dehydratedState}>{children}</HydrationBoundary>
+    <HydrationBoundary state={dehydratedState}>
+      {' '}
+      <main className="flex flex-1 flex-col">
+        <HeroSection />
+        {children}
+      </main>
+    </HydrationBoundary>
   );
 }
