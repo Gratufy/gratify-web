@@ -1,5 +1,5 @@
-import PublicFooter from '@/components/public/PublicFooter/PublicFooter';
-import LoginHeader from '@/components/login/LoginHeader';
+import Footer from '@/components/public/PublicFooter/Footer';
+import PublicHeader from '@/components/public/PublicHeader/PublicHeader';
 
 export default function LoginLayout({
   children,
@@ -8,11 +8,11 @@ export default function LoginLayout({
 }) {
   return (
     <div className="flex flex-col">
-      <LoginHeader />
+      <PublicHeader />
       <main className="flex flex-1 items-center justify-center">
         {children}
       </main>
-      <PublicFooter />
+      <Footer />
     </div>
   );
 }

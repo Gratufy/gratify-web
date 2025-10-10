@@ -5,6 +5,7 @@ import { BusinessWithCategoryName } from '@/types';
 import IconBack from '@/assets/icons/general/icon-back.svg';
 import SidebarFavorites from './SidebarFavorites';
 import BusinessList from '../shared/BusinessList';
+import NotFoundComponent from '../shared/NotFoundComponent';
 
 type FavoritesSectionDesktopProps = {
   businesses: BusinessWithCategoryName[];
@@ -44,12 +45,16 @@ function FavoritesSectionDesktop({
           setCategoryName={setCategoryName}
           categoriesWithAll={categoriesWithAll}
         />
+
         <div className="flex flex-1 flex-col overflow-hidden pb-20 lg:pb-8">
-          {businesses.length === 0 && !isLoading && !isError && (
-            <p className="placeholder-sm lg:placeholder-base">
-              Ви ще не додали жодного бізнесу до улюблених
-            </p>
-          )}
+          {businesses.length === 0 &&
+            !isLoading &&
+            !isError &&
+            (categoryId === '__all__' ? (
+              <NotFoundComponent favorites />
+            ) : (
+              <NotFoundComponent />
+            ))}
           <BusinessList
             // businesses={businesses ?? []}
             // isLoading={isLoading}

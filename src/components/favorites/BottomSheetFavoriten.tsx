@@ -52,7 +52,7 @@ function BottomSheetFavoriten(props: BottomSheetFavoritenProps) {
   };
   return (
     // pb-[env(safe-area-inset-bottom)]
-    <div className="bg-background-main-200 z-80 border-elements-grey-200 fixed inset-x-0 bottom-0 w-full border-[0.5px] lg:hidden">
+    <div className="bg-background-main-200 z-80 border-elements-grey-200 sticky bottom-0 w-full border-[0.5px] lg:hidden">
       <Sheet>
         <SheetTrigger asChild>
           <div className="flex w-full items-center justify-center py-2">

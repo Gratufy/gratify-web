@@ -8,6 +8,7 @@ import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 import BottomSheetFilters from './BottomSheetFilters';
 import SelectedFiltersPanel from '../shared/SelectedFiltersPanel';
 import BusinessList from '../shared/BusinessList';
+import NotFoundComponent from '../shared/NotFoundComponent';
 
 type HomeSectionMobileProps = {
   businesses: BusinessWithCategoryName[];
@@ -55,55 +56,47 @@ function HomeSectionMobile({
   categoriesWithAll,
 }: HomeSectionMobileProps) {
   return (
-    <div className="container flex w-full flex-col pt-2 lg:hidden">
-      <div className="flex items-center px-2 pb-2">
-        <CityIcon className="mr-2 size-4" />
-        <span className="placeholder-xs">{cityName}</span>
+    <>
+      <div className="container flex w-full flex-col pt-2 lg:hidden">
+        <div className="flex items-center px-2 pb-2">
+          <CityIcon className="mr-2 size-4" />
+          <span className="placeholder-xs">{cityName}</span>
+        </div>
+        <div className="px-2 pb-2">
+          <SelectedFiltersPanel
+            setCity={setCity}
+            setCityName={setCityName}
+            showOnlineStatus={showOnlineStatus}
+            setShowOnlineStatus={setShowOnlineStatus}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            setCategoryId={setCategoryId}
+            categoryName={categoryName}
+            setCategoryName={setCategoryName}
+          />
+        </div>
+        <div className="flex flex-1 flex-col pb-20 pt-3">
+          {businesses.length === 0 && !isLoading && !isError && (
+            // <p className="placeholder-sm lg:placeholder-base">
+            //   Немає жодного бізнесу, який відповідає вашим фільтрам
+            // </p>
+            <NotFoundComponent />
+          )}
+          <BusinessList
+            businesses={businesses}
+            selectedCity={city}
+            fetchNextPage={fetchNextPage}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            isLoading={isLoading}
+            isError={isError}
+            error={error}
+            enableInfiniteScroll
+            linkPrefix="/business"
+            includeCityQuery
+          />
+        </div>
       </div>
-      <div className="px-2 pb-2">
-        <SelectedFiltersPanel
-          setCity={setCity}
-          setCityName={setCityName}
-          showOnlineStatus={showOnlineStatus}
-          setShowOnlineStatus={setShowOnlineStatus}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-          setCategoryId={setCategoryId}
-          categoryName={categoryName}
-          setCategoryName={setCategoryName}
-        />
-      </div>
-      <div className="flex flex-1 flex-col pb-20 pt-3">
-        {/* <BusinessList
-          businesses={businesses}
-          fetchNextPage={fetchNextPage}
-          hasNextPage={hasNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-          isLoading={isLoading}
-          isError={isError}
-          error={error}
-          selectedCity={city}
-        /> */}
-        {businesses.length === 0 && !isLoading && !isError && (
-          <p className="placeholder-sm lg:placeholder-base">
-            Немає жодного бізнесу, який відповідає вашим фільтрам
-          </p>
-        )}
-        <BusinessList
-          businesses={businesses}
-          selectedCity={city}
-          fetchNextPage={fetchNextPage}
-          hasNextPage={hasNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-          isLoading={isLoading}
-          isError={isError}
-          error={error}
-          enableInfiniteScroll
-          linkPrefix="/business"
-          includeCityQuery
-        />
-      </div>
-
       <BottomSheetFilters
         businesses={businesses}
         city={city}
@@ -118,7 +111,7 @@ function HomeSectionMobile({
         setShowOnlineStatus={setShowOnlineStatus}
         categoriesWithAll={categoriesWithAll}
       />
-    </div>
+    </>
   );
 }
 
