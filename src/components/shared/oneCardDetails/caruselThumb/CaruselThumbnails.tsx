@@ -93,14 +93,14 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
           className="embla-thumbs__viewport overflow-hidden"
           ref={emblaThumbsRef}
         >
-          <div className="embla-thumbs__container flex gap-6">
+          <div className="embla-thumbs__container flex h-[75px] items-center gap-6 lg:h-[67px] xl:h-[80px]">
             {slides.map((src, index) => (
               <button
                 key={index}
                 onClick={() => onThumbClick(index)}
                 className={`h-18 w-18 lg:w-15 lg:h-15 xl:w-18 xl:h-17 relative shrink-0 overflow-hidden rounded-md border-2 transition ${
                   selectedIndex === index
-                    ? 'border-primary'
+                    ? 'border-primary scale-110'
                     : 'border-transparent opacity-60'
                 }`}
               >
