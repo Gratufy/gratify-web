@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface EmblaCarouselProps {
   slides: string[];
@@ -40,9 +41,9 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
   }, [emblaMainApi, onSelect]);
 
   return (
-    <div className="flex w-[340px] flex-col items-center lg:w-[415px]">
+    <div className="flex w-[343px] flex-col items-center lg:w-[450px] xl:w-[461px]">
       {/* Главная карусель h-[317px] lg:h-[414px]*/}
-      <div className="embla max-w-xl">
+      <div className="embla w-full">
         <div
           className="embla__viewport h-[317px] overflow-hidden lg:h-[414px]"
           ref={emblaMainRef}
@@ -54,24 +55,34 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
                 className="embla__slide relative flex-[0_0_100%]"
                 key={index}
               >
-                <Image
-                  src={src}
-                  alt={`Image ${index + 1}`}
-                  width={800}
-                  height={500}
-                  className="h-64 w-full rounded-lg object-cover"
-                />
+                <div className="relative mx-auto h-[317px] w-[343px] lg:h-[414px] lg:w-[450px] xl:h-[424px] xl:w-[461px]">
+                  <Image
+                    src={src}
+                    alt={`Image ${index + 1}`}
+                    fill
+                    className="rounded-lg object-cover"
+                    sizes="(max-width: 1024px) 343px, (max-width: 1440px) 450px, 461px"
+                  />
+                </div>
               </div>
             ))}
           </div>
         </div>
 
         <div className="flex justify-between">
-          <Button variant="outline" onClick={() => emblaMainApi?.scrollPrev()}>
-            Prev
+          <Button
+            variant="outline"
+            className="bg-white"
+            onClick={() => emblaMainApi?.scrollPrev()}
+          >
+            <ArrowLeft />
           </Button>
-          <Button variant="outline" onClick={() => emblaMainApi?.scrollNext()}>
-            Next
+          <Button
+            variant="outline"
+            className="bg-white"
+            onClick={() => emblaMainApi?.scrollNext()}
+          >
+            <ArrowRight />
           </Button>
         </div>
       </div>
@@ -82,12 +93,12 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
           className="embla-thumbs__viewport overflow-hidden"
           ref={emblaThumbsRef}
         >
-          <div className="embla-thumbs__container flex gap-2">
+          <div className="embla-thumbs__container flex gap-6">
             {slides.map((src, index) => (
               <button
                 key={index}
                 onClick={() => onThumbClick(index)}
-                className={`h-18 relative w-20 shrink-0 overflow-hidden rounded-md border-2 transition ${
+                className={`h-18 w-18 lg:w-15 lg:h-15 xl:w-18 xl:h-17 relative shrink-0 overflow-hidden rounded-md border-2 transition ${
                   selectedIndex === index
                     ? 'border-primary'
                     : 'border-transparent opacity-60'
