@@ -6,6 +6,7 @@ import IconBack from '@/assets/icons/general/icon-back.svg';
 import SidebarFavorites from './SidebarFavorites';
 import BusinessList from '../shared/BusinessList';
 import NotFoundComponent from '../shared/NotFoundComponent';
+import GoBackButton from '../ui/GoBackButton';
 
 type FavoritesSectionDesktopProps = {
   businesses: BusinessWithCategoryName[];
@@ -34,9 +35,7 @@ function FavoritesSectionDesktop({
   return (
     <div className="container hidden w-full lg:block">
       <div className="w-full">
-        <Link href="/" className="flex w-8 pb-4 pr-2 pt-2">
-          <IconBack className="size-6" />
-        </Link>
+        <GoBackButton href="/" className="w-8 pb-4 pr-2 pt-2" />
       </div>
       <div className="hidden w-full lg:flex lg:flex-row lg:gap-6">
         <SidebarFavorites

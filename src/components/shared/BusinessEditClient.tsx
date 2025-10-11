@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useBusiness } from "@/hooks/useBusinesses";
-import { BusinessForm } from "./BusinessForm";
-import BackButton from "../ui/BackButton";
+import { useBusiness } from '@/hooks/useBusinesses';
+import { BusinessForm } from './BusinessForm';
+import BackButton from '../ui/GoBackButton';
 
 interface Props {
   id: string;
@@ -22,9 +22,9 @@ export default function BusinessEditClient({ id, href }: Props) {
         businessId={id}
         defaultValues={{
           name: data.name,
-          description: data.description ?? "",
-          website: data.website ?? "",
-          category: data.categoryId ?? "",
+          description: data.description ?? '',
+          website: data.website ?? '',
+          category: data.categoryId ?? '',
           isOnline: data.isOnline ?? false,
           locations: (data.locations || []).map((loc) => ({
             city: loc.city ?? undefined,
