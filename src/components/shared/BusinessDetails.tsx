@@ -14,6 +14,8 @@ import BusinessCardSkeleton from './skeletons/BusinessCardSkeleton';
 import { BusinessWithCategoryName } from '@/types';
 import TitleBlock from './oneCardDetails/TitleBlock';
 import DescriptionBlock from './oneCardDetails/DescriptionBlock';
+import CaruselThumbnails from './oneCardDetails/caruselThumb/CaruselThumbnails';
+import { FAKE_IMAGES_ARR } from '@/const/fake-images-arr';
 const BusinessMapAll = dynamic(() => import('./BusinessMapAll'), {
   ssr: false,
 });
@@ -64,6 +66,8 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
             specialOffers={business.specialOffers}
             karma={business.karma}
           />
+          {/* -------------------------------------------- */}
+          <CaruselThumbnails slides={FAKE_IMAGES_ARR} />
           {/* -------------------------------------------- */}
           <div className="flex w-full flex-col items-center justify-center">
             {CityListElements}
