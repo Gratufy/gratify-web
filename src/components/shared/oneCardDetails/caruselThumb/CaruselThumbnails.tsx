@@ -90,17 +90,17 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
       {/* Превью */}
       <div className="embla-thumbs mt-4 w-full max-w-xl">
         <div
-          className="embla-thumbs__viewport overflow-hidden"
+          className="embla-thumbs__viewport xl:h-21 h-21 lg:h-18 overflow-hidden"
           ref={emblaThumbsRef}
         >
-          <div className="embla-thumbs__container flex h-[75px] items-center gap-6 lg:h-[67px] xl:h-[80px]">
+          <div className="embla-thumbs__container lg:h-18 xl:h-21 h-21 flex items-center gap-6">
             {slides.map((src, index) => (
               <button
                 key={index}
                 onClick={() => onThumbClick(index)}
-                className={`h-18 w-18 lg:w-15 lg:h-15 xl:w-18 xl:h-17 relative shrink-0 overflow-hidden rounded-md border-2 transition ${
+                className={`h-18 w-18 lg:w-15 lg:h-15 xl:w-18 xl:h-18 relative shrink-0 overflow-hidden rounded-md border-2 transition ${
                   selectedIndex === index
-                    ? 'border-primary scale-110'
+                    ? 'border-primary lg:w-17 lg:h-17 h-20 w-20 xl:h-20 xl:w-20'
                     : 'border-transparent opacity-60'
                 }`}
               >
