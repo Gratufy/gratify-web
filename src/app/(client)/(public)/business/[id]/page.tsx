@@ -37,13 +37,13 @@ export default async function PublicBusinessDetailsPage({
 
   // const dehydratedState = dehydrate(queryClient);
   return (
-    <section className="container flex min-h-screen flex-col items-center justify-center px-4 py-5 lg:px-0">
+    <div className="container flex min-h-screen flex-col items-center justify-center px-4 py-5 lg:px-0">
       <BusinessDetails
         id={id}
         href="../"
         selectedCity={selectedCity}
         initialData={business}
       />
-    </section>
+    </div>
   );
 }

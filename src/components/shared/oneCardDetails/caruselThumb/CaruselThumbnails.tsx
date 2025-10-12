@@ -115,9 +115,9 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
               <button
                 key={index}
                 onClick={() => onThumbClick(index)}
-                className={`h-18 w-18 lg:w-15 lg:h-15 xl:w-18 xl:h-18 relative shrink-0 overflow-hidden rounded-md border-2 transition ${
+                className={`h-18 w-18 lg:w-15 lg:h-15 xl:w-18 xl:h-18 relative shrink-0 overflow-hidden rounded-md border-[3px] transition ${
                   selectedIndex === index
-                    ? 'border-primary lg:w-17 lg:h-17 h-20 w-20 xl:h-20 xl:w-20'
+                    ? 'border-elements-main-600 lg:w-17 lg:h-17 h-20 w-20 xl:h-20 xl:w-20'
                     : 'border-transparent opacity-60'
                 }`}
               >

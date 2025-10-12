@@ -50,7 +50,9 @@ function Karma({ businessId, initialKarma }: KarmaProps) {
         <Plus className="h-4 w-4 xl:h-5 xl:w-5" />
       </button>
 
-      <p className="placeholder-sm xl:placeholder-base font-medium">{karma}</p>
+      <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base font-medium">
+        {karma}
+      </p>
 
       <button
         className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded-xl xl:h-6 xl:w-6 ${
