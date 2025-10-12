@@ -63,7 +63,7 @@ function FavoritesSectionMobile({
             !isLoading &&
             !isError &&
             (categoryId === '__all__' ? (
-              <NotFoundComponent favorites />
+              <NotFoundComponent IfFavorites />
             ) : (
               <NotFoundComponent />
             ))}

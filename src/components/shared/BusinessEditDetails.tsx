@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { useBusiness, useDeleteBusiness } from '@/hooks/useBusinesses';
-import BackButton from '../ui/BackButton';
+import BackButton from '../ui/GoBackButton';
 import Link from 'next/link';
 import { renderLocations } from '@/lib/helpers/renderLocations';
 import dynamic from 'next/dynamic';

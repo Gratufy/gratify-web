@@ -42,12 +42,6 @@ export default async function PublicLayout({
   });
   const dehydratedState = dehydrate(queryClient);
   return (
-    <HydrationBoundary state={dehydratedState}>
-      {' '}
-      <main className="flex flex-1 flex-col">
-        <HeroSection />
-        {children}
-      </main>
-    </HydrationBoundary>
+    <HydrationBoundary state={dehydratedState}> {children}</HydrationBoundary>
   );
 }
