@@ -7,7 +7,7 @@ type TitleBlockProps = {
 
 function TitleBlock({ name, categoryName, website }: TitleBlockProps) {
   return (
-    <div className="w-full">
+    <>
       <h1 className="title-h2 mb-2">{name}</h1>
       {/* <p className="text-2xl mb-4">City: {business?.locations}</p> */}
       <div className="flex justify-between">
@@ -23,7 +23,7 @@ function TitleBlock({ name, categoryName, website }: TitleBlockProps) {
           </a>
         )}
       </div>
-    </div>
+    </>
   );
 }
 

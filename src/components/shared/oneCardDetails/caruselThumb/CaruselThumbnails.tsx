@@ -5,6 +5,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import IconLeft from '@/assets/icons/general/icon-arrow-left.svg';
 
 interface EmblaCarouselProps {
   slides: string[];
@@ -44,8 +45,25 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
     <div className="flex w-[343px] flex-col items-center lg:w-[450px] xl:w-[461px]">
       {/* Главная карусель h-[317px] lg:h-[414px]*/}
       <div className="embla w-full">
+        {/* buttons only for mobile */}
+        <div className="w-30 mx-auto mb-4 flex justify-between lg:hidden">
+          <button
+            // variant="outline"
+            className="hover:bg-background-grey-50 flex items-center justify-center bg-white"
+            onClick={() => emblaMainApi?.scrollPrev()}
+          >
+            <IconLeft className="size-5" />
+          </button>
+          <button
+            className="hover:bg-background-grey-50 flex items-center justify-center bg-white"
+            onClick={() => emblaMainApi?.scrollNext()}
+          >
+            <IconLeft className="size-5 rotate-180" />
+          </button>
+        </div>
+        {/* main photo */}
         <div
-          className="embla__viewport h-[317px] overflow-hidden lg:h-[414px]"
+          className="embla__viewport mb-4 h-[317px] overflow-hidden lg:h-[414px]"
           ref={emblaMainRef}
         >
           <div className="embla__container flex h-[317px] lg:h-[414px]">
@@ -68,8 +86,7 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
             ))}
           </div>
         </div>
-
-        <div className="flex justify-between">
+        <div className="hidden justify-between lg:flex">
           <Button
             variant="outline"
             className="bg-white"
@@ -87,13 +104,13 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
         </div>
       </div>
 
-      {/* Превью */}
-      <div className="embla-thumbs mt-4 w-full max-w-xl">
+      {/* Превью max-w-xl*/}
+      <div className="embla-thumbs w-full">
         <div
           className="embla-thumbs__viewport xl:h-21 h-21 lg:h-18 overflow-hidden"
           ref={emblaThumbsRef}
         >
-          <div className="embla-thumbs__container lg:h-18 xl:h-21 h-21 flex items-center gap-6">
+          <div className="embla-thumbs__container lg:h-18 xl:h-21 h-21 flex items-center gap-4">
             {slides.map((src, index) => (
               <button
                 key={index}

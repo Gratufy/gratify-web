@@ -54,12 +54,18 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
       {/* -------------------------------------------- */}
       {business && (
         <>
-          <TitleBlock
-            name={business.name}
-            categoryName={business.categoryName}
-            website={business.website}
-          />
+          <div className="mb-6 w-full">
+            <TitleBlock
+              name={business.name}
+              categoryName={business.categoryName}
+              website={business.website}
+            />
+          </div>
+
           {/* -------------------------------------------- */}
+          <div className="mb-6 w-full">
+            <CaruselThumbnails slides={FAKE_IMAGES_ARR} />
+          </div>
           <DescriptionBlock
             id={business.id}
             description={business.description}
@@ -67,7 +73,7 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
             karma={business.karma}
           />
           {/* -------------------------------------------- */}
-          <CaruselThumbnails slides={FAKE_IMAGES_ARR} />
+
           {/* -------------------------------------------- */}
           <div className="flex w-full flex-col items-center justify-center">
             {CityListElements}
