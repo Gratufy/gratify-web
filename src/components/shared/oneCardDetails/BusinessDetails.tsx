@@ -4,21 +4,21 @@ import { useBusiness } from '@/hooks/useBusinesses';
 
 import { renderLocations } from '@/lib/helpers/renderLocations';
 
-import GoBackButton from '../ui/GoBackButton';
-import Karma from './Karma';
-import BusinessReviews from './BusinessReviews';
+import GoBackButton from '../../ui/GoBackButton';
+import Karma from '../Karma';
+import BusinessReviews from '../BusinessReviews';
 
 import dynamic from 'next/dynamic';
 
-import BusinessCardSkeleton from './skeletons/BusinessCardSkeleton';
+import BusinessCardSkeleton from '../skeletons/BusinessCardSkeleton';
 import { BusinessWithCategoryName } from '@/types';
-import TitleBlock from './oneCardDetails/TitleBlock';
-import DescriptionBlock from './oneCardDetails/DescriptionBlock';
-import CaruselThumbnails from './oneCardDetails/caruselThumb/CaruselThumbnails';
+import TitleBlock from './TitleBlock';
+import DescriptionBlock from './DescriptionBlock';
+import CaruselThumbnails from './caruselThumb/CaruselThumbnails';
 import { FAKE_IMAGES_ARR } from '@/const/fake-images-arr';
-import SpecialOffers from './oneCardDetails/SpecialOffersBlock';
-import SpecialOffersBlock from './oneCardDetails/SpecialOffersBlock';
-const BusinessMapAll = dynamic(() => import('./BusinessMapAll'), {
+import SpecialOffers from './SpecialOffersBlock';
+import SpecialOffersBlock from './SpecialOffersBlock';
+const BusinessMapAll = dynamic(() => import('../BusinessMapAll'), {
   ssr: false,
 });
 
@@ -56,8 +56,7 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
       {/* -------------------------------------------- */}
       {business && (
         <>
-          {' '}
-          <section className="w-full pb-5">
+          <section className="flex w-full flex-col pb-5 lg:hidden">
             <div className="mb-6 w-full">
               <TitleBlock
                 name={business.name}
@@ -93,6 +92,46 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
                 <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base">
                   Скарга
                 </p>
+              </div>
+            </div>
+          </section>
+          <section className="gap-25 hidden w-full lg:flex">
+            <CaruselThumbnails slides={FAKE_IMAGES_ARR} />
+            <div className="flex w-full flex-col justify-between">
+              <div className="border-elements-grey-400 flex flex-1 flex-col border-b">
+                <div className="mb-10 w-full">
+                  <TitleBlock
+                    name={business.name}
+                    categoryName={business.categoryName}
+                    website={business.website}
+                  />
+                </div>
+                {/* -------------------------------------------- */}
+                <div className="mb-10 w-full">
+                  <SpecialOffersBlock specialOffers={business.specialOffers} />
+                </div>
+                {/* -------------------------------------------- */}
+                <div className="mb-2 w-full pb-4">
+                  <DescriptionBlock
+                    id={business.id}
+                    description={business.description}
+                  />
+                </div>
+              </div>
+
+              {/* -------------------------------------------- */}
+              <div className="flex w-full justify-between py-1">
+                <div className="flex items-center">
+                  <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base mr-3 font-medium">
+                    Карма
+                  </p>
+                  <Karma businessId={id} initialKarma={business.karma} />
+                </div>
+                <div>
+                  <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base">
+                    Скарга
+                  </p>
+                </div>
               </div>
             </div>
           </section>

@@ -7,7 +7,7 @@ import { validate as uuidValidate } from 'uuid'; // npm install uuid
 //   QueryClient,
 // } from '@tanstack/react-query';
 import { getBusinessById } from '@/lib/actions/businesses';
-import BusinessDetails from '@/components/shared/BusinessDetails';
+import BusinessDetails from '@/components/shared/oneCardDetails/BusinessDetails';
 // import { queryKeys } from '@/lib/reactQuery/queryKeys';
 
 interface BusinessPageProps {
