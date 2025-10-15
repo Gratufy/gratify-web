@@ -16,7 +16,7 @@ import TitleBlock from './TitleBlock';
 import DescriptionBlock from './DescriptionBlock';
 import CaruselThumbnails from './caruselThumb/CaruselThumbnails';
 import { FAKE_IMAGES_ARR } from '@/const/fake-images-arr';
-import SpecialOffers from './SpecialOffersBlock';
+
 import SpecialOffersBlock from './SpecialOffersBlock';
 const BusinessMapAll = dynamic(() => import('../BusinessMapAll'), {
   ssr: false,
@@ -39,9 +39,9 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
     : null;
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center">
-      <div className="w-full">
+      <div className="w-full lg:py-2">
         {' '}
-        <GoBackButton href={href} className="w-8 pb-4 pr-2 pt-2" />
+        <GoBackButton href={href} className="w-8 py-2 pr-2" />
       </div>
 
       {/* Error */}
@@ -56,6 +56,7 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
       {/* -------------------------------------------- */}
       {business && (
         <>
+          {/* mobile */}
           <section className="flex w-full flex-col pb-5 lg:hidden">
             <div className="mb-6 w-full">
               <TitleBlock
@@ -74,31 +75,29 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
               <SpecialOffersBlock specialOffers={business.specialOffers} />
             </div>
             {/* -------------------------------------------- */}
-            <div className="border-elements-grey-400 mb-2 w-full border-b pb-2">
-              <DescriptionBlock
-                id={business.id}
-                description={business.description}
-              />
+            <div className="border-elements-grey-400 mb-2 w-full border-b pb-4">
+              <DescriptionBlock description={business.description} />
             </div>
             {/* -------------------------------------------- */}
-            <div className="flex w-full justify-between py-1">
-              <div className="flex items-center">
+            <div className="flex w-full items-center gap-6">
+              <div className="flex flex-1 items-center px-4 py-1">
                 <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base mr-3 font-medium">
                   Карма
                 </p>
                 <Karma businessId={id} initialKarma={business.karma} />
               </div>
-              <div>
+              <div className="flex flex-1">
                 <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base">
                   Скарга
                 </p>
               </div>
             </div>
           </section>
-          <section className="gap-25 hidden w-full lg:flex">
+          {/* big screens */}
+          <section className="gap-25 hidden w-full lg:flex lg:pb-5">
             <CaruselThumbnails slides={FAKE_IMAGES_ARR} />
-            <div className="flex w-full flex-col justify-between">
-              <div className="border-elements-grey-400 flex flex-1 flex-col border-b">
+            <div className="flex w-full flex-col">
+              <div className="border-elements-grey-400 mb-2 flex flex-col border-b lg:pb-4">
                 <div className="mb-10 w-full">
                   <TitleBlock
                     name={business.name}
@@ -111,23 +110,20 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
                   <SpecialOffersBlock specialOffers={business.specialOffers} />
                 </div>
                 {/* -------------------------------------------- */}
-                <div className="mb-2 w-full pb-4">
-                  <DescriptionBlock
-                    id={business.id}
-                    description={business.description}
-                  />
+                <div className="mb-2 w-full lg:pb-0">
+                  <DescriptionBlock description={business.description} />
                 </div>
               </div>
 
               {/* -------------------------------------------- */}
-              <div className="flex w-full justify-between py-1">
-                <div className="flex items-center">
+              <div className="flex w-full items-center gap-6">
+                <div className="flex flex-1 items-center py-1 lg:px-4">
                   <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base mr-3 font-medium">
                     Карма
                   </p>
                   <Karma businessId={id} initialKarma={business.karma} />
                 </div>
-                <div>
+                <div className="flex flex-1">
                   <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base">
                     Скарга
                   </p>
