@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { useBusiness } from '@/hooks/useBusinesses';
+
 import { useUserVote, useVoteBusiness } from '@/hooks/useVoteBusiness';
 import { useUserStore } from '@/stores/useUserStore';
 import { Plus } from 'lucide-react';

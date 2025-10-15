@@ -3,8 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+
 import IconLeft from '@/assets/icons/general/icon-arrow-left.svg';
 
 interface EmblaCarouselProps {

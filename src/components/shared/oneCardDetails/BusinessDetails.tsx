@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import { useBusiness } from '@/hooks/useBusinesses';
 
 import { renderLocations } from '@/lib/helpers/renderLocations';
