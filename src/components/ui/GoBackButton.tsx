@@ -21,7 +21,7 @@ function GoBackButton({ href = '/', className }: BackButtonProps) {
   }, []);
   return (
     <button
-      className={`flex cursor-pointer ${className}`}
+      className={`flex cursor-pointer items-center ${className}`}
       onClick={() => {
         if (hasHistory.current) {
           router.back();

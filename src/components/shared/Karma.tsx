@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { useBusiness } from '@/hooks/useBusinesses';
+
 import { useUserVote, useVoteBusiness } from '@/hooks/useVoteBusiness';
 import { useUserStore } from '@/stores/useUserStore';
 import { Plus } from 'lucide-react';
@@ -37,7 +37,7 @@ function Karma({ businessId, initialKarma }: KarmaProps) {
     voteMutation.mutate(vote);
   }
   return (
-    <div className="flex items-center gap-3 lg:gap-2">
+    <div className="flex items-center gap-3 py-1 lg:gap-2">
       <button
         className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded-xl ${
           userVote?.vote === 1 ? 'bg-icons-color-success/50' : ''

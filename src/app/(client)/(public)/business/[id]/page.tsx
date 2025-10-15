@@ -7,7 +7,7 @@ import { validate as uuidValidate } from 'uuid'; // npm install uuid
 //   QueryClient,
 // } from '@tanstack/react-query';
 import { getBusinessById } from '@/lib/actions/businesses';
-import BusinessDetails from '@/components/shared/BusinessDetails';
+import BusinessDetails from '@/components/shared/oneCardDetails/BusinessDetails';
 // import { queryKeys } from '@/lib/reactQuery/queryKeys';
 
 interface BusinessPageProps {
@@ -37,7 +37,7 @@ export default async function PublicBusinessDetailsPage({
 
   // const dehydratedState = dehydrate(queryClient);
   return (
-    <div className="container flex min-h-screen flex-col items-center justify-center px-4 py-5 lg:px-0">
+    <div className="container flex min-h-screen flex-col items-center justify-center px-4 lg:px-0">
       <BusinessDetails
         id={id}
         href="../"

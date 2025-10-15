@@ -256,7 +256,7 @@
 /* H1 */
 @layer utilities {
   .title-h2 {
-    @apply text-2xl font-bold leading-[110%];
+    @apply text-2xl font-bold leading-[110%] lg:text-3xl;
   }
 }
 /* H3 */
@@ -281,7 +281,7 @@
 }
 
 @utility link-big {
-  @apply text-text-link text-xs leading-[140%] underline;
+  @apply text-text-link text-xs leading-[140%] underline lg:text-sm;
 }
 /* @layer components; .card .modal Повторно используемые UI-компоненты*/
 /*EXMP !!!  @layer components {

@@ -12,7 +12,7 @@ function SpecialOffersBlock({ specialOffers }: SpecialOffersProps) {
   return (
     <>
       {specialOffers.length > 0 && (
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 lg:pl-2">
           {specialOffers.map((offer) => (
             <div key={offer.offerId} className="flex items-center gap-3">
               <CheckIcon className="h-3 w-3 flex-shrink-0 lg:h-4 lg:w-4 xl:h-5 xl:w-5" />
