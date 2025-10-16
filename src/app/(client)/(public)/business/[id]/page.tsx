@@ -37,7 +37,7 @@ export default async function PublicBusinessDetailsPage({
 
   // const dehydratedState = dehydrate(queryClient);
   return (
-    <div className="container flex min-h-screen flex-col items-center justify-center px-4 lg:px-0">
+    <div className="container flex min-h-screen flex-col items-center justify-center">
       <BusinessDetails
         id={id}
         href="../"

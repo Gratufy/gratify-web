@@ -39,7 +39,7 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
     : null;
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center">
-      <div className="w-full lg:py-2">
+      <div className="w-full px-4 lg:px-0 lg:py-2">
         {' '}
         <GoBackButton href={href} className="w-8 py-2 pr-2" />
       </div>
@@ -57,7 +57,7 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
       {business && (
         <>
           {/* mobile */}
-          <section className="flex w-full flex-col pb-5 lg:hidden">
+          <section className="flex w-full flex-col px-4 pb-5 lg:hidden">
             <div className="mb-6 w-full">
               <TitleBlock
                 name={business.name}
