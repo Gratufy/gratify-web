@@ -94,7 +94,7 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
             </div>
           </section>
           {/* big screens */}
-          <section className="gap-25 hidden w-full lg:flex lg:pb-5">
+          <section className="lg:gap-25 xl:gap-30 hidden w-full lg:flex lg:pb-5 xl:pb-11">
             <CaruselThumbnails slides={FAKE_IMAGES_ARR} />
             <div className="flex w-full flex-col">
               <div className="border-elements-grey-400 mb-2 flex flex-col border-b lg:pb-4">
@@ -106,11 +106,11 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
                   />
                 </div>
                 {/* -------------------------------------------- */}
-                <div className="mb-10 w-full">
+                <div className="mb-10 w-full xl:mb-9">
                   <SpecialOffersBlock specialOffers={business.specialOffers} />
                 </div>
                 {/* -------------------------------------------- */}
-                <div className="mb-2 w-full lg:pb-0">
+                <div className="w-full lg:pb-0">
                   <DescriptionBlock description={business.description} />
                 </div>
               </div>

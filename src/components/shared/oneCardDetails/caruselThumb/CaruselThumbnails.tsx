@@ -62,10 +62,10 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
         </div>
         {/* main photo */}
         <div
-          className="embla__viewport mb-4 h-[317px] overflow-hidden lg:mb-5 lg:h-[414px]"
+          className="embla__viewport mb-4 h-[317px] overflow-hidden lg:mb-5 lg:h-[414px] xl:h-[424px]"
           ref={emblaMainRef}
         >
-          <div className="embla__container flex h-[317px] lg:h-[414px]">
+          <div className="embla__container flex h-[317px] lg:h-[414px] xl:h-[424px]">
             {slides.map((src, index) => (
               <div
                 //
@@ -115,19 +115,19 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
           </div>
         </div>
       </div>
-      <div className="lg:w-30 mx-auto hidden lg:flex lg:justify-between">
+      <div className="lg:w-30 xl:w-34 mx-auto hidden lg:flex lg:justify-between">
         <button
           // variant="outline"
           className="hover:bg-background-grey-50 flex items-center justify-center bg-white"
           onClick={() => emblaMainApi?.scrollPrev()}
         >
-          <IconLeft className="size-5" />
+          <IconLeft className="lg:size-5 xl:size-6" />
         </button>
         <button
           className="hover:bg-background-grey-50 flex items-center justify-center bg-white"
           onClick={() => emblaMainApi?.scrollNext()}
         >
-          <IconLeft className="size-5 rotate-180" />
+          <IconLeft className="rotate-180 lg:size-5 xl:size-6" />
         </button>
       </div>
     </div>
