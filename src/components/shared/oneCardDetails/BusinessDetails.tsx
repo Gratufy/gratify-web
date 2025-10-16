@@ -116,7 +116,7 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
               </div>
 
               {/* -------------------------------------------- */}
-              <div className="flex w-full items-center gap-6">
+              <div className="flex w-full items-center lg:gap-6">
                 <div className="flex flex-1 items-center py-1 lg:px-4">
                   <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base mr-3 font-medium">
                     Карма
