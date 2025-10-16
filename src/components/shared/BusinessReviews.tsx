@@ -60,74 +60,76 @@ export default function BusinessReviews({ businessId }: Props) {
         {reviews?.map((r) => (
           <li
             key={r.id}
-            className="border-elements-grey-950 border-[0.5px] px-6 pb-6"
+            className="border-elements-grey-950 w-full border-[0.5px]"
           >
-            <div className="flex justify-between gap-4 px-2 pt-2">
+            <div className="flex justify-between gap-4 px-2 py-2">
               <Trash2 className="size-5" />
               <EditPen className="size-5" />
             </div>
 
             {/* <p className="text-sm text-gray-600">{r.userId}</p> */}
-            <div className="mb-5 w-full">
-              {editingId === r.id ? (
-                <>
-                  <textarea
-                    name="review"
-                    value={editingText}
-                    onChange={(e) => setEditingText(e.target.value)}
-                    className="w-full rounded border p-2"
-                  />
-                  <button
-                    className="btn-primary flex cursor-pointer items-center justify-center rounded-3xl border border-black px-4 py-2"
-                    onClick={() => handleEdit(r.id)}
-                  >
-                    Save
-                  </button>
-                  <button
-                    onClick={() => setEditingId(null)}
-                    className="btn-secondary flex cursor-pointer items-center justify-center rounded-3xl border border-gray-800 px-4 py-2"
-                  >
-                    Cancel
-                  </button>
-                </>
-              ) : (
-                <p className="placeholder-sm">{r.text}</p>
-              )}
+            <div className="w-full px-6 pb-6">
+              <div className="mb-5 w-full">
+                {editingId === r.id ? (
+                  <>
+                    <textarea
+                      name="review"
+                      value={editingText}
+                      onChange={(e) => setEditingText(e.target.value)}
+                      className="w-full rounded border p-2"
+                    />
+                    <button
+                      className="btn-primary flex cursor-pointer items-center justify-center rounded-3xl border border-black px-4 py-2"
+                      onClick={() => handleEdit(r.id)}
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => setEditingId(null)}
+                      className="btn-secondary flex cursor-pointer items-center justify-center rounded-3xl border border-gray-800 px-4 py-2"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <p className="placeholder-sm">{r.text}</p>
+                )}
+              </div>
+              <div className="flex w-full items-center justify-between">
+                <p className="placeholder-sm semibold">ВВЕСТИ ІМЯ</p>
+                <p className="placeholder-sm">
+                  {r.createdAt?.toLocaleDateString()}
+                </p>
+              </div>
+              {user &&
+                (user.userId === r.userId || user.role === 'ADMIN') &&
+                editingId !== r.id && (
+                  <div className="mt-1 flex justify-end gap-2">
+                    {user.userId === r.userId && (
+                      <>
+                        <button
+                          onClick={() => {
+                            setEditingId(r.id);
+                            setEditingText(r.text);
+                          }}
+                          className="flex cursor-pointer items-center justify-center rounded-3xl border border-green-700 px-4 py-2"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="flex cursor-pointer items-center justify-center rounded-3xl border border-red-500 px-4 py-2"
+                          onClick={() => handleDelete(r.id)}
+                        >
+                          Delete
+                        </button>
+                      </>
+                    )}
+                    {user.role === 'ADMIN' && (
+                      <>{/* we can add a select for status change */}</>
+                    )}
+                  </div>
+                )}
             </div>
-            <div className="flex w-full items-center justify-between">
-              <p className="placeholder-sm semibold">ВВЕСТИ ІМЯ</p>
-              <p className="placeholder-sm">
-                {r.createdAt?.toLocaleDateString()}
-              </p>
-            </div>
-            {user &&
-              (user.userId === r.userId || user.role === 'ADMIN') &&
-              editingId !== r.id && (
-                <div className="mt-1 flex justify-end gap-2">
-                  {user.userId === r.userId && (
-                    <>
-                      <button
-                        onClick={() => {
-                          setEditingId(r.id);
-                          setEditingText(r.text);
-                        }}
-                        className="flex cursor-pointer items-center justify-center rounded-3xl border border-green-700 px-4 py-2"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className="flex cursor-pointer items-center justify-center rounded-3xl border border-red-500 px-4 py-2"
-                        onClick={() => handleDelete(r.id)}
-                      >
-                        Delete
-                      </button>
-                    </>
-                  )}
-                  {user.role === 'ADMIN' && (
-                    <>{/* we can add a select for status change */}</>
-                  )}
-                </div>
-              )}
           </li>
         ))}
       </ul>
