@@ -132,11 +132,15 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
             </div>
           </section>
           {/* -------------------------------------------- */}
+          {/* REVIEW */}
+          <section className="bg-background-grey-50 w-full px-4 py-5">
+            <BusinessReviews businessId={id} />
+          </section>
+          {/* -------------------------------------------- */}
           <section>
             <div className="flex w-full flex-col items-center justify-center">
               {CityListElements}
 
-              <BusinessReviews businessId={id} />
               {business.locations && business.locations.length > 0 && (
                 <BusinessMapAll
                   businesses={[business]}
