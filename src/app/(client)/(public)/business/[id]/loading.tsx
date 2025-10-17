@@ -1,6 +1,6 @@
 export default function LoadingBusinessPage() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-4">
+    <div className="flex min-h-screen flex-col items-center px-4 pt-10 lg:pt-14">
       <div className="w-full max-w-xl animate-pulse space-y-4">
         <div className="h-8 w-2/3 rounded bg-gray-200" />
         <div className="h-6 w-1/2 rounded bg-gray-200" />

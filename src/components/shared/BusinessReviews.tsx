@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-import { Spinner } from '../ui/spinner';
+
+//import { Spinner } from '../ui/spinner';
 import { Plus } from 'lucide-react';
 import { useUserStore } from '@/stores/useUserStore';
 import { Trash2 } from 'lucide-react';
@@ -11,6 +12,7 @@ import {
   useDeleteReview,
   useUpdateReview,
 } from '@/hooks/useReviews';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import ReviewsSkeleton from './skeletons/ReviewsSkeleton';
 
 interface Props {
@@ -31,6 +33,10 @@ export default function BusinessReviews({ businessId }: Props) {
   const updateReview = useUpdateReview(businessId);
 
   const handleAdd = async () => {
+    if (!user) {
+      alert('Please log in to add a review');
+      return;
+    }
     if (!newText.trim()) return;
     await createReviewMutation.mutateAsync({ businessId, text: newText });
     setNewText('');
@@ -57,79 +63,80 @@ export default function BusinessReviews({ businessId }: Props) {
       {isLoading && <ReviewsSkeleton count={3} />}
       <h3 className="title-h3 mb-4">Відгуки ({reviews?.length || 0})</h3>
       {/* -------------------------------------------- */}
-      <ul className="bg-background-white mb-2 flex flex-col gap-5 px-2 py-3">
-        {reviews?.map((r) => (
-          <li
-            key={r.id}
-            className="border-elements-grey-950 w-full border-[0.5px]"
-          >
-            {user &&
-              (user.userId === r.userId || user.role === 'ADMIN') &&
-              editingId !== r.id && (
-                <div className="flex justify-between gap-4 px-2 py-2">
-                  {user.userId === r.userId && (
-                    <>
-                      <button
-                        className="bg-background-white flex cursor-pointer items-center justify-center rounded-full border-none p-1 hover:bg-gray-50"
-                        onClick={() => handleDelete(r.id)}
-                      >
-                        <Trash2 className="size-5" />
-                      </button>
-                      <button
-                        onClick={() => {
-                          setEditingId(r.id);
-                          setEditingText(r.text);
-                        }}
-                        className="bg-background-white flex cursor-pointer items-center justify-center rounded-full border-none p-1 hover:bg-gray-50"
-                      >
-                        <EditPen className="size-5" />
-                      </button>
-                    </>
-                  )}
-                </div>
-              )}
-            {!user ||
-              (user.userId !== r.userId && user.role !== 'ADMIN' && (
+      <ScrollArea className="h-[686px] w-full">
+        <ul className="bg-background-white mb-2 flex flex-col gap-5 px-2 py-3">
+          {reviews?.map((r) => (
+            <li
+              key={r.id}
+              className="border-elements-grey-950 w-full border-[0.5px]"
+            >
+              {user &&
+                (user.userId === r.userId || user.role === 'ADMIN') &&
+                editingId !== r.id && (
+                  <div className="flex justify-between gap-4 px-2 py-2">
+                    {user.userId === r.userId && (
+                      <>
+                        <button
+                          className="bg-background-white flex cursor-pointer items-center justify-center rounded-full border-none p-1 hover:bg-gray-50"
+                          onClick={() => handleDelete(r.id)}
+                        >
+                          <Trash2 className="size-5" />
+                        </button>
+                        <button
+                          onClick={() => {
+                            setEditingId(r.id);
+                            setEditingText(r.text);
+                          }}
+                          className="bg-background-white flex cursor-pointer items-center justify-center rounded-full border-none p-1 hover:bg-gray-50"
+                        >
+                          <EditPen className="size-5" />
+                        </button>
+                      </>
+                    )}
+                  </div>
+                )}
+              {(!user ||
+                (user.userId !== r.userId && user.role !== 'ADMIN')) && (
                 <div className="h-6 w-full"></div>
-              ))}
-            {/* <p className="text-sm text-gray-600">{r.userId}</p> */}
-            <div className="w-full">
-              {editingId === r.id && (
-                <div className="p-6">
-                  <textarea
-                    name="review"
-                    value={editingText}
-                    onChange={(e) => setEditingText(e.target.value)}
-                    className="border-elements-grey-200 placeholder-sm mb-5 h-32 w-full border-[0.5px] p-1"
-                  />
-                  <div className="flex items-center justify-center gap-7">
-                    <button
-                      onClick={() => setEditingId(null)}
-                      className="bg-background-white placeholder-sm border-background-main-300 shadow-menu flex cursor-pointer items-center justify-center border px-3 py-[6px]"
-                    >
-                      Скасувати
-                    </button>
-                    <button
-                      className="bg-background-main-300 placeholder-sm border-background-main-300 shadow-menu flex cursor-pointer items-center justify-center border px-3 py-[6px]"
-                      onClick={() => handleEdit(r.id)}
-                    >
-                      Зберегти
-                    </button>
-                  </div>
-                </div>
               )}
-              {editingId != r.id && (
-                <div className="px-6 pb-6">
-                  <p className="placeholder-sm mb-5">{r.text}</p>
-                  <div className="flex w-full items-center justify-between">
-                    <p className="placeholder-sm semibold">ВВЕСТИ ІМЯ</p>
-                    <p className="placeholder-sm">
-                      {r.createdAt?.toLocaleDateString()}
-                    </p>
+              {/* <p className="text-sm text-gray-600">{r.userId}</p> */}
+              <div className="w-full">
+                {editingId === r.id && (
+                  <div className="p-6">
+                    <textarea
+                      name="review"
+                      value={editingText}
+                      onChange={(e) => setEditingText(e.target.value)}
+                      className="border-elements-grey-200 placeholder-sm mb-5 h-32 w-full border-[0.5px] p-1"
+                    />
+                    <div className="flex items-center justify-center gap-7">
+                      <button
+                        onClick={() => setEditingId(null)}
+                        className="bg-background-white placeholder-sm border-background-main-300 shadow-menu flex cursor-pointer items-center justify-center border px-3 py-[6px]"
+                      >
+                        Скасувати
+                      </button>
+                      <button
+                        className="bg-background-main-300 placeholder-sm border-background-main-300 shadow-menu flex cursor-pointer items-center justify-center border px-3 py-[6px]"
+                        onClick={() => handleEdit(r.id)}
+                      >
+                        Зберегти
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
-              {/* <div className="mb-5 w-full">
+                )}
+                {editingId != r.id && (
+                  <div className="px-6 pb-6">
+                    <p className="placeholder-sm mb-5">{r.text}</p>
+                    <div className="flex w-full items-center justify-between">
+                      <p className="placeholder-sm semibold">ВВЕСТИ ІМЯ</p>
+                      <p className="placeholder-sm">
+                        {r.createdAt?.toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                )}
+                {/* <div className="mb-5 w-full">
                 {editingId === r.id ? (
                   <>
                     <textarea
@@ -165,7 +172,7 @@ export default function BusinessReviews({ businessId }: Props) {
                   </p>
                 </div>
               )} */}
-              {/* {user &&
+                {/* {user &&
                 (user.userId === r.userId || user.role === 'ADMIN') &&
                 editingId !== r.id && (
                   <div className="mt-1 flex justify-end gap-2">
@@ -190,20 +197,23 @@ export default function BusinessReviews({ businessId }: Props) {
                     )}
                   </div>
                 )} */}
-            </div>
-          </li>
-        ))}
-      </ul>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </ScrollArea>
+
       <div className="pb-7 pt-5">
         <h4 className="title-h4 mb-6 text-center">Додати відгук</h4>
         <div className="w-full">
           <p className="placeholder-sm mb-2 font-medium">Відгук</p>
 
           <textarea
+            name="add_review"
             placeholder="Поділитись враженнями..."
             value={newText}
             onChange={(e) => setNewText(e.target.value)}
-            className="bg-background-white border-elements-grey-950 placeholder:placeholder-sm placeholder:text-text-500-grey mb-6 h-14 w-full border-[0.5px] px-3 py-1"
+            className="bg-background-white placeholder-sm border-elements-grey-950 placeholder:placeholder-sm placeholder:text-text-500-grey mb-6 h-14 w-full border-[0.5px] px-3 py-1"
           />
           <button
             onClick={handleAdd}
