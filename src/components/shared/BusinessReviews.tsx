@@ -1,17 +1,20 @@
 'use client';
 import React, { useState } from 'react';
 
-//import { Spinner } from '../ui/spinner';
-import { Plus } from 'lucide-react';
 import { useUserStore } from '@/stores/useUserStore';
-import { Trash2 } from 'lucide-react';
-import EditPen from '@/assets/icons/general/feedback-edit.svg';
 import {
   useBusinessReviews,
   useCreateReview,
   useDeleteReview,
   useUpdateReview,
 } from '@/hooks/useReviews';
+
+//import { Spinner } from '../ui/spinner';
+import { Plus } from 'lucide-react';
+
+import { Trash2 } from 'lucide-react';
+import EditPen from '@/assets/icons/general/feedback-edit.svg';
+
 import { ScrollArea } from '@/components/ui/scroll-area';
 import ReviewsSkeleton from './skeletons/ReviewsSkeleton';
 
@@ -26,7 +29,7 @@ export default function BusinessReviews({ businessId }: Props) {
   const [newText, setNewText] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingText, setEditingText] = useState('');
-  const [showReviews, setShowReviews] = useState(false);
+  // const [showReviews, setShowReviews] = useState(false);
 
   const createReviewMutation = useCreateReview();
   const deleteReviewMutation = useDeleteReview(businessId);
