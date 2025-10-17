@@ -92,10 +92,43 @@ export default function BusinessReviews({ businessId }: Props) {
                 <div className="h-6 w-full"></div>
               ))}
             {/* <p className="text-sm text-gray-600">{r.userId}</p> */}
-            <div className="w-full p-6">
-              {editingId === r.id && <></>}
-              {editingId != r.id && <></>}
-              <div className="mb-5 w-full">
+            <div className="w-full">
+              {editingId === r.id && (
+                <div className="p-6">
+                  <textarea
+                    name="review"
+                    value={editingText}
+                    onChange={(e) => setEditingText(e.target.value)}
+                    className="border-elements-grey-200 placeholder-sm mb-5 h-32 w-full border-[0.5px] p-1"
+                  />
+                  <div className="flex items-center justify-center gap-7">
+                    <button
+                      onClick={() => setEditingId(null)}
+                      className="bg-background-white placeholder-sm border-background-main-300 shadow-menu flex cursor-pointer items-center justify-center border px-3 py-[6px]"
+                    >
+                      Скасувати
+                    </button>
+                    <button
+                      className="bg-background-main-300 placeholder-sm border-background-main-300 shadow-menu flex cursor-pointer items-center justify-center border px-3 py-[6px]"
+                      onClick={() => handleEdit(r.id)}
+                    >
+                      Зберегти
+                    </button>
+                  </div>
+                </div>
+              )}
+              {editingId != r.id && (
+                <div className="px-6 pb-6">
+                  <p className="placeholder-sm mb-5">{r.text}</p>
+                  <div className="flex w-full items-center justify-between">
+                    <p className="placeholder-sm semibold">ВВЕСТИ ІМЯ</p>
+                    <p className="placeholder-sm">
+                      {r.createdAt?.toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
+              )}
+              {/* <div className="mb-5 w-full">
                 {editingId === r.id ? (
                   <>
                     <textarea
@@ -130,7 +163,7 @@ export default function BusinessReviews({ businessId }: Props) {
                     {r.createdAt?.toLocaleDateString()}
                   </p>
                 </div>
-              )}
+              )} */}
               {/* {user &&
                 (user.userId === r.userId || user.role === 'ADMIN') &&
                 editingId !== r.id && (
