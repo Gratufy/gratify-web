@@ -65,7 +65,7 @@ export default function BusinessReviews({ businessId }: Props) {
         Відгуки ({reviews?.length || 0})
       </h3>
       {/* -------------------------------------------- */}
-      <ScrollArea className="h-[466px] w-full lg:h-[686px]">
+      <ScrollArea className="h-[466px] w-full lg:h-[686px] xl:h-[518px]">
         <ul className="bg-background-white mx-auto flex flex-col gap-5 px-2 py-3">
           {reviews?.map((r) => (
             <li
@@ -82,7 +82,7 @@ export default function BusinessReviews({ businessId }: Props) {
                           className="bg-background-white flex cursor-pointer items-center justify-center rounded-full border-none p-1 hover:bg-gray-50"
                           onClick={() => handleDelete(r.id)}
                         >
-                          <Trash2 className="size-5" />
+                          <Trash2 className="size-5 xl:size-6" />
                         </button>
                         <button
                           onClick={() => {
@@ -91,7 +91,7 @@ export default function BusinessReviews({ businessId }: Props) {
                           }}
                           className="bg-background-white flex cursor-pointer items-center justify-center rounded-full border-none p-1 hover:bg-gray-50"
                         >
-                          <EditPen className="size-5" />
+                          <EditPen className="size-5 xl:size-6" />
                         </button>
                       </>
                     )}
@@ -109,17 +109,17 @@ export default function BusinessReviews({ businessId }: Props) {
                       name="review"
                       value={editingText}
                       onChange={(e) => setEditingText(e.target.value)}
-                      className="border-elements-grey-200 placeholder-sm mb-5 h-32 w-full border-[0.5px] p-1"
+                      className="border-elements-grey-200 xl:placeholder-base placeholder-sm mb-5 h-32 w-full border-[0.5px] p-1"
                     />
                     <div className="flex items-center justify-center gap-7">
                       <button
                         onClick={() => setEditingId(null)}
-                        className="bg-background-white placeholder-sm border-background-main-300 shadow-menu flex cursor-pointer items-center justify-center border px-3 py-[6px]"
+                        className="bg-background-white xl:placeholder-base placeholder-sm border-background-main-300 shadow-menu flex cursor-pointer items-center justify-center border px-3 py-[6px]"
                       >
                         Скасувати
                       </button>
                       <button
-                        className="bg-background-main-300 placeholder-sm border-background-main-300 shadow-menu flex cursor-pointer items-center justify-center border px-3 py-[6px]"
+                        className="bg-background-main-300 xl:placeholder-base placeholder-sm border-background-main-300 shadow-menu flex cursor-pointer items-center justify-center border px-3 py-[6px]"
                         onClick={() => handleEdit(r.id)}
                       >
                         Зберегти
@@ -129,10 +129,14 @@ export default function BusinessReviews({ businessId }: Props) {
                 )}
                 {editingId != r.id && (
                   <div className="px-6 pb-6">
-                    <p className="placeholder-sm mb-5">{r.text}</p>
+                    <p className="placeholder-sm xl:placeholder-base mb-5">
+                      {r.text}
+                    </p>
                     <div className="flex w-full items-center justify-between">
-                      <p className="placeholder-sm semibold">ВВЕСТИ ІМЯ</p>
-                      <p className="placeholder-sm">
+                      <p className="placeholder-sm semibold xl:placeholder-base">
+                        ВВЕСТИ ІМЯ
+                      </p>
+                      <p className="placeholder-sm xl:placeholder-base">
                         {r.createdAt?.toLocaleDateString()}
                       </p>
                     </div>
@@ -212,7 +216,7 @@ export default function BusinessReviews({ businessId }: Props) {
         </div>
 
         <div className="lg:pr-15 flex-1">
-          <p className="placeholder-sm mb-2 font-medium lg:mt-1 lg:hidden">
+          <p className="placeholder-sm xl:placeholder-base mb-2 font-medium lg:mt-1 lg:hidden">
             Відгук
           </p>
 
@@ -221,13 +225,13 @@ export default function BusinessReviews({ businessId }: Props) {
             placeholder="Поділіться враженням..."
             value={newText}
             onChange={(e) => setNewText(e.target.value)}
-            className="bg-background-white placeholder-sm border-elements-grey-950 placeholder:placeholder-sm placeholder:text-text-500-grey mb-6 h-14 w-full border-[0.5px] px-3 py-1 lg:h-20"
+            className="bg-background-white placeholder-sm xl:placeholder-base border-elements-grey-950 placeholder:placeholder-sm xl:placeholder:placeholder-base placeholder:text-text-500-grey mb-6 h-14 w-full border-[0.5px] px-3 py-1 lg:h-20"
           />
           <button
             onClick={handleAdd}
-            className="shadow-menu placeholder-sm border-background-main-300 bg-background-main-300 lg:w-30 flex w-full cursor-pointer items-center justify-center border px-3 py-[6px]"
+            className="shadow-menu placeholder-sm xl:placeholder-base border-background-main-300 bg-background-main-300 lg:w-30 flex w-full cursor-pointer items-center justify-center border px-3 py-[6px]"
           >
-            <Plus className="mr-[6px] size-3" />
+            <Plus className="mr-[6px] size-3 font-medium" />
             Додати
           </button>
         </div>

@@ -133,7 +133,7 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
           </section>
           {/* -------------------------------------------- */}
           {/* REVIEW */}
-          <section className="bg-background-grey-50 w-full px-4 py-5 lg:px-28 lg:py-10">
+          <section className="bg-background-grey-50 w-full px-4 py-5 lg:px-28 lg:py-10 xl:px-[320px]">
             <BusinessReviews businessId={id} />
           </section>
           {/* -------------------------------------------- */}
