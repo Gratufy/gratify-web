@@ -15,7 +15,7 @@ import { Plus } from 'lucide-react';
 import { Trash2 } from 'lucide-react';
 import EditPen from '@/assets/icons/general/feedback-edit.svg';
 
-import { ScrollArea } from '@/components/ui/scroll-area';
+//import { ScrollArea } from '@/components/ui/scroll-area';
 import ReviewsSkeleton from './skeletons/ReviewsSkeleton';
 
 interface Props {
@@ -60,15 +60,16 @@ export default function BusinessReviews({ businessId }: Props) {
     await deleteReviewMutation.mutateAsync(reviewId);
     alert('Review deleted successfully!');
   };
-  // if (isLoading) return <p>Loading reviews...</p>;
+
   return (
     <>
-      {isLoading && <ReviewsSkeleton count={3} />}
       <h3 className="title-h3 mb-4 text-center lg:mb-5">
         Відгуки ({reviews?.length || 0})
       </h3>
+      {isLoading && <ReviewsSkeleton count={3} />}
       {/* -------------------------------------------- */}
-      <ScrollArea className="h-[466px] w-full lg:h-[686px] xl:h-[518px]">
+      {/* <ScrollArea className="h-[466px] w-full lg:h-[686px] xl:h-[518px]"> */}
+      <div className="max-h-[466px] w-full overflow-y-auto lg:max-h-[686px] xl:max-h-[518px]">
         <ul className="bg-background-white mx-auto flex flex-col gap-5 px-2 py-3">
           {reviews?.map((r) => (
             <li
@@ -210,7 +211,9 @@ export default function BusinessReviews({ businessId }: Props) {
             </li>
           ))}
         </ul>
-      </ScrollArea>
+      </div>
+
+      {/* </ScrollArea> */}
 
       <div className="mt-2 flex flex-col pb-7 pt-5 lg:flex-row">
         <div className="title-h4 mb-6 lg:mb-0 lg:mr-6">
