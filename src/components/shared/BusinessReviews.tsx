@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { Spinner } from '../ui/spinner';
+import { Plus } from 'lucide-react';
 import { useUserStore } from '@/stores/useUserStore';
 import { Trash2 } from 'lucide-react';
 import EditPen from '@/assets/icons/general/feedback-edit.svg';
@@ -56,7 +57,7 @@ export default function BusinessReviews({ businessId }: Props) {
       {isLoading && <ReviewsSkeleton count={3} />}
       <h3 className="title-h3 mb-4">Відгуки ({reviews?.length || 0})</h3>
       {/* -------------------------------------------- */}
-      <ul className="bg-background-white flex flex-col gap-5 px-2 py-3">
+      <ul className="bg-background-white mb-2 flex flex-col gap-5 px-2 py-3">
         {reviews?.map((r) => (
           <li
             key={r.id}
@@ -193,7 +194,26 @@ export default function BusinessReviews({ businessId }: Props) {
           </li>
         ))}
       </ul>
+      <div className="pb-7 pt-5">
+        <h4 className="title-h4 mb-6 text-center">Додати відгук</h4>
+        <div className="w-full">
+          <p className="placeholder-sm mb-2 font-medium">Відгук</p>
 
+          <textarea
+            placeholder="Поділитись враженнями..."
+            value={newText}
+            onChange={(e) => setNewText(e.target.value)}
+            className="bg-background-white border-elements-grey-950 placeholder:placeholder-sm placeholder:text-text-500-grey mb-6 h-14 w-full border-[0.5px] px-3 py-1"
+          />
+          <button
+            onClick={handleAdd}
+            className="shadow-menu placeholder-sm border-background-main-300 bg-background-main-300 flex w-full cursor-pointer items-center justify-center border px-3 py-[6px]"
+          >
+            <Plus className="mr-[6px] size-3" />
+            Додати
+          </button>
+        </div>
+      </div>
       {/* {reviews && reviews.length > 0 && (
         <button
           className="btn-secondary flex cursor-pointer items-center justify-center rounded-3xl border border-black px-4 py-2"
@@ -203,10 +223,9 @@ export default function BusinessReviews({ businessId }: Props) {
         </button>
       )} */}
       {/* {showReviews && reviews && !reviews.length && <p>No reviews yet.</p>} */}
-      {showReviews &&
+      {/* {showReviews &&
         reviews?.map((r) => (
           <div key={r.id} className="border-b py-2">
-            {/* <p className="text-sm text-gray-600">{r.userId}</p> */}
             <p className="text-sm text-gray-600">
               {r.createdAt?.toLocaleDateString()}
             </p>
@@ -258,9 +277,6 @@ export default function BusinessReviews({ businessId }: Props) {
                       </button>
                     </>
                   )}
-                  {user.role === 'ADMIN' && (
-                    <>{/* we can add a select for status change */}</>
-                  )}
                 </div>
               )}
           </div>
@@ -281,7 +297,7 @@ export default function BusinessReviews({ businessId }: Props) {
             Add Review
           </button>
         </div>
-      )}
+      )} */}
     </>
   );
 }
