@@ -62,13 +62,39 @@ export default function BusinessReviews({ businessId }: Props) {
             key={r.id}
             className="border-elements-grey-950 w-full border-[0.5px]"
           >
-            <div className="flex justify-between gap-4 px-2 py-2">
-              <Trash2 className="size-5" />
-              <EditPen className="size-5" />
-            </div>
-
+            {user &&
+              (user.userId === r.userId || user.role === 'ADMIN') &&
+              editingId !== r.id && (
+                <div className="flex justify-between gap-4 px-2 py-2">
+                  {user.userId === r.userId && (
+                    <>
+                      <button
+                        className="bg-background-white flex cursor-pointer items-center justify-center rounded-full border-none p-1 hover:bg-gray-50"
+                        onClick={() => handleDelete(r.id)}
+                      >
+                        <Trash2 className="size-5" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          setEditingId(r.id);
+                          setEditingText(r.text);
+                        }}
+                        className="bg-background-white flex cursor-pointer items-center justify-center rounded-full border-none p-1 hover:bg-gray-50"
+                      >
+                        <EditPen className="size-5" />
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
+            {!user ||
+              (user.userId !== r.userId && user.role !== 'ADMIN' && (
+                <div className="h-6 w-full"></div>
+              ))}
             {/* <p className="text-sm text-gray-600">{r.userId}</p> */}
-            <div className="w-full px-6 pb-6">
+            <div className="w-full p-6">
+              {editingId === r.id && <></>}
+              {editingId != r.id && <></>}
               <div className="mb-5 w-full">
                 {editingId === r.id ? (
                   <>
@@ -76,32 +102,36 @@ export default function BusinessReviews({ businessId }: Props) {
                       name="review"
                       value={editingText}
                       onChange={(e) => setEditingText(e.target.value)}
-                      className="w-full rounded border p-2"
+                      className="border-elements-grey-200 placeholder-sm mb-5 h-32 w-full border-[0.5px] p-1"
                     />
-                    <button
-                      className="btn-primary flex cursor-pointer items-center justify-center rounded-3xl border border-black px-4 py-2"
-                      onClick={() => handleEdit(r.id)}
-                    >
-                      Save
-                    </button>
-                    <button
-                      onClick={() => setEditingId(null)}
-                      className="btn-secondary flex cursor-pointer items-center justify-center rounded-3xl border border-gray-800 px-4 py-2"
-                    >
-                      Cancel
-                    </button>
+                    <div className="flex items-center justify-center gap-7">
+                      <button
+                        onClick={() => setEditingId(null)}
+                        className="bg-background-white placeholder-sm border-background-main-300 shadow-menu flex cursor-pointer items-center justify-center border px-3 py-[6px]"
+                      >
+                        Скасувати
+                      </button>
+                      <button
+                        className="bg-background-main-300 placeholder-sm border-background-main-300 shadow-menu flex cursor-pointer items-center justify-center border px-3 py-[6px]"
+                        onClick={() => handleEdit(r.id)}
+                      >
+                        Зберегти
+                      </button>
+                    </div>
                   </>
                 ) : (
                   <p className="placeholder-sm">{r.text}</p>
                 )}
               </div>
-              <div className="flex w-full items-center justify-between">
-                <p className="placeholder-sm semibold">ВВЕСТИ ІМЯ</p>
-                <p className="placeholder-sm">
-                  {r.createdAt?.toLocaleDateString()}
-                </p>
-              </div>
-              {user &&
+              {editingId != r.id && (
+                <div className="flex w-full items-center justify-between">
+                  <p className="placeholder-sm semibold">ВВЕСТИ ІМЯ</p>
+                  <p className="placeholder-sm">
+                    {r.createdAt?.toLocaleDateString()}
+                  </p>
+                </div>
+              )}
+              {/* {user &&
                 (user.userId === r.userId || user.role === 'ADMIN') &&
                 editingId !== r.id && (
                   <div className="mt-1 flex justify-end gap-2">
@@ -124,11 +154,8 @@ export default function BusinessReviews({ businessId }: Props) {
                         </button>
                       </>
                     )}
-                    {user.role === 'ADMIN' && (
-                      <>{/* we can add a select for status change */}</>
-                    )}
                   </div>
-                )}
+                )} */}
             </div>
           </li>
         ))}
