@@ -61,14 +61,16 @@ export default function BusinessReviews({ businessId }: Props) {
   return (
     <>
       {isLoading && <ReviewsSkeleton count={3} />}
-      <h3 className="title-h3 mb-4">Відгуки ({reviews?.length || 0})</h3>
+      <h3 className="title-h3 mb-4 text-center lg:mb-5">
+        Відгуки ({reviews?.length || 0})
+      </h3>
       {/* -------------------------------------------- */}
-      <ScrollArea className="h-[686px] w-full">
-        <ul className="bg-background-white mb-2 flex flex-col gap-5 px-2 py-3">
+      <ScrollArea className="h-[466px] w-full lg:h-[686px]">
+        <ul className="bg-background-white mx-auto flex flex-col gap-5 px-2 py-3">
           {reviews?.map((r) => (
             <li
               key={r.id}
-              className="border-elements-grey-950 w-full border-[0.5px]"
+              className="border-elements-grey-950 lg:w-170 mx-auto w-full border-[0.5px]"
             >
               {user &&
                 (user.userId === r.userId || user.role === 'ADMIN') &&
@@ -203,21 +205,27 @@ export default function BusinessReviews({ businessId }: Props) {
         </ul>
       </ScrollArea>
 
-      <div className="pb-7 pt-5">
-        <h4 className="title-h4 mb-6 text-center">Додати відгук</h4>
-        <div className="w-full">
-          <p className="placeholder-sm mb-2 font-medium">Відгук</p>
+      <div className="mt-2 flex flex-col pb-7 pt-5 lg:flex-row">
+        <div className="title-h4 mb-6 lg:mb-0 lg:mr-6">
+          {' '}
+          <h4 className="title-h4 text-center">Додати відгук</h4>
+        </div>
+
+        <div className="lg:pr-15 flex-1">
+          <p className="placeholder-sm mb-2 font-medium lg:mt-1 lg:hidden">
+            Відгук
+          </p>
 
           <textarea
             name="add_review"
-            placeholder="Поділитись враженнями..."
+            placeholder="Поділіться враженням..."
             value={newText}
             onChange={(e) => setNewText(e.target.value)}
-            className="bg-background-white placeholder-sm border-elements-grey-950 placeholder:placeholder-sm placeholder:text-text-500-grey mb-6 h-14 w-full border-[0.5px] px-3 py-1"
+            className="bg-background-white placeholder-sm border-elements-grey-950 placeholder:placeholder-sm placeholder:text-text-500-grey mb-6 h-14 w-full border-[0.5px] px-3 py-1 lg:h-20"
           />
           <button
             onClick={handleAdd}
-            className="shadow-menu placeholder-sm border-background-main-300 bg-background-main-300 flex w-full cursor-pointer items-center justify-center border px-3 py-[6px]"
+            className="shadow-menu placeholder-sm border-background-main-300 bg-background-main-300 lg:w-30 flex w-full cursor-pointer items-center justify-center border px-3 py-[6px]"
           >
             <Plus className="mr-[6px] size-3" />
             Додати

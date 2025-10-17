@@ -289,6 +289,13 @@
   }
 }
 
+/* H6 */
+@layer utilities {
+  .title-h6 {
+    @apply text-sm font-medium leading-[140%] xl:text-2xl;
+  }
+}
+
 @utility link-big {
   @apply text-text-link text-xs leading-[140%] underline lg:text-sm xl:text-base;
 }
