@@ -16,6 +16,7 @@ import { House } from 'lucide-react';
 
 import BusinessMenu from '@/components/business/BusinessHeader/BusinessMenu';
 import Link from 'next/link';
+import AdminMenu from '@/components/admin/AdminHeader/AdminMenu';
 
 function PublicHeader() {
   const pathname = usePathname();
@@ -50,9 +51,7 @@ function PublicHeader() {
             <div className="flex w-12 items-start justify-between">
               {user?.role === 'USER' && <UserMenu />}
               {user?.role === 'BUSINESS' && <BusinessMenu />}
-              {user?.role === 'ADMIN' && (
-                <IconUser className="text-icons-grey-950 size-5" />
-              )}
+              {user?.role === 'ADMIN' && <AdminMenu />}
               <Link href="/favorites">
                 <FavoriteHeaderIcon
                   className={`text-background-white h-5 w-4 ${isFavorites ? 'text-icons-color-accent' : 'text-background-white'}`}
@@ -86,9 +85,7 @@ function PublicHeader() {
                 <div className="flex w-12 items-start justify-between">
                   {user?.role === 'USER' && <UserMenu />}
                   {user?.role === 'BUSINESS' && <BusinessMenu />}
-                  {user?.role === 'ADMIN' && (
-                    <IconUser className="text-icons-grey-950 size-5" />
-                  )}
+                  {user?.role === 'ADMIN' && <AdminMenu />}
                   <Link href="/favorites">
                     <FavoriteHeaderIcon className="text-background-white h-5 w-4" />
                   </Link>

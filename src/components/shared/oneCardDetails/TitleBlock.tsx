@@ -10,8 +10,8 @@ function TitleBlock({ name, categoryName, website }: TitleBlockProps) {
     <>
       <h1 className="title-h2 mb-2">{name}</h1>
       {/* <p className="text-2xl mb-4">City: {business?.locations}</p> */}
-      <div className="flex justify-between lg:flex-col">
-        <p className="title-h4 lg:mb-1">{categoryName}</p>
+      <div className="flex items-center justify-between lg:flex-col lg:items-start xl:flex-row xl:items-center">
+        <p className="title-h4 lg:mb-1 xl:mb-0">{categoryName}</p>
         {website && (
           <a
             href={website.startsWith('http') ? website : `https://${website}`}

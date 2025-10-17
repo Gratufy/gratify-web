@@ -62,10 +62,10 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
         </div>
         {/* main photo */}
         <div
-          className="embla__viewport mb-4 h-[317px] overflow-hidden lg:mb-5 lg:h-[414px]"
+          className="embla__viewport mb-4 h-[317px] overflow-hidden lg:mb-5 lg:h-[414px] xl:h-[424px]"
           ref={emblaMainRef}
         >
-          <div className="embla__container flex h-[317px] lg:h-[414px]">
+          <div className="embla__container flex h-[317px] lg:h-[414px] xl:h-[424px]">
             {slides.map((src, index) => (
               <div
                 //
@@ -78,7 +78,7 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
                     alt={`Image ${index + 1}`}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 1024px) 343px, (max-width: 1440px) 450px, 461px"
+                    sizes="(max-width: 1024px) 343px, (max-width: 1440px) 450px, 462px"
                   />
                 </div>
               </div>
@@ -93,41 +93,43 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
           className="embla-thumbs__viewport xl:h-21 h-21 lg:h-18 overflow-hidden"
           ref={emblaThumbsRef}
         >
-          <div className="embla-thumbs__container lg:h-18 xl:h-21 h-21 flex items-center gap-4 lg:gap-8">
+          <div className="embla-thumbs__container lg:h-18 xl:h-21 h-21 flex items-center gap-4 lg:gap-8 xl:gap-5">
             {slides.map((src, index) => (
               <button
                 key={index}
                 onClick={() => onThumbClick(index)}
-                className={`h-18 w-18 lg:w-15 lg:h-15 xl:w-18 xl:h-18 relative shrink-0 overflow-hidden border-[3px] transition ${
+                className={`h-18 w-18 lg:w-15 lg:h-15 xl:w-18 xl:h-18 relative shrink-0 cursor-pointer overflow-hidden transition ${
                   selectedIndex === index
-                    ? 'border-elements-main-600 lg:w-17 lg:h-17 h-20 w-20 xl:h-20 xl:w-20'
-                    : 'border-transparent opacity-60'
+                    ? 'border-elements-main-600 lg:w-17 lg:h-17 h-20 w-20 border-[3px] xl:h-20 xl:w-20'
+                    : 'opacity-60'
                 }`}
               >
                 <Image
                   src={src}
                   alt={`Thumb ${index + 1}`}
+                  // width={80}
+                  // height={80}
                   fill
-                  className="object-cover"
+                  className="h-full w-full object-cover"
                 />
               </button>
             ))}
           </div>
         </div>
       </div>
-      <div className="lg:w-30 mx-auto hidden lg:flex lg:justify-between">
+      <div className="lg:w-30 xl:w-34 mx-auto hidden lg:flex lg:justify-between">
         <button
           // variant="outline"
-          className="hover:bg-background-grey-50 flex items-center justify-center bg-white"
+          className="hover:bg-background-grey-50 flex cursor-pointer items-center justify-center bg-white"
           onClick={() => emblaMainApi?.scrollPrev()}
         >
-          <IconLeft className="size-5" />
+          <IconLeft className="lg:size-5 xl:size-6" />
         </button>
         <button
-          className="hover:bg-background-grey-50 flex items-center justify-center bg-white"
+          className="hover:bg-background-grey-50 flex cursor-pointer items-center justify-center bg-white"
           onClick={() => emblaMainApi?.scrollNext()}
         >
-          <IconLeft className="size-5 rotate-180" />
+          <IconLeft className="rotate-180 lg:size-5 xl:size-6" />
         </button>
       </div>
     </div>
