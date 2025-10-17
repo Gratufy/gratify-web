@@ -1,8 +1,8 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from '@/utils/supabase/server';
 
-import { db } from "@/db";
-import { userProfiles } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { db } from '@/db';
+import { userProfiles } from '@/db/schema';
+import { eq } from 'drizzle-orm';
 
 export async function POST() {
   try {
@@ -12,7 +12,7 @@ export async function POST() {
       data: { user },
     } = await supabase.auth.getUser();
 
-    if (!user) return new Response("Unauthorized", { status: 401 });
+    if (!user) return new Response('Unauthorized', { status: 401 });
 
     //check if profile already exists
 
@@ -22,6 +22,9 @@ export async function POST() {
       .where(eq(userProfiles.userId, user.id))
       .limit(1);
 
+    const fullName =
+      user.user_metadata.full_name ?? user.user_metadata.name ?? null;
+    const avatarUrl = user.user_metadata.avatar_url ?? null;
     // if not, create a new profile
     if (!existing) {
       const [created] = await db
@@ -29,21 +32,28 @@ export async function POST() {
         .values({
           userId: user.id,
           email: user.email!,
+          name: fullName,
+          avatarUrl,
         })
         .returning();
 
       return Response.json(created);
     }
-    //if profile exists, update last activity
+    //if profile exists, update last activity and other fields if changed
+    const needsUpdate =
+      existing.name !== fullName || existing.avatarUrl !== avatarUrl;
     const [updated] = await db
       .update(userProfiles)
-      .set({ lastActivity: new Date() })
+      .set({
+        lastActivity: new Date(),
+        ...(needsUpdate && { name: fullName, avatarUrl }),
+      })
       .where(eq(userProfiles.userId, user.id))
       .returning();
 
     return Response.json(updated);
   } catch (err) {
-    console.error("Delete account error:", err);
-    return new Response("Internal Server Error", { status: 500 });
+    console.error('Delete account error:', err);
+    return new Response('Internal Server Error', { status: 500 });
   }
 }

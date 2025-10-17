@@ -85,6 +85,13 @@
       "when": 1758661612841,
       "tag": "0011_cheerful_terror",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1760728190234,
+      "tag": "0012_friendly_toro",
+      "breakpoints": true
     }
   ]
 }

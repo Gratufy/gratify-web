@@ -137,7 +137,7 @@ export default function BusinessReviews({ businessId }: Props) {
                     </p>
                     <div className="flex w-full items-center justify-between">
                       <p className="placeholder-sm semibold xl:placeholder-base">
-                        ВВЕСТИ ІМЯ
+                        {r.user?.name ?? 'Турист'}
                       </p>
                       <p className="placeholder-sm xl:placeholder-base">
                         {r.createdAt?.toLocaleDateString()}
