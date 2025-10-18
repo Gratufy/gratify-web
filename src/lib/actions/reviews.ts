@@ -1,10 +1,14 @@
-"use server";
-import { createClient } from "@/utils/supabase/server";
-import { db } from "@/db";
-import { businesses, businessReviews } from "@/db/schema";
-import { eq, and, desc, sql } from "drizzle-orm";
-import { isAdmin } from "../helpers/isAdmin";
-import { BusinessReviewStatus, ScopeReview } from "@/types";
+'use server';
+import { createClient } from '@/utils/supabase/server';
+import { db } from '@/db';
+import { businesses, businessReviews, userProfiles } from '@/db/schema';
+import { eq, and, desc, sql } from 'drizzle-orm';
+import { isAdmin } from '../helpers/isAdmin';
+import {
+  BusinessReviewStatus,
+  BusinessReviewWithUser,
+  ScopeReview,
+} from '@/types';
 
 export async function createReview({
   businessId,
@@ -18,7 +22,7 @@ export async function createReview({
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) throw new Error("Unauthorized");
+  if (!user) throw new Error('Unauthorized');
 
   const [review] = await db
     .insert(businessReviews)
@@ -40,7 +44,7 @@ export async function updateReviewText({
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) throw new Error("Unauthorized");
+  if (!user) throw new Error('Unauthorized');
 
   //check if review belongs to user
   const [review] = await db
@@ -51,7 +55,7 @@ export async function updateReviewText({
     )
     .returning();
 
-  if (!review) throw new Error("Forbidden");
+  if (!review) throw new Error('Forbidden');
 
   return review;
 }
@@ -62,7 +66,7 @@ export async function deleteReview(reviewId: string) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) throw new Error("Unauthorized");
+  if (!user) throw new Error('Unauthorized');
 
   // find existing review
   const [existing] = await db
@@ -70,14 +74,14 @@ export async function deleteReview(reviewId: string) {
     .from(businessReviews)
     .where(eq(businessReviews.id, reviewId));
 
-  if (!existing) throw new Error("Not found");
+  if (!existing) throw new Error('Not found');
   // check if user is admin
   const isAdminUser = await isAdmin(user.id);
-  if (existing.userId !== user.id && !isAdminUser) throw new Error("Forbidden");
+  if (existing.userId !== user.id && !isAdminUser) throw new Error('Forbidden');
 
   await db.delete(businessReviews).where(eq(businessReviews.id, reviewId));
   // delete review with status "approved"
-  if (existing.status === "approved") {
+  if (existing.status === 'approved') {
     await db
       .update(businesses)
       .set({ reviewCount: sql`GREATEST(${businesses.reviewCount} - 1, 0)` })
@@ -99,34 +103,34 @@ export async function updateReviewStatus({
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) throw new Error("Unauthorized");
+  if (!user) throw new Error('Unauthorized');
 
   const isAdminUser = await isAdmin(user.id);
-  if (!isAdminUser) throw new Error("Forbidden");
+  if (!isAdminUser) throw new Error('Forbidden');
   // find current review
   const [existing] = await db
     .select()
     .from(businessReviews)
     .where(eq(businessReviews.id, reviewId));
 
-  if (!existing) throw new Error("Not found");
+  if (!existing) throw new Error('Not found');
 
   const [review] = await db
     .update(businessReviews)
     .set({ status, updatedAt: new Date() })
     .where(eq(businessReviews.id, reviewId))
     .returning();
-  if (!review) throw new Error("Update failed");
+  if (!review) throw new Error('Update failed');
 
   // change review count only when status changes to approved
   if (existing.status !== status) {
-    if (existing.status !== "approved" && status === "approved") {
+    if (existing.status !== 'approved' && status === 'approved') {
       // new approved → +1
       await db
         .update(businesses)
         .set({ reviewCount: sql`${businesses.reviewCount} + 1` })
         .where(eq(businesses.id, review.businessId));
-    } else if (existing.status === "approved" && status !== "approved") {
+    } else if (existing.status === 'approved' && status !== 'approved') {
       // change when was approved but not any more → -1 (with protection against negative)
       await db
         .update(businesses)
@@ -141,26 +145,41 @@ export async function getBusinessReviews(
   businessId: string,
   scope: ScopeReview,
   status?: BusinessReviewStatus
-) {
+): Promise<BusinessReviewWithUser[]> {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (scope === "public") {
+
+  if (scope === 'public') {
     return await db
-      .select()
+      .select({
+        id: businessReviews.id,
+        businessId: businessReviews.businessId,
+        userId: businessReviews.userId,
+        text: businessReviews.text,
+        status: businessReviews.status,
+        createdAt: businessReviews.createdAt,
+        updatedAt: businessReviews.updatedAt,
+        user: {
+          name: userProfiles.name,
+          avatarUrl: userProfiles.avatarUrl,
+        },
+      })
       .from(businessReviews)
+      .leftJoin(userProfiles, eq(businessReviews.userId, userProfiles.userId))
       .where(
         and(
           eq(businessReviews.businessId, businessId),
-          eq(businessReviews.status, "approved")
+          eq(businessReviews.status, 'approved')
         )
       )
       .orderBy(desc(businessReviews.createdAt));
   } else {
-    if (!user) throw new Error("Unauthorized");
+    // Admin scope
+    if (!user) throw new Error('Unauthorized');
     const isAdminUser = await isAdmin(user.id);
-    if (!isAdminUser) throw new Error("Forbidden");
+    if (!isAdminUser) throw new Error('Forbidden');
 
     const conditions = [eq(businessReviews.businessId, businessId)];
 
@@ -169,8 +188,21 @@ export async function getBusinessReviews(
     }
 
     return await db
-      .select()
+      .select({
+        id: businessReviews.id,
+        businessId: businessReviews.businessId,
+        userId: businessReviews.userId,
+        text: businessReviews.text,
+        status: businessReviews.status,
+        createdAt: businessReviews.createdAt,
+        updatedAt: businessReviews.updatedAt,
+        user: {
+          name: userProfiles.name,
+          avatarUrl: userProfiles.avatarUrl,
+        },
+      })
       .from(businessReviews)
+      .leftJoin(userProfiles, eq(businessReviews.userId, userProfiles.userId))
       .where(and(...conditions))
       .orderBy(desc(businessReviews.createdAt));
   }

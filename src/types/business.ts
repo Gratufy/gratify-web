@@ -117,6 +117,12 @@ export type BusinessReview = typeof businessReviews.$inferSelect;
 export type NewBusinessReview = typeof businessReviews.$inferInsert;
 export type BusinessReviewStatus = 'pending' | 'approved' | 'rejected';
 export type ScopeReview = 'public' | 'admin';
+export type BusinessReviewWithUser = BusinessReview & {
+  user: {
+    name: string | null;
+    avatarUrl: string | null;
+  } | null;
+};
 
 // Category
 export type BusinessCategory = typeof businessCategories.$inferSelect;

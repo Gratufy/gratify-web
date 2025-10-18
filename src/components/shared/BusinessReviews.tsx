@@ -15,7 +15,7 @@ import { Plus } from 'lucide-react';
 import { Trash2 } from 'lucide-react';
 import EditPen from '@/assets/icons/general/feedback-edit.svg';
 
-import { ScrollArea } from '@/components/ui/scroll-area';
+//import { ScrollArea } from '@/components/ui/scroll-area';
 import ReviewsSkeleton from './skeletons/ReviewsSkeleton';
 
 interface Props {
@@ -24,8 +24,10 @@ interface Props {
 
 export default function BusinessReviews({ businessId }: Props) {
   //   const queryClient = useQueryClient();
+
   const user = useUserStore((state) => state.profile);
   const { data: reviews, isLoading } = useBusinessReviews(businessId, 'public');
+
   const [newText, setNewText] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingText, setEditingText] = useState('');
@@ -60,15 +62,17 @@ export default function BusinessReviews({ businessId }: Props) {
     await deleteReviewMutation.mutateAsync(reviewId);
     alert('Review deleted successfully!');
   };
-  // if (isLoading) return <p>Loading reviews...</p>;
+
   return (
     <>
-      {isLoading && <ReviewsSkeleton count={3} />}
       <h3 className="title-h3 mb-4 text-center lg:mb-5">
         Відгуки ({reviews?.length || 0})
       </h3>
+      {isLoading && <ReviewsSkeleton count={3} />}
       {/* -------------------------------------------- */}
-      <ScrollArea className="h-[466px] w-full lg:h-[686px] xl:h-[518px]">
+      {/* <ScrollArea className="h-[466px] w-full lg:h-[686px] xl:h-[518px]"> */}
+      {/* Container with overflow-auto */}
+      <div className="custom-scrollbar relative max-h-[466px] w-full overflow-y-auto lg:max-h-[686px] lg:pr-3 xl:max-h-[518px]">
         <ul className="bg-background-white mx-auto flex flex-col gap-5 px-2 py-3">
           {reviews?.map((r) => (
             <li
@@ -137,7 +141,7 @@ export default function BusinessReviews({ businessId }: Props) {
                     </p>
                     <div className="flex w-full items-center justify-between">
                       <p className="placeholder-sm semibold xl:placeholder-base">
-                        ВВЕСТИ ІМЯ
+                        {r.user?.name ?? 'Турист'}
                       </p>
                       <p className="placeholder-sm xl:placeholder-base">
                         {r.createdAt?.toLocaleDateString()}
@@ -145,72 +149,11 @@ export default function BusinessReviews({ businessId }: Props) {
                     </div>
                   </div>
                 )}
-                {/* <div className="mb-5 w-full">
-                {editingId === r.id ? (
-                  <>
-                    <textarea
-                      name="review"
-                      value={editingText}
-                      onChange={(e) => setEditingText(e.target.value)}
-                      className="border-elements-grey-200 placeholder-sm mb-5 h-32 w-full border-[0.5px] p-1"
-                    />
-                    <div className="flex items-center justify-center gap-7">
-                      <button
-                        onClick={() => setEditingId(null)}
-                        className="bg-background-white placeholder-sm border-background-main-300 shadow-menu flex cursor-pointer items-center justify-center border px-3 py-[6px]"
-                      >
-                        Скасувати
-                      </button>
-                      <button
-                        className="bg-background-main-300 placeholder-sm border-background-main-300 shadow-menu flex cursor-pointer items-center justify-center border px-3 py-[6px]"
-                        onClick={() => handleEdit(r.id)}
-                      >
-                        Зберегти
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  <p className="placeholder-sm">{r.text}</p>
-                )}
-              </div>
-              {editingId != r.id && (
-                <div className="flex w-full items-center justify-between">
-                  <p className="placeholder-sm semibold">ВВЕСТИ ІМЯ</p>
-                  <p className="placeholder-sm">
-                    {r.createdAt?.toLocaleDateString()}
-                  </p>
-                </div>
-              )} */}
-                {/* {user &&
-                (user.userId === r.userId || user.role === 'ADMIN') &&
-                editingId !== r.id && (
-                  <div className="mt-1 flex justify-end gap-2">
-                    {user.userId === r.userId && (
-                      <>
-                        <button
-                          onClick={() => {
-                            setEditingId(r.id);
-                            setEditingText(r.text);
-                          }}
-                          className="flex cursor-pointer items-center justify-center rounded-3xl border border-green-700 px-4 py-2"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className="flex cursor-pointer items-center justify-center rounded-3xl border border-red-500 px-4 py-2"
-                          onClick={() => handleDelete(r.id)}
-                        >
-                          Delete
-                        </button>
-                      </>
-                    )}
-                  </div>
-                )} */}
               </div>
             </li>
           ))}
         </ul>
-      </ScrollArea>
+      </div>
 
       <div className="mt-2 flex flex-col pb-7 pt-5 lg:flex-row">
         <div className="title-h4 mb-6 lg:mb-0 lg:mr-6">
@@ -239,90 +182,6 @@ export default function BusinessReviews({ businessId }: Props) {
           </button>
         </div>
       </div>
-      {/* {reviews && reviews.length > 0 && (
-        <button
-          className="btn-secondary flex cursor-pointer items-center justify-center rounded-3xl border border-black px-4 py-2"
-          onClick={() => setShowReviews(!showReviews)}
-        >
-          {showReviews ? 'Hide Reviews' : 'Show Reviews'}
-        </button>
-      )} */}
-      {/* {showReviews && reviews && !reviews.length && <p>No reviews yet.</p>} */}
-      {/* {showReviews &&
-        reviews?.map((r) => (
-          <div key={r.id} className="border-b py-2">
-            <p className="text-sm text-gray-600">
-              {r.createdAt?.toLocaleDateString()}
-            </p>
-            {editingId === r.id ? (
-              <>
-                <textarea
-                  name="review"
-                  value={editingText}
-                  onChange={(e) => setEditingText(e.target.value)}
-                  className="w-full rounded border p-2"
-                />
-                <button
-                  className="btn-primary flex cursor-pointer items-center justify-center rounded-3xl border border-black px-4 py-2"
-                  onClick={() => handleEdit(r.id)}
-                >
-                  Save
-                </button>
-                <button
-                  onClick={() => setEditingId(null)}
-                  className="btn-secondary flex cursor-pointer items-center justify-center rounded-3xl border border-gray-800 px-4 py-2"
-                >
-                  Cancel
-                </button>
-              </>
-            ) : (
-              <p>{r.text}</p>
-            )}
-
-            {user &&
-              (user.userId === r.userId || user.role === 'ADMIN') &&
-              editingId !== r.id && (
-                <div className="mt-1 flex justify-end gap-2">
-                  {user.userId === r.userId && (
-                    <>
-                      <button
-                        onClick={() => {
-                          setEditingId(r.id);
-                          setEditingText(r.text);
-                        }}
-                        className="flex cursor-pointer items-center justify-center rounded-3xl border border-green-700 px-4 py-2"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className="flex cursor-pointer items-center justify-center rounded-3xl border border-red-500 px-4 py-2"
-                        onClick={() => handleDelete(r.id)}
-                      >
-                        Delete
-                      </button>
-                    </>
-                  )}
-                </div>
-              )}
-          </div>
-        ))}
-
-      {user && (
-        <div className="mt-4">
-          <textarea
-            placeholder="Write your review..."
-            value={newText}
-            onChange={(e) => setNewText(e.target.value)}
-            className="mb-2 w-full rounded border p-2"
-          />
-          <button
-            onClick={handleAdd}
-            className="flex cursor-pointer items-center justify-center rounded-3xl border border-green-700 px-4 py-2"
-          >
-            Add Review
-          </button>
-        </div>
-      )} */}
     </>
   );
 }

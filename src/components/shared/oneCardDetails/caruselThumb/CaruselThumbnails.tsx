@@ -41,7 +41,7 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
   }, [emblaMainApi, onSelect]);
 
   return (
-    <div className="flex w-[343px] flex-col items-center lg:w-[450px] xl:w-[461px]">
+    <div className="mx-auto flex w-[343px] flex-col items-center lg:w-[450px] xl:w-[461px]">
       {/* Главная карусель h-[317px] lg:h-[414px]*/}
       <div className="embla w-full">
         {/* buttons only for mobile */}
