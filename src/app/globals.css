@@ -219,6 +219,31 @@
     @apply bg-background-white text-text-950-grey;
     font-family: var(--font-family);
   }
+  /* --- Custom Scrollbar Styles --- */
+
+  .custom-scrollbar {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #c5c5c5 transparent; /* Firefox */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 20px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #c5c5c5;
+    border-radius: 9999px;
+    border: 2px solid transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #9b9b9b;
+  }
 }
 
 @utility container {
@@ -257,43 +282,61 @@
 }
 
 /* H1 */
-@layer utilities {
+/* @layer utilities {
   .title-h1 {
     @apply text-2xl font-bold lg:text-4xl xl:text-5xl;
   }
+} */
+@utility title-h1 {
+  @apply text-2xl font-bold lg:text-4xl xl:text-5xl;
 }
 /* H2 */
-@layer utilities {
+/* @layer utilities {
   .title-h2 {
     @apply text-2xl font-bold leading-[110%] lg:text-3xl xl:text-[40px];
   }
+} */
+@utility title-h2 {
+  @apply text-2xl font-bold leading-[110%] lg:text-3xl xl:text-[40px];
 }
 /* H3 */
-@layer utilities {
+/* @layer utilities {
   .title-h3 {
     @apply text-xl font-bold leading-[120%] lg:text-3xl;
   }
+} */
+@utility title-h3 {
+  @apply text-xl font-bold leading-[120%] lg:text-3xl;
 }
 
 /* H4 */
-@layer utilities {
+/* @layer utilities {
   .title-h4 {
     @apply text-base font-medium leading-[130%] lg:text-xl xl:text-2xl;
   }
+} */
+@utility title-h4 {
+  @apply text-base font-medium leading-[130%] lg:text-xl xl:text-2xl;
 }
 
 /* H5 */
-@layer utilities {
+/* @layer utilities {
   .title-h5 {
     @apply text-sm font-medium leading-[130%] lg:text-lg xl:text-2xl;
   }
+} */
+@utility title-h5 {
+  @apply text-sm font-medium leading-[130%] lg:text-lg xl:text-2xl;
 }
 
 /* H6 */
-@layer utilities {
+/* @layer utilities {
   .title-h6 {
     @apply text-sm font-medium leading-[140%] xl:text-base;
   }
+} */
+@utility title-h6 {
+  @apply text-sm font-medium leading-[140%] xl:text-base;
 }
 
 @utility link-big {

@@ -1,5 +1,6 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { cn } from '@/lib/utils';
 
 import { useUserStore } from '@/stores/useUserStore';
 import {
@@ -17,6 +18,7 @@ import EditPen from '@/assets/icons/general/feedback-edit.svg';
 
 //import { ScrollArea } from '@/components/ui/scroll-area';
 import ReviewsSkeleton from './skeletons/ReviewsSkeleton';
+import { ScrollBar } from '../ui/scroll-area';
 
 interface Props {
   businessId: string;
@@ -24,8 +26,10 @@ interface Props {
 
 export default function BusinessReviews({ businessId }: Props) {
   //   const queryClient = useQueryClient();
+
   const user = useUserStore((state) => state.profile);
   const { data: reviews, isLoading } = useBusinessReviews(businessId, 'public');
+
   const [newText, setNewText] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingText, setEditingText] = useState('');
@@ -69,7 +73,8 @@ export default function BusinessReviews({ businessId }: Props) {
       {isLoading && <ReviewsSkeleton count={3} />}
       {/* -------------------------------------------- */}
       {/* <ScrollArea className="h-[466px] w-full lg:h-[686px] xl:h-[518px]"> */}
-      <div className="max-h-[466px] w-full overflow-y-auto lg:max-h-[686px] xl:max-h-[518px]">
+      {/* Container with overflow-auto */}
+      <div className="custom-scrollbar relative max-h-[466px] w-full overflow-y-auto lg:max-h-[686px] lg:pr-3 xl:max-h-[518px]">
         <ul className="bg-background-white mx-auto flex flex-col gap-5 px-2 py-3">
           {reviews?.map((r) => (
             <li
@@ -211,6 +216,11 @@ export default function BusinessReviews({ businessId }: Props) {
             </li>
           ))}
         </ul>
+        {/* Кастомный вертикальный скроллбар */}
+
+        {/* <div className="bg-border absolute right-0 top-0 h-full w-2.5 rounded-full">
+          <div className="w-full rounded-full bg-gray-500" />
+        </div> */}
       </div>
 
       {/* </ScrollArea> */}
