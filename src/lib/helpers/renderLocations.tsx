@@ -13,22 +13,18 @@ export function renderLocations(
   if (selectedCityLabel === '__all__') {
     if (b.isOnline && b.locations.length > 0) {
       return (
-        <>
-          <ul className="space-y-4">
-            {b.locations
-              .slice() // not to mutate original array
-              .sort((a, b) => a.city.localeCompare(b.city, 'uk'))
-              .map((loc, idx) => (
-                <li key={idx}>
-                  <address className="not-italic">
-                    <span className="title-h6">
-                      м. {loc.city}, {loc.address?.trim() || 'не додано'}{' '}
-                    </span>
-                  </address>
-                </li>
-              ))}
-          </ul>
-        </>
+        <ul className="space-y-2">
+          {b.locations
+            .slice() // not to mutate original array
+            .sort((a, b) => a.city.localeCompare(b.city, 'uk'))
+            .map((loc, idx) => (
+              <li key={idx}>
+                <address className="title-h6 not-italic">
+                  м. {loc.city}, {loc.address?.trim() || ' адреса не додана'}
+                </address>
+              </li>
+            ))}
+        </ul>
       );
     }
     if (b.isOnline && b.locations.length === 0) {
@@ -54,16 +50,14 @@ export function renderLocations(
     }
     if (!b.isOnline && b.locations.length > 0) {
       return (
-        <ul className="space-y-4">
+        <ul className="space-y-2">
           {b.locations
             .slice() // not to mutate original array
             .sort((a, b) => a.city.localeCompare(b.city, 'uk'))
             .map((loc, idx) => (
               <li key={idx}>
-                <address className="not-italic">
-                  <span className="title-h6">
-                    м. {loc.city}, {loc.address?.trim() || 'не додано'}{' '}
-                  </span>
+                <address className="title-h6 not-italic">
+                  м. {loc.city}, {loc.address?.trim() || ' адреса не додана'}
                 </address>
               </li>
             ))}
@@ -81,17 +75,15 @@ export function renderLocations(
 
   if (cityLocations.length > 0) {
     return (
-      <>
+      <div>
         <p className="title-h6 mb-1">м. {selectedCityLabel}</p>
 
         {cityLocations.length ? (
-          <ul className="space-y-4">
+          <ul className="space-y-2">
             {cityLocations.map((loc, idx) => (
               <li key={idx}>
-                <address className="not-italic">
-                  <span className="title-h6">
-                    {loc.address?.trim() || 'не додано'}
-                  </span>
+                <address className="title-h6 not-italic">
+                  {loc.address?.trim() || ' адреса не додана'}
                 </address>
               </li>
             ))}
@@ -99,7 +91,7 @@ export function renderLocations(
         ) : (
           <p className="placeholder-xs text-center">Адреса не додана</p>
         )}
-      </>
+      </div>
     );
   }
 
