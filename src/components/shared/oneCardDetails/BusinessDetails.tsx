@@ -40,7 +40,6 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center">
       <div className="w-full px-4 lg:px-[50px] lg:py-2 xl:px-[150px]">
-        {' '}
         <GoBackButton href={href} className="w-8 py-2 pr-2" />
       </div>
 
@@ -137,18 +136,20 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
             <BusinessReviews businessId={id} />
           </section>
           {/* -------------------------------------------- */}
-          <section>
-            <div className="flex w-full flex-col items-center justify-center">
-              {CityListElements}
+          <section className="flex w-full flex-col gap-4 px-4 py-5">
+            <h3 className="title-h3 text-center">Наша адреса</h3>
 
-              {business.locations && business.locations.length > 0 && (
+            {business.locations && business.locations.length > 0 && (
+              <div className="border-elements-grey-300 w-full border-[0.5px]">
                 <BusinessMapAll
                   businesses={[business]}
                   className="w-full"
                   selectedCity={selectedCity}
                 />
-              )}
-            </div>
+              </div>
+            )}
+
+            {CityListElements}
           </section>
         </>
       )}
