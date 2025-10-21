@@ -39,7 +39,7 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
     : null;
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center">
-      <div className="w-full px-4 lg:px-[50px] lg:py-2 xl:px-[150px]">
+      <div className="max-[1024px]:max-w-150 w-full px-4 lg:w-[1024px] lg:px-[50px] lg:py-2 xl:w-[1440px] xl:px-[150px]">
         <GoBackButton href={href} className="w-8 py-2 pr-2" />
       </div>
 
@@ -56,7 +56,7 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
       {business && (
         <>
           {/* mobile */}
-          <section className="flex w-full flex-col px-4 pb-5 lg:hidden">
+          <section className="max-w-150 flex w-full flex-col px-4 pb-5 lg:hidden">
             <div className="mb-6 w-full">
               <TitleBlock
                 name={business.name}
@@ -93,7 +93,7 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
             </div>
           </section>
           {/* big screens */}
-          <section className="lg:gap-25 xl:gap-30 hidden w-full lg:flex lg:px-[50px] lg:pb-5 xl:px-[150px] xl:pb-11">
+          <section className="lg:gap-25 xl:gap-30 hidden w-full lg:flex lg:w-[1024px] lg:px-[50px] lg:pb-5 xl:w-[1440px] xl:px-[150px] xl:pb-11">
             <CaruselThumbnails slides={FAKE_IMAGES_ARR} />
             <div className="flex w-full flex-col">
               <div className="border-elements-grey-400 mb-2 flex flex-col border-b lg:pb-4">
@@ -132,11 +132,13 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
           </section>
           {/* -------------------------------------------- */}
           {/* REVIEW */}
-          <section className="bg-background-grey-50 w-full px-4 py-5 lg:px-28 lg:py-10 xl:px-[320px]">
-            <BusinessReviews businessId={id} />
+          <section className="bg-background-grey-50 flex w-full flex-col items-center py-5 lg:py-10">
+            <div className="max-[1024px]:max-w-150 w-full px-4 lg:w-[1024px] lg:px-28 xl:w-[1440px] xl:px-[320px]">
+              <BusinessReviews businessId={id} />
+            </div>
           </section>
           {/* -------------------------------------------- */}
-          <section className="xl:py-15 flex w-full flex-col gap-4 px-4 py-5 lg:px-[50px] lg:py-10 xl:px-[150px]">
+          <section className="max-[1024px]:max-w-150 xl:py-15 flex w-full flex-col gap-4 px-4 py-5 lg:w-[1024px] lg:px-[50px] lg:py-10 xl:w-[1440px] xl:px-[150px]">
             <h3 className="title-h3 text-center">Наша адреса</h3>
 
             <div className="flex w-full flex-col gap-4 lg:flex-row lg:gap-6">
