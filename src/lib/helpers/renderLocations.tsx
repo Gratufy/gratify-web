@@ -30,7 +30,9 @@ export function renderLocations(
     if (b.isOnline && b.locations.length === 0) {
       return (
         <div>
-          <p className="placeholder-sm text-center">Бізнес працює онлайн</p>
+          <p className="placeholder-sm xl:placeholder-base text-center">
+            Бізнес працює онлайн
+          </p>
           {b.website && (
             <a
               href={
@@ -89,7 +91,9 @@ export function renderLocations(
             ))}
           </ul>
         ) : (
-          <p className="placeholder-xs text-center">Адреса не додана</p>
+          <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base text-center">
+            Адреса не додана
+          </p>
         )}
       </div>
     );
@@ -98,7 +102,9 @@ export function renderLocations(
   if (b.isOnline) {
     return (
       <div>
-        <p className="placeholder-sm text-center">Бізнес працює онлайн</p>
+        <p className="placeholder-sm xl:placeholder-base text-center">
+          Бізнес працює онлайн
+        </p>
         {b.website && (
           <a
             href={

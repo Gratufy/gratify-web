@@ -136,20 +136,21 @@ function BusinessDetails({ id, href, selectedCity, initialData }: Props) {
             <BusinessReviews businessId={id} />
           </section>
           {/* -------------------------------------------- */}
-          <section className="flex w-full flex-col gap-4 px-4 py-5">
+          <section className="xl:py-15 flex w-full flex-col gap-4 px-4 py-5 lg:px-[50px] lg:py-10 xl:px-[150px]">
             <h3 className="title-h3 text-center">Наша адреса</h3>
 
-            {business.locations && business.locations.length > 0 && (
-              <div className="border-elements-grey-300 w-full border-[0.5px]">
-                <BusinessMapAll
-                  businesses={[business]}
-                  className="w-full"
-                  selectedCity={selectedCity}
-                />
-              </div>
-            )}
-
-            {CityListElements}
+            <div className="flex w-full flex-col gap-4 lg:flex-row lg:gap-6">
+              {business.locations && business.locations.length > 0 && (
+                <div className="border-elements-grey-300 w-full border-[0.5px] lg:flex-1">
+                  <BusinessMapAll
+                    businesses={[business]}
+                    className="h-75 w-full"
+                    selectedCity={selectedCity}
+                  />
+                </div>
+              )}
+              <div className="w-full lg:flex-1">{CityListElements}</div>
+            </div>
           </section>
         </>
       )}
