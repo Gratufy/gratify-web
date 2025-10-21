@@ -168,10 +168,10 @@ function HomeSectionDesktop({
         </div>
         {showMap && (
           // count width of footer+32px
-          <div className="top-13 sticky h-screen pb-32 lg:w-[500px] xl:w-[708px]">
+          <div className="top-13 sticky h-screen lg:w-[500px] xl:w-[708px]">
             <BusinessMapAll
               businesses={businesses}
-              className="w-full"
+              className="lg:h-140 xl:h-155 w-full"
               selectedCity={city}
               hoveredId={hoveredId}
             />
