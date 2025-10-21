@@ -13,33 +13,54 @@ export function renderLocations(
   if (selectedCityLabel === '__all__') {
     if (b.isOnline && b.locations.length > 0) {
       return (
-        <>
-          <p>ONLINE</p>
-          <ul>
-            {b.locations
-              .slice() // not to mutate original array
-              .sort((a, b) => a.city.localeCompare(b.city, 'uk'))
-              .map((loc, idx) => (
-                <li key={idx}>
-                  {loc.city} — {loc.address?.trim() || 'не додано'}
-                </li>
-              ))}
-          </ul>
-        </>
-      );
-    }
-    if (b.isOnline && b.locations.length === 0) {
-      return <p>ONLINE</p>;
-    }
-    if (!b.isOnline && b.locations.length > 0) {
-      return (
-        <ul>
+        <ul className="space-y-2">
           {b.locations
             .slice() // not to mutate original array
             .sort((a, b) => a.city.localeCompare(b.city, 'uk'))
             .map((loc, idx) => (
               <li key={idx}>
-                {loc.city} — {loc.address?.trim() || 'не додано'}
+                <address className="title-h6 not-italic">
+                  м. {loc.city}, {loc.address?.trim() || ' адреса не додана'}
+                </address>
+              </li>
+            ))}
+        </ul>
+      );
+    }
+    if (b.isOnline && b.locations.length === 0) {
+      return (
+        <div>
+          <p className="placeholder-sm xl:placeholder-base text-center">
+            Бізнес працює онлайн
+          </p>
+          {b.website && (
+            <a
+              href={
+                b.website.startsWith('http')
+                  ? b.website
+                  : `https://${b.website}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-big mx-auto block text-center"
+            >
+              дивіться вебсайт
+            </a>
+          )}
+        </div>
+      );
+    }
+    if (!b.isOnline && b.locations.length > 0) {
+      return (
+        <ul className="space-y-2">
+          {b.locations
+            .slice() // not to mutate original array
+            .sort((a, b) => a.city.localeCompare(b.city, 'uk'))
+            .map((loc, idx) => (
+              <li key={idx}>
+                <address className="title-h6 not-italic">
+                  м. {loc.city}, {loc.address?.trim() || ' адреса не додана'}
+                </address>
               </li>
             ))}
         </ul>
@@ -56,23 +77,48 @@ export function renderLocations(
 
   if (cityLocations.length > 0) {
     return (
-      <>
-        <p>{selectedCityLabel}</p>
-        <ul>
-          {cityLocations.length ? (
-            cityLocations.map((loc, idx) => (
-              <li key={idx}>{loc.address?.trim() || 'не додано'}</li>
-            ))
-          ) : (
-            <li>Немає адрес</li>
-          )}
-        </ul>
-      </>
+      <div>
+        <p className="title-h6 mb-1">м. {selectedCityLabel}</p>
+
+        {cityLocations.length ? (
+          <ul className="space-y-2">
+            {cityLocations.map((loc, idx) => (
+              <li key={idx}>
+                <address className="title-h6 not-italic">
+                  {loc.address?.trim() || ' адреса не додана'}
+                </address>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base text-center">
+            Адреса не додана
+          </p>
+        )}
+      </div>
     );
   }
 
   if (b.isOnline) {
-    return <p>ONLINE</p>;
+    return (
+      <div>
+        <p className="placeholder-sm xl:placeholder-base text-center">
+          Бізнес працює онлайн
+        </p>
+        {b.website && (
+          <a
+            href={
+              b.website.startsWith('http') ? b.website : `https://${b.website}`
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-big mx-auto block text-center"
+          >
+            дивіться вебсайт
+          </a>
+        )}
+      </div>
+    );
   }
 
   // if no address in this city and not online → not in the list

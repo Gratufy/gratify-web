@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import 'leaflet/dist/leaflet.css';
 //, Popup
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
@@ -39,7 +39,7 @@ function FitBounds({ coords }: { coords: [number, number][] }) {
 
 type BusinessMapAllProps = {
   businesses: BusinessWithCategoryName[];
-  height?: number | string;
+  // height?: number | string;
   className?: string;
   selectedCity?: string;
   hoveredId?: string | null;
@@ -47,7 +47,7 @@ type BusinessMapAllProps = {
 
 function BusinessMapAll({
   businesses,
-  height = 400,
+  // height = 400,
   className,
   selectedCity = '__all__',
   hoveredId = null,
@@ -94,7 +94,8 @@ function BusinessMapAll({
     coords.length > 0 ? [coords[0].lat, coords[0].lng] : [49.0, 32.0];
 
   return (
-    <div className={'overflow-hidden ' + className} style={{ height }}>
+    // style={{ height }}
+    <div className={'overflow-hidden ' + className}>
       {coords.length > 0 ? (
         <MapContainer
           center={center as [number, number]}
