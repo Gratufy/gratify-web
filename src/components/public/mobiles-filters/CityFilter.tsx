@@ -8,16 +8,15 @@ import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import CheckIcon from '@/assets/icons/general/icon-check.svg';
 
 import { SheetClose } from '@/components/ui/sheet';
+import { useFilters } from '@/hooks/useFilters';
 
 type CityFilterProps = {
-  city: string | undefined;
-  setCity: (city: string) => void;
   onApply: () => void;
-  setCityName: (label: string) => void;
 };
 
-function CityFilter({ city, setCity, onApply, setCityName }: CityFilterProps) {
-  const [tempCity, setTempCity] = useState<string>(city || '__all__');
+function CityFilter({ onApply }: CityFilterProps) {
+  const { filters, updateFilter } = useFilters();
+  const [tempCity, setTempCity] = useState<string>(filters.city);
 
   return (
     <div className="flex flex-col gap-4 p-5">
@@ -51,12 +50,8 @@ function CityFilter({ city, setCity, onApply, setCityName }: CityFilterProps) {
         </button>
         <SheetClose
           onClick={() => {
-            setCity(tempCity);
-            const city = UKRAINE_REGIONAL_CENTERS.find(
-              (c) => c.value === tempCity
-            );
-            setCityName(city?.label ?? '');
             onApply(); // close Sheet
+            updateFilter('city', tempCity);
           }}
           className="placeholder-sm bg-background-main-300 w-30 border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2 shadow-[1px_2px_10px_2px_var(--elements-grey-50)]"
         >

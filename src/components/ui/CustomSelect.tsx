@@ -8,7 +8,6 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  SelectLabel,
 } from '@/components/ui/select';
 
 interface CustomSelectProps<T> {
