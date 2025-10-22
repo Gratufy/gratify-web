@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { BusinessWithCategoryName } from '@/types';
 
 import SidebarFilters from './SidebarFilters';
-// import BusinessList from '../shared/BusinessListOld';
 
 import dynamic from 'next/dynamic';
 const BusinessMapAll = dynamic(

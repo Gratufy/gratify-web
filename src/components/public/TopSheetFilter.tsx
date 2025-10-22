@@ -41,10 +41,10 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
 
   const [showTempOnlineStatus, setShowTempOnlineStatus] =
     useState<OnlineFilter>(filters.mode);
-  // const [tempSortBy, setTempSortBy] = useState<SortBy>(sortBy);
+
   const [tempSortBy, setTempSortBy] = useState<SortBy>(filters.sort);
 
-  // управляем открытием Sheet
+  // manage Sheet
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -61,7 +61,8 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
       onOpenChange={(isOpen) => {
         setOpen(isOpen);
 
-        // 🔹 если Sheet закрывается без применения — сбросить временные значения в актуальные фильтры
+        //if Sheet is closing without applying -
+        // reset temporary values to current filters
         if (!isOpen) {
           setTempCity(filters.city);
           setTempCategoryId(filters.category);
@@ -170,23 +171,12 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
           </div>
         </div>
         <div className="mx-auto flex gap-4">
-          {/* <DeleteAllFiltersBtn
-            //setCity={setTempCity} //
-            // setCityName={setCityName}
-            // setCategoryId={setTempCategoryId} //
-            // setShowOnlineStatus={setShowTempOnlineStatus} //
-            // setSortBy={setTempSortBy} //
-            // setCategoryName={setCategoryName}
-
-            className="lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 flex cursor-pointer border bg-white py-1.5 lg:gap-2 lg:px-2"
-          /> */}
           <button
             onClick={() => {
-              // 🔹 сбрасываем только временные значения
               setTempCity('__all__');
-              // setCityName('Усі міста');
+
               setTempCategoryId('__all__');
-              // setCategoryName('Усі категорії');
+
               setShowTempOnlineStatus('all');
               setTempSortBy('newest');
             }}
@@ -204,18 +194,6 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
                 mode: showTempOnlineStatus,
                 sort: tempSortBy,
               });
-              // setCity(tempCity);
-              // const city = UKRAINE_REGIONAL_CENTERS.find(
-              //   (c) => c.value === tempCity
-              // );
-              // setCityName(city?.label ?? '');
-              // setCategoryId(tempCategoryId);
-              // const category = categoriesWithAll.find(
-              //   (c) => c.categoryId === tempCategoryId
-              // );
-              // setCategoryName(category?.name ?? '');
-              // setShowOnlineStatus(showTempOnlineStatus);
-              // setSortBy(tempSortBy);
             }}
             className="placeholder-xs bg-background-main-300 w-30 border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2 shadow-[1px_2px_10px_2px_var(--elements-grey-50)]"
           >

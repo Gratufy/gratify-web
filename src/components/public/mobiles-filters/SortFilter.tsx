@@ -14,20 +14,10 @@ import SortFilterComponent from '@/components/shared/SortFilterComponent';
 import { useFilters } from '@/hooks/useFilters';
 
 type SortFilterProps = {
-  // sortBy: SortBy;
-  // setSortBy: (sort: SortBy) => void;
-  // showOnlineStatus: OnlineFilter;
-  // setShowOnlineStatus: (status: OnlineFilter) => void;
   onApply: () => void;
 };
 
-function SortFilter({
-  // sortBy,
-  // setSortBy,
-  // showOnlineStatus,
-  // setShowOnlineStatus,
-  onApply,
-}: SortFilterProps) {
+function SortFilter({ onApply }: SortFilterProps) {
   const { filters, updateFilters } = useFilters();
   const [tempOnlineStatus, setTempOnlineStatus] = useState<OnlineFilter>(
     filters.mode
@@ -69,8 +59,6 @@ function SortFilter({
         </button>
         <SheetClose
           onClick={() => {
-            // setShowOnlineStatus(tempOnlineStatus);
-            // setSortBy(tempSortBy);
             updateFilters({
               mode: tempOnlineStatus,
               sort: tempSortBy,

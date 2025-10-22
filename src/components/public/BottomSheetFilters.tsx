@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { BusinessWithCategoryName, OnlineFilter, SortBy } from '@/types';
+import { BusinessWithCategoryName } from '@/types';
 
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 import SortIcon from '@/assets/icons/filters/icon-sort.svg';
@@ -23,53 +23,25 @@ import MobileMapBottom from './mobiles-filters/MobileMapBottom';
 import { useFilters } from '@/hooks/useFilters';
 
 type BottomSheetFiltersProps = {
-  // city: string | undefined;
-  // setCity: (city: string) => void;
-  // setCityName: (label: string) => void;
-  // categoryId: string;
-  // setCategoryId: (id: string) => void;
-  // setCategoryName: (name: string) => void;
-  // sortBy: SortBy;
-  // setSortBy: (sort: SortBy) => void;
-  // showOnlineStatus: OnlineFilter;
-  // setShowOnlineStatus: (status: OnlineFilter) => void;
   categoriesWithAll: { categoryId: string; name: string }[];
   businesses: BusinessWithCategoryName[]; // for Map
 };
 
 function BottomSheetFilters(props: BottomSheetFiltersProps) {
-  const { filters, updateFilters } = useFilters();
+  const { filters } = useFilters();
   const [activeFilter, setActiveFilter] = useState<
     'city' | 'sort' | 'category' | 'map' | null
   >(null);
   const renderContent = () => {
     switch (activeFilter) {
       case 'city':
-        return (
-          <CityFilter
-            // city={filters.city}
-            // setCity={props.setCity}
-            onApply={() => setActiveFilter(null)}
-            // setCityName={props.setCityName}
-          />
-        );
+        return <CityFilter onApply={() => setActiveFilter(null)} />;
       case 'sort':
-        return (
-          <SortFilter
-            // sortBy={props.sortBy}
-            // setSortBy={props.setSortBy}
-            // showOnlineStatus={props.showOnlineStatus}
-            // setShowOnlineStatus={props.setShowOnlineStatus}
-            onApply={() => setActiveFilter(null)}
-          />
-        );
+        return <SortFilter onApply={() => setActiveFilter(null)} />;
       case 'category':
         return (
           <CategoryFilter
-            // categoryId={props.categoryId}
-            // setCategoryId={props.setCategoryId}
             categoriesWithAll={props.categoriesWithAll}
-            // setCategoryName={props.setCategoryName}
             onApply={() => setActiveFilter(null)}
           />
         );

@@ -11,10 +11,7 @@ import { SheetClose } from '@/components/ui/sheet';
 import { useFilters } from '@/hooks/useFilters';
 
 type CityFilterProps = {
-  // city: string | undefined;
-  // setCity: (city: string) => void;
   onApply: () => void;
-  // setCityName: (label: string) => void;
 };
 
 function CityFilter({ onApply }: CityFilterProps) {
@@ -53,12 +50,6 @@ function CityFilter({ onApply }: CityFilterProps) {
         </button>
         <SheetClose
           onClick={() => {
-            // setCity(tempCity);
-            // const city = UKRAINE_REGIONAL_CENTERS.find(
-            //   (c) => c.value === tempCity
-            // );
-            // setCityName(city?.label ?? '');
-
             onApply(); // close Sheet
             updateFilter('city', tempCity);
           }}

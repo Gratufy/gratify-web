@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
-import { OnlineFilter, SortBy } from '@/types';
+
 import { useFilters } from '@/hooks/useFilters';
 
 type DeleteAllFiltersBtnProps = {

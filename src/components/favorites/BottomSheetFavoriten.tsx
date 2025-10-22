@@ -13,6 +13,7 @@ import {
   SheetDescription,
 } from '@/components/ui/sheet';
 import CategoryFilter from '../public/mobiles-filters/CategoryFilter';
+import CategoryFilterFavorites from './CategoryFilterFavorites';
 
 type BottomSheetFavoritenProps = {
   // city: string | undefined;
@@ -37,7 +38,7 @@ function BottomSheetFavoriten(props: BottomSheetFavoritenProps) {
     switch (activeFilter) {
       case 'category':
         return (
-          <CategoryFilter
+          <CategoryFilterFavorites
             categoryId={props.categoryId}
             setCategoryId={props.setCategoryId}
             categories={props.categoriesWithAll}
@@ -51,8 +52,8 @@ function BottomSheetFavoriten(props: BottomSheetFavoritenProps) {
     }
   };
   return (
-    // pb-[env(safe-area-inset-bottom)]
-    <div className="bg-background-main-200 z-80 border-elements-grey-200 sticky bottom-0 w-full border-[0.5px] lg:hidden">
+    // pb-[env(safe-area-inset-bottom)] z-80
+    <div className="bg-background-main-200 border-elements-grey-200 sticky bottom-0 w-full border-[0.5px] lg:hidden">
       <Sheet>
         <SheetTrigger asChild>
           <div className="flex w-full items-center justify-center py-2">
@@ -66,7 +67,8 @@ function BottomSheetFavoriten(props: BottomSheetFavoritenProps) {
             </button>
           </div>
         </SheetTrigger>
-        <SheetContent side="bottom" className="mx-auto mb-14 h-auto w-4/5">
+        {/* mb-14 */}
+        <SheetContent side="bottom" className="mx-auto h-auto w-4/5">
           <SheetHeader className="sr-only">
             <SheetTitle>Застосувати фільтри</SheetTitle>
             <SheetDescription>

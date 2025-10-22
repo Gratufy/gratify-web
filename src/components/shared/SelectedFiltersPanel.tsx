@@ -37,12 +37,6 @@ function SelectedFiltersPanel({
       </div>
       <DeleteAllFiltersBtn
         isSecondVariant
-        // setCity={setCity}
-        // setCityName={setCityName}
-        // setCategoryId={setCategoryId}
-        // setShowOnlineStatus={setShowOnlineStatus}
-        // setSortBy={setSortBy}
-        // setCategoryName={setCategoryName}
         className="placeholder-small lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 gap-1 border bg-white px-2 py-2 lg:gap-2"
       />
     </div>
