@@ -85,21 +85,7 @@ function HomeSectionDesktop({
       )}
       <div className="hidden w-full lg:flex lg:flex-row lg:gap-6">
         {!showMap && (
-          <SidebarFilters
-            // filters={filters}
-            // updateFilter={updateFilter}
-            categoriesWithAll={categoriesWithAll ?? []}
-            // city={city}
-            // setCity={setCity}
-            // setCityName={setCityName}
-            // showOnlineStatus={showOnlineStatus}
-            // setShowOnlineStatus={setShowOnlineStatus}
-            // categoryId={categoryId}
-            // setCategoryId={setCategoryId}
-            // setCategoryName={setCategoryName}
-            // sortBy={sortBy}
-            // setSortBy={setSortBy}
-          />
+          <SidebarFilters categoriesWithAll={categoriesWithAll ?? []} />
         )}
         {/* !!!! overflow-hidden */}
         <div className="flex flex-1 flex-col overflow-hidden lg:pb-8">
@@ -111,7 +97,6 @@ function HomeSectionDesktop({
           )}
           <BusinessList
             businesses={businesses}
-            ///selectedCity={city}
             selectedCity={filters.city}
             fetchNextPage={fetchNextPage}
             hasNextPage={hasNextPage}
@@ -131,7 +116,6 @@ function HomeSectionDesktop({
             <BusinessMapAll
               businesses={businesses}
               className="lg:h-140 xl:h-155 w-full"
-              // selectedCity={city}
               selectedCity={filters.city}
               hoveredId={hoveredId}
             />

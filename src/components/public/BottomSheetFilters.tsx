@@ -20,23 +20,25 @@ import CityFilter from './mobiles-filters/CityFilter';
 import SortFilter from './mobiles-filters/SortFilter';
 import CategoryFilter from './mobiles-filters/CategoryFilter';
 import MobileMapBottom from './mobiles-filters/MobileMapBottom';
+import { useFilters } from '@/hooks/useFilters';
 
 type BottomSheetFiltersProps = {
-  city: string | undefined;
-  setCity: (city: string) => void;
-  setCityName: (label: string) => void;
-  categoryId: string;
-  setCategoryId: (id: string) => void;
-  setCategoryName: (name: string) => void;
-  sortBy: SortBy;
-  setSortBy: (sort: SortBy) => void;
-  showOnlineStatus: OnlineFilter;
-  setShowOnlineStatus: (status: OnlineFilter) => void;
+  // city: string | undefined;
+  // setCity: (city: string) => void;
+  // setCityName: (label: string) => void;
+  // categoryId: string;
+  // setCategoryId: (id: string) => void;
+  // setCategoryName: (name: string) => void;
+  // sortBy: SortBy;
+  // setSortBy: (sort: SortBy) => void;
+  // showOnlineStatus: OnlineFilter;
+  // setShowOnlineStatus: (status: OnlineFilter) => void;
   categoriesWithAll: { categoryId: string; name: string }[];
   businesses: BusinessWithCategoryName[]; // for Map
 };
 
 function BottomSheetFilters(props: BottomSheetFiltersProps) {
+  const { filters, updateFilters } = useFilters();
   const [activeFilter, setActiveFilter] = useState<
     'city' | 'sort' | 'category' | 'map' | null
   >(null);
@@ -45,29 +47,29 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
       case 'city':
         return (
           <CityFilter
-            city={props.city}
-            setCity={props.setCity}
+            // city={filters.city}
+            // setCity={props.setCity}
             onApply={() => setActiveFilter(null)}
-            setCityName={props.setCityName}
+            // setCityName={props.setCityName}
           />
         );
       case 'sort':
         return (
           <SortFilter
-            sortBy={props.sortBy}
-            setSortBy={props.setSortBy}
-            showOnlineStatus={props.showOnlineStatus}
-            setShowOnlineStatus={props.setShowOnlineStatus}
+            // sortBy={props.sortBy}
+            // setSortBy={props.setSortBy}
+            // showOnlineStatus={props.showOnlineStatus}
+            // setShowOnlineStatus={props.setShowOnlineStatus}
             onApply={() => setActiveFilter(null)}
           />
         );
       case 'category':
         return (
           <CategoryFilter
-            categoryId={props.categoryId}
-            setCategoryId={props.setCategoryId}
-            categories={props.categoriesWithAll}
-            setCategoryName={props.setCategoryName}
+            // categoryId={props.categoryId}
+            // setCategoryId={props.setCategoryId}
+            categoriesWithAll={props.categoriesWithAll}
+            // setCategoryName={props.setCategoryName}
             onApply={() => setActiveFilter(null)}
           />
         );
@@ -76,7 +78,7 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
           <MobileMapBottom
             businesses={props.businesses}
             className="w-full"
-            city={props.city}
+            city={filters.city}
           />
         );
       default:
@@ -84,8 +86,8 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
     }
   };
   return (
-    // pb-[env(safe-area-inset-bottom)]
-    <div className="bg-background-main-200 z-80 border-elements-grey-200 sticky bottom-0 w-full border-[0.5px] lg:hidden">
+    // pb-[env(safe-area-inset-bottom)]  z-80
+    <div className="bg-background-main-200 border-elements-grey-200 sticky bottom-0 w-full border-[0.5px] lg:hidden">
       <Sheet>
         <SheetTrigger asChild>
           <div className="flex w-full items-center justify-center py-2">
@@ -123,7 +125,8 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
             </button>
           </div>
         </SheetTrigger>
-        <SheetContent side="bottom" className="mx-auto mb-14 h-auto w-4/5">
+        {/* mb-14 mb-30*/}
+        <SheetContent side="bottom" className="mx-auto h-auto w-4/5">
           <SheetHeader className="sr-only">
             <SheetTitle>Застосувати фільтри</SheetTitle>
             <SheetDescription>

@@ -18,7 +18,7 @@ function MobileMapBottom({ businesses, city }: MobileMapBottomProps) {
   return (
     <BusinessMapAll
       businesses={businesses}
-      className="h-150 flex w-full"
+      className="h-100 flex w-full"
       selectedCity={city}
     />
   );

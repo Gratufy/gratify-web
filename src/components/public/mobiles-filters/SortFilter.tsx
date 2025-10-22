@@ -11,25 +11,28 @@ import { SheetClose } from '@/components/ui/sheet';
 
 import OnlineStatusFilter from '@/components/shared/OnlineStatusFilter';
 import SortFilterComponent from '@/components/shared/SortFilterComponent';
+import { useFilters } from '@/hooks/useFilters';
 
 type SortFilterProps = {
-  sortBy: SortBy;
-  setSortBy: (sort: SortBy) => void;
-  showOnlineStatus: OnlineFilter;
-  setShowOnlineStatus: (status: OnlineFilter) => void;
+  // sortBy: SortBy;
+  // setSortBy: (sort: SortBy) => void;
+  // showOnlineStatus: OnlineFilter;
+  // setShowOnlineStatus: (status: OnlineFilter) => void;
   onApply: () => void;
 };
 
 function SortFilter({
-  sortBy,
-  setSortBy,
-  showOnlineStatus,
-  setShowOnlineStatus,
+  // sortBy,
+  // setSortBy,
+  // showOnlineStatus,
+  // setShowOnlineStatus,
   onApply,
 }: SortFilterProps) {
-  const [tempOnlineStatus, setTempOnlineStatus] =
-    useState<OnlineFilter>(showOnlineStatus);
-  const [tempSortBy, setTempSortBy] = useState<SortBy>(sortBy);
+  const { filters, updateFilters } = useFilters();
+  const [tempOnlineStatus, setTempOnlineStatus] = useState<OnlineFilter>(
+    filters.mode
+  );
+  const [tempSortBy, setTempSortBy] = useState<SortBy>(filters.sort);
   return (
     <div className="w-65 flex flex-col gap-4 self-center py-5">
       <div className="flex items-center gap-3 py-2">
@@ -56,8 +59,8 @@ function SortFilter({
         <button
           type="button"
           onClick={() => {
-            setTempOnlineStatus(showOnlineStatus);
-            setTempSortBy(sortBy);
+            setTempOnlineStatus('all');
+            setTempSortBy('newest');
           }}
           className="placeholder-xs w-30 border-background-main-400 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2"
         >
@@ -66,8 +69,12 @@ function SortFilter({
         </button>
         <SheetClose
           onClick={() => {
-            setShowOnlineStatus(tempOnlineStatus);
-            setSortBy(tempSortBy);
+            // setShowOnlineStatus(tempOnlineStatus);
+            // setSortBy(tempSortBy);
+            updateFilters({
+              mode: tempOnlineStatus,
+              sort: tempSortBy,
+            });
             onApply(); // close Sheet
           }}
           className="placeholder-sm bg-background-main-300 w-30 border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2 shadow-[1px_2px_10px_2px_var(--elements-grey-50)]"

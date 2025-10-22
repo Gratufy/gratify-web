@@ -29,18 +29,6 @@ import { getCityLabel } from '@/utils/getCityLabel';
 
 type TopSheetFilterProps = {
   categoriesWithAll: { categoryId: string; name: string }[];
-  // city: string;
-  // cityName: string;
-  // setCity: (city: string) => void;
-  // setCityName: (label: string) => void;
-  // sortBy: SortBy;
-  // setSortBy: (sort: SortBy) => void;
-  // showOnlineStatus: OnlineFilter;
-  // setShowOnlineStatus: (status: OnlineFilter) => void;
-  // categoryId: string;
-
-  // setCategoryName: (name: string) => void;
-  // setCategoryId: (id: string) => void;
 };
 
 function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {

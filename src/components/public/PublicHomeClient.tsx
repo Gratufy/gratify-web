@@ -65,30 +65,6 @@ function PublicHomeClient() {
         isLoading={isLoading}
         isError={isError}
         error={error}
-        // filters={filters}
-        // updateFilter={updateFilter}
-        city={city}
-        setCity={setCity}
-        cityName={cityName}
-        setCityName={setCityName}
-        categoryId={categoryId}
-        setCategoryId={setCategoryId}
-        categoryName={categoryName}
-        setCategoryName={setCategoryName}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-        showOnlineStatus={showOnlineStatus}
-        setShowOnlineStatus={setShowOnlineStatus}
-        categoriesWithAll={categoriesWithAll}
-      />
-      <HomeSectionDesktop
-        businesses={businesses}
-        fetchNextPage={fetchNextPage}
-        hasNextPage={hasNextPage}
-        isFetchingNextPage={isFetchingNextPage}
-        isLoading={isLoading}
-        isError={isError}
-        error={error}
         categoriesWithAll={categoriesWithAll}
         // city={city}
         // setCity={setCity}
@@ -102,6 +78,16 @@ function PublicHomeClient() {
         // setSortBy={setSortBy}
         // showOnlineStatus={showOnlineStatus}
         // setShowOnlineStatus={setShowOnlineStatus}
+      />
+      <HomeSectionDesktop
+        businesses={businesses}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        isLoading={isLoading}
+        isError={isError}
+        error={error}
+        categoriesWithAll={categoriesWithAll}
       />
     </UserFavoritesProvider>
   );

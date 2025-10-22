@@ -9,15 +9,6 @@ import { getCategoryLabel } from '@/utils/getCategoryLabel';
 
 type SelectedFiltersPanelProps = {
   categoriesWithAll: { categoryId: string; name: string }[];
-  // setCity: (city: string) => void;
-  // setCityName: (label: string) => void;
-  // showOnlineStatus: OnlineFilter;
-  // setShowOnlineStatus: (status: OnlineFilter) => void;
-  // sortBy: SortBy;
-  // setSortBy: (sort: SortBy) => void;
-  // setCategoryId: (id: string) => void;
-  // categoryName: string;
-  // setCategoryName: (name: string) => void;
 };
 
 function SelectedFiltersPanel({
