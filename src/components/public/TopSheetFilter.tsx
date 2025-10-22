@@ -20,62 +20,79 @@ import {
 // import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 
 import CustomSelect from '../ui/CustomSelect';
+import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
 
 import OnlineStatusFilter from '../shared/OnlineStatusFilter';
 import SortFilterComponent from '../shared/SortFilterComponent';
 import CategoryRadio from '../shared/CategoryRadio';
+import { useFilters } from '@/hooks/useFilters';
+import { getCityLabel } from '@/utils/getCityLabel';
 
 type TopSheetFilterProps = {
-  city: string;
-  cityName: string;
-  setCity: (city: string) => void;
-  setCityName: (label: string) => void;
-  sortBy: SortBy;
-  setSortBy: (sort: SortBy) => void;
-  showOnlineStatus: OnlineFilter;
-  setShowOnlineStatus: (status: OnlineFilter) => void;
-  categoryId: string;
-  // categoryName: string;
   categoriesWithAll: { categoryId: string; name: string }[];
-  setCategoryName: (name: string) => void;
-  setCategoryId: (id: string) => void;
+  // city: string;
+  // cityName: string;
+  // setCity: (city: string) => void;
+  // setCityName: (label: string) => void;
+  // sortBy: SortBy;
+  // setSortBy: (sort: SortBy) => void;
+  // showOnlineStatus: OnlineFilter;
+  // setShowOnlineStatus: (status: OnlineFilter) => void;
+  // categoryId: string;
+
+  // setCategoryName: (name: string) => void;
+  // setCategoryId: (id: string) => void;
 };
 
 function TopSheetFilter({
-  cityName,
-  city,
-  setCity,
-  setCityName,
-  sortBy,
-  setSortBy,
-  showOnlineStatus,
-  // categoryName,
-  categoryId,
   categoriesWithAll,
-  setShowOnlineStatus,
-  setCategoryName,
-  setCategoryId,
-}: TopSheetFilterProps) {
-  const [tempCity, setTempCity] = useState<string>(city);
-  const [tempCategoryId, setTempCategoryId] = useState<string>(categoryId);
-  const [showTempOnlineStatus, setShowTempOnlineStatus] =
-    useState<OnlineFilter>(showOnlineStatus);
-  const [tempSortBy, setTempSortBy] = useState<SortBy>(sortBy);
+  // cityName,
+  // city,
+  // setCity,
+  // setCityName,
+  // sortBy,
+  // setSortBy,
+  // showOnlineStatus,
 
-  useEffect(() => {
-    setTempCity(city);
-    setTempCategoryId(categoryId);
-    setShowTempOnlineStatus(showOnlineStatus);
-    setTempSortBy(sortBy);
-  }, [city, categoryId, showOnlineStatus, sortBy]);
+  // categoryId,
+
+  // setShowOnlineStatus,
+  //setCategoryName,
+  // setCategoryId,
+}: TopSheetFilterProps) {
+  const { filters, updateFilter, resetFilters } = useFilters();
+  const [tempCity, setTempCity] = useState<string>(filters.city);
+  // const [tempCategoryId, setTempCategoryId] = useState<string>(categoryId);
+  const [tempCategoryId, setTempCategoryId] = useState<string>(
+    filters.category
+  );
+  // const [showTempOnlineStatus, setShowTempOnlineStatus] =
+  //   useState<OnlineFilter>(showOnlineStatus);
+  const [showTempOnlineStatus, setShowTempOnlineStatus] =
+    useState<OnlineFilter>(filters.mode);
+  // const [tempSortBy, setTempSortBy] = useState<SortBy>(sortBy);
+  const [tempSortBy, setTempSortBy] = useState<SortBy>(filters.sort);
+
+  // useEffect(() => {
+  //   setTempCity(city);
+  //   setTempCategoryId(categoryId);
+  //   setShowTempOnlineStatus(showOnlineStatus);
+  //   setTempSortBy(sortBy);
+  // }, [city, categoryId, showOnlineStatus, sortBy]);
+  // const cityLabel =
+  //   UKRAINE_REGIONAL_CENTERS.find((c) => c.value === filters.city)?.label ??
+  //   'Вся Україна';
 
   return (
     <Sheet>
       <SheetTrigger className="flex cursor-pointer items-center gap-8 px-3 xl:gap-10 xl:px-4">
         <div className="flex items-center px-3 py-1 xl:px-4">
           <CityIcon className="mr-2 size-4 xl:mr-3 xl:size-5" />
-          <span className="placeholder-sm xl:placeholder-base">{cityName}</span>
+          <span className="placeholder-sm xl:placeholder-base">
+            {/* {cityLabel} */}
+            {getCityLabel(filters.city)}
+          </span>
         </div>
 
         <div className="flex items-center px-3 py-1 xl:px-4">
@@ -158,63 +175,69 @@ function TopSheetFilter({
                 <CategoryRadio
                   key={category.categoryId}
                   value={category.categoryId}
-                  checked={categoryId === category.categoryId}
-                  onChange={(val) => {
-                    setCategoryId(val); // id категории
-                    const selected = categoriesWithAll.find(
-                      (c) => c.categoryId === val
-                    );
-                    setCategoryName(selected?.name ?? '');
-                  }}
+                  checked={tempCategoryId === category.categoryId}
+                  // checked={filters.category === category.categoryId}
+                  // onChange={(val) => {
+                  //   setCategoryId(val); // id категории
+                  //   const selected = categoriesWithAll.find(
+                  //     (c) => c.categoryId === val
+                  //   );
+                  //   setCategoryName(selected?.name ?? '');
+                  // }}
+                  onChange={setTempCategoryId}
                   className="placeholder-xs xl:placeholder-sm border-elements-main-500 border px-4 py-2"
                 >
                   {category.name}
                 </CategoryRadio>
               ))}
             </div>
-            {/* <CustomSelect
-              className="w-60 rounded-none px-3 py-1.5 xl:px-4"
-              id="categories"
-              value={tempCategoryId}
-              //onChange={setCategoryId}
-              onChange={(val) => {
-                setTempCategoryId(val);
-              }}
-              options={categoriesWithAll}
-              getOptionValue={(c) => c.categoryId}
-              getOptionLabel={(c) => c.name}
-              placeholder="Оберіть категорію"
-            /> */}
           </div>
         </div>
         <div className="mx-auto flex gap-4">
-          <DeleteAllFiltersBtn
-            setCity={setTempCity} //
-            setCityName={setCityName}
-            setCategoryId={setTempCategoryId} //
-            setShowOnlineStatus={setShowTempOnlineStatus} //
-            setSortBy={setTempSortBy} //
-            setCategoryName={setCategoryName}
+          {/* <DeleteAllFiltersBtn
+            //setCity={setTempCity} //
+            // setCityName={setCityName}
+            // setCategoryId={setTempCategoryId} //
+            // setShowOnlineStatus={setShowTempOnlineStatus} //
+            // setSortBy={setTempSortBy} //
+            // setCategoryName={setCategoryName}
+
             className="lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 flex cursor-pointer border bg-white py-1.5 lg:gap-2 lg:px-2"
-          />
+          /> */}
+          <button
+            onClick={() => {
+              // 🔹 сбрасываем только временные значения
+              setTempCity('__all__');
+              // setCityName('Усі міста');
+              setTempCategoryId('__all__');
+              // setCategoryName('Усі категорії');
+              setShowTempOnlineStatus('all');
+              setTempSortBy('newest');
+            }}
+            type="button"
+            className={`placeholder-small lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 flex cursor-pointer items-center gap-1 border bg-white px-2 py-2 lg:gap-2`}
+          >
+            <CrossIcon className="size-3 lg:size-4 xl:size-5" />
+            <span>Очистити все</span>
+          </button>
           <SheetClose
             onClick={() => {
-              setCity(tempCity);
-              const city = UKRAINE_REGIONAL_CENTERS.find(
-                (c) => c.value === tempCity
-              );
-              setCityName(city?.label ?? '');
-
-              //------
-              setCategoryId(tempCategoryId);
-              const category = categoriesWithAll.find(
-                (c) => c.categoryId === tempCategoryId
-              );
-              setCategoryName(category?.name ?? '');
-              //------
-              setShowOnlineStatus(showTempOnlineStatus);
-              setSortBy(tempSortBy);
-              // onApply(); // close Sheet
+              updateFilter('city', tempCity);
+              updateFilter('category', tempCategoryId);
+              updateFilter('mode', showTempOnlineStatus);
+              updateFilter('sort', tempSortBy);
+              // setCity(tempCity);
+              // const city = UKRAINE_REGIONAL_CENTERS.find(
+              //   (c) => c.value === tempCity
+              // );
+              // setCityName(city?.label ?? '');
+              // setCategoryId(tempCategoryId);
+              // const category = categoriesWithAll.find(
+              //   (c) => c.categoryId === tempCategoryId
+              // );
+              // setCategoryName(category?.name ?? '');
+              // setShowOnlineStatus(showTempOnlineStatus);
+              // setSortBy(tempSortBy);
             }}
             className="placeholder-xs bg-background-main-300 w-30 border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2 shadow-[1px_2px_10px_2px_var(--elements-grey-50)]"
           >

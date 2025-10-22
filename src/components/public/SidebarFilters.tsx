@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 
 import { OnlineFilter, SortBy } from '@/types';
@@ -13,35 +14,41 @@ import OnlineStatusFilter from '../shared/OnlineStatusFilter';
 import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
 import SortFilterComponent from '../shared/SortFilterComponent';
 import CategoryRadio from '../shared/CategoryRadio';
+import { Filters } from '@/types/filters-query';
+import { useFilters } from '@/hooks/useFilters';
+import { DEFAULT_FILTERS } from '@/const/filters-url';
 
 type SidebarFiltersProps = {
-  city: string;
-  setCity: (city: string) => void;
-  setCityName: (label: string) => void;
-  showOnlineStatus: OnlineFilter;
-  setShowOnlineStatus: (status: OnlineFilter) => void;
-  categoryId: string;
-  setCategoryId: (id: string) => void;
-  setCategoryName: (name: string) => void;
-  sortBy: SortBy;
-  setSortBy: (sort: SortBy) => void;
+  // filters: Filters;
+  // updateFilter: Partial<typeof DEFAULT_FILTERS> => void;
+  // city: string;
+  // setCity: (city: string) => void;
+  // setCityName: (label: string) => void;
+  // showOnlineStatus: OnlineFilter;
+  // setShowOnlineStatus: (status: OnlineFilter) => void;
+  // categoryId: string;
+  // setCategoryId: (id: string) => void;
+  // setCategoryName: (name: string) => void;
+  // sortBy: SortBy;
+  // setSortBy: (sort: SortBy) => void;
   categoriesWithAll: { categoryId: string; name: string }[];
 };
 
 function SidebarFilters({
-  city,
-  setCity,
-  setCityName,
-  showOnlineStatus,
-  setShowOnlineStatus,
-  categoryId,
-  setCategoryId,
+  // city,
+  // setCity,
+  // setCityName,
+  // showOnlineStatus,
+  // setShowOnlineStatus,
+  // categoryId,
+  // setCategoryId,
 
-  setCategoryName,
-  sortBy,
-  setSortBy,
+  // setCategoryName,
+  // sortBy,
+  // setSortBy,
   categoriesWithAll,
 }: SidebarFiltersProps) {
+  const { filters, updateFilter } = useFilters();
   return (
     <aside className="lg:w-54 xl:w-70 hidden flex-shrink-0 lg:flex lg:items-start">
       {/* // треба lg:gap-4 xl:gap-6 */}
@@ -58,24 +65,26 @@ function SidebarFilters({
             <CustomSelect
               className="w-full rounded-none px-3 py-1.5 xl:px-4"
               id="city"
-              value={city}
-              onChange={(val) => {
-                setCity(val);
-                const city = UKRAINE_REGIONAL_CENTERS.find(
-                  (c) => c.value === val
-                );
-                setCityName(city?.label ?? '');
-              }}
+              // value={city}
+              value={filters.city}
+              onChange={(val) => updateFilter('city', val)}
               options={UKRAINE_REGIONAL_CENTERS}
               getOptionValue={(option) => option.value}
               getOptionLabel={(option) => option.label}
               placeholder="Оберіть місто"
+              // onChange={(val) => {
+              //   setCity(val);
+              //   const city = UKRAINE_REGIONAL_CENTERS.find(
+              //     (c) => c.value === val
+              //   );
+              //   setCityName(city?.label ?? '');
+              // }}
             />
 
             <OnlineStatusFilter
               classNameDiv="p-3 xl:p-4 placeholder-xs xl:placeholder-sm"
-              value={showOnlineStatus}
-              onChange={setShowOnlineStatus}
+              value={filters.mode}
+              onChange={(val) => updateFilter('mode', val)}
             />
           </div>
           <div className="border-elements-grey-200 border-b pb-3">
@@ -88,8 +97,10 @@ function SidebarFilters({
             </label>
             <SortFilterComponent
               classNameDiv="p-3 xl:p-4 placeholder-xs xl:placeholder-sm"
-              value={sortBy}
-              onChange={setSortBy}
+              // value={sortBy}
+              // onChange={setSortBy}
+              value={filters.sort}
+              onChange={(val) => updateFilter('sort', val)}
             />
           </div>
           <div>
@@ -109,14 +120,16 @@ function SidebarFilters({
                 <CategoryRadio
                   key={category.categoryId}
                   value={category.categoryId}
-                  checked={categoryId === category.categoryId}
-                  onChange={(val) => {
-                    setCategoryId(val); // id категории
-                    const selected = categoriesWithAll.find(
-                      (c) => c.categoryId === val
-                    );
-                    setCategoryName(selected?.name ?? '');
-                  }}
+                  // checked={categoryId === category.categoryId}
+                  // onChange={(val) => {
+                  //   setCategoryId(val); // id категории
+                  //   const selected = categoriesWithAll.find(
+                  //     (c) => c.categoryId === val
+                  //   );
+                  //   setCategoryName(selected?.name ?? '');
+                  // }}
+                  checked={filters.category === category.categoryId}
+                  onChange={(val) => updateFilter('category', val)}
                   className="placeholder-xs xl:placeholder-sm border-elements-main-500 border px-4 py-2"
                 >
                   {category.name}
@@ -127,12 +140,12 @@ function SidebarFilters({
         </div>
 
         <DeleteAllFiltersBtn
-          setCity={setCity}
-          setCityName={setCityName}
-          setCategoryId={setCategoryId}
-          setShowOnlineStatus={setShowOnlineStatus}
-          setSortBy={setSortBy}
-          setCategoryName={setCategoryName}
+          // setCity={setCity}
+          // setCityName={setCityName}
+          // setCategoryId={setCategoryId}
+          // setShowOnlineStatus={setShowOnlineStatus}
+          // setSortBy={setSortBy}
+          // setCategoryName={setCategoryName}
           className="placeholder-sm xl:placeholder-base flex w-full items-center justify-center gap-3 px-4 py-1 xl:px-4"
         />
       </div>

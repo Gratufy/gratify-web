@@ -19,6 +19,8 @@ import TopSheetFilter from './TopSheetFilter';
 import SelectedFiltersPanel from '../shared/SelectedFiltersPanel';
 import BusinessList from '../shared/BusinessList';
 import NotFoundComponent from '../shared/NotFoundComponent';
+import { Filters } from '@/types/filters-query';
+import { useFilters } from '@/hooks/useFilters';
 
 type HomeSectionDesktopProps = {
   businesses: BusinessWithCategoryName[];
@@ -28,18 +30,19 @@ type HomeSectionDesktopProps = {
   isLoading: boolean;
   isError?: boolean;
   error?: Error | null;
-  city: string;
-  setCity: (city: string) => void;
-  cityName: string;
-  setCityName: (label: string) => void;
-  categoryId: string;
-  setCategoryId: (id: string) => void;
-  categoryName: string;
-  setCategoryName: (name: string) => void;
-  sortBy: SortBy;
-  setSortBy: (sort: SortBy) => void;
-  showOnlineStatus: OnlineFilter;
-  setShowOnlineStatus: (status: OnlineFilter) => void;
+
+  // city: string;
+  // setCity: (city: string) => void;
+  // cityName: string;
+  // setCityName: (label: string) => void;
+  // categoryId: string;
+  // setCategoryId: (id: string) => void;
+  // categoryName: string;
+  // setCategoryName: (name: string) => void;
+  // sortBy: SortBy;
+  // setSortBy: (sort: SortBy) => void;
+  // showOnlineStatus: OnlineFilter;
+  // setShowOnlineStatus: (status: OnlineFilter) => void;
   categoriesWithAll: { categoryId: string; name: string }[];
 };
 
@@ -51,20 +54,22 @@ function HomeSectionDesktop({
   isLoading,
   isError,
   error,
-  city,
-  setCity,
-  cityName,
-  setCityName,
-  categoryId,
-  setCategoryId,
-  categoryName,
-  setCategoryName,
-  sortBy,
-  setSortBy,
-  showOnlineStatus,
-  setShowOnlineStatus,
   categoriesWithAll,
+
+  // city,
+  // setCity,
+  // cityName,
+  // setCityName,
+  // categoryId,
+  // setCategoryId,
+  // categoryName,
+  // setCategoryName,
+  // sortBy,
+  // setSortBy,
+  // showOnlineStatus,
+  // setShowOnlineStatus,
 }: HomeSectionDesktopProps) {
+  const { filters, updateFilter } = useFilters();
   const [showMap, setShowMap] = useState(false);
   const [hoveredId, setHoveredId] = useState<string | null>(null); // for map hover effect
 
@@ -93,19 +98,19 @@ function HomeSectionDesktop({
           <div className="flex w-full justify-between bg-white py-3">
             {showMap && (
               <TopSheetFilter
-                cityName={cityName}
-                city={city}
-                setCity={setCity}
-                setCityName={setCityName}
-                sortBy={sortBy}
-                setSortBy={setSortBy}
-                showOnlineStatus={showOnlineStatus}
-                setShowOnlineStatus={setShowOnlineStatus}
-                categoryId={categoryId}
-                setCategoryId={setCategoryId}
-                // categoryName={categoryName}
                 categoriesWithAll={categoriesWithAll}
-                setCategoryName={setCategoryName}
+                // cityName={cityName}
+                // city={city}
+                // setCity={setCity}
+                // setCityName={setCityName}
+                // sortBy={sortBy}
+                // setSortBy={setSortBy}
+                // showOnlineStatus={showOnlineStatus}
+                // setShowOnlineStatus={setShowOnlineStatus}
+                // categoryId={categoryId}
+                // setCategoryId={setCategoryId}
+
+                // setCategoryName={setCategoryName}
               />
             )}
             <ShowMap showMap={showMap} setShowMap={setShowMap} />
@@ -113,15 +118,16 @@ function HomeSectionDesktop({
           {showMap && (
             <div className="pb-2">
               <SelectedFiltersPanel
-                setCity={setCity}
-                setCityName={setCityName}
-                showOnlineStatus={showOnlineStatus}
-                setShowOnlineStatus={setShowOnlineStatus}
-                sortBy={sortBy}
-                setSortBy={setSortBy}
-                setCategoryId={setCategoryId}
-                categoryName={categoryName}
-                setCategoryName={setCategoryName}
+                categoriesWithAll={categoriesWithAll}
+                // setCity={setCity}
+                // setCityName={setCityName}
+                // showOnlineStatus={showOnlineStatus}
+                // setShowOnlineStatus={setShowOnlineStatus}
+                // sortBy={sortBy}
+                // setSortBy={setSortBy}
+                // setCategoryId={setCategoryId}
+                // categoryName={categoryName}
+                // setCategoryName={setCategoryName}
               />
             </div>
           )}
@@ -130,17 +136,19 @@ function HomeSectionDesktop({
       <div className="hidden w-full lg:flex lg:flex-row lg:gap-6">
         {!showMap && (
           <SidebarFilters
-            city={city}
-            setCity={setCity}
-            setCityName={setCityName}
-            showOnlineStatus={showOnlineStatus}
-            setShowOnlineStatus={setShowOnlineStatus}
-            categoryId={categoryId}
-            setCategoryId={setCategoryId}
-            setCategoryName={setCategoryName}
-            sortBy={sortBy}
-            setSortBy={setSortBy}
-            categoriesWithAll={categoriesWithAll}
+            // filters={filters}
+            // updateFilter={updateFilter}
+            categoriesWithAll={categoriesWithAll ?? []}
+            // city={city}
+            // setCity={setCity}
+            // setCityName={setCityName}
+            // showOnlineStatus={showOnlineStatus}
+            // setShowOnlineStatus={setShowOnlineStatus}
+            // categoryId={categoryId}
+            // setCategoryId={setCategoryId}
+            // setCategoryName={setCategoryName}
+            // sortBy={sortBy}
+            // setSortBy={setSortBy}
           />
         )}
         {/* !!!! overflow-hidden */}
@@ -153,7 +161,8 @@ function HomeSectionDesktop({
           )}
           <BusinessList
             businesses={businesses}
-            selectedCity={city}
+            ///selectedCity={city}
+            selectedCity={filters.city}
             fetchNextPage={fetchNextPage}
             hasNextPage={hasNextPage}
             isFetchingNextPage={isFetchingNextPage}
@@ -172,7 +181,8 @@ function HomeSectionDesktop({
             <BusinessMapAll
               businesses={businesses}
               className="lg:h-140 xl:h-155 w-full"
-              selectedCity={city}
+              // selectedCity={city}
+              selectedCity={filters.city}
               hoveredId={hoveredId}
             />
           </div>
