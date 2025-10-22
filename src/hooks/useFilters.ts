@@ -70,6 +70,26 @@ export function useFilters() {
     },
     [router, searchParams]
   );
+
+  const updateFilters = useCallback(
+    (updates: Partial<typeof DEFAULT_FILTERS>) => {
+      const params = new URLSearchParams(searchParams.toString());
+
+      (Object.keys(updates) as (keyof typeof DEFAULT_FILTERS)[]).forEach(
+        (key) => {
+          const value = updates[key];
+          if (value === DEFAULT_FILTERS[key]) {
+            params.delete(key);
+          } else {
+            params.set(key, String(value));
+          }
+        }
+      );
+
+      router.push(`?${params.toString()}`);
+    },
+    [router, searchParams]
+  );
   const resetFilters = useCallback(() => {
     router.push('?');
   }, [router]);
@@ -80,6 +100,7 @@ export function useFilters() {
       key: K,
       value: (typeof DEFAULT_FILTERS)[K]
     ) => void,
+    updateFilters,
     resetFilters,
   };
 }

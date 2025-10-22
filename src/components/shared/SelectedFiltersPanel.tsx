@@ -23,15 +23,6 @@ type SelectedFiltersPanelProps = {
 
 function SelectedFiltersPanel({
   categoriesWithAll,
-  // setCity,
-  // setCityName,
-  // showOnlineStatus,
-  // setShowOnlineStatus,
-  // sortBy,
-  // setSortBy,
-  // setCategoryId,
-  // categoryName,
-  // setCategoryName,
 }: SelectedFiltersPanelProps) {
   const { filters, updateFilter } = useFilters();
   return (
@@ -63,7 +54,7 @@ function SelectedFiltersPanel({
         // setSortBy={setSortBy}
         // setCategoryName={setCategoryName}
         className="placeholder-small lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 gap-1 border bg-white px-2 py-2 lg:gap-2"
-      /> 
+      />
     </div>
   );
 }

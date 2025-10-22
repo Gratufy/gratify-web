@@ -45,47 +45,45 @@ type TopSheetFilterProps = {
   // setCategoryId: (id: string) => void;
 };
 
-function TopSheetFilter({
-  categoriesWithAll,
-  // cityName,
-  // city,
-  // setCity,
-  // setCityName,
-  // sortBy,
-  // setSortBy,
-  // showOnlineStatus,
-
-  // categoryId,
-
-  // setShowOnlineStatus,
-  //setCategoryName,
-  // setCategoryId,
-}: TopSheetFilterProps) {
-  const { filters, updateFilter, resetFilters } = useFilters();
+function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
+  const { filters, updateFilter, resetFilters, updateFilters } = useFilters();
   const [tempCity, setTempCity] = useState<string>(filters.city);
-  // const [tempCategoryId, setTempCategoryId] = useState<string>(categoryId);
+
   const [tempCategoryId, setTempCategoryId] = useState<string>(
     filters.category
   );
-  // const [showTempOnlineStatus, setShowTempOnlineStatus] =
-  //   useState<OnlineFilter>(showOnlineStatus);
+
   const [showTempOnlineStatus, setShowTempOnlineStatus] =
     useState<OnlineFilter>(filters.mode);
   // const [tempSortBy, setTempSortBy] = useState<SortBy>(sortBy);
   const [tempSortBy, setTempSortBy] = useState<SortBy>(filters.sort);
 
-  // useEffect(() => {
-  //   setTempCity(city);
-  //   setTempCategoryId(categoryId);
-  //   setShowTempOnlineStatus(showOnlineStatus);
-  //   setTempSortBy(sortBy);
-  // }, [city, categoryId, showOnlineStatus, sortBy]);
-  // const cityLabel =
-  //   UKRAINE_REGIONAL_CENTERS.find((c) => c.value === filters.city)?.label ??
-  //   'Вся Україна';
+  // управляем открытием Sheet
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    setTempCity(filters.city);
+    setTempCategoryId(filters.category);
+    setShowTempOnlineStatus(filters.mode);
+    setTempSortBy(filters.sort);
+  }, [open, filters]);
 
   return (
-    <Sheet>
+    <Sheet
+      open={open}
+      onOpenChange={(isOpen) => {
+        setOpen(isOpen);
+
+        // 🔹 если Sheet закрывается без применения — сбросить временные значения в актуальные фильтры
+        if (!isOpen) {
+          setTempCity(filters.city);
+          setTempCategoryId(filters.category);
+          setShowTempOnlineStatus(filters.mode);
+          setTempSortBy(filters.sort);
+        }
+      }}
+    >
       <SheetTrigger className="flex cursor-pointer items-center gap-8 px-3 xl:gap-10 xl:px-4">
         <div className="flex items-center px-3 py-1 xl:px-4">
           <CityIcon className="mr-2 size-4 xl:mr-3 xl:size-5" />
@@ -176,14 +174,6 @@ function TopSheetFilter({
                   key={category.categoryId}
                   value={category.categoryId}
                   checked={tempCategoryId === category.categoryId}
-                  // checked={filters.category === category.categoryId}
-                  // onChange={(val) => {
-                  //   setCategoryId(val); // id категории
-                  //   const selected = categoriesWithAll.find(
-                  //     (c) => c.categoryId === val
-                  //   );
-                  //   setCategoryName(selected?.name ?? '');
-                  // }}
                   onChange={setTempCategoryId}
                   className="placeholder-xs xl:placeholder-sm border-elements-main-500 border px-4 py-2"
                 >
@@ -222,10 +212,12 @@ function TopSheetFilter({
           </button>
           <SheetClose
             onClick={() => {
-              updateFilter('city', tempCity);
-              updateFilter('category', tempCategoryId);
-              updateFilter('mode', showTempOnlineStatus);
-              updateFilter('sort', tempSortBy);
+              updateFilters({
+                city: tempCity,
+                category: tempCategoryId,
+                mode: showTempOnlineStatus,
+                sort: tempSortBy,
+              });
               // setCity(tempCity);
               // const city = UKRAINE_REGIONAL_CENTERS.find(
               //   (c) => c.value === tempCity
