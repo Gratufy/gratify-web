@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 
-import { BusinessWithCategoryName, OnlineFilter, SortBy } from '@/types';
+import { BusinessWithCategoryName } from '@/types';
 
 import SidebarFilters from './SidebarFilters';
 // import BusinessList from '../shared/BusinessListOld';
@@ -19,7 +19,7 @@ import TopSheetFilter from './TopSheetFilter';
 import SelectedFiltersPanel from '../shared/SelectedFiltersPanel';
 import BusinessList from '../shared/BusinessList';
 import NotFoundComponent from '../shared/NotFoundComponent';
-import { Filters } from '@/types/filters-query';
+
 import { useFilters } from '@/hooks/useFilters';
 
 type HomeSectionDesktopProps = {
@@ -31,18 +31,6 @@ type HomeSectionDesktopProps = {
   isError?: boolean;
   error?: Error | null;
 
-  // city: string;
-  // setCity: (city: string) => void;
-  // cityName: string;
-  // setCityName: (label: string) => void;
-  // categoryId: string;
-  // setCategoryId: (id: string) => void;
-  // categoryName: string;
-  // setCategoryName: (name: string) => void;
-  // sortBy: SortBy;
-  // setSortBy: (sort: SortBy) => void;
-  // showOnlineStatus: OnlineFilter;
-  // setShowOnlineStatus: (status: OnlineFilter) => void;
   categoriesWithAll: { categoryId: string; name: string }[];
 };
 
@@ -55,21 +43,8 @@ function HomeSectionDesktop({
   isError,
   error,
   categoriesWithAll,
-
-  // city,
-  // setCity,
-  // cityName,
-  // setCityName,
-  // categoryId,
-  // setCategoryId,
-  // categoryName,
-  // setCategoryName,
-  // sortBy,
-  // setSortBy,
-  // showOnlineStatus,
-  // setShowOnlineStatus,
 }: HomeSectionDesktopProps) {
-  const { filters, updateFilter } = useFilters();
+  const { filters } = useFilters();
   const [showMap, setShowMap] = useState(false);
   const [hoveredId, setHoveredId] = useState<string | null>(null); // for map hover effect
 
@@ -97,38 +72,13 @@ function HomeSectionDesktop({
         >
           <div className="flex w-full justify-between bg-white py-3">
             {showMap && (
-              <TopSheetFilter
-                categoriesWithAll={categoriesWithAll}
-                // cityName={cityName}
-                // city={city}
-                // setCity={setCity}
-                // setCityName={setCityName}
-                // sortBy={sortBy}
-                // setSortBy={setSortBy}
-                // showOnlineStatus={showOnlineStatus}
-                // setShowOnlineStatus={setShowOnlineStatus}
-                // categoryId={categoryId}
-                // setCategoryId={setCategoryId}
-
-                // setCategoryName={setCategoryName}
-              />
+              <TopSheetFilter categoriesWithAll={categoriesWithAll} />
             )}
             <ShowMap showMap={showMap} setShowMap={setShowMap} />
           </div>
           {showMap && (
             <div className="pb-2">
-              <SelectedFiltersPanel
-                categoriesWithAll={categoriesWithAll}
-                // setCity={setCity}
-                // setCityName={setCityName}
-                // showOnlineStatus={showOnlineStatus}
-                // setShowOnlineStatus={setShowOnlineStatus}
-                // sortBy={sortBy}
-                // setSortBy={setSortBy}
-                // setCategoryId={setCategoryId}
-                // categoryName={categoryName}
-                // setCategoryName={setCategoryName}
-              />
+              <SelectedFiltersPanel categoriesWithAll={categoriesWithAll} />
             </div>
           )}
         </div>

@@ -1,8 +1,6 @@
 'use client';
 import React from 'react';
 
-import { OnlineFilter, SortBy } from '@/types';
-
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
@@ -14,40 +12,14 @@ import OnlineStatusFilter from '../shared/OnlineStatusFilter';
 import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
 import SortFilterComponent from '../shared/SortFilterComponent';
 import CategoryRadio from '../shared/CategoryRadio';
-import { Filters } from '@/types/filters-query';
+
 import { useFilters } from '@/hooks/useFilters';
-import { DEFAULT_FILTERS } from '@/const/filters-url';
 
 type SidebarFiltersProps = {
-  // filters: Filters;
-  // updateFilter: Partial<typeof DEFAULT_FILTERS> => void;
-  // city: string;
-  // setCity: (city: string) => void;
-  // setCityName: (label: string) => void;
-  // showOnlineStatus: OnlineFilter;
-  // setShowOnlineStatus: (status: OnlineFilter) => void;
-  // categoryId: string;
-  // setCategoryId: (id: string) => void;
-  // setCategoryName: (name: string) => void;
-  // sortBy: SortBy;
-  // setSortBy: (sort: SortBy) => void;
   categoriesWithAll: { categoryId: string; name: string }[];
 };
 
-function SidebarFilters({
-  // city,
-  // setCity,
-  // setCityName,
-  // showOnlineStatus,
-  // setShowOnlineStatus,
-  // categoryId,
-  // setCategoryId,
-
-  // setCategoryName,
-  // sortBy,
-  // setSortBy,
-  categoriesWithAll,
-}: SidebarFiltersProps) {
+function SidebarFilters({ categoriesWithAll }: SidebarFiltersProps) {
   const { filters, updateFilter } = useFilters();
   return (
     <aside className="lg:w-54 xl:w-70 hidden flex-shrink-0 lg:flex lg:items-start">

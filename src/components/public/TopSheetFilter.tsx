@@ -17,11 +17,9 @@ import {
   SheetDescription,
   SheetClose,
 } from '@/components/ui/sheet';
-// import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 
 import CustomSelect from '../ui/CustomSelect';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
-import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
 
 import OnlineStatusFilter from '../shared/OnlineStatusFilter';
 import SortFilterComponent from '../shared/SortFilterComponent';
@@ -46,7 +44,7 @@ type TopSheetFilterProps = {
 };
 
 function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
-  const { filters, updateFilter, resetFilters, updateFilters } = useFilters();
+  const { filters, updateFilters } = useFilters();
   const [tempCity, setTempCity] = useState<string>(filters.city);
 
   const [tempCategoryId, setTempCategoryId] = useState<string>(
