@@ -1,14 +1,9 @@
 'use client';
 import React from 'react';
 import { useBusiness } from '@/hooks/useBusinesses';
-
 import { renderLocations } from '@/lib/helpers/renderLocations';
-
-import GoBackButton from '../../ui/GoBackButton';
 import Karma from '../Karma';
 import BusinessReviews from '../BusinessReviews';
-
-import dynamic from 'next/dynamic';
 
 import BusinessCardSkeleton from '../skeletons/BusinessCardSkeleton';
 import { BusinessWithCategoryName } from '@/types';
@@ -16,8 +11,9 @@ import TitleBlock from './TitleBlock';
 import DescriptionBlock from './DescriptionBlock';
 import CaruselThumbnails from './caruselThumb/CaruselThumbnails';
 import { FAKE_IMAGES_ARR } from '@/const/fake-images-arr';
-
 import SpecialOffersBlock from './SpecialOffersBlock';
+
+import dynamic from 'next/dynamic';
 const BusinessMapAll = dynamic(() => import('../BusinessMapAll'), {
   ssr: false,
 });

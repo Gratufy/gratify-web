@@ -28,8 +28,10 @@ function BusinessHomeClient() {
           !isBusinessesError && <NotFoundComponent business />}
         {businesses && businesses?.data.length > 0 && (
           <>
-            <div className="max-[1024px]:max-w-150 mb-5 w-full px-4">
-              <h2 className="title-h2 mb-5 text-center">Мої бізнес-картки</h2>
+            <div className="max-[1024px]:max-w-150 mb-5 w-full px-4 lg:mb-10 lg:w-[764px] lg:px-0">
+              <h2 className="title-h2 mb-5 text-center lg:mb-8">
+                Мої бізнес-картки
+              </h2>
               <div className="flex w-full items-center justify-between">
                 <Link
                   href="/dashboard/business/new"
