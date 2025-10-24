@@ -1,8 +1,9 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
+import { getBusinessById } from '@/lib/actions/businesses';
 
 import BusinessEditClient from '@/components/shared/BusinessEditClient';
-import { getBusinessById } from '@/lib/actions/businesses';
+
 //import { useBusiness } from "@/hooks/useBusinesses";
 
 interface BusinessEditPageProps {
