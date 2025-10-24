@@ -4,7 +4,8 @@ import BusinessHomeClient from '@/components/business/BusinessHomeClient';
 
 export default function BusinessHome() {
   return (
-    <div className="container flex items-center">
+    // container
+    <div className="xl:pb-15 flex w-full items-center pb-10 pt-5 lg:container lg:pb-14 lg:pt-5">
       <BusinessHomeClient />
     </div>
   );

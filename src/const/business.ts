@@ -7,6 +7,12 @@ export const BUSINESS_STATUS: BusinessStatus[] = [
   'rejected',
 ];
 
+export const BUSINESS_STATUS_LABELS: Record<string, string> = {
+  pending: 'На модерації',
+  approved: 'Опубліковано',
+  hidden: 'Приховано',
+  rejected: 'Відхилено',
+} as const;
 export const PAGE_SIZE = 4;
 
 export const ONLINE_STATUS_LABELS: Record<string, string> = {
