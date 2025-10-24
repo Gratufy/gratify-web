@@ -12,6 +12,7 @@ import BusinessCardShot from '../shared/BusinessCardShot';
 
 import { BUSINESS_STATUS_LABELS } from '@/const/business';
 import { getBusinessStatusBgColor } from '@/lib/helpers/getBusinessStatusColorBg';
+import DeleteEditBusinessBtns from './DeleteEditBusinessBtns';
 
 // interface BusinessListSimpleProps {
 //   businesses: BusinessWithCategoryName[];
@@ -114,7 +115,8 @@ function DashboardBusinessList({
                   />
                 </article>
               </Link>
-              <div className="max-[1024px]:max-w-150 flex w-full items-center justify-between px-4">
+              <DeleteEditBusinessBtns id={b.id} />
+              {/* <div className="max-[1024px]:max-w-150 flex w-full items-center justify-between px-4">
                 <Link
                   href={`/dashboard/business/${b.id}/edit`}
                   className="shadow-menu bg-background-main-300 placeholder-sm flex cursor-pointer items-center px-3 py-[6px]"
@@ -126,7 +128,7 @@ function DashboardBusinessList({
                   <Trash2 className="size-6 pr-[6px] xl:size-6" />
                   <span>Видалити</span>
                 </button>
-              </div>
+              </div> */}
             </li>
           ))}
         </ul>
