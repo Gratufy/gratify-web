@@ -3,16 +3,25 @@
 import { useBusiness } from '@/hooks/useBusinesses';
 import { BusinessForm } from './BusinessForm';
 import BackButton from '../ui/GoBackButton';
+import { getBusinessById } from '@/lib/actions/businesses';
+import { BusinessWithCategoryName } from '@/types';
 
 interface Props {
   id: string;
   href: string;
+  business: BusinessWithCategoryName;
 }
-export default function BusinessEditClient({ id, href }: Props) {
-  const { data, isLoading, error } = useBusiness(id);
+export default function BusinessEditClient({
+  id,
+  href,
+  business: data,
+}: Props) {
+  // const { data, isLoading, error } = useBusiness(id);
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  // console.log('BusinessEditClient data:', id);
+
+  // if (isLoading) return <p>Loading...</p>;
+  // if (error) return <p>Error: {error.message}</p>;
   if (!data) return <p>Business not found</p>;
 
   return (

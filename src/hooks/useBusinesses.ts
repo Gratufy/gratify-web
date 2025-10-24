@@ -84,6 +84,7 @@ export function useInfiniteBusinesses(
 //     enabled: !!id,
 //   });
 // }
+//I do not remember if we use it
 export function useBusiness(
   businessId: string,
   initialData?: BusinessWithCategoryName

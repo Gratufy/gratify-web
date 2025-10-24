@@ -1,10 +1,13 @@
 'use client';
 import React from 'react';
 import { useBusinesses } from '@/hooks/useBusinesses';
+import { Plus } from 'lucide-react';
 
-import BusinessList from '../shared/BusinessList';
+//import BusinessList from '../shared/BusinessList';
 import { UserFavoritesProvider } from '@/providers/UserFavoritesProvider';
 import NotFoundComponent from '../shared/NotFoundComponent';
+import DashboardBusinessList from './DashboardBusinessList';
+import Link from 'next/link';
 
 function BusinessHomeClient() {
   const {
@@ -19,21 +22,36 @@ function BusinessHomeClient() {
   });
   return (
     <UserFavoritesProvider>
-      {businesses?.data.length === 0 &&
-        !isBusinessesLoading &&
-        !isBusinessesError && (
-          // <p className="placeholder-sm lg:placeholder-base">
-          //   Ви ще не додали жодного бізнесу до вашого акаунту
-          // </p>
-          <NotFoundComponent business />
+      <div className="flex w-full flex-col items-center">
+        {businesses?.data.length === 0 &&
+          !isBusinessesLoading &&
+          !isBusinessesError && <NotFoundComponent business />}
+        {businesses && businesses?.data.length > 0 && (
+          <>
+            <div className="max-[1024px]:max-w-150 mb-5 w-full px-4">
+              <h2 className="title-h2 mb-5 text-center">Мої бізнес-картки</h2>
+              <div className="flex w-full items-center justify-between">
+                <Link
+                  href="/dashboard/business/new"
+                  className="shadow-menu bg-background-main-300 placeholder-sm flex cursor-pointer items-center px-3 py-[6px]"
+                >
+                  <Plus className="mr-[6px] size-4" /> <span>Додати нову</span>
+                </Link>
+                <button className="bg-background-white shadow-menu border-background-main-300 placeholder-sm flex cursor-pointer items-center border px-3 py-[6px]">
+                  Зв&rsquo;язатись з адміном
+                </button>
+              </div>
+            </div>
+            <DashboardBusinessList
+              businesses={businesses?.data ?? []}
+              isLoading={isBusinessesLoading}
+              isError={isBusinessesError}
+              error={error}
+              linkPrefix="/dashboard/business"
+            />
+          </>
         )}
-      <BusinessList
-        businesses={businesses?.data ?? []}
-        isLoading={isBusinessesLoading}
-        isError={isBusinessesError}
-        error={error}
-        linkPrefix="/dashboard/business"
-      />
+      </div>
     </UserFavoritesProvider>
   );
 }
