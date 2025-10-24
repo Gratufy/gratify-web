@@ -28,18 +28,19 @@ function BusinessHomeClient() {
           !isBusinessesError && <NotFoundComponent business />}
         {businesses && businesses?.data.length > 0 && (
           <>
-            <div className="max-[1024px]:max-w-150 mb-5 w-full px-4 lg:mb-10 lg:w-[764px] lg:px-0">
-              <h2 className="title-h2 mb-5 text-center lg:mb-8">
+            <div className="max-[1024px]:max-w-150 mb-5 w-full px-4 lg:mb-10 lg:w-[764px] lg:px-0 xl:w-[900px]">
+              <h2 className="title-h2 mb-5 text-center lg:mb-8 xl:mb-5">
                 Мої бізнес-картки
               </h2>
               <div className="flex w-full items-center justify-between">
                 <Link
                   href="/dashboard/business/new"
-                  className="shadow-menu bg-background-main-300 placeholder-sm flex cursor-pointer items-center px-3 py-[6px]"
+                  className="xl:placeholder-base shadow-menu bg-background-main-300 placeholder-sm flex cursor-pointer items-center px-3 py-[6px] xl:px-5 xl:py-2"
                 >
-                  <Plus className="mr-[6px] size-4" /> <span>Додати нову</span>
+                  <Plus className="mr-[6px] size-4 xl:mr-3 xl:size-5" />{' '}
+                  <span>Додати нову</span>
                 </Link>
-                <button className="bg-background-white shadow-menu border-background-main-300 placeholder-sm flex cursor-pointer items-center border px-3 py-[6px]">
+                <button className="xl:placeholder-base bg-background-white shadow-menu border-background-main-300 placeholder-sm flex cursor-pointer items-center border px-3 py-[6px] xl:px-5 xl:py-2">
                   Зв&rsquo;язатись з адміном
                 </button>
               </div>

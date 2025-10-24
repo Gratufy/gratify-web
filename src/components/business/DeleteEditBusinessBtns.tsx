@@ -24,16 +24,16 @@ function DeleteEditBusinessBtns({ id, className }: Props) {
     >
       <Link
         href={`/dashboard/business/${id}/edit`}
-        className="shadow-menu bg-background-main-300 placeholder-sm flex cursor-pointer items-center px-3 py-[6px]"
+        className="shadow-menu bg-background-main-300 title-h6 flex cursor-pointer items-center px-3 py-[6px] xl:px-5 xl:py-2"
       >
-        <EditPen className="size-6 pr-[6px] lg:size-5" />{' '}
+        <EditPen className="mr-[6px] size-6 lg:size-5 xl:mr-3" />{' '}
         <span>Внести зміни</span>
       </Link>
       <button
-        className="text-text-warning bg-background-white shadow-menu border-icons-color-error placeholder-sm flex cursor-pointer items-center border px-3 py-[6px]"
+        className="text-text-warning bg-background-white shadow-menu border-icons-color-error title-h6 flex cursor-pointer items-center border px-3 py-[6px] xl:px-5 xl:py-2"
         onClick={() => handleDelete(id)}
       >
-        <Trash2 className="size-6 pr-[6px] lg:size-5" />
+        <Trash2 className="mr-[6px] size-6 lg:size-5" />
         <span>Видалити</span>
       </button>
     </div>

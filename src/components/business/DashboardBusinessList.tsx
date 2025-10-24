@@ -10,7 +10,10 @@ import BusinessListSkeleton from '../shared/skeletons/BusinessListSkeleton';
 import BusinessCardShot from '../shared/BusinessCardShot';
 
 import { BUSINESS_STATUS_LABELS } from '@/const/business';
-import { getBusinessStatusBgColor } from '@/lib/helpers/getBusinessStatusColorBg';
+import {
+  getBusinessStatusBgColor,
+  getBusinessStatusCardBgColor,
+} from '@/lib/helpers/getBusinessStatusColorBg';
 import DeleteEditBusinessBtns from './DeleteEditBusinessBtns';
 
 type DashboardBusinessListProps = {
@@ -20,7 +23,7 @@ type DashboardBusinessListProps = {
   isError?: boolean;
   error?: Error | null;
   fetchNextPage?: () => void;
-  onHover?: (id: string | null) => void;
+  // onHover?: (id: string | null) => void;
   hasNextPage?: boolean;
   isFetchingNextPage?: boolean;
   enableInfiniteScroll?: boolean; // on/off infinity scroll
@@ -40,7 +43,7 @@ function DashboardBusinessList({
   enableInfiniteScroll = false,
   linkPrefix = '/business',
   includeCityQuery = false,
-  onHover,
+  // onHover,
 }: DashboardBusinessListProps) {
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
@@ -64,7 +67,7 @@ function DashboardBusinessList({
   }, [fetchNextPage, hasNextPage, isFetchingNextPage, enableInfiniteScroll]);
 
   return (
-    <section className="flex w-full flex-1 flex-col items-center overflow-hidden lg:w-[764px]">
+    <section className="flex w-full flex-1 flex-col items-center overflow-hidden lg:w-[764px] xl:w-[900px]">
       {isLoading && <BusinessListSkeleton count={6} />}
       {isError && <p>Error: {error?.message}</p>}
 
@@ -73,18 +76,20 @@ function DashboardBusinessList({
           {businesses.map((b) => (
             <li
               key={b.id}
-              className="bg-background-grey-50 flex w-full flex-col items-center overflow-hidden py-5 lg:px-6 lg:py-3"
-              onMouseEnter={() => onHover?.(b.id)}
-              onMouseLeave={() => onHover?.(null)}
+              className={` ${getBusinessStatusCardBgColor(b.status)} flex w-full flex-col items-center overflow-hidden py-5 lg:px-6 lg:py-3`}
+              // onMouseEnter={() => onHover?.(b.id)}
+              // onMouseLeave={() => onHover?.(null)}
             >
               {/* Status */}
               <div
                 className={`max-[1024px]:max-w-150 mb-1 flex w-full items-center lg:mb-2 lg:gap-6`}
               >
                 <div
-                  className={`flex w-full shrink-0 items-center px-5 py-2 lg:w-[170px] lg:px-1 ${getBusinessStatusBgColor(b.status)}`}
+                  className={`flex w-full shrink-0 items-center px-5 py-2 lg:w-[170px] lg:px-1 xl:w-[194px] ${getBusinessStatusBgColor(b.status)}`}
                 >
-                  <span className="placeholder-xs mr-2">Статус</span>
+                  <span className="placeholder-xs xl:placeholder-sm mr-2">
+                    Статус
+                  </span>
                   <span className="title-h6">
                     {BUSINESS_STATUS_LABELS[b.status]}
                   </span>
