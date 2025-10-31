@@ -3,7 +3,7 @@ import React from 'react';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 
-function publicNewBusiness() {
+function publicNewBusinessStart() {
   return (
     <div className="flex flex-1 flex-col items-center justify-center px-4">
       <div className="flex w-[340px] flex-col items-center">
@@ -12,7 +12,7 @@ function publicNewBusiness() {
           займаєтесь
         </p>
         <Link
-          href="/dashboard/business/new"
+          href="/business/new/form"
           className="shadow-menu bg-background-main-300 flex items-center justify-center px-3 py-[6px] text-sm"
         >
           <Plus className="mr-2 size-4" /> <span>Додати</span>
@@ -24,4 +24,4 @@ function publicNewBusiness() {
   );
 }
 
-export default publicNewBusiness;
+export default publicNewBusinessStart;
