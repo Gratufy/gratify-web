@@ -339,33 +339,48 @@ BusinessFormProps) {
         <div className="bg-background-grey-50 mb-10 w-full py-10">
           <div className="mx-auto w-full max-[1024px]:px-4">ImagesBlock</div>
         </div>
+        {/* Special offers Field new*/}
+        <div className="mb-10 w-full">
+          <FormField
+            control={form.control}
+            name="specialOffers"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <div className="flex w-full justify-between">
+                  <FormLabel className="align-start flex flex-col gap-2">
+                    <span className="title-h6">Спеціальні пропозиції*</span>
+                    <span className="caption">
+                      Можете обрати будь-яку кількість, але на головній сторінці
+                      каталогу буде видно перші 3 позиції
+                    </span>
+                  </FormLabel>
+                  <FormControl>
+                    <CustomCheckBox
+                      className="placeholder:text-text-950-grey border-elements-grey-400 bg-background-white w-[70%] px-4 py-1 placeholder:text-xs"
+                      offers={allSpecialOffers ?? []}
+                      selectedOfferIds={field.value ?? []}
+                      onChange={(offerId, checked) => {
+                        let newValue = field.value ?? [];
+                        if (checked) {
+                          newValue = [...newValue, offerId];
+                        } else {
+                          newValue = newValue.filter((id) => id !== offerId);
+                        }
+                        field.onChange(newValue);
+                      }}
+                      // error={form.formState.errors.specialOffers?.message as string}
+                    />
+                  </FormControl>
+                </div>
+
+                {/* <FormMessage /> */}
+              </FormItem>
+            )}
+          />
+          <div className="w-full"></div>
+        </div>
         {/* Special offers Field */}
-        <FormField
-          control={form.control}
-          name="specialOffers"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="mb-4 text-2xl">Special Offers</FormLabel>
-              <FormControl>
-                <CustomCheckBox
-                  offers={allSpecialOffers ?? []}
-                  selectedOfferIds={field.value ?? []}
-                  onChange={(offerId, checked) => {
-                    let newValue = field.value ?? [];
-                    if (checked) {
-                      newValue = [...newValue, offerId];
-                    } else {
-                      newValue = newValue.filter((id) => id !== offerId);
-                    }
-                    field.onChange(newValue);
-                  }}
-                  // error={form.formState.errors.specialOffers?.message as string}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
         {/* Description Field */}
         <FormField
           control={form.control}

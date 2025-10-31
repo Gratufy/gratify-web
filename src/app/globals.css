@@ -283,6 +283,10 @@
   @apply text-base leading-[140%];
 }
 
+@utility caption {
+  @apply text-[8px] leading-[145%];
+}
+
 /* H1 */
 /* @layer utilities {
   .title-h1 {
