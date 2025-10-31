@@ -59,7 +59,7 @@ function CustomSelect<T>({
   const autoId = useId();
   const selectId = id ?? autoId;
   return (
-    <div>
+    <>
       {label && (
         <label
           htmlFor={selectId}
@@ -93,7 +93,7 @@ function CustomSelect<T>({
           </SelectGroup>
         </SelectContent>
       </Select>
-    </div>
+    </>
   );
 }
 
