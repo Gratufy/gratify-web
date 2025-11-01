@@ -15,6 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -293,10 +294,13 @@ BusinessFormProps) {
             name="name"
             render={({ field }) => (
               <FormItem className="mb-5 w-full">
-                <div className="flex w-full justify-between">
-                  <FormLabel className="title-h6">Назва*</FormLabel>
-                  <FormControl className="w-[70%]">
+                <div className="flex w-full justify-between gap-4">
+                  <FormLabel htmlFor="name" className="title-h6">
+                    Назва*
+                  </FormLabel>
+                  <FormControl className="w-[70%] shrink-0">
                     <Input
+                      id="name"
                       className="border-elements-grey-400 bg-background-white placeholder:text-text-500-grey cursor-text p-2 placeholder:text-xs"
                       placeholder="Назва"
                       {...field}
@@ -314,8 +318,10 @@ BusinessFormProps) {
             name="category"
             render={({ field }) => (
               <FormItem className="w-full">
-                <div className="flex w-full justify-between">
-                  <FormLabel className="title-h6">Категорія*</FormLabel>
+                <div className="flex w-full justify-between gap-4">
+                  <FormLabel htmlFor="category" className="title-h6">
+                    Категорія*
+                  </FormLabel>
                   <FormControl className="">
                     <CustomSelect
                       className="placeholder:text-text-950-grey border-elements-grey-400 bg-background-white w-[70%] px-4 py-1 placeholder:text-xs"
@@ -339,22 +345,25 @@ BusinessFormProps) {
         <div className="bg-background-grey-50 mb-10 w-full py-10">
           <div className="mx-auto w-full max-[1024px]:px-4">ImagesBlock</div>
         </div>
-        {/* Special offers Field new*/}
-        <div className="mb-10 w-full">
+        {/* Special offers Field  and Descriprion new*/}
+        <div className="mb-10 w-full max-[1024px]:px-4">
           <FormField
             control={form.control}
             name="specialOffers"
             render={({ field }) => (
-              <FormItem className="w-full">
-                <div className="flex w-full justify-between">
-                  <FormLabel className="align-start flex flex-col gap-2">
+              <FormItem className="mb-6 w-full">
+                <div className="flex w-full justify-between gap-6">
+                  <FormLabel
+                    htmlFor="specialOffers"
+                    className="flex flex-col items-start gap-2"
+                  >
                     <span className="title-h6">Спеціальні пропозиції*</span>
                     <span className="caption">
                       Можете обрати будь-яку кількість, але на головній сторінці
                       каталогу буде видно перші 3 позиції
                     </span>
                   </FormLabel>
-                  <FormControl>
+                  <FormControl className="w-[70%] shrink-0">
                     <CustomCheckBox
                       className="placeholder:text-text-950-grey border-elements-grey-400 bg-background-white w-[70%] px-4 py-1 placeholder:text-xs"
                       offers={allSpecialOffers ?? []}
@@ -377,25 +386,38 @@ BusinessFormProps) {
               </FormItem>
             )}
           />
-          <div className="w-full"></div>
-        </div>
-        {/* Special offers Field */}
 
-        {/* Description Field */}
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>Description.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          {/* Description Field */}
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <div className="flex w-full justify-between gap-4">
+                  <FormLabel
+                    htmlFor="description"
+                    className="title-h6 flex flex-col items-start gap-1"
+                  >
+                    <p className="title-h6">Опис*</p>
+                    <p className="caption">Максимальний розмір 3000 знаків</p>
+                  </FormLabel>
+                  <FormControl className="w-[70%] shrink-0">
+                    <Textarea
+                      id="description"
+                      maxLength={3000}
+                      className="border-elements-grey-400 bg-background-white placeholder:text-text-500-grey h-14 cursor-text p-2 placeholder:text-xs"
+                      placeholder="Коротко опишіть ваші головні переваги, унікальні торгові пропозиціі"
+                      {...field}
+                    />
+                  </FormControl>
+                  {/* <FormDescription>Description.</FormDescription> */}
+                  {/* <FormMessage /> */}
+                </div>
+              </FormItem>
+            )}
+          />
+        </div>
+
         {/* Online checkbox */}
         <FormField
           control={form.control}
