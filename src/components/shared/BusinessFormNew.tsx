@@ -418,28 +418,36 @@ BusinessFormProps) {
           />
         </div>
 
-        {/* Online checkbox */}
-        <FormField
-          control={form.control}
-          name="isOnline"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Online business</FormLabel>
-              <FormControl>
-                {/* <input
+        {/* Big Location block */}
+        <div className="bg-background-grey-50 mb-15 w-full py-5">
+          <div className="mx-auto w-full max-[1024px]:px-4">
+            {/* Online checkbox */}
+            <div className="border-elements-grey-400 mb-4 border p-4">
+              <FormField
+                control={form.control}
+                name="isOnline"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Online business</FormLabel>
+                    <FormControl>
+                      {/* <input
                   type="checkbox"
                   checked={field.value}
                   onChange={(e) => field.onChange(e.target.checked)}
                 /> */}
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={(val) => field.onChange(val)}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={(val) => field.onChange(val)}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+        </div>
+
         {/* Website Field */}
         <FormField
           control={form.control}
