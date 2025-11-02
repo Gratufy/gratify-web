@@ -85,7 +85,11 @@ function CustomSelect<T>({
                 ? getOptionLabel(option)
                 : (option as unknown as string);
               return (
-                <SelectItem key={val ?? index} value={val ?? ''}>
+                <SelectItem
+                  key={val ?? index}
+                  value={val ?? ''}
+                  className="xl:placeholder-base lg:placeholder-sm placeholder-xs"
+                >
                   {label}
                 </SelectItem>
               );
