@@ -49,6 +49,7 @@ function Button({
 
   return (
     <Comp
+      style={{ fontFamily: 'var(--font-family)' }}
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}

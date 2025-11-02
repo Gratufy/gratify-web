@@ -34,6 +34,7 @@ import { saveBusinessLocations } from '@/lib/actions/businessLocation';
 import { useAllSpecialOffers } from '@/hooks/useSpecialOffers';
 import CustomCheckBox from '../ui/CustomCheckBox';
 import { specialOffers } from '@/db/schema';
+import OffersMultiSelect from './OffersMultiSelect';
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
 });
@@ -316,7 +317,7 @@ BusinessFormProps) {
                   <FormControl className="w-[70%] shrink-0">
                     <Input
                       id="name"
-                      className="border-elements-grey-400 bg-background-white placeholder:text-text-500-grey cursor-text p-2 placeholder:text-xs"
+                      className="border-elements-grey-400 bg-background-white placeholder:text-text-500-grey placeholder-xs cursor-text p-2"
                       placeholder="Назва"
                       {...field}
                     />
@@ -339,7 +340,7 @@ BusinessFormProps) {
                   </FormLabel>
                   <FormControl className="">
                     <CustomSelect
-                      className="placeholder:text-text-950-grey border-elements-grey-400 bg-background-white w-[70%] px-4 py-1 placeholder:text-xs"
+                      className="placeholder:text-text-950-grey border-elements-grey-400 bg-background-white placeholder-xs w-[70%] px-4 py-1"
                       value={field.value}
                       onChange={field.onChange}
                       options={categories} // array of category objects
@@ -378,7 +379,24 @@ BusinessFormProps) {
                       каталогу буде видно перші 3 позиції
                     </span>
                   </FormLabel>
-                  <FormControl className="w-[70%] shrink-0">
+                  <FormControl className="shrink-0">
+                    <OffersMultiSelect
+                      // className="placeholder:text-text-950-grey border-elements-grey-400 bg-background-white placeholder:text-xs"
+                      offers={allSpecialOffers ?? []}
+                      selectedOfferIds={field.value ?? []}
+                      onChange={(offerId, checked) => {
+                        let newValue = field.value ?? [];
+                        if (checked) {
+                          newValue = [...newValue, offerId];
+                        } else {
+                          newValue = newValue.filter((id) => id !== offerId);
+                        }
+                        field.onChange(newValue);
+                      }}
+                      // error={form.formState.errors.specialOffers?.message as string}
+                    />
+                  </FormControl>
+                  {/* <FormControl className="w-[70%] shrink-0">
                     <CustomCheckBox
                       className="placeholder:text-text-950-grey border-elements-grey-400 bg-background-white w-[70%] px-4 py-1 placeholder:text-xs"
                       offers={allSpecialOffers ?? []}
@@ -394,7 +412,7 @@ BusinessFormProps) {
                       }}
                       // error={form.formState.errors.specialOffers?.message as string}
                     />
-                  </FormControl>
+                  </FormControl> */}
                 </div>
 
                 {/* <FormMessage /> */}
@@ -420,7 +438,7 @@ BusinessFormProps) {
                     <Textarea
                       id="description"
                       maxLength={3000}
-                      className="border-elements-grey-400 bg-background-white placeholder:text-text-500-grey h-23 cursor-text p-2 placeholder:text-xs"
+                      className="border-elements-grey-400 bg-background-white placeholder:text-text-500-grey h-23 placeholder-xs ) cursor-text p-2"
                       placeholder="Коротко опишіть ваші головні переваги, унікальні торгові пропозиціі"
                       {...field}
                     />
@@ -469,7 +487,7 @@ BusinessFormProps) {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        className="border-elements-grey-400 bg-background-white placeholder:text-text-500-grey cursor-text p-2 placeholder:text-xs"
+                        className="border-elements-grey-400 bg-background-white placeholder:text-text-500-grey placeholder-xs cursor-text p-2"
                         placeholder="Посилання"
                         {...field}
                       />

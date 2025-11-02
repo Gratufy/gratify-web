@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { Ubuntu_Sans, Roboto } from 'next/font/google';
+// import { Ubuntu_Sans, Roboto } from 'next/font/google';
+import { Ubuntu_Sans } from 'next/font/google';
 import './globals.css';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { queryKeys } from '@/lib/reactQuery/queryKeys';
@@ -16,11 +17,11 @@ const ubuntuSans = Ubuntu_Sans({
   variable: '--font-family',
 });
 
-const roboto = Roboto({
-  subsets: ['latin', 'latin-ext'],
-  weight: ['500'],
-  variable: '--second-family',
-});
+// const roboto = Roboto({
+//   subsets: ['latin', 'latin-ext'],
+//   weight: ['500'],
+//   variable: '--second-family',
+// });
 
 export const metadata: Metadata = {
   title: 'Gratify',
@@ -48,7 +49,8 @@ export default async function RootLayout({
 
   return (
     <html lang="uk" suppressHydrationWarning>
-      <body className={`${ubuntuSans.variable} ${roboto.variable}`}>
+      {/* ${roboto.variable */}
+      <body className={`${ubuntuSans.variable} `}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

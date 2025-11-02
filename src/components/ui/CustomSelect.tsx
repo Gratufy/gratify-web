@@ -63,7 +63,7 @@ function CustomSelect<T>({
       {label && (
         <label
           htmlFor={selectId}
-          className="mb-1 block text-sm font-medium text-gray-700"
+          className="xl:placeholder-base lg:placeholder-sm placeholder-xs mb-1 block font-medium text-gray-700"
         >
           {label}
         </label>
@@ -71,7 +71,7 @@ function CustomSelect<T>({
       <Select value={value} onValueChange={(v) => onChange(v)}>
         <SelectTrigger
           id={selectId}
-          className={`${className ?? 'w-[280px]'} ${triggerClass}`}
+          className={`${className ?? 'xl:placeholder-base lg:placeholder-sm placeholder-xs w-[280px]'} ${triggerClass}`}
         >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>

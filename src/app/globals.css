@@ -142,7 +142,8 @@
   --sidebar-ring: #9f9fa9;
   /* ...............................................................; */
   --font-family: 'Ubuntu Sans', sans-serif;
-  --second-family: 'Roboto', sans-serif;
+  --second-family: 'Ubuntu Sans', sans-serif;
+  /* --second-family: 'Roboto', sans-serif; */
   --overlay-background: #f5f3f059;
   --white: #fff;
   --accent: #c71143;
@@ -342,7 +343,7 @@
   }
 } */
 @utility title-h6 {
-  @apply text-sm font-medium leading-[140%] xl:text-base;
+  @apply text-xs font-medium leading-[140%] lg:text-sm xl:text-base;
 }
 
 @utility link-big {
@@ -414,5 +415,30 @@
   }
   .animate-out-to-under-trigger {
     animation: slide-out-to-under-trigger 0.3s ease-in forwards;
+  }
+}
+
+textarea::placeholder,
+input::placeholder {
+  font-family: var(--font-family);
+  font-size: 0.75rem; /* text-xs */
+  line-height: 1.4; /* 140% */
+}
+
+/* LG breakpoint - placeholder-sm */
+@media (min-width: 1024px) {
+  textarea::placeholder,
+  input::placeholder {
+    font-size: 0.875rem; /* text-sm */
+    line-height: 1.4;
+  }
+}
+
+/* XL breakpoint - placeholder-base */
+@media (min-width: 1280px) {
+  textarea::placeholder,
+  input::placeholder {
+    font-size: 1rem; /* text-base */
+    line-height: 1.4;
   }
 }
