@@ -1,16 +1,27 @@
-import { BusinessForm } from '@/components/shared/BusinessForm';
+// import { BusinessForm } from '@/components/shared/BusinessForm';
 import React from 'react';
+import { Plus } from 'lucide-react';
+import Link from 'next/link';
 
-function publicNewBusiness() {
+function publicNewBusinessStart() {
   return (
-    <div className="flex flex-col items-center justify-center p-4">
-      <h2 className="mb-2 text-2xl font-bold">
-        Welcome to the PUBLIC NEW Business
-      </h2>
+    <div className="flex flex-1 flex-col items-center justify-center px-4">
+      <div className="flex w-[340px] flex-col items-center">
+        <p className="title-h4 mb-8 text-center font-bold">
+          Почніть із малого: створіть бізнес-картку, щоб показати, хто ви та чим
+          займаєтесь
+        </p>
+        <Link
+          href="/business/new/form"
+          className="shadow-menu bg-background-main-300 flex items-center justify-center px-3 py-[6px] text-sm"
+        >
+          <Plus className="mr-2 size-4" /> <span>Додати</span>
+        </Link>
+      </div>
 
-      <BusinessForm />
+      {/* <BusinessForm /> */}
     </div>
   );
 }
 
-export default publicNewBusiness;
+export default publicNewBusinessStart;
