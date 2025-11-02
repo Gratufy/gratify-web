@@ -467,14 +467,13 @@ BusinessFormProps) {
             </div>
           </div>
         </div>
-
+        {/** Location Fields */}
         {/* ------ */}
         {form.formState.errors.locations && (
           <div className="mb-4 rounded bg-red-100 p-2 text-red-600">
             {form.formState.errors.locations.message}
           </div>
         )}
-        {/* location*/}
         <div className="w-full space-y-4">
           {fields.map((field, index) => (
             <div key={field.id} className="space-y-2 rounded border p-4">
@@ -512,7 +511,7 @@ BusinessFormProps) {
                 )}
               />
               {/* {`locations.${index}.address` &&
-                `locations.${index}.address`.trim() !== "" && ( */}
+                      `locations.${index}.address`.trim() !== "" && ( */}
               <Button
                 type="button"
                 variant="secondary"
