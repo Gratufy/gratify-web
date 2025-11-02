@@ -188,7 +188,9 @@ BusinessFormProps) {
       setMapOpenIndex(index);
     } catch (error) {
       console.error('Check address failed:', error);
-      alert('Не вдалося перевірити локацію. Можна продовжити без координат.');
+      alert(
+        'Не вдалося перевірити локацію. Можна продовжити без координат. Вони будуть додані пізніше автоматично.'
+      );
     }
   }
   // to confirm location
@@ -432,7 +434,7 @@ BusinessFormProps) {
         </div>
 
         {/* Big Location block */}
-        <div className="bg-background-grey-50 w-full py-5">
+        <div className="bg-background-grey-50 mb-15 w-full py-5">
           <div className="mx-auto w-full max-[1024px]:px-4">
             {/* Online checkbox */}
             <div className="border-elements-grey-400 mb-4 border p-4">
@@ -569,7 +571,7 @@ BusinessFormProps) {
                   height={360}
                   isForm
                 />
-                <p className="title-h6 my-3">
+                <p className="placeholder-sm my-3 text-center">
                   Ви можете перетягувати маркер, щоб уточнити локацію.
                 </p>
                 <div className="flex justify-center gap-4">
@@ -604,7 +606,12 @@ BusinessFormProps) {
           </div>
         </div>
 
-        <Button type="submit">Submit</Button>
+        <button
+          className="shadow-menu bg-background-main-300 placeholder-sm px-[6px] py-3"
+          type="submit"
+        >
+          Передати на модерацію
+        </button>
       </form>
     </Form>
   );

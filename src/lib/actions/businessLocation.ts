@@ -60,7 +60,7 @@ export async function checkAddress(city: string, address: string) {
     },
   });
   //'Nominatim request failed'
-  if (!response.ok) throw new Error(`Nominatim request failed: ${response}`);
+  if (!response.ok) throw new Error(`Nominatim request failed`);
 
   const data = await response.json();
   if (!data[0]) return null;
