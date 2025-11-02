@@ -1,5 +1,5 @@
 'use client';
-
+import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
 import * as v from 'valibot';
@@ -27,7 +27,7 @@ import { useCheckAddress } from '@/hooks/useBusinessLocation';
 import { useCreateBusiness, useUpdateBusiness } from '@/hooks/useBusinesses';
 import { BusinessUpdate, LocationFormData } from '@/types';
 import { useUserStore } from '@/stores/useUserStore';
-import { useState } from 'react';
+
 import dynamic from 'next/dynamic';
 import { saveBusinessLocations } from '@/lib/actions/businessLocation';
 import { useAllSpecialOffers } from '@/hooks/useSpecialOffers';
@@ -63,6 +63,8 @@ export const businessFormSchema = v.pipe(
         address: v.optional(v.string()),
         latitude: v.optional(v.number()),
         longitude: v.optional(v.number()),
+        // latitude: v.optional(v.nullable(v.number())),
+        // longitude: v.optional(v.nullable(v.number())),
       })
     ),
   }),
@@ -152,6 +154,11 @@ BusinessFormProps) {
     lng: number;
   } | null>(null);
 
+  useEffect(() => {
+    if (!defaultValues && fields.length === 0) {
+      append({ city: '', address: '' });
+    }
+  }, [defaultValues, fields.length, append]);
   // open map and check location for a specific location index
   async function handleOpenCheck(index: number) {
     setMapOpenIndex(null);
@@ -465,111 +472,115 @@ BusinessFormProps) {
                 )}
               />
             </div>
-          </div>
-        </div>
-        {/** Location Fields */}
-        {/* ------ */}
-        {form.formState.errors.locations && (
-          <div className="mb-4 rounded bg-red-100 p-2 text-red-600">
-            {form.formState.errors.locations.message}
-          </div>
-        )}
-        <div className="w-full space-y-4">
-          {fields.map((field, index) => (
-            <div key={field.id} className="space-y-2 rounded border p-4">
-              <FormField
-                control={form.control}
-                name={`locations.${index}.city`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>City</FormLabel>
-                    <FormControl>
-                      <CustomSelect
-                        value={field.value}
-                        onChange={field.onChange}
-                        options={UKRAINE_REGIONAL_CENTERS}
-                        getOptionValue={(o) => o.value}
-                        getOptionLabel={(o) => o.label}
-                        placeholder="Оберіть місто"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`locations.${index}.address`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Address (optional)</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="Address" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* {`locations.${index}.address` &&
+            {/** Location Fields */}
+            {/* ------ */}
+            {form.formState.errors.locations && (
+              <div className="mb-4 rounded bg-red-100 p-2 text-red-600">
+                {form.formState.errors.locations.message}
+              </div>
+            )}
+            <div className="w-full space-y-4">
+              {fields.map((field, index) => (
+                <div key={field.id} className="space-y-2">
+                  <p className="title-h6 mb-3">Адреса {index + 1}:</p>
+                  <FormField
+                    control={form.control}
+                    name={`locations.${index}.city`}
+                    render={({ field }) => (
+                      <FormItem className="mb-2 w-full">
+                        {/* <FormLabel>City</FormLabel> */}
+                        <FormControl>
+                          <CustomSelect
+                            className="placeholder:text-text-950-grey border-elements-grey-400 bg-background-white w-full px-4 py-1 placeholder:text-xs"
+                            value={field.value}
+                            onChange={field.onChange}
+                            options={UKRAINE_REGIONAL_CENTERS}
+                            getOptionValue={(o) => o.value}
+                            getOptionLabel={(o) => o.label}
+                            placeholder="Місто"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name={`locations.${index}.address`}
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className="placeholder-small mb-1">
+                          вулиця, будівля, приміщення
+                        </FormLabel>
+                        <FormControl>
+                          <Input {...field}  placeholder="Вулиця, будівля, приміщення" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {/* {`locations.${index}.address` &&
                       `locations.${index}.address`.trim() !== "" && ( */}
-              <Button
-                type="button"
-                variant="secondary"
-                // onClick={() => checkAddress(index)}
-                onClick={() => handleOpenCheck(index)}
-                disabled={checkAddressMutation.isPending}
-              >
-                {checkAddressMutation.isPending
-                  ? 'Checking...'
-                  : 'Check location'}
-              </Button>
-              {/* )} */}
-              <Button
-                type="button"
-                variant="destructive"
-                onClick={() => remove(index)}
-              >
-                Remove location
-              </Button>
-            </div>
-          ))}
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    // onClick={() => checkAddress(index)}
+                    onClick={() => handleOpenCheck(index)}
+                    disabled={checkAddressMutation.isPending}
+                  >
+                    {checkAddressMutation.isPending
+                      ? 'Checking...'
+                      : 'Check location'}
+                  </Button>
+                  {/* )} */}
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={() => remove(index)}
+                  >
+                    Remove location
+                  </Button>
+                </div>
+              ))}
 
-          <Button
-            type="button"
-            onClick={() => {
-              append({ city: '', address: '' });
-              setMapOpenIndex(null);
-            }}
-          >
-            Add location
-          </Button>
-        </div>
-        {/* ------ */}
-        {/* Map to check location- Opened with Btn */}
-        {mapOpenIndex !== null && tempLatLng && (
-          <div className="w-full space-y-3 rounded-xl border p-3">
-            <BusinessMap
-              lat={tempLatLng.lat}
-              lng={tempLatLng.lng}
-              draggable
-              onDragEnd={(lat, lng) => setTempLatLng({ lat, lng })}
-              height={360}
-              isForm
-            />
-            <div className="flex gap-3">
-              <Button type="button" onClick={handleConfirmLocation}>
-                Submit Location
-              </Button>
               <Button
                 type="button"
-                variant="ghost"
-                onClick={() => setMapOpenIndex(null)}
+                onClick={() => {
+                  append({ city: '', address: '' });
+                  setMapOpenIndex(null);
+                }}
               >
-                Cancel
+                Add location
               </Button>
             </div>
+            {/* ------ */}
+            {/* Map to check location- Opened with Btn */}
+            {mapOpenIndex !== null && tempLatLng && (
+              <div className="w-full space-y-3 rounded-xl border p-3">
+                <BusinessMap
+                  lat={tempLatLng.lat}
+                  lng={tempLatLng.lng}
+                  draggable
+                  onDragEnd={(lat, lng) => setTempLatLng({ lat, lng })}
+                  height={360}
+                  isForm
+                />
+                <div className="flex gap-3">
+                  <Button type="button" onClick={handleConfirmLocation}>
+                    Submit Location
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    onClick={() => setMapOpenIndex(null)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
-        )}
+        </div>
 
         <Button type="submit">Submit</Button>
       </form>
