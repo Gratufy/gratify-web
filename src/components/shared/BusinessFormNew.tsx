@@ -405,7 +405,7 @@ BusinessFormProps) {
                     <Textarea
                       id="description"
                       maxLength={3000}
-                      className="border-elements-grey-400 bg-background-white placeholder:text-text-500-grey h-14 cursor-text p-2 placeholder:text-xs"
+                      className="border-elements-grey-400 bg-background-white placeholder:text-text-500-grey h-23 cursor-text p-2 placeholder:text-xs"
                       placeholder="Коротко опишіть ваші головні переваги, унікальні торгові пропозиціі"
                       {...field}
                     />
@@ -427,20 +427,40 @@ BusinessFormProps) {
                 control={form.control}
                 name="isOnline"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Online business</FormLabel>
+                  <FormItem className="mb-3 flex gap-2">
                     <FormControl>
-                      {/* <input
-                  type="checkbox"
-                  checked={field.value}
-                  onChange={(e) => field.onChange(e.target.checked)}
-                /> */}
                       <Checkbox
+                        className="border-icons-grey-950"
                         checked={field.value}
                         onCheckedChange={(val) => field.onChange(val)}
                       />
                     </FormControl>
+                    <FormLabel className="title-h5">
+                      працюємо як он-лайн бізнес
+                    </FormLabel>
+
                     <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* Website Field */}
+              <FormField
+                control={form.control}
+                name="website"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="title-h6 mb-1">
+                      Посилання на сайт/соцмережу
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="border-elements-grey-400 bg-background-white placeholder:text-text-500-grey cursor-text p-2 placeholder:text-xs"
+                        placeholder="Посилання"
+                        {...field}
+                      />
+                    </FormControl>
+                    {/* <FormDescription>Your website URL.</FormDescription>
+                    <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -448,21 +468,6 @@ BusinessFormProps) {
           </div>
         </div>
 
-        {/* Website Field */}
-        <FormField
-          control={form.control}
-          name="website"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Website</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>Your website URL.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         {/* ------ */}
         {form.formState.errors.locations && (
           <div className="mb-4 rounded bg-red-100 p-2 text-red-600">
