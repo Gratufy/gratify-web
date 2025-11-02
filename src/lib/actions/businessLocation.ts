@@ -1,10 +1,10 @@
-"use server";
+'use server';
 
-import { db } from "@/db";
+import { db } from '@/db';
 
-import { businessLocations } from "@/db/schema";
-import { eq } from "drizzle-orm";
-import { LocationFormData } from "@/types";
+import { businessLocations } from '@/db/schema';
+import { eq } from 'drizzle-orm';
+import { LocationFormData } from '@/types';
 
 // get business location
 export async function getBusinessLocation(businessId: string) {
@@ -36,31 +36,31 @@ export async function updateBusinessLocation(vars: {
     .where(eq(businessLocations.businessId, businessId))
     .returning();
 
-  if (!updated) throw new Error("Failed to update location");
+  if (!updated) throw new Error('Failed to update location');
 
   return { businessId, latitude, longitude };
 }
 
 // check address (OpenStreetMap)
 export async function checkAddress(city: string, address: string) {
-  const url = new URL("https://nominatim.openstreetmap.org/search");
-  url.searchParams.set("format", "json");
-  url.searchParams.set("limit", "1");
-  url.searchParams.set("addressdetails", "1");
-  url.searchParams.set("street", address);
-  url.searchParams.set("city", city);
-  url.searchParams.set("country", "Ukraine");
+  const url = new URL('https://nominatim.openstreetmap.org/search');
+  url.searchParams.set('format', 'json');
+  url.searchParams.set('limit', '1');
+  url.searchParams.set('addressdetails', '1');
+  url.searchParams.set('street', address);
+  url.searchParams.set('city', city);
+  url.searchParams.set('country', 'Ukraine');
 
   //   const query = encodeURIComponent(`${address}, ${city}, Ukraine`);
   //   const url = `https://nominatim.openstreetmap.org/search?format=json&q=${query}&limit=1`;
 
   const response = await fetch(url.toString(), {
     headers: {
-      "User-Agent": "MyApp/1.0 (myemail@example.com)", // Your email here??????
+      'User-Agent': 'MyApp/1.0 (gratify@gmail.com)', // Your email here??????
     },
   });
-
-  if (!response.ok) throw new Error("Nominatim request failed");
+  //'Nominatim request failed'
+  if (!response.ok) throw new Error(`Nominatim request failed: ${response}`);
 
   const data = await response.json();
   if (!data[0]) return null;

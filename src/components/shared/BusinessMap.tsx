@@ -48,7 +48,8 @@ BusinessMapProps) {
         // className={` ${
         //   isForm ? `rounded-lg w-full h-[${height}px]` : `w-2/3 h-80`
         // }`}
-        style={{ height: '100%', width: '100%', borderRadius: 16 }}
+        // , borderRadius: 16
+        style={{ height: '100%', width: '100%' }}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

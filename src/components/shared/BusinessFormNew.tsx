@@ -1,7 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-
+import { Plus } from 'lucide-react';
+import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import * as v from 'valibot';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { useForm, useFieldArray } from 'react-hook-form';
@@ -172,18 +173,23 @@ BusinessFormProps) {
       alert('Please specify an address');
       return;
     }
-    const res = await checkAddressMutation.mutateAsync({
-      city: loc.city,
-      address: loc.address,
-    });
+    try {
+      const res = await checkAddressMutation.mutateAsync({
+        city: loc.city,
+        address: loc.address,
+      });
 
-    if (!res) {
-      alert('Address not found. Please refine your input.');
-      return;
+      if (!res) {
+        alert('Address not found. Please refine your input.');
+        return;
+      }
+
+      setTempLatLng({ lat: res.latitude, lng: res.longitude });
+      setMapOpenIndex(index);
+    } catch (error) {
+      console.error('Check address failed:', error);
+      alert('Не вдалося перевірити локацію. Можна продовжити без координат.');
     }
-
-    setTempLatLng({ lat: res.latitude, lng: res.longitude });
-    setMapOpenIndex(index);
   }
   // to confirm location
   function handleConfirmLocation() {
@@ -426,7 +432,7 @@ BusinessFormProps) {
         </div>
 
         {/* Big Location block */}
-        <div className="bg-background-grey-50 mb-15 w-full py-5">
+        <div className="bg-background-grey-50 w-full py-5">
           <div className="mx-auto w-full max-[1024px]:px-4">
             {/* Online checkbox */}
             <div className="border-elements-grey-400 mb-4 border p-4">
@@ -455,8 +461,8 @@ BusinessFormProps) {
                 control={form.control}
                 name="website"
                 render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel className="title-h6 mb-1">
+                  <FormItem className="w-full gap-1">
+                    <FormLabel className="title-h6">
                       Посилання на сайт/соцмережу
                     </FormLabel>
                     <FormControl>
@@ -479,9 +485,9 @@ BusinessFormProps) {
                 {form.formState.errors.locations.message}
               </div>
             )}
-            <div className="w-full space-y-4">
+            <div className="w-full space-y-5">
               {fields.map((field, index) => (
-                <div key={field.id} className="space-y-2">
+                <div key={field.id}>
                   <p className="title-h6 mb-3">Адреса {index + 1}:</p>
                   <FormField
                     control={form.control}
@@ -508,12 +514,16 @@ BusinessFormProps) {
                     control={form.control}
                     name={`locations.${index}.address`}
                     render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel className="placeholder-small mb-1">
+                      <FormItem className="w-full gap-1">
+                        <FormLabel className="placeholder-small">
                           вулиця, будівля, приміщення
                         </FormLabel>
                         <FormControl>
-                          <Input {...field}  placeholder="Вулиця, будівля, приміщення" />
+                          <Input
+                            {...field}
+                            placeholder="Вулиця, будівля, приміщення"
+                            className="border-elements-grey-400 bg-background-white placeholder:text-text-500-grey mb-4 cursor-text p-2 placeholder:text-xs"
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -521,42 +531,36 @@ BusinessFormProps) {
                   />
                   {/* {`locations.${index}.address` &&
                       `locations.${index}.address`.trim() !== "" && ( */}
-                  <Button
+                  <button
                     type="button"
-                    variant="secondary"
+                    className="placeholder-sm bg-elements-grey-200 border-background-main-300 mb-5 flex w-40 cursor-pointer items-center justify-center border px-3 py-[6px]"
                     // onClick={() => checkAddress(index)}
                     onClick={() => handleOpenCheck(index)}
                     disabled={checkAddressMutation.isPending}
                   >
                     {checkAddressMutation.isPending
-                      ? 'Checking...'
-                      : 'Check location'}
-                  </Button>
+                      ? 'Перевіряємо...'
+                      : 'Перевірити локацію'}
+                  </button>
                   {/* )} */}
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    onClick={() => remove(index)}
-                  >
-                    Remove location
-                  </Button>
+                  {fields[index]?.city?.trim() !== '' && (
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      className="placeholder-sm rounded-none"
+                      onClick={() => remove(index)}
+                    >
+                      <CrossIcon className="mr-2 size-4" />{' '}
+                      <span>Видалити адресу</span>
+                    </Button>
+                  )}
                 </div>
               ))}
-
-              <Button
-                type="button"
-                onClick={() => {
-                  append({ city: '', address: '' });
-                  setMapOpenIndex(null);
-                }}
-              >
-                Add location
-              </Button>
             </div>
             {/* ------ */}
             {/* Map to check location- Opened with Btn */}
             {mapOpenIndex !== null && tempLatLng && (
-              <div className="w-full space-y-3 rounded-xl border p-3">
+              <div className="border-elements-grey-300 mb-5 w-full border">
                 <BusinessMap
                   lat={tempLatLng.lat}
                   lng={tempLatLng.lng}
@@ -565,20 +569,38 @@ BusinessFormProps) {
                   height={360}
                   isForm
                 />
-                <div className="flex gap-3">
-                  <Button type="button" onClick={handleConfirmLocation}>
-                    Submit Location
+                <p className="title-h6 my-3">
+                  Ви можете перетягувати маркер, щоб уточнити локацію.
+                </p>
+                <div className="flex justify-center gap-4">
+                  <Button
+                    type="button"
+                    onClick={handleConfirmLocation}
+                    className="placeholder-sm rounded-none"
+                  >
+                    Підтвердити локацію
                   </Button>
                   <Button
                     type="button"
-                    variant="ghost"
+                    variant="secondary"
+                    className="border-background-main-300 placeholder-sm rounded-none border"
                     onClick={() => setMapOpenIndex(null)}
                   >
-                    Cancel
+                    Закрити без збереження
                   </Button>
                 </div>
               </div>
             )}
+            <button
+              className="placeholder-sm bg-background-white border-background-main-300 flex cursor-pointer items-center justify-center border px-3 py-[6px]"
+              type="button"
+              onClick={() => {
+                append({ city: '', address: '' });
+                setMapOpenIndex(null);
+              }}
+            >
+              <Plus className="mr-2 size-4" /> <span>Додати ще</span>
+            </button>
           </div>
         </div>
 
