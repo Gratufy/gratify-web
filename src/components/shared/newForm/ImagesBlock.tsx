@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { X, Star, StarOff, Upload } from 'lucide-react';
 import { Plus } from 'lucide-react';
+import ImageFolder from '@/assets/icons/form/image-folder.svg';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import Image from 'next/image';
 
 interface PreviewImage {
   file: File | null;
@@ -46,7 +48,45 @@ function ImagesBlock() {
             <p>максимальна кількість 10 шт</p>
           </div>
         </div>
-        <div>Preview ImagesBlock</div>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-6">
+          {images.map((img, index) => (
+            <div
+              key={index}
+              className="bg-background-grey-100 relative flex aspect-square min-w-[164px] items-center justify-center overflow-hidden"
+            >
+              {img.url ? (
+                <>
+                  <Image
+                    src={img.url}
+                    alt={`preview-${index}`}
+                    className="h-full w-full object-cover"
+                  />
+                  {/* Кнопка удаления */}
+                  <button
+                    onClick={() => handleRemove(index)}
+                    className="absolute right-1 top-1 rounded-full bg-white/80 p-1 hover:bg-white"
+                  >
+                    <X className="h-4 w-4 text-red-500" />
+                  </button>
+
+                  {/* Кнопка выбора главного */}
+                  <button
+                    onClick={() => handleSetCover(index)}
+                    className="absolute bottom-1 right-1 rounded-full bg-white/80 p-1 hover:bg-white"
+                  >
+                    {img.isCover ? (
+                      <Star className="h-4 w-4 text-yellow-500" />
+                    ) : (
+                      <StarOff className="h-4 w-4 text-gray-400" />
+                    )}
+                  </button>
+                </>
+              ) : (
+                <ImageFolder className="size-10" />
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
