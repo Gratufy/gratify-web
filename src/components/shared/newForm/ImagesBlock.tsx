@@ -29,7 +29,7 @@ function ImagesBlock() {
   const handleUpload = async () => {};
   return (
     <div className="bg-background-grey-50 mb-10 w-full py-10">
-      <div className="mx-auto flex w-full flex-col gap-6 max-[1024px]:px-4">
+      <div className="mx-auto flex w-full flex-col items-center gap-6 max-[1024px]:px-4">
         <div className="flex justify-center gap-3 px-7">
           <label className="shadow-menu border-background-main-300 placeholder-sm flex h-8 w-[134px] cursor-pointer items-center gap-[6px] border bg-white px-3 py-[6px]">
             <Plus className="size-4" />
@@ -44,11 +44,11 @@ function ImagesBlock() {
           </label>
 
           <div className="caption flex flex-col items-start justify-between">
-            <p>максимальний розмір 2 Мб</p>
+            <p>максимальний розмір 5Мб</p>
             <p>максимальна кількість 10 шт</p>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-x-4 gap-y-6">
+        <div className="grid w-full grid-cols-2 gap-x-4 gap-y-6">
           {images.map((img, index) => (
             <div
               key={index}
@@ -87,6 +87,13 @@ function ImagesBlock() {
             </div>
           ))}
         </div>
+        <button
+          onClick={handleUpload}
+          type="submit"
+          className="shadow-menu bg-background-main-300 placeholder-sm w-fit px-[6px] py-3"
+        >
+          Завантажити
+        </button>
       </div>
     </div>
   );
