@@ -14,7 +14,7 @@ export default function NotFound() {
             className="h-auto w-full"
           />
         </div>
-        <div className="w-90 absolute z-10 h-[190px] lg:h-[359px] lg:w-[680px] xl:h-[600px] xl:w-[1135px]">
+        <div className="w-90 absolute z-10 h-[190px] rounded-md lg:h-[359px] lg:w-[680px] xl:h-[600px] xl:w-[1135px]">
           <Image
             src="/images/404.png"
             width={1135}
