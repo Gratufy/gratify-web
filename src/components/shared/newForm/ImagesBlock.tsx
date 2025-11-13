@@ -22,11 +22,59 @@ function ImagesBlock() {
     }))
   );
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
 
-  const handleRemove = (index: number) => {};
-  const handleSetCover = (index: number) => {};
-  const handleUpload = async () => {};
+    setImages((prev) => {
+      const updated = [...prev];
+
+      // найти первую пустую ячейку
+
+      for (const file of files) {
+        const emptySlot = updated.findIndex((img) => !img.file);
+        if (emptySlot === -1) {
+          alert('Досягнуто максимальну кількість фото');
+          break;
+        }
+        updated[emptySlot] = {
+          file,
+          url: URL.createObjectURL(file),
+          isCover: false,
+        };
+      }
+
+      return updated;
+    });
+
+    // сброс input (иначе нельзя выбрать то же фото снова)
+    e.target.value = '';
+  };
+
+  const handleRemove = (index: number) => {
+    setImages((prev) => {
+      const updated = [...prev];
+      const removed = updated[index];
+      if (removed.url) URL.revokeObjectURL(removed.url);
+      updated[index] = { file: null, url: null, isCover: false };
+      return updated;
+    });
+  };
+
+  const handleSetCover = (index: number) => {
+    setImages((prev) =>
+      prev.map((img, i) => ({
+        ...img,
+        isCover: i === index && img.file ? !img.isCover : false,
+      }))
+    );
+  };
+
+  const handleUpload = async () => {
+    const filesToUpload = images.filter((img) => img.file);
+    console.log('Ready to upload:', filesToUpload);
+    //Supabase upload
+  };
   return (
     <div className="bg-background-grey-50 mb-10 w-full py-10">
       <div className="mx-auto flex w-full flex-col items-center gap-6 max-[1024px]:px-4">
@@ -59,20 +107,24 @@ function ImagesBlock() {
                   <Image
                     src={img.url}
                     alt={`preview-${index}`}
+                    width={400}
+                    height={400}
                     className="h-full w-full object-cover"
                   />
                   {/* Кнопка удаления */}
                   <button
+                    type="button"
                     onClick={() => handleRemove(index)}
-                    className="absolute right-1 top-1 rounded-full bg-white/80 p-1 hover:bg-white"
+                    className="absolute right-1 top-1 cursor-pointer rounded-full bg-white/80 p-1 hover:bg-white"
                   >
                     <X className="h-4 w-4 text-red-500" />
                   </button>
 
                   {/* Кнопка выбора главного */}
                   <button
+                    type="button"
                     onClick={() => handleSetCover(index)}
-                    className="absolute bottom-1 right-1 rounded-full bg-white/80 p-1 hover:bg-white"
+                    className="absolute bottom-1 right-1 cursor-pointer rounded-full bg-white/80 p-1 hover:bg-white"
                   >
                     {img.isCover ? (
                       <Star className="h-4 w-4 text-yellow-500" />
