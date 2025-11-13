@@ -212,3 +212,28 @@ export const favorites = pgTable(
     uniqueIndex('favorites_user_business_unique').on(t.userId, t.businessId),
   ]
 );
+
+export const businessImages = pgTable('business_images', {
+  id: uuid('id').defaultRandom().primaryKey(),
+
+  // businessId
+  businessId: uuid('business_id')
+    .notNull()
+    .references(() => businesses.id, { onDelete: 'cascade' }),
+
+  //  business owner
+  ownerId: uuid('owner_id')
+    .notNull()
+    .references(() => userProfiles.userId, { onDelete: 'cascade' }),
+
+  // URL  ( Supabase Storage)
+  url: text('url').notNull(),
+
+  // Main img
+  isCover: boolean('is_cover').default(false).notNull(),
+
+  //
+  //order: integer('order').default(0).notNull(),
+
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+});

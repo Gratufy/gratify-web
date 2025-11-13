@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 import { X, Star, StarOff, Upload } from 'lucide-react';
 import { Plus } from 'lucide-react';
@@ -11,24 +12,18 @@ interface PreviewImage {
   url: string | null;
   isCover: boolean;
 }
+type ImagesBlockProps = {
+  imagesState: PreviewImage[];
+  setImagesState: React.Dispatch<React.SetStateAction<PreviewImage[]>>;
+};
 
-function ImagesBlock() {
-  const MAX_PHOTOS = 10;
-  const [images, setImages] = useState<PreviewImage[]>(
-    Array.from({ length: MAX_PHOTOS }, () => ({
-      file: null,
-      url: null,
-      isCover: false,
-    }))
-  );
-
+function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
-
-    setImages((prev) => {
+    console.log('imagesState before update:', imagesState);
+    setImagesState((prev) => {
       const updated = [...prev];
-
       // найти первую пустую ячейку
 
       for (const file of files) {
@@ -46,13 +41,13 @@ function ImagesBlock() {
 
       return updated;
     });
-
+    console.log('imagesState after update:', imagesState);
     // сброс input (иначе нельзя выбрать то же фото снова)
     e.target.value = '';
   };
 
   const handleRemove = (index: number) => {
-    setImages((prev) => {
+    setImagesState((prev) => {
       const updated = [...prev];
       const removed = updated[index];
       if (removed.url) URL.revokeObjectURL(removed.url);
@@ -62,7 +57,7 @@ function ImagesBlock() {
   };
 
   const handleSetCover = (index: number) => {
-    setImages((prev) =>
+    setImagesState((prev) =>
       prev.map((img, i) => ({
         ...img,
         isCover: i === index && img.file ? !img.isCover : false,
@@ -70,11 +65,6 @@ function ImagesBlock() {
     );
   };
 
-  const handleUpload = async () => {
-    const filesToUpload = images.filter((img) => img.file);
-    console.log('Ready to upload:', filesToUpload);
-    //Supabase upload
-  };
   return (
     <div className="bg-background-grey-50 mb-10 w-full py-10">
       <div className="mx-auto flex w-full flex-col items-center gap-6 max-[1024px]:px-4">
@@ -97,7 +87,7 @@ function ImagesBlock() {
           </div>
         </div>
         <div className="grid w-full grid-cols-2 gap-x-4 gap-y-6">
-          {images.map((img, index) => (
+          {imagesState.map((img, index) => (
             <div
               key={index}
               className="bg-background-grey-100 relative flex aspect-square min-w-[164px] items-center justify-center overflow-hidden"
@@ -115,7 +105,7 @@ function ImagesBlock() {
                   <button
                     type="button"
                     onClick={() => handleRemove(index)}
-                    className="absolute right-1 top-1 cursor-pointer rounded-full bg-white/80 p-1 hover:bg-white"
+                    className="absolute right-2 top-2 cursor-pointer rounded-full bg-white/80 p-1 hover:bg-white"
                   >
                     <X className="h-4 w-4 text-red-500" />
                   </button>
@@ -124,7 +114,7 @@ function ImagesBlock() {
                   <button
                     type="button"
                     onClick={() => handleSetCover(index)}
-                    className="absolute bottom-1 right-1 cursor-pointer rounded-full bg-white/80 p-1 hover:bg-white"
+                    className="absolute left-2 top-2 cursor-pointer rounded-full bg-white/80 p-1 hover:bg-white"
                   >
                     {img.isCover ? (
                       <Star className="h-4 w-4 text-yellow-500" />
@@ -139,13 +129,13 @@ function ImagesBlock() {
             </div>
           ))}
         </div>
-        <button
+        {/* <button
           onClick={handleUpload}
           type="submit"
           className="shadow-menu bg-background-main-300 placeholder-sm w-fit px-[6px] py-3"
         >
           Завантажити
-        </button>
+        </button> */}
       </div>
     </div>
   );

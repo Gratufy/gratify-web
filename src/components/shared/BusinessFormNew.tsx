@@ -105,7 +105,11 @@ export const businessFormSchema = v.pipe(
 );
 
 type FormValues = v.InferOutput<typeof businessFormSchema>;
-
+interface PreviewImage {
+  file: File | null;
+  url: string | null;
+  isCover: boolean;
+}
 type BusinessFormProps = {
   businessId?: string; // if edit
   defaultValues?: FormValues;
@@ -121,6 +125,14 @@ BusinessFormProps) {
   const router = useRouter();
   const pathname = usePathname();
 
+  const MAX_PHOTOS = 10;
+  const [imagesState, setImagesState] = useState<PreviewImage[]>(
+    Array.from({ length: MAX_PHOTOS }, () => ({
+      file: null,
+      url: null,
+      isCover: false,
+    }))
+  );
   const {
     categories,
     // isLoading: isCategoriesLoading,
@@ -260,6 +272,13 @@ BusinessFormProps) {
         form.reset(defaultValues);
       } else {
         // Creating a new business
+        const uploadedImages = imagesState
+          .filter((img) => img.file !== null)
+          .map((img) => ({
+            file: img.file!,
+            isCover: img.isCover,
+          }));
+        console.log('Uploading images:', uploadedImages.length);
         const newBusinessData = {
           name: data.name,
           description: data.description,
@@ -268,6 +287,7 @@ BusinessFormProps) {
           locations: locationsWithCoords,
           isOnline: data.isOnline,
           specialOffers: data.specialOffers,
+          images: uploadedImages,
         };
         // Create the business-user
         const { profile } =
@@ -359,7 +379,10 @@ BusinessFormProps) {
           />
         </div>
         {/* Images Field */}
-        <ImagesBlock />
+        <ImagesBlock
+          imagesState={imagesState}
+          setImagesState={setImagesState}
+        />
         {/* Special offers Field  and Descriprion new*/}
         <div className="mb-10 w-full max-[1024px]:px-4">
           <FormField
@@ -624,7 +647,7 @@ BusinessFormProps) {
         </div>
 
         <button
-          className="shadow-menu bg-background-main-300 placeholder-sm px-[6px] py-3"
+          className="shadow-menu bg-background-main-300 placeholder-sm cursor-pointer px-[6px] py-3"
           type="submit"
         >
           Передати на модерацію
