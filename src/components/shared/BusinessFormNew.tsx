@@ -35,6 +35,7 @@ import { useAllSpecialOffers } from '@/hooks/useSpecialOffers';
 import CustomCheckBox from '../ui/CustomCheckBox';
 import { specialOffers } from '@/db/schema';
 import OffersMultiSelect from './OffersMultiSelect';
+import ImagesBlock from './newForm/ImagesBlock';
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
 });
@@ -358,9 +359,7 @@ BusinessFormProps) {
           />
         </div>
         {/* Images Field */}
-        <div className="bg-background-grey-50 mb-10 w-full py-10">
-          <div className="mx-auto w-full max-[1024px]:px-4">ImagesBlock</div>
-        </div>
+        <ImagesBlock />
         {/* Special offers Field  and Descriprion new*/}
         <div className="mb-10 w-full max-[1024px]:px-4">
           <FormField
