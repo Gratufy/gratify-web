@@ -6,7 +6,7 @@ import { validate as uuidValidate } from 'uuid'; // npm install uuid
 //   HydrationBoundary,
 //   QueryClient,
 // } from '@tanstack/react-query';
-import { getBusinessById } from '@/lib/actions/businesses';
+import { getBusinessById } from '@/lib/actions/getBusinessById';
 import BusinessDetails from '@/components/shared/oneCardDetails/BusinessDetails';
 import GoBackButton from '@/components/ui/GoBackButton';
 // import { queryKeys } from '@/lib/reactQuery/queryKeys';

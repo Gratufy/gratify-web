@@ -3,7 +3,7 @@
 import { useBusiness } from '@/hooks/useBusinesses';
 import { BusinessForm } from './BusinessForm';
 import BackButton from '../ui/GoBackButton';
-import { getBusinessById } from '@/lib/actions/businesses';
+import { getBusinessById } from '@/lib/actions/getBusinessById';
 import { BusinessWithCategoryName } from '@/types';
 
 interface Props {

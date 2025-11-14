@@ -6,7 +6,7 @@ import Karma from '../Karma';
 import BusinessReviews from '../BusinessReviews';
 
 import BusinessCardSkeleton from '../skeletons/BusinessCardSkeleton';
-import { BusinessWithCategoryName, BusinessWithDetails } from '@/types';
+import { BusinessWithDetails } from '@/types';
 import TitleBlock from './TitleBlock';
 import DescriptionBlock from './DescriptionBlock';
 import CaruselThumbnails from './caruselThumb/CaruselThumbnails';

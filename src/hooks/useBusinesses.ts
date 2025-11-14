@@ -11,13 +11,14 @@ import { queryKeys } from '@/lib/reactQuery/queryKeys';
 
 import {
   //   getAllBusinesses,
-  getBusinessById,
+
   updateBusiness,
   deleteBusiness,
   getBusinesses,
   getBusinessesWithReviewStatus,
   getBusinessesForAdmin,
 } from '@/lib/actions/businesses';
+import { getBusinessById } from '@/lib/actions/getBusinessById';
 import { createBusiness } from '@/lib/actions/createBusiness';
 import {
   AdminBusinessRowType,

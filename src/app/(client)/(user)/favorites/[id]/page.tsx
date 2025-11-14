@@ -2,7 +2,7 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import { validate as uuidValidate } from 'uuid'; // npm install uuid
 import BusinessDetails from '@/components/shared/oneCardDetails/BusinessDetails';
-import { getBusinessById } from '@/lib/actions/businesses';
+import { getBusinessById } from '@/lib/actions/getBusinessById';
 import GoBackButton from '@/components/ui/GoBackButton';
 
 interface UserBusinessDetailsPageProps {
