@@ -36,6 +36,7 @@ import { saveBusinessLocations } from '@/lib/actions/businessLocation';
 import { PAGE_SIZE } from '@/const/business';
 import { getSpecialOffersForBusinesses } from '../helpers/getSpecialOffersForBusinesses';
 import { getBusinessImages } from '../helpers/getBusinessImages';
+import { getCoverImagesForBusinesses } from '../helpers/getCoverImagesForBusinesses';
 
 // function filterByCityAndOnline(
 //   businesses: BusinessWithCategoryName[],
@@ -305,6 +306,15 @@ export async function getBusinesses(
 
     // help function to filter businesses by city and online status
     //results = filterByCityAndOnline(results, city, showOnlineStatus);
+    const coverRows = await getCoverImagesForBusinesses(ids);
+
+    for (const row of coverRows) {
+      const business = businessMap.get(row.businessId);
+      if (business) {
+        // добавляем одно поле coverImage
+        (business as BusinessWithCategoryName).coverImageUrl = row.url;
+      }
+    }
     return {
       data: results ?? [],
       nextOffset: results?.length === limit ? offset + limit : undefined,
