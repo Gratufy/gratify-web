@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { createClient } from '@/utils/supabase/client';
 import { Plus } from 'lucide-react';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import * as v from 'valibot';
@@ -10,7 +11,7 @@ import type { FieldErrors } from 'react-hook-form';
 import {
   Form,
   FormControl,
-  FormDescription,
+  // FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -30,12 +31,13 @@ import { BusinessUpdate, LocationFormData } from '@/types';
 import { useUserStore } from '@/stores/useUserStore';
 
 import dynamic from 'next/dynamic';
-import { saveBusinessLocations } from '@/lib/actions/businessLocation';
+// import { saveBusinessLocations } from '@/lib/actions/businessLocation';
 import { useAllSpecialOffers } from '@/hooks/useSpecialOffers';
-import CustomCheckBox from '../ui/CustomCheckBox';
-import { specialOffers } from '@/db/schema';
+//import CustomCheckBox from '../ui/CustomCheckBox';
+//import { specialOffers } from '@/db/schema';
 import OffersMultiSelect from './OffersMultiSelect';
 import ImagesBlock from './newForm/ImagesBlock';
+import { uploadBusinessImages } from '@/lib/actions/uploadBusinessImages';
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
 });
@@ -272,13 +274,7 @@ BusinessFormProps) {
         form.reset(defaultValues);
       } else {
         // Creating a new business
-        const uploadedImages = imagesState
-          .filter((img) => img.file !== null)
-          .map((img) => ({
-            file: img.file!,
-            isCover: img.isCover,
-          }));
-        console.log('Uploading images:', uploadedImages.length);
+
         const newBusinessData = {
           name: data.name,
           description: data.description,
@@ -287,13 +283,51 @@ BusinessFormProps) {
           locations: locationsWithCoords,
           isOnline: data.isOnline,
           specialOffers: data.specialOffers,
-          images: uploadedImages,
         };
         // Create the business-user
-        const { profile } =
+        const { business, profile } =
           await createBusinessMutation.mutateAsync(newBusinessData);
         // Update Zustand profile
         useUserStore.getState().setProfile(profile);
+
+        //IMAGES
+        const uploadedImagesWithUrl: {
+          businessId: string;
+          url: string;
+          isCover: boolean;
+        }[] = [];
+        const supabase = createClient();
+
+        const uploadedImages = imagesState
+          .filter((img) => img.file !== null)
+          .map((img) => ({
+            file: img.file!,
+            isCover: img.isCover,
+          }));
+        for (const { file, isCover } of uploadedImages) {
+          const filePath = `${business.id}/${Date.now()}_${file.name}`;
+          const { error } = await supabase.storage
+            .from('business-images')
+            .upload(filePath, file);
+          if (error) {
+            console.error('Upload error:', error);
+            continue;
+          }
+
+          const {
+            data: { publicUrl },
+          } = supabase.storage.from('business-images').getPublicUrl(filePath);
+          uploadedImagesWithUrl.push({
+            businessId: business.id,
+            url: publicUrl,
+            isCover,
+          });
+        }
+        //  Передаём URL в серверную функцию
+        if (uploadedImages.length) {
+          await uploadBusinessImages(uploadedImagesWithUrl, profile.userId);
+        }
+        //--------------------
         alert('Business created successfully!');
         // Reset form
         form.reset();

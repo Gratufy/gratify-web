@@ -7,7 +7,6 @@ import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 import {
   businessCategories,
   businesses,
-  businessImages,
   businessLocations,
   businessReviews,
   businessSpecialOffers,
@@ -436,32 +435,32 @@ export async function createBusiness(values: NewBusinessFormData) {
       );
     }
     // 🖼️ Загружаем изображения в Supabase Storage
-    if (values.images?.length) {
-      console.log('Uploading images:', values.images.length);
-      for (const { file, isCover } of values.images) {
-        const filePath = `${newBusiness.id}/${Date.now()}_${file.name}`;
-        const { error: uploadError } = await supabase.storage
-          .from('business-images')
-          .upload(filePath, file);
+    // if (values.images?.length) {
+    //   console.log('Uploading images:', values.images.length);
+    //   for (const { file, isCover } of values.images) {
+    //     const filePath = `${newBusiness.id}/${Date.now()}_${file.name}`;
+    //     const { error: uploadError } = await supabase.storage
+    //       .from('business-images')
+    //       .upload(filePath, file);
 
-        if (uploadError) {
-          console.error('Upload error:', uploadError);
-          continue;
-        }
+    //     if (uploadError) {
+    //       console.error('Upload error:', uploadError);
+    //       continue;
+    //     }
 
-        const {
-          data: { publicUrl },
-        } = supabase.storage.from('business-images').getPublicUrl(filePath);
-        console.log('Uploaded image URL:', publicUrl);
-        // добавляем URL в таблицу
-        await db.insert(businessImages).values({
-          businessId: newBusiness.id,
-          ownerId: user.id,
-          url: publicUrl,
-          isCover,
-        });
-      }
-    }
+    //     const {
+    //       data: { publicUrl },
+    //     } = supabase.storage.from('business-images').getPublicUrl(filePath);
+    //     console.log('Uploaded image URL:', publicUrl);
+    //     // добавляем URL в таблицу
+    //     await db.insert(businessImages).values({
+    //       businessId: newBusiness.id,
+    //       ownerId: user.id,
+    //       url: publicUrl,
+    //       isCover,
+    //     });
+    //   }
+    // }
     return {
       business: newBusiness,
       // check if we need profile??????!

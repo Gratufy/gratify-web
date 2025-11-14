@@ -104,10 +104,6 @@ export type NewBusinessFormData = {
   isOnline: boolean;
   locations: LocationFormData[];
   specialOffers: NewBusinessSpecialOffer['offerId'][];
-  images?: {
-    file: File;
-    isCover: boolean;
-  }[];
 };
 
 //Sort

@@ -1,10 +1,9 @@
 'use client';
-import React, { useState } from 'react';
-import { X, Star, StarOff, Upload } from 'lucide-react';
+import React from 'react';
+import { X, Star, StarOff } from 'lucide-react';
 import { Plus } from 'lucide-react';
 import ImageFolder from '@/assets/icons/form/image-folder.svg';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+
 import Image from 'next/image';
 
 interface PreviewImage {
