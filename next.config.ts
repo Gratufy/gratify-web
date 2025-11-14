@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
         hostname: 'picsum.photos',
         pathname: '/**',
       },
+
+      {
+        protocol: 'https',
+        hostname: 'mmpegbtxqddsiqbamdmk.supabase.co',
+        pathname: '/**',
+      },
     ],
   },
   webpack(config) {

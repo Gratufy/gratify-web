@@ -67,10 +67,10 @@ function BusinessCardShot({
         {/* <div className="ml-15 lg:ml-26 xl:ml-67 relative h-full flex-1 overflow-hidden"> */}
         <div className="relative flex h-full flex-1 justify-end">
           <div className="xl:w-7/10 w-6/7 relative h-full overflow-hidden">
-            {imageUrl ? (
+            {business.coverImageUrl ? (
               <>
                 <Image
-                  src={imageUrl}
+                  src={business.coverImageUrl}
                   alt={business.name}
                   fill
                   style={{ objectFit: 'cover' }}

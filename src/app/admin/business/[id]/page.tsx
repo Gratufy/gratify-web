@@ -1,6 +1,6 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
-import { getBusinessById } from '@/lib/actions/businesses';
+import { getBusinessById } from '@/lib/actions/getBusinessById';
 import BusinessEditDetails from '@/components/shared/BusinessEditDetails';
 import GoBackButton from '@/components/ui/GoBackButton';
 

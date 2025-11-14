@@ -6,11 +6,11 @@ import Karma from '../Karma';
 import BusinessReviews from '../BusinessReviews';
 
 import BusinessCardSkeleton from '../skeletons/BusinessCardSkeleton';
-import { BusinessWithCategoryName } from '@/types';
+import { BusinessWithDetails } from '@/types';
 import TitleBlock from './TitleBlock';
 import DescriptionBlock from './DescriptionBlock';
 import CaruselThumbnails from './caruselThumb/CaruselThumbnails';
-import { FAKE_IMAGES_ARR } from '@/const/fake-images-arr';
+// import { FAKE_IMAGES_ARR } from '@/const/fake-images-arr';
 import SpecialOffersBlock from './SpecialOffersBlock';
 
 import dynamic from 'next/dynamic';
@@ -22,7 +22,7 @@ interface Props {
   id: string;
 
   selectedCity: string;
-  initialData: BusinessWithCategoryName;
+  initialData: BusinessWithDetails;
 }
 
 function BusinessDetails({ id, selectedCity, initialData }: Props) {
@@ -59,7 +59,7 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
 
             {/* -------------------------------------------- */}
             <div className="mb-6 w-full">
-              <CaruselThumbnails slides={FAKE_IMAGES_ARR} />
+              <CaruselThumbnails slides={business.images} />
             </div>
             {/* -------------------------------------------- */}
             <div className="mb-6 w-full">
@@ -86,7 +86,7 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
           </section>
           {/* big screens */}
           <section className="lg:gap-25 xl:gap-30 hidden w-full lg:flex lg:w-[1024px] lg:px-[50px] lg:pb-5 xl:w-[1440px] xl:px-[150px] xl:pb-11">
-            <CaruselThumbnails slides={FAKE_IMAGES_ARR} />
+            <CaruselThumbnails slides={business.images} />
             <div className="flex w-full flex-col">
               <div className="border-elements-grey-400 mb-2 flex flex-col border-b lg:pb-4">
                 <div className="mb-10 w-full">

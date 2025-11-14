@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BusinessWithCategoryName } from '@/types';
+import { BusinessWithDetails } from '@/types';
 
 import BusinessDetails from './oneCardDetails/BusinessDetails';
 import DeleteEditBusinessBtns from '../business/DeleteEditBusinessBtns';
@@ -8,7 +8,7 @@ import DeleteEditBusinessBtns from '../business/DeleteEditBusinessBtns';
 interface Props {
   id: string;
 
-  initialData: BusinessWithCategoryName;
+  initialData: BusinessWithDetails;
 }
 
 function BusinessEditDetails({ id, initialData }: Props) {
