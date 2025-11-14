@@ -285,7 +285,7 @@
 }
 
 @utility caption {
-  @apply text-[8px] leading-[145%];
+  @apply text-xs leading-[145%];
 }
 
 /* H1 */

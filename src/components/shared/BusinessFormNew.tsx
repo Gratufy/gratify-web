@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { createClient } from '@/utils/supabase/client';
 import { Plus } from 'lucide-react';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import * as v from 'valibot';
@@ -10,7 +11,7 @@ import type { FieldErrors } from 'react-hook-form';
 import {
   Form,
   FormControl,
-  FormDescription,
+  // FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -30,11 +31,13 @@ import { BusinessUpdate, LocationFormData } from '@/types';
 import { useUserStore } from '@/stores/useUserStore';
 
 import dynamic from 'next/dynamic';
-import { saveBusinessLocations } from '@/lib/actions/businessLocation';
+// import { saveBusinessLocations } from '@/lib/actions/businessLocation';
 import { useAllSpecialOffers } from '@/hooks/useSpecialOffers';
-import CustomCheckBox from '../ui/CustomCheckBox';
-import { specialOffers } from '@/db/schema';
+//import CustomCheckBox from '../ui/CustomCheckBox';
+//import { specialOffers } from '@/db/schema';
 import OffersMultiSelect from './OffersMultiSelect';
+import ImagesBlock from './newForm/ImagesBlock';
+import { uploadBusinessImages } from '@/lib/actions/uploadBusinessImages';
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
 });
@@ -104,7 +107,11 @@ export const businessFormSchema = v.pipe(
 );
 
 type FormValues = v.InferOutput<typeof businessFormSchema>;
-
+interface PreviewImage {
+  file: File | null;
+  url: string | null;
+  isCover: boolean;
+}
 type BusinessFormProps = {
   businessId?: string; // if edit
   defaultValues?: FormValues;
@@ -120,6 +127,14 @@ BusinessFormProps) {
   const router = useRouter();
   const pathname = usePathname();
 
+  const MAX_PHOTOS = 10;
+  const [imagesState, setImagesState] = useState<PreviewImage[]>(
+    Array.from({ length: MAX_PHOTOS }, () => ({
+      file: null,
+      url: null,
+      isCover: false,
+    }))
+  );
   const {
     categories,
     // isLoading: isCategoriesLoading,
@@ -259,6 +274,7 @@ BusinessFormProps) {
         form.reset(defaultValues);
       } else {
         // Creating a new business
+
         const newBusinessData = {
           name: data.name,
           description: data.description,
@@ -269,10 +285,49 @@ BusinessFormProps) {
           specialOffers: data.specialOffers,
         };
         // Create the business-user
-        const { profile } =
+        const { business, profile } =
           await createBusinessMutation.mutateAsync(newBusinessData);
         // Update Zustand profile
         useUserStore.getState().setProfile(profile);
+
+        //IMAGES
+        const uploadedImagesWithUrl: {
+          businessId: string;
+          url: string;
+          isCover: boolean;
+        }[] = [];
+        const supabase = createClient();
+
+        const uploadedImages = imagesState
+          .filter((img) => img.file !== null)
+          .map((img) => ({
+            file: img.file!,
+            isCover: img.isCover,
+          }));
+        for (const { file, isCover } of uploadedImages) {
+          const filePath = `${business.id}/${Date.now()}_${file.name}`;
+          const { error } = await supabase.storage
+            .from('business-images')
+            .upload(filePath, file);
+          if (error) {
+            console.error('Upload error:', error);
+            continue;
+          }
+
+          const {
+            data: { publicUrl },
+          } = supabase.storage.from('business-images').getPublicUrl(filePath);
+          uploadedImagesWithUrl.push({
+            businessId: business.id,
+            url: publicUrl,
+            isCover,
+          });
+        }
+        //  Передаём URL в серверную функцию
+        if (uploadedImages.length) {
+          await uploadBusinessImages(uploadedImagesWithUrl, profile.userId);
+        }
+        //--------------------
         alert('Business created successfully!');
         // Reset form
         form.reset();
@@ -358,9 +413,10 @@ BusinessFormProps) {
           />
         </div>
         {/* Images Field */}
-        <div className="bg-background-grey-50 mb-10 w-full py-10">
-          <div className="mx-auto w-full max-[1024px]:px-4">ImagesBlock</div>
-        </div>
+        <ImagesBlock
+          imagesState={imagesState}
+          setImagesState={setImagesState}
+        />
         {/* Special offers Field  and Descriprion new*/}
         <div className="mb-10 w-full max-[1024px]:px-4">
           <FormField
@@ -625,7 +681,7 @@ BusinessFormProps) {
         </div>
 
         <button
-          className="shadow-menu bg-background-main-300 placeholder-sm px-[6px] py-3"
+          className="shadow-menu bg-background-main-300 placeholder-sm cursor-pointer px-[6px] py-3"
           type="submit"
         >
           Передати на модерацію

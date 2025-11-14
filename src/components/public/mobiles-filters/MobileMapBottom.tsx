@@ -16,11 +16,13 @@ export type MobileMapBottomProps = {
 };
 function MobileMapBottom({ businesses, city }: MobileMapBottomProps) {
   return (
-    <BusinessMapAll
-      businesses={businesses}
-      className="h-100 flex w-full"
-      selectedCity={city}
-    />
+    <div className="p-5">
+      <BusinessMapAll
+        businesses={businesses}
+        className="h-100 flex w-full"
+        selectedCity={city}
+      />
+    </div>
   );
 }
 
