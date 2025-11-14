@@ -13,6 +13,7 @@ import {
 //Business
 export type Business = typeof businesses.$inferSelect;
 
+// need to be changed
 export type BusinessWithCategoryName = Business & {
   categoryName: string | null;
   locations: {
@@ -29,6 +30,25 @@ export type BusinessWithCategoryName = Business & {
 //   filteredReviewCount: number; // dynamic count based on selected status
 // };
 
+// for one card details- NEW!!!!
+export type BusinessWithDetails = Business & {
+  categoryName: string | null;
+  locations: {
+    city: string;
+    address?: string | null;
+    latitude?: number | null;
+    longitude?: number | null;
+  }[];
+  specialOffers: (BusinessSpecialOffer & {
+    title: string | null;
+  })[];
+  images: BusinessImages;
+};
+
+export type BusinessImages = {
+  url: string;
+  isCover: boolean;
+}[];
 //old one
 export type AdminBusinessRow = {
   id: string;

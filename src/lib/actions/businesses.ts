@@ -26,6 +26,8 @@ import {
   GetBusinessesWithPagination,
   AdminBusinessRowType,
   UseAdminBusinessesParams,
+  BusinessImages,
+  BusinessWithDetails,
 } from '@/types/business';
 import { isAdmin } from '@/lib/helpers/isAdmin';
 import { userProfiles } from '@/db/schema';
@@ -33,6 +35,7 @@ import { userProfiles } from '@/db/schema';
 import { saveBusinessLocations } from '@/lib/actions/businessLocation';
 import { PAGE_SIZE } from '@/const/business';
 import { getSpecialOffersForBusinesses } from '../helpers/getSpecialOffersForBusinesses';
+import { getBusinessImages } from '../helpers/getBusinessImages';
 
 // function filterByCityAndOnline(
 //   businesses: BusinessWithCategoryName[],
@@ -316,7 +319,7 @@ export async function getBusinesses(
 // get business by ID
 export async function getBusinessById(
   id: string
-): Promise<BusinessWithCategoryName | null> {
+): Promise<BusinessWithDetails | null> {
   try {
     // if (!uuidValidate(id)) notFound();
     const rows = await db
@@ -337,8 +340,10 @@ export async function getBusinessById(
       ...rows[0],
       locations: [],
       specialOffers: [],
-    } as BusinessWithCategoryName;
+      images: [],
+    } as BusinessWithDetails;
 
+    // Locations
     for (const row of rows) {
       if (row.city) {
         businessData.locations.push({
@@ -363,6 +368,7 @@ export async function getBusinessById(
     //   )
     //   .where(eq(businessSpecialOffers.businessId, id));
 
+    // Special Offers
     const offerRows = await getSpecialOffersForBusinesses([id]);
 
     for (const offer of offerRows) {
@@ -373,102 +379,15 @@ export async function getBusinessById(
       });
     }
 
+    // Images
+    const imageRows = await getBusinessImages(id);
+
+    businessData.images = imageRows;
+
     return businessData;
   } catch (error) {
     console.error('Error fetching business:', error);
     throw new Error('Failed to fetch business');
-  }
-}
-
-// create business
-
-export async function createBusiness(values: NewBusinessFormData) {
-  try {
-    const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) throw new Error('Not authenticated');
-    // check profile
-    let [profile] = await db
-      .select()
-      .from(userProfiles)
-      .where(eq(userProfiles.userId, user.id))
-      .limit(1);
-
-    if (!profile) throw new Error('Profile not found');
-    //------
-    // change role
-    if (profile.role === 'USER') {
-      const [updatedProfile] = await db
-        .update(userProfiles)
-        .set({ role: 'BUSINESS', lastActivity: new Date() })
-        .where(eq(userProfiles.userId, user.id))
-        .returning();
-      profile = updatedProfile;
-    }
-    //-------
-    // create new business
-    const [newBusiness] = await db
-      .insert(businesses)
-      .values({
-        name: values.name,
-        description: values.description,
-        isOnline: values.isOnline,
-        website: values.website ?? null,
-        categoryId: values.categoryId,
-        ownerId: user.id, // insert ownerId
-      })
-      .returning();
-
-    // add all locations
-    await saveBusinessLocations(newBusiness.id, values.locations ?? []);
-
-    // save Special offers
-    if (values.specialOffers?.length) {
-      await db.insert(businessSpecialOffers).values(
-        values.specialOffers.map((offerId) => ({
-          businessId: newBusiness.id,
-          offerId,
-        }))
-      );
-    }
-    // 🖼️ Загружаем изображения в Supabase Storage
-    // if (values.images?.length) {
-    //   console.log('Uploading images:', values.images.length);
-    //   for (const { file, isCover } of values.images) {
-    //     const filePath = `${newBusiness.id}/${Date.now()}_${file.name}`;
-    //     const { error: uploadError } = await supabase.storage
-    //       .from('business-images')
-    //       .upload(filePath, file);
-
-    //     if (uploadError) {
-    //       console.error('Upload error:', uploadError);
-    //       continue;
-    //     }
-
-    //     const {
-    //       data: { publicUrl },
-    //     } = supabase.storage.from('business-images').getPublicUrl(filePath);
-    //     console.log('Uploaded image URL:', publicUrl);
-    //     // добавляем URL в таблицу
-    //     await db.insert(businessImages).values({
-    //       businessId: newBusiness.id,
-    //       ownerId: user.id,
-    //       url: publicUrl,
-    //       isCover,
-    //     });
-    //   }
-    // }
-    return {
-      business: newBusiness,
-      // check if we need profile??????!
-      profile,
-    };
-  } catch (error) {
-    console.error('Error creating business:', error);
-    throw new Error('Failed to create business');
   }
 }
 

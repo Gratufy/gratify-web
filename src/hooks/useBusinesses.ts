@@ -12,18 +12,19 @@ import { queryKeys } from '@/lib/reactQuery/queryKeys';
 import {
   //   getAllBusinesses,
   getBusinessById,
-  createBusiness,
   updateBusiness,
   deleteBusiness,
   getBusinesses,
   getBusinessesWithReviewStatus,
   getBusinessesForAdmin,
 } from '@/lib/actions/businesses';
+import { createBusiness } from '@/lib/actions/createBusiness';
 import {
   AdminBusinessRowType,
   BusinessReviewStatus,
   BusinessUpdate,
   BusinessWithCategoryName,
+  BusinessWithDetails,
   GetBusinessesParams,
   UseAdminBusinessesParams,
 } from '@/types';
@@ -87,7 +88,7 @@ export function useInfiniteBusinesses(
 //I do not remember if we use it
 export function useBusiness(
   businessId: string,
-  initialData?: BusinessWithCategoryName
+  initialData?: BusinessWithDetails
 ) {
   return useQuery({
     queryKey: queryKeys.businessById(businessId),

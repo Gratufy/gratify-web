@@ -5,9 +5,10 @@ import useEmblaCarousel from 'embla-carousel-react';
 import Image from 'next/image';
 
 import IconLeft from '@/assets/icons/general/icon-arrow-left.svg';
+import { BusinessImages } from '@/types';
 
 interface EmblaCarouselProps {
-  slides: string[];
+  slides: BusinessImages;
   options?: object;
 }
 
@@ -66,7 +67,7 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
           ref={emblaMainRef}
         >
           <div className="embla__container flex h-[317px] lg:h-[414px] xl:h-[424px]">
-            {slides.map((src, index) => (
+            {slides.map((image, index) => (
               <div
                 //
                 className="embla__slide relative flex-[0_0_100%]"
@@ -74,7 +75,7 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
               >
                 <div className="relative mx-auto h-[317px] w-[343px] lg:h-[414px] lg:w-[450px] xl:h-[424px] xl:w-[461px]">
                   <Image
-                    src={src}
+                    src={image.url}
                     alt={`Image ${index + 1}`}
                     fill
                     className="object-cover"
@@ -94,7 +95,7 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
           ref={emblaThumbsRef}
         >
           <div className="embla-thumbs__container lg:h-18 xl:h-21 h-21 flex items-center gap-4 lg:gap-8 xl:gap-5">
-            {slides.map((src, index) => (
+            {slides.map((image, index) => (
               <button
                 key={index}
                 onClick={() => onThumbClick(index)}
@@ -105,7 +106,7 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
                 }`}
               >
                 <Image
-                  src={src}
+                  src={image.url}
                   alt={`Thumb ${index + 1}`}
                   // width={80}
                   // height={80}
