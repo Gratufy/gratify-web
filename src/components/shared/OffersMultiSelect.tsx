@@ -12,7 +12,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
+import CheckIcon from '@/assets/icons/general/icon-check.svg';
 type Checked = DropdownMenuCheckboxItemProps['checked'];
 import { SpecialOffer } from '@/types';
 
@@ -31,15 +33,37 @@ function OffersMultiSelect({
   error,
   className,
 }: CustomCheckBoxProps) {
-  const [selectedOffers, setSelectedOffers] = useState<string[]>([]);
+  const [localSelectedOffers, setLocalSelectedOffers] = useState<
+    SpecialOffer[]
+  >([]);
   const [showStatusBar, setShowStatusBar] = useState<Checked>(true);
   const [showActivityBar, setShowActivityBar] = useState<Checked>(false);
   const [showPanel, setShowPanel] = useState<Checked>(false);
   if (!offers || offers.length === 0) return <p>No special offers found</p>;
   return (
     <div className={`w-[70%] shrink-0`}>
+      <div className="mb-2 flex flex-col gap-2">
+        {localSelectedOffers.map((offer) => (
+          <div
+            key={offer.id}
+            className="border-elements-grey-400 flex items-center justify-between border-[0.5px] px-4 py-1"
+          >
+            <p className="placeholder-sm">{offer.title}</p>
+            <button
+              onClick={() =>
+                setLocalSelectedOffers((prev) =>
+                  prev.filter((id) => id !== offer)
+                )
+              }
+              className="cursor-pointer border-none outline-none"
+            >
+              <CrossIcon className="size-4" />
+            </button>
+          </div>
+        ))}
+      </div>
       <DropdownMenu>
-        <DropdownMenuTrigger className="border-elements-grey-400 bg-background-white xl:placeholder-base lg:placeholder-sm placeholder-xs flex w-full items-center justify-between border px-4 py-2">
+        <DropdownMenuTrigger className="border-elements-grey-400 bg-background-white xl:placeholder-base placeholder-sm flex w-full items-center justify-between border px-4 py-2">
           <span>Спеціальні пропозиції</span>
           <ChevronDownIcon className="size-5" />
         </DropdownMenuTrigger>
@@ -54,13 +78,19 @@ function OffersMultiSelect({
               <Checkbox
                 id={offer.id}
                 checked={selectedOfferIds.includes(offer.id)}
-                onCheckedChange={(checked) =>
-                  onChange(offer.id, checked === true)
-                }
+                onCheckedChange={(checked) => {
+                  const isChecked = checked === true;
+                  onChange(offer.id, isChecked);
+                  setLocalSelectedOffers((prev) =>
+                    isChecked
+                      ? [...prev, offer]
+                      : prev.filter((id) => id !== offer)
+                  );
+                }}
               />
               <Label
                 htmlFor={offer.id}
-                className="xl:placeholder-base lg:placeholder-sm placeholder-xs"
+                className="xl:placeholder-base placeholder-sm"
               >
                 {offer.title}
               </Label>
