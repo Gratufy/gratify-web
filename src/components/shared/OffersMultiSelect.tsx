@@ -50,11 +50,12 @@ function OffersMultiSelect({
           >
             <p className="placeholder-sm">{offer.title}</p>
             <button
-              onClick={() =>
+              onClick={() => {
                 setLocalSelectedOffers((prev) =>
-                  prev.filter((id) => id !== offer)
-                )
-              }
+                  prev.filter((o) => o.id !== offer.id)
+                );
+                onChange(offer.id, false);
+              }}
               className="cursor-pointer border-none outline-none"
             >
               <CrossIcon className="size-4" />
