@@ -20,9 +20,12 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
-    console.log('imagesState before update:', imagesState);
+
     setImagesState((prev) => {
       const updated = [...prev];
+
+      // Проверяем: есть ли уже установленная обложка?
+      const hasCover = updated.some((img) => img.isCover);
       // найти первую пустую ячейку
 
       for (const file of files) {
@@ -31,13 +34,17 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
           alert('Досягнуто максимальну кількість фото');
           break;
         }
+
         updated[emptySlot] = {
           file,
           url: URL.createObjectURL(file),
           isCover: false,
         };
       }
-
+      if (!hasCover) {
+        const firstFilled = updated.findIndex((img) => img.file);
+        if (firstFilled !== -1) updated[firstFilled].isCover = true;
+      }
       return updated;
     });
     console.log('imagesState after update:', imagesState);

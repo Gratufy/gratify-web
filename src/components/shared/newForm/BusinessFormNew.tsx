@@ -21,7 +21,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import CustomSelect from '../ui/CustomSelect';
+import CustomSelect from '../../ui/CustomSelect';
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 import { useCheckAddress } from '@/hooks/useBusinessLocation';
@@ -35,8 +35,8 @@ import dynamic from 'next/dynamic';
 import { useAllSpecialOffers } from '@/hooks/useSpecialOffers';
 //import CustomCheckBox from '../ui/CustomCheckBox';
 //import { specialOffers } from '@/db/schema';
-import OffersMultiSelect from './OffersMultiSelect';
-import ImagesBlock from './newForm/ImagesBlock';
+import OffersMultiSelect from '../OffersMultiSelect';
+import ImagesBlock from './ImagesBlock';
 import { uploadBusinessImages } from '@/lib/actions/uploadBusinessImages';
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
