@@ -75,8 +75,18 @@ function OffersMultiSelect({
         >
           {/* <DropdownMenuLabel>Select Categories</DropdownMenuLabel> */}
           {offers.map((offer) => (
-            <div key={offer.id} className="flex items-center gap-4">
+            <div
+              key={offer.id}
+              className="flex items-center justify-between gap-2"
+            >
+              <Label
+                htmlFor={offer.id}
+                className="xl:placeholder-base placeholder-sm flex-1"
+              >
+                {offer.title}
+              </Label>
               <Checkbox
+                className="data-[state=checked]:text-text-950-grey border-none data-[state=checked]:bg-white"
                 id={offer.id}
                 checked={selectedOfferIds.includes(offer.id)}
                 onCheckedChange={(checked) => {
@@ -89,12 +99,6 @@ function OffersMultiSelect({
                   );
                 }}
               />
-              <Label
-                htmlFor={offer.id}
-                className="xl:placeholder-base placeholder-sm"
-              >
-                {offer.title}
-              </Label>
             </div>
           ))}
         </DropdownMenuContent>
