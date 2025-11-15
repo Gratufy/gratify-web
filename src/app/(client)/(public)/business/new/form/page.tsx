@@ -1,7 +1,7 @@
 import React from 'react';
 
 import GoBackButton from '@/components/ui/GoBackButton';
-import BusinessFormNew from '@/components/shared/BusinessFormNew';
+import BusinessFormNew from '@/components/shared/newForm/BusinessFormNew';
 
 function publicNewBusiness() {
   return (

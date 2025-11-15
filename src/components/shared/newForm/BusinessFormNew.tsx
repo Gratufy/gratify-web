@@ -21,7 +21,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import CustomSelect from '../ui/CustomSelect';
+import CustomSelect from '../../ui/CustomSelect';
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 import { useCheckAddress } from '@/hooks/useBusinessLocation';
@@ -35,8 +35,8 @@ import dynamic from 'next/dynamic';
 import { useAllSpecialOffers } from '@/hooks/useSpecialOffers';
 //import CustomCheckBox from '../ui/CustomCheckBox';
 //import { specialOffers } from '@/db/schema';
-import OffersMultiSelect from './OffersMultiSelect';
-import ImagesBlock from './newForm/ImagesBlock';
+import OffersMultiSelect from '../OffersMultiSelect';
+import ImagesBlock from './ImagesBlock';
 import { uploadBusinessImages } from '@/lib/actions/uploadBusinessImages';
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
@@ -372,7 +372,7 @@ BusinessFormProps) {
                   <FormControl className="w-[70%] shrink-0">
                     <Input
                       id="name"
-                      className="border-elements-grey-400 bg-background-white placeholder:text-text-500-grey placeholder-xs cursor-text p-2"
+                      className="bg-background-white input-custom p-2"
                       placeholder="Назва"
                       {...field}
                     />
@@ -395,7 +395,7 @@ BusinessFormProps) {
                   </FormLabel>
                   <FormControl className="">
                     <CustomSelect
-                      className="placeholder:text-text-950-grey border-elements-grey-400 bg-background-white placeholder-xs w-[70%] px-4 py-1"
+                      className="standart bg-background-white w-[70%] px-4"
                       value={field.value}
                       onChange={field.onChange}
                       options={categories} // array of category objects
@@ -494,7 +494,7 @@ BusinessFormProps) {
                     <Textarea
                       id="description"
                       maxLength={3000}
-                      className="border-elements-grey-400 bg-background-white placeholder:text-text-500-grey h-23 placeholder-xs ) cursor-text p-2"
+                      className="input-custom h-23 px-2"
                       placeholder="Коротко опишіть ваші головні переваги, унікальні торгові пропозиціі"
                       {...field}
                     />
@@ -543,7 +543,7 @@ BusinessFormProps) {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        className="border-elements-grey-400 bg-background-white placeholder:text-text-500-grey placeholder-xs cursor-text p-2"
+                        className="input-custom cursor-text px-2"
                         placeholder="Посилання"
                         {...field}
                       />
@@ -573,7 +573,7 @@ BusinessFormProps) {
                         {/* <FormLabel>City</FormLabel> */}
                         <FormControl>
                           <CustomSelect
-                            className="placeholder:text-text-950-grey border-elements-grey-400 bg-background-white w-full px-4 py-1 placeholder:text-xs"
+                            className="standart w-full px-4"
                             value={field.value}
                             onChange={field.onChange}
                             options={UKRAINE_REGIONAL_CENTERS}
@@ -598,7 +598,7 @@ BusinessFormProps) {
                           <Input
                             {...field}
                             placeholder="Вулиця, будівля, приміщення"
-                            className="border-elements-grey-400 bg-background-white placeholder:text-text-500-grey mb-4 cursor-text p-2 placeholder:text-xs"
+                            className="input-custom mb-4 px-2"
                           />
                         </FormControl>
                         <FormMessage />
@@ -609,7 +609,7 @@ BusinessFormProps) {
                       `locations.${index}.address`.trim() !== "" && ( */}
                   <button
                     type="button"
-                    className="placeholder-sm bg-elements-grey-200 border-background-main-300 mb-5 flex w-40 cursor-pointer items-center justify-center border px-3 py-[6px]"
+                    className="placeholder-sm bg-elements-grey-200 border-background-main-300 mb-5 flex w-40 cursor-pointer items-center justify-center border-[0.5px] px-3 py-[6px]"
                     // onClick={() => checkAddress(index)}
                     onClick={() => handleOpenCheck(index)}
                     disabled={checkAddressMutation.isPending}
@@ -680,10 +680,7 @@ BusinessFormProps) {
           </div>
         </div>
 
-        <button
-          className="shadow-menu bg-background-main-300 placeholder-sm cursor-pointer px-[6px] py-3"
-          type="submit"
-        >
+        <button className="btn-aprove px-3" type="submit">
           Передати на модерацію
         </button>
       </form>

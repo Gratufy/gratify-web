@@ -349,17 +349,24 @@
 @utility link-big {
   @apply text-text-link text-xs leading-[140%] underline lg:text-sm xl:text-base;
 }
-/* @layer components; .card .modal Повторно используемые UI-компоненты*/
-/*EXMP !!!  @layer components {
-  .btn-primary {
-    @apply bg-accent hover:bg-accent/80 rounded-md px-4 py-2 text-white;
-  }
 
-  .card {
-    @apply rounded-lg bg-white p-4 shadow-md;
-  }
-} */
+/* w-30  px-3*/
+@utility btn-reject {
+  @apply bg-background-white xl:placeholder-base shadow-menu placeholder-sm border-background-main-300 flex h-8 cursor-pointer items-center justify-center border py-[6px];
+}
+@utility btn-aprove {
+  @apply placeholder-sm xl:placeholder-base bg-background-main-300 border-background-main-300 shadow-menu flex h-8 cursor-pointer items-center justify-center border py-[6px];
+}
 
+/* px-4  */
+@utility input-custom {
+  @apply border-elements-grey-400 xl:placeholder-base bg-background-white placeholder:text-text-500-grey placeholder-sm flex cursor-text items-center border-[0.5] py-2;
+}
+
+/*bg-background-grey-50 standart justify-between px-4  */
+@utility standart {
+  @apply border-elements-grey-400 xl:placeholder-base placeholder-sm flex items-center border-[0.5px] py-[6px];
+}
 @layer components {
   .sr-only {
     position: absolute;
@@ -421,7 +428,7 @@
 textarea::placeholder,
 input::placeholder {
   font-family: var(--font-family);
-  font-size: 0.75rem; /* text-xs */
+  font-size: 0.875rem; /* text-sm */
   line-height: 1.4; /* 140% */
 }
 

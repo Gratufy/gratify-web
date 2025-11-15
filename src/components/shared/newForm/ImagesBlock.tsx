@@ -20,9 +20,12 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
-    console.log('imagesState before update:', imagesState);
+
     setImagesState((prev) => {
       const updated = [...prev];
+
+      // Проверяем: есть ли уже установленная обложка?
+      const hasCover = updated.some((img) => img.isCover);
       // найти первую пустую ячейку
 
       for (const file of files) {
@@ -31,13 +34,17 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
           alert('Досягнуто максимальну кількість фото');
           break;
         }
+
         updated[emptySlot] = {
           file,
           url: URL.createObjectURL(file),
           isCover: false,
         };
       }
-
+      if (!hasCover) {
+        const firstFilled = updated.findIndex((img) => img.file);
+        if (firstFilled !== -1) updated[firstFilled].isCover = true;
+      }
       return updated;
     });
     console.log('imagesState after update:', imagesState);
@@ -68,7 +75,7 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
     <div className="bg-background-grey-50 mb-10 w-full py-10">
       <div className="mx-auto flex w-full flex-col items-center gap-6 max-[1024px]:px-4">
         <div className="flex justify-center gap-3 px-7">
-          <label className="shadow-menu border-background-main-300 placeholder-sm flex h-8 w-[134px] cursor-pointer items-center gap-[6px] border bg-white px-3 py-[6px]">
+          <label className="btn-reject w-[134px] gap-[6px] border px-3">
             <Plus className="size-4" />
             <p>Додати фото</p>
             <input
