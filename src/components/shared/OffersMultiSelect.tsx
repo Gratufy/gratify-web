@@ -96,7 +96,7 @@ function OffersMultiSelect({
       {/* Own offer pannel */}
       {showOwnPanel && (
         <div className="mb-5 flex flex-col gap-3">
-          <div className="bg-background-grey-50 border-elements-grey-400 flex items-center justify-between border-[0.5px] px-4 py-1">
+          <div className="bg-background-grey-50 standart justify-between px-4">
             <p className="placeholder-sm">свій вариант</p>
             <button
               onClick={() => {
@@ -128,7 +128,7 @@ function OffersMultiSelect({
         </div>
       )}
       <DropdownMenu>
-        <DropdownMenuTrigger className="xl:placeholder-base placeholder-sm input-custom w-full justify-between px-4">
+        <DropdownMenuTrigger className="placeholder-sm standart w-full cursor-pointer justify-between px-4">
           <span>Спеціальні пропозиції</span>
           <ChevronDownIcon className="size-5" />
         </DropdownMenuTrigger>
@@ -145,12 +145,12 @@ function OffersMultiSelect({
             >
               <Label
                 htmlFor={offer.id}
-                className="xl:placeholder-base placeholder-sm flex-1"
+                className="xl:placeholder-base placeholder-sm flex-1 cursor-pointer"
               >
                 {offer.title.toLowerCase()}
               </Label>
               <Checkbox
-                className="data-[state=checked]:text-text-950-grey data-[state=checked]:bg-background-white border-none"
+                className="data-[state=checked]:text-text-950-grey data-[state=checked]:bg-background-white cursor-pointer border-none"
                 id={offer.id}
                 checked={selectedOfferIds.includes(offer.id)}
                 onCheckedChange={(checked) => {
@@ -169,9 +169,9 @@ function OffersMultiSelect({
             onClick={() => {
               setShowOwnPanel(true);
             }}
-            className="placeholder-sm"
+            className="placeholder-sm flex w-full cursor-pointer justify-start"
           >
-            cвій вариант
+            <span>cвій вариант</span>
           </button>
         </DropdownMenuContent>
       </DropdownMenu>

@@ -75,7 +75,7 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
     <div className="bg-background-grey-50 mb-10 w-full py-10">
       <div className="mx-auto flex w-full flex-col items-center gap-6 max-[1024px]:px-4">
         <div className="flex justify-center gap-3 px-7">
-          <label className="shadow-menu border-background-main-300 placeholder-sm flex h-8 w-[134px] cursor-pointer items-center gap-[6px] border bg-white px-3 py-[6px]">
+          <label className="btn-reject w-[134px] gap-[6px] border px-3">
             <Plus className="size-4" />
             <p>Додати фото</p>
             <input
