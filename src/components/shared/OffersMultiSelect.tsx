@@ -5,10 +5,8 @@ import { Label } from '@/components/ui/label';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuCheckboxItem,
-  DropdownMenuLabel,
+
+  // DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
@@ -17,6 +15,7 @@ import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import CheckIcon from '@/assets/icons/general/icon-check.svg';
 type Checked = DropdownMenuCheckboxItemProps['checked'];
 import { SpecialOffer } from '@/types';
+import { Input } from '../ui/input';
 
 type CustomCheckBoxProps = {
   offers: SpecialOffer[]; // all offers
@@ -52,7 +51,7 @@ function OffersMultiSelect({
           {localSelectedOffers.map((offer) => (
             <div
               key={offer.id}
-              className="bg-background-grey-50 border-elements-grey-400 flex items-center justify-between border-[0.5px] px-4 py-1"
+              className="bg-background-grey-50 standart justify-between px-4"
             >
               <p className="placeholder-sm">{offer.title}</p>
               <button
@@ -96,7 +95,7 @@ function OffersMultiSelect({
       )}
       {/* Own offer pannel */}
       {showOwnPanel && (
-        <div className="mb-3 flex flex-col gap-5">
+        <div className="mb-5 flex flex-col gap-3">
           <div className="bg-background-grey-50 border-elements-grey-400 flex items-center justify-between border-[0.5px] px-4 py-1">
             <p className="placeholder-sm">свій вариант</p>
             <button
@@ -110,10 +109,26 @@ function OffersMultiSelect({
               <CrossIcon className="size-4" />
             </button>
           </div>
+          <Label htmlFor="own-offer" className="sr-only">
+            власну пропозиція
+          </Label>
+          <Input
+            id="own-offer"
+            className="input-custom px-4"
+            placeholder="Напишить власну пропозицію"
+          />
+          <div className="flex justify-between">
+            <button type="button" className="btn-reject px-3">
+              Скасувати
+            </button>
+            <button type="button" className="btn-aprove px-3">
+              Зберегти
+            </button>
+          </div>
         </div>
       )}
       <DropdownMenu>
-        <DropdownMenuTrigger className="border-elements-grey-400 bg-background-white xl:placeholder-base placeholder-sm flex w-full items-center justify-between border px-4 py-2">
+        <DropdownMenuTrigger className="xl:placeholder-base placeholder-sm input-custom w-full justify-between px-4">
           <span>Спеціальні пропозиції</span>
           <ChevronDownIcon className="size-5" />
         </DropdownMenuTrigger>
@@ -135,7 +150,7 @@ function OffersMultiSelect({
                 {offer.title.toLowerCase()}
               </Label>
               <Checkbox
-                className="data-[state=checked]:text-text-950-grey border-none data-[state=checked]:bg-white"
+                className="data-[state=checked]:text-text-950-grey data-[state=checked]:bg-background-white border-none"
                 id={offer.id}
                 checked={selectedOfferIds.includes(offer.id)}
                 onCheckedChange={(checked) => {
