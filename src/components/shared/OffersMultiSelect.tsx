@@ -38,38 +38,87 @@ function OffersMultiSelect({
   >([]);
   const [showStatusBar, setShowStatusBar] = useState<Checked>(true);
   const [showActivityBar, setShowActivityBar] = useState<Checked>(false);
-  const [showPanel, setShowPanel] = useState<Checked>(false);
+  const [showOwnPanel, setShowOwnPanel] = useState<boolean>(false);
+  const [ownOfferLocal, setOwnOfferLocal] = useState<string>([]);
+  const [ownOfferLocalArr, setOwnOfferLocalArr] = useState<string[]>([]);
   if (!offers || offers.length === 0) return <p>No special offers found</p>;
   return (
     <div className={`w-[70%] shrink-0`}>
-      <div className="mb-2 flex flex-col gap-2">
-        {localSelectedOffers.map((offer) => (
-          <div
-            key={offer.id}
-            className="border-elements-grey-400 flex items-center justify-between border-[0.5px] px-4 py-1"
-          >
-            <p className="placeholder-sm">{offer.title}</p>
+      {/* choosed offers */}
+
+      {!showOwnPanel && (
+        <div className="mb-2 flex flex-col gap-2">
+          {/* choosed common offers */}
+          {localSelectedOffers.map((offer) => (
+            <div
+              key={offer.id}
+              className="bg-background-grey-50 border-elements-grey-400 flex items-center justify-between border-[0.5px] px-4 py-1"
+            >
+              <p className="placeholder-sm">{offer.title}</p>
+              <button
+                onClick={() => {
+                  setLocalSelectedOffers((prev) =>
+                    prev.filter((o) => o.id !== offer.id)
+                  );
+                  onChange(offer.id, false);
+                }}
+                className="cursor-pointer border-none outline-none"
+              >
+                <CrossIcon className="size-4" />
+              </button>
+            </div>
+          ))}
+          {/* choosed own offers */}
+          {ownOfferLocalArr.length > 0 && (
+            <>
+              {ownOfferLocalArr.map((ownOffer, ind) => (
+                <div
+                  key={ind}
+                  className="bg-background-grey-50 border-elements-grey-400 flex items-center justify-between border-[0.5px] px-4 py-1"
+                >
+                  <p className="placeholder-sm">{ownOffer}</p>
+                  <button
+                    onClick={() => {
+                      setOwnOfferLocalArr((prev) =>
+                        prev.filter((o) => o !== ownOffer)
+                      );
+                      //onChange(offer.id, false);
+                    }}
+                    className="cursor-pointer border-none outline-none"
+                  >
+                    <CrossIcon className="size-4" />
+                  </button>
+                </div>
+              ))}
+            </>
+          )}
+        </div>
+      )}
+      {/* Own offer pannel */}
+      {showOwnPanel && (
+        <div className="mb-3 flex flex-col gap-5">
+          <div className="bg-background-grey-50 border-elements-grey-400 flex items-center justify-between border-[0.5px] px-4 py-1">
+            <p className="placeholder-sm">свій вариант</p>
             <button
               onClick={() => {
-                setLocalSelectedOffers((prev) =>
-                  prev.filter((o) => o.id !== offer.id)
-                );
-                onChange(offer.id, false);
+                //setOwnOfferLocalArr((prev)=>[...prev,ownOfferLocal]);
+                // onChange(offer.id, false);
+                setShowOwnPanel(false);
               }}
               className="cursor-pointer border-none outline-none"
             >
               <CrossIcon className="size-4" />
             </button>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
       <DropdownMenu>
         <DropdownMenuTrigger className="border-elements-grey-400 bg-background-white xl:placeholder-base placeholder-sm flex w-full items-center justify-between border px-4 py-2">
           <span>Спеціальні пропозиції</span>
           <ChevronDownIcon className="size-5" />
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className="max-h-60 w-[var(--radix-dropdown-menu-trigger-width)] space-y-2 overflow-y-auto p-2"
+          className="max-h-60 w-[var(--radix-dropdown-menu-trigger-width)] space-y-4 overflow-y-auto rounded-none p-2"
           align="start"
           side="bottom"
         >
@@ -83,7 +132,7 @@ function OffersMultiSelect({
                 htmlFor={offer.id}
                 className="xl:placeholder-base placeholder-sm flex-1"
               >
-                {offer.title}
+                {offer.title.toLowerCase()}
               </Label>
               <Checkbox
                 className="data-[state=checked]:text-text-950-grey border-none data-[state=checked]:bg-white"
@@ -101,6 +150,14 @@ function OffersMultiSelect({
               />
             </div>
           ))}
+          <button
+            onClick={() => {
+              setShowOwnPanel(true);
+            }}
+            className="placeholder-sm"
+          >
+            cвій вариант
+          </button>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
