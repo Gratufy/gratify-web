@@ -38,7 +38,7 @@ function OffersMultiSelect({
   const [showStatusBar, setShowStatusBar] = useState<Checked>(true);
   const [showActivityBar, setShowActivityBar] = useState<Checked>(false);
   const [showOwnPanel, setShowOwnPanel] = useState<boolean>(false);
-  const [ownOfferLocal, setOwnOfferLocal] = useState<string>([]);
+  //const [ownOfferLocal, setOwnOfferLocal] = useState<string>([]);
   const [ownOfferLocalArr, setOwnOfferLocalArr] = useState<string[]>([]);
   if (!offers || offers.length === 0) return <p>No special offers found</p>;
   return (
