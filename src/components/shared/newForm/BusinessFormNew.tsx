@@ -176,6 +176,7 @@ BusinessFormProps) {
       append({ city: '', address: '' });
     }
   }, [defaultValues, fields.length, append]);
+
   // open map and check location for a specific location index
   async function handleOpenCheck(index: number) {
     setMapOpenIndex(null);
@@ -591,29 +592,36 @@ BusinessFormProps) {
                   />
                   {/* {`locations.${index}.address` &&
                       `locations.${index}.address`.trim() !== "" && ( */}
-                  <button
-                    type="button"
-                    className="placeholder-sm bg-elements-grey-200 border-background-main-300 mb-5 flex w-40 cursor-pointer items-center justify-center border-[0.5px] px-3 py-[6px]"
-                    // onClick={() => checkAddress(index)}
-                    onClick={() => handleOpenCheck(index)}
-                    disabled={checkAddressMutation.isPending}
-                  >
-                    {checkAddressMutation.isPending
-                      ? 'Перевіряємо...'
-                      : 'Перевірити локацію'}
-                  </button>
-                  {/* )} */}
-                  {fields[index]?.city?.trim() !== '' && (
-                    <Button
-                      type="button"
-                      variant="destructive"
-                      className="placeholder-sm rounded-none"
-                      onClick={() => remove(index)}
-                    >
-                      <CrossIcon className="mr-2 size-4" />{' '}
-                      <span>Видалити адресу</span>
-                    </Button>
-                  )}
+                  <div className="flex flex-col lg:mb-5 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="flex items-center gap-4">
+                      <span className="caption">
+                        Можете перевірити локацію на мапі перед збереженням
+                      </span>
+                      <button
+                        type="button"
+                        className="placeholder-sm bg-elements-grey-200 border-background-main-300 mb-5 flex w-40 cursor-pointer items-center justify-center border-[0.5px] px-3 py-[6px] lg:mb-0"
+                        // onClick={() => checkAddress(index)}
+                        onClick={() => handleOpenCheck(index)}
+                        disabled={checkAddressMutation.isPending}
+                      >
+                        {checkAddressMutation.isPending
+                          ? 'Перевіряємо...'
+                          : 'Перевірити локацію'}
+                      </button>
+                    </div>
+
+                    {/* )} */}
+                    {fields[index]?.city?.trim() !== '' && (
+                      <button
+                        type="button"
+                        className="bg-icons-color-accent/60 placeholder-sm flex w-44 cursor-pointer items-center justify-center border-[0.5px] px-3 py-[6px] lg:mb-0"
+                        onClick={() => remove(index)}
+                      >
+                        <CrossIcon className="mr-2 size-4" />{' '}
+                        <span>Видалити адресу</span>
+                      </button>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
