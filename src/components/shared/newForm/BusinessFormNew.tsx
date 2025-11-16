@@ -358,18 +358,18 @@ BusinessFormProps) {
         className="flex w-full flex-col items-center justify-center"
       >
         {/* About Field */}
-        <div className="mb-10 w-full max-[1024px]:px-4">
+        <div className="mb-10 w-full max-[1024px]:px-4 lg:flex lg:items-center lg:justify-between">
           {/* Name Field */}
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
-              <FormItem className="mb-5 w-full">
-                <div className="flex w-full justify-between gap-4">
+              <FormItem className="mb-5 w-full lg:mb-0">
+                <div className="flex w-full justify-between gap-4 lg:justify-start lg:gap-8">
                   <FormLabel htmlFor="name" className="title-h6">
                     Назва*
                   </FormLabel>
-                  <FormControl className="w-[70%] shrink-0">
+                  <FormControl className="w-[70%] shrink-0 lg:w-[213px]">
                     <Input
                       id="name"
                       className="bg-background-white input-custom p-2"
@@ -389,13 +389,13 @@ BusinessFormProps) {
             name="category"
             render={({ field }) => (
               <FormItem className="w-full">
-                <div className="flex w-full justify-between gap-4">
+                <div className="flex w-full justify-between gap-4 lg:justify-end lg:gap-8">
                   <FormLabel htmlFor="category" className="title-h6">
                     Категорія*
                   </FormLabel>
                   <FormControl className="">
                     <CustomSelect
-                      className="standart bg-background-white w-[70%] px-4"
+                      className="standart bg-background-white w-[70%] px-4 lg:w-[237px]"
                       value={field.value}
                       onChange={field.onChange}
                       options={categories} // array of category objects
@@ -452,23 +452,6 @@ BusinessFormProps) {
                       // error={form.formState.errors.specialOffers?.message as string}
                     />
                   </FormControl>
-                  {/* <FormControl className="w-[70%] shrink-0">
-                    <CustomCheckBox
-                      className="placeholder:text-text-950-grey border-elements-grey-400 bg-background-white w-[70%] px-4 py-1 placeholder:text-xs"
-                      offers={allSpecialOffers ?? []}
-                      selectedOfferIds={field.value ?? []}
-                      onChange={(offerId, checked) => {
-                        let newValue = field.value ?? [];
-                        if (checked) {
-                          newValue = [...newValue, offerId];
-                        } else {
-                          newValue = newValue.filter((id) => id !== offerId);
-                        }
-                        field.onChange(newValue);
-                      }}
-                      // error={form.formState.errors.specialOffers?.message as string}
-                    />
-                  </FormControl> */}
                 </div>
 
                 {/* <FormMessage /> */}

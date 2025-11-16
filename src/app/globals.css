@@ -442,7 +442,7 @@ input::placeholder {
 }
 
 /* XL breakpoint - placeholder-base */
-@media (min-width: 1280px) {
+@media (min-width: 1440px) {
   textarea::placeholder,
   input::placeholder {
     font-size: 1rem; /* text-base */
