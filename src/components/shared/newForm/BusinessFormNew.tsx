@@ -176,6 +176,7 @@ BusinessFormProps) {
       append({ city: '', address: '' });
     }
   }, [defaultValues, fields.length, append]);
+
   // open map and check location for a specific location index
   async function handleOpenCheck(index: number) {
     setMapOpenIndex(null);
@@ -358,21 +359,21 @@ BusinessFormProps) {
         className="flex w-full flex-col items-center justify-center"
       >
         {/* About Field */}
-        <div className="mb-10 w-full max-[1024px]:px-4">
+        <div className="container mb-10 w-full max-[1024px]:px-4 lg:flex lg:items-center lg:justify-between">
           {/* Name Field */}
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
-              <FormItem className="mb-5 w-full">
-                <div className="flex w-full justify-between gap-4">
+              <FormItem className="mb-5 w-full lg:mb-0">
+                <div className="flex w-full justify-between gap-4 lg:justify-start lg:gap-8">
                   <FormLabel htmlFor="name" className="title-h6">
                     Назва*
                   </FormLabel>
-                  <FormControl className="w-[70%] shrink-0">
+                  <FormControl className="w-[70%] shrink-0 lg:w-[213px]">
                     <Input
                       id="name"
-                      className="bg-background-white input-custom p-2"
+                      className="input-custom px-2 lg:px-3"
                       placeholder="Назва"
                       {...field}
                     />
@@ -389,13 +390,13 @@ BusinessFormProps) {
             name="category"
             render={({ field }) => (
               <FormItem className="w-full">
-                <div className="flex w-full justify-between gap-4">
+                <div className="flex w-full justify-between gap-4 lg:justify-end lg:gap-8">
                   <FormLabel htmlFor="category" className="title-h6">
                     Категорія*
                   </FormLabel>
                   <FormControl className="">
                     <CustomSelect
-                      className="standart bg-background-white w-[70%] px-4"
+                      className="standart bg-background-white w-[70%] px-4 lg:w-[237px]"
                       value={field.value}
                       onChange={field.onChange}
                       options={categories} // array of category objects
@@ -418,13 +419,13 @@ BusinessFormProps) {
           setImagesState={setImagesState}
         />
         {/* Special offers Field  and Descriprion new*/}
-        <div className="mb-10 w-full max-[1024px]:px-4">
+        <div className="container mb-10 w-full max-[1024px]:px-4 lg:flex lg:gap-6">
           <FormField
             control={form.control}
             name="specialOffers"
             render={({ field }) => (
-              <FormItem className="mb-6 w-full">
-                <div className="flex w-full justify-between gap-6">
+              <FormItem className="mb-6 w-full lg:mb-0">
+                <div className="flex w-full items-start justify-between gap-6 lg:gap-5">
                   <FormLabel
                     htmlFor="specialOffers"
                     className="flex flex-col items-start gap-2"
@@ -437,6 +438,7 @@ BusinessFormProps) {
                   </FormLabel>
                   <FormControl className="shrink-0">
                     <OffersMultiSelect
+                      className="lg:w-[260px]"
                       // className="placeholder:text-text-950-grey border-elements-grey-400 bg-background-white placeholder:text-xs"
                       offers={allSpecialOffers ?? []}
                       selectedOfferIds={field.value ?? []}
@@ -452,23 +454,6 @@ BusinessFormProps) {
                       // error={form.formState.errors.specialOffers?.message as string}
                     />
                   </FormControl>
-                  {/* <FormControl className="w-[70%] shrink-0">
-                    <CustomCheckBox
-                      className="placeholder:text-text-950-grey border-elements-grey-400 bg-background-white w-[70%] px-4 py-1 placeholder:text-xs"
-                      offers={allSpecialOffers ?? []}
-                      selectedOfferIds={field.value ?? []}
-                      onChange={(offerId, checked) => {
-                        let newValue = field.value ?? [];
-                        if (checked) {
-                          newValue = [...newValue, offerId];
-                        } else {
-                          newValue = newValue.filter((id) => id !== offerId);
-                        }
-                        field.onChange(newValue);
-                      }}
-                      // error={form.formState.errors.specialOffers?.message as string}
-                    />
-                  </FormControl> */}
                 </div>
 
                 {/* <FormMessage /> */}
@@ -482,7 +467,7 @@ BusinessFormProps) {
             name="description"
             render={({ field }) => (
               <FormItem className="w-full">
-                <div className="flex w-full justify-between gap-4">
+                <div className="flex w-full justify-between gap-4 lg:gap-5">
                   <FormLabel
                     htmlFor="description"
                     className="title-h6 flex flex-col items-start gap-1"
@@ -494,7 +479,7 @@ BusinessFormProps) {
                     <Textarea
                       id="description"
                       maxLength={3000}
-                      className="input-custom h-23 px-2"
+                      className="input-custom h-23 px-2 lg:h-[148px] lg:px-3"
                       placeholder="Коротко опишіть ваші головні переваги, унікальні торгові пропозиціі"
                       {...field}
                     />
@@ -508,15 +493,15 @@ BusinessFormProps) {
         </div>
 
         {/* Big Location block */}
-        <div className="bg-background-grey-50 mb-15 w-full py-5">
-          <div className="mx-auto w-full max-[1024px]:px-4">
+        <div className="bg-background-grey-50 mb-15 w-full py-5 lg:py-10">
+          <div className="container mx-auto w-full max-[1024px]:px-4">
             {/* Online checkbox */}
-            <div className="border-elements-grey-400 mb-4 border p-4">
+            <div className="border-elements-grey-400 mb-4 border-[0.5px] p-4 lg:flex lg:items-center lg:justify-between lg:gap-20 lg:px-3 lg:py-5">
               <FormField
                 control={form.control}
                 name="isOnline"
                 render={({ field }) => (
-                  <FormItem className="mb-3 flex gap-2">
+                  <FormItem className="mb-3 flex gap-2 lg:mb-0 lg:items-center">
                     <FormControl>
                       <Checkbox
                         className="border-icons-grey-950"
@@ -524,7 +509,7 @@ BusinessFormProps) {
                         onCheckedChange={(val) => field.onChange(val)}
                       />
                     </FormControl>
-                    <FormLabel className="title-h5">
+                    <FormLabel className="title-h5 lg:text-nowrap">
                       працюємо як он-лайн бізнес
                     </FormLabel>
 
@@ -537,13 +522,13 @@ BusinessFormProps) {
                 control={form.control}
                 name="website"
                 render={({ field }) => (
-                  <FormItem className="w-full gap-1">
+                  <FormItem className="w-full gap-1 lg:flex lg:gap-5">
                     <FormLabel className="title-h6">
                       Посилання на сайт/соцмережу
                     </FormLabel>
                     <FormControl>
                       <Input
-                        className="input-custom cursor-text px-2"
+                        className="input-custom cursor-text px-2 lg:w-[325px] lg:px-3"
                         placeholder="Посилання"
                         {...field}
                       />
@@ -598,7 +583,7 @@ BusinessFormProps) {
                           <Input
                             {...field}
                             placeholder="Вулиця, будівля, приміщення"
-                            className="input-custom mb-4 px-2"
+                            className="input-custom mb-4 px-2 lg:px-3"
                           />
                         </FormControl>
                         <FormMessage />
@@ -607,29 +592,36 @@ BusinessFormProps) {
                   />
                   {/* {`locations.${index}.address` &&
                       `locations.${index}.address`.trim() !== "" && ( */}
-                  <button
-                    type="button"
-                    className="placeholder-sm bg-elements-grey-200 border-background-main-300 mb-5 flex w-40 cursor-pointer items-center justify-center border-[0.5px] px-3 py-[6px]"
-                    // onClick={() => checkAddress(index)}
-                    onClick={() => handleOpenCheck(index)}
-                    disabled={checkAddressMutation.isPending}
-                  >
-                    {checkAddressMutation.isPending
-                      ? 'Перевіряємо...'
-                      : 'Перевірити локацію'}
-                  </button>
-                  {/* )} */}
-                  {fields[index]?.city?.trim() !== '' && (
-                    <Button
-                      type="button"
-                      variant="destructive"
-                      className="placeholder-sm rounded-none"
-                      onClick={() => remove(index)}
-                    >
-                      <CrossIcon className="mr-2 size-4" />{' '}
-                      <span>Видалити адресу</span>
-                    </Button>
-                  )}
+                  <div className="flex flex-col lg:mb-5 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="flex items-center gap-4">
+                      <span className="caption">
+                        Можете перевірити локацію на мапі перед збереженням
+                      </span>
+                      <button
+                        type="button"
+                        className="placeholder-sm bg-elements-grey-200 border-background-main-300 mb-5 flex w-40 cursor-pointer items-center justify-center border-[0.5px] px-3 py-[6px] lg:mb-0"
+                        // onClick={() => checkAddress(index)}
+                        onClick={() => handleOpenCheck(index)}
+                        disabled={checkAddressMutation.isPending}
+                      >
+                        {checkAddressMutation.isPending
+                          ? 'Перевіряємо...'
+                          : 'Перевірити локацію'}
+                      </button>
+                    </div>
+
+                    {/* )} */}
+                    {fields[index]?.city?.trim() !== '' && (
+                      <button
+                        type="button"
+                        className="bg-icons-color-accent/60 placeholder-sm flex w-44 cursor-pointer items-center justify-center border-[0.5px] px-3 py-[6px] lg:mb-0"
+                        onClick={() => remove(index)}
+                      >
+                        <CrossIcon className="mr-2 size-4" />{' '}
+                        <span>Видалити адресу</span>
+                      </button>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

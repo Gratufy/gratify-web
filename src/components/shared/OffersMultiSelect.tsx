@@ -42,10 +42,10 @@ function OffersMultiSelect({
   const [ownOfferLocalArr, setOwnOfferLocalArr] = useState<string[]>([]);
   if (!offers || offers.length === 0) return <p>No special offers found</p>;
   return (
-    <div className={`w-[70%] shrink-0`}>
+    <div className={`w-[70%] shrink-0 ${className || ''}`}>
       {/* choosed offers */}
 
-      {!showOwnPanel && (
+      {!showOwnPanel && localSelectedOffers.length > 0 && (
         <div className="mb-2 flex flex-col gap-2">
           {/* choosed common offers */}
           {localSelectedOffers.map((offer) => (
@@ -116,6 +116,7 @@ function OffersMultiSelect({
             id="own-offer"
             className="input-custom px-4"
             placeholder="Напишить власну пропозицію"
+            maxLength={30}
           />
           <div className="flex justify-between">
             <button type="button" className="btn-reject px-3">

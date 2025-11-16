@@ -73,7 +73,7 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
 
   return (
     <div className="bg-background-grey-50 mb-10 w-full py-10">
-      <div className="mx-auto flex w-full flex-col items-center gap-6 max-[1024px]:px-4">
+      <div className="container mx-auto flex w-full flex-col items-center gap-6 max-[1024px]:px-4">
         <div className="flex justify-center gap-3 px-7">
           <label className="btn-reject w-[134px] gap-[6px] border px-3">
             <Plus className="size-4" />
@@ -92,7 +92,7 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
             <p>максимальна кількість 10 шт</p>
           </div>
         </div>
-        <div className="grid w-full grid-cols-2 gap-x-4 gap-y-6">
+        <div className="grid w-full grid-cols-2 gap-x-4 gap-y-6 lg:grid-cols-5 lg:gap-x-5 lg:gap-y-5">
           {imagesState.map((img, index) => (
             <div
               key={index}
@@ -135,13 +135,6 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
             </div>
           ))}
         </div>
-        {/* <button
-          onClick={handleUpload}
-          type="submit"
-          className="shadow-menu bg-background-main-300 placeholder-sm w-fit px-[6px] py-3"
-        >
-          Завантажити
-        </button> */}
       </div>
     </div>
   );

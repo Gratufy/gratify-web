@@ -43,27 +43,37 @@ export async function updateBusinessLocation(vars: {
 
 // check address (OpenStreetMap)
 export async function checkAddress(city: string, address: string) {
-  const url = new URL('https://nominatim.openstreetmap.org/search');
-  url.searchParams.set('format', 'json');
-  url.searchParams.set('limit', '1');
-  url.searchParams.set('addressdetails', '1');
+  //const url = new URL('https://nominatim.openstreetmap.org/search');
+  const url = new URL('https://geocode.maps.co/search');
   url.searchParams.set('street', address);
   url.searchParams.set('city', city);
   url.searchParams.set('country', 'Ukraine');
+  url.searchParams.set('api_key', process.env.GEO_API_KEY!);
 
   //   const query = encodeURIComponent(`${address}, ${city}, Ukraine`);
   //   const url = `https://nominatim.openstreetmap.org/search?format=json&q=${query}&limit=1`;
 
-  const response = await fetch(url.toString(), {
-    headers: {
-      'User-Agent': 'MyApp/1.0 (gratify@gmail.com)', // Your email here??????
-    },
-  });
+  // const response = await fetch(url.toString(), {
+  //   headers: {
+  //     'User-Agent': 'BusinessFinder/0.1 (contact: zlatta2000@gmail.com)', // Your email here??????
+  //     // "Referer": "https://yourdomain.com",
+  //   },
+  // });
+  const response = await fetch(url.toString());
   //'Nominatim request failed'
-  if (!response.ok) throw new Error(`Nominatim request failed`);
+
+  if (response.status === 403) {
+    throw new Error('ACCESS_BLOCKED');
+  }
+  if (response.status === 429) {
+    throw new Error('RATE_LIMIT');
+  }
+  if (!response.ok) {
+    throw new Error('REQUEST_FAILED');
+  }
 
   const data = await response.json();
-  if (!data[0]) return null;
+  if (!data || data.length === 0) return null;
 
   return {
     latitude: parseFloat(data[0].lat),
