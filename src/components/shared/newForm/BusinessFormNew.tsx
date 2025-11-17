@@ -366,14 +366,14 @@ BusinessFormProps) {
             name="name"
             render={({ field }) => (
               <FormItem className="mb-5 w-full lg:mb-0">
-                <div className="flex w-full justify-between gap-4 lg:justify-start lg:gap-8">
+                <div className="flex w-full justify-between gap-4 lg:justify-start lg:gap-8 xl:gap-6">
                   <FormLabel htmlFor="name" className="title-h6">
                     Назва*
                   </FormLabel>
-                  <FormControl className="w-[70%] shrink-0 lg:w-[213px]">
+                  <FormControl className="w-[70%] shrink-0 lg:w-[213px] xl:w-[267px]">
                     <Input
                       id="name"
-                      className="input-custom px-2 lg:px-3"
+                      className="input-custom px-2 lg:px-3 xl:px-4"
                       placeholder="Назва"
                       {...field}
                     />
@@ -390,13 +390,13 @@ BusinessFormProps) {
             name="category"
             render={({ field }) => (
               <FormItem className="w-full">
-                <div className="flex w-full justify-between gap-4 lg:justify-end lg:gap-8">
+                <div className="flex w-full justify-between gap-4 lg:justify-end lg:gap-8 xl:gap-6">
                   <FormLabel htmlFor="category" className="title-h6">
                     Категорія*
                   </FormLabel>
                   <FormControl className="">
                     <CustomSelect
-                      className="standart bg-background-white w-[70%] px-4 lg:w-[237px]"
+                      className="standart bg-background-white w-[70%] px-4 lg:w-[237px] xl:w-[285px]"
                       value={field.value}
                       onChange={field.onChange}
                       options={categories} // array of category objects
@@ -425,7 +425,7 @@ BusinessFormProps) {
             name="specialOffers"
             render={({ field }) => (
               <FormItem className="mb-6 w-full lg:mb-0">
-                <div className="flex w-full items-start justify-between gap-6 lg:gap-5">
+                <div className="flex w-full items-start justify-between gap-6 lg:gap-5 xl:gap-6">
                   <FormLabel
                     htmlFor="specialOffers"
                     className="flex flex-col items-start gap-2"
@@ -438,7 +438,7 @@ BusinessFormProps) {
                   </FormLabel>
                   <FormControl className="shrink-0">
                     <OffersMultiSelect
-                      className="lg:w-[260px]"
+                      className="lg:w-[260px] xl:w-[364px]"
                       // className="placeholder:text-text-950-grey border-elements-grey-400 bg-background-white placeholder:text-xs"
                       offers={allSpecialOffers ?? []}
                       selectedOfferIds={field.value ?? []}
@@ -467,7 +467,7 @@ BusinessFormProps) {
             name="description"
             render={({ field }) => (
               <FormItem className="w-full">
-                <div className="flex w-full justify-between gap-4 lg:gap-5">
+                <div className="flex w-full justify-between gap-4 lg:gap-5 xl:gap-6">
                   <FormLabel
                     htmlFor="description"
                     className="title-h6 flex flex-col items-start gap-1"
@@ -479,7 +479,7 @@ BusinessFormProps) {
                     <Textarea
                       id="description"
                       maxLength={3000}
-                      className="input-custom h-23 px-2 lg:h-[148px] lg:px-3"
+                      className="input-custom h-23 px-2 lg:h-[148px] lg:px-3 xl:px-4"
                       placeholder="Коротко опишіть ваші головні переваги, унікальні торгові пропозиціі"
                       {...field}
                     />
@@ -522,13 +522,13 @@ BusinessFormProps) {
                 control={form.control}
                 name="website"
                 render={({ field }) => (
-                  <FormItem className="w-full gap-1 lg:flex lg:gap-5">
+                  <FormItem className="w-full gap-1 lg:flex lg:justify-end lg:gap-5">
                     <FormLabel className="title-h6">
                       Посилання на сайт/соцмережу
                     </FormLabel>
                     <FormControl>
                       <Input
-                        className="input-custom cursor-text px-2 lg:w-[325px] lg:px-3"
+                        className="input-custom cursor-text px-2 lg:w-[325px] lg:px-3 xl:w-[296px] xl:px-4"
                         placeholder="Посилання"
                         {...field}
                       />
@@ -546,15 +546,15 @@ BusinessFormProps) {
                 {form.formState.errors.locations.message}
               </div>
             )}
-            <div className="w-full space-y-5">
+            <div className="w-full space-y-5 xl:space-y-6">
               {fields.map((field, index) => (
                 <div key={field.id}>
-                  <p className="title-h6 mb-3">Адреса {index + 1}:</p>
+                  <p className="title-h6 mb-3 xl:mb-4">Адреса {index + 1}:</p>
                   <FormField
                     control={form.control}
                     name={`locations.${index}.city`}
                     render={({ field }) => (
-                      <FormItem className="mb-2 w-full">
+                      <FormItem className="mb-2 w-full xl:mb-3">
                         {/* <FormLabel>City</FormLabel> */}
                         <FormControl>
                           <CustomSelect
@@ -576,14 +576,14 @@ BusinessFormProps) {
                     name={`locations.${index}.address`}
                     render={({ field }) => (
                       <FormItem className="w-full gap-1">
-                        <FormLabel className="placeholder-small">
+                        <FormLabel className="placeholder-small xl:placeholder-sm">
                           вулиця, будівля, приміщення
                         </FormLabel>
                         <FormControl>
                           <Input
                             {...field}
                             placeholder="Вулиця, будівля, приміщення"
-                            className="input-custom mb-4 px-2 lg:px-3"
+                            className="input-custom mb-4 px-2 lg:px-3 xl:mb-6 xl:px-4"
                           />
                         </FormControl>
                         <FormMessage />
@@ -599,7 +599,7 @@ BusinessFormProps) {
                       </span>
                       <button
                         type="button"
-                        className="placeholder-sm bg-elements-grey-200 border-background-main-300 mb-5 flex w-40 cursor-pointer items-center justify-center border-[0.5px] px-3 py-[6px] lg:mb-0"
+                        className="placeholder-sm xl:placeholder-base bg-elements-grey-200 border-background-main-300 mb-5 flex cursor-pointer items-center justify-center text-nowrap border-[0.5px] px-3 py-[6px] lg:mb-0 xl:px-5 xl:py-2"
                         // onClick={() => checkAddress(index)}
                         onClick={() => handleOpenCheck(index)}
                         disabled={checkAddressMutation.isPending}
@@ -614,7 +614,7 @@ BusinessFormProps) {
                     {fields[index]?.city?.trim() !== '' && (
                       <button
                         type="button"
-                        className="bg-icons-color-accent/60 placeholder-sm flex w-44 cursor-pointer items-center justify-center border-[0.5px] px-3 py-[6px] lg:mb-0"
+                        className="bg-icons-color-accent/60 xl:placeholder-base placeholder-sm flex cursor-pointer items-center justify-center text-nowrap border-[0.5px] px-3 py-[6px] lg:mb-0 xl:px-5 xl:py-2"
                         onClick={() => remove(index)}
                       >
                         <CrossIcon className="mr-2 size-4" />{' '}
@@ -644,7 +644,7 @@ BusinessFormProps) {
                   <Button
                     type="button"
                     onClick={handleConfirmLocation}
-                    className="placeholder-sm rounded-none"
+                    className="placeholder-sm xl:placeholder-base rounded-none"
                   >
                     Підтвердити локацію
                   </Button>
@@ -660,7 +660,7 @@ BusinessFormProps) {
               </div>
             )}
             <button
-              className="placeholder-sm bg-background-white border-background-main-300 flex cursor-pointer items-center justify-center border px-3 py-[6px]"
+              className="btn-reject"
               type="button"
               onClick={() => {
                 append({ city: '', address: '' });
@@ -672,7 +672,7 @@ BusinessFormProps) {
           </div>
         </div>
 
-        <button className="btn-aprove px-3" type="submit">
+        <button className="btn-aprove" type="submit">
           Передати на модерацію
         </button>
       </form>

@@ -129,12 +129,12 @@ function OffersMultiSelect({
         </div>
       )}
       <DropdownMenu>
-        <DropdownMenuTrigger className="placeholder-sm standart w-full cursor-pointer justify-between px-4">
+        <DropdownMenuTrigger className="standart w-full cursor-pointer justify-between px-4">
           <span>Спеціальні пропозиції</span>
           <ChevronDownIcon className="size-5" />
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className="max-h-60 w-[var(--radix-dropdown-menu-trigger-width)] space-y-4 overflow-y-auto rounded-none p-2"
+          className="max-h-60 w-[var(--radix-dropdown-menu-trigger-width)] space-y-4 overflow-y-auto rounded-none px-4 py-2"
           align="start"
           side="bottom"
         >
