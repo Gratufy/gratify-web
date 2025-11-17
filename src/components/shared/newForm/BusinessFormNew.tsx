@@ -370,7 +370,7 @@ BusinessFormProps) {
                   <FormLabel htmlFor="name" className="title-h6">
                     Назва*
                   </FormLabel>
-                  <FormControl className="w-[70%] shrink-0 lg:w-[213px] xl:w-[267px]">
+                  <FormControl className="w-[70%] shrink-0 lg:w-[237px] xl:w-[267px]">
                     <Input
                       id="name"
                       className="input-custom px-2 lg:px-3 xl:px-4"
@@ -593,13 +593,13 @@ BusinessFormProps) {
                   {/* {`locations.${index}.address` &&
                       `locations.${index}.address`.trim() !== "" && ( */}
                   <div className="flex flex-col lg:mb-5 lg:flex-row lg:items-center lg:justify-between">
-                    <div className="flex items-center gap-4">
+                    <div className="mb-5 flex items-center gap-4 lg:mb-0">
                       <span className="caption">
                         Можете перевірити локацію на мапі перед збереженням
                       </span>
                       <button
                         type="button"
-                        className="placeholder-sm xl:placeholder-base bg-elements-grey-200 border-background-main-300 mb-5 flex cursor-pointer items-center justify-center text-nowrap border-[0.5px] px-3 py-[6px] lg:mb-0 xl:px-5 xl:py-2"
+                        className="placeholder-sm xl:placeholder-base bg-elements-grey-200 border-background-main-300 flex min-w-40 cursor-pointer items-center justify-center text-nowrap border-[0.5px] px-3 py-[6px] lg:mb-0 xl:px-5 xl:py-2"
                         // onClick={() => checkAddress(index)}
                         onClick={() => handleOpenCheck(index)}
                         disabled={checkAddressMutation.isPending}
@@ -614,7 +614,7 @@ BusinessFormProps) {
                     {fields[index]?.city?.trim() !== '' && (
                       <button
                         type="button"
-                        className="bg-icons-color-accent/60 xl:placeholder-base placeholder-sm flex cursor-pointer items-center justify-center text-nowrap border-[0.5px] px-3 py-[6px] lg:mb-0 xl:px-5 xl:py-2"
+                        className="bg-icons-color-accent/60 btn-aprove max-[1024px]:w-40"
                         onClick={() => remove(index)}
                       >
                         <CrossIcon className="mr-2 size-4" />{' '}
@@ -628,7 +628,7 @@ BusinessFormProps) {
             {/* ------ */}
             {/* Map to check location- Opened with Btn */}
             {mapOpenIndex !== null && tempLatLng && (
-              <div className="border-elements-grey-300 mb-5 w-full border">
+              <div className="border-elements-grey-300 mb-5 w-full border-[0.5px] px-2 py-2">
                 <BusinessMap
                   lat={tempLatLng.lat}
                   lng={tempLatLng.lng}
@@ -640,18 +640,18 @@ BusinessFormProps) {
                 <p className="placeholder-sm my-3 text-center">
                   Ви можете перетягувати маркер, щоб уточнити локацію.
                 </p>
-                <div className="flex justify-center gap-4">
+                <div className="flex flex-col items-center justify-center gap-4 lg:flex-row">
                   <Button
                     type="button"
                     onClick={handleConfirmLocation}
-                    className="placeholder-sm xl:placeholder-base rounded-none"
+                    className="placeholder-sm xl:placeholder-base w-50 rounded-none"
                   >
                     Підтвердити локацію
                   </Button>
                   <Button
                     type="button"
                     variant="secondary"
-                    className="border-background-main-300 placeholder-sm rounded-none border"
+                    className="border-background-main-300 placeholder-sm xl:placeholder-base w-50 rounded-none border"
                     onClick={() => setMapOpenIndex(null)}
                   >
                     Закрити без збереження
