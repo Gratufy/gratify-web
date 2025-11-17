@@ -30,7 +30,11 @@ import {
 import { useCheckAddress } from '@/hooks/useBusinessLocation';
 
 import { useCreateBusiness, useUpdateBusiness } from '@/hooks/useBusinesses';
-import { BusinessUpdate, LocationFormData } from '@/types';
+import {
+  BusinessOwnSpecialOffer,
+  BusinessUpdate,
+  LocationFormData,
+} from '@/types';
 import { useUserStore } from '@/stores/useUserStore';
 
 import dynamic from 'next/dynamic';
@@ -60,10 +64,12 @@ export const businessFormSchema = v.pipe(
       emptyToUndefined,
       v.optional(v.pipe(v.string(), v.url('Invalid website URL')))
     ),
-    specialOffers: v.pipe(
-      v.array(v.string()),
-      v.minLength(1, 'Please select at least one offer.')
-    ), // array of offer IDs
+    // specialOffers: v.pipe(
+    //   v.array(v.string()),
+    //   v.minLength(1, 'Please select at least one offer.')
+    // ), // array of offer IDs
+    specialOffers: v.array(v.string()),
+
     category: v.pipe(v.string(), v.nonEmpty('Please select a category.')),
     locations: v.array(
       v.object({
@@ -138,6 +144,8 @@ BusinessFormProps) {
       isCover: false,
     }))
   );
+  const [ownOfferLocalArr, setOwnOfferLocalArr] = useState<string[]>([]);
+  console.log('ownOfferLocalArr', ownOfferLocalArr);
   const {
     categories,
     // isLoading: isCategoriesLoading,
@@ -228,6 +236,7 @@ BusinessFormProps) {
 
   // on Submit
   async function onSubmit(data: FormValues) {
+    console.log('in SUBMIT');
     try {
       const locationsWithCoords = await Promise.all(
         data.locations.map(async (loc) => {
@@ -253,7 +262,9 @@ BusinessFormProps) {
           return loc;
         })
       );
+      console.log('businessId:', businessId);
       if (businessId) {
+        console.log('Updating business with data:');
         // update existing business
         // Prepare data for the database
         const updateData: BusinessUpdate = {
@@ -278,7 +289,7 @@ BusinessFormProps) {
         form.reset(defaultValues);
       } else {
         // Creating a new business
-
+        console.log('Creating new business with data:');
         const newBusinessData = {
           name: data.name,
           description: data.description,
@@ -287,7 +298,9 @@ BusinessFormProps) {
           locations: locationsWithCoords,
           isOnline: data.isOnline,
           specialOffers: data.specialOffers,
+          ownOffers: ownOfferLocalArr,
         };
+        console.log('New business data to submit:', newBusinessData);
         // Create the business-user
         const { business, profile } =
           await createBusinessMutation.mutateAsync(newBusinessData);
@@ -445,6 +458,8 @@ BusinessFormProps) {
                       // className="placeholder:text-text-950-grey border-elements-grey-400 bg-background-white placeholder:text-xs"
                       offers={allSpecialOffers ?? []}
                       selectedOfferIds={field.value ?? []}
+                      ownOfferLocalArr={ownOfferLocalArr}
+                      setOwnOfferLocalArr={setOwnOfferLocalArr}
                       onChange={(offerId, checked) => {
                         let newValue = field.value ?? [];
                         if (checked) {

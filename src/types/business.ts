@@ -3,6 +3,7 @@ import {
   businesses,
   businessHours,
   businessLocations,
+  businessOwnSpecialOffers,
   businessReviews,
   businessSpecialOffers,
   businessVotes,
@@ -43,6 +44,9 @@ export type BusinessWithDetails = Business & {
   specialOffers: (BusinessSpecialOffer & {
     title: string | null;
   })[];
+  ownOffers: {
+    title: string;
+  }[];
   images: BusinessImages;
 };
 
@@ -126,6 +130,8 @@ export type NewBusinessFormData = {
   isOnline: boolean;
   locations: LocationFormData[];
   specialOffers: NewBusinessSpecialOffer['offerId'][];
+  //ownOffers?: BusinessOwnSpecialOffer['title'][];
+  ownOffers?: string[];
 };
 
 //Sort
@@ -180,6 +186,9 @@ export type NewSpecialOffer = typeof specialOffers.$inferInsert;
 export type BusinessSpecialOffer = typeof businessSpecialOffers.$inferSelect;
 export type NewBusinessSpecialOffer = typeof businessSpecialOffers.$inferInsert;
 
+//own offers
+export type BusinessOwnSpecialOffer =
+  typeof businessOwnSpecialOffers.$inferSelect;
 //FAVORITES
 export type Favorite = typeof favorites.$inferSelect;
 export type BusinessFavorite = Business & {

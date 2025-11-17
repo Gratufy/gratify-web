@@ -6,7 +6,10 @@ import { businessCategories, businesses, businessLocations } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { BusinessWithDetails } from '@/types/business';
 
-import { getSpecialOffersForBusinesses } from '../helpers/getSpecialOffersForBusinesses';
+import {
+  getOwnOffersForBusinesses,
+  getSpecialOffersForBusinesses,
+} from '../helpers/getSpecialOffersForBusinesses';
 import { getBusinessImages } from '../helpers/getBusinessImages';
 
 const businessSelectFields = {
@@ -55,6 +58,7 @@ export async function getBusinessById(
       locations: [],
       specialOffers: [],
       images: [],
+      ownOffers: [],
     } as BusinessWithDetails;
 
     // Locations
@@ -92,7 +96,8 @@ export async function getBusinessById(
         title: offer.title,
       });
     }
-
+    // own offers
+    //const ownOfferRows = await getOwnOffersForBusinesses([id]);
     // Images
     const imageRows = await getBusinessImages(id);
 

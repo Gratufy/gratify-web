@@ -194,6 +194,15 @@ export const businessSpecialOffers = pgTable(
   (t) => [primaryKey({ columns: [t.businessId, t.offerId] })]
 );
 
+export const businessOwnSpecialOffers = pgTable('business_own_special_offers', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  businessId: uuid('business_id')
+    .notNull()
+    .references(() => businesses.id, { onDelete: 'cascade' }),
+  title: text('title').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
+});
 // favorites
 export const favorites = pgTable(
   'favorites',
