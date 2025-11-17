@@ -23,7 +23,10 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import CustomSelect from '../../ui/CustomSelect';
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
-import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
+import {
+  UKRAINE_REGIONAL_CENTERS,
+  UKRAINE_REGIONAL_CENTERS_WITHOUT_ALL,
+} from '@/const/regions';
 import { useCheckAddress } from '@/hooks/useBusinessLocation';
 
 import { useCreateBusiness, useUpdateBusiness } from '@/hooks/useBusinesses';
@@ -561,7 +564,7 @@ BusinessFormProps) {
                             className="standart w-full px-4"
                             value={field.value}
                             onChange={field.onChange}
-                            options={UKRAINE_REGIONAL_CENTERS}
+                            options={UKRAINE_REGIONAL_CENTERS_WITHOUT_ALL}
                             getOptionValue={(o) => o.value}
                             getOptionLabel={(o) => o.label}
                             placeholder="Місто"
