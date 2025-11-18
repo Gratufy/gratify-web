@@ -36,7 +36,7 @@ export type BusinessWithCategoryName = Business & {
 
 // for one card details- NEW!!!!
 export type BusinessWithDetails = Business & {
-  categoryName: string | null;
+  categoryName: string;
   locations: {
     city: string;
     address?: string | null;
@@ -198,12 +198,12 @@ export type ownOffersForCard = ownOfferForCard[];
 export type allOffersRows = {
   offerId: string;
   businessId: string;
-  title: string;
+  title: string | null;
 }[];
 //FAVORITES
 export type Favorite = typeof favorites.$inferSelect;
 export type BusinessFavorite = Business & {
-  categoryName: string | null;
+  categoryName: string;
   specialOffers: (BusinessSpecialOffer & {
     title: string | null;
   })[];

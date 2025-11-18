@@ -72,19 +72,6 @@ export async function getBusinessById(
         });
       }
     }
-    // 2. Получаем все specialOffers для этого бизнеса
-    // const offerRows = await db
-    //   .select({
-    //     businessId: businessSpecialOffers.businessId,
-    //     offerId: businessSpecialOffers.offerId,
-    //     title: specialOffers.title,
-    //   })
-    //   .from(businessSpecialOffers)
-    //   .leftJoin(
-    //     specialOffers,
-    //     eq(businessSpecialOffers.offerId, specialOffers.id)
-    //   )
-    //   .where(eq(businessSpecialOffers.businessId, id));
 
     // Special Offers
     const offerRows = await getSpecialOffersForBusinesses([id]);
