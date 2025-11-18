@@ -100,7 +100,7 @@ export async function getBusinessById(
     const ownOfferRows = await getOwnOffersForBusinesses([id]);
     for (const offer of ownOfferRows) {
       businessData.ownOffers.push({
-        id: offer.id,
+        offerId: offer.offerId,
         businessId: offer.businessId,
         title: offer.title,
       });

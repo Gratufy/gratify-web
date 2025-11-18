@@ -23,9 +23,11 @@ export type BusinessWithCategoryName = Business & {
     latitude?: number | null;
     longitude?: number | null;
   }[];
-  specialOffers: (BusinessSpecialOffer & {
-    title: string | null;
-  })[];
+  // specialOffers: (BusinessSpecialOffer & {
+  //   title: string | null;
+  // })[];
+  // ownOffers: ownOffersForCard;
+  allOffersRows: allOffersRows;
   coverImageUrl?: string | null;
 };
 // export type AdminBusinessRow = Business & {
@@ -188,11 +190,16 @@ export type NewBusinessSpecialOffer = typeof businessSpecialOffers.$inferInsert;
 export type BusinessOwnSpecialOffer =
   typeof businessOwnSpecialOffers.$inferSelect;
 export type ownOfferForCard = {
-  id: string;
+  offerId: string;
   businessId: string;
   title: string;
 };
 export type ownOffersForCard = ownOfferForCard[];
+export type allOffersRows = {
+  offerId: string;
+  businessId: string;
+  title: string;
+}[];
 //FAVORITES
 export type Favorite = typeof favorites.$inferSelect;
 export type BusinessFavorite = Business & {

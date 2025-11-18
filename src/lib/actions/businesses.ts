@@ -34,7 +34,10 @@ import { userProfiles } from '@/db/schema';
 //import { checkAddress } from "./businessLocation";
 import { saveBusinessLocations } from '@/lib/actions/businessLocation';
 import { PAGE_SIZE } from '@/const/business';
-import { getSpecialOffersForBusinesses } from '../helpers/getSpecialOffersForBusinesses';
+import {
+  getOwnOffersForBusinesses,
+  getSpecialOffersForBusinesses,
+} from '../helpers/getSpecialOffersForBusinesses';
 import { getBusinessImages } from '../helpers/getBusinessImages';
 import { getCoverImagesForBusinesses } from '../helpers/getCoverImagesForBusinesses';
 
@@ -259,7 +262,9 @@ export async function getBusinesses(
         businessMap.set(row.id, {
           ...businessData,
           locations: [],
-          specialOffers: [],
+          // specialOffers: [],
+          // ownOffers: [],
+          allOffersRows: [],
         });
       }
 
@@ -288,13 +293,15 @@ export async function getBusinesses(
     //   .where(inArray(businessSpecialOffers.businessId, ids));
 
     const offerRows = await getSpecialOffersForBusinesses(ids);
+    const ownOfferRows = await getOwnOffersForBusinesses(ids);
+    const allOffersRows = [...ownOfferRows, ...offerRows];
 
-    for (const offer of offerRows) {
+    for (const offer of allOffersRows) {
       const business = businessMap.get(offer.businessId);
       if (business) {
-        if (business.specialOffers.length < 3) {
+        if (business.allOffersRows.length < 3) {
           // limit to 3 offers for card shot
-          business.specialOffers.push({
+          business.allOffersRows.push({
             businessId: offer.businessId,
             offerId: offer.offerId,
             title: offer.title,

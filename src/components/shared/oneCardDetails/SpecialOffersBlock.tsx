@@ -10,14 +10,7 @@ type SpecialOffersProps = {
 };
 
 function SpecialOffersBlock({ specialOffers, ownOffers }: SpecialOffersProps) {
-  const combinedOffers = [
-    ...ownOffers.map((offer) => ({
-      offerId: offer.id,
-      title: offer.title,
-      businessId: offer.businessId,
-    })),
-    ...specialOffers,
-  ];
+  const combinedOffers = [...ownOffers, ...specialOffers];
   console.log('combinedOffers', combinedOffers);
   // const combinedOffers2 = [...specialOffers, ...ownOffers];
   // console.log('combinedOffers2', combinedOffers2);

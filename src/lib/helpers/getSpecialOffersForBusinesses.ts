@@ -26,7 +26,7 @@ export async function getSpecialOffersForBusinesses(ids: string[]) {
 export async function getOwnOffersForBusinesses(ids: string[]) {
   return db
     .select({
-      id: businessOwnSpecialOffers.id,
+      offerId: businessOwnSpecialOffers.id,
       businessId: businessOwnSpecialOffers.businessId,
       title: businessOwnSpecialOffers.title,
     })
