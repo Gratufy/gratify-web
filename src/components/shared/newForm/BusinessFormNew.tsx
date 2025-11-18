@@ -57,12 +57,17 @@ const emptyToUndefined = v.transform((value: unknown) => {
 export const businessFormSchema = v.pipe(
   v.object({
     isOnline: v.boolean(), // checkbox for online status
-    name: v.pipe(v.string(), v.nonEmpty('Please enter a name')),
-    description: v.pipe(v.string(), v.nonEmpty('Please enter a description')),
+    name: v.pipe(v.string(), v.nonEmpty('Будь ласка, введіть назву бізнесу')),
+    description: v.pipe(
+      v.string(),
+      v.nonEmpty('Будь ласка, введіть опис бізнесу')
+    ),
     website: v.pipe(
       v.any(),
       emptyToUndefined,
-      v.optional(v.pipe(v.string(), v.url('Invalid website URL')))
+      v.optional(
+        v.pipe(v.string(), v.url('Введіть коректне посилання на сайт'))
+      )
     ),
     // specialOffers: v.pipe(
     //   v.array(v.string()),
@@ -70,7 +75,10 @@ export const businessFormSchema = v.pipe(
     // ), // array of offer IDs
     specialOffers: v.array(v.string()),
 
-    category: v.pipe(v.string(), v.nonEmpty('Please select a category.')),
+    category: v.pipe(
+      v.string(),
+      v.nonEmpty('Будь ласка, оберіть категорію бізнесу')
+    ),
     locations: v.array(
       v.object({
         city: v.optional(v.string()),
@@ -109,7 +117,7 @@ export const businessFormSchema = v.pipe(
           )
         );
       },
-      'At least one location with a city is required for offline businesses.'
+      'Будь ласка, додайте принаймні одну локацію з містом для офлайн бізнесу.'
     ),
     ['locations']
   )
@@ -396,7 +404,7 @@ BusinessFormProps) {
                   </FormControl>
                 </div>
 
-                {/* <FormMessage /> */}
+                <FormMessage className="placeholder-xs text-text-warning text-center" />
               </FormItem>
             )}
           />
@@ -424,7 +432,7 @@ BusinessFormProps) {
                   </FormControl>
                 </div>
 
-                {/* <FormMessage /> */}
+                <FormMessage className="placeholder-xs text-text-warning text-center" />
               </FormItem>
             )}
           />
@@ -474,7 +482,7 @@ BusinessFormProps) {
                   </FormControl>
                 </div>
 
-                {/* <FormMessage /> */}
+                <FormMessage className="placeholder-xs text-text-warning text-center" />
               </FormItem>
             )}
           />
@@ -503,8 +511,8 @@ BusinessFormProps) {
                     />
                   </FormControl>
                   {/* <FormDescription>Description.</FormDescription> */}
-                  {/* <FormMessage /> */}
                 </div>
+                <FormMessage className="placeholder-xs text-text-warning text-center" />
               </FormItem>
             )}
           />
@@ -530,8 +538,6 @@ BusinessFormProps) {
                     <FormLabel className="title-h5 lg:text-nowrap">
                       працюємо як он-лайн бізнес
                     </FormLabel>
-
-                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -540,20 +546,21 @@ BusinessFormProps) {
                 control={form.control}
                 name="website"
                 render={({ field }) => (
-                  <FormItem className="w-full gap-1 lg:flex lg:justify-end lg:gap-5">
-                    <FormLabel className="title-h6">
-                      Посилання на сайт/соцмережу
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        className="input-custom cursor-text px-2 lg:w-[325px] lg:px-3 xl:w-[296px] xl:px-4"
-                        placeholder="Посилання"
-                        {...field}
-                      />
-                    </FormControl>
-                    {/* <FormDescription>Your website URL.</FormDescription>
-                    <FormMessage /> */}
-                  </FormItem>
+                  <div className="flex flex-col">
+                    <FormItem className="w-full gap-1 lg:flex lg:justify-end lg:gap-5">
+                      <FormLabel className="title-h6">
+                        Посилання на сайт/соцмережу
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          className="input-custom cursor-text px-2 lg:w-[325px] lg:px-3 xl:w-[296px] xl:px-4"
+                          placeholder="Посилання"
+                          {...field}
+                        />
+                      </FormControl>
+                    </FormItem>
+                    <FormMessage className="placeholder-xs text-text-warning text-center" />
+                  </div>
                 )}
               />
             </div>
