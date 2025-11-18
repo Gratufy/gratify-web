@@ -45,83 +45,10 @@ import { useAllSpecialOffers } from '@/hooks/useSpecialOffers';
 import OffersMultiSelect from '../OffersMultiSelect';
 import ImagesBlock from './ImagesBlock';
 import { uploadBusinessImages } from '@/lib/actions/uploadBusinessImages';
+import { businessFormSchema } from '@/shemas/businessFormSchema';
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
 });
-
-const emptyToUndefined = v.transform((value: unknown) => {
-  if (typeof value === 'string' && value.trim() === '') return undefined;
-  return value;
-});
-
-export const businessFormSchema = v.pipe(
-  v.object({
-    isOnline: v.boolean(), // checkbox for online status
-    name: v.pipe(v.string(), v.nonEmpty('Будь ласка, введіть назву бізнесу')),
-    description: v.pipe(
-      v.string(),
-      v.nonEmpty('Будь ласка, введіть опис бізнесу')
-    ),
-    website: v.pipe(
-      v.any(),
-      emptyToUndefined,
-      v.optional(
-        v.pipe(v.string(), v.url('Введіть коректне посилання на сайт'))
-      )
-    ),
-    // specialOffers: v.pipe(
-    //   v.array(v.string()),
-    //   v.minLength(1, 'Please select at least one offer.')
-    // ), // array of offer IDs
-    specialOffers: v.array(v.string()),
-
-    category: v.pipe(
-      v.string(),
-      v.nonEmpty('Будь ласка, оберіть категорію бізнесу')
-    ),
-    locations: v.array(
-      v.object({
-        city: v.optional(v.string()),
-        address: v.optional(v.string()),
-        latitude: v.optional(v.number()),
-        longitude: v.optional(v.number()),
-        // latitude: v.optional(v.nullable(v.number())),
-        // longitude: v.optional(v.nullable(v.number())),
-      })
-    ),
-  }),
-  // check 1: if online - true , website is required
-  v.forward(
-    v.partialCheck(
-      [['isOnline'], ['website']],
-      (data) => {
-        // if online but no website -> error
-        return !(data.isOnline && !data.website);
-      },
-      'Website is required for online businesses.'
-    ),
-    ['website']
-  ),
-
-  v.forward(
-    v.partialCheck(
-      [['isOnline'], ['locations']],
-      (data) => {
-        if (data.isOnline) return true; // онлайн → не проверяем
-
-        // офлайн → должна быть хотя бы одна локация с городом
-        return (
-          data.locations.length > 0 &&
-          data.locations.every(
-            (loc: LocationFormData) => loc.city && loc.city.trim() !== ''
-          )
-        );
-      },
-      'Будь ласка, додайте принаймні одну локацію з містом для офлайн бізнесу.'
-    ),
-    ['locations']
-  )
-);
 
 type FormValues = v.InferOutput<typeof businessFormSchema>;
 interface PreviewImage {
@@ -196,19 +123,39 @@ BusinessFormProps) {
     }
   }, [defaultValues, fields.length, append]);
 
+  function validateCity(index: number): boolean {
+    const loc = form.getValues(`locations.${index}`);
+    if (!loc.city || loc.city.trim() === '') {
+      alert('будь ласка, вкажіть місто');
+      return false;
+    }
+    return !!(loc.city && loc.city.trim() !== '');
+  }
+  function validateAdress(index: number): boolean {
+    const loc = form.getValues(`locations.${index}`);
+    if (!loc.address || loc.address.trim() === '') {
+      alert('Будь ласка, вкажіть адресу');
+      return false;
+    }
+    return !!(loc.address && loc.address.trim() !== '');
+  }
+
   // open map and check location for a specific location index
   async function handleOpenCheck(index: number) {
     setMapOpenIndex(null);
+    const ifCityValid = validateCity(index);
+    if (!ifCityValid) return;
+    const ifAddressValid = validateAdress(index);
+    if (!ifAddressValid) return;
     const loc = form.getValues(`locations.${index}`);
-    if (!loc.city) {
-      alert('Please specify a city first');
+    if (!ifCityValid && ifAddressValid) {
+      alert('будь ласка, спочатку вкажіть місто');
+      return;
+    }
+    if (!loc.city || !loc.address) {
       return;
     }
 
-    if (!loc.address) {
-      alert('Please specify an address');
-      return;
-    }
     try {
       const res = await checkAddressMutation.mutateAsync({
         city: loc.city,
@@ -244,7 +191,6 @@ BusinessFormProps) {
 
   // on Submit
   async function onSubmit(data: FormValues) {
-    console.log('in SUBMIT');
     try {
       const locationsWithCoords = await Promise.all(
         data.locations.map(async (loc) => {
@@ -370,6 +316,7 @@ BusinessFormProps) {
       alert('Something went wrong');
     }
   }
+  //for check validation
   const onError = (
     errors: FieldErrors<v.InferOutput<typeof businessFormSchema>>
   ) => {
@@ -527,17 +474,21 @@ BusinessFormProps) {
                 control={form.control}
                 name="isOnline"
                 render={({ field }) => (
-                  <FormItem className="mb-3 flex gap-2 lg:mb-0 lg:items-center">
-                    <FormControl>
-                      <Checkbox
-                        className="border-icons-grey-950"
-                        checked={field.value}
-                        onCheckedChange={(val) => field.onChange(val)}
-                      />
-                    </FormControl>
-                    <FormLabel className="title-h5 lg:text-nowrap">
-                      працюємо як он-лайн бізнес
-                    </FormLabel>
+                  <FormItem className="mb-3 lg:mb-0">
+                    <div className="flex gap-2 lg:items-center">
+                      <FormControl>
+                        <Checkbox
+                          className="border-icons-grey-950"
+                          checked={field.value}
+                          onCheckedChange={(val) => field.onChange(val)}
+                        />
+                      </FormControl>
+                      <FormLabel className="title-h5 lg:text-nowrap">
+                        працюємо як он-лайн бізнес
+                      </FormLabel>
+                    </div>
+
+                    {/* <FormMessage className="placeholder-xs text-text-warning mt-2 text-center" />*/}
                   </FormItem>
                 )}
               />
@@ -559,7 +510,7 @@ BusinessFormProps) {
                         />
                       </FormControl>
                     </FormItem>
-                    <FormMessage className="placeholder-xs text-text-warning text-center" />
+                    <FormMessage className="placeholder-xs text-text-warning mt-2 text-center" />
                   </div>
                 )}
               />
@@ -567,8 +518,8 @@ BusinessFormProps) {
             {/** Location Fields */}
             {/* ------ */}
             {form.formState.errors.locations && (
-              <div className="mb-4 rounded bg-red-100 p-2 text-red-600">
-                {form.formState.errors.locations.message}
+              <div className="placeholder-sm bg-text-warning/10 text-text-warning mb-4 mt-2 rounded py-2 text-center">
+                {form.formState.errors.locations.root?.message}
               </div>
             )}
             <div className="w-full space-y-5 xl:space-y-6">
@@ -688,6 +639,7 @@ BusinessFormProps) {
               className="btn-reject"
               type="button"
               onClick={() => {
+                // validateCity(index);
                 append({ city: '', address: '' });
                 setMapOpenIndex(null);
               }}
