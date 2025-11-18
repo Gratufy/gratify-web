@@ -116,7 +116,7 @@ BusinessFormProps) {
     lat: number;
     lng: number;
   } | null>(null);
-
+  console.log('tempLatLng', tempLatLng);
   useEffect(() => {
     if (!defaultValues && fields.length === 0) {
       append({ city: '', address: '' });
@@ -524,128 +524,137 @@ BusinessFormProps) {
             )}
             <div className="w-full space-y-5 xl:space-y-6">
               {fields.map((field, index) => (
-                <div key={field.id}>
-                  <p className="title-h6 mb-3 xl:mb-4">Адреса {index + 1}:</p>
-                  <FormField
-                    control={form.control}
-                    name={`locations.${index}.city`}
-                    render={({ field }) => (
-                      <FormItem className="mb-2 w-full xl:mb-3">
-                        {/* <FormLabel>City</FormLabel> */}
-                        <FormControl>
-                          <CustomSelect
-                            className="standart w-full px-4"
-                            value={field.value}
-                            onChange={field.onChange}
-                            options={UKRAINE_REGIONAL_CENTERS_WITHOUT_ALL}
-                            getOptionValue={(o) => o.value}
-                            getOptionLabel={(o) => o.label}
-                            placeholder="Місто"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name={`locations.${index}.address`}
-                    render={({ field }) => (
-                      <FormItem className="w-full gap-1">
-                        <FormLabel className="placeholder-small xl:placeholder-sm">
-                          вулиця, будівля, приміщення
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            placeholder="Вулиця, будівля, приміщення"
-                            className="input-custom mb-4 px-2 lg:px-3 xl:mb-6 xl:px-4"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  {/* {`locations.${index}.address` &&
+                <>
+                  <div key={field.id}>
+                    <p className="title-h6 mb-3 xl:mb-4">Адреса {index + 1}:</p>
+                    <FormField
+                      control={form.control}
+                      name={`locations.${index}.city`}
+                      render={({ field }) => (
+                        <FormItem className="mb-2 w-full xl:mb-3">
+                          {/* <FormLabel>City</FormLabel> */}
+                          <FormControl>
+                            <CustomSelect
+                              className="standart w-full px-4"
+                              value={field.value}
+                              onChange={field.onChange}
+                              options={UKRAINE_REGIONAL_CENTERS_WITHOUT_ALL}
+                              getOptionValue={(o) => o.value}
+                              getOptionLabel={(o) => o.label}
+                              placeholder="Місто"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name={`locations.${index}.address`}
+                      render={({ field }) => (
+                        <FormItem className="w-full gap-1">
+                          <FormLabel className="placeholder-small xl:placeholder-sm">
+                            вулиця, будівля, приміщення
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="Вулиця, будівля, приміщення"
+                              className="input-custom mb-4 px-2 lg:px-3 xl:mb-6 xl:px-4"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    {/* {`locations.${index}.address` &&
                       `locations.${index}.address`.trim() !== "" && ( */}
-                  <div className="flex flex-col lg:mb-5 lg:flex-row lg:items-center lg:justify-between">
-                    <div className="mb-5 flex items-center gap-4 lg:mb-0">
-                      <span className="caption">
-                        Можете перевірити локацію на мапі перед збереженням
-                      </span>
-                      <button
-                        type="button"
-                        className="placeholder-sm xl:placeholder-base bg-elements-grey-200 border-background-main-300 flex min-w-40 cursor-pointer items-center justify-center text-nowrap border-[0.5px] px-3 py-[6px] lg:mb-0 xl:px-5 xl:py-2"
-                        // onClick={() => checkAddress(index)}
-                        onClick={() => handleOpenCheck(index)}
-                        disabled={checkAddressMutation.isPending}
-                      >
-                        {checkAddressMutation.isPending
-                          ? 'Перевіряємо...'
-                          : 'Перевірити локацію'}
-                      </button>
-                    </div>
+                    <div className="flex flex-col lg:mb-5 lg:flex-row lg:items-center lg:justify-between">
+                      <div className="mb-5 flex items-center gap-4 lg:mb-0">
+                        <span className="caption">
+                          Можете перевірити локацію на мапі перед збереженням
+                        </span>
+                        <button
+                          type="button"
+                          className="placeholder-sm xl:placeholder-base bg-elements-grey-200 border-background-main-300 flex min-w-40 cursor-pointer items-center justify-center text-nowrap border-[0.5px] px-3 py-[6px] lg:mb-0 xl:px-5 xl:py-2"
+                          // onClick={() => checkAddress(index)}
+                          onClick={() => handleOpenCheck(index)}
+                          disabled={checkAddressMutation.isPending}
+                        >
+                          {checkAddressMutation.isPending
+                            ? 'Перевіряємо...'
+                            : 'Перевірити локацію'}
+                        </button>
+                      </div>
 
-                    {/* )} */}
-                    {fields[index]?.city?.trim() !== '' && (
-                      <button
-                        type="button"
-                        className="bg-icons-color-accent/60 btn-aprove max-[1024px]:w-40"
-                        onClick={() => remove(index)}
-                      >
-                        <CrossIcon className="mr-2 size-4" />{' '}
-                        <span>Видалити адресу</span>
-                      </button>
-                    )}
+                      {/* )} */}
+                      {fields[index]?.city?.trim() !== '' && (
+                        <button
+                          type="button"
+                          className="bg-icons-color-accent/60 btn-aprove max-[1024px]:w-40"
+                          onClick={() => remove(index)}
+                        >
+                          <CrossIcon className="mr-2 size-4" />{' '}
+                          <span>Видалити адресу</span>
+                        </button>
+                      )}
+                    </div>
+                    {/* Map to check location- Opened with Btn */}
+                    {mapOpenIndex !== null &&
+                      mapOpenIndex === index &&
+                      tempLatLng && (
+                        <div className="border-elements-grey-300 mb-5 w-full border-[0.5px] px-2 py-2">
+                          <BusinessMap
+                            lat={tempLatLng.lat}
+                            lng={tempLatLng.lng}
+                            draggable
+                            onDragEnd={(lat, lng) =>
+                              setTempLatLng({ lat, lng })
+                            }
+                            height={360}
+                            isForm
+                          />
+                          <p className="placeholder-sm my-3 text-center">
+                            Ви можете перетягувати маркер, щоб уточнити локацію.
+                          </p>
+                          <div className="flex flex-col items-center justify-center gap-4 lg:flex-row">
+                            <Button
+                              type="button"
+                              onClick={handleConfirmLocation}
+                              className="placeholder-sm xl:placeholder-base w-50 rounded-none"
+                            >
+                              Підтвердити локацію
+                            </Button>
+                            <Button
+                              type="button"
+                              variant="secondary"
+                              className="border-background-main-300 placeholder-sm xl:placeholder-base w-50 rounded-none border"
+                              onClick={() => setMapOpenIndex(null)}
+                            >
+                              Закрити без збереження
+                            </Button>
+                          </div>
+                        </div>
+                      )}
                   </div>
-                </div>
+                  {index === fields.length - 1 && (
+                    <button
+                      className="btn-reject"
+                      type="button"
+                      onClick={() => {
+                        const ifCity = validateCity(index);
+                        if (!ifCity) return;
+                        append({ city: '', address: '' });
+                        setMapOpenIndex(null);
+                      }}
+                    >
+                      <Plus className="mr-2 size-4" /> <span>Додати ще</span>
+                    </button>
+                  )}
+                </>
               ))}
             </div>
             {/* ------ */}
-            {/* Map to check location- Opened with Btn */}
-            {mapOpenIndex !== null && tempLatLng && (
-              <div className="border-elements-grey-300 mb-5 w-full border-[0.5px] px-2 py-2">
-                <BusinessMap
-                  lat={tempLatLng.lat}
-                  lng={tempLatLng.lng}
-                  draggable
-                  onDragEnd={(lat, lng) => setTempLatLng({ lat, lng })}
-                  height={360}
-                  isForm
-                />
-                <p className="placeholder-sm my-3 text-center">
-                  Ви можете перетягувати маркер, щоб уточнити локацію.
-                </p>
-                <div className="flex flex-col items-center justify-center gap-4 lg:flex-row">
-                  <Button
-                    type="button"
-                    onClick={handleConfirmLocation}
-                    className="placeholder-sm xl:placeholder-base w-50 rounded-none"
-                  >
-                    Підтвердити локацію
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    className="border-background-main-300 placeholder-sm xl:placeholder-base w-50 rounded-none border"
-                    onClick={() => setMapOpenIndex(null)}
-                  >
-                    Закрити без збереження
-                  </Button>
-                </div>
-              </div>
-            )}
-            <button
-              className="btn-reject"
-              type="button"
-              onClick={() => {
-                // validateCity(index);
-                append({ city: '', address: '' });
-                setMapOpenIndex(null);
-              }}
-            >
-              <Plus className="mr-2 size-4" /> <span>Додати ще</span>
-            </button>
           </div>
         </div>
 
