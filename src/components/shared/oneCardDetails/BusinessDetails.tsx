@@ -63,7 +63,10 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
             </div>
             {/* -------------------------------------------- */}
             <div className="mb-6 w-full">
-              <SpecialOffersBlock specialOffers={business.specialOffers} />
+              <SpecialOffersBlock
+                specialOffers={business.specialOffers}
+                ownOffers={business.ownOffers}
+              />
             </div>
             {/* -------------------------------------------- */}
             <div className="border-elements-grey-400 mb-2 w-full border-b pb-4">
@@ -98,7 +101,10 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
                 </div>
                 {/* -------------------------------------------- */}
                 <div className="mb-10 w-full xl:mb-9">
-                  <SpecialOffersBlock specialOffers={business.specialOffers} />
+                  <SpecialOffersBlock
+                    specialOffers={business.specialOffers}
+                    ownOffers={business.ownOffers}
+                  />
                 </div>
                 {/* -------------------------------------------- */}
                 <div className="w-full lg:pb-0">

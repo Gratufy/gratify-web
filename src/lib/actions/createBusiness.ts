@@ -17,7 +17,7 @@ import { saveBusinessLocations } from '@/lib/actions/businessLocation';
 // create business
 
 export async function createBusiness(values: NewBusinessFormData) {
-  console.log('Creating business with values:', values);
+  // console.log('Creating business with values:', values);
   try {
     const supabase = await createClient();
     const {

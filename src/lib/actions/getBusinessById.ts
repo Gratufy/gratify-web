@@ -97,7 +97,14 @@ export async function getBusinessById(
       });
     }
     // own offers
-    //const ownOfferRows = await getOwnOffersForBusinesses([id]);
+    const ownOfferRows = await getOwnOffersForBusinesses([id]);
+    for (const offer of ownOfferRows) {
+      businessData.ownOffers.push({
+        id: offer.id,
+        businessId: offer.businessId,
+        title: offer.title,
+      });
+    }
     // Images
     const imageRows = await getBusinessImages(id);
 

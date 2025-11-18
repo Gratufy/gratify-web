@@ -44,9 +44,7 @@ export type BusinessWithDetails = Business & {
   specialOffers: (BusinessSpecialOffer & {
     title: string | null;
   })[];
-  ownOffers: {
-    title: string;
-  }[];
+  ownOffers: ownOffersForCard;
   images: BusinessImages;
 };
 
@@ -189,6 +187,12 @@ export type NewBusinessSpecialOffer = typeof businessSpecialOffers.$inferInsert;
 //own offers
 export type BusinessOwnSpecialOffer =
   typeof businessOwnSpecialOffers.$inferSelect;
+export type ownOfferForCard = {
+  id: string;
+  businessId: string;
+  title: string;
+};
+export type ownOffersForCard = ownOfferForCard[];
 //FAVORITES
 export type Favorite = typeof favorites.$inferSelect;
 export type BusinessFavorite = Business & {
