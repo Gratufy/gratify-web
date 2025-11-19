@@ -94,7 +94,7 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
           className="embla-thumbs__viewport xl:h-21 h-21 lg:h-18 overflow-hidden"
           ref={emblaThumbsRef}
         >
-          <div className="embla-thumbs__container lg:h-18 xl:h-21 h-21 flex items-center gap-4 lg:gap-8 xl:gap-5">
+          <div className="embla-thumbs__container lg:h-18 xl:h-21 h-21 flex items-center gap-4 lg:justify-center lg:gap-8 xl:gap-5">
             {slides.map((image, index) => (
               <button
                 key={index}

@@ -1,16 +1,14 @@
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
-import { BusinessWithCategoryName } from '@/types';
+import { BusinessWithCategoryName, BusinessWithDetails } from '@/types';
+import { getCityLabel } from '@/utils/getCityLabel';
 
-export function renderLocations(
-  b: BusinessWithCategoryName,
-  selectedCity: string
-) {
-  const selectedCityLabel =
-    selectedCity === '__all__'
-      ? '__all__'
-      : UKRAINE_REGIONAL_CENTERS.find((c) => c.value === selectedCity)?.label;
+export function renderLocations(b: BusinessWithDetails, selectedCity: string) {
+  // const selectedCityLabel =
+  //   selectedCity === '__all__'
+  //     ? '__all__'
+  //     : UKRAINE_REGIONAL_CENTERS.find((c) => c.value === selectedCity)?.label;
   // 1. city = "__all__"
-  if (selectedCityLabel === '__all__') {
+  if (selectedCity === '__all__') {
     if (b.isOnline && b.locations.length > 0) {
       return (
         <ul className="space-y-2">
@@ -20,7 +18,8 @@ export function renderLocations(
             .map((loc, idx) => (
               <li key={idx}>
                 <address className="title-h6 not-italic">
-                  м. {loc.city}, {loc.address?.trim() || ' адреса не додана'}
+                  м. {getCityLabel(loc.city)},{' '}
+                  {loc.address?.trim() || ' адреса не додана'}
                 </address>
               </li>
             ))}
@@ -59,7 +58,8 @@ export function renderLocations(
             .map((loc, idx) => (
               <li key={idx}>
                 <address className="title-h6 not-italic">
-                  м. {loc.city}, {loc.address?.trim() || ' адреса не додана'}
+                  м. {getCityLabel(loc.city)},
+                  {loc.address?.trim() || ' адреса не додана'}
                 </address>
               </li>
             ))}
@@ -71,14 +71,12 @@ export function renderLocations(
   }
 
   // 2.city != "__all__"  we filter by specific city
-  const cityLocations = b.locations.filter(
-    (loc) => loc.city === selectedCityLabel
-  );
+  const cityLocations = b.locations.filter((loc) => loc.city === selectedCity);
 
   if (cityLocations.length > 0) {
     return (
       <div>
-        <p className="title-h6 mb-1">м. {selectedCityLabel}</p>
+        <p className="title-h6 mb-1">м. {getCityLabel(selectedCity)}:</p>
 
         {cityLocations.length ? (
           <ul className="space-y-2">

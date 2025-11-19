@@ -23,10 +23,7 @@ export type BusinessWithCategoryName = Business & {
     latitude?: number | null;
     longitude?: number | null;
   }[];
-  // specialOffers: (BusinessSpecialOffer & {
-  //   title: string | null;
-  // })[];
-  // ownOffers: ownOffersForCard;
+
   allOffersRows: allOffersRows;
   coverImageUrl?: string | null;
 };
