@@ -47,7 +47,7 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
       }
       return updated;
     });
-    console.log('imagesState after update:', imagesState);
+
     // сброс input (иначе нельзя выбрать то же фото снова)
     e.target.value = '';
   };
@@ -75,7 +75,7 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
     <div className="bg-background-grey-50 mb-10 w-full py-10">
       <div className="container mx-auto flex w-full flex-col items-center gap-6 max-[1024px]:px-4">
         <div className="flex justify-center gap-3 px-7">
-          <label className="btn-reject w-[134px] gap-[6px] border px-3">
+          <label className="btn-reject gap-[6px] border px-3 xl:px-5">
             <Plus className="size-4" />
             <p>Додати фото</p>
             <input
@@ -92,7 +92,7 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
             <p>максимальна кількість 10 шт</p>
           </div>
         </div>
-        <div className="grid w-full grid-cols-2 gap-x-4 gap-y-6 lg:grid-cols-5 lg:gap-x-5 lg:gap-y-5">
+        <div className="grid w-full grid-cols-2 gap-x-4 gap-y-6 lg:grid-cols-5 lg:gap-x-5 lg:gap-y-5 xl:gap-y-4">
           {imagesState.map((img, index) => (
             <div
               key={index}

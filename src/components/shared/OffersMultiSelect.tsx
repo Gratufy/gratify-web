@@ -23,6 +23,8 @@ type CustomCheckBoxProps = {
   onChange: (offerId: string, checked: boolean) => void; // change handler
   error?: string;
   className?: string;
+  ownOfferLocalArr: string[];
+  setOwnOfferLocalArr: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 function OffersMultiSelect({
@@ -31,6 +33,8 @@ function OffersMultiSelect({
   onChange,
   error,
   className,
+  ownOfferLocalArr,
+  setOwnOfferLocalArr,
 }: CustomCheckBoxProps) {
   const [localSelectedOffers, setLocalSelectedOffers] = useState<
     SpecialOffer[]
@@ -38,61 +42,64 @@ function OffersMultiSelect({
   const [showStatusBar, setShowStatusBar] = useState<Checked>(true);
   const [showActivityBar, setShowActivityBar] = useState<Checked>(false);
   const [showOwnPanel, setShowOwnPanel] = useState<boolean>(false);
-  //const [ownOfferLocal, setOwnOfferLocal] = useState<string>([]);
-  const [ownOfferLocalArr, setOwnOfferLocalArr] = useState<string[]>([]);
+  const [ownOfferLocal, setOwnOfferLocal] = useState<string>('');
+  //const [ownOfferLocalArr, setOwnOfferLocalArr] = useState<string[]>([]);
   if (!offers || offers.length === 0) return <p>No special offers found</p>;
+
+  console.log('Own Offer Local', ownOfferLocal);
   return (
     <div className={`w-[70%] shrink-0 ${className || ''}`}>
       {/* choosed offers */}
 
-      {!showOwnPanel && localSelectedOffers.length > 0 && (
-        <div className="mb-2 flex flex-col gap-2">
-          {/* choosed common offers */}
-          {localSelectedOffers.map((offer) => (
-            <div
-              key={offer.id}
-              className="bg-background-grey-50 standart justify-between px-4"
-            >
-              <p className="placeholder-sm">{offer.title}</p>
-              <button
-                onClick={() => {
-                  setLocalSelectedOffers((prev) =>
-                    prev.filter((o) => o.id !== offer.id)
-                  );
-                  onChange(offer.id, false);
-                }}
-                className="cursor-pointer border-none outline-none"
+      {!showOwnPanel &&
+        (localSelectedOffers.length > 0 || ownOfferLocalArr.length > 0) && (
+          <div className="mb-2 flex flex-col gap-2">
+            {/* choosed common offers */}
+            {localSelectedOffers.map((offer) => (
+              <div
+                key={offer.id}
+                className="bg-background-grey-50 standart justify-between px-4"
               >
-                <CrossIcon className="size-4" />
-              </button>
-            </div>
-          ))}
-          {/* choosed own offers */}
-          {ownOfferLocalArr.length > 0 && (
-            <>
-              {ownOfferLocalArr.map((ownOffer, ind) => (
-                <div
-                  key={ind}
-                  className="bg-background-grey-50 border-elements-grey-400 flex items-center justify-between border-[0.5px] px-4 py-1"
+                <p className="placeholder-sm">{offer.title}</p>
+                <button
+                  onClick={() => {
+                    setLocalSelectedOffers((prev) =>
+                      prev.filter((o) => o.id !== offer.id)
+                    );
+                    onChange(offer.id, false);
+                  }}
+                  className="cursor-pointer border-none outline-none"
                 >
-                  <p className="placeholder-sm">{ownOffer}</p>
-                  <button
-                    onClick={() => {
-                      setOwnOfferLocalArr((prev) =>
-                        prev.filter((o) => o !== ownOffer)
-                      );
-                      //onChange(offer.id, false);
-                    }}
-                    className="cursor-pointer border-none outline-none"
+                  <CrossIcon className="size-4" />
+                </button>
+              </div>
+            ))}
+            {/* choosed own offers */}
+            {ownOfferLocalArr.length > 0 && (
+              <>
+                {ownOfferLocalArr.map((ownOffer, ind) => (
+                  <div
+                    key={ind}
+                    className="bg-background-grey-50 border-elements-grey-400 flex items-center justify-between border-[0.5px] px-4 py-1"
                   >
-                    <CrossIcon className="size-4" />
-                  </button>
-                </div>
-              ))}
-            </>
-          )}
-        </div>
-      )}
+                    <p className="placeholder-sm">{ownOffer}</p>
+                    <button
+                      onClick={() => {
+                        setOwnOfferLocalArr((prev) =>
+                          prev.filter((o) => o !== ownOffer)
+                        );
+                        //onChange(offer.id, false);
+                      }}
+                      className="cursor-pointer border-none outline-none"
+                    >
+                      <CrossIcon className="size-4" />
+                    </button>
+                  </div>
+                ))}
+              </>
+            )}
+          </div>
+        )}
       {/* Own offer pannel */}
       {showOwnPanel && (
         <div className="mb-5 flex flex-col gap-3">
@@ -117,24 +124,39 @@ function OffersMultiSelect({
             className="input-custom px-4"
             placeholder="Напишить власну пропозицію"
             maxLength={30}
+            value={ownOfferLocal}
+            onChange={(e) => setOwnOfferLocal(e.currentTarget.value)}
           />
           <div className="flex justify-between">
-            <button type="button" className="btn-reject px-3">
+            <button
+              type="button"
+              className="btn-reject px-3"
+              onClick={() => setOwnOfferLocal('')}
+            >
               Скасувати
             </button>
-            <button type="button" className="btn-aprove px-3">
+            <button
+              type="button"
+              className="btn-aprove px-3"
+              onClick={() => {
+                if (ownOfferLocal.trim() === '') return;
+                setOwnOfferLocalArr((prev) => [ownOfferLocal.trim(), ...prev]);
+                setOwnOfferLocal('');
+                setShowOwnPanel(false);
+              }}
+            >
               Зберегти
             </button>
           </div>
         </div>
       )}
       <DropdownMenu>
-        <DropdownMenuTrigger className="placeholder-sm standart w-full cursor-pointer justify-between px-4">
+        <DropdownMenuTrigger className="standart w-full cursor-pointer justify-between px-4">
           <span>Спеціальні пропозиції</span>
           <ChevronDownIcon className="size-5" />
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className="max-h-60 w-[var(--radix-dropdown-menu-trigger-width)] space-y-4 overflow-y-auto rounded-none p-2"
+          className="max-h-60 w-[var(--radix-dropdown-menu-trigger-width)] space-y-4 overflow-y-auto rounded-none px-4 py-2"
           align="start"
           side="bottom"
         >

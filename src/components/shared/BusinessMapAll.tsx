@@ -37,8 +37,17 @@ function FitBounds({ coords }: { coords: [number, number][] }) {
   return null;
 }
 
+type BusinessForMap = {
+  id: string;
+  locations: {
+    city: string;
+    address?: string | null;
+    latitude?: number | null;
+    longitude?: number | null;
+  }[];
+};
 type BusinessMapAllProps = {
-  businesses: BusinessWithCategoryName[];
+  businesses: BusinessForMap[];
   // height?: number | string;
   className?: string;
   selectedCity?: string;
@@ -57,25 +66,41 @@ function BusinessMapAll({
       ? '__all__'
       : UKRAINE_REGIONAL_CENTERS.find((c) => c.value === selectedCity)?.label;
 
-  const coords = useMemo(
-    () =>
-      businesses.flatMap((b) =>
-        (b.locations || [])
-          .filter(
-            (loc) =>
-              loc.latitude &&
-              loc.longitude &&
-              (cityLabel === '__all__' || loc.city === cityLabel)
-          )
-          .map((loc) => ({
-            businessId: b.id,
-            lat: loc.latitude!,
-            lng: loc.longitude!,
-          }))
-      ),
-    [businesses, cityLabel]
-  );
+  // const coords = useMemo(
+  //   () =>
+  //     businesses.flatMap((b) =>
+  //       (b.locations || [])
+  //         .filter(
+  //           (loc) =>
+  //             loc.latitude &&
+  //             loc.longitude &&
+  //             (cityLabel === '__all__' || loc.city === cityLabel)
+  //         )
+  //         .map((loc) => ({
+  //           businessId: b.id,
+  //           lat: loc.latitude!,
+  //           lng: loc.longitude!,
+  //         }))
+  //     ),
+  //   [businesses, cityLabel]
+  // );
+  const coords = useMemo(() => {
+    return businesses.flatMap((b) =>
+      b.locations
+        .filter((loc) => {
+          if (!loc.latitude || !loc.longitude) return false;
+          if (selectedCity === '__all__') return true;
+          return loc.city === selectedCity; // теперь loc.city = value
+        })
+        .map((loc) => ({
+          businessId: b.id,
+          lat: loc.latitude!,
+          lng: loc.longitude!,
+        }))
+    );
+  }, [businesses, selectedCity]);
 
+  console.log('businesses in BusinessMapAll:', coords);
   const { defaultIcon, hoveredIcon } = useMemo(() => {
     return {
       defaultIcon: new L.Icon.Default(),

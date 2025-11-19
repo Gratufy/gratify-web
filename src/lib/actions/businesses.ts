@@ -34,7 +34,10 @@ import { userProfiles } from '@/db/schema';
 //import { checkAddress } from "./businessLocation";
 import { saveBusinessLocations } from '@/lib/actions/businessLocation';
 import { PAGE_SIZE } from '@/const/business';
-import { getSpecialOffersForBusinesses } from '../helpers/getSpecialOffersForBusinesses';
+import {
+  getOwnOffersForBusinesses,
+  getSpecialOffersForBusinesses,
+} from '../helpers/getSpecialOffersForBusinesses';
 import { getBusinessImages } from '../helpers/getBusinessImages';
 import { getCoverImagesForBusinesses } from '../helpers/getCoverImagesForBusinesses';
 
@@ -126,10 +129,10 @@ export async function getBusinesses(
   // фильтр по city и онлайн/офлайн
   let statusFilter: SQL | undefined;
 
-  let cityLabel: string | undefined;
-  if (city && city !== '__all__') {
-    cityLabel = UKRAINE_REGIONAL_CENTERS.find((c) => c.value === city)?.label;
-  }
+  // let cityLabel: string | undefined;
+  // if (city && city !== '__all__') {
+  //   cityLabel = UKRAINE_REGIONAL_CENTERS.find((c) => c.value === city)?.label;
+  // }
   if (!city || city === '__all__') {
     // "__all__"
     if (showOnlineStatus === 'online') {
@@ -159,7 +162,8 @@ export async function getBusinesses(
       EXISTS (
         SELECT 1 FROM ${businessLocations} bl
         WHERE bl.business_id = ${businesses.id}
-        AND bl.city = ${cityLabel}
+      
+        AND bl.city = ${city}
       )
     `;
     } else if (showOnlineStatus === 'all') {
@@ -171,7 +175,7 @@ export async function getBusinesses(
         EXISTS (
           SELECT 1 FROM ${businessLocations} bl
           WHERE bl.business_id = ${businesses.id}
-          AND bl.city = ${cityLabel}
+           AND bl.city = ${city}
         )
       `
       );
@@ -259,7 +263,9 @@ export async function getBusinesses(
         businessMap.set(row.id, {
           ...businessData,
           locations: [],
-          specialOffers: [],
+          // specialOffers: [],
+          // ownOffers: [],
+          allOffersRows: [],
         });
       }
 
@@ -288,13 +294,15 @@ export async function getBusinesses(
     //   .where(inArray(businessSpecialOffers.businessId, ids));
 
     const offerRows = await getSpecialOffersForBusinesses(ids);
+    const ownOfferRows = await getOwnOffersForBusinesses(ids);
+    const allOffersRows = [...ownOfferRows, ...offerRows];
 
-    for (const offer of offerRows) {
+    for (const offer of allOffersRows) {
       const business = businessMap.get(offer.businessId);
       if (business) {
-        if (business.specialOffers.length < 3) {
+        if (business.allOffersRows.length < 3) {
           // limit to 3 offers for card shot
-          business.specialOffers.push({
+          business.allOffersRows.push({
             businessId: offer.businessId,
             offerId: offer.offerId,
             title: offer.title,
@@ -507,10 +515,10 @@ export async function getBusinessesForAdmin({
   if (reviewStatus) conditions.push(eq(businessReviews.status, reviewStatus));
   if (businessStatus) conditions.push(eq(businesses.status, businessStatus));
 
-  let cityLabel: string | undefined;
-  if (city && city !== '__all__') {
-    cityLabel = UKRAINE_REGIONAL_CENTERS.find((c) => c.value === city)?.label;
-  }
+  // let cityLabel: string | undefined;
+  // if (city && city !== '__all__') {
+  //   cityLabel = UKRAINE_REGIONAL_CENTERS.find((c) => c.value === city)?.label;
+  // }
   // фильтр по city и онлайн/офлайн
   if (!city || city === '__all__') {
     // "__all__"
@@ -534,7 +542,7 @@ export async function getBusinessesForAdmin({
       conditions.push(sql`
         EXISTS (
           SELECT 1 FROM ${businessLocations} bl
-          WHERE bl.business_id = ${businesses.id} AND bl.city = ${cityLabel}
+          WHERE bl.business_id = ${businesses.id} AND bl.city = ${city}
         )
       `);
     } else if (showOnlineStatus === 'all') {
@@ -542,7 +550,7 @@ export async function getBusinessesForAdmin({
       conditions.push(sql`
         ${businesses.isOnline} = true OR EXISTS (
           SELECT 1 FROM ${businessLocations} bl
-          WHERE bl.business_id = ${businesses.id} AND bl.city = ${cityLabel}
+          WHERE bl.business_id = ${businesses.id} AND bl.city = ${city}
         )
       `);
     }

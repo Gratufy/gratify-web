@@ -2,7 +2,11 @@
 import { createClient } from '@/utils/supabase/server';
 import { db } from '@/db';
 
-import { businesses, businessSpecialOffers } from '@/db/schema';
+import {
+  businesses,
+  businessOwnSpecialOffers,
+  businessSpecialOffers,
+} from '@/db/schema';
 import { eq, desc, sql, and, SQL, inArray, or } from 'drizzle-orm';
 import { NewBusinessFormData } from '@/types/business';
 import { isAdmin } from '@/lib/helpers/isAdmin';
@@ -13,6 +17,7 @@ import { saveBusinessLocations } from '@/lib/actions/businessLocation';
 // create business
 
 export async function createBusiness(values: NewBusinessFormData) {
+  // console.log('Creating business with values:', values);
   try {
     const supabase = await createClient();
     const {
@@ -64,33 +69,15 @@ export async function createBusiness(values: NewBusinessFormData) {
         }))
       );
     }
-    // 🖼️ Загружаем изображения в Supabase Storage
-    // if (values.images?.length) {
-    //   console.log('Uploading images:', values.images.length);
-    //   for (const { file, isCover } of values.images) {
-    //     const filePath = `${newBusiness.id}/${Date.now()}_${file.name}`;
-    //     const { error: uploadError } = await supabase.storage
-    //       .from('business-images')
-    //       .upload(filePath, file);
-
-    //     if (uploadError) {
-    //       console.error('Upload error:', uploadError);
-    //       continue;
-    //     }
-
-    //     const {
-    //       data: { publicUrl },
-    //     } = supabase.storage.from('business-images').getPublicUrl(filePath);
-    //     console.log('Uploaded image URL:', publicUrl);
-    //     // добавляем URL в таблицу
-    //     await db.insert(businessImages).values({
-    //       businessId: newBusiness.id,
-    //       ownerId: user.id,
-    //       url: publicUrl,
-    //       isCover,
-    //     });
-    //   }
-    // }
+    // OWN Special offers (новые названия)
+    if (values.ownOffers?.length) {
+      await db.insert(businessOwnSpecialOffers).values(
+        values.ownOffers.map((title) => ({
+          businessId: newBusiness.id,
+          title, // ➕ сохраняем текст
+        }))
+      );
+    }
     return {
       business: newBusiness,
       // check if we need profile??????!
@@ -101,3 +88,31 @@ export async function createBusiness(values: NewBusinessFormData) {
     throw new Error('Failed to create business');
   }
 }
+
+// 🖼️ Загружаем изображения в Supabase Storage
+// if (values.images?.length) {
+//   console.log('Uploading images:', values.images.length);
+//   for (const { file, isCover } of values.images) {
+//     const filePath = `${newBusiness.id}/${Date.now()}_${file.name}`;
+//     const { error: uploadError } = await supabase.storage
+//       .from('business-images')
+//       .upload(filePath, file);
+
+//     if (uploadError) {
+//       console.error('Upload error:', uploadError);
+//       continue;
+//     }
+
+//     const {
+//       data: { publicUrl },
+//     } = supabase.storage.from('business-images').getPublicUrl(filePath);
+//     console.log('Uploaded image URL:', publicUrl);
+//     // добавляем URL в таблицу
+//     await db.insert(businessImages).values({
+//       businessId: newBusiness.id,
+//       ownerId: user.id,
+//       url: publicUrl,
+//       isCover,
+//     });
+//   }
+// }

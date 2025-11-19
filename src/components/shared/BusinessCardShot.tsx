@@ -94,8 +94,8 @@ function BusinessCardShot({
 
       <div className="h-19 lg:h-17 xl:h-19 mb-4 flex gap-4 px-4 lg:mb-5 lg:gap-6 lg:px-2 xl:mb-3">
         <div className="flex w-[calc(50%-0.5rem)] flex-col gap-1 overflow-hidden">
-          {business?.specialOffers.length > 0 &&
-            business.specialOffers.map((offer) => (
+          {business?.allOffersRows.length > 0 &&
+            business.allOffersRows.map((offer) => (
               <div
                 key={offer.offerId}
                 className="flex items-center gap-3 overflow-hidden"

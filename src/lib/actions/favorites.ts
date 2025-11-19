@@ -4,7 +4,10 @@ import { businessCategories, businesses, favorites } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
 import type { BusinessWithCategoryName, Favorite } from '@/types';
 import { createClient } from '@/utils/supabase/server';
-import { getSpecialOffersForBusinesses } from '../helpers/getSpecialOffersForBusinesses';
+import {
+  getOwnOffersForBusinesses,
+  getSpecialOffersForBusinesses,
+} from '../helpers/getSpecialOffersForBusinesses';
 
 //provider of user favorites
 export async function getUserFavorites(): Promise<Favorite[]> {
@@ -80,13 +83,16 @@ export async function getUserFavoriteBusinesses(
   // Offers
   const ids = rows.map((b) => b.id);
   const offerRows = await getSpecialOffersForBusinesses(ids);
+  const ownOfferRows = await getOwnOffersForBusinesses(ids);
+  const allOffersRows = [...ownOfferRows, ...offerRows];
 
   // Mapping
   const businessMap = new Map<string, BusinessWithCategoryName>();
   for (const row of rows) {
     businessMap.set(row.id, {
       ...row,
-      specialOffers: [],
+      // specialOffers: [],
+      allOffersRows: [],
       locations: [],
     });
   }
@@ -95,9 +101,9 @@ export async function getUserFavoriteBusinesses(
   for (const offer of offerRows) {
     const business = businessMap.get(offer.businessId);
     if (business) {
-      if (business.specialOffers.length < 3) {
+      if (business.allOffersRows.length < 3) {
         // limit to 3 offers for card shot
-        business.specialOffers.push({
+        business.allOffersRows.push({
           businessId: offer.businessId,
           offerId: offer.offerId,
           title: offer.title,

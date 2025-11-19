@@ -3,6 +3,7 @@ import {
   businesses,
   businessHours,
   businessLocations,
+  businessOwnSpecialOffers,
   businessReviews,
   businessSpecialOffers,
   businessVotes,
@@ -22,9 +23,8 @@ export type BusinessWithCategoryName = Business & {
     latitude?: number | null;
     longitude?: number | null;
   }[];
-  specialOffers: (BusinessSpecialOffer & {
-    title: string | null;
-  })[];
+
+  allOffersRows: allOffersRows;
   coverImageUrl?: string | null;
 };
 // export type AdminBusinessRow = Business & {
@@ -33,7 +33,7 @@ export type BusinessWithCategoryName = Business & {
 
 // for one card details- NEW!!!!
 export type BusinessWithDetails = Business & {
-  categoryName: string | null;
+  categoryName: string;
   locations: {
     city: string;
     address?: string | null;
@@ -43,6 +43,7 @@ export type BusinessWithDetails = Business & {
   specialOffers: (BusinessSpecialOffer & {
     title: string | null;
   })[];
+  ownOffers: ownOffersForCard;
   images: BusinessImages;
 };
 
@@ -126,6 +127,8 @@ export type NewBusinessFormData = {
   isOnline: boolean;
   locations: LocationFormData[];
   specialOffers: NewBusinessSpecialOffer['offerId'][];
+  //ownOffers?: BusinessOwnSpecialOffer['title'][];
+  ownOffers?: string[];
 };
 
 //Sort
@@ -180,10 +183,24 @@ export type NewSpecialOffer = typeof specialOffers.$inferInsert;
 export type BusinessSpecialOffer = typeof businessSpecialOffers.$inferSelect;
 export type NewBusinessSpecialOffer = typeof businessSpecialOffers.$inferInsert;
 
+//own offers
+export type BusinessOwnSpecialOffer =
+  typeof businessOwnSpecialOffers.$inferSelect;
+export type ownOfferForCard = {
+  offerId: string;
+  businessId: string;
+  title: string;
+};
+export type ownOffersForCard = ownOfferForCard[];
+export type allOffersRows = {
+  offerId: string;
+  businessId: string;
+  title: string | null;
+}[];
 //FAVORITES
 export type Favorite = typeof favorites.$inferSelect;
 export type BusinessFavorite = Business & {
-  categoryName: string | null;
+  categoryName: string;
   specialOffers: (BusinessSpecialOffer & {
     title: string | null;
   })[];

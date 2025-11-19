@@ -75,7 +75,7 @@ function CustomSelect<T>({
         >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="py-2">
           <SelectGroup>
             {options.map((option, index) => {
               const val = getOptionValue
@@ -88,7 +88,7 @@ function CustomSelect<T>({
                 <SelectItem
                   key={val ?? index}
                   value={val ?? ''}
-                  className="xl:placeholder-base lg:placeholder-sm placeholder-xs"
+                  className="xl:placeholder-base placeholder-sm px-4"
                 >
                   {label}
                 </SelectItem>

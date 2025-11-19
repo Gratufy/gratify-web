@@ -1,15 +1,14 @@
 'use client';
 
-import { useBusiness } from '@/hooks/useBusinesses';
 import { BusinessForm } from './BusinessForm';
 import BackButton from '../ui/GoBackButton';
-import { getBusinessById } from '@/lib/actions/getBusinessById';
-import { BusinessWithCategoryName } from '@/types';
+
+import { BusinessWithDetails } from '@/types';
 
 interface Props {
   id: string;
   href: string;
-  business: BusinessWithCategoryName;
+  business: BusinessWithDetails;
 }
 export default function BusinessEditClient({
   id,

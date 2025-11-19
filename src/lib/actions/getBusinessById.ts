@@ -6,7 +6,10 @@ import { businessCategories, businesses, businessLocations } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { BusinessWithDetails } from '@/types/business';
 
-import { getSpecialOffersForBusinesses } from '../helpers/getSpecialOffersForBusinesses';
+import {
+  getOwnOffersForBusinesses,
+  getSpecialOffersForBusinesses,
+} from '../helpers/getSpecialOffersForBusinesses';
 import { getBusinessImages } from '../helpers/getBusinessImages';
 
 const businessSelectFields = {
@@ -55,6 +58,7 @@ export async function getBusinessById(
       locations: [],
       specialOffers: [],
       images: [],
+      ownOffers: [],
     } as BusinessWithDetails;
 
     // Locations
@@ -68,19 +72,6 @@ export async function getBusinessById(
         });
       }
     }
-    // 2. Получаем все specialOffers для этого бизнеса
-    // const offerRows = await db
-    //   .select({
-    //     businessId: businessSpecialOffers.businessId,
-    //     offerId: businessSpecialOffers.offerId,
-    //     title: specialOffers.title,
-    //   })
-    //   .from(businessSpecialOffers)
-    //   .leftJoin(
-    //     specialOffers,
-    //     eq(businessSpecialOffers.offerId, specialOffers.id)
-    //   )
-    //   .where(eq(businessSpecialOffers.businessId, id));
 
     // Special Offers
     const offerRows = await getSpecialOffersForBusinesses([id]);
@@ -92,7 +83,15 @@ export async function getBusinessById(
         title: offer.title,
       });
     }
-
+    // own offers
+    const ownOfferRows = await getOwnOffersForBusinesses([id]);
+    for (const offer of ownOfferRows) {
+      businessData.ownOffers.push({
+        offerId: offer.offerId,
+        businessId: offer.businessId,
+        title: offer.title,
+      });
+    }
     // Images
     const imageRows = await getBusinessImages(id);
 
