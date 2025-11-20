@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
@@ -7,7 +8,7 @@ import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import * as v from 'valibot';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { useForm, useFieldArray } from 'react-hook-form';
-import type { FieldErrors } from 'react-hook-form';
+import type { FieldErrors, UseFormReturn } from 'react-hook-form';
 import {
   Form,
   FormControl,
@@ -31,6 +32,7 @@ import { useCheckAddress } from '@/hooks/useBusinessLocation';
 
 import { useCreateBusiness, useUpdateBusiness } from '@/hooks/useBusinesses';
 import {
+  BusinessFormValues,
   BusinessOwnSpecialOffer,
   BusinessUpdate,
   LocationFormData,
@@ -79,8 +81,8 @@ BusinessFormProps) {
       isCover: false,
     }))
   );
-  const [ownOfferLocalArr, setOwnOfferLocalArr] = useState<string[]>([]);
-  console.log('ownOfferLocalArr', ownOfferLocalArr);
+  //const [ownOfferLocalArr, setOwnOfferLocalArr] = useState<string[]>([]);
+  //console.log('ownOfferLocalArr', ownOfferLocalArr);
   const {
     categories,
     // isLoading: isCategoriesLoading,
@@ -102,6 +104,7 @@ BusinessFormProps) {
       isOnline: false,
       locations: [],
       specialOffers: [],
+      ownOffers: [],
     },
   });
 
@@ -252,7 +255,8 @@ BusinessFormProps) {
           locations: locationsWithCoords,
           isOnline: data.isOnline,
           specialOffers: data.specialOffers,
-          ownOffers: ownOfferLocalArr,
+          //ownOffers: ownOfferLocalArr,
+          ownOffers: data.ownOffers,
         };
         console.log('New business data to submit:', newBusinessData);
         // Create the business-user
@@ -410,11 +414,12 @@ BusinessFormProps) {
                   <FormControl className="shrink-0">
                     <OffersMultiSelect
                       className="lg:w-[260px] xl:w-[364px]"
+                      form={form as UseFormReturn<BusinessFormValues>}
                       // className="placeholder:text-text-950-grey border-elements-grey-400 bg-background-white placeholder:text-xs"
                       offers={allSpecialOffers ?? []}
                       selectedOfferIds={field.value ?? []}
-                      ownOfferLocalArr={ownOfferLocalArr}
-                      setOwnOfferLocalArr={setOwnOfferLocalArr}
+                      // ownOfferLocalArr={ownOfferLocalArr}
+                      // setOwnOfferLocalArr={setOwnOfferLocalArr}
                       onChange={(offerId, checked) => {
                         let newValue = field.value ?? [];
                         if (checked) {
@@ -524,8 +529,8 @@ BusinessFormProps) {
             )}
             <div className="w-full space-y-5 xl:space-y-6">
               {fields.map((field, index) => (
-                <>
-                  <div key={field.id}>
+                <div key={field.id}>
+                  <div>
                     <p className="title-h6 mb-3 xl:mb-4">Адреса {index + 1}:</p>
                     <FormField
                       control={form.control}
@@ -651,7 +656,7 @@ BusinessFormProps) {
                       <Plus className="mr-2 size-4" /> <span>Додати ще</span>
                     </button>
                   )}
-                </>
+                </div>
               ))}
             </div>
             {/* ------ */}

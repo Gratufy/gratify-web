@@ -91,6 +91,16 @@ export interface UseAdminBusinessesParams {
 }
 export type NewBusiness = typeof businesses.$inferInsert;
 // export type BusinessUpdate = Partial<Omit<Business, "id">>;
+export type BusinessFormValues = {
+  isOnline: boolean;
+  name: string;
+  description: string;
+  website?: string | null;
+  specialOffers: string[];
+  ownOffers: string[];
+  category: string;
+  locations: LocationFormData[];
+};
 export type BusinessUpdate = Partial<
   Omit<
     Business,
@@ -99,6 +109,7 @@ export type BusinessUpdate = Partial<
 > & {
   locations?: LocationFormData[];
   specialOffers?: string[];
+  ownOffers?: string[];
 };
 
 export interface GetBusinessesParams {

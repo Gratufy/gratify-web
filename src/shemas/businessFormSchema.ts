@@ -23,7 +23,7 @@ export const businessFormSchema = v.pipe(
     ),
 
     specialOffers: v.array(v.string()),
-
+    ownOffers: v.array(v.string()),
     category: v.pipe(
       v.string(),
       v.nonEmpty('Будь ласка, оберіть категорію бізнесу')

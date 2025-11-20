@@ -41,6 +41,7 @@ export default function BusinessEditClient({
             longitude: loc.longitude ?? undefined,
           })),
           specialOffers: (data.specialOffers || []).map((o) => o.offerId) ?? [],
+          //ownOffers: (data.ownOffers || []).map((o) => o.title) ?? [],
         }}
       />
     </>

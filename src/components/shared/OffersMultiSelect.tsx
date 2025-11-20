@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import { UseFormReturn } from 'react-hook-form';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import {
@@ -14,7 +15,7 @@ import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import CheckIcon from '@/assets/icons/general/icon-check.svg';
 type Checked = DropdownMenuCheckboxItemProps['checked'];
-import { SpecialOffer } from '@/types';
+import { BusinessFormValues, BusinessUpdate, SpecialOffer } from '@/types';
 import { Input } from '../ui/input';
 
 type CustomCheckBoxProps = {
@@ -23,8 +24,9 @@ type CustomCheckBoxProps = {
   onChange: (offerId: string, checked: boolean) => void; // change handler
   error?: string;
   className?: string;
-  ownOfferLocalArr: string[];
-  setOwnOfferLocalArr: React.Dispatch<React.SetStateAction<string[]>>;
+  form: UseFormReturn<BusinessFormValues>;
+  // ownOfferLocalArr: string[];
+  // setOwnOfferLocalArr: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 function OffersMultiSelect({
@@ -33,27 +35,64 @@ function OffersMultiSelect({
   onChange,
   error,
   className,
-  ownOfferLocalArr,
-  setOwnOfferLocalArr,
+  form,
+  // ownOfferLocalArr,
+  // setOwnOfferLocalArr,
 }: CustomCheckBoxProps) {
   const [localSelectedOffers, setLocalSelectedOffers] = useState<
     SpecialOffer[]
   >([]);
-  const [showStatusBar, setShowStatusBar] = useState<Checked>(true);
-  const [showActivityBar, setShowActivityBar] = useState<Checked>(false);
+  const ownOffers = form.watch('ownOffers') || [];
+  console.log('Selected Offer Ids:', ownOffers);
   const [showOwnPanel, setShowOwnPanel] = useState<boolean>(false);
   const [ownOfferLocal, setOwnOfferLocal] = useState<string>('');
   //const [ownOfferLocalArr, setOwnOfferLocalArr] = useState<string[]>([]);
   if (!offers || offers.length === 0) return <p>No special offers found</p>;
 
   console.log('Own Offer Local', ownOfferLocal);
+
+  const addOwnOffer = () => {
+    if (!ownOfferLocal.trim()) return;
+    form.setValue('ownOffers', [
+      ownOfferLocal.trim(),
+      ...(form.watch('ownOffers') ?? []),
+    ]);
+    setOwnOfferLocal('');
+    setShowOwnPanel(false);
+  };
+
+  const removeOwnOffer = (title: string) => {
+    form.setValue(
+      'ownOffers',
+      ownOffers.filter((o) => o !== title)
+    );
+  };
   return (
     <div className={`w-[70%] shrink-0 ${className || ''}`}>
       {/* choosed offers */}
 
       {!showOwnPanel &&
-        (localSelectedOffers.length > 0 || ownOfferLocalArr.length > 0) && (
+        (localSelectedOffers.length > 0 || ownOffers.length > 0) && (
           <div className="mb-2 flex flex-col gap-2">
+            {/* choosed own offers */}
+            {ownOffers.length > 0 && (
+              <>
+                {ownOffers.map((ownOffer, ind) => (
+                  <div
+                    key={ind + ownOffer}
+                    className="bg-background-grey-50 border-elements-grey-400 flex items-center justify-between border-[0.5px] px-4 py-1"
+                  >
+                    <p className="placeholder-sm">{ownOffer}</p>
+                    <button
+                      onClick={() => removeOwnOffer}
+                      className="cursor-pointer border-none outline-none"
+                    >
+                      <CrossIcon className="size-4" />
+                    </button>
+                  </div>
+                ))}
+              </>
+            )}
             {/* choosed common offers */}
             {localSelectedOffers.map((offer) => (
               <div
@@ -74,30 +113,6 @@ function OffersMultiSelect({
                 </button>
               </div>
             ))}
-            {/* choosed own offers */}
-            {ownOfferLocalArr.length > 0 && (
-              <>
-                {ownOfferLocalArr.map((ownOffer, ind) => (
-                  <div
-                    key={ind}
-                    className="bg-background-grey-50 border-elements-grey-400 flex items-center justify-between border-[0.5px] px-4 py-1"
-                  >
-                    <p className="placeholder-sm">{ownOffer}</p>
-                    <button
-                      onClick={() => {
-                        setOwnOfferLocalArr((prev) =>
-                          prev.filter((o) => o !== ownOffer)
-                        );
-                        //onChange(offer.id, false);
-                      }}
-                      className="cursor-pointer border-none outline-none"
-                    >
-                      <CrossIcon className="size-4" />
-                    </button>
-                  </div>
-                ))}
-              </>
-            )}
           </div>
         )}
       {/* Own offer pannel */}
@@ -138,12 +153,7 @@ function OffersMultiSelect({
             <button
               type="button"
               className="btn-aprove px-3"
-              onClick={() => {
-                if (ownOfferLocal.trim() === '') return;
-                setOwnOfferLocalArr((prev) => [ownOfferLocal.trim(), ...prev]);
-                setOwnOfferLocal('');
-                setShowOwnPanel(false);
-              }}
+              onClick={addOwnOffer}
             >
               Зберегти
             </button>
