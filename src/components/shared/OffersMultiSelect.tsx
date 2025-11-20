@@ -84,7 +84,8 @@ function OffersMultiSelect({
                   >
                     <p className="placeholder-sm">{ownOffer}</p>
                     <button
-                      onClick={() => removeOwnOffer}
+                      type="button"
+                      onClick={() => removeOwnOffer(ownOffer)}
                       className="cursor-pointer border-none outline-none"
                     >
                       <CrossIcon className="size-4" />
@@ -101,6 +102,7 @@ function OffersMultiSelect({
               >
                 <p className="placeholder-sm">{offer.title}</p>
                 <button
+                  type="button"
                   onClick={() => {
                     setLocalSelectedOffers((prev) =>
                       prev.filter((o) => o.id !== offer.id)
@@ -121,6 +123,7 @@ function OffersMultiSelect({
           <div className="bg-background-grey-50 standart justify-between px-4">
             <p className="placeholder-sm">свій вариант</p>
             <button
+              type="button"
               onClick={() => {
                 //setOwnOfferLocalArr((prev)=>[...prev,ownOfferLocal]);
                 // onChange(offer.id, false);
@@ -199,6 +202,7 @@ function OffersMultiSelect({
             </div>
           ))}
           <button
+            type="button"
             onClick={() => {
               setShowOwnPanel(true);
             }}

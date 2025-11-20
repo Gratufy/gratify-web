@@ -4,6 +4,7 @@ import { BusinessForm } from './BusinessForm';
 import BackButton from '../ui/GoBackButton';
 
 import { BusinessWithDetails } from '@/types';
+import BusinessFormNew from './newForm/BusinessFormNew';
 
 interface Props {
   id: string;
@@ -26,7 +27,7 @@ export default function BusinessEditClient({
   return (
     <>
       <BackButton href={href} />
-      <BusinessForm
+      <BusinessFormNew
         businessId={id}
         defaultValues={{
           name: data.name,
@@ -41,7 +42,7 @@ export default function BusinessEditClient({
             longitude: loc.longitude ?? undefined,
           })),
           specialOffers: (data.specialOffers || []).map((o) => o.offerId) ?? [],
-          //ownOffers: (data.ownOffers || []).map((o) => o.title) ?? [],
+          ownOffers: (data.ownOffers || []).map((o) => o.title) ?? [],
         }}
       />
     </>
