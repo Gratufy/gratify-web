@@ -5,12 +5,8 @@ import { Plus } from 'lucide-react';
 import ImageFolder from '@/assets/icons/form/image-folder.svg';
 
 import Image from 'next/image';
+import { PreviewImage } from '@/types/images';
 
-interface PreviewImage {
-  file: File | null;
-  url: string | null;
-  isCover: boolean;
-}
 type ImagesBlockProps = {
   imagesState: PreviewImage[];
   setImagesState: React.Dispatch<React.SetStateAction<PreviewImage[]>>;

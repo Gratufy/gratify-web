@@ -24,20 +24,11 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import CustomSelect from '../../ui/CustomSelect';
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
-import {
-  UKRAINE_REGIONAL_CENTERS,
-  UKRAINE_REGIONAL_CENTERS_WITHOUT_ALL,
-} from '@/const/regions';
+import { UKRAINE_REGIONAL_CENTERS_WITHOUT_ALL } from '@/const/regions';
 import { useCheckAddress } from '@/hooks/useBusinessLocation';
 
 import { useCreateBusiness, useUpdateBusiness } from '@/hooks/useBusinesses';
-import {
-  BusinessFormValues,
-  BusinessImages,
-  BusinessOwnSpecialOffer,
-  BusinessUpdate,
-  LocationFormData,
-} from '@/types';
+import { BusinessFormValues, BusinessImages, BusinessUpdate } from '@/types';
 import { useUserStore } from '@/stores/useUserStore';
 
 import dynamic from 'next/dynamic';
@@ -49,6 +40,12 @@ import OffersMultiSelect from '../OffersMultiSelect';
 import ImagesBlock from './ImagesBlock';
 import { uploadBusinessImages } from '@/lib/actions/uploadBusinessImages';
 import { businessFormSchema } from '@/shemas/businessFormSchema';
+import { ensureOneCover } from '@/lib/helpers/ensureOneCover';
+import {
+  buildClientPayload,
+  uploadImagesAndReturnUrls,
+} from '@/lib/helpers/uploadImagesAndReturnUrls';
+
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
 });
@@ -258,8 +255,17 @@ export default function BusinessFormNew({
           values: updateData,
         });
 
-        // update all locations at once
-        //await saveBusinessLocations(businessId, locationsWithCoords, true);
+        // IMAGES
+        const currentUser = useUserStore.getState().profile?.userId;
+        if (!currentUser) throw new Error('No current user');
+        const fixedImages = ensureOneCover(imagesState);
+        const payload = buildClientPayload(fixedImages);
+        // только новые файлы для Supabase
+        const newFiles = fixedImages.filter((img) => img.file);
+
+        await uploadImagesAndReturnUrls(businessId, newFiles, currentUser);
+        //await updateBusinessImagesOnServer(businessId, payload, currentUser);
+        //
         alert('Business edited successfully!');
         // Reset form
         form.reset(defaultValues);
@@ -285,40 +291,16 @@ export default function BusinessFormNew({
         useUserStore.getState().setProfile(profile);
 
         //IMAGES
-        const uploadedImagesWithUrl: {
-          businessId: string;
-          url: string;
-          isCover: boolean;
-        }[] = [];
-        const supabase = createClient();
+        const notEmptyFiles = imagesState.filter((img) => img.file);
+        if (notEmptyFiles.length) {
+          const fixedImages = ensureOneCover(notEmptyFiles);
+          const uploadedImagesWithUrl = await uploadImagesAndReturnUrls(
+            business.id,
+            fixedImages,
+            profile.userId
+          );
+          //  Передаём URL в серверную функцию
 
-        const uploadedImages = imagesState
-          .filter((img) => img.file !== null)
-          .map((img) => ({
-            file: img.file!,
-            isCover: img.isCover,
-          }));
-        for (const { file, isCover } of uploadedImages) {
-          const filePath = `${business.id}/${Date.now()}_${file.name}`;
-          const { error } = await supabase.storage
-            .from('business-images')
-            .upload(filePath, file);
-          if (error) {
-            console.error('Upload error:', error);
-            continue;
-          }
-
-          const {
-            data: { publicUrl },
-          } = supabase.storage.from('business-images').getPublicUrl(filePath);
-          uploadedImagesWithUrl.push({
-            businessId: business.id,
-            url: publicUrl,
-            isCover,
-          });
-        }
-        //  Передаём URL в серверную функцию
-        if (uploadedImages.length) {
           await uploadBusinessImages(uploadedImagesWithUrl, profile.userId);
         }
         //--------------------
@@ -339,6 +321,7 @@ export default function BusinessFormNew({
       alert('Something went wrong');
     }
   }
+
   //for check validation
   const onError = (
     errors: FieldErrors<v.InferOutput<typeof businessFormSchema>>
@@ -689,3 +672,36 @@ export default function BusinessFormNew({
     </Form>
   );
 }
+
+// const uploadedImagesWithUrl: {
+//   businessId: string;
+//   url: string;
+//   isCover: boolean;
+// }[] = [];
+// const supabase = createClient();
+
+// const uploadedImages = imagesState
+//   .filter((img) => img.file !== null)
+//   .map((img) => ({
+//     file: img.file!,
+//     isCover: img.isCover,
+//   }));
+// for (const { file, isCover } of uploadedImages) {
+//   const filePath = `${business.id}/${Date.now()}_${file.name}`;
+//   const { error } = await supabase.storage
+//     .from('business-images')
+//     .upload(filePath, file);
+//   if (error) {
+//     console.error('Upload error:', error);
+//     continue;
+//   }
+
+//   const {
+//     data: { publicUrl },
+//   } = supabase.storage.from('business-images').getPublicUrl(filePath);
+//   uploadedImagesWithUrl.push({
+//     businessId: business.id,
+//     url: publicUrl,
+//     isCover,
+//   });
+// }
