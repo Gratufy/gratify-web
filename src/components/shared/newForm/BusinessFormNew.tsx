@@ -256,14 +256,19 @@ export default function BusinessFormNew({
         });
 
         // IMAGES
-        const currentUser = useUserStore.getState().profile?.userId;
-        if (!currentUser) throw new Error('No current user');
+        const currentUserId = useUserStore.getState().profile?.userId;
+        if (!currentUserId) throw new Error('No current user');
         const fixedImages = ensureOneCover(imagesState);
         const payload = buildClientPayload(fixedImages);
         // только новые файлы для Supabase
         const newFiles = fixedImages.filter((img) => img.file);
 
-        await uploadImagesAndReturnUrls(businessId, newFiles, currentUser);
+        const uploadedImagesWithUrl = await uploadImagesAndReturnUrls(
+          businessId,
+          newFiles,
+          currentUserId
+        );
+        await uploadBusinessImages(uploadedImagesWithUrl, currentUserId);
         //await updateBusinessImagesOnServer(businessId, payload, currentUser);
         //
         alert('Business edited successfully!');
