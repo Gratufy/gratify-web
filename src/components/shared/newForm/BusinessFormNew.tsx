@@ -70,8 +70,8 @@ type BusinessFormProps = {
 export default function BusinessFormNew({
   defaultValues,
   businessId,
-}: //onSuccess,
-BusinessFormProps) {
+  existingImages,
+}: BusinessFormProps) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -83,8 +83,25 @@ BusinessFormProps) {
       isCover: false,
     }))
   );
-  //const [ownOfferLocalArr, setOwnOfferLocalArr] = useState<string[]>([]);
-  //console.log('ownOfferLocalArr', ownOfferLocalArr);
+
+  useEffect(() => {
+    if (!existingImages?.length) return;
+
+    const filled = existingImages.map((img) => ({
+      file: null,
+      url: img.url,
+      isCover: img.isCover ?? false,
+    }));
+
+    const empty = Array.from({ length: MAX_PHOTOS - filled.length }, () => ({
+      file: null,
+      url: null,
+      isCover: false,
+    }));
+
+    setImagesState([...filled, ...empty]);
+  }, [existingImages]);
+
   const {
     categories,
     // isLoading: isCategoriesLoading,

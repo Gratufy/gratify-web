@@ -17,7 +17,12 @@ type ImagesBlockProps = {
 };
 
 function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
+  console.log('imagesState', imagesState);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // считаем слот заполненным, если есть file или url
+    const isFilled = (img: PreviewImage) => !!(img.file || img.url);
+
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
 
@@ -29,7 +34,7 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
       // найти первую пустую ячейку
 
       for (const file of files) {
-        const emptySlot = updated.findIndex((img) => !img.file);
+        const emptySlot = updated.findIndex((img) => !isFilled(img));
         if (emptySlot === -1) {
           alert('Досягнуто максимальну кількість фото');
           break;
@@ -42,8 +47,10 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
         };
       }
       if (!hasCover) {
-        const firstFilled = updated.findIndex((img) => img.file);
-        if (firstFilled !== -1) updated[firstFilled].isCover = true;
+        const firstFilled = updated.findIndex((img) => isFilled(img));
+        if (firstFilled !== -1) {
+          updated.forEach((img, i) => (img.isCover = i === firstFilled));
+        }
       }
       return updated;
     });
@@ -66,7 +73,7 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
     setImagesState((prev) =>
       prev.map((img, i) => ({
         ...img,
-        isCover: i === index && img.file ? !img.isCover : false,
+        isCover: i === index && (img.file || img.url) ? true : false,
       }))
     );
   };
