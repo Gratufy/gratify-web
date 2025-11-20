@@ -33,6 +33,7 @@ import { useCheckAddress } from '@/hooks/useBusinessLocation';
 import { useCreateBusiness, useUpdateBusiness } from '@/hooks/useBusinesses';
 import {
   BusinessFormValues,
+  BusinessImages,
   BusinessOwnSpecialOffer,
   BusinessUpdate,
   LocationFormData,
@@ -61,6 +62,7 @@ interface PreviewImage {
 type BusinessFormProps = {
   businessId?: string; // if edit
   defaultValues?: FormValues;
+  existingImages?: BusinessImages;
 
   //onSuccess?: () => void;
 };
@@ -219,9 +221,8 @@ BusinessFormProps) {
           return loc;
         })
       );
-      console.log('businessId:', businessId);
+
       if (businessId) {
-        console.log('Updating business with data:');
         // update existing business
         // Prepare data for the database
         const updateData: BusinessUpdate = {
@@ -247,7 +248,7 @@ BusinessFormProps) {
         form.reset(defaultValues);
       } else {
         // Creating a new business
-        console.log('Creating new business with data:');
+
         const newBusinessData = {
           name: data.name,
           description: data.description,
@@ -259,7 +260,7 @@ BusinessFormProps) {
           //ownOffers: ownOfferLocalArr,
           ownOffers: data.ownOffers,
         };
-        console.log('New business data to submit:', newBusinessData);
+
         // Create the business-user
         const { business, profile } =
           await createBusinessMutation.mutateAsync(newBusinessData);
@@ -575,7 +576,7 @@ BusinessFormProps) {
                     />
                     {/* {`locations.${index}.address` &&
                       `locations.${index}.address`.trim() !== "" && ( */}
-                    <div className="flex flex-col lg:mb-5 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="mb-5 flex flex-col lg:flex-row lg:items-center lg:justify-between">
                       <div className="mb-5 flex items-center gap-4 lg:mb-0">
                         <span className="caption">
                           Можете перевірити локацію на мапі перед збереженням

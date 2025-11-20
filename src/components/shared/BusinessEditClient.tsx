@@ -49,6 +49,7 @@ export default function BusinessEditClient({
           specialOffers: (data.specialOffers || []).map((o) => o.offerId) ?? [],
           ownOffers: (data.ownOffers || []).map((o) => o.title) ?? [],
         }}
+        existingImages={data.images || []}
       />
     </div>
   );
