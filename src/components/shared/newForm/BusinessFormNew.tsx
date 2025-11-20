@@ -232,6 +232,7 @@ BusinessFormProps) {
           categoryId: data.category,
           locations: locationsWithCoords,
           specialOffers: data.specialOffers ?? [],
+          ownOffers: data.ownOffers ?? [],
         };
 
         await updateBusinessMutation.mutateAsync({

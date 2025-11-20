@@ -39,11 +39,14 @@ function OffersMultiSelect({
   // ownOfferLocalArr,
   // setOwnOfferLocalArr,
 }: CustomCheckBoxProps) {
-  const [localSelectedOffers, setLocalSelectedOffers] = useState<
-    SpecialOffer[]
-  >([]);
+  // const [localSelectedOffers, setLocalSelectedOffers] = useState<
+  //   SpecialOffer[]
+  // >([]);
+  ///////////////////////////////////////////////
   const ownOffers = form.watch('ownOffers') || [];
+  const specialOffers = form.watch('specialOffers') || [];
   console.log('Selected Offer Ids:', ownOffers);
+  ///////////////////////////////////////////
   const [showOwnPanel, setShowOwnPanel] = useState<boolean>(false);
   const [ownOfferLocal, setOwnOfferLocal] = useState<string>('');
   //const [ownOfferLocalArr, setOwnOfferLocalArr] = useState<string[]>([]);
@@ -71,31 +74,33 @@ function OffersMultiSelect({
     <div className={`w-[70%] shrink-0 ${className || ''}`}>
       {/* choosed offers */}
 
-      {!showOwnPanel &&
-        (localSelectedOffers.length > 0 || ownOffers.length > 0) && (
-          <div className="mb-2 flex flex-col gap-2">
-            {/* choosed own offers */}
-            {ownOffers.length > 0 && (
-              <>
-                {ownOffers.map((ownOffer, ind) => (
-                  <div
-                    key={ind + ownOffer}
-                    className="bg-background-grey-50 border-elements-grey-400 flex items-center justify-between border-[0.5px] px-4 py-1"
+      {!showOwnPanel && (specialOffers.length > 0 || ownOffers.length > 0) && (
+        <div className="mb-2 flex flex-col gap-2">
+          {/* choosed own offers */}
+          {ownOffers.length > 0 && (
+            <>
+              {ownOffers.map((ownOffer, ind) => (
+                <div
+                  key={ind + ownOffer}
+                  className="bg-background-grey-50 border-elements-grey-400 flex items-center justify-between border-[0.5px] px-4 py-1"
+                >
+                  <p className="placeholder-sm">{ownOffer}</p>
+                  <button
+                    type="button"
+                    onClick={() => removeOwnOffer(ownOffer)}
+                    className="cursor-pointer border-none outline-none"
                   >
-                    <p className="placeholder-sm">{ownOffer}</p>
-                    <button
-                      type="button"
-                      onClick={() => removeOwnOffer(ownOffer)}
-                      className="cursor-pointer border-none outline-none"
-                    >
-                      <CrossIcon className="size-4" />
-                    </button>
-                  </div>
-                ))}
-              </>
-            )}
-            {/* choosed common offers */}
-            {localSelectedOffers.map((offer) => (
+                    <CrossIcon className="size-4" />
+                  </button>
+                </div>
+              ))}
+            </>
+          )}
+          {/* choosed common offers */}
+          {specialOffers.map((id) => {
+            const offer = offers.find((o) => o.id === id);
+            if (!offer) return null;
+            return (
               <div
                 key={offer.id}
                 className="bg-background-grey-50 standart justify-between px-4"
@@ -104,19 +109,24 @@ function OffersMultiSelect({
                 <button
                   type="button"
                   onClick={() => {
-                    setLocalSelectedOffers((prev) =>
-                      prev.filter((o) => o.id !== offer.id)
+                    // setLocalSelectedOffers((prev) =>
+                    //   prev.filter((o) => o.id !== offer.id)
+                    // );
+                    // onChange(offer.id, false);
+                    form.setValue(
+                      'specialOffers',
+                      specialOffers.filter((i) => i !== offer.id)
                     );
-                    onChange(offer.id, false);
                   }}
                   className="cursor-pointer border-none outline-none"
                 >
                   <CrossIcon className="size-4" />
                 </button>
               </div>
-            ))}
-          </div>
-        )}
+            );
+          })}
+        </div>
+      )}
       {/* Own offer pannel */}
       {showOwnPanel && (
         <div className="mb-5 flex flex-col gap-3">
@@ -192,11 +202,15 @@ function OffersMultiSelect({
                 onCheckedChange={(checked) => {
                   const isChecked = checked === true;
                   onChange(offer.id, isChecked);
-                  setLocalSelectedOffers((prev) =>
-                    isChecked
-                      ? [...prev, offer]
-                      : prev.filter((id) => id !== offer)
-                  );
+                  // setLocalSelectedOffers((prev) =>
+                  //   isChecked
+                  //     ? [...prev, offer]
+                  //     : prev.filter((id) => id !== offer)
+                  // );
+                  const newValue = isChecked
+                    ? [...specialOffers, offer.id]
+                    : specialOffers.filter((id) => id !== offer.id);
+                  form.setValue('specialOffers', newValue);
                 }}
               />
             </div>

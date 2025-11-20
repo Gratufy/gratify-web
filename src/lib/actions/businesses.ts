@@ -341,6 +341,8 @@ export async function updateBusiness(
   id: string,
   values: Partial<NewBusinessFormData>
 ) {
+  console.log('Update ownOffers:', values.ownOffers);
+  console.log('Update specialOffers:', values.specialOffers);
   try {
     const supabase = await createClient();
     const {

@@ -25,8 +25,13 @@ export default function BusinessEditClient({
   if (!data) return <p>Business not found</p>;
 
   return (
-    <>
-      <BackButton href={href} />
+    <div className="pb-15 flex flex-1 flex-col items-center justify-center">
+      <div className="container w-full max-[1024px]:px-4">
+        <BackButton href={href} className="w-8 py-2 pr-2" />
+      </div>
+      <h2 className="title-h2 mx-auto mb-10 text-center">
+        Редагувати бізнес-картку
+      </h2>
       <BusinessFormNew
         businessId={id}
         defaultValues={{
@@ -45,6 +50,6 @@ export default function BusinessEditClient({
           ownOffers: (data.ownOffers || []).map((o) => o.title) ?? [],
         }}
       />
-    </>
+    </div>
   );
 }
