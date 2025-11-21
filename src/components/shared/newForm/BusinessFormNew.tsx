@@ -45,6 +45,7 @@ import {
   buildClientPayload,
   uploadImagesAndReturnUrls,
 } from '@/lib/helpers/uploadImagesAndReturnUrls';
+import { updateBusinessImagesOnServer } from '@/lib/helpers/updateBusinessImagesOnServer';
 
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
@@ -259,17 +260,31 @@ export default function BusinessFormNew({
         const currentUserId = useUserStore.getState().profile?.userId;
         if (!currentUserId) throw new Error('No current user');
         const fixedImages = ensureOneCover(imagesState);
-        const payload = buildClientPayload(fixedImages);
+
         // только новые файлы для Supabase
         const newFiles = fixedImages.filter((img) => img.file);
-
+        const oldFiles = fixedImages
+          .filter((img) => !img.file)
+          .map((img) => ({
+            url: img.url!,
+            isCover: img.isCover,
+          }));
         const uploadedImagesWithUrl = await uploadImagesAndReturnUrls(
           businessId,
           newFiles,
           currentUserId
         );
-        await uploadBusinessImages(uploadedImagesWithUrl, currentUserId);
-        //await updateBusinessImagesOnServer(businessId, payload, currentUser);
+        const newFilesUploaded = uploadedImagesWithUrl.map((uploaded, i) => ({
+          url: uploaded.url,
+          isCover: newFiles[i].isCover,
+        }));
+        const finalPayload = [...oldFiles, ...newFilesUploaded];
+        // const payload = buildClientPayload(finalPayload);
+        await updateBusinessImagesOnServer(
+          businessId,
+          finalPayload,
+          currentUserId
+        );
         //
         alert('Business edited successfully!');
         // Reset form
@@ -306,7 +321,11 @@ export default function BusinessFormNew({
           );
           //  Передаём URL в серверную функцию
 
-          await uploadBusinessImages(uploadedImagesWithUrl, profile.userId);
+          await uploadBusinessImages(
+            business.id,
+            uploadedImagesWithUrl,
+            profile.userId
+          );
         }
         //--------------------
         alert('Business created successfully!');

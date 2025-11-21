@@ -2,16 +2,12 @@
 
 import { db } from '@/db';
 import { businessImages, userProfiles } from '@/db/schema';
+import { ServerImagePayload, UploadImage } from '@/types/images';
 import { createClient } from '@/utils/supabase/server';
 import { eq } from 'drizzle-orm';
 
-type UploadImage = {
-  businessId: string;
-  url: string;
-  isCover: boolean;
-};
-
 export async function uploadBusinessImages(
+  businessId: string,
   images: UploadImage[],
   ownerId: string
 ) {
@@ -31,7 +27,7 @@ export async function uploadBusinessImages(
     if (!profile) throw new Error('Profile not found');
     for (const img of images) {
       await db.insert(businessImages).values({
-        businessId: img.businessId,
+        businessId: businessId,
         ownerId,
         url: img.url,
         isCover: img.isCover,

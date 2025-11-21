@@ -10,3 +10,19 @@ export type ImageClientPayload = {
   file?: File; // есть у новых, нет у старых
   isCover: boolean;
 };
+
+export type UploadedResult = {
+  file: File;
+  url: string;
+  isCover: boolean;
+};
+
+export type UploadImage = {
+  url: string;
+  isCover: boolean;
+};
+export type ServerImagePayload = {
+  id?: string; // только у старых
+  url: string; // есть у всех
+  isCover: boolean;
+};

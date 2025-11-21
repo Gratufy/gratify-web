@@ -14,7 +14,6 @@ export async function uploadImagesAndReturnUrls(
   if (!newFiles.length) return [];
 
   const uploaded: {
-    businessId: string;
     url: string;
     isCover: boolean;
   }[] = [];
@@ -36,7 +35,6 @@ export async function uploadImagesAndReturnUrls(
       .getPublicUrl(filePath);
 
     uploaded.push({
-      businessId,
       url: data.publicUrl,
       isCover: img.isCover, // уже правильно проставлено
     });
