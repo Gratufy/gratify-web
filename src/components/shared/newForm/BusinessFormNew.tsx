@@ -82,7 +82,8 @@ export default function BusinessFormNew({
       isCover: false,
     }))
   );
-
+  // for button Перевірити
+  const [checkingIndex, setCheckingIndex] = useState<number | null>(null);
   useEffect(() => {
     if (!existingImages?.length) return;
 
@@ -179,6 +180,7 @@ export default function BusinessFormNew({
 
   // open map and check location for a specific location index
   async function handleOpenCheck(index: number) {
+    setCheckingIndex(index);
     setMapOpenIndex(null);
     const ifCityValid = validateCity(index);
     if (!ifCityValid) return;
@@ -233,6 +235,8 @@ export default function BusinessFormNew({
           </>
         ),
       });
+    } finally {
+      setCheckingIndex(null);
     }
   }
   // to confirm location
@@ -660,8 +664,7 @@ export default function BusinessFormNew({
                         </FormItem>
                       )}
                     />
-                    {/* {`locations.${index}.address` &&
-                      `locations.${index}.address`.trim() !== "" && ( */}
+
                     <div className="mb-5 flex flex-col lg:flex-row lg:items-center lg:justify-between">
                       <div className="mb-5 flex items-center gap-4 lg:mb-0">
                         <span className="caption">
@@ -672,9 +675,9 @@ export default function BusinessFormNew({
                           className="placeholder-sm xl:placeholder-base bg-elements-grey-200 border-background-main-300 flex min-w-40 cursor-pointer items-center justify-center text-nowrap border-[0.5px] px-3 py-[6px] lg:mb-0 xl:px-5 xl:py-2"
                           // onClick={() => checkAddress(index)}
                           onClick={() => handleOpenCheck(index)}
-                          disabled={checkAddressMutation.isPending}
+                          disabled={checkingIndex === index}
                         >
-                          {checkAddressMutation.isPending
+                          {checkingIndex === index
                             ? 'Перевіряємо...'
                             : 'Перевірити локацію'}
                         </button>
