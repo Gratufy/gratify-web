@@ -352,10 +352,10 @@
 
 /* w-30  px-3*/
 @utility btn-reject {
-  @apply bg-background-white xl:placeholder-base shadow-menu placeholder-sm border-background-main-300 flex h-8 cursor-pointer items-center justify-center text-nowrap border px-3 py-[6px] xl:px-5 xl:py-2;
+  @apply bg-background-white xl:placeholder-base shadow-menu placeholder-sm border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-[6px] text-nowrap border px-3 py-[6px] xl:gap-3 xl:px-5 xl:py-2;
 }
 @utility btn-aprove {
-  @apply placeholder-sm xl:placeholder-base bg-background-main-300 border-background-main-300 shadow-menu flex h-8 cursor-pointer items-center justify-center text-nowrap border px-3 py-[6px] xl:px-5 xl:py-2;
+  @apply placeholder-sm xl:placeholder-base bg-background-main-300 border-background-main-300 shadow-menu flex h-8 cursor-pointer items-center justify-center gap-[6px] text-nowrap border px-3 py-[6px] xl:gap-3 xl:px-5 xl:py-2;
 }
 
 /* px-4  */

@@ -54,7 +54,7 @@ function AlertDialogContent({
       <AlertDialogPrimitive.Content
         data-slot="alert-dialog-content"
         className={cn(
-          'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 xl:px-15 fixed left-[50%] top-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-6 border py-7 shadow-lg duration-200 sm:max-w-lg lg:w-[353px] lg:px-10 xl:w-[435px]',
+          'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 xl:px-15 fixed left-[50%] top-[50%] z-50 grid w-[300px] max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-6 border px-3 py-7 shadow-lg duration-200 sm:max-w-lg lg:w-[353px] lg:px-10 xl:w-[435px]',
           className
         )}
         {...props}
@@ -85,7 +85,7 @@ function AlertDialogFooter({
       data-slot="alert-dialog-footer"
       className={cn(
         // 'flex flex-col-reverse gap-2 sm:flex-row sm:justify-end',
-        'flex items-center justify-center lg:gap-8 xl:gap-10',
+        'flex items-center justify-center gap-8 xl:gap-10',
         className
       )}
       {...props}

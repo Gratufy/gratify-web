@@ -191,7 +191,7 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
         description={alertTitle}
         actionContent={
           <>
-            <IconUser className="mr-3 inline size-4 xl:size-5" />
+            <IconUser className="inline size-4 xl:size-5" />
             Вхід
           </>
         }
