@@ -1,8 +1,10 @@
 'use client';
-import React from 'react';
+import React, { useState, ReactNode } from 'react';
+
 import { useBusiness } from '@/hooks/useBusinesses';
 import { renderLocations } from '@/lib/helpers/renderLocations';
 import Karma from '../Karma';
+
 import BusinessReviews from '../BusinessReviews';
 
 import BusinessCardSkeleton from '../skeletons/BusinessCardSkeleton';
@@ -14,6 +16,9 @@ import CaruselThumbnails from './caruselThumb/CaruselThumbnails';
 import SpecialOffersBlock from './SpecialOffersBlock';
 
 import dynamic from 'next/dynamic';
+import { useAuth } from '@/stores/useUserStore';
+import { CustomAlertDialog } from '@/components/ui/CustomAlertDialog';
+
 const BusinessMapAll = dynamic(() => import('../BusinessMapAll'), {
   ssr: false,
 });
@@ -26,6 +31,13 @@ interface Props {
 }
 
 function BusinessDetails({ id, selectedCity, initialData }: Props) {
+  const { isLoggedIn } = useAuth();
+  // for modal
+  const [open, setOpen] = useState(false);
+  const [alertTitle, setAlertTitle] = useState('');
+  const [actionContent, setActionContent] = useState<ReactNode>(null);
+  const [onConfirm, setOnConfirm] = useState<() => void>(() => {});
+  //////
   const { data, isLoading, error } = useBusiness(id, initialData);
   const business = data ?? initialData;
 
@@ -78,7 +90,15 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
                 <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base mr-3 font-medium">
                   Карма
                 </p>
-                <Karma businessId={id} initialKarma={business.karma} />
+                <Karma
+                  businessId={id}
+                  initialKarma={business.karma}
+                  setOpen={setOpen}
+                  isLoggedIn={isLoggedIn}
+                  setAlertTitle={setAlertTitle}
+                  setActionContent={setActionContent}
+                  setOnConfirm={setOnConfirm}
+                />
               </div>
               <div className="flex flex-1">
                 <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base">
@@ -118,7 +138,15 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
                   <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base mr-3 font-medium">
                     Карма
                   </p>
-                  <Karma businessId={id} initialKarma={business.karma} />
+                  <Karma
+                    businessId={id}
+                    initialKarma={business.karma}
+                    setOpen={setOpen}
+                    isLoggedIn={isLoggedIn}
+                    setAlertTitle={setAlertTitle}
+                    setActionContent={setActionContent}
+                    setOnConfirm={setOnConfirm}
+                  />
                 </div>
                 <div className="flex flex-1">
                   <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base">
@@ -132,7 +160,14 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
           {/* REVIEW */}
           <section className="bg-background-grey-50 flex w-full flex-col items-center py-5 lg:py-10">
             <div className="max-[1024px]:max-w-150 w-full px-4 lg:w-[1024px] lg:px-28 xl:w-[1440px] xl:px-[320px]">
-              <BusinessReviews businessId={id} />
+              <BusinessReviews
+                businessId={id}
+                setOpen={setOpen}
+                isLoggedIn={isLoggedIn}
+                setAlertTitle={setAlertTitle}
+                setActionContent={setActionContent}
+                setOnConfirm={setOnConfirm}
+              />
             </div>
           </section>
           {/* -------------------------------------------- */}
@@ -154,6 +189,18 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
           </section>
         </>
       )}
+      <CustomAlertDialog
+        open={open}
+        onOpenChange={setOpen}
+        // title="Для додавання в обране, авторизуйтесь будь ласка"
+        title={alertTitle}
+        description={alertTitle}
+        actionContent={actionContent}
+        // cancelText="Отмена"
+        classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
+        classNameDescription="sr-only"
+        onAction={onConfirm}
+      />
     </div>
   );
 }

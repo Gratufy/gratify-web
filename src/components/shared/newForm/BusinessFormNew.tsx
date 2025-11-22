@@ -2,7 +2,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { createClient } from '@/utils/supabase/client';
+
 import { Plus } from 'lucide-react';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import * as v from 'valibot';
@@ -32,20 +32,17 @@ import { BusinessFormValues, BusinessImages, BusinessUpdate } from '@/types';
 import { useUserStore } from '@/stores/useUserStore';
 
 import dynamic from 'next/dynamic';
-// import { saveBusinessLocations } from '@/lib/actions/businessLocation';
+
 import { useAllSpecialOffers } from '@/hooks/useSpecialOffers';
-//import CustomCheckBox from '../ui/CustomCheckBox';
-//import { specialOffers } from '@/db/schema';
+
 import OffersMultiSelect from '../OffersMultiSelect';
 import ImagesBlock from './ImagesBlock';
 import { uploadBusinessImages } from '@/lib/actions/uploadBusinessImages';
 import { businessFormSchema } from '@/shemas/businessFormSchema';
 import { ensureOneCover } from '@/lib/helpers/ensureOneCover';
-import {
-  buildClientPayload,
-  uploadImagesAndReturnUrls,
-} from '@/lib/helpers/uploadImagesAndReturnUrls';
+import { uploadImagesAndReturnUrls } from '@/lib/helpers/uploadImagesAndReturnUrls';
 import { updateBusinessImagesOnServer } from '@/lib/helpers/updateBusinessImagesOnServer';
+import { CustomToast } from '@/components/ui/CustomToast';
 
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
@@ -81,7 +78,8 @@ export default function BusinessFormNew({
       isCover: false,
     }))
   );
-
+  // for button Перевірити
+  const [checkingIndex, setCheckingIndex] = useState<number | null>(null);
   useEffect(() => {
     if (!existingImages?.length) return;
 
@@ -146,7 +144,14 @@ export default function BusinessFormNew({
   function validateCity(index: number): boolean {
     const loc = form.getValues(`locations.${index}`);
     if (!loc.city || loc.city.trim() === '') {
-      alert('будь ласка, вкажіть місто');
+      CustomToast({
+        type: 'warning',
+        content: (
+          <>
+            <p className="font-semibold">Будь ласка, вкажить спочатку місто</p>
+          </>
+        ),
+      });
       return false;
     }
     return !!(loc.city && loc.city.trim() !== '');
@@ -154,7 +159,16 @@ export default function BusinessFormNew({
   function validateAdress(index: number): boolean {
     const loc = form.getValues(`locations.${index}`);
     if (!loc.address || loc.address.trim() === '') {
-      alert('Будь ласка, вкажіть адресу');
+      CustomToast({
+        type: 'warning',
+        content: (
+          <>
+            <p className="font-semibold">
+              Будь ласка, вкажить адресу перед перевіркою
+            </p>
+          </>
+        ),
+      });
       return false;
     }
     return !!(loc.address && loc.address.trim() !== '');
@@ -162,6 +176,7 @@ export default function BusinessFormNew({
 
   // open map and check location for a specific location index
   async function handleOpenCheck(index: number) {
+    setCheckingIndex(index);
     setMapOpenIndex(null);
     const ifCityValid = validateCity(index);
     if (!ifCityValid) return;
@@ -169,7 +184,14 @@ export default function BusinessFormNew({
     if (!ifAddressValid) return;
     const loc = form.getValues(`locations.${index}`);
     if (!ifCityValid && ifAddressValid) {
-      alert('будь ласка, спочатку вкажіть місто');
+      CustomToast({
+        type: 'warning',
+        content: (
+          <>
+            <p className="font-semibold">Будь ласка, вкажить спочатку місто</p>
+          </>
+        ),
+      });
       return;
     }
     if (!loc.city || !loc.address) {
@@ -183,7 +205,15 @@ export default function BusinessFormNew({
       });
 
       if (!res) {
-        alert('Address not found. Please refine your input.');
+        CustomToast({
+          type: 'error',
+          content: (
+            <>
+              <p className="font-semibold">Адресу не знайдено.</p>
+              <p>Будь ласка, уточніть введені дані.</p>
+            </>
+          ),
+        });
         return;
       }
 
@@ -191,9 +221,18 @@ export default function BusinessFormNew({
       setMapOpenIndex(index);
     } catch (error) {
       console.error('Check address failed:', error);
-      alert(
-        'Не вдалося перевірити локацію. Можна продовжити без координат. Вони будуть додані пізніше автоматично.'
-      );
+      CustomToast({
+        type: 'warning',
+        content: (
+          <>
+            <p className="font-semibold">Не вдалося перевірити локацію.</p>
+            <p>Можна продовжити без координат.</p>
+            <p>Вони будуть додані пізніше автоматично.</p>
+          </>
+        ),
+      });
+    } finally {
+      setCheckingIndex(null);
     }
   }
   // to confirm location
@@ -286,7 +325,15 @@ export default function BusinessFormNew({
           currentUserId
         );
         //
-        alert('Business edited successfully!');
+        CustomToast({
+          type: 'success',
+          content: (
+            <>
+              <p className="font-semibold">Супер!</p>
+              <p>Зміни внесено.</p>
+            </>
+          ),
+        });
         // Reset form
         form.reset(defaultValues);
       } else {
@@ -328,7 +375,15 @@ export default function BusinessFormNew({
           );
         }
         //--------------------
-        alert('Business created successfully!');
+        CustomToast({
+          type: 'success',
+          content: (
+            <>
+              <p className="font-semibold">Картка бізнесу створена</p>
+              <p>Після модерації вона буде опублікована.</p>
+            </>
+          ),
+        });
         // Reset form
         form.reset();
         // setTempLatLng(null);
@@ -342,7 +397,14 @@ export default function BusinessFormNew({
       }
     } catch (error) {
       console.error('Error creating/updating business:', error);
-      alert('Something went wrong');
+      CustomToast({
+        type: 'error',
+        content: (
+          <>
+            <p className="font-semibold">Щось пішло не так</p>
+          </>
+        ),
+      });
     }
   }
 
@@ -598,8 +660,7 @@ export default function BusinessFormNew({
                         </FormItem>
                       )}
                     />
-                    {/* {`locations.${index}.address` &&
-                      `locations.${index}.address`.trim() !== "" && ( */}
+
                     <div className="mb-5 flex flex-col lg:flex-row lg:items-center lg:justify-between">
                       <div className="mb-5 flex items-center gap-4 lg:mb-0">
                         <span className="caption">
@@ -610,9 +671,9 @@ export default function BusinessFormNew({
                           className="placeholder-sm xl:placeholder-base bg-elements-grey-200 border-background-main-300 flex min-w-40 cursor-pointer items-center justify-center text-nowrap border-[0.5px] px-3 py-[6px] lg:mb-0 xl:px-5 xl:py-2"
                           // onClick={() => checkAddress(index)}
                           onClick={() => handleOpenCheck(index)}
-                          disabled={checkAddressMutation.isPending}
+                          disabled={checkingIndex === index}
                         >
-                          {checkAddressMutation.isPending
+                          {checkingIndex === index
                             ? 'Перевіряємо...'
                             : 'Перевірити локацію'}
                         </button>

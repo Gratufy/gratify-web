@@ -1,10 +1,12 @@
 // small card fo List of businesses
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 import { useFavorites } from '@/providers/UserFavoritesProvider';
 import { useAddFavorite, useRemoveFavorite } from '@/hooks/useFavorites';
 import { BusinessWithCategoryName } from '@/types';
+import IconUser from '@/assets/icons/general/icon-user.svg';
 // import Link from 'next/link';
 // import { renderLocations } from '@/lib/helpers/renderLocations';
 
@@ -17,15 +19,23 @@ import Karma from './Karma';
 
 function BusinessCardShot({
   business,
-  // selectedCity,
-  imageUrl,
-  // isFavorite = false,
+
+  setOpen,
+  isLoggedIn,
+  setAlertTitle,
+  setActionContent,
+  setOnConfirm,
 }: {
   business: BusinessWithCategoryName;
-  // selectedCity: string;
-  imageUrl?: string;
-  // isFavorite?: boolean;
+
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoggedIn: boolean;
+
+  setAlertTitle: React.Dispatch<React.SetStateAction<string>>;
+  setActionContent: React.Dispatch<React.SetStateAction<React.ReactNode>>;
+  setOnConfirm: React.Dispatch<React.SetStateAction<() => void>>;
 }) {
+  const router = useRouter();
   const favoritesSet = useFavorites();
   const isFavorite = favoritesSet.has(business.id);
 
@@ -35,15 +45,33 @@ function BusinessCardShot({
   const handleToggleFavorite = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent navigating to business detail page
     e.stopPropagation(); // Stop event from bubbling up
-    if (isFavorite) {
-      const confirmed = confirm(
-        'Are you sure you want to delete this business?'
+    if (!isLoggedIn) {
+      setAlertTitle('Для додавання в обране, авторизуйтесь будь ласка');
+      setActionContent(
+        <>
+          <IconUser className="mr-2 inline size-4 xl:size-5" />
+          Вхід
+        </>
       );
-      if (!confirmed) return;
-      removeFavorite.mutate(business.id);
+      setOnConfirm(() => () => router.push('/login'));
+      setOpen(true);
+      return;
+    }
+
+    if (isFavorite) {
+      setAlertTitle('Видалити бізнес з обраного?');
+      setActionContent('Видалити');
+      setOpen(true);
+      setOnConfirm(() => () => removeFavorite.mutate(business.id));
+      // setCancelText('');
+      // const confirmed = confirm(
+      //   'Are you sure you want to delete this business?'
+      // );
+      // if (!confirmed) return;
+      // removeFavorite.mutate(business.id);
     } else {
       addFavorite.mutate(business.id);
-      alert('Business added to favorites!');
+      // alert('Business added to favorites!');
     }
   };
 
@@ -52,16 +80,21 @@ function BusinessCardShot({
     <>
       {/* header */}
       <div className="lg:h-22 relative mb-4 flex h-16 items-center">
-        <button
-          onClick={handleToggleFavorite}
-          className="absolute right-2 top-0 z-10 cursor-pointer border-none bg-transparent px-2 pb-1 outline-none lg:right-9"
+        <div
+          className="absolute right-2 top-0 z-10"
+          onClick={(e) => e.stopPropagation()} // блокируем клик до Link
         >
-          {isFavorite ? (
-            <IconFavoriteYes className="h-7 w-6 lg:h-10 lg:w-8" />
-          ) : (
-            <IconFavoriteNo className="h-7 w-6 lg:h-10 lg:w-8" />
-          )}
-        </button>
+          <button
+            onClick={handleToggleFavorite}
+            className="cursor-pointer border-none bg-transparent px-2 pb-1 outline-none lg:right-9"
+          >
+            {isFavorite ? (
+              <IconFavoriteYes className="h-7 w-6 lg:h-10 lg:w-8" />
+            ) : (
+              <IconFavoriteNo className="h-7 w-6 lg:h-10 lg:w-8" />
+            )}
+          </button>
+        </div>
 
         {/* block with image */}
         {/* <div className="ml-15 lg:ml-26 xl:ml-67 relative h-full flex-1 overflow-hidden"> */}
@@ -116,7 +149,15 @@ function BusinessCardShot({
       {/* hot */}
       <div className="flex gap-4 px-4 lg:gap-6 lg:px-2">
         <div className="flex flex-1 items-center gap-4 py-1 lg:gap-3 xl:py-2">
-          <Karma businessId={business.id} initialKarma={business.karma} />
+          <Karma
+            businessId={business.id}
+            initialKarma={business.karma}
+            setOpen={setOpen}
+            isLoggedIn={isLoggedIn}
+            setAlertTitle={setAlertTitle}
+            setActionContent={setActionContent}
+            setOnConfirm={setOnConfirm}
+          />
 
           <div className="flex items-center gap-0.5">
             <ReviewIcon className="h-4 w-4 xl:h-5 xl:w-5" />

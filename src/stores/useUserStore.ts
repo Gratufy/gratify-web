@@ -1,9 +1,9 @@
 // import { create } from "zustand";
 // import { createClient } from "@/utils/supabase/client";
 // //import type { UserProfile } from "@/types/user";
-import { create } from "zustand";
-import type { Session } from "@supabase/supabase-js";
-import { UserProfile } from "@/types";
+import { create } from 'zustand';
+import type { Session } from '@supabase/supabase-js';
+import { UserProfile } from '@/types';
 
 interface UserState {
   session: Session | null;
@@ -30,20 +30,19 @@ export const useUserStore = create<UserState>((set) => ({
 }));
 
 // IF HOOK hooks/useAuth.ts
-/*export function useAuth() {
+export function useAuth() {
   const session = useUserStore((s) => s.session);
   const profile = useUserStore((s) => s.profile);
-  const isLoading = useUserStore((s) => s.isLoading);
+  const isLoadingAuth = useUserStore((s) => s.isLoading);
   const error = useUserStore((s) => s.error);
 
-  const isAuthenticated = !!session;
-  const isAdmin = profile?.role === 'admin';
+  const isLoggedIn = !!session;
+  const isAdmin = profile?.role === 'ADMIN';
 
-  return { session, profile, isLoading, error, isAuthenticated, isAdmin };
+  return { session, profile, isLoadingAuth, error, isLoggedIn, isAdmin };
 }
- */
 
 //and in component
-// const { isAuthenticated, profile } = useAuth();
+// const { isLoggedIn, isLoading, profile } = useAuth();
 
 // return isAuthenticated ? <LogoutButton /> : <LoginLink />;

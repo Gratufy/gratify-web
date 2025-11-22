@@ -1,6 +1,6 @@
 // new one
 'use client';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState, ReactNode } from 'react';
 import { BusinessWithCategoryName } from '@/types';
 
 import Link from 'next/link';
@@ -15,6 +15,8 @@ import {
   getBusinessStatusCardBgColor,
 } from '@/lib/helpers/getBusinessStatusColorBg';
 import DeleteEditBusinessBtns from './DeleteEditBusinessBtns';
+import { useAuth } from '@/stores/useUserStore';
+import { CustomAlertDialog } from '../ui/CustomAlertDialog';
 
 type DashboardBusinessListProps = {
   businesses: BusinessWithCategoryName[];
@@ -46,6 +48,12 @@ function DashboardBusinessList({
   // onHover,
 }: DashboardBusinessListProps) {
   const loadMoreRef = useRef<HTMLDivElement>(null);
+  // for modal
+  const { isLoggedIn } = useAuth();
+  const [open, setOpen] = useState(false);
+  const [alertTitle, setAlertTitle] = useState('');
+  const [actionContent, setActionContent] = useState<ReactNode>(null);
+  const [onConfirm, setOnConfirm] = useState<() => void>(() => {});
 
   useEffect(() => {
     if (!enableInfiniteScroll) return;
@@ -113,6 +121,11 @@ function DashboardBusinessList({
                 >
                   <BusinessCardShot
                     business={b}
+                    setOpen={setOpen}
+                    isLoggedIn={isLoggedIn}
+                    setAlertTitle={setAlertTitle}
+                    setActionContent={setActionContent}
+                    setOnConfirm={setOnConfirm}
                     // selectedCity="__all__"
                     // isFavorite
                   />
@@ -128,6 +141,18 @@ function DashboardBusinessList({
           {isFetchingNextPage && <Spinner />}
         </div>
       )}
+      <CustomAlertDialog
+        open={open}
+        onOpenChange={setOpen}
+        // title="Для додавання в обране, авторизуйтесь будь ласка"
+        title={alertTitle}
+        description={alertTitle}
+        actionContent={actionContent}
+        //cancelText={cancelText}
+        classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
+        classNameDescription="sr-only"
+        onAction={onConfirm}
+      />
     </section>
   );
 }

@@ -10,6 +10,7 @@ import { ThemeProvider } from '@/providers/theme-provider';
 import ClientProvider from '@/providers/UserProvider';
 import { getAllBusinessCategories } from '@/lib/actions/businessCategories';
 import { getAllSpecialOffers } from '@/lib/actions/specialOffers';
+import { Toaster } from '@/components/ui/sonner';
 
 const ubuntuSans = Ubuntu_Sans({
   subsets: ['latin', 'latin-ext'],
@@ -59,6 +60,7 @@ export default async function RootLayout({
         >
           <ReactQueryProvider dehydratedState={dehydratedState}>
             {children}
+            <Toaster position="top-center" />
             <ClientProvider />
           </ReactQueryProvider>
         </ThemeProvider>

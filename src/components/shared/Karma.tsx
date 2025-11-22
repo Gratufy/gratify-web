@@ -1,23 +1,39 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-
+import IconUser from '@/assets/icons/general/icon-user.svg';
+import { useRouter } from 'next/navigation';
 import { useUserVote, useVoteBusiness } from '@/hooks/useVoteBusiness';
-import { useUserStore } from '@/stores/useUserStore';
+
 import { Plus } from 'lucide-react';
 import { Minus } from 'lucide-react';
 
 type KarmaProps = {
   businessId: string;
   initialKarma: number;
+
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoggedIn: boolean;
+  setAlertTitle: React.Dispatch<React.SetStateAction<string>>;
+  setActionContent: React.Dispatch<React.SetStateAction<React.ReactNode>>;
+  setOnConfirm: React.Dispatch<React.SetStateAction<() => void>>;
 };
-function Karma({ businessId, initialKarma }: KarmaProps) {
+function Karma({
+  businessId,
+  initialKarma,
+
+  setOpen,
+  isLoggedIn,
+  setAlertTitle,
+  setActionContent,
+  setOnConfirm,
+}: KarmaProps) {
+  const router = useRouter();
   const [karma, setKarma] = useState(initialKarma);
   // если пропсы обновились (при возврате на страницу) — пересинхронизируем
 
   //const { data: business } = useBusiness(businessId);
   const { data: userVote } = useUserVote(businessId);
   const voteMutation = useVoteBusiness(businessId);
-  const user = useUserStore((state) => state.profile);
 
   useEffect(() => {
     setKarma(initialKarma);
@@ -26,8 +42,16 @@ function Karma({ businessId, initialKarma }: KarmaProps) {
   function handleVote(e: React.MouseEvent, vote: 1 | -1) {
     e.preventDefault(); // Prevent navigating to business detail page
     e.stopPropagation(); // Stop event from bubbling up
-    if (!user) {
-      alert('Please log in to vote');
+    if (!isLoggedIn) {
+      setAlertTitle('Для голосування, авторизуйтесь будь ласка');
+      setActionContent(
+        <>
+          <IconUser className="mr-2 inline size-4 xl:size-5" />
+          Вхід
+        </>
+      );
+      setOnConfirm(() => () => router.push('/login'));
+      setOpen(true);
       return;
     }
     const prev = userVote?.vote ?? 0;
@@ -58,7 +82,9 @@ function Karma({ businessId, initialKarma }: KarmaProps) {
         className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded-xl xl:h-6 xl:w-6 ${
           userVote?.vote === -1 ? 'bg-icons-color-error/50' : ''
         }`}
-        onClick={(e) => handleVote(e, -1)}
+        onClick={(e) => {
+          handleVote(e, -1);
+        }}
         disabled={voteMutation.isPending}
       >
         <Minus className="h-4 w-4 xl:h-5 xl:w-5" />

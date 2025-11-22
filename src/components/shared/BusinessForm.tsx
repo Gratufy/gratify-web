@@ -32,6 +32,7 @@ import { saveBusinessLocations } from '@/lib/actions/businessLocation';
 import { useAllSpecialOffers } from '@/hooks/useSpecialOffers';
 import CustomCheckBox from '../ui/CustomCheckBox';
 import { specialOffers } from '@/db/schema';
+import { CustomToast } from '../ui/CustomToast';
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
 });
@@ -156,12 +157,30 @@ BusinessFormProps) {
     setMapOpenIndex(null);
     const loc = form.getValues(`locations.${index}`);
     if (!loc.city) {
-      alert('Please specify a city first');
+      CustomToast({
+        type: 'warning',
+        content: (
+          <>
+            <p className="font-semibold">Будь ласка, вкажить спочатку місто</p>
+          </>
+        ),
+      });
+
       return;
     }
 
     if (!loc.address) {
-      alert('Please specify an address');
+      CustomToast({
+        type: 'warning',
+        content: (
+          <>
+            <p className="font-semibold">
+              Будь ласка, вкажить адресу перед перевіркою
+            </p>
+          </>
+        ),
+      });
+
       return;
     }
     const res = await checkAddressMutation.mutateAsync({
@@ -170,7 +189,16 @@ BusinessFormProps) {
     });
 
     if (!res) {
-      alert('Address not found. Please refine your input.');
+      CustomToast({
+        type: 'error',
+        content: (
+          <>
+            <p className="font-semibold">Адресу не знайдено.</p>
+            <p>Будь ласка, уточніть введені дані.</p>
+          </>
+        ),
+      });
+
       return;
     }
 
@@ -237,7 +265,16 @@ BusinessFormProps) {
 
         // update all locations at once
         //await saveBusinessLocations(businessId, locationsWithCoords, true);
-        alert('Business edited successfully!');
+        CustomToast({
+          type: 'success',
+          content: (
+            <>
+              <p className="font-semibold">Супер!</p>
+              <p>Зміни внесено.</p>
+            </>
+          ),
+        });
+
         // Reset form
         form.reset(defaultValues);
       } else {
@@ -256,7 +293,16 @@ BusinessFormProps) {
           await createBusinessMutation.mutateAsync(newBusinessData);
         // Update Zustand profile
         useUserStore.getState().setProfile(profile);
-        alert('Business created successfully!');
+        CustomToast({
+          type: 'success',
+          content: (
+            <>
+              <p className="font-semibold">Картка бізнесу створена</p>
+              <p>Після модерації вона буде опублікована.</p>
+            </>
+          ),
+        });
+
         // Reset form
         form.reset();
         // setTempLatLng(null);
@@ -270,7 +316,14 @@ BusinessFormProps) {
       }
     } catch (error) {
       console.error('Error creating/updating business:', error);
-      alert('Something went wrong');
+      CustomToast({
+        type: 'error',
+        content: (
+          <>
+            <p className="font-semibold">Щось пішло не так</p>
+          </>
+        ),
+      });
     }
   }
   const onError = (
