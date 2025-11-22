@@ -21,13 +21,12 @@ export default async function BusinessEditPage({
   }
 
   return (
-    <div className="flex flex-col items-center justify-center p-4">
-      <h1>Business Edit Page</h1>
+    <>
       <BusinessEditClient
         id={id}
         href={`/dashboard/business/${id}`}
         business={business}
       />
-    </div>
+    </>
   );
 }

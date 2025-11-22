@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
@@ -7,7 +8,7 @@ import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import * as v from 'valibot';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { useForm, useFieldArray } from 'react-hook-form';
-import type { FieldErrors } from 'react-hook-form';
+import type { FieldErrors, UseFormReturn } from 'react-hook-form';
 import {
   Form,
   FormControl,
@@ -23,18 +24,11 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import CustomSelect from '../../ui/CustomSelect';
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
-import {
-  UKRAINE_REGIONAL_CENTERS,
-  UKRAINE_REGIONAL_CENTERS_WITHOUT_ALL,
-} from '@/const/regions';
+import { UKRAINE_REGIONAL_CENTERS_WITHOUT_ALL } from '@/const/regions';
 import { useCheckAddress } from '@/hooks/useBusinessLocation';
 
 import { useCreateBusiness, useUpdateBusiness } from '@/hooks/useBusinesses';
-import {
-  BusinessOwnSpecialOffer,
-  BusinessUpdate,
-  LocationFormData,
-} from '@/types';
+import { BusinessFormValues, BusinessImages, BusinessUpdate } from '@/types';
 import { useUserStore } from '@/stores/useUserStore';
 
 import dynamic from 'next/dynamic';
@@ -46,6 +40,13 @@ import OffersMultiSelect from '../OffersMultiSelect';
 import ImagesBlock from './ImagesBlock';
 import { uploadBusinessImages } from '@/lib/actions/uploadBusinessImages';
 import { businessFormSchema } from '@/shemas/businessFormSchema';
+import { ensureOneCover } from '@/lib/helpers/ensureOneCover';
+import {
+  buildClientPayload,
+  uploadImagesAndReturnUrls,
+} from '@/lib/helpers/uploadImagesAndReturnUrls';
+import { updateBusinessImagesOnServer } from '@/lib/helpers/updateBusinessImagesOnServer';
+
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
 });
@@ -59,6 +60,7 @@ interface PreviewImage {
 type BusinessFormProps = {
   businessId?: string; // if edit
   defaultValues?: FormValues;
+  existingImages?: BusinessImages;
 
   //onSuccess?: () => void;
 };
@@ -66,8 +68,8 @@ type BusinessFormProps = {
 export default function BusinessFormNew({
   defaultValues,
   businessId,
-}: //onSuccess,
-BusinessFormProps) {
+  existingImages,
+}: BusinessFormProps) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -79,8 +81,25 @@ BusinessFormProps) {
       isCover: false,
     }))
   );
-  const [ownOfferLocalArr, setOwnOfferLocalArr] = useState<string[]>([]);
-  console.log('ownOfferLocalArr', ownOfferLocalArr);
+
+  useEffect(() => {
+    if (!existingImages?.length) return;
+
+    const filled = existingImages.map((img) => ({
+      file: null,
+      url: img.url,
+      isCover: img.isCover ?? false,
+    }));
+
+    const empty = Array.from({ length: MAX_PHOTOS - filled.length }, () => ({
+      file: null,
+      url: null,
+      isCover: false,
+    }));
+
+    setImagesState([...filled, ...empty]);
+  }, [existingImages]);
+
   const {
     categories,
     // isLoading: isCategoriesLoading,
@@ -102,6 +121,7 @@ BusinessFormProps) {
       isOnline: false,
       locations: [],
       specialOffers: [],
+      ownOffers: [],
     },
   });
 
@@ -216,9 +236,8 @@ BusinessFormProps) {
           return loc;
         })
       );
-      console.log('businessId:', businessId);
+
       if (businessId) {
-        console.log('Updating business with data:');
         // update existing business
         // Prepare data for the database
         const updateData: BusinessUpdate = {
@@ -229,6 +248,7 @@ BusinessFormProps) {
           categoryId: data.category,
           locations: locationsWithCoords,
           specialOffers: data.specialOffers ?? [],
+          ownOffers: data.ownOffers ?? [],
         };
 
         await updateBusinessMutation.mutateAsync({
@@ -236,14 +256,42 @@ BusinessFormProps) {
           values: updateData,
         });
 
-        // update all locations at once
-        //await saveBusinessLocations(businessId, locationsWithCoords, true);
+        // IMAGES
+        const currentUserId = useUserStore.getState().profile?.userId;
+        if (!currentUserId) throw new Error('No current user');
+        const fixedImages = ensureOneCover(imagesState);
+
+        // только новые файлы для Supabase
+        const newFiles = fixedImages.filter((img) => img.file);
+        const oldFiles = fixedImages
+          .filter((img) => !img.file)
+          .map((img) => ({
+            url: img.url!,
+            isCover: img.isCover,
+          }));
+        const uploadedImagesWithUrl = await uploadImagesAndReturnUrls(
+          businessId,
+          newFiles,
+          currentUserId
+        );
+        const newFilesUploaded = uploadedImagesWithUrl.map((uploaded, i) => ({
+          url: uploaded.url,
+          isCover: newFiles[i].isCover,
+        }));
+        const finalPayload = [...oldFiles, ...newFilesUploaded];
+        // const payload = buildClientPayload(finalPayload);
+        await updateBusinessImagesOnServer(
+          businessId,
+          finalPayload,
+          currentUserId
+        );
+        //
         alert('Business edited successfully!');
         // Reset form
         form.reset(defaultValues);
       } else {
         // Creating a new business
-        console.log('Creating new business with data:');
+
         const newBusinessData = {
           name: data.name,
           description: data.description,
@@ -252,9 +300,10 @@ BusinessFormProps) {
           locations: locationsWithCoords,
           isOnline: data.isOnline,
           specialOffers: data.specialOffers,
-          ownOffers: ownOfferLocalArr,
+          //ownOffers: ownOfferLocalArr,
+          ownOffers: data.ownOffers,
         };
-        console.log('New business data to submit:', newBusinessData);
+
         // Create the business-user
         const { business, profile } =
           await createBusinessMutation.mutateAsync(newBusinessData);
@@ -262,41 +311,21 @@ BusinessFormProps) {
         useUserStore.getState().setProfile(profile);
 
         //IMAGES
-        const uploadedImagesWithUrl: {
-          businessId: string;
-          url: string;
-          isCover: boolean;
-        }[] = [];
-        const supabase = createClient();
+        const notEmptyFiles = imagesState.filter((img) => img.file);
+        if (notEmptyFiles.length) {
+          const fixedImages = ensureOneCover(notEmptyFiles);
+          const uploadedImagesWithUrl = await uploadImagesAndReturnUrls(
+            business.id,
+            fixedImages,
+            profile.userId
+          );
+          //  Передаём URL в серверную функцию
 
-        const uploadedImages = imagesState
-          .filter((img) => img.file !== null)
-          .map((img) => ({
-            file: img.file!,
-            isCover: img.isCover,
-          }));
-        for (const { file, isCover } of uploadedImages) {
-          const filePath = `${business.id}/${Date.now()}_${file.name}`;
-          const { error } = await supabase.storage
-            .from('business-images')
-            .upload(filePath, file);
-          if (error) {
-            console.error('Upload error:', error);
-            continue;
-          }
-
-          const {
-            data: { publicUrl },
-          } = supabase.storage.from('business-images').getPublicUrl(filePath);
-          uploadedImagesWithUrl.push({
-            businessId: business.id,
-            url: publicUrl,
-            isCover,
-          });
-        }
-        //  Передаём URL в серверную функцию
-        if (uploadedImages.length) {
-          await uploadBusinessImages(uploadedImagesWithUrl, profile.userId);
+          await uploadBusinessImages(
+            business.id,
+            uploadedImagesWithUrl,
+            profile.userId
+          );
         }
         //--------------------
         alert('Business created successfully!');
@@ -316,6 +345,7 @@ BusinessFormProps) {
       alert('Something went wrong');
     }
   }
+
   //for check validation
   const onError = (
     errors: FieldErrors<v.InferOutput<typeof businessFormSchema>>
@@ -410,11 +440,12 @@ BusinessFormProps) {
                   <FormControl className="shrink-0">
                     <OffersMultiSelect
                       className="lg:w-[260px] xl:w-[364px]"
+                      form={form as UseFormReturn<BusinessFormValues>}
                       // className="placeholder:text-text-950-grey border-elements-grey-400 bg-background-white placeholder:text-xs"
                       offers={allSpecialOffers ?? []}
                       selectedOfferIds={field.value ?? []}
-                      ownOfferLocalArr={ownOfferLocalArr}
-                      setOwnOfferLocalArr={setOwnOfferLocalArr}
+                      // ownOfferLocalArr={ownOfferLocalArr}
+                      // setOwnOfferLocalArr={setOwnOfferLocalArr}
                       onChange={(offerId, checked) => {
                         let newValue = field.value ?? [];
                         if (checked) {
@@ -524,8 +555,8 @@ BusinessFormProps) {
             )}
             <div className="w-full space-y-5 xl:space-y-6">
               {fields.map((field, index) => (
-                <>
-                  <div key={field.id}>
+                <div key={field.id}>
+                  <div>
                     <p className="title-h6 mb-3 xl:mb-4">Адреса {index + 1}:</p>
                     <FormField
                       control={form.control}
@@ -569,7 +600,7 @@ BusinessFormProps) {
                     />
                     {/* {`locations.${index}.address` &&
                       `locations.${index}.address`.trim() !== "" && ( */}
-                    <div className="flex flex-col lg:mb-5 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="mb-5 flex flex-col lg:flex-row lg:items-center lg:justify-between">
                       <div className="mb-5 flex items-center gap-4 lg:mb-0">
                         <span className="caption">
                           Можете перевірити локацію на мапі перед збереженням
@@ -651,7 +682,7 @@ BusinessFormProps) {
                       <Plus className="mr-2 size-4" /> <span>Додати ще</span>
                     </button>
                   )}
-                </>
+                </div>
               ))}
             </div>
             {/* ------ */}
@@ -665,3 +696,36 @@ BusinessFormProps) {
     </Form>
   );
 }
+
+// const uploadedImagesWithUrl: {
+//   businessId: string;
+//   url: string;
+//   isCover: boolean;
+// }[] = [];
+// const supabase = createClient();
+
+// const uploadedImages = imagesState
+//   .filter((img) => img.file !== null)
+//   .map((img) => ({
+//     file: img.file!,
+//     isCover: img.isCover,
+//   }));
+// for (const { file, isCover } of uploadedImages) {
+//   const filePath = `${business.id}/${Date.now()}_${file.name}`;
+//   const { error } = await supabase.storage
+//     .from('business-images')
+//     .upload(filePath, file);
+//   if (error) {
+//     console.error('Upload error:', error);
+//     continue;
+//   }
+
+//   const {
+//     data: { publicUrl },
+//   } = supabase.storage.from('business-images').getPublicUrl(filePath);
+//   uploadedImagesWithUrl.push({
+//     businessId: business.id,
+//     url: publicUrl,
+//     isCover,
+//   });
+// }

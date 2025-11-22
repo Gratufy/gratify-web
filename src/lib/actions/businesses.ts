@@ -8,6 +8,7 @@ import {
   businessCategories,
   businesses,
   businessLocations,
+  businessOwnSpecialOffers,
   businessReviews,
   businessSpecialOffers,
   businessVotes,
@@ -340,6 +341,8 @@ export async function updateBusiness(
   id: string,
   values: Partial<NewBusinessFormData>
 ) {
+  console.log('Update ownOffers:', values.ownOffers);
+  console.log('Update specialOffers:', values.specialOffers);
   try {
     const supabase = await createClient();
     const {
@@ -411,6 +414,24 @@ export async function updateBusiness(
 
       if (newOffers.length > 0) {
         await db.insert(businessSpecialOffers).values(newOffers);
+      }
+    }
+
+    // --- update own offers ---
+    if (values.ownOffers) {
+      // Удалить старые
+      await db
+        .delete(businessOwnSpecialOffers)
+        .where(eq(businessOwnSpecialOffers.businessId, id));
+
+      // Вставить новые
+      const newOwnOffers = values.ownOffers.map((title) => ({
+        businessId: id,
+        title,
+      }));
+
+      if (newOwnOffers.length > 0) {
+        await db.insert(businessOwnSpecialOffers).values(newOwnOffers);
       }
     }
     return updatedBusiness;

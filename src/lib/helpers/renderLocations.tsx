@@ -1,5 +1,4 @@
-import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
-import { BusinessWithCategoryName, BusinessWithDetails } from '@/types';
+import { BusinessWithDetails } from '@/types';
 import { getCityLabel } from '@/utils/getCityLabel';
 
 export function renderLocations(b: BusinessWithDetails, selectedCity: string) {
