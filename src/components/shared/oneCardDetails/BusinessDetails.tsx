@@ -1,10 +1,10 @@
 'use client';
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState, ReactNode } from 'react';
+
 import { useBusiness } from '@/hooks/useBusinesses';
 import { renderLocations } from '@/lib/helpers/renderLocations';
 import Karma from '../Karma';
-import IconUser from '@/assets/icons/general/icon-user.svg';
+
 import BusinessReviews from '../BusinessReviews';
 
 import BusinessCardSkeleton from '../skeletons/BusinessCardSkeleton';
@@ -18,6 +18,7 @@ import SpecialOffersBlock from './SpecialOffersBlock';
 import dynamic from 'next/dynamic';
 import { useAuth } from '@/stores/useUserStore';
 import { CustomAlertDialog } from '@/components/ui/CustomAlertDialog';
+
 const BusinessMapAll = dynamic(() => import('../BusinessMapAll'), {
   ssr: false,
 });
@@ -30,11 +31,12 @@ interface Props {
 }
 
 function BusinessDetails({ id, selectedCity, initialData }: Props) {
-  const router = useRouter();
   const { isLoggedIn } = useAuth();
   // for modal
   const [open, setOpen] = useState(false);
   const [alertTitle, setAlertTitle] = useState('');
+  const [actionContent, setActionContent] = useState<ReactNode>(null);
+  const [onConfirm, setOnConfirm] = useState<() => void>(() => {});
   //////
   const { data, isLoading, error } = useBusiness(id, initialData);
   const business = data ?? initialData;
@@ -91,10 +93,11 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
                 <Karma
                   businessId={id}
                   initialKarma={business.karma}
-                  open={open}
                   setOpen={setOpen}
                   isLoggedIn={isLoggedIn}
                   setAlertTitle={setAlertTitle}
+                  setActionContent={setActionContent}
+                  setOnConfirm={setOnConfirm}
                 />
               </div>
               <div className="flex flex-1">
@@ -138,10 +141,11 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
                   <Karma
                     businessId={id}
                     initialKarma={business.karma}
-                    open={open}
                     setOpen={setOpen}
                     isLoggedIn={isLoggedIn}
                     setAlertTitle={setAlertTitle}
+                    setActionContent={setActionContent}
+                    setOnConfirm={setOnConfirm}
                   />
                 </div>
                 <div className="flex flex-1">
@@ -161,6 +165,8 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
                 setOpen={setOpen}
                 isLoggedIn={isLoggedIn}
                 setAlertTitle={setAlertTitle}
+                setActionContent={setActionContent}
+                setOnConfirm={setOnConfirm}
               />
             </div>
           </section>
@@ -189,16 +195,11 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
         // title="Для додавання в обране, авторизуйтесь будь ласка"
         title={alertTitle}
         description={alertTitle}
-        actionContent={
-          <>
-            <IconUser className="inline size-4 xl:size-5" />
-            Вхід
-          </>
-        }
+        actionContent={actionContent}
         // cancelText="Отмена"
         classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
         classNameDescription="sr-only"
-        onAction={() => router.push('/login')}
+        onAction={onConfirm}
       />
     </div>
   );

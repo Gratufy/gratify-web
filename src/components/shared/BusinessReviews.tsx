@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-
+import IconUser from '@/assets/icons/general/icon-user.svg';
+import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/stores/useUserStore';
 import {
   useBusinessReviews,
@@ -17,6 +18,7 @@ import EditPen from '@/assets/icons/general/feedback-edit.svg';
 
 //import { ScrollArea } from '@/components/ui/scroll-area';
 import ReviewsSkeleton from './skeletons/ReviewsSkeleton';
+import { CustomToast } from '../ui/CustomToast';
 
 interface Props {
   businessId: string;
@@ -24,6 +26,8 @@ interface Props {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isLoggedIn: boolean;
   setAlertTitle: React.Dispatch<React.SetStateAction<string>>;
+  setActionContent: React.Dispatch<React.SetStateAction<React.ReactNode>>;
+  setOnConfirm: React.Dispatch<React.SetStateAction<() => void>>;
 }
 
 export default function BusinessReviews({
@@ -32,9 +36,11 @@ export default function BusinessReviews({
   setOpen,
   isLoggedIn,
   setAlertTitle,
+  setActionContent,
+  setOnConfirm,
 }: Props) {
   //   const queryClient = useQueryClient();
-
+  const router = useRouter();
   const user = useUserStore((state) => state.profile);
   const { data: reviews, isLoading } = useBusinessReviews(businessId, 'public');
 
@@ -50,13 +56,28 @@ export default function BusinessReviews({
   const handleAdd = async () => {
     if (!isLoggedIn) {
       setAlertTitle('Для додавання відгука, авторизуйтесь будь ласка');
+      setActionContent(
+        <>
+          <IconUser className="mr-2 inline size-4 xl:size-5" />
+          Вхід
+        </>
+      );
+      setOnConfirm(() => () => router.push('/login'));
       setOpen(true);
       return;
     }
     if (!newText.trim()) return;
     await createReviewMutation.mutateAsync({ businessId, text: newText });
     setNewText('');
-    alert('Review added successfully!');
+    CustomToast({
+      type: 'success',
+      content: (
+        <>
+          <p className="font-semibold">Дякуємо за ваш відгук!</p>
+          <p>Після проходження модерації він буде опублікований на сайті.</p>
+        </>
+      ),
+    });
   };
 
   const handleEdit = async (reviewId: string) => {
@@ -64,14 +85,29 @@ export default function BusinessReviews({
     await updateReview.mutateAsync({ reviewId, text: editingText });
     setEditingId(null);
     setEditingText('');
-    alert('Review updated successfully!');
+    CustomToast({
+      type: 'success',
+      content: (
+        <>
+          <p className="font-semibold">Дякуємо за ваш відгук!</p>
+          <p>Після проходження модерації він буде опублікований на сайті.</p>
+        </>
+      ),
+    });
   };
 
   const handleDelete = async (reviewId: string) => {
     const confirmed = confirm('Are you sure you want to delete this review?');
     if (!confirmed) return;
     await deleteReviewMutation.mutateAsync(reviewId);
-    alert('Review deleted successfully!');
+    CustomToast({
+      type: 'success',
+      content: (
+        <>
+          <p className="font-semibold">Відгук успішно видалено!</p>
+        </>
+      ),
+    });
   };
 
   return (

@@ -6,6 +6,7 @@ import ImageFolder from '@/assets/icons/form/image-folder.svg';
 
 import Image from 'next/image';
 import { PreviewImage } from '@/types/images';
+import { CustomToast } from '@/components/ui/CustomToast';
 
 type ImagesBlockProps = {
   imagesState: PreviewImage[];
@@ -32,7 +33,17 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
       for (const file of files) {
         const emptySlot = updated.findIndex((img) => !isFilled(img));
         if (emptySlot === -1) {
-          alert('Досягнуто максимальну кількість фото');
+          CustomToast({
+            type: 'warning',
+            content: (
+              <>
+                <p className="font-semibold">
+                  Досягнуто максимальну кількість фото
+                </p>
+              </>
+            ),
+          });
+
           break;
         }
 

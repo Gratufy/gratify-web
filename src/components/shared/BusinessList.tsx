@@ -1,6 +1,6 @@
 // new one
 'use client';
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { BusinessWithCategoryName } from '@/types';
 import IconUser from '@/assets/icons/general/icon-user.svg';
@@ -11,6 +11,7 @@ import BusinessListSkeleton from './skeletons/BusinessListSkeleton';
 import { Spinner } from '../ui/spinner';
 import { useAuth } from '@/stores/useUserStore';
 import { CustomAlertDialog } from '../ui/CustomAlertDialog';
+import { set } from 'valibot';
 
 type BusinessListProps = {
   businesses: BusinessWithCategoryName[];
@@ -47,6 +48,8 @@ function BusinessList({
   // for modal
   const [open, setOpen] = useState(false);
   const [alertTitle, setAlertTitle] = useState('');
+  const [actionContent, setActionContent] = useState<ReactNode>(null);
+  const [onConfirm, setOnConfirm] = useState<() => void>(() => {});
   //////
   useEffect(() => {
     if (!enableInfiniteScroll) return;
@@ -99,10 +102,11 @@ function BusinessList({
                 <article className="w-full overflow-hidden" key={b.id}>
                   <BusinessCardShot
                     business={b}
-                    open={open}
                     setOpen={setOpen}
                     isLoggedIn={isLoggedIn}
                     setAlertTitle={setAlertTitle}
+                    setActionContent={setActionContent}
+                    setOnConfirm={setOnConfirm}
                     // selectedCity="__all__"
                     // isFavorite
                   />
@@ -123,16 +127,11 @@ function BusinessList({
         // title="Для додавання в обране, авторизуйтесь будь ласка"
         title={alertTitle}
         description={alertTitle}
-        actionContent={
-          <>
-            <IconUser className="inline size-4 xl:size-5" />
-            Вхід
-          </>
-        }
-        // cancelText="Отмена"
+        actionContent={actionContent}
+        //cancelText={cancelText}
         classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
         classNameDescription="sr-only"
-        onAction={() => router.push('/login')}
+        onAction={onConfirm}
       />
     </section>
   );

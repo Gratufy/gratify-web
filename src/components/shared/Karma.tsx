@@ -1,34 +1,39 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-
+import IconUser from '@/assets/icons/general/icon-user.svg';
+import { useRouter } from 'next/navigation';
 import { useUserVote, useVoteBusiness } from '@/hooks/useVoteBusiness';
-import { useUserStore } from '@/stores/useUserStore';
+
 import { Plus } from 'lucide-react';
 import { Minus } from 'lucide-react';
 
 type KarmaProps = {
   businessId: string;
   initialKarma: number;
-  open: boolean;
+
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isLoggedIn: boolean;
   setAlertTitle: React.Dispatch<React.SetStateAction<string>>;
+  setActionContent: React.Dispatch<React.SetStateAction<React.ReactNode>>;
+  setOnConfirm: React.Dispatch<React.SetStateAction<() => void>>;
 };
 function Karma({
   businessId,
   initialKarma,
-  open,
+
   setOpen,
   isLoggedIn,
   setAlertTitle,
+  setActionContent,
+  setOnConfirm,
 }: KarmaProps) {
+  const router = useRouter();
   const [karma, setKarma] = useState(initialKarma);
   // если пропсы обновились (при возврате на страницу) — пересинхронизируем
 
   //const { data: business } = useBusiness(businessId);
   const { data: userVote } = useUserVote(businessId);
   const voteMutation = useVoteBusiness(businessId);
-  const user = useUserStore((state) => state.profile);
 
   useEffect(() => {
     setKarma(initialKarma);
@@ -39,6 +44,13 @@ function Karma({
     e.stopPropagation(); // Stop event from bubbling up
     if (!isLoggedIn) {
       setAlertTitle('Для голосування, авторизуйтесь будь ласка');
+      setActionContent(
+        <>
+          <IconUser className="mr-2 inline size-4 xl:size-5" />
+          Вхід
+        </>
+      );
+      setOnConfirm(() => () => router.push('/login'));
       setOpen(true);
       return;
     }

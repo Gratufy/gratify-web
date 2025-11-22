@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useUserStore } from '@/stores/useUserStore';
 //import { createClient } from "@/utils/supabase/client";
 import { useQueryClient } from '@tanstack/react-query';
+import { CustomToast } from './CustomToast';
 
 export default function DeleteAccountButton() {
   const router = useRouter();
@@ -32,16 +33,42 @@ export default function DeleteAccountButton() {
       // await supabase.auth.signOut();
       clear();
       queryClient.clear();
-      alert('Your account has been successfully deleted.');
+      CustomToast({
+        type: 'success',
+        content: (
+          <>
+            <p className="font-semibold">Ваш аккаунт видалено</p>
+          </>
+        ),
+      });
+
       router.push('/'); // or wherever you want to redirect
     } catch (err) {
       console.error('Error deleting account:', err);
       if (err instanceof Error) {
         setError(err.message);
-        alert(err.message);
+
+        CustomToast({
+          type: 'error',
+          content: (
+            <>
+              <p className="font-semibold">Щось трапилось</p>
+              <p>{err.message}</p>
+            </>
+          ),
+        });
       } else {
         setError('Unknown error');
-        alert('An unknown error occurred.');
+
+        CustomToast({
+          type: 'error',
+          content: (
+            <>
+              <p className="font-semibold">Щось трапилось</p>
+              <p>Спрбуйте пізніше.</p>
+            </>
+          ),
+        });
       }
     } finally {
       setLoading(false);

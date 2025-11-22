@@ -46,6 +46,7 @@ import {
   uploadImagesAndReturnUrls,
 } from '@/lib/helpers/uploadImagesAndReturnUrls';
 import { updateBusinessImagesOnServer } from '@/lib/helpers/updateBusinessImagesOnServer';
+import { CustomToast } from '@/components/ui/CustomToast';
 
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
@@ -146,7 +147,14 @@ export default function BusinessFormNew({
   function validateCity(index: number): boolean {
     const loc = form.getValues(`locations.${index}`);
     if (!loc.city || loc.city.trim() === '') {
-      alert('будь ласка, вкажіть місто');
+      CustomToast({
+        type: 'warning',
+        content: (
+          <>
+            <p className="font-semibold">Будь ласка, вкажить спочатку місто</p>
+          </>
+        ),
+      });
       return false;
     }
     return !!(loc.city && loc.city.trim() !== '');
@@ -154,7 +162,16 @@ export default function BusinessFormNew({
   function validateAdress(index: number): boolean {
     const loc = form.getValues(`locations.${index}`);
     if (!loc.address || loc.address.trim() === '') {
-      alert('Будь ласка, вкажіть адресу');
+      CustomToast({
+        type: 'warning',
+        content: (
+          <>
+            <p className="font-semibold">
+              Будь ласка, вкажить адресу перед перевіркою
+            </p>
+          </>
+        ),
+      });
       return false;
     }
     return !!(loc.address && loc.address.trim() !== '');
@@ -169,7 +186,14 @@ export default function BusinessFormNew({
     if (!ifAddressValid) return;
     const loc = form.getValues(`locations.${index}`);
     if (!ifCityValid && ifAddressValid) {
-      alert('будь ласка, спочатку вкажіть місто');
+      CustomToast({
+        type: 'warning',
+        content: (
+          <>
+            <p className="font-semibold">Будь ласка, вкажить спочатку місто</p>
+          </>
+        ),
+      });
       return;
     }
     if (!loc.city || !loc.address) {
@@ -183,7 +207,15 @@ export default function BusinessFormNew({
       });
 
       if (!res) {
-        alert('Address not found. Please refine your input.');
+        CustomToast({
+          type: 'error',
+          content: (
+            <>
+              <p className="font-semibold">Адресу не знайдено.</p>
+              <p>Будь ласка, уточніть введені дані.</p>
+            </>
+          ),
+        });
         return;
       }
 
@@ -191,9 +223,16 @@ export default function BusinessFormNew({
       setMapOpenIndex(index);
     } catch (error) {
       console.error('Check address failed:', error);
-      alert(
-        'Не вдалося перевірити локацію. Можна продовжити без координат. Вони будуть додані пізніше автоматично.'
-      );
+      CustomToast({
+        type: 'warning',
+        content: (
+          <>
+            <p className="font-semibold">Не вдалося перевірити локацію.</p>
+            <p>Можна продовжити без координат.</p>
+            <p>Вони будуть додані пізніше автоматично.</p>
+          </>
+        ),
+      });
     }
   }
   // to confirm location
@@ -286,7 +325,15 @@ export default function BusinessFormNew({
           currentUserId
         );
         //
-        alert('Business edited successfully!');
+        CustomToast({
+          type: 'success',
+          content: (
+            <>
+              <p className="font-semibold">Супер!</p>
+              <p>Зміни внесено.</p>
+            </>
+          ),
+        });
         // Reset form
         form.reset(defaultValues);
       } else {
@@ -328,7 +375,15 @@ export default function BusinessFormNew({
           );
         }
         //--------------------
-        alert('Business created successfully!');
+        CustomToast({
+          type: 'success',
+          content: (
+            <>
+              <p className="font-semibold">Картка бізнесу створена</p>
+              <p>Після модерації вона буде опублікована.</p>
+            </>
+          ),
+        });
         // Reset form
         form.reset();
         // setTempLatLng(null);
@@ -342,7 +397,14 @@ export default function BusinessFormNew({
       }
     } catch (error) {
       console.error('Error creating/updating business:', error);
-      alert('Something went wrong');
+      CustomToast({
+        type: 'error',
+        content: (
+          <>
+            <p className="font-semibold">Щось пішло не так</p>
+          </>
+        ),
+      });
     }
   }
 
