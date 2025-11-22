@@ -31,7 +31,7 @@ interface Props {
 
 function BusinessDetails({ id, selectedCity, initialData }: Props) {
   const router = useRouter();
-  const { isLoggedIn, isLoadingAuth } = useAuth();
+  const { isLoggedIn } = useAuth();
   // for modal
   const [open, setOpen] = useState(false);
   const [alertTitle, setAlertTitle] = useState('');
@@ -158,7 +158,6 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
             <div className="max-[1024px]:max-w-150 w-full px-4 lg:w-[1024px] lg:px-28 xl:w-[1440px] xl:px-[320px]">
               <BusinessReviews
                 businessId={id}
-                open={open}
                 setOpen={setOpen}
                 isLoggedIn={isLoggedIn}
                 setAlertTitle={setAlertTitle}

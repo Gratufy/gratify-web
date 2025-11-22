@@ -1,5 +1,5 @@
 // small card fo List of businesses
-import React, { useState } from 'react';
+import React from 'react';
 
 import Image from 'next/image';
 
@@ -15,8 +15,6 @@ import IconFavoriteNo from '@/assets/icons/general/icon-favorite-no.svg';
 import IconFavoriteYes from '@/assets/icons/general/icon-favorite-yes.svg';
 
 import Karma from './Karma';
-import { useAuth } from '@/stores/useUserStore';
-import { CustomAlertDialog } from '../ui/CustomAlertDialog';
 
 function BusinessCardShot({
   business,
@@ -24,17 +22,13 @@ function BusinessCardShot({
   setOpen,
   isLoggedIn,
   setAlertTitle,
-  imageUrl,
-  // isFavorite = false,
 }: {
   business: BusinessWithCategoryName;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isLoggedIn: boolean;
-  // selectedCity: string;
-  imageUrl?: string;
+
   setAlertTitle: React.Dispatch<React.SetStateAction<string>>;
-  // isFavorite?: boolean;
 }) {
   // const { isLoggedIn, isLoadingAuth } = useAuth();
   const favoritesSet = useFavorites();

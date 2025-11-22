@@ -20,7 +20,7 @@ import ReviewsSkeleton from './skeletons/ReviewsSkeleton';
 
 interface Props {
   businessId: string;
-  open: boolean;
+
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isLoggedIn: boolean;
   setAlertTitle: React.Dispatch<React.SetStateAction<string>>;
@@ -28,7 +28,7 @@ interface Props {
 
 export default function BusinessReviews({
   businessId,
-  open,
+
   setOpen,
   isLoggedIn,
   setAlertTitle,

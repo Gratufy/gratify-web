@@ -12,13 +12,6 @@ import { Spinner } from '../ui/spinner';
 import { useAuth } from '@/stores/useUserStore';
 import { CustomAlertDialog } from '../ui/CustomAlertDialog';
 
-// interface BusinessListSimpleProps {
-//   businesses: BusinessWithCategoryName[];
-
-//   isLoading?: boolean;
-//   isError?: boolean;
-//   error?: Error | null;
-// }
 type BusinessListProps = {
   businesses: BusinessWithCategoryName[];
   selectedCity?: string;
@@ -49,7 +42,7 @@ function BusinessList({
   onHover,
 }: BusinessListProps) {
   const router = useRouter();
-  const { isLoggedIn, isLoadingAuth } = useAuth();
+  const { isLoggedIn } = useAuth();
   const loadMoreRef = useRef<HTMLDivElement>(null);
   // for modal
   const [open, setOpen] = useState(false);
