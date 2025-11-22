@@ -9,8 +9,19 @@ import { Minus } from 'lucide-react';
 type KarmaProps = {
   businessId: string;
   initialKarma: number;
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoggedIn: boolean;
+  setAlertTitle: React.Dispatch<React.SetStateAction<string>>;
 };
-function Karma({ businessId, initialKarma }: KarmaProps) {
+function Karma({
+  businessId,
+  initialKarma,
+  open,
+  setOpen,
+  isLoggedIn,
+  setAlertTitle,
+}: KarmaProps) {
   const [karma, setKarma] = useState(initialKarma);
   // если пропсы обновились (при возврате на страницу) — пересинхронизируем
 
@@ -26,8 +37,9 @@ function Karma({ businessId, initialKarma }: KarmaProps) {
   function handleVote(e: React.MouseEvent, vote: 1 | -1) {
     e.preventDefault(); // Prevent navigating to business detail page
     e.stopPropagation(); // Stop event from bubbling up
-    if (!user) {
-      alert('Please log in to vote');
+    if (!isLoggedIn) {
+      setAlertTitle('Для голосування, авторизуйтесь будь ласка');
+      setOpen(true);
       return;
     }
     const prev = userVote?.vote ?? 0;
@@ -58,7 +70,9 @@ function Karma({ businessId, initialKarma }: KarmaProps) {
         className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded-xl xl:h-6 xl:w-6 ${
           userVote?.vote === -1 ? 'bg-icons-color-error/50' : ''
         }`}
-        onClick={(e) => handleVote(e, -1)}
+        onClick={(e) => {
+          handleVote(e, -1);
+        }}
         disabled={voteMutation.isPending}
       >
         <Minus className="h-4 w-4 xl:h-5 xl:w-5" />

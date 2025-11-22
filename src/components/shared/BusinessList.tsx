@@ -1,13 +1,16 @@
 // new one
 'use client';
 import React, { useRef, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { BusinessWithCategoryName } from '@/types';
+import IconUser from '@/assets/icons/general/icon-user.svg';
 
 import BusinessCardShot from './BusinessCardShot';
 import Link from 'next/link';
 import BusinessListSkeleton from './skeletons/BusinessListSkeleton';
 import { Spinner } from '../ui/spinner';
 import { useAuth } from '@/stores/useUserStore';
+import { CustomAlertDialog } from '../ui/CustomAlertDialog';
 
 // interface BusinessListSimpleProps {
 //   businesses: BusinessWithCategoryName[];
@@ -45,8 +48,12 @@ function BusinessList({
   includeCityQuery = false,
   onHover,
 }: BusinessListProps) {
+  const router = useRouter();
   const loadMoreRef = useRef<HTMLDivElement>(null);
+  // for modal
   const [open, setOpen] = useState(false);
+  const [alertTitle, setAlertTitle] = useState('');
+  //////
   useEffect(() => {
     if (!enableInfiniteScroll) return;
     if (!loadMoreRef.current) return;
@@ -101,6 +108,7 @@ function BusinessList({
                     open={open}
                     setOpen={setOpen}
                     isLoggedIn={isLoggedIn}
+                    setAlertTitle={setAlertTitle}
                     // selectedCity="__all__"
                     // isFavorite
                   />
@@ -115,6 +123,21 @@ function BusinessList({
           {isFetchingNextPage && <Spinner />}
         </div>
       )}
+      <CustomAlertDialog
+        open={open}
+        onOpenChange={setOpen}
+        // title="Для додавання в обране, авторизуйтесь будь ласка"
+        title={alertTitle}
+        actionContent={
+          <>
+            <IconUser className="mr-3 inline size-4 xl:size-5" />
+            Вхід
+          </>
+        }
+        cancelText="Отмена"
+        classNameTitle="placeholder-base! font-normal"
+        onAction={() => router.push('/login')}
+      />
     </section>
   );
 }

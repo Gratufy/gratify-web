@@ -1,6 +1,6 @@
 // small card fo List of businesses
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+
 import Image from 'next/image';
 
 import { useFavorites } from '@/providers/UserFavoritesProvider';
@@ -8,7 +8,7 @@ import { useAddFavorite, useRemoveFavorite } from '@/hooks/useFavorites';
 import { BusinessWithCategoryName } from '@/types';
 // import Link from 'next/link';
 // import { renderLocations } from '@/lib/helpers/renderLocations';
-import IconUser from '@/assets/icons/general/icon-user.svg';
+
 import CheckIcon from '@/assets/icons/general/icon-check.svg';
 import ReviewIcon from '@/assets/icons/general/icon-bubble.svg';
 import IconFavoriteNo from '@/assets/icons/general/icon-favorite-no.svg';
@@ -23,7 +23,7 @@ function BusinessCardShot({
   open,
   setOpen,
   isLoggedIn,
-  // selectedCity,
+  setAlertTitle,
   imageUrl,
   // isFavorite = false,
 }: {
@@ -33,10 +33,9 @@ function BusinessCardShot({
   isLoggedIn: boolean;
   // selectedCity: string;
   imageUrl?: string;
+  setAlertTitle: React.Dispatch<React.SetStateAction<string>>;
   // isFavorite?: boolean;
 }) {
-  const router = useRouter();
-
   // const { isLoggedIn, isLoadingAuth } = useAuth();
   const favoritesSet = useFavorites();
   const isFavorite = favoritesSet.has(business.id);
@@ -48,6 +47,7 @@ function BusinessCardShot({
     e.preventDefault(); // Prevent navigating to business detail page
     e.stopPropagation(); // Stop event from bubbling up
     if (!isLoggedIn) {
+      setAlertTitle('Для додавання в обране, авторизуйтесь будь ласка');
       setOpen(true);
       return;
     }
@@ -85,20 +85,6 @@ function BusinessCardShot({
           </button>
         </div>
 
-        <CustomAlertDialog
-          open={open}
-          onOpenChange={setOpen}
-          title="Для додавання в обране, авторизуйтесь будь ласка"
-          actionContent={
-            <>
-              <IconUser className="mr-3 inline size-4 xl:size-5" />
-              Вхід
-            </>
-          }
-          cancelText="Отмена"
-          classNameTitle="placeholder-base! font-normal"
-          onAction={() => router.push('/login')}
-        />
         {/* block with image */}
         {/* <div className="ml-15 lg:ml-26 xl:ml-67 relative h-full flex-1 overflow-hidden"> */}
         <div className="relative flex h-full flex-1 justify-end">
@@ -152,7 +138,14 @@ function BusinessCardShot({
       {/* hot */}
       <div className="flex gap-4 px-4 lg:gap-6 lg:px-2">
         <div className="flex flex-1 items-center gap-4 py-1 lg:gap-3 xl:py-2">
-          <Karma businessId={business.id} initialKarma={business.karma} />
+          <Karma
+            businessId={business.id}
+            initialKarma={business.karma}
+            open={open}
+            setOpen={setOpen}
+            isLoggedIn={isLoggedIn}
+            setAlertTitle={setAlertTitle}
+          />
 
           <div className="flex items-center gap-0.5">
             <ReviewIcon className="h-4 w-4 xl:h-5 xl:w-5" />
