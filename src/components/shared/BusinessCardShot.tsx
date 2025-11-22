@@ -1,5 +1,6 @@
 // small card fo List of businesses
-import React from 'react';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 import { useFavorites } from '@/providers/UserFavoritesProvider';
@@ -7,25 +8,36 @@ import { useAddFavorite, useRemoveFavorite } from '@/hooks/useFavorites';
 import { BusinessWithCategoryName } from '@/types';
 // import Link from 'next/link';
 // import { renderLocations } from '@/lib/helpers/renderLocations';
-
+import IconUser from '@/assets/icons/general/icon-user.svg';
 import CheckIcon from '@/assets/icons/general/icon-check.svg';
 import ReviewIcon from '@/assets/icons/general/icon-bubble.svg';
 import IconFavoriteNo from '@/assets/icons/general/icon-favorite-no.svg';
 import IconFavoriteYes from '@/assets/icons/general/icon-favorite-yes.svg';
 
 import Karma from './Karma';
+import { useAuth } from '@/stores/useUserStore';
+import { CustomAlertDialog } from '../ui/CustomAlertDialog';
 
 function BusinessCardShot({
   business,
+  open,
+  setOpen,
+  isLoggedIn,
   // selectedCity,
   imageUrl,
   // isFavorite = false,
 }: {
   business: BusinessWithCategoryName;
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoggedIn: boolean;
   // selectedCity: string;
   imageUrl?: string;
   // isFavorite?: boolean;
 }) {
+  const router = useRouter();
+
+  // const { isLoggedIn, isLoadingAuth } = useAuth();
   const favoritesSet = useFavorites();
   const isFavorite = favoritesSet.has(business.id);
 
@@ -35,6 +47,11 @@ function BusinessCardShot({
   const handleToggleFavorite = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent navigating to business detail page
     e.stopPropagation(); // Stop event from bubbling up
+    if (!isLoggedIn) {
+      setOpen(true);
+      return;
+    }
+
     if (isFavorite) {
       const confirmed = confirm(
         'Are you sure you want to delete this business?'
@@ -52,17 +69,36 @@ function BusinessCardShot({
     <>
       {/* header */}
       <div className="lg:h-22 relative mb-4 flex h-16 items-center">
-        <button
-          onClick={handleToggleFavorite}
-          className="absolute right-2 top-0 z-10 cursor-pointer border-none bg-transparent px-2 pb-1 outline-none lg:right-9"
+        <div
+          className="absolute right-2 top-0 z-10"
+          onClick={(e) => e.stopPropagation()} // блокируем клик до Link
         >
-          {isFavorite ? (
-            <IconFavoriteYes className="h-7 w-6 lg:h-10 lg:w-8" />
-          ) : (
-            <IconFavoriteNo className="h-7 w-6 lg:h-10 lg:w-8" />
-          )}
-        </button>
+          <button
+            onClick={handleToggleFavorite}
+            className="cursor-pointer border-none bg-transparent px-2 pb-1 outline-none lg:right-9"
+          >
+            {isFavorite ? (
+              <IconFavoriteYes className="h-7 w-6 lg:h-10 lg:w-8" />
+            ) : (
+              <IconFavoriteNo className="h-7 w-6 lg:h-10 lg:w-8" />
+            )}
+          </button>
+        </div>
 
+        <CustomAlertDialog
+          open={open}
+          onOpenChange={setOpen}
+          title="Для додавання в обране, авторизуйтесь будь ласка"
+          actionContent={
+            <>
+              <IconUser className="mr-3 inline size-4 xl:size-5" />
+              Вхід
+            </>
+          }
+          cancelText="Отмена"
+          classNameTitle="placeholder-base! font-normal"
+          onAction={() => router.push('/login')}
+        />
         {/* block with image */}
         {/* <div className="ml-15 lg:ml-26 xl:ml-67 relative h-full flex-1 overflow-hidden"> */}
         <div className="relative flex h-full flex-1 justify-end">

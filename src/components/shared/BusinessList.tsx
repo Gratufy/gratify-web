@@ -1,12 +1,13 @@
 // new one
 'use client';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { BusinessWithCategoryName } from '@/types';
 
 import BusinessCardShot from './BusinessCardShot';
 import Link from 'next/link';
 import BusinessListSkeleton from './skeletons/BusinessListSkeleton';
 import { Spinner } from '../ui/spinner';
+import { useAuth } from '@/stores/useUserStore';
 
 // interface BusinessListSimpleProps {
 //   businesses: BusinessWithCategoryName[];
@@ -45,7 +46,7 @@ function BusinessList({
   onHover,
 }: BusinessListProps) {
   const loadMoreRef = useRef<HTMLDivElement>(null);
-
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     if (!enableInfiniteScroll) return;
     if (!loadMoreRef.current) return;
@@ -64,7 +65,7 @@ function BusinessList({
     observer.observe(loadMoreRef.current);
     return () => observer.disconnect();
   }, [fetchNextPage, hasNextPage, isFetchingNextPage, enableInfiniteScroll]);
-
+  const { isLoggedIn, isLoadingAuth } = useAuth();
   return (
     <section className="flex flex-1 flex-col items-center overflow-hidden">
       {isLoading && <BusinessListSkeleton count={6} />}
@@ -87,11 +88,19 @@ function BusinessList({
                     ? { query: { city: selectedCity } }
                     : {}),
                 }}
+                onClick={(e) => {
+                  if (!isLoggedIn && open) {
+                    e.preventDefault(); // блокируем переход, пока модалка открыта
+                  }
+                }}
                 className="block h-full w-full"
               >
                 <article className="w-full overflow-hidden" key={b.id}>
                   <BusinessCardShot
                     business={b}
+                    open={open}
+                    setOpen={setOpen}
+                    isLoggedIn={isLoggedIn}
                     // selectedCity="__all__"
                     // isFavorite
                   />
