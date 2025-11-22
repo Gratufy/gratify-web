@@ -196,7 +196,7 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
           </>
         }
         // cancelText="Отмена"
-        classNameTitle="placeholder-base! font-normal"
+        classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
         classNameDescription="sr-only"
         onAction={() => router.push('/login')}
       />
