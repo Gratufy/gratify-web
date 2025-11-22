@@ -1,9 +1,8 @@
 // new one
 'use client';
 import React, { useRef, useEffect, useState, ReactNode } from 'react';
-import { useRouter } from 'next/navigation';
+
 import { BusinessWithCategoryName } from '@/types';
-import IconUser from '@/assets/icons/general/icon-user.svg';
 
 import BusinessCardShot from './BusinessCardShot';
 import Link from 'next/link';
@@ -11,7 +10,6 @@ import BusinessListSkeleton from './skeletons/BusinessListSkeleton';
 import { Spinner } from '../ui/spinner';
 import { useAuth } from '@/stores/useUserStore';
 import { CustomAlertDialog } from '../ui/CustomAlertDialog';
-import { set } from 'valibot';
 
 type BusinessListProps = {
   businesses: BusinessWithCategoryName[];
@@ -42,7 +40,6 @@ function BusinessList({
   includeCityQuery = false,
   onHover,
 }: BusinessListProps) {
-  const router = useRouter();
   const { isLoggedIn } = useAuth();
   const loadMoreRef = useRef<HTMLDivElement>(null);
   // for modal

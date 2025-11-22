@@ -2,7 +2,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { createClient } from '@/utils/supabase/client';
+
 import { Plus } from 'lucide-react';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import * as v from 'valibot';
@@ -32,19 +32,15 @@ import { BusinessFormValues, BusinessImages, BusinessUpdate } from '@/types';
 import { useUserStore } from '@/stores/useUserStore';
 
 import dynamic from 'next/dynamic';
-// import { saveBusinessLocations } from '@/lib/actions/businessLocation';
+
 import { useAllSpecialOffers } from '@/hooks/useSpecialOffers';
-//import CustomCheckBox from '../ui/CustomCheckBox';
-//import { specialOffers } from '@/db/schema';
+
 import OffersMultiSelect from '../OffersMultiSelect';
 import ImagesBlock from './ImagesBlock';
 import { uploadBusinessImages } from '@/lib/actions/uploadBusinessImages';
 import { businessFormSchema } from '@/shemas/businessFormSchema';
 import { ensureOneCover } from '@/lib/helpers/ensureOneCover';
-import {
-  buildClientPayload,
-  uploadImagesAndReturnUrls,
-} from '@/lib/helpers/uploadImagesAndReturnUrls';
+import { uploadImagesAndReturnUrls } from '@/lib/helpers/uploadImagesAndReturnUrls';
 import { updateBusinessImagesOnServer } from '@/lib/helpers/updateBusinessImagesOnServer';
 import { CustomToast } from '@/components/ui/CustomToast';
 

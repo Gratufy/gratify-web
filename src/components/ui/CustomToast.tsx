@@ -28,3 +28,15 @@ export function CustomToast({
     closeButton: true,
   });
 }
+
+// Usage Example:
+// CustomToast({
+//   type: 'warning',
+//   content: (
+//     <>
+//       <p className="font-semibold">
+//         Будь ласка, вкажить адресу перед перевіркою
+//       </p>
+//     </>
+//   ),
+// });
