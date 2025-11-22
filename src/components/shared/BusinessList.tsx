@@ -40,9 +40,9 @@ function BusinessList({
   includeCityQuery = false,
   onHover,
 }: BusinessListProps) {
-  const { isLoggedIn } = useAuth();
   const loadMoreRef = useRef<HTMLDivElement>(null);
   // for modal
+  const { isLoggedIn } = useAuth();
   const [open, setOpen] = useState(false);
   const [alertTitle, setAlertTitle] = useState('');
   const [actionContent, setActionContent] = useState<ReactNode>(null);
