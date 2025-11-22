@@ -33,7 +33,7 @@ export function CustomAlertDialog({
   trigger,
   title,
   description,
-  actionText = 'Confirm',
+
   actionContent,
   cancelText = 'Скасувати',
   onAction,
@@ -45,7 +45,6 @@ export function CustomAlertDialog({
   open,
   onOpenChange,
 }: CustomAlertDialogProps) {
-  console.log('in Custom Alert');
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>

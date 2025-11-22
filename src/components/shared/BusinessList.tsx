@@ -49,6 +49,7 @@ function BusinessList({
   onHover,
 }: BusinessListProps) {
   const router = useRouter();
+  const { isLoggedIn, isLoadingAuth } = useAuth();
   const loadMoreRef = useRef<HTMLDivElement>(null);
   // for modal
   const [open, setOpen] = useState(false);
@@ -72,7 +73,7 @@ function BusinessList({
     observer.observe(loadMoreRef.current);
     return () => observer.disconnect();
   }, [fetchNextPage, hasNextPage, isFetchingNextPage, enableInfiniteScroll]);
-  const { isLoggedIn, isLoadingAuth } = useAuth();
+
   return (
     <section className="flex flex-1 flex-col items-center overflow-hidden">
       {isLoading && <BusinessListSkeleton count={6} />}
@@ -128,14 +129,16 @@ function BusinessList({
         onOpenChange={setOpen}
         // title="Для додавання в обране, авторизуйтесь будь ласка"
         title={alertTitle}
+        description={alertTitle}
         actionContent={
           <>
             <IconUser className="mr-3 inline size-4 xl:size-5" />
             Вхід
           </>
         }
-        cancelText="Отмена"
+        // cancelText="Отмена"
         classNameTitle="placeholder-base! font-normal"
+        classNameDescription="sr-only"
         onAction={() => router.push('/login')}
       />
     </section>

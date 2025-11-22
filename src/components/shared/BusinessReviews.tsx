@@ -20,9 +20,19 @@ import ReviewsSkeleton from './skeletons/ReviewsSkeleton';
 
 interface Props {
   businessId: string;
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoggedIn: boolean;
+  setAlertTitle: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function BusinessReviews({ businessId }: Props) {
+export default function BusinessReviews({
+  businessId,
+  open,
+  setOpen,
+  isLoggedIn,
+  setAlertTitle,
+}: Props) {
   //   const queryClient = useQueryClient();
 
   const user = useUserStore((state) => state.profile);
@@ -38,8 +48,9 @@ export default function BusinessReviews({ businessId }: Props) {
   const updateReview = useUpdateReview(businessId);
 
   const handleAdd = async () => {
-    if (!user) {
-      alert('Please log in to add a review');
+    if (!isLoggedIn) {
+      setAlertTitle('Для додавання відгука, авторизуйтесь будь ласка');
+      setOpen(true);
       return;
     }
     if (!newText.trim()) return;
