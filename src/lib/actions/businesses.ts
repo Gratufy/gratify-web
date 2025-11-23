@@ -41,6 +41,7 @@ import {
 } from '../helpers/getSpecialOffersForBusinesses';
 import { getBusinessImages } from '../helpers/getBusinessImages';
 import { getCoverImagesForBusinesses } from '../helpers/getCoverImagesForBusinesses';
+import { getBusinessById } from './getBusinessById';
 
 // function filterByCityAndOnline(
 //   businesses: BusinessWithCategoryName[],
@@ -339,10 +340,9 @@ export async function getBusinesses(
 // update business
 export async function updateBusiness(
   id: string,
+  // values: Partial<NewBusinessFormData>
   values: Partial<NewBusinessFormData>
 ) {
-  console.log('Update ownOffers:', values.ownOffers);
-  console.log('Update specialOffers:', values.specialOffers);
   try {
     const supabase = await createClient();
     const {
@@ -434,7 +434,11 @@ export async function updateBusiness(
         await db.insert(businessOwnSpecialOffers).values(newOwnOffers);
       }
     }
-    return updatedBusiness;
+    // return updatedBusiness;
+    const fullBusiness = await getBusinessById(id);
+    if (!fullBusiness) throw new Error('Failed to fetch updated business');
+
+    return fullBusiness;
   } catch (error) {
     console.error('Error updating business:', error);
     throw new Error('Failed to update business');
