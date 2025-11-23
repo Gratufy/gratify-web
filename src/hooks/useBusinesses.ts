@@ -31,6 +31,7 @@ import {
   UseAdminBusinessesParams,
 } from '@/types';
 import { PAGE_SIZE } from '@/const/business';
+import { getBusinessImages } from '@/lib/helpers/getBusinessImages';
 
 export type UseBusinessesParams = GetBusinessesParams;
 // all businesses
@@ -146,8 +147,10 @@ export function useUpdateBusiness() {
       id: string;
       values: Partial<NewBusinessFormData>;
     }) => updateBusiness(id, values),
-    onSuccess: (updatedBusiness, variables) => {
+
+    onSuccess: async (updatedBusiness, variables) => {
       // Обновляем кэш конкретного бизнеса с полным объектом
+      console.log('updated', updateBusiness);
       queryClient.setQueryData(
         queryKeys.businessById(variables.id),
         updatedBusiness

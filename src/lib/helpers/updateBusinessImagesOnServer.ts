@@ -11,19 +11,19 @@ export async function updateBusinessImagesOnServer(
   ownerId: string
 ) {
   const supabase = await createClient();
-  console.log('payload in server', payload);
+
   // 1. Получаем все существующие фото из базы
   const existingImages = await db
     .select()
     .from(businessImages)
     .where(eq(businessImages.businessId, businessId));
-  console.log('Images existingImages:', existingImages);
+
   // 2. Определяем, какие фото удалены
   const payloadUrls = payload.map((img) => img.url).filter(Boolean) as string[];
   const imagesToDelete = existingImages.filter(
     (img) => !payloadUrls.includes(img.url)
   );
-  console.log('Images to delete:', imagesToDelete);
+
   // 3. Удаляем их из Storage
 
   for (const img of imagesToDelete) {

@@ -277,24 +277,6 @@ export default function BusinessFormNew({
       );
 
       if (businessId) {
-        // update existing business
-        // Prepare data for the database
-        const updateData: BusinessUpdate = {
-          isOnline: data.isOnline,
-          name: data.name,
-          description: data.description,
-          website: data.website ?? null,
-          categoryId: data.category,
-          locations: locationsWithCoords,
-          specialOffers: data.specialOffers ?? [],
-          ownOffers: data.ownOffers ?? [],
-        };
-
-        await updateBusinessMutation.mutateAsync({
-          id: businessId,
-          values: updateData,
-        });
-
         // IMAGES
         const currentUserId = useUserStore.getState().profile?.userId;
         if (!currentUserId) throw new Error('No current user');
@@ -325,6 +307,24 @@ export default function BusinessFormNew({
           currentUserId
         );
         //
+        // update existing business
+        // Prepare data for the database
+        const updateData: BusinessUpdate = {
+          isOnline: data.isOnline,
+          name: data.name,
+          description: data.description,
+          website: data.website ?? null,
+          categoryId: data.category,
+          locations: locationsWithCoords,
+          specialOffers: data.specialOffers ?? [],
+          ownOffers: data.ownOffers ?? [],
+        };
+
+        await updateBusinessMutation.mutateAsync({
+          id: businessId,
+          values: updateData,
+        });
+
         CustomToast({
           type: 'success',
           content: (
