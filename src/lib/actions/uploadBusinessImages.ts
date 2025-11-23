@@ -2,7 +2,7 @@
 
 import { db } from '@/db';
 import { businessImages, userProfiles } from '@/db/schema';
-import { ServerImagePayload, UploadImage } from '@/types/images';
+import { UploadImage } from '@/types/images';
 import { createClient } from '@/utils/supabase/server';
 import { eq } from 'drizzle-orm';
 

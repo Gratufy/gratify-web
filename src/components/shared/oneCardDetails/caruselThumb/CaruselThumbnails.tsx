@@ -80,6 +80,7 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
                         src={image.url}
                         alt={`Image ${index + 1}`}
                         fill
+                        unoptimized
                         priority={index === 0}
                         className="object-cover"
                         sizes="(max-width: 1024px) 343px, (max-width: 1440px) 450px, 462px"
@@ -114,6 +115,7 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
                       // height={80}
                       fill
                       sizes="80px"
+                      unoptimized
                       className="h-full w-full object-cover"
                     />
                   </button>
