@@ -181,7 +181,8 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
               setTempSortBy('newest');
             }}
             type="button"
-            className={`placeholder-small lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 flex cursor-pointer items-center gap-1 border bg-white px-2 py-2 lg:gap-2`}
+            // className={`placeholder-small lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 flex cursor-pointer items-center gap-1 border bg-white px-2 py-2 lg:gap-2`}
+            className="btn-reject"
           >
             <CrossIcon className="size-3 lg:size-4 xl:size-5" />
             <span>Очистити все</span>
@@ -195,9 +196,11 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
                 sort: tempSortBy,
               });
             }}
-            className="placeholder-xs bg-background-main-300 w-30 border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2 shadow-[1px_2px_10px_2px_var(--elements-grey-50)]"
+            //className="placeholder-xs bg-background-main-300 w-30 border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2 shadow-[1px_2px_10px_2px_var(--elements-grey-50)]"
+            className="btn-aprove"
           >
-            <CheckIcon className="h-4 w-4" /> <span>Застосувати</span>
+            <CheckIcon className="size-3 lg:size-4 xl:size-5" />
+            <span>Застосувати</span>
           </SheetClose>
         </div>
       </SheetContent>

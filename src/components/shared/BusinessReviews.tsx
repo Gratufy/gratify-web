@@ -174,7 +174,8 @@ export default function BusinessReviews({
                       <div className="flex items-center justify-center gap-7">
                         <button
                           onClick={() => setEditingId(null)}
-                          className="bg-background-white xl:placeholder-base placeholder-sm border-background-main-300 shadow-menu flex cursor-pointer items-center justify-center border px-3 py-[6px]"
+                          // className="bg-background-white xl:placeholder-base placeholder-sm border-background-main-300 shadow-menu flex cursor-pointer items-center justify-center border px-3 py-[6px]"
+                          className="btn-reject"
                         >
                           Скасувати
                         </button>
