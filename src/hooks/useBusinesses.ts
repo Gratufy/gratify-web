@@ -23,6 +23,7 @@ import { createBusiness } from '@/lib/actions/createBusiness';
 import {
   AdminBusinessRowType,
   BusinessReviewStatus,
+  BusinessUpdate,
   BusinessWithDetails,
   GetBusinessesParams,
   NewBusinessFormData,
@@ -137,13 +138,8 @@ export function useUpdateBusiness() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      id,
-      values,
-    }: {
-      id: string;
-      values: Partial<NewBusinessFormData>;
-    }) => updateBusiness(id, values),
+    mutationFn: ({ id, values }: { id: string; values: BusinessUpdate }) =>
+      updateBusiness(id, values),
 
     onSuccess: async (updatedBusiness, variables) => {
       // Обновляем кэш конкретного бизнеса с полным объектом
