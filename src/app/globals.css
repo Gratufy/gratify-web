@@ -107,6 +107,8 @@
   --shadow-menu: 1px 2px 10px 2px var(--elements-grey-50);
   --shadow-hover: 1px 2px 10px 2px var(--elements-grey-100);
   --shadow-pressed: inset 0px 0px 8px 4px rgba(229, 233, 235, 0.25);
+  --shadow-hover-chip: 0 2px 3px 0 rgba(0, 0, 0, 0.3) 0 6px 10px 4px
+    rgba(0, 0, 0, 0.15);
 }
 
 :root {
@@ -368,6 +370,14 @@
 /*bg-background-grey-50 standart justify-between px-4  */
 @utility standart {
   @apply border-elements-grey-400 xl:placeholder-base placeholder-sm flex items-center border-[0.5px] py-[6px];
+}
+
+@utility chip {
+  @apply focus:bg-background-main-300 hover:shadow-hover-chip hover:bg-background-main-100 placeholder-xs xl:placeholder-sm border-elements-main-500 flex cursor-pointer items-center border px-4 py-2 transition-all;
+}
+
+@utility chip-checked {
+  @apply bg-background-main-400 border-elements-main-600 font-medium;
 }
 @layer components {
   .sr-only {

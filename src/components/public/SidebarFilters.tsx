@@ -85,7 +85,7 @@ function SidebarFilters({ categoriesWithAll }: SidebarFiltersProps) {
                   value={category.categoryId}
                   checked={filters.category === category.categoryId}
                   onChange={(val) => updateFilter('category', val)}
-                  className="placeholder-xs xl:placeholder-sm border-elements-main-500 border px-4 py-2"
+                  // className="placeholder-xs xl:placeholder-sm border-elements-main-500 border px-4 py-2"
                 >
                   {category.name}
                 </CategoryRadio>
