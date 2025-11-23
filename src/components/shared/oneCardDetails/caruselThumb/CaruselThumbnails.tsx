@@ -80,6 +80,7 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
                         src={image.url}
                         alt={`Image ${index + 1}`}
                         fill
+                        priority={index === 0}
                         className="object-cover"
                         sizes="(max-width: 1024px) 343px, (max-width: 1440px) 450px, 462px"
                       />
@@ -112,6 +113,7 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
                       // width={80}
                       // height={80}
                       fill
+                      sizes="80px"
                       className="h-full w-full object-cover"
                     />
                   </button>
@@ -144,7 +146,7 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
               width={460}
               height={316}
               src="/images/default-image.png"
-              alt="Default Image"
+              alt="Фото ще не завантажені — але ми впевнені, що тут гарно"
               // fill
               // className="object-cover"
               // sizes="(max-width: 1024px) 343px, (max-width: 1440px) 460px, 462px"
