@@ -134,7 +134,7 @@ export default function BusinessFormNew({
     lat: number;
     lng: number;
   } | null>(null);
-  console.log('tempLatLng', tempLatLng);
+
   useEffect(() => {
     if (!defaultValues && fields.length === 0) {
       append({ city: '', address: '' });

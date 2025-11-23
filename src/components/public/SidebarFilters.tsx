@@ -21,7 +21,7 @@ type SidebarFiltersProps = {
 
 function SidebarFilters({ categoriesWithAll }: SidebarFiltersProps) {
   const { filters, updateFilter } = useFilters();
-  console.log('filters in SidebarFilters:', filters);
+
   return (
     <aside className="lg:w-54 xl:w-70 hidden flex-shrink-0 lg:flex lg:items-start">
       {/* // треба lg:gap-4 xl:gap-6 */}

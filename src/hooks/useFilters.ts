@@ -59,13 +59,11 @@ export function useFilters() {
     ) => {
       const params = new URLSearchParams(searchParams.toString());
       if (value === DEFAULT_FILTERS[key]) {
-        console.log('value', value);
-        console.log('key', key);
         params.delete(key);
       } else {
         params.set(key, String(value));
       }
-      console.log('params', params.toString());
+
       router.push(`?${params.toString()}`);
     },
     [router, searchParams]
