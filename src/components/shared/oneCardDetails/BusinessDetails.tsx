@@ -45,6 +45,7 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
   const CityListElements = business
     ? renderLocations(business, selectedCity)
     : null;
+
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center">
       {/* Error */}

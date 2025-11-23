@@ -43,9 +43,10 @@ function CityFilter({ onApply }: CityFilterProps) {
         <button
           type="button"
           onClick={() => setTempCity('__all__')}
-          className="placeholder-xs w-30 border-background-main-400 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2"
+          // className="placeholder-xs w-30 border-background-main-400 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2"
+          className="btn-reject"
         >
-          <CrossIcon className="h-3 w-3" />
+          <CrossIcon className="size-3 lg:size-4 xl:size-5" />
           <span>Скасувати</span>
         </button>
         <SheetClose
@@ -53,9 +54,11 @@ function CityFilter({ onApply }: CityFilterProps) {
             onApply(); // close Sheet
             updateFilter('city', tempCity);
           }}
-          className="placeholder-sm bg-background-main-300 w-30 border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2 shadow-[1px_2px_10px_2px_var(--elements-grey-50)]"
+          //className="placeholder-sm bg-background-main-300 w-30 border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2 shadow-[1px_2px_10px_2px_var(--elements-grey-50)]"
+          className="btn-aprove"
         >
-          <CheckIcon className="h-4 w-4" /> <span>Застосувати</span>
+          <CheckIcon className="size-3 lg:size-4 xl:size-5" />
+          <span>Застосувати</span>
         </SheetClose>
       </div>
     </div>

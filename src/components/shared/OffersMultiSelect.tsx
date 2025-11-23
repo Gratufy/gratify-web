@@ -45,14 +45,12 @@ function OffersMultiSelect({
   ///////////////////////////////////////////////
   const ownOffers = form.watch('ownOffers') || [];
   const specialOffers = form.watch('specialOffers') || [];
-  console.log('Selected Offer Ids:', ownOffers);
+
   ///////////////////////////////////////////
   const [showOwnPanel, setShowOwnPanel] = useState<boolean>(false);
   const [ownOfferLocal, setOwnOfferLocal] = useState<string>('');
   //const [ownOfferLocalArr, setOwnOfferLocalArr] = useState<string[]>([]);
   if (!offers || offers.length === 0) return <p>No special offers found</p>;
-
-  console.log('Own Offer Local', ownOfferLocal);
 
   const addOwnOffer = () => {
     if (!ownOfferLocal.trim()) return;

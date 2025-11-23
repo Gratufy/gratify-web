@@ -21,7 +21,7 @@ type SidebarFiltersProps = {
 
 function SidebarFilters({ categoriesWithAll }: SidebarFiltersProps) {
   const { filters, updateFilter } = useFilters();
-  console.log('filters in SidebarFilters:', filters);
+
   return (
     <aside className="lg:w-54 xl:w-70 hidden flex-shrink-0 lg:flex lg:items-start">
       {/* // треба lg:gap-4 xl:gap-6 */}
@@ -85,7 +85,7 @@ function SidebarFilters({ categoriesWithAll }: SidebarFiltersProps) {
                   value={category.categoryId}
                   checked={filters.category === category.categoryId}
                   onChange={(val) => updateFilter('category', val)}
-                  className="placeholder-xs xl:placeholder-sm border-elements-main-500 border px-4 py-2"
+                  // className="placeholder-xs xl:placeholder-sm border-elements-main-500 border px-4 py-2"
                 >
                   {category.name}
                 </CategoryRadio>

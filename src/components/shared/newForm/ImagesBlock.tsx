@@ -14,8 +14,6 @@ type ImagesBlockProps = {
 };
 
 function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
-  console.log('imagesState', imagesState);
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // считаем слот заполненным, если есть file или url
     const isFilled = (img: PreviewImage) => !!(img.file || img.url);

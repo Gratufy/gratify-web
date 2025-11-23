@@ -17,7 +17,7 @@ function DeleteAllFiltersBtn({
   return (
     <button
       type="button"
-      className={`flex cursor-pointer items-center ${className}`}
+      className={`btn-reject ${className}`}
       onClick={resetFilters}
     >
       {!isSecondVariant ? (

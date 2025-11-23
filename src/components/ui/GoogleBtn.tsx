@@ -40,7 +40,7 @@ const GoogleBtn = () => {
   useEffect(() => {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile || !popup) return;
-    console.log('Mobile:', isMobile);
+
     const channel = new BroadcastChannel('popup-channel');
     const listener = async (event: MessageEvent) => {
       if (event.origin !== window.location.origin) return;

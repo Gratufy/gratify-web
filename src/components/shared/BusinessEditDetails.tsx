@@ -17,11 +17,13 @@ function BusinessEditDetails({ id, initialData }: Props) {
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center">
       <DeleteEditBusinessBtns id={id} className="mb-2" />
-      <BusinessDetails
-        id={id}
-        selectedCity={selectedCity}
-        initialData={initialData}
-      />
+      {initialData && (
+        <BusinessDetails
+          id={id}
+          selectedCity={selectedCity}
+          initialData={initialData}
+        />
+      )}
     </div>
   );
 }

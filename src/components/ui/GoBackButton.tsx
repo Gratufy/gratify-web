@@ -21,7 +21,7 @@ function GoBackButton({ href = '/', className }: BackButtonProps) {
   }, []);
   return (
     <button
-      className={`flex cursor-pointer items-center ${className}`}
+      className={`group flex cursor-pointer items-center ${className}`}
       onClick={() => {
         if (hasHistory.current) {
           router.back();
@@ -30,7 +30,7 @@ function GoBackButton({ href = '/', className }: BackButtonProps) {
         }
       }}
     >
-      <IconBack className="size-6" />
+      <IconBack className="size-6 stroke-[1.5] transition-all group-hover:stroke-[2]" />
     </button>
   );
 }

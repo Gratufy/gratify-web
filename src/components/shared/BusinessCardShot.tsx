@@ -106,6 +106,7 @@ function BusinessCardShot({
                   src={business.coverImageUrl}
                   alt={business.name}
                   fill
+                  //unoptimized
                   style={{ objectFit: 'cover' }}
                   className="relative z-0"
                 />

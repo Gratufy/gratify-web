@@ -47,7 +47,8 @@ function FavoritesSectionMobile({
           </div>
           <button
             type="button"
-            className={`placeholder-small lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 flex cursor-pointer items-center gap-1 border bg-white px-2 py-2 lg:gap-2`}
+            // className={`placeholder-small lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 flex cursor-pointer items-center gap-1 border bg-white px-2 py-2 lg:gap-2`}
+            className="btn-reject"
             onClick={() => {
               setCategoryId('__all__');
 

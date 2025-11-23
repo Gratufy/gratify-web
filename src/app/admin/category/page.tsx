@@ -29,7 +29,6 @@ export default function AdminCategory() {
   } | null>(null);
 
   const handleAdd = async () => {
-    console.log('Adding category:', newName);
     const result = v.safeParse(categorySchema, { name: newName });
     if (!result.success) {
       alert(result.issues[0].message);

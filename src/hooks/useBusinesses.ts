@@ -24,9 +24,9 @@ import {
   AdminBusinessRowType,
   BusinessReviewStatus,
   BusinessUpdate,
-  BusinessWithCategoryName,
   BusinessWithDetails,
   GetBusinessesParams,
+  NewBusinessFormData,
   UseAdminBusinessesParams,
 } from '@/types';
 import { PAGE_SIZE } from '@/const/business';
@@ -96,6 +96,8 @@ export function useBusiness(
     queryFn: () => getBusinessById(businessId),
     initialData,
     enabled: false, // не делаем лишний запрос, если данные уже есть
+    // refetchOnMount: true, // перезапрос при монтировании компонента
+    // refetchOnWindowFocus: false, // не нужно лишний раз при фокусе
   });
 }
 // create
@@ -113,25 +115,47 @@ export function useCreateBusiness() {
 }
 
 // update
+// export function useUpdateBusiness() {
+//   const queryClient = useQueryClient();
+//   return useMutation({
+//     mutationFn: ({ id, values }: { id: string; values: BusinessUpdate }) =>
+//       updateBusiness(id, values),
+//     onSuccess: (_data, variables) => {
+//       // one business
+//       queryClient.invalidateQueries({
+//         queryKey: queryKeys.businessById(variables.id),
+//         exact: true,
+//       });
+//       // all lists
+//       queryClient.invalidateQueries({
+//         queryKey: ['businesses'],
+//       });
+//     },
+//   });
+// }
+
 export function useUpdateBusiness() {
   const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: ({ id, values }: { id: string; values: BusinessUpdate }) =>
       updateBusiness(id, values),
-    onSuccess: (_data, variables) => {
-      // one business
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.businessById(variables.id),
-        exact: true,
-      });
-      // all lists
+
+    onSuccess: async (updatedBusiness, variables) => {
+      // Обновляем кэш конкретного бизнеса с полным объектом
+
+      queryClient.setQueryData(
+        queryKeys.businessById(variables.id),
+        updatedBusiness
+      );
+
+      // Обновляем кэш списка бизнесов
       queryClient.invalidateQueries({
         queryKey: ['businesses'],
       });
     },
   });
 }
-
 // delete
 export function useDeleteBusiness() {
   const queryClient = useQueryClient();

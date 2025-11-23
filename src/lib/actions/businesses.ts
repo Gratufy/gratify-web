@@ -3,7 +3,6 @@
 import { createClient } from '@/utils/supabase/server';
 import { db } from '@/db';
 
-import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 import {
   businessCategories,
   businesses,
@@ -27,11 +26,9 @@ import {
   GetBusinessesWithPagination,
   AdminBusinessRowType,
   UseAdminBusinessesParams,
-  BusinessImages,
-  BusinessWithDetails,
 } from '@/types/business';
 import { isAdmin } from '@/lib/helpers/isAdmin';
-import { userProfiles } from '@/db/schema';
+
 //import { checkAddress } from "./businessLocation";
 import { saveBusinessLocations } from '@/lib/actions/businessLocation';
 import { PAGE_SIZE } from '@/const/business';
@@ -39,8 +36,9 @@ import {
   getOwnOffersForBusinesses,
   getSpecialOffersForBusinesses,
 } from '../helpers/getSpecialOffersForBusinesses';
-import { getBusinessImages } from '../helpers/getBusinessImages';
+
 import { getCoverImagesForBusinesses } from '../helpers/getCoverImagesForBusinesses';
+import { getBusinessById } from './getBusinessById';
 
 // function filterByCityAndOnline(
 //   businesses: BusinessWithCategoryName[],
@@ -339,10 +337,9 @@ export async function getBusinesses(
 // update business
 export async function updateBusiness(
   id: string,
+  // values: Partial<NewBusinessFormData>
   values: Partial<NewBusinessFormData>
 ) {
-  console.log('Update ownOffers:', values.ownOffers);
-  console.log('Update specialOffers:', values.specialOffers);
   try {
     const supabase = await createClient();
     const {
@@ -381,9 +378,10 @@ export async function updateBusiness(
       throw new Error('No valid fields to update');
     }
 
-    let updatedBusiness = existing[0];
+    // let updatedBusiness = existing[0];
     if (Object.keys(filteredValues).length > 0) {
-      const [updated] = await db
+      // const [updated] = await db
+      await db
         .update(businesses)
         .set({
           ...filteredValues,
@@ -391,7 +389,7 @@ export async function updateBusiness(
         })
         .where(eq(businesses.id, id))
         .returning();
-      updatedBusiness = updated;
+      // updatedBusiness = updated;
     }
 
     // update locations: delete old and insert new
@@ -434,7 +432,11 @@ export async function updateBusiness(
         await db.insert(businessOwnSpecialOffers).values(newOwnOffers);
       }
     }
-    return updatedBusiness;
+    // return updatedBusiness;
+    const fullBusiness = await getBusinessById(id);
+    if (!fullBusiness) throw new Error('Failed to fetch updated business');
+
+    return fullBusiness;
   } catch (error) {
     console.error('Error updating business:', error);
     throw new Error('Failed to update business');

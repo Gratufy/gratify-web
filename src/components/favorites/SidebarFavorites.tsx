@@ -53,13 +53,14 @@ function SidebarFavorites({
         </div>
         <button
           type="button"
-          className="placeholder-sm xl:placeholder-base flex w-full cursor-pointer items-center justify-center gap-3 px-4 py-1 xl:px-4"
+          // className="placeholder-sm xl:placeholder-base flex w-full cursor-pointer items-center justify-center gap-3 px-4 py-1 xl:px-4"
+          className="btn-reject"
           onClick={() => {
             setCategoryId('__all__');
             setCategoryName('Всі категорії');
           }}
         >
-          <CrossIcon className="h-4 w-4 xl:h-5 xl:w-5" />
+          <CrossIcon className="size-3 lg:size-4 xl:size-5" />
           <span>Очистити все</span>
         </button>
       </div>
