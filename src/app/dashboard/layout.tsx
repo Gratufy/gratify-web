@@ -1,5 +1,3 @@
-import { Suspense } from 'react';
-
 import {
   dehydrate,
   HydrationBoundary,
@@ -53,10 +51,8 @@ export default async function BusinessLayout({
   return (
     <HydrationBoundary state={dehydratedState}>
       <div className="flex min-h-screen flex-col">
-        {/* <FakeBusinessHeader /> */}
-        <Suspense fallback={<div>...</div>}>
-          <PublicHeader />
-        </Suspense>
+        <PublicHeader />
+
         <main className="flex flex-1 flex-col">{children}</main>
         <Footer />
       </div>
