@@ -5,7 +5,7 @@ import {
 } from '@tanstack/react-query';
 import { queryKeys } from '@/lib/reactQuery/queryKeys';
 import { getBusinesses } from '@/lib/actions/businesses';
-import BusinessFooter from '@/components/business/BusinessFooter/BusinessFooter';
+
 import { verifySession } from '@/lib/dal';
 import { redirect } from 'next/navigation';
 // import { queryKeys } from '@/lib/reactQuery/queryKeys';

@@ -1,28 +1,28 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
-import debounce from 'lodash/debounce';
-import { useFilters } from '@/hooks/useFilters';
+import React, { useState, useEffect } from 'react';
+import { ChangeEvent } from 'react';
 import IconSearch from '@/assets/icons/general/icon-search.svg';
 
 type InputSearchProps = {
   id: string;
   name: string;
+  value: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-function InputSearch({ id, name }: InputSearchProps) {
-  const { filters, updateFilter } = useFilters();
-  const [value, setValue] = useState(filters.search ?? '');
+function InputSearch({ id, name, value, onChange }: InputSearchProps) {
+  const [localValue, setLocalValue] = useState(value ?? '');
 
-  const debouncedUpdate = useMemo(
-    () => debounce((val: string) => updateFilter('search', val), 500),
-    [updateFilter]
-  );
+  useEffect(() => {
+    setLocalValue(value ?? '');
+  }, [value]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-    setValue(val);
-    debouncedUpdate(val);
+    console.log('val', val);
+    setLocalValue(val); // immidiately upfate local state
+    onChange?.(e); //from header
   };
   return (
     <div className="relative">
@@ -33,7 +33,7 @@ function InputSearch({ id, name }: InputSearchProps) {
       <input
         name={name}
         id={id}
-        value={value}
+        value={localValue}
         onChange={handleChange}
         className="bg-background-white placeholder:text-text-500-grey focus:ring-ring lg:placeholder-sm xl:placeholder-base lg:w-71 placeholder-xs w-full py-2 pl-6 pr-2 focus:outline-none focus:ring-2 focus:ring-offset-2 lg:py-1 lg:pl-9 lg:pr-3 xl:pl-12 xl:pr-4"
         placeholder="Пошук"

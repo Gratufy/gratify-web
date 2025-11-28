@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import { UserFavoritesProvider } from '@/providers/UserFavoritesProvider';
 import { useUserFavoriteBusinesses } from '@/hooks/useFavorites';
@@ -9,9 +9,11 @@ import FavoritesSectionDesktop from './FavoritesSectionDesktop';
 
 import FavoritesSectionMobile from './FavoritesSectionMobile';
 import { useUserStore } from '@/stores/useUserStore';
-import NotFoundComponent from '../shared/NotFoundComponent';
+// import NotFoundComponent from '../shared/NotFoundComponent';
+import { useFavoritesSearchStore } from '@/stores/FavoritesSearchStore';
 
 function FavoritesHomeClient() {
+  const search = useFavoritesSearchStore((s) => s.search);
   const profile = useUserStore((s) => s.profile);
 
   const {
@@ -35,13 +37,22 @@ function FavoritesHomeClient() {
     error,
   } = useUserFavoriteBusinesses(categoryId ?? '__all__', !!profile); // only fetch if profile exists
 
+  const filtered = useMemo(() => {
+    if (!businesses) return [];
+
+    return businesses.filter((b) =>
+      b.name.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [businesses, search]);
+
   if (!profile) {
     return <p>Будь ласка, увійдіть, щоб побачити ваші улюблені бізнеси.</p>;
   }
+
   return (
     <UserFavoritesProvider>
       <FavoritesSectionMobile
-        businesses={businesses ?? []}
+        businesses={filtered}
         isLoading={isLoading}
         isError={isError}
         error={error}
@@ -52,7 +63,7 @@ function FavoritesHomeClient() {
         categoriesWithAll={categoriesWithAll}
       />
       <FavoritesSectionDesktop
-        businesses={businesses ?? []}
+        businesses={filtered}
         isLoading={isLoading}
         isError={isError}
         error={error}

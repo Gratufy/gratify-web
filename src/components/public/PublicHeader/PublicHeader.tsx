@@ -1,5 +1,7 @@
 'use client';
-import React from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import debounce from 'lodash/debounce';
+import { useDashboardSearchStore } from '@/stores/dashboardSearchStore';
 import { usePathname } from 'next/navigation';
 import { useUserStore } from '@/stores/useUserStore';
 import ThemeSwitch from '@/components/shared/ThemeSwitch';
@@ -9,7 +11,7 @@ import Image from 'next/image';
 import InputSearch from './InputSearch';
 import LoginHeaderBtn from './LoginHeaderBtn';
 import FavoriteHeaderIcon from '@/assets/icons/general/favorite-h.svg';
-import IconUser from '@/assets/icons/general/icon-user.svg';
+// import IconUser from '@/assets/icons/general/icon-user.svg';
 import UserMenu from './UserMenu';
 import { House } from 'lucide-react';
 <House size={20} strokeWidth={2.75} absoluteStrokeWidth />;
@@ -17,16 +19,64 @@ import { House } from 'lucide-react';
 import BusinessMenu from '@/components/business/BusinessHeader/BusinessMenu';
 import Link from 'next/link';
 import AdminMenu from '@/components/admin/AdminHeader/AdminMenu';
+import { useFilters } from '@/hooks/useFilters';
+import { useFavoritesSearchStore } from '@/stores/FavoritesSearchStore';
 
 function PublicHeader() {
   const pathname = usePathname();
-  // to highlight the current page in the menu if needed
-  // const isHome = pathname === '/';
-  // const isAbout = pathname === '/about';
-  // const isContact = pathname === '/contact';
+  const { filters, updateFilter } = useFilters(); // for search ib public
+  const dashboardLocal = useDashboardSearchStore((s) => s.search);
+  const setDashboardSearch = useDashboardSearchStore((s) => s.setSearch);
+  const favoriteslocal = useFavoritesSearchStore((s) => s.search);
+  const setFavoritesSearch = useFavoritesSearchStore((s) => s.setSearch);
+
+  const isPublic = pathname === '/';
+  const isDashboard = pathname.startsWith('/dashboard');
   const isFavorites = pathname === '/favorites';
+
+  useEffect(() => {
+    setInputValue(''); // clear input value on path change
+  }, [pathname]);
+
+  const [inputValue, setInputValue] = useState(
+    isPublic
+      ? (filters.search ?? '')
+      : isDashboard
+        ? dashboardLocal
+        : isFavorites
+          ? favoriteslocal
+          : ''
+  );
   const session = useUserStore((s) => s.session);
   const user = useUserStore((s) => s.profile);
+
+  const debouncedUpdate = useMemo(
+    () => debounce((val: string) => updateFilter('search', val), 500),
+    [updateFilter]
+  );
+  const debouncedFavoritesSearch = useMemo(
+    () => debounce((val: string) => setFavoritesSearch(val), 500),
+    [setFavoritesSearch]
+  );
+  const debouncedDashboardSearch = useMemo(
+    () =>
+      debounce((val: string) => {
+        setDashboardSearch(val);
+      }, 500),
+    [setDashboardSearch]
+  );
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setInputValue(val);
+    if (isPublic) {
+      debouncedUpdate(val); // / URL
+    } else if (isDashboard) {
+      debouncedDashboardSearch(val); //  Dashboard Zustand
+    } else if (isFavorites) {
+      debouncedFavoritesSearch(val); //  Favorites  Zustand
+    }
+  };
   return (
     <header className="bg-background-main-50 w-full">
       <div className="container hidden items-center py-3 lg:flex lg:justify-between">
@@ -40,7 +90,12 @@ function PublicHeader() {
           />
         </Link>
 
-        <InputSearch id="search-desktop" name="search-desktop" />
+        <InputSearch
+          id="search-desktop"
+          name="search-desktop"
+          value={inputValue}
+          onChange={handleChange}
+        />
         {/* lg:w-34 xl:w-42* was before House */}
         <div className="w-25 lg:w-34 xl:w-42 flex items-center justify-between">
           <ThemeSwitch />
@@ -96,7 +151,12 @@ function PublicHeader() {
             </div>
           </div>
 
-          <InputSearch id="search-mobile" name="search-mobile" />
+          <InputSearch
+            id="search-mobile"
+            name="search-mobile"
+            value={inputValue}
+            onChange={handleChange}
+          />
         </div>
       </div>
     </header>

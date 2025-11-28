@@ -26,7 +26,6 @@ import {
   BusinessUpdate,
   BusinessWithDetails,
   GetBusinessesParams,
-  NewBusinessFormData,
   UseAdminBusinessesParams,
 } from '@/types';
 import { PAGE_SIZE } from '@/const/business';

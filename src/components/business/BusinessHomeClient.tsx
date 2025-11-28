@@ -1,8 +1,8 @@
 'use client';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useBusinesses } from '@/hooks/useBusinesses';
 import { Plus } from 'lucide-react';
-
+import { useDashboardSearchStore } from '@/stores/dashboardSearchStore';
 //import BusinessList from '../shared/BusinessList';
 import { UserFavoritesProvider } from '@/providers/UserFavoritesProvider';
 import NotFoundComponent from '../shared/NotFoundComponent';
@@ -10,6 +10,7 @@ import DashboardBusinessList from './DashboardBusinessList';
 import Link from 'next/link';
 
 function BusinessHomeClient() {
+  const search = useDashboardSearchStore((s) => s.search);
   const {
     data: businesses,
     isLoading: isBusinessesLoading,
@@ -20,6 +21,14 @@ function BusinessHomeClient() {
     categoryId: '__all__',
     scope: 'business_user',
   });
+
+  const filtered = useMemo(() => {
+    if (!businesses?.data) return [];
+
+    return businesses.data.filter((b) =>
+      b.name.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [businesses, search]);
   return (
     <UserFavoritesProvider>
       <div className="flex w-full flex-col items-center">
@@ -46,7 +55,8 @@ function BusinessHomeClient() {
               </div>
             </div>
             <DashboardBusinessList
-              businesses={businesses?.data ?? []}
+              // businesses={businesses?.data ?? []}
+              businesses={filtered}
               isLoading={isBusinessesLoading}
               isError={isBusinessesError}
               error={error}
