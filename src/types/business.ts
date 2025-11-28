@@ -118,6 +118,7 @@ export interface GetBusinessesParams {
   sortBy?: SortBy;
   scope?: Scope;
   showOnlineStatus?: OnlineFilter;
+  search?: string;
 }
 
 export type GetBusinessesWithPagination = GetBusinessesParams & {

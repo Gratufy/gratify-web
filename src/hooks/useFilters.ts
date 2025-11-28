@@ -49,6 +49,7 @@ export function useFilters() {
       category: searchParams.get('category') || DEFAULT_FILTERS.category,
       mode: (searchParams.get('mode') as OnlineFilter) || DEFAULT_FILTERS.mode,
       sort: (searchParams.get('sort') as SortBy) || DEFAULT_FILTERS.sort,
+      search: searchParams.get('search') || DEFAULT_FILTERS.search,
     }),
     [searchParams]
   );

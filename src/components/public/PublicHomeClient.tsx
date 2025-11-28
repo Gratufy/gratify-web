@@ -37,6 +37,7 @@ function PublicHomeClient() {
     showOnlineStatus: filters.mode,
     sortBy: filters.sort,
     scope: 'public',
+    search: filters.search,
   });
   const businesses = data?.pages.flatMap((page) => page.data) ?? [];
 

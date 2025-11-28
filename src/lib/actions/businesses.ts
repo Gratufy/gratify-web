@@ -13,7 +13,7 @@ import {
   businessVotes,
   // specialOffers,
 } from '@/db/schema';
-import { eq, desc, sql, and, SQL, inArray, or } from 'drizzle-orm';
+import { eq, desc, sql, and, SQL, inArray, or, ilike } from 'drizzle-orm';
 import {
   // GetBusinessesParams,
   // Business,
@@ -40,38 +40,6 @@ import {
 import { getCoverImagesForBusinesses } from '../helpers/getCoverImagesForBusinesses';
 import { getBusinessById } from './getBusinessById';
 
-// function filterByCityAndOnline(
-//   businesses: BusinessWithCategoryName[],
-//   city: string,
-//   showOnlineStatus: OnlineFilter
-// ) {
-//   // если выбран "Всі" (city = "__all__")
-//   if (!city || city === '__all__') {
-//     if (showOnlineStatus === 'online') {
-//       return businesses.filter((b) => b.isOnline);
-//     }
-//     if (showOnlineStatus === 'offline') {
-//       // все бизнесы с хотя бы одной физической локацией
-//       return businesses.filter((b) => b.locations.length > 0);
-//     }
-//     // showOnlineStatus === "all"
-//     return businesses;
-//   }
-
-//   // если выбран конкретный город
-//   if (showOnlineStatus === 'online') {
-//     return businesses.filter((b) => b.isOnline);
-//   }
-//   if (showOnlineStatus === 'offline') {
-//     return businesses.filter((b) =>
-//       b.locations.some((loc) => loc.city === city)
-//     );
-//   }
-//   // showOnlineStatus === "all": и онлайн, и физические в этом городе
-//   return businesses.filter(
-//     (b) => b.isOnline || b.locations.some((loc) => loc.city === city)
-//   );
-// }
 const businessSelectFields = {
   id: businesses.id,
   name: businesses.name,
@@ -109,6 +77,7 @@ export async function getBusinesses(
     sortBy = 'newest',
     scope = 'public',
     showOnlineStatus = 'all',
+    search = '',
   } = params ?? {};
 
   const supabase = await createClient();
@@ -197,7 +166,6 @@ export async function getBusinesses(
     }
   }
 
-  const whereClause = conditions.length > 0 ? and(...conditions) : sql`TRUE`;
   let orderBy;
   switch (sortBy) {
     case 'mostKarma':
@@ -216,6 +184,14 @@ export async function getBusinesses(
     default:
       orderBy = desc(businesses.createdAt);
   }
+  // search
+  console.log('Search term:', search);
+  if (search && search.trim() !== '') {
+    // const term = `%${search.toLowerCase()}%`; // any inclusion
+    const term = `${search.toLowerCase()}%`; // starts with
+    conditions.push(ilike(businesses.name, term));
+  }
+  const whereClause = conditions.length > 0 ? and(...conditions) : sql`TRUE`;
 
   try {
     // Подзапрос: сначала берем только id нужных бизнесов

@@ -31,7 +31,7 @@ import {
 } from '@/types';
 import { PAGE_SIZE } from '@/const/business';
 
-export type UseBusinessesParams = GetBusinessesParams;
+// export type UseBusinessesParams = GetBusinessesParams;
 // all businesses
 //simple
 export function useBusinesses(params: GetBusinessesParams = {}) {
