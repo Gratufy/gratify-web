@@ -1,12 +1,29 @@
-import React from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { ChangeEvent } from 'react';
 import IconSearch from '@/assets/icons/general/icon-search.svg';
 
 type InputSearchProps = {
   id: string;
   name: string;
+  value: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-function InputSearch({ id, name }: InputSearchProps) {
+function InputSearch({ id, name, value, onChange }: InputSearchProps) {
+  const [localValue, setLocalValue] = useState(value ?? '');
+
+  useEffect(() => {
+    setLocalValue(value ?? '');
+  }, [value]);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    console.log('val', val);
+    setLocalValue(val); // immidiately upfate local state
+    onChange?.(e); //from header
+  };
   return (
     <div className="relative">
       <label htmlFor={id} className="sr-only">
@@ -16,6 +33,8 @@ function InputSearch({ id, name }: InputSearchProps) {
       <input
         name={name}
         id={id}
+        value={localValue}
+        onChange={handleChange}
         className="bg-background-white placeholder:text-text-500-grey focus:ring-ring lg:placeholder-sm xl:placeholder-base lg:w-71 placeholder-xs w-full py-2 pl-6 pr-2 focus:outline-none focus:ring-2 focus:ring-offset-2 lg:py-1 lg:pl-9 lg:pr-3 xl:pl-12 xl:pr-4"
         placeholder="Пошук"
       />

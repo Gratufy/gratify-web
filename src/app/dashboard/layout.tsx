@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+
 import {
   dehydrate,
   HydrationBoundary,
@@ -5,7 +7,7 @@ import {
 } from '@tanstack/react-query';
 import { queryKeys } from '@/lib/reactQuery/queryKeys';
 import { getBusinesses } from '@/lib/actions/businesses';
-import BusinessFooter from '@/components/business/BusinessFooter/BusinessFooter';
+
 import { verifySession } from '@/lib/dal';
 import { redirect } from 'next/navigation';
 // import { queryKeys } from '@/lib/reactQuery/queryKeys';
@@ -52,7 +54,9 @@ export default async function BusinessLayout({
     <HydrationBoundary state={dehydratedState}>
       <div className="flex min-h-screen flex-col">
         {/* <FakeBusinessHeader /> */}
-        <PublicHeader />
+        <Suspense fallback={<div>...</div>}>
+          <PublicHeader />
+        </Suspense>
         <main className="flex flex-1 flex-col">{children}</main>
         <Footer />
       </div>

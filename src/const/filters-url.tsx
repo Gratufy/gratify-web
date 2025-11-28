@@ -5,4 +5,5 @@ export const DEFAULT_FILTERS = {
   category: '__all__',
   mode: 'all' as OnlineFilter,
   sort: 'newest' as SortBy,
+  search: '',
 };

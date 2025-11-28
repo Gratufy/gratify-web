@@ -6,39 +6,6 @@ import { useMemo, useCallback } from 'react';
 import { DEFAULT_FILTERS } from '@/const/filters-url';
 import { OnlineFilter, SortBy } from '@/types';
 
-// export function useFilters() {
-//   const router = useRouter();
-//   const searchParams = useSearchParams();
-
-//   const filters = useMemo(
-//     () => ({
-//       city: searchParams.get('city') || DEFAULT_FILTERS.city,
-//       category: searchParams.get('category') || DEFAULT_FILTERS.category,
-//       mode: (searchParams.get('mode') as OnlineFilter) || DEFAULT_FILTERS.mode,
-//       sort: (searchParams.get('sort') as SortBy) || DEFAULT_FILTERS.sort,
-//     }),
-//     [searchParams]
-//   );
-
-//   const updateFilter = useCallback(
-//     <K extends keyof typeof DEFAULT_FILTERS>(
-//       key: K,
-//       value: (typeof DEFAULT_FILTERS)[K]
-//     ) => {
-//       const params = new URLSearchParams(searchParams.toString());
-//       if (value === DEFAULT_FILTERS[key]) {
-//         params.delete(key);
-//       } else {
-//         params.set(key, String(value));
-//       }
-//       router.push(`?${params.toString()}`);
-//     },
-//     [router, searchParams]
-//   );
-
-//   return { filters, updateFilter };
-// }
-
 export function useFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -49,6 +16,7 @@ export function useFilters() {
       category: searchParams.get('category') || DEFAULT_FILTERS.category,
       mode: (searchParams.get('mode') as OnlineFilter) || DEFAULT_FILTERS.mode,
       sort: (searchParams.get('sort') as SortBy) || DEFAULT_FILTERS.sort,
+      search: searchParams.get('search') || DEFAULT_FILTERS.search,
     }),
     [searchParams]
   );
@@ -102,3 +70,36 @@ export function useFilters() {
     resetFilters,
   };
 }
+
+// export function useFilters() {
+//   const router = useRouter();
+//   const searchParams = useSearchParams();
+
+//   const filters = useMemo(
+//     () => ({
+//       city: searchParams.get('city') || DEFAULT_FILTERS.city,
+//       category: searchParams.get('category') || DEFAULT_FILTERS.category,
+//       mode: (searchParams.get('mode') as OnlineFilter) || DEFAULT_FILTERS.mode,
+//       sort: (searchParams.get('sort') as SortBy) || DEFAULT_FILTERS.sort,
+//     }),
+//     [searchParams]
+//   );
+
+//   const updateFilter = useCallback(
+//     <K extends keyof typeof DEFAULT_FILTERS>(
+//       key: K,
+//       value: (typeof DEFAULT_FILTERS)[K]
+//     ) => {
+//       const params = new URLSearchParams(searchParams.toString());
+//       if (value === DEFAULT_FILTERS[key]) {
+//         params.delete(key);
+//       } else {
+//         params.set(key, String(value));
+//       }
+//       router.push(`?${params.toString()}`);
+//     },
+//     [router, searchParams]
+//   );
+
+//   return { filters, updateFilter };
+// }
