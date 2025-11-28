@@ -35,7 +35,8 @@ function BusinessHomeClient() {
         {businesses?.data.length === 0 &&
           !isBusinessesLoading &&
           !isBusinessesError && <NotFoundComponent business />}
-        {businesses && businesses?.data.length > 0 && (
+        {filtered.length === 0 && <NotFoundComponent />}
+        {filtered && filtered.length > 0 && (
           <>
             <div className="max-[1024px]:max-w-150 mb-5 w-full px-4 lg:mb-10 lg:w-[764px] lg:px-0 xl:w-[900px]">
               <h2 className="title-h2 mb-5 text-center lg:mb-8 xl:mb-5">

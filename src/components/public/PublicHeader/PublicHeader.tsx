@@ -2,8 +2,10 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import debounce from 'lodash/debounce';
 import { useDashboardSearchStore } from '@/stores/dashboardSearchStore';
+import { useFavoritesSearchStore } from '@/stores/FavoritesSearchStore';
 import { usePathname } from 'next/navigation';
 import { useUserStore } from '@/stores/useUserStore';
+import { useFilters } from '@/hooks/useFilters';
 import ThemeSwitch from '@/components/shared/ThemeSwitch';
 
 import Image from 'next/image';
@@ -19,16 +21,21 @@ import { House } from 'lucide-react';
 import BusinessMenu from '@/components/business/BusinessHeader/BusinessMenu';
 import Link from 'next/link';
 import AdminMenu from '@/components/admin/AdminHeader/AdminMenu';
-import { useFilters } from '@/hooks/useFilters';
-import { useFavoritesSearchStore } from '@/stores/FavoritesSearchStore';
 
 function PublicHeader() {
   const pathname = usePathname();
   const { filters, updateFilter } = useFilters(); // for search ib public
-  const dashboardLocal = useDashboardSearchStore((s) => s.search);
-  const setDashboardSearch = useDashboardSearchStore((s) => s.setSearch);
-  const favoriteslocal = useFavoritesSearchStore((s) => s.search);
-  const setFavoritesSearch = useFavoritesSearchStore((s) => s.setSearch);
+  const {
+    search: dashboardLocal,
+    setSearch: setDashboardSearch,
+    clearSearch: clearDashboardSearch,
+  } = useDashboardSearchStore();
+
+  const {
+    search: favoriteslocal,
+    setSearch: setFavoritesSearch,
+    clearSearch: clearFavoritesSearch,
+  } = useFavoritesSearchStore();
 
   const isPublic = pathname === '/';
   const isDashboard = pathname.startsWith('/dashboard');
@@ -36,7 +43,9 @@ function PublicHeader() {
 
   useEffect(() => {
     setInputValue(''); // clear input value on path change
-  }, [pathname]);
+    clearDashboardSearch();
+    clearFavoritesSearch();
+  }, [clearDashboardSearch, clearFavoritesSearch, pathname]);
 
   const [inputValue, setInputValue] = useState(
     isPublic
