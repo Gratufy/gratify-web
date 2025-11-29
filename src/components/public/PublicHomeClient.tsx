@@ -42,7 +42,9 @@ function PublicHomeClient() {
   const businesses = data?.pages.flatMap((page) => page.data) ?? [];
 
   return (
-    <UserFavoritesProvider>
+    // <UserFavoritesProvider>
+    <>
+      {' '}
       {/* <div className="flex w-full flex-col gap-6 pt-2 lg:flex-row"> */}
       <HomeSectionMobile
         businesses={businesses}
@@ -64,7 +66,9 @@ function PublicHomeClient() {
         error={error}
         categoriesWithAll={categoriesWithAll}
       />
-    </UserFavoritesProvider>
+    </>
+
+    // </UserFavoritesProvider>
   );
 }
 

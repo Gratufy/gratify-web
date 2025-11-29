@@ -70,7 +70,7 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
       {business && (
         <>
           {/* general favorites*/}
-          <div className="max-[1024px]:max-w-150 w-full lg:container max-[1024px]:px-4">
+          <div className="max-[1024px]:max-w-150 w-full pb-2 lg:container max-[1024px]:px-4">
             <div className="flex justify-end">
               <button
                 // onClick={handleToggleFavorite}
@@ -79,12 +79,12 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
                 {isFavorite ? (
                   <div className="flex gap-1">
                     <IconFavorite className="text-icons-color-accent h-7 w-6 lg:h-7 lg:w-6" />
-                    <p className="title-h6 underline">Зберегти</p>
+                    <p className="title-h6 underline">Збережено</p>
                   </div>
                 ) : (
                   <div className="flex gap-1">
                     <IconFavorite className="text-background-white h-7 w-6 lg:h-7 lg:w-6" />
-                    <p className="title-h6 underline">Збережено</p>
+                    <p className="title-h6 underline">Зберегти</p>
                   </div>
                 )}
               </button>
