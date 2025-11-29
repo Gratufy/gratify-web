@@ -1,14 +1,37 @@
 'use client';
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import * as v from 'valibot';
+
 import { usePathname, useRouter } from 'next/navigation';
 
-import { Plus } from 'lucide-react';
-import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
-import * as v from 'valibot';
+import dynamic from 'next/dynamic';
+
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { useForm, useFieldArray } from 'react-hook-form';
 import type { FieldErrors, UseFormReturn } from 'react-hook-form';
+
+import { businessFormSchema } from '@/shemas/businessFormSchema';
+
+import { BusinessFormValues, BusinessImages, BusinessUpdate } from '@/types';
+import { PreviewImage } from '@/types/images';
+
+import { useCheckAddress } from '@/hooks/useBusinessLocation';
+import { useCreateBusiness, useUpdateBusiness } from '@/hooks/useBusinesses';
+import { useBusinessCategories } from '@/hooks/useBusinessCategories';
+import { useAllSpecialOffers } from '@/hooks/useSpecialOffers';
+
+import { useUserStore } from '@/stores/useUserStore';
+
+import { uploadBusinessImages } from '@/lib/actions/uploadBusinessImages';
+import { ensureOneCover } from '@/lib/helpers/ensureOneCover';
+import { uploadImagesAndReturnUrls } from '@/lib/helpers/uploadImagesAndReturnUrls';
+import { updateBusinessImagesOnServer } from '@/lib/helpers/updateBusinessImagesOnServer';
+
+import { UKRAINE_REGIONAL_CENTERS_WITHOUT_ALL } from '@/const/regions';
+
+import { Plus } from 'lucide-react';
+import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
+
 import {
   Form,
   FormControl,
@@ -22,28 +45,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import CustomSelect from '../../ui/CustomSelect';
-import { useBusinessCategories } from '@/hooks/useBusinessCategories';
-import { UKRAINE_REGIONAL_CENTERS_WITHOUT_ALL } from '@/const/regions';
-import { useCheckAddress } from '@/hooks/useBusinessLocation';
-
-import { useCreateBusiness, useUpdateBusiness } from '@/hooks/useBusinesses';
-import { BusinessFormValues, BusinessImages, BusinessUpdate } from '@/types';
-import { useUserStore } from '@/stores/useUserStore';
-
-import dynamic from 'next/dynamic';
-
-import { useAllSpecialOffers } from '@/hooks/useSpecialOffers';
-
-import OffersMultiSelect from '../OffersMultiSelect';
-import ImagesBlock from './ImagesBlock';
-import { uploadBusinessImages } from '@/lib/actions/uploadBusinessImages';
-import { businessFormSchema } from '@/shemas/businessFormSchema';
-import { ensureOneCover } from '@/lib/helpers/ensureOneCover';
-import { uploadImagesAndReturnUrls } from '@/lib/helpers/uploadImagesAndReturnUrls';
-import { updateBusinessImagesOnServer } from '@/lib/helpers/updateBusinessImagesOnServer';
+import CustomSelect from '@/components/ui/CustomSelect';
+import OffersMultiSelect from '@/components/shared/OffersMultiSelect';
+import ImagesBlock from '@/components/shared/newForm/ImagesBlock';
 import { CustomToast } from '@/components/ui/CustomToast';
-import { PreviewImage } from '@/types/images';
 
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
@@ -55,8 +60,6 @@ type BusinessFormProps = {
   businessId?: string; // if edit
   defaultValues?: FormValues;
   existingImages?: BusinessImages;
-
-  //onSuccess?: () => void;
 };
 
 export default function BusinessFormNew({
