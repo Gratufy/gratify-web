@@ -110,15 +110,27 @@ function BusinessCardShot({
                   style={{ objectFit: 'cover' }}
                   className="relative z-0"
                 />
+                <div className="z-5 bg-linear-to-l to-background-white pointer-events-none absolute inset-0 from-white/0"></div>
+                {/* <div className="z-5 bg-linear-to-r to-gradient-card/0 from-gradient-card/100 pointer-events-none absolute inset-0"></div> */}
               </>
             ) : (
-              <div className="absolute inset-0 z-0 flex items-center justify-center bg-blue-300"></div>
+              <>
+                <Image
+                  src="/images/default-header-img.png"
+                  alt={business.name}
+                  fill
+                  //unoptimized
+                  style={{ objectFit: 'cover' }}
+                  className="relative z-0"
+                />
+                <div className="z-5 bg-linear-to-l to-background-white pointer-events-none absolute inset-0 from-white/0"></div>
+              </>
             )}
           </div>
         </div>
 
         {/* Gradient over the image from-white/70 to-[rgb(217,217,217)/70*/}
-        <div className="z-5 bg-linear-to-r pointer-events-none absolute inset-0 from-white/100 to-[rgb(217,217,217,0)]"></div>
+
         {/* name */}
         <div className="absolute z-10 bg-transparent py-2 pl-4 lg:pl-2">
           <h2 className="title-h3">{business.name}</h2>
