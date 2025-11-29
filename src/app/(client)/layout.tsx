@@ -9,7 +9,6 @@ export default async function ClientLayout({
   return (
     <div className="flex min-h-screen flex-col">
       <PublicHeader />
-
       {children}
 
       <Footer />

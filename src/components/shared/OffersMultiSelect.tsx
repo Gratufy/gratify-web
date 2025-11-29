@@ -11,11 +11,11 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
-import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+import { ChevronDownIcon } from 'lucide-react';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
-import CheckIcon from '@/assets/icons/general/icon-check.svg';
+// import CheckIcon from '@/assets/icons/general/icon-check.svg';
 type Checked = DropdownMenuCheckboxItemProps['checked'];
-import { BusinessFormValues, BusinessUpdate, SpecialOffer } from '@/types';
+import { BusinessFormValues, SpecialOffer } from '@/types';
 import { Input } from '../ui/input';
 
 type CustomCheckBoxProps = {

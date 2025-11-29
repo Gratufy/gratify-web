@@ -104,15 +104,15 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
         <div className="flex justify-around gap-6">
           <div className="px-3 xl:px-4">
             <label
-              htmlFor="city"
+              htmlFor="top-city"
               className="placeholder-sm xl:placeholder-base mb-3 flex items-center gap-3 xl:mb-4"
             >
               <CityIcon className="h-4 w-4 xl:h-5 xl:w-5" />
               <span>Місто</span>
             </label>
             <CustomSelect
-              className="w-50 rounded-none px-3 py-1.5 xl:px-4"
-              id="city"
+              className="w-50 standart px-4"
+              id="top-city"
               value={tempCity}
               onChange={(val) => {
                 setTempCity(val);

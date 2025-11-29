@@ -1,3 +1,4 @@
+'use client';
 // small card fo List of businesses
 import React from 'react';
 import { useRouter } from 'next/navigation';
@@ -63,15 +64,8 @@ function BusinessCardShot({
       setActionContent('Видалити');
       setOpen(true);
       setOnConfirm(() => () => removeFavorite.mutate(business.id));
-      // setCancelText('');
-      // const confirmed = confirm(
-      //   'Are you sure you want to delete this business?'
-      // );
-      // if (!confirmed) return;
-      // removeFavorite.mutate(business.id);
     } else {
       addFavorite.mutate(business.id);
-      // alert('Business added to favorites!');
     }
   };
 
@@ -110,15 +104,28 @@ function BusinessCardShot({
                   style={{ objectFit: 'cover' }}
                   className="relative z-0"
                 />
+                <div className="z-5 bg-linear-to-l to-background-white pointer-events-none absolute inset-0 from-white/0"></div>
+                <div className="z-5 bg-linear-to-l to-gradient-card/ from-gradient-card/0 pointer-events-none absolute inset-0"></div>
               </>
             ) : (
-              <div className="absolute inset-0 z-0 flex items-center justify-center bg-blue-300"></div>
+              <>
+                <Image
+                  src="/images/default-header-img.png"
+                  alt={business.name}
+                  fill
+                  //unoptimized
+                  style={{ objectFit: 'cover' }}
+                  className="relative z-0"
+                />
+                <div className="z-5 bg-linear-to-l to-background-white pointer-events-none absolute inset-0 from-white/0"></div>
+                <div className="z-5 bg-linear-to-l to-gradient-card/ from-gradient-card/0 pointer-events-none absolute inset-0"></div>
+              </>
             )}
           </div>
         </div>
 
         {/* Gradient over the image from-white/70 to-[rgb(217,217,217)/70*/}
-        <div className="z-5 bg-linear-to-r pointer-events-none absolute inset-0 from-white/100 to-[rgb(217,217,217,0)]"></div>
+
         {/* name */}
         <div className="absolute z-10 bg-transparent py-2 pl-4 lg:pl-2">
           <h2 className="title-h3">{business.name}</h2>
@@ -136,7 +143,7 @@ function BusinessCardShot({
               >
                 <CheckIcon className="h-3 w-3 flex-shrink-0 lg:h-4 lg:w-4 xl:h-5 xl:w-5" />
                 <span className="placeholder-xs lg:placeholder-sm xl:placeholder-base block truncate">
-                  {offer.title}
+                  {offer.title?.toLowerCase()}
                 </span>
               </div>
             ))}

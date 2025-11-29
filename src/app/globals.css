@@ -114,7 +114,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: #ffffff;
+  --background: rgb(255, 255, 255);
   --foreground: #09090b;
   --card: #ffffff;
   --card-foreground: #09090b;
@@ -156,7 +156,7 @@
   --success: #05b456;
   --grey-50: #f9f9f9;
   --grey-100: #efefef;
-  --grey-200: rgb(220, 220, 220);
+  --grey-200: #dcdcdc;
   --grey-300: #bdbdbd;
   --grey-400: #989898;
   --grey-500: #7c7c7c;
@@ -337,10 +337,10 @@
 }
 /* w-30  px-3*/
 @utility btn-reject {
-  @apply active:shadow-pressed hover:shadow-pressed focus:shadow-hover bg-background-white xl:placeholder-base shadow-menu placeholder-sm border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-[6px] text-nowrap border px-3 py-[6px] transition-all hover:underline xl:gap-3 xl:px-5 xl:py-2;
+  @apply disabled:bg-background-grey-200 active:shadow-pressed hover:shadow-hover focus:shadow-hover bg-background-white xl:placeholder-base shadow-menu placeholder-sm border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-[6px] text-nowrap border px-3 py-[6px] transition-all hover:underline focus:underline xl:gap-3 xl:px-5 xl:py-2;
 }
 @utility btn-aprove {
-  @apply placeholder-sm xl:placeholder-base bg-background-main-300 border-background-main-300 shadow-menu flex h-8 cursor-pointer items-center justify-center gap-[6px] text-nowrap border px-3 py-[6px] transition-all hover:underline xl:gap-3 xl:px-5 xl:py-2;
+  @apply disabled:bg-background-main-200 active:shadow-pressed hover:shadow-hover focus:shadow-hover active:bg-background-main-500 placeholder-sm xl:placeholder-base bg-background-main-300 border-background-main-300 shadow-menu hover:bg-background-main-400 focus:bg-background-main-400 flex h-8 cursor-pointer items-center justify-center gap-[6px] text-nowrap border px-3 py-[6px] transition-all hover:underline focus:underline xl:gap-3 xl:px-5 xl:py-2;
 }
 
 /* px-4  */
