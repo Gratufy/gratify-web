@@ -63,7 +63,7 @@ function CustomSelect<T>({
       {label && (
         <label
           htmlFor={selectId}
-          className="xl:placeholder-base placeholder-sm mb-1 block font-medium text-gray-700"
+          className="xl:placeholder-base placeholder-sm mb-1 block font-medium"
         >
           {label}
         </label>
