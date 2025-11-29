@@ -61,33 +61,35 @@ function Karma({
     voteMutation.mutate(vote);
   }
   return (
-    <div className="flex items-center gap-3 py-1 lg:gap-2">
+    <div className="title-h6 flex items-center gap-2 py-1">
       <button
-        className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded-xl ${
-          userVote?.vote === 1 ? 'bg-icons-color-success/50' : ''
+        className={`flex h-5 w-5 cursor-pointer items-center justify-center ${
+          userVote?.vote === 1
+            ? 'bg-icons-color-success text-background-white'
+            : ''
         }`}
         onClick={(e) => {
           handleVote(e, 1);
         }}
         disabled={voteMutation.isPending}
       >
-        <Plus className="h-4 w-4 xl:h-5 xl:w-5" />
+        <Plus className="h-3 w-3" />
       </button>
 
-      <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base font-medium">
-        {karma}
-      </p>
+      <p className="">{karma}</p>
 
       <button
-        className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded-xl xl:h-6 xl:w-6 ${
-          userVote?.vote === -1 ? 'bg-icons-color-error/50' : ''
+        className={`flex h-5 w-5 cursor-pointer items-center justify-center xl:h-6 xl:w-6 ${
+          userVote?.vote === -1
+            ? 'bg-icons-color-error text-background-white'
+            : ''
         }`}
         onClick={(e) => {
           handleVote(e, -1);
         }}
         disabled={voteMutation.isPending}
       >
-        <Minus className="h-4 w-4 xl:h-5 xl:w-5" />
+        <Minus className="h-3 w-3" />
       </button>
     </div>
   );
