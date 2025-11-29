@@ -289,8 +289,8 @@ export default function BusinessFormNew({
           }));
         const uploadedImagesWithUrl = await uploadImagesAndReturnUrls(
           businessId,
-          newFiles,
-          currentUserId
+          newFiles
+          // currentUserId
         );
         const newFilesUploaded = uploadedImagesWithUrl.map((uploaded, i) => ({
           url: uploaded.url,
@@ -360,8 +360,8 @@ export default function BusinessFormNew({
           const fixedImages = ensureOneCover(notEmptyFiles);
           const uploadedImagesWithUrl = await uploadImagesAndReturnUrls(
             business.id,
-            fixedImages,
-            profile.userId
+            fixedImages
+            // profile.userId
           );
           //  Передаём URL в серверную функцию
 

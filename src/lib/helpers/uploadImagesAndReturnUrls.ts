@@ -3,13 +3,12 @@ import { PreviewImage } from '@/types/images';
 
 export async function uploadImagesAndReturnUrls(
   businessId: string,
-  newFiles: PreviewImage[],
-  userId: string
+  newFiles: PreviewImage[]
+  // userId: string
 ) {
   const supabase = createClient();
 
-  // Собираем только новые фото
-
+  // only new photos/files
   if (!newFiles.length) return [];
 
   const uploaded: {
@@ -35,11 +34,9 @@ export async function uploadImagesAndReturnUrls(
 
     uploaded.push({
       url: data.publicUrl,
-      isCover: img.isCover, // уже правильно проставлено
+      isCover: img.isCover,
     });
   }
-
-  // Сохранить в базу
 
   return uploaded;
 }
