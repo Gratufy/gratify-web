@@ -4,25 +4,28 @@ export type PreviewImage = {
   isCover: boolean;
 };
 
-export type ImageClientPayload = {
-  id?: string; // есть у старых, нет у новых
-  url?: string; // есть у старых, нет у новых
-  file?: File; // есть у новых, нет у старых
-  isCover: boolean;
-};
+//in buildClientPayload.ts
+// export type ImageClientPayload = {
+//   id?: string; // old +, new -
+//   url?: string; //  old +, new -
+//   file?: File; // old -, new +
+//   isCover: boolean;
+// };
 
-export type UploadedResult = {
-  file: File;
-  url: string;
-  isCover: boolean;
-};
+// export type UploadedResult = {
+//   file: File;
+//   url: string;
+//   isCover: boolean;
+// };
 
-export type UploadImage = {
-  url: string;
-  isCover: boolean;
-};
+// export type UploadImage = {
+//   url: string;
+//   isCover: boolean;
+// };
+
+//in updateBusinessImagesOnServer.ts
 export type ServerImagePayload = {
-  id?: string; // только у старых
-  url: string; // есть у всех
+  id?: string; // only old
+  url: string; // all
   isCover: boolean;
 };

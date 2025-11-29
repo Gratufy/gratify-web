@@ -43,17 +43,14 @@ import { ensureOneCover } from '@/lib/helpers/ensureOneCover';
 import { uploadImagesAndReturnUrls } from '@/lib/helpers/uploadImagesAndReturnUrls';
 import { updateBusinessImagesOnServer } from '@/lib/helpers/updateBusinessImagesOnServer';
 import { CustomToast } from '@/components/ui/CustomToast';
+import { PreviewImage } from '@/types/images';
 
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
 });
 
 type FormValues = v.InferOutput<typeof businessFormSchema>;
-interface PreviewImage {
-  file: File | null;
-  url: string | null;
-  isCover: boolean;
-}
+
 type BusinessFormProps = {
   businessId?: string; // if edit
   defaultValues?: FormValues;
@@ -292,8 +289,8 @@ export default function BusinessFormNew({
           }));
         const uploadedImagesWithUrl = await uploadImagesAndReturnUrls(
           businessId,
-          newFiles,
-          currentUserId
+          newFiles
+          // currentUserId
         );
         const newFilesUploaded = uploadedImagesWithUrl.map((uploaded, i) => ({
           url: uploaded.url,
@@ -363,8 +360,8 @@ export default function BusinessFormNew({
           const fixedImages = ensureOneCover(notEmptyFiles);
           const uploadedImagesWithUrl = await uploadImagesAndReturnUrls(
             business.id,
-            fixedImages,
-            profile.userId
+            fixedImages
+            // profile.userId
           );
           //  Передаём URL в серверную функцию
 
