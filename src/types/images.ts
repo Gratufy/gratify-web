@@ -6,9 +6,9 @@ export type PreviewImage = {
 
 //in buildClientPayload.ts
 // export type ImageClientPayload = {
-//   id?: string; // есть у старых, нет у новых
-//   url?: string; // есть у старых, нет у новых
-//   file?: File; // есть у новых, нет у старых
+//   id?: string; // old +, new -
+//   url?: string; //  old +, new -
+//   file?: File; // old -, new +
 //   isCover: boolean;
 // };
 
@@ -25,7 +25,7 @@ export type PreviewImage = {
 
 //in updateBusinessImagesOnServer.ts
 export type ServerImagePayload = {
-  id?: string; // только у старых
-  url: string; // есть у всех
+  id?: string; // only old
+  url: string; // all
   isCover: boolean;
 };
