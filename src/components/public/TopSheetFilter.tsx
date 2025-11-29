@@ -111,7 +111,7 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
               <span>Місто</span>
             </label>
             <CustomSelect
-              className="w-50 rounded-none px-3 py-1.5 xl:px-4"
+              className="w-50 standart px-4"
               id="top-city"
               value={tempCity}
               onChange={(val) => {
