@@ -148,7 +148,7 @@ function BusinessCardShot({
               >
                 <CheckIcon className="h-3 w-3 flex-shrink-0 lg:h-4 lg:w-4 xl:h-5 xl:w-5" />
                 <span className="placeholder-xs lg:placeholder-sm xl:placeholder-base block truncate">
-                  {offer.title}
+                  {offer.title?.toLowerCase()}
                 </span>
               </div>
             ))}
