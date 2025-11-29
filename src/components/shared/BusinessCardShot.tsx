@@ -1,3 +1,4 @@
+'use client';
 // small card fo List of businesses
 import React from 'react';
 import { useRouter } from 'next/navigation';

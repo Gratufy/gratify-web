@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
 
-import { UserFavoritesProvider } from '@/providers/UserFavoritesProvider';
 import { useInfiniteBusinesses } from '@/hooks/useBusinesses';
 import { useFilters } from '@/hooks/useFilters';
 

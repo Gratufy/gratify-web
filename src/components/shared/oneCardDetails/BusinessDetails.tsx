@@ -1,27 +1,31 @@
 'use client';
 import React, { useState, ReactNode } from 'react';
-
+import { useRouter } from 'next/navigation';
 import { useFavorites } from '@/providers/UserFavoritesProvider';
 import { useAddFavorite, useRemoveFavorite } from '@/hooks/useFavorites';
 import { useBusiness } from '@/hooks/useBusinesses';
+
+import { useAuth } from '@/stores/useUserStore';
+
 import { renderLocations } from '@/lib/helpers/renderLocations';
-import IconFavorite from '@/assets/icons/general/favorite-h.svg';
 
-import Karma from '../Karma';
-
-import BusinessReviews from '../BusinessReviews';
+import { BusinessWithDetails } from '@/types';
 
 import BusinessCardSkeleton from '../skeletons/BusinessCardSkeleton';
-import { BusinessWithDetails } from '@/types';
+
+import IconFavorite from '@/assets/icons/general/favorite-h.svg';
+import IconUser from '@/assets/icons/general/icon-user.svg';
+
+import Karma from '../Karma';
+import BusinessReviews from '../BusinessReviews';
 import TitleBlock from './TitleBlock';
 import DescriptionBlock from './DescriptionBlock';
 import CaruselThumbnails from './caruselThumb/CaruselThumbnails';
 // import { FAKE_IMAGES_ARR } from '@/const/fake-images-arr';
 import SpecialOffersBlock from './SpecialOffersBlock';
+import { CustomAlertDialog } from '@/components/ui/CustomAlertDialog';
 
 import dynamic from 'next/dynamic';
-import { useAuth } from '@/stores/useUserStore';
-import { CustomAlertDialog } from '@/components/ui/CustomAlertDialog';
 
 const BusinessMapAll = dynamic(() => import('../BusinessMapAll'), {
   ssr: false,
@@ -35,6 +39,7 @@ interface Props {
 }
 
 function BusinessDetails({ id, selectedCity, initialData }: Props) {
+  const router = useRouter();
   const { isLoggedIn } = useAuth();
   // for modal
   const [open, setOpen] = useState(false);
@@ -50,6 +55,30 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
   console.log('isFavorite', isFavorite);
   const addFavorite = useAddFavorite();
   const removeFavorite = useRemoveFavorite();
+
+  const handleToggleFavorite = () => {
+    if (!isLoggedIn) {
+      setAlertTitle('Для додавання в обране, авторизуйтесь будь ласка');
+      setActionContent(
+        <>
+          <IconUser className="mr-2 inline size-4 xl:size-5" />
+          Вхід
+        </>
+      );
+      setOnConfirm(() => () => router.push('/login'));
+      setOpen(true);
+      return;
+    }
+
+    if (isFavorite) {
+      setAlertTitle('Видалити бізнес з обраного?');
+      setActionContent('Видалити');
+      setOpen(true);
+      setOnConfirm(() => () => removeFavorite.mutate(business.id));
+    } else {
+      addFavorite.mutate(business.id);
+    }
+  };
   //sort location depends on selectedCity
   const CityListElements = business
     ? renderLocations(business, selectedCity)
@@ -73,7 +102,7 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
           <div className="max-[1024px]:max-w-150 w-full pb-2 lg:container max-[1024px]:px-4">
             <div className="flex justify-end">
               <button
-                // onClick={handleToggleFavorite}
+                onClick={handleToggleFavorite}
                 className="cursor-pointer border-none bg-transparent outline-none"
               >
                 {isFavorite ? (
