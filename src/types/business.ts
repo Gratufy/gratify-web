@@ -47,14 +47,6 @@ export type BusinessWithDetails = Business & {
   images: BusinessImages;
 };
 
-//+~
-export type BusinessImage = {
-  url: string;
-  isCover: boolean;
-};
-//+
-export type BusinessImages = BusinessImage[];
-
 //export type NewBusiness = typeof businesses.$inferInsert;
 
 //+
@@ -68,7 +60,18 @@ export type BusinessFormValues = {
   locations: LocationFormData[];
   ownOffers: string[];
 };
-
+//FORM +
+export type NewBusinessFormData = {
+  name: string;
+  description: string;
+  website?: string | null;
+  categoryId: string;
+  isOnline: boolean;
+  specialOffers: NewBusinessSpecialOffer['offerId'][];
+  //ownOffers?: BusinessOwnSpecialOffer['title'][];
+  locations: LocationFormData[];
+  ownOffers?: string[];
+};
 //+
 export type BusinessUpdate = Partial<
   Omit<
@@ -100,19 +103,14 @@ export type GetBusinessesWithPagination = GetBusinessesParams & {
 //   total: number;
 // };
 
-//FORM +
-export type NewBusinessFormData = {
-  name: string;
-  description: string;
-  website?: string | null;
-  categoryId: string;
-  isOnline: boolean;
-  specialOffers: NewBusinessSpecialOffer['offerId'][];
-  //ownOffers?: BusinessOwnSpecialOffer['title'][];
-  locations: LocationFormData[];
-  ownOffers?: string[];
+//images
+//+~
+export type BusinessImage = {
+  url: string;
+  isCover: boolean;
 };
-
+//+
+export type BusinessImages = BusinessImage[];
 //Sort
 export type SortBy = 'newest' | 'mostKarma' | 'hot';
 export type Scope = 'public' | 'business_user' | 'admin';

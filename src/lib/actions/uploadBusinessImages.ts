@@ -2,13 +2,14 @@
 
 import { db } from '@/db';
 import { businessImages, userProfiles } from '@/db/schema';
-import { UploadImage } from '@/types/images';
+import { BusinessImages } from '@/types';
+
 import { createClient } from '@/utils/supabase/server';
 import { eq } from 'drizzle-orm';
 
 export async function uploadBusinessImages(
   businessId: string,
-  images: UploadImage[],
+  images: BusinessImages,
   ownerId: string
 ) {
   try {

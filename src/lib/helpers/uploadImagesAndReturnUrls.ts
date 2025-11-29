@@ -1,6 +1,5 @@
 import { createClient } from '@/utils/supabase/client';
-import { ImageClientPayload, PreviewImage } from '@/types/images';
-import { uploadBusinessImages } from '../actions/uploadBusinessImages';
+import { PreviewImage } from '@/types/images';
 
 export async function uploadImagesAndReturnUrls(
   businessId: string,
@@ -45,15 +44,15 @@ export async function uploadImagesAndReturnUrls(
   return uploaded;
 }
 
-export function buildClientPayload(
-  images: (PreviewImage & { id?: string })[]
-): ImageClientPayload[] {
-  return images
-    .filter((img) => img.file || img.url)
-    .map((img) => ({
-      id: img.id, // будет undefined для новых фото
-      url: img.url || undefined,
-      file: img.file || undefined,
-      isCover: img.isCover,
-    }));
-}
+// export function buildClientPayload(
+//   images: (PreviewImage & { id?: string })[]
+// ): ImageClientPayload[] {
+//   return images
+//     .filter((img) => img.file || img.url)
+//     .map((img) => ({
+//       id: img.id, // будет undefined для новых фото
+//       url: img.url || undefined,
+//       file: img.file || undefined,
+//       isCover: img.isCover,
+//     }));
+// }

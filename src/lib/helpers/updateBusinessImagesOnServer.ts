@@ -1,9 +1,9 @@
 'use server';
 import { db } from '@/db';
-import { businessImages, userProfiles } from '@/db/schema';
-import { ImageClientPayload, ServerImagePayload } from '@/types/images';
+import { businessImages } from '@/db/schema';
+import { ServerImagePayload } from '@/types/images';
 import { createClient } from '@/utils/supabase/server';
-import { eq, inArray } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 
 export async function updateBusinessImagesOnServer(
   businessId: string,

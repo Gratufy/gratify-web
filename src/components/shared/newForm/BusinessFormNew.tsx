@@ -43,17 +43,14 @@ import { ensureOneCover } from '@/lib/helpers/ensureOneCover';
 import { uploadImagesAndReturnUrls } from '@/lib/helpers/uploadImagesAndReturnUrls';
 import { updateBusinessImagesOnServer } from '@/lib/helpers/updateBusinessImagesOnServer';
 import { CustomToast } from '@/components/ui/CustomToast';
+import { PreviewImage } from '@/types/images';
 
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
 });
 
 type FormValues = v.InferOutput<typeof businessFormSchema>;
-interface PreviewImage {
-  file: File | null;
-  url: string | null;
-  isCover: boolean;
-}
+
 type BusinessFormProps = {
   businessId?: string; // if edit
   defaultValues?: FormValues;
