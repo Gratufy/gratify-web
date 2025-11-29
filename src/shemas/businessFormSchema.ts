@@ -39,7 +39,19 @@ export const businessFormSchema = v.pipe(
       })
     ),
   }),
-  // check 1: if online - true , website is required
+  // check 1: at least one offer (special or own)
+  v.forward(
+    v.partialCheck(
+      [['specialOffers'], ['ownOffers']],
+      (data) => {
+        // офлайн → должна быть хотя бы одна локация с городом
+        return data.specialOffers.length > 0 || data.ownOffers.length > 0;
+      },
+      'Будь ласка, додайте принаймні одну спеціальну пропозицію або власну пропозицію.'
+    ),
+    ['specialOffers']
+  ),
+  // check 2: if online - true , website is required
   v.forward(
     v.partialCheck(
       [['isOnline'], ['website']],
@@ -51,14 +63,14 @@ export const businessFormSchema = v.pipe(
     ),
     ['website']
   ),
-
+  // check 3: if online - false , at least one location with city is required
   v.forward(
     v.partialCheck(
       [['isOnline'], ['locations']],
       (data) => {
-        if (data.isOnline) return true; // онлайн → не проверяем
+        if (data.isOnline) return true; // online → do not check
 
-        // офлайн → должна быть хотя бы одна локация с городом
+        // offline → it should have at least one location with city
         return (
           data.locations.length > 0 &&
           data.locations.every(
