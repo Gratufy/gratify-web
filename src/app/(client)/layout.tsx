@@ -1,6 +1,5 @@
 import Footer from '@/components/public/PublicFooter/Footer';
 import PublicHeader from '@/components/public/PublicHeader/PublicHeader';
-import { UserFavoritesProvider } from '@/providers/UserFavoritesProvider';
 
 export default async function ClientLayout({
   children,
@@ -10,7 +9,7 @@ export default async function ClientLayout({
   return (
     <div className="flex min-h-screen flex-col">
       <PublicHeader />
-      <UserFavoritesProvider> {children}</UserFavoritesProvider>
+      {children}
 
       <Footer />
     </div>
