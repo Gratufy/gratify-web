@@ -15,7 +15,7 @@ import { ChevronDownIcon } from 'lucide-react';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 // import CheckIcon from '@/assets/icons/general/icon-check.svg';
 type Checked = DropdownMenuCheckboxItemProps['checked'];
-import { BusinessFormValues, SpecialOffer } from '@/types';
+import { BusinessFormValues, SpecialOffer, NewBusinessFormData } from '@/types';
 import { Input } from '../ui/input';
 
 type CustomCheckBoxProps = {
