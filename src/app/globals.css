@@ -114,7 +114,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: #ffffff;
+  --background: rgb(255, 255, 255);
   --foreground: #09090b;
   --card: #ffffff;
   --card-foreground: #09090b;
