@@ -4,7 +4,7 @@ import DesktopFooter from './DesktopFooter';
 
 function Footer() {
   return (
-    <footer className="bg-background-main-200 w-full px-4 py-5 lg:flex lg:py-5">
+    <footer className="bg-background-main-200 w-full py-5 max-[1024px]:px-4 lg:flex lg:py-5">
       <MobileFooter />
       <DesktopFooter />
     </footer>
