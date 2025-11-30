@@ -12,7 +12,7 @@ import {
   SheetHeader,
   SheetDescription,
 } from '@/components/ui/sheet';
-import CategoryFilter from '../public/mobiles-filters/CategoryFilter';
+
 import CategoryFilterFavorites from './CategoryFilterFavorites';
 
 type BottomSheetFavoritenProps = {

@@ -100,7 +100,6 @@ function BusinessMapAll({
     );
   }, [businesses, selectedCity]);
 
-  console.log('businesses in BusinessMapAll:', coords);
   const { defaultIcon, hoveredIcon } = useMemo(() => {
     return {
       defaultIcon: new L.Icon.Default(),
