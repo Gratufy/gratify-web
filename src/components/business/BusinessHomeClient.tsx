@@ -37,7 +37,7 @@ function BusinessHomeClient() {
 
       <div className="flex w-full flex-col items-center">
         {isBusinessesLoading && (
-          <div className="flex w-full flex-col items-center overflow-hidden lg:w-[764px] xl:w-[900px]">
+          <div className="lg:mt-25 mt-20 flex w-[600px] flex-col items-center overflow-hidden lg:w-[764px] xl:w-[900px]">
             <BusinessListSkeleton count={6} />
           </div>
         )}
