@@ -1,6 +1,10 @@
 'use client';
 import React from 'react';
 import { X, Star, StarOff } from 'lucide-react';
+
+import PhotoMainIcon from '@/assets/icons/form/photo-main.svg';
+import PhotoChooseIcon from '@/assets/icons/form/icon-choose.svg';
+import CrossIcon from '@/assets/icons/form/x-cross.svg';
 import { Plus } from 'lucide-react';
 import ImageFolder from '@/assets/icons/form/image-folder.svg';
 
@@ -119,27 +123,30 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
                     height={400}
                     className="h-full w-full object-cover"
                   />
-                  {/* Кнопка удаления */}
-                  <button
-                    type="button"
-                    onClick={() => handleRemove(index)}
-                    className="absolute right-2 top-2 cursor-pointer rounded-full bg-white/80 p-1 hover:bg-white"
-                  >
-                    <X className="h-4 w-4 text-red-500" />
-                  </button>
 
-                  {/* Кнопка выбора главного */}
-                  <button
-                    type="button"
-                    onClick={() => handleSetCover(index)}
-                    className="absolute left-2 top-2 cursor-pointer rounded-full bg-white/80 p-1 hover:bg-white"
-                  >
-                    {img.isCover ? (
-                      <Star className="h-4 w-4 text-yellow-500" />
-                    ) : (
-                      <StarOff className="h-4 w-4 text-gray-400" />
-                    )}
-                  </button>
+                  <div className="absolute right-0 top-0 flex gap-2 p-2">
+                    {/* Кнопка удаления */}
+
+                    {/* Кнопка выбора главного */}
+                    <button
+                      type="button"
+                      onClick={() => handleSetCover(index)}
+                      className="cursor-pointer"
+                    >
+                      {img.isCover ? (
+                        <PhotoMainIcon className="text-icons-grey-950 size-6" />
+                      ) : (
+                        <PhotoChooseIcon className="text-background-white size-6" />
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleRemove(index)}
+                      className="bg-background-white flex h-6 w-6 cursor-pointer items-center justify-center"
+                    >
+                      <CrossIcon className="size-4" />
+                    </button>
+                  </div>
                 </>
               ) : (
                 <ImageFolder className="size-10" />
