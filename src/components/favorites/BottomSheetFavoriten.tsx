@@ -12,7 +12,7 @@ import {
   SheetHeader,
   SheetDescription,
 } from '@/components/ui/sheet';
-import CategoryFilter from '../public/mobiles-filters/CategoryFilter';
+
 import CategoryFilterFavorites from './CategoryFilterFavorites';
 
 type BottomSheetFavoritenProps = {
@@ -53,7 +53,7 @@ function BottomSheetFavoriten(props: BottomSheetFavoritenProps) {
   };
   return (
     // pb-[env(safe-area-inset-bottom)] z-80
-    <div className="bg-background-main-200 border-elements-grey-200 sticky bottom-0 w-full border-[0.5px] lg:hidden">
+    <div className="z-80 bg-background-main-200 border-elements-grey-200 sticky bottom-0 w-full border-[0.5px] lg:hidden">
       <Sheet>
         <SheetTrigger asChild>
           <div className="flex w-full items-center justify-center py-2">

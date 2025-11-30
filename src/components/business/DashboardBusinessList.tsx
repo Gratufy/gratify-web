@@ -6,7 +6,7 @@ import { BusinessWithCategoryName } from '@/types';
 import Link from 'next/link';
 
 import { Spinner } from '../ui/spinner';
-import BusinessListSkeleton from '../shared/skeletons/BusinessListSkeleton';
+
 import BusinessCardShot from '../shared/BusinessCardShot';
 
 import { BUSINESS_STATUS_LABELS } from '@/const/business';
@@ -23,6 +23,7 @@ type DashboardBusinessListProps = {
   selectedCity?: string;
   isLoading?: boolean;
   isError?: boolean;
+  isFetching?: boolean;
   error?: Error | null;
   fetchNextPage?: () => void;
   // onHover?: (id: string | null) => void;
@@ -40,6 +41,7 @@ function DashboardBusinessList({
   isError,
   error,
   fetchNextPage,
+
   hasNextPage,
   isFetchingNextPage,
   enableInfiniteScroll = false,
@@ -76,7 +78,6 @@ function DashboardBusinessList({
 
   return (
     <section className="flex w-full flex-1 flex-col items-center overflow-hidden lg:w-[764px] xl:w-[900px]">
-      {isLoading && <BusinessListSkeleton count={6} />}
       {isError && <p>Error: {error?.message}</p>}
 
       {businesses.length > 0 && (

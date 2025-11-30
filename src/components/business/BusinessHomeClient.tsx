@@ -8,6 +8,7 @@ import { UserFavoritesProvider } from '@/providers/UserFavoritesProvider';
 import NotFoundComponent from '../shared/NotFoundComponent';
 import DashboardBusinessList from './DashboardBusinessList';
 import Link from 'next/link';
+import BusinessListSkeleton from '../shared/skeletons/BusinessListSkeleton';
 
 function BusinessHomeClient() {
   const search = useDashboardSearchStore((s) => s.search);
@@ -31,11 +32,23 @@ function BusinessHomeClient() {
   }, [businesses, search]);
   return (
     <UserFavoritesProvider>
+      {/* {isBusinessesFetching && <BusinessListSkeleton count={6} />} lg:w-[764px] xl:w-[900px]*/}
+
       <div className="flex w-full flex-col items-center">
+        {isBusinessesLoading && (
+          <div className="lg:mt-25 mt-20 flex w-[600px] flex-col items-center overflow-hidden lg:w-[764px] xl:w-[900px]">
+            <BusinessListSkeleton count={6} />
+          </div>
+        )}
+        {/* {isBusinessesLoading && <BusinessListSkeleton count={6} />} */}
         {businesses?.data.length === 0 &&
           !isBusinessesLoading &&
           !isBusinessesError && <NotFoundComponent business />}
-        {filtered.length === 0 && <NotFoundComponent />}
+        {businesses &&
+          businesses?.data.length > 0 &&
+          filtered.length === 0 &&
+          !isBusinessesLoading &&
+          !isBusinessesError && <NotFoundComponent />}
         {filtered && filtered.length > 0 && (
           <>
             <div className="max-[1024px]:max-w-150 mb-5 w-full px-4 lg:mb-10 lg:w-[764px] lg:px-0 xl:w-[900px]">

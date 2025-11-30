@@ -48,11 +48,8 @@ function FavoritesSectionDesktop({
           {businesses.length === 0 &&
             !isLoading &&
             !isError &&
-            (categoryId === '__all__' ? (
-              <NotFoundComponent IfFavorites />
-            ) : (
-              <NotFoundComponent />
-            ))}
+            categoryId != '__all__' && <NotFoundComponent />}
+
           <BusinessList
             // businesses={businesses ?? []}
             // isLoading={isLoading}

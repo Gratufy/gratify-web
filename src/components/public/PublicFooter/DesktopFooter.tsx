@@ -1,14 +1,17 @@
 import React from 'react';
 import Image from 'next/image';
 import IconMail from '@/assets/icons/footer/icon-mail.svg';
+import IconTelegram from '@/assets/icons/footer/icon-telegram.svg';
+import { Copyright } from 'lucide-react';
 //import FooterCategoryList from './FooterCategoryList';
 import Link from 'next/link';
 
 function DesktopFooter() {
   return (
     <>
-      <div className="container mx-auto hidden items-center lg:flex">
-        <div className="lg:mr-54 lg:w-[260px] xl:mr-60 xl:w-[344px]">
+      <div className="container mx-auto hidden items-center justify-between lg:flex">
+        {/* lg:mr-54 xl:mr-60*/}
+        <div className="lg:h-14 lg:w-[260px] xl:w-[344px]">
           <Image
             src="/images/logo.png"
             width={344}
@@ -17,30 +20,32 @@ function DesktopFooter() {
             className="h-auto w-full"
           />
         </div>
-        <div className="flex-col lg:flex lg:gap-4 xl:gap-7">
-          <a
-            href="mailto:info@example.com"
-            className="flex items-center lg:gap-1 xl:gap-2"
-          >
-            <IconMail className="lg:size-4 xl:size-5" />
-            <span className="lg:placeholder-sm xl:placeholder-base underline">
-              Зв’язатись з нами
-            </span>
-          </a>
+        {/* lg:gap-4 xl:gap-7*/}
+        <div className="h-full flex-col justify-between lg:flex">
+          <div className="flex items-center gap-2 xl:gap-4">
+            <IconTelegram className="size-4 xl:size-5" />
+            <a
+              href="mailto:info@example.com"
+              className="flex items-center lg:gap-1 xl:gap-2"
+            >
+              <IconMail className="lg:size-4 xl:size-5" />
+              <span className="link-big text-text-950-grey">
+                Зв’язатись з нами
+              </span>
+            </a>
+          </div>
           <div className="flex items-center lg:gap-6">
             <div className="flex items-center lg:gap-1">
-              <span className="placeholder-xs">&copy;</span>
-              <span className="placeholder-small">2025</span>
+              <Copyright className="size-3" />
+              <span className="caption">2025</span>
 
-              <span className="placeholder-small text-icons-grey-950">
-                Всі права захищено
-              </span>
+              <span className="caption">Всі права захищено</span>
             </div>
 
-            <Link href="/privacy" className="placeholder-small">
+            <Link href="/privacy" className="caption">
               Політика конфеденційності
             </Link>
-            <Link href="/terms" className="placeholder-small">
+            <Link href="/terms" className="caption">
               Умови використання
             </Link>
           </div>

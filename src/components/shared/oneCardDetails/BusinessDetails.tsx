@@ -52,7 +52,7 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
   /////
   const favoritesSet = useFavorites();
   const isFavorite = favoritesSet.has(business.id);
-  console.log('isFavorite', isFavorite);
+
   const addFavorite = useAddFavorite();
   const removeFavorite = useRemoveFavorite();
 
