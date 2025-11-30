@@ -17,13 +17,12 @@ function BusinessHomeClient() {
     isLoading: isBusinessesLoading,
     isError: isBusinessesError,
     error,
-    isFetching: isBusinessesFetching,
   } = useBusinesses({
     city: '__all__',
     categoryId: '__all__',
     scope: 'business_user',
   });
-  console.log('Business render', isBusinessesLoading);
+
   const filtered = useMemo(() => {
     if (!businesses?.data) return [];
 
@@ -76,7 +75,6 @@ function BusinessHomeClient() {
               isError={isBusinessesError}
               error={error}
               linkPrefix="/dashboard/business"
-              isFetching={isBusinessesFetching}
             />
           </>
         )}

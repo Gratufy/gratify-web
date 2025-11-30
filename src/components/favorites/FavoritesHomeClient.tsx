@@ -11,11 +11,15 @@ import FavoritesSectionMobile from './FavoritesSectionMobile';
 import { useUserStore } from '@/stores/useUserStore';
 // import NotFoundComponent from '../shared/NotFoundComponent';
 import { useFavoritesSearchStore } from '@/stores/FavoritesSearchStore';
+import BusinessListSkeleton from '../shared/skeletons/BusinessListSkeleton';
+import NotFoundComponent from '../shared/NotFoundComponent';
 
 function FavoritesHomeClient() {
   const search = useFavoritesSearchStore((s) => s.search);
   const profile = useUserStore((s) => s.profile);
-
+  console.log('profile', profile);
+  const isProfileLoaded = profile !== null && profile !== undefined;
+  console.log('isProfileLoaded ', isProfileLoaded);
   const {
     categories,
     // isLoading: isCategoriesLoading,
@@ -47,8 +51,11 @@ function FavoritesHomeClient() {
 
   return (
     <UserFavoritesProvider>
-      {!profile && (
+      {!isLoading && isProfileLoaded && !profile && (
         <p>Будь ласка, увійдіть, щоб побачити ваші улюблені бізнеси.</p>
+      )}
+      {!isLoading && profile && filtered.length === 0 && (
+        <NotFoundComponent IfFavorites />
       )}
       <FavoritesSectionMobile
         businesses={filtered}

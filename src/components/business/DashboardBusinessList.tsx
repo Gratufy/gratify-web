@@ -6,7 +6,7 @@ import { BusinessWithCategoryName } from '@/types';
 import Link from 'next/link';
 
 import { Spinner } from '../ui/spinner';
-import BusinessListSkeleton from '@/components/shared/skeletons/BusinessListSkeleton';
+
 import BusinessCardShot from '../shared/BusinessCardShot';
 
 import { BUSINESS_STATUS_LABELS } from '@/const/business';
@@ -41,7 +41,7 @@ function DashboardBusinessList({
   isError,
   error,
   fetchNextPage,
-  isFetching,
+
   hasNextPage,
   isFetchingNextPage,
   enableInfiniteScroll = false,
@@ -49,7 +49,6 @@ function DashboardBusinessList({
   includeCityQuery = false,
   // onHover,
 }: DashboardBusinessListProps) {
-  console.log('DashboardBusinessList render', isLoading);
   const loadMoreRef = useRef<HTMLDivElement>(null);
   // for modal
   const { isLoggedIn } = useAuth();

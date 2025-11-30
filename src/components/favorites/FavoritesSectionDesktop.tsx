@@ -31,7 +31,6 @@ function FavoritesSectionDesktop({
   setCategoryName,
   categoriesWithAll,
 }: FavoritesSectionDesktopProps) {
-  console.log('Favorites render', isLoading);
   return (
     <div className="container hidden w-full lg:block">
       <div className="w-full">
@@ -49,11 +48,8 @@ function FavoritesSectionDesktop({
           {businesses.length === 0 &&
             !isLoading &&
             !isError &&
-            (categoryId === '__all__' ? (
-              <NotFoundComponent IfFavorites />
-            ) : (
-              <NotFoundComponent />
-            ))}
+            categoryId != '__all__' && <NotFoundComponent />}
+
           <BusinessList
             // businesses={businesses ?? []}
             // isLoading={isLoading}
