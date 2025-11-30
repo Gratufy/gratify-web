@@ -124,7 +124,7 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
                     className="h-full w-full object-cover"
                   />
 
-                  <div className="absolute right-0 top-0 flex gap-2 p-2">
+                  <div className="absolute right-0 top-0 flex gap-2 p-2 max-[1024px]:left-0 max-[1024px]:justify-between">
                     {/* Кнопка удаления */}
 
                     {/* Кнопка выбора главного */}
@@ -134,17 +134,17 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
                       className="cursor-pointer"
                     >
                       {img.isCover ? (
-                        <PhotoMainIcon className="text-icons-grey-950 size-6" />
+                        <PhotoMainIcon className="text-icons-grey-950 size-5 xl:size-6" />
                       ) : (
-                        <PhotoChooseIcon className="text-background-white size-6" />
+                        <PhotoChooseIcon className="text-background-white size-5 xl:size-6" />
                       )}
                     </button>
                     <button
                       type="button"
                       onClick={() => handleRemove(index)}
-                      className="bg-background-white flex h-6 w-6 cursor-pointer items-center justify-center"
+                      className="bg-background-white flex size-5 cursor-pointer items-center justify-center xl:size-6"
                     >
-                      <CrossIcon className="size-4" />
+                      <CrossIcon className="size-3 xl:size-4" />
                     </button>
                   </div>
                 </>
