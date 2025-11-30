@@ -45,12 +45,11 @@ function FavoritesHomeClient() {
     );
   }, [businesses, search]);
 
-  if (!profile) {
-    return <p>Будь ласка, увійдіть, щоб побачити ваші улюблені бізнеси.</p>;
-  }
-
   return (
     <UserFavoritesProvider>
+      {!profile && (
+        <p>Будь ласка, увійдіть, щоб побачити ваші улюблені бізнеси.</p>
+      )}
       <FavoritesSectionMobile
         businesses={filtered}
         isLoading={isLoading}

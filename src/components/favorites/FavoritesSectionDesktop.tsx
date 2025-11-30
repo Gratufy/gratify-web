@@ -31,6 +31,7 @@ function FavoritesSectionDesktop({
   setCategoryName,
   categoriesWithAll,
 }: FavoritesSectionDesktopProps) {
+  console.log('Favorites render', isLoading);
   return (
     <div className="container hidden w-full lg:block">
       <div className="w-full">
