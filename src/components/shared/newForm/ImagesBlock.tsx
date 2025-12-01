@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-import { X, Star, StarOff } from 'lucide-react';
 
 import PhotoMainIcon from '@/assets/icons/form/photo-main.svg';
 import PhotoChooseIcon from '@/assets/icons/form/icon-choose.svg';

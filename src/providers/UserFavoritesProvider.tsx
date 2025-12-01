@@ -2,6 +2,7 @@
 // src/components/UserFavoritesProvider.tsx
 import { createContext, useContext, useMemo } from 'react';
 import { useUserFavorites } from '@/hooks/useFavorites';
+import { useUserStore } from '@/stores/useUserStore';
 
 const FavoritesContext = createContext<Set<string>>(new Set());
 
@@ -10,12 +11,10 @@ export function UserFavoritesProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const { data: favorites, isLoading } = useUserFavorites();
+  const user = useUserStore((s) => s.profile);
+  const userId = user?.userId ?? null;
+  const { data: favorites } = useUserFavorites(userId);
 
-  // or
-  // if (isLoading) {
-  //   return <div>Загрузка...</div>; // но не `return null;`
-  // }
   const favoritesSet = useMemo(
     () => new Set(favorites?.map((f) => f.businessId) ?? []),
     [favorites]

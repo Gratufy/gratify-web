@@ -8,8 +8,9 @@ import {
   getOwnOffersForBusinesses,
   getSpecialOffersForBusinesses,
 } from '../helpers/getSpecialOffersForBusinesses';
+import { getCoverImagesForBusinesses } from '../helpers/getCoverImagesForBusinesses';
 
-//provider of user favorites
+//for provider of user favorites. Simplz arraz of favorite business IDs
 export async function getUserFavorites(): Promise<Favorite[]> {
   const supabase = await createClient();
 
@@ -34,7 +35,8 @@ export async function getUserFavorites(): Promise<Favorite[]> {
     throw new Error('Failed to fetch favorites');
   }
 }
-// for fetching favorite businesses on page favorites
+
+// for fetching favorite businesses on page favorites with all details
 export async function getUserFavoriteBusinesses(
   categoryId = '__all__'
 ): Promise<BusinessWithCategoryName[]> {
@@ -80,26 +82,25 @@ export async function getUserFavoriteBusinesses(
 
   if (rows.length === 0) return [];
 
+  // Mapping
+  const businessMap = new Map<string, BusinessWithCategoryName>();
+  for (const row of rows) {
+    businessMap.set(row.id, {
+      ...row,
+      allOffersRows: [],
+      locations: [],
+    });
+  }
   // Offers
   const ids = rows.map((b) => b.id);
   const offerRows = await getSpecialOffersForBusinesses(ids);
   const ownOfferRows = await getOwnOffersForBusinesses(ids);
   const allOffersRows = [...ownOfferRows, ...offerRows];
 
-  // Mapping
-  const businessMap = new Map<string, BusinessWithCategoryName>();
-  for (const row of rows) {
-    businessMap.set(row.id, {
-      ...row,
-      // specialOffers: [],
-      allOffersRows: [],
-      locations: [],
-    });
-  }
-
   // add offers to businesses
-  for (const offer of offerRows) {
+  for (const offer of allOffersRows) {
     const business = businessMap.get(offer.businessId);
+
     if (business) {
       if (business.allOffersRows.length < 3) {
         // limit to 3 offers for card shot
@@ -112,8 +113,20 @@ export async function getUserFavoriteBusinesses(
     }
   }
 
-  return Array.from(businessMap.values());
+  const coverRows = await getCoverImagesForBusinesses(ids);
+  for (const row of coverRows) {
+    const business = businessMap.get(row.businessId);
+    if (business) {
+      // добавляем одно поле coverImage
+      (business as BusinessWithCategoryName).coverImageUrl = row.url;
+    }
+  }
+
+  const results = Array.from(businessMap.values());
+  // console.log('Favorite businesses fetched:', results);
+  return results;
 }
+
 // add favorite
 export async function addUserFavorite(businessId: string) {
   const supabase = await createClient();
