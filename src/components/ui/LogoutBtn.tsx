@@ -1,6 +1,7 @@
 // NEW;
 'use client';
 import React from 'react';
+
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useUserStore } from '@/stores/useUserStore';
@@ -26,6 +27,7 @@ const LogoutBtn = () => {
       }
 
       clear();
+
       router.push('/'); // or wherever you want to redirect
     } catch (err) {
       console.error('Unexpected logout error:', err);

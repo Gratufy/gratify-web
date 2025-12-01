@@ -11,10 +11,12 @@ import { queryKeys } from '@/lib/reactQuery/queryKeys';
 
 // import { Favorite } from '@/types';
 
-export const useUserFavorites = () => {
+export const useUserFavorites = (userId?: string | null) => {
   return useQuery({
-    queryKey: queryKeys.favorites,
+    queryKey: [...queryKeys.favorites, userId],
     queryFn: getUserFavorites,
+    enabled: !!userId, // only fetch if userId exists
+    initialData: [],
   });
 };
 
