@@ -82,7 +82,7 @@ export default function DeleteAccountButton() {
       disabled={loading}
       className="text-icons-color-error focus:bg-elements-grey-200 hover:bg-elements-grey-200 xl:placeholder-base flex w-full cursor-pointer items-center rounded-sm border-none bg-white px-3 py-1.5 text-sm disabled:opacity-50 lg:px-2"
     >
-      <IconRecycle className="text-icons-color-error mr-3 lg:size-5 xl:size-5" />
+      <IconRecycle className="text-icons-color-error mr-2 size-4 xl:mr-3 xl:size-5" />
       <span>{loading ? 'Видаляємо...' : 'Видалити акаунт'}</span>
     </button>
   );

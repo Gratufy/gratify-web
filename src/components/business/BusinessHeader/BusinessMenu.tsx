@@ -23,17 +23,21 @@ function BusinessMenu() {
           <IconBusinessUser className="text-icons-grey-950 h-6 w-[18px]" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="lg:w-75 w-50" align="start" side="bottom">
+      <DropdownMenuContent
+        className="xl:w-75 lg:w-65 w-50 border-icons-grey-400 shadow-menu rounded-none border"
+        align="center"
+        side="bottom"
+      >
         <DropdownMenuLabel className="sr-only">
           Business Account
         </DropdownMenuLabel>
 
         <DropdownMenuItem
           asChild
-          className="xl:placeholder-base placeholder-sm cursor-pointer gap-0 px-3 text-sm lg:px-2"
+          className="xl:placeholder-base placeholder-sm cursor-pointer gap-0 px-3 lg:px-2"
         >
           <Link href="/dashboard/business/new">
-            <IconCategory className="mr-3 lg:size-5 xl:size-5" />
+            <IconCategory className="mr-2 size-4 xl:mr-3 xl:size-5" />
             <span>Створити бізнес-картку</span>
           </Link>
         </DropdownMenuItem>
@@ -42,7 +46,7 @@ function BusinessMenu() {
           className="cursor-pointer gap-0 px-3 text-sm leading-[140%] lg:px-2 xl:text-base"
         >
           <Link href="/dashboard/business">
-            <IconModering className="mr-3 lg:size-5 xl:size-5" />
+            <IconModering className="mr-2 size-4 xl:mr-3 xl:size-5" />
             <span> Переглянути створені карточки</span>
           </Link>
         </DropdownMenuItem>
