@@ -8,6 +8,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import IconBusinessUser from '@/assets/icons/general/icon-business-user.svg';
+import IconCategory from '@/assets/icons/menu/icon-category.svg';
+import IconModering from '@/assets/icons/menu/icon-modering.svg';
+
 import Link from 'next/link';
 import LogoutBtn from '@/components/ui/LogoutBtn';
 import DeleteAccountButton from '@/components/ui/DeleteAccountButton';
@@ -20,33 +23,35 @@ function BusinessMenu() {
           <IconBusinessUser className="text-icons-grey-950 h-6 w-[18px]" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="lg:w-55 w-50" align="start" side="bottom">
+      <DropdownMenuContent className="lg:w-75 w-50" align="start" side="bottom">
         <DropdownMenuLabel className="sr-only">
           Business Account
         </DropdownMenuLabel>
 
-        <DropdownMenuGroup>
-          <DropdownMenuItem
-            asChild
-            className="text-text-950-grey cursor-pointer px-3 text-sm leading-[140%] lg:px-2 xl:text-base"
-          >
-            <Link href="/dashboard/business/new">Створити бізнес-картку</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            asChild
-            className="text-text-950-grey cursor-pointer px-3 text-sm leading-[140%] lg:px-2 xl:text-base"
-          >
-            <Link href="/dashboard/business">
-              Переглянути створені карточки
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <LogoutBtn />
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <DeleteAccountButton />
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
+        <DropdownMenuItem
+          asChild
+          className="xl:placeholder-base placeholder-sm cursor-pointer gap-0 px-3 text-sm lg:px-2"
+        >
+          <Link href="/dashboard/business/new">
+            <IconCategory className="mr-3 lg:size-5 xl:size-5" />
+            <span>Створити бізнес-картку</span>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          asChild
+          className="cursor-pointer gap-0 px-3 text-sm leading-[140%] lg:px-2 xl:text-base"
+        >
+          <Link href="/dashboard/business">
+            <IconModering className="mr-3 lg:size-5 xl:size-5" />
+            <span> Переглянути створені карточки</span>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <LogoutBtn />
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <DeleteAccountButton />
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

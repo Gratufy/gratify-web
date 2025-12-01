@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useUserStore } from '@/stores/useUserStore';
 import { createClient } from '@/utils/supabase/client';
 
+import IconOut from '@/assets/icons/menu/icon-out.svg';
 const LogoutBtn = () => {
   const router = useRouter();
   const clear = useUserStore((s) => s.clear);
@@ -42,6 +43,7 @@ const LogoutBtn = () => {
       disabled={loading}
       className="focus:bg-elements-grey-200 hover:bg-elements-grey-200 xl:placeholder-base flex w-full cursor-pointer items-center rounded-sm border-none bg-white px-3 py-1.5 text-sm disabled:opacity-50 lg:px-2"
     >
+      <IconOut className="mr-3 lg:size-5 xl:size-5" />
       {loading ? 'Виходимо...' : 'Вихід'}
     </button>
     /* I change it later for TOAST */

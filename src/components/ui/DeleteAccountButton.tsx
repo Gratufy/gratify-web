@@ -6,6 +6,7 @@ import { useUserStore } from '@/stores/useUserStore';
 //import { createClient } from "@/utils/supabase/client";
 import { useQueryClient } from '@tanstack/react-query';
 import { CustomToast } from './CustomToast';
+import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
 
 export default function DeleteAccountButton() {
   const router = useRouter();
@@ -79,9 +80,10 @@ export default function DeleteAccountButton() {
     <button
       onClick={handleDelete}
       disabled={loading}
-      className="text-icons-color-accent focus:bg-elements-grey-200 hover:bg-elements-grey-200 xl:placeholder-base flex w-full cursor-pointer items-center rounded-sm border-none bg-white px-3 py-1.5 text-sm disabled:opacity-50 lg:px-2"
+      className="text-icons-color-error focus:bg-elements-grey-200 hover:bg-elements-grey-200 xl:placeholder-base flex w-full cursor-pointer items-center rounded-sm border-none bg-white px-3 py-1.5 text-sm disabled:opacity-50 lg:px-2"
     >
-      {loading ? 'Видаляємо...' : 'Видалити акаунт'}
+      <IconRecycle className="text-icons-color-error mr-3 lg:size-5 xl:size-5" />
+      <span>{loading ? 'Видаляємо...' : 'Видалити акаунт'}</span>
     </button>
   );
 }
