@@ -243,19 +243,7 @@ export async function getBusinesses(
       }
     }
 
-    // --- Теперь подтягиваем specialOffers ---
-    // const offerRows = await db
-    //   .select({
-    //     businessId: businessSpecialOffers.businessId,
-    //     offerId: businessSpecialOffers.offerId,
-    //     title: specialOffers.title, // если нужно больше полей оффера
-    //   })
-    //   .from(businessSpecialOffers)
-    //   .leftJoin(
-    //     specialOffers,
-    //     eq(businessSpecialOffers.offerId, specialOffers.id)
-    //   )
-    //   .where(inArray(businessSpecialOffers.businessId, ids));
+    // Offers
 
     const offerRows = await getSpecialOffersForBusinesses(ids);
     const ownOfferRows = await getOwnOffersForBusinesses(ids);

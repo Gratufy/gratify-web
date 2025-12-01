@@ -1,10 +1,17 @@
 // OLD
 'use client';
 import React from 'react';
+import {
+  QueryClient,
+  QueryClientProvider,
+  HydrationBoundary,
+} from '@tanstack/react-query';
+
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useUserStore } from '@/stores/useUserStore';
 import { createClient } from '@/utils/supabase/client';
+import { queryKeys } from '@/lib/reactQuery/queryKeys';
 
 const Logout = () => {
   const router = useRouter();
@@ -26,6 +33,10 @@ const Logout = () => {
       }
 
       clear();
+      // delete react-query cache
+      const queryClient = new QueryClient();
+      queryClient.invalidateQueries({ queryKey: queryKeys.favorites });
+      queryClient.removeQueries({ queryKey: queryKeys.favorites });
       router.push('/'); // or wherever you want to redirect
     } catch (err) {
       console.error('Unexpected logout error:', err);

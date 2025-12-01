@@ -37,7 +37,7 @@ type DashboardBusinessListProps = {
 function DashboardBusinessList({
   businesses,
   selectedCity = '__all__',
-  isLoading,
+  // isLoading,
   isError,
   error,
   fetchNextPage,
