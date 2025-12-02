@@ -302,7 +302,7 @@
 
 /* H1 */
 @utility title-h1 {
-  @apply text-2xl font-bold lg:text-4xl xl:text-5xl;
+  @apply text-[28px] font-bold leading-[120%] lg:text-4xl lg:leading-[100%] xl:text-5xl;
 }
 /* H2 */
 
@@ -321,7 +321,7 @@
 
 /* H5 */
 @utility title-h5 {
-  @apply text-sm font-medium leading-[140%] lg:text-lg xl:text-xl;
+  @apply text-base font-medium leading-[130%] lg:text-lg xl:text-xl;
 }
 
 /* H6 */
