@@ -7,7 +7,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import IconBusinessUser from '@/assets/icons/general/icon-business-user.svg';
+import IconAdminUser from '@/assets/icons/general/icon-admin-user.svg';
 import Link from 'next/link';
 import LogoutBtn from '@/components/ui/LogoutBtn';
 //import DeleteAccountButton from '@/components/ui/DeleteAccountButton';
@@ -17,7 +17,7 @@ function AdminMenu() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="outline-hidden cursor-pointer border-none focus:ring-0">
-          <IconBusinessUser className="text-icons-grey-950 h-6 w-[18px]" />
+          <IconAdminUser className="text-icons-grey-950 h-6 w-[18px]" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="lg:w-55 w-50" align="start" side="bottom">
