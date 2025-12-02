@@ -7,7 +7,7 @@ export default function LoginLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col">
+    <div className="flex min-h-screen flex-col">
       <PublicHeader />
 
       <main className="flex flex-1 items-center justify-center">

@@ -6,11 +6,10 @@ export default async function UserLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <main className="flex flex-1 flex-col">
-        <HeroSection />
-        {children}
-      </main>
-    </>
+    //
+    <main className="flex flex-1 flex-col">
+      <HeroSection />
+      {children}
+    </main>
   );
 }

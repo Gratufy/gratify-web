@@ -1,13 +1,19 @@
 import React from 'react';
+import GoBackButton from '@/components/ui/GoBackButton';
 
 function page() {
   return (
     <div className="container flex flex-col items-center justify-center">
-      <h2 className="title-h3">Політика конфіденційності</h2>
-      <p className="placeholder-base">
-        Ця політика описує, як ми збираємо, використовуємо та захищаємо вашу
-        інформацію.
-      </p>
+      <div className="max-[1024px]:max-w-150 w-full px-4 lg:w-[1024px] lg:px-[50px] xl:w-[1440px] xl:px-[150px]">
+        <GoBackButton href="/" className="w-8 py-2 pr-2" />
+      </div>
+      <div className="px-4 lg:px-0">
+        <h2 className="title-h3">Політика конфіденційності</h2>
+        <p className="placeholder-base">
+          Ця політика описує, як ми збираємо, використовуємо та захищаємо вашу
+          інформацію.
+        </p>
+      </div>
     </div>
   );
 }

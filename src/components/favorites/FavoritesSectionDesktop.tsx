@@ -18,6 +18,7 @@ type FavoritesSectionDesktopProps = {
   setCategoryName: (name: string) => void;
 
   categoriesWithAll: { categoryId: string; name: string }[];
+  userId: string | undefined;
 };
 
 function FavoritesSectionDesktop({
@@ -30,7 +31,9 @@ function FavoritesSectionDesktop({
   // categoryName,
   setCategoryName,
   categoriesWithAll,
+  userId,
 }: FavoritesSectionDesktopProps) {
+  console.log('FavoritesSectionDesktop render', businesses);
   return (
     <div className="container hidden w-full lg:block">
       <div className="w-full">
@@ -45,6 +48,10 @@ function FavoritesSectionDesktop({
         />
 
         <div className="flex flex-1 flex-col overflow-hidden pb-20 lg:pb-8">
+          {!isLoading &&
+            businesses.length === 0 &&
+            userId &&
+            categoryId === '__all__' && <NotFoundComponent IfFavorites />}
           {businesses.length === 0 &&
             !isLoading &&
             !isError &&
