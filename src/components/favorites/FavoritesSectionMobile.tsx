@@ -34,7 +34,7 @@ function FavoritesSectionMobile({
   userId,
 }: FavoritesSectionMobileProps) {
   return (
-    <div className="flex w-full flex-1 flex-col">
+    <div className="flex w-full flex-col">
       <div className="container flex w-full flex-col pt-2 lg:hidden">
         <div className="w-full">
           <Link href="/" className="flex w-10 px-2 py-3">
@@ -85,7 +85,7 @@ function FavoritesSectionMobile({
           />
         </div>
       </div>
-      {!isLoading && (
+      {businesses.length > 0 && (
         <BottomSheetFavoriten
           businesses={businesses}
           categoryId={categoryId}

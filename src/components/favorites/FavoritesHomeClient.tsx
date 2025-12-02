@@ -9,10 +9,10 @@ import FavoritesSectionDesktop from './FavoritesSectionDesktop';
 
 import FavoritesSectionMobile from './FavoritesSectionMobile';
 import { useUserStore } from '@/stores/useUserStore';
-// import NotFoundComponent from '../shared/NotFoundComponent';
+
 import { useFavoritesSearchStore } from '@/stores/FavoritesSearchStore';
 
-import NotFoundComponent from '../shared/NotFoundComponent';
+// import NotFoundComponent from '../shared/NotFoundComponent';
 
 function FavoritesHomeClient() {
   const search = useFavoritesSearchStore((s) => s.search);

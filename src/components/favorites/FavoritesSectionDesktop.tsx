@@ -57,19 +57,17 @@ function FavoritesSectionDesktop({
             !isError &&
             categoryId != '__all__' && <NotFoundComponent />}
 
-          {businesses.length > 0 && (
-            <BusinessList
-              // businesses={businesses ?? []}
-              // isLoading={isLoading}
-              // isError={isError}
-              // error={error}
-              businesses={businesses}
-              isLoading={isLoading}
-              isError={isError}
-              error={error}
-              linkPrefix="/favorites"
-            />
-          )}
+          <BusinessList
+            // businesses={businesses ?? []}
+            // isLoading={isLoading}
+            // isError={isError}
+            // error={error}
+            businesses={businesses}
+            isLoading={isLoading}
+            isError={isError}
+            error={error}
+            linkPrefix="/favorites"
+          />
         </div>
       </div>
     </div>

@@ -70,6 +70,7 @@ function BusinessList({
   return (
     <section className="flex flex-1 flex-col items-center overflow-hidden">
       {isLoading && <BusinessListSkeleton count={6} />}
+
       {isError && <p>Error: {error?.message}</p>}
 
       {businesses.length > 0 && (
