@@ -18,6 +18,7 @@ type FavoritesSectionMobileProps = {
   setCategoryName: (name: string) => void;
 
   categoriesWithAll: { categoryId: string; name: string }[];
+  userId: string | undefined;
 };
 
 function FavoritesSectionMobile({
@@ -30,9 +31,10 @@ function FavoritesSectionMobile({
   categoryName,
   setCategoryName,
   categoriesWithAll,
+  userId,
 }: FavoritesSectionMobileProps) {
   return (
-    <>
+    <div className="flex w-full flex-1 flex-col">
       <div className="container flex w-full flex-col pt-2 lg:hidden">
         <div className="w-full">
           <Link href="/" className="flex w-10 px-2 py-3">
@@ -45,21 +47,27 @@ function FavoritesSectionMobile({
               {categoryName}
             </span>
           </div>
-          <button
-            type="button"
-            // className={`placeholder-small lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 flex cursor-pointer items-center gap-1 border bg-white px-2 py-2 lg:gap-2`}
-            className="btn-reject"
-            onClick={() => {
-              setCategoryId('__all__');
+          {categoryId != '__all__' && (
+            <button
+              type="button"
+              // className={`placeholder-small lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 flex cursor-pointer items-center gap-1 border bg-white px-2 py-2 lg:gap-2`}
+              className="btn-reject"
+              onClick={() => {
+                setCategoryId('__all__');
 
-              setCategoryName('Всі категорії');
-            }}
-          >
-            <span>Очистити </span>
-            <CrossIcon className="size-3 lg:size-4 xl:size-5" />
-          </button>
+                setCategoryName('Всі категорії');
+              }}
+            >
+              <span>Очистити </span>
+              <CrossIcon className="size-3 lg:size-4 xl:size-5" />
+            </button>
+          )}
         </div>
         <div className="flex flex-1 flex-col pb-20 pt-3">
+          {!isLoading &&
+            businesses.length === 0 &&
+            userId &&
+            categoryId === '__all__' && <NotFoundComponent IfFavorites />}
           {businesses.length === 0 &&
             !isLoading &&
             !isError &&
@@ -77,14 +85,16 @@ function FavoritesSectionMobile({
           />
         </div>
       </div>
-      <BottomSheetFavoriten
-        businesses={businesses}
-        categoryId={categoryId}
-        setCategoryId={setCategoryId}
-        setCategoryName={setCategoryName}
-        categoriesWithAll={categoriesWithAll}
-      />
-    </>
+      {!isLoading && (
+        <BottomSheetFavoriten
+          businesses={businesses}
+          categoryId={categoryId}
+          setCategoryId={setCategoryId}
+          setCategoryName={setCategoryName}
+          categoriesWithAll={categoriesWithAll}
+        />
+      )}
+    </div>
   );
 }
 

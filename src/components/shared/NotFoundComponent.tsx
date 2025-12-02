@@ -30,7 +30,8 @@ function NotFoundComponent({ IfFavorites, business }: NotFoundComponentProps) {
       <p className="title-h4 mb-8 text-center">
         Але ми віримо, що скоро з’являться
       </p>
-      {!IfFavorites && <BackToHomeBtn />}
+      {/* {!IfFavorites && <BackToHomeBtn />} */}
+      <BackToHomeBtn />
     </div>
   );
 }
