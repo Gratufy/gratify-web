@@ -9,6 +9,7 @@ import AdminFooter from '@/components/admin/AdminFooter/AdminFooter';
 import AdminHeader from '@/components/admin/AdminHeader/AdminHeader';
 import { getBusinesses } from '@/lib/actions/businesses';
 import Footer from '@/components/public/PublicFooter/Footer';
+import PublicHeader from '@/components/public/PublicHeader/PublicHeader';
 
 export default async function AdminLayout({
   children,
@@ -52,10 +53,9 @@ export default async function AdminLayout({
   return (
     <HydrationBoundary state={dehydratedState}>
       <div className="flex min-h-screen flex-col">
-        <AdminHeader />
-        <main className="flex flex-1 items-center justify-center">
-          {children}
-        </main>
+        {/* <AdminHeader /> */}
+        <PublicHeader />
+        <main className="flex w-full flex-1 flex-col">{children}</main>
         <Footer />
       </div>
     </HydrationBoundary>
