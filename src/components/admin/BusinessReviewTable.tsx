@@ -1,15 +1,15 @@
-"use client";
-import React, { useState } from "react";
-import { BusinessReviewStatus } from "@/types";
+'use client';
+import React, { useState } from 'react';
+import { BusinessReviewStatus } from '@/types';
 
-import CustomSelect from "../ui/CustomSelect";
-import { BUSINESS_REVIEW_STATUS } from "@/const/review";
+import CustomSelect from '../ui/custom-ui/CustomSelect';
+import { BUSINESS_REVIEW_STATUS } from '@/const/review';
 
-import Link from "next/link";
-import { useAdminBusinesses } from "@/hooks/useBusinesses";
+import Link from 'next/link';
+import { useAdminBusinesses } from '@/hooks/useBusinesses';
 
-import AdminReviewList from "./AdminReviewList";
-import { useBusinessCategories } from "@/hooks/useBusinessCategories";
+import AdminReviewList from './AdminReviewList';
+import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 
 // interface BusinessReviewTableProps {
 //   initialData: AdminBusinessRow[];
@@ -20,8 +20,8 @@ const BusinessReviewTable = () => {
     // isLoading: isCategoriesLoading,
     // isError: isCategoriesError,
   } = useBusinessCategories();
-  const [categoryId, setCategoryId] = useState<string>("__all__");
-  const [status, setStatus] = useState<BusinessReviewStatus>("pending");
+  const [categoryId, setCategoryId] = useState<string>('__all__');
+  const [status, setStatus] = useState<BusinessReviewStatus>('pending');
   const [showReviewsMap, setShowReviewsMap] = useState<Record<string, boolean>>(
     {}
   );
@@ -36,9 +36,9 @@ const BusinessReviewTable = () => {
   } = useAdminBusinesses({
     reviewStatus: status,
     categoryId,
-    city: "__all__",
-    showOnlineStatus: "all",
-    sortBy: "newest",
+    city: '__all__',
+    showOnlineStatus: 'all',
+    sortBy: 'newest',
   });
   function toggleReviews(businessId: string) {
     setShowReviewsMap((prev) => ({
@@ -50,11 +50,11 @@ const BusinessReviewTable = () => {
     setStatus(value as BusinessReviewStatus);
   }
   const categoriesWithAll = [
-    { categoryId: "__all__", name: "Всі" }, //index "__all__" for   "всi"
+    { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
     ...(categories || []),
   ];
   return (
-    <div className="flex flex-col items-center justify-center w-full ">
+    <div className="flex w-full flex-col items-center justify-center">
       <CustomSelect
         value={status}
         onChange={handleStatusChange}
@@ -76,26 +76,26 @@ const BusinessReviewTable = () => {
       />
       {isBusinessesLoading && <p>Loading businesses...</p>}
       {businesses?.length ? (
-        <ul className="w-3/4 max-w-4xl mt-4">
+        <ul className="mt-4 w-3/4 max-w-4xl">
           {businesses.map((b) => (
             <li key={b.id}>
-              <div className="mb-2 px-4 py-2 border border-gray-300 rounded-xl flex gap-8 items-center justify-center">
+              <div className="mb-2 flex items-center justify-center gap-8 rounded-xl border border-gray-300 px-4 py-2">
                 <p className="flex-1/7">{b.name}</p>
                 {/* <p className="flex-1/7">{b.city}</p> */}
                 <p className="flex-1/7">
                   {status}: {b.filteredReviewCount}
                 </p>
                 <button
-                  className="border rounded-3xl border-black btn-secondary cursor-pointer px-4 py-2 flex items-center justify-center"
+                  className="btn-secondary flex cursor-pointer items-center justify-center rounded-3xl border border-black px-4 py-2"
                   onClick={() => toggleReviews(b.id)}
                 >
-                  {showReviewsMap[b.id] ? "Hide Reviews" : "Show Reviews"}
+                  {showReviewsMap[b.id] ? 'Hide Reviews' : 'Show Reviews'}
                 </button>
                 {/* <p className="flex-1/6">{b.categoryName}</p> */}
 
                 <Link
                   href={`/admin/business/${b.id}`}
-                  className="px-4 py-2 bg-chart-2 text-white rounded-3xl cursor-pointer flex justify-center items-center"
+                  className="bg-chart-2 flex cursor-pointer items-center justify-center rounded-3xl px-4 py-2 text-white"
                 >
                   See more
                 </Link>

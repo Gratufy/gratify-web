@@ -6,7 +6,7 @@ import { useFavoritesSearchStore } from '@/stores/FavoritesSearchStore';
 import { usePathname } from 'next/navigation';
 import { useUserStore } from '@/stores/useUserStore';
 import { useFilters } from '@/hooks/useFilters';
-import ThemeSwitch from '@/components/shared/ThemeSwitch';
+import ThemeSwitch from '@/components/ui/custom-ui/ThemeSwitch';
 
 import Image from 'next/image';
 

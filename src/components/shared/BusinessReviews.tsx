@@ -18,7 +18,7 @@ import EditPen from '@/assets/icons/general/feedback-edit.svg';
 
 //import { ScrollArea } from '@/components/ui/scroll-area';
 import ReviewsSkeleton from './skeletons/ReviewsSkeleton';
-import { CustomToast } from '../ui/CustomToast';
+import { CustomToast } from '../ui/custom-ui/CustomToast';
 
 interface Props {
   businessId: string;

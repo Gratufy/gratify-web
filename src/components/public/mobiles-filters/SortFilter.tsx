@@ -9,8 +9,8 @@ import SortIcon from '@/assets/icons/filters/icon-sort.svg';
 
 import { SheetClose } from '@/components/ui/sheet';
 
-import OnlineStatusFilter from '@/components/shared/OnlineStatusFilter';
-import SortFilterComponent from '@/components/shared/SortFilterComponent';
+import OnlineStatusFilter from '@/components/shared/filters/OnlineStatusFilter';
+import SortFilterComponent from '@/components/shared/filters/SortFilterComponent';
 import { useFilters } from '@/hooks/useFilters';
 
 type SortFilterProps = {

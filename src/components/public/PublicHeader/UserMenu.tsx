@@ -11,8 +11,8 @@ import IconUser from '@/assets/icons/general/icon-user.svg';
 import IconCategory from '@/assets/icons/menu/icon-category.svg';
 import IconModering from '@/assets/icons/menu/icon-modering.svg';
 import Link from 'next/link';
-import LogoutBtn from '@/components/ui/LogoutBtn';
-import DeleteAccountButton from '@/components/ui/DeleteAccountButton';
+import LogoutBtn from '@/components/ui/custom-ui/LogoutBtn';
+import DeleteAccountButton from '@/components/ui/custom-ui/DeleteAccountButton';
 
 function UserMenu() {
   return (

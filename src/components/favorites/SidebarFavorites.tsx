@@ -1,7 +1,7 @@
 import React from 'react';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import CategoryIcon from '@/assets/icons/filters/icon-favor.svg';
-import CategoryRadio from '../shared/CategoryRadio';
+import CategoryRadio from '../shared/filters/CategoryRadio';
 
 type SidebarFavoritesProps = {
   categoryId: string;

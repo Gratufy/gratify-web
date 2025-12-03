@@ -1,4 +1,4 @@
-import BackToHomeBtn from '@/components/shared/BackToHomeBtn';
+import BackToHomeBtn from '@/components/ui/custom-ui/BackToHomeBtn';
 import Image from 'next/image';
 
 export default function NotFound() {

@@ -16,7 +16,7 @@ import {
 } from '@/lib/helpers/getBusinessStatusColorBg';
 import DeleteEditBusinessBtns from './DeleteEditBusinessBtns';
 import { useAuth } from '@/stores/useUserStore';
-import { CustomAlertDialog } from '../ui/CustomAlertDialog';
+import { CustomAlertDialog } from '../ui/custom-ui/CustomAlertDialog';
 
 type DashboardBusinessListProps = {
   businesses: BusinessWithCategoryName[];

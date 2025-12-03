@@ -1,6 +1,6 @@
 import React from 'react';
 import PublicHomeClient from '@/components/public/PublicHomeClient';
-import HeroSection from '@/components/shared/HeroSection';
+import HeroSection from '@/components/shared/client-shared/HeroSection';
 
 export default function PublicHome() {
   return (

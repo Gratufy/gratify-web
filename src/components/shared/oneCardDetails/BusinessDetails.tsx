@@ -23,7 +23,7 @@ import DescriptionBlock from './DescriptionBlock';
 import CaruselThumbnails from './caruselThumb/CaruselThumbnails';
 // import { FAKE_IMAGES_ARR } from '@/const/fake-images-arr';
 import SpecialOffersBlock from './SpecialOffersBlock';
-import { CustomAlertDialog } from '@/components/ui/CustomAlertDialog';
+import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
 import dynamic from 'next/dynamic';
 

@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import IconAdminUser from '@/assets/icons/general/icon-admin-user.svg';
 import Link from 'next/link';
-import LogoutBtn from '@/components/ui/LogoutBtn';
+import LogoutBtn from '@/components/ui/custom-ui/LogoutBtn';
 //import DeleteAccountButton from '@/components/ui/DeleteAccountButton';
 
 function AdminMenu() {

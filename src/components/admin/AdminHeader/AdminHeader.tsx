@@ -1,13 +1,13 @@
-import ThemeSwitch from "@/components/shared/ThemeSwitch";
-import Link from "next/link";
-import React from "react";
+import ThemeSwitch from '@/components/ui/custom-ui/ThemeSwitch';
+import Link from 'next/link';
+import React from 'react';
 
 function AdminHeader() {
   return (
-    <div className="border-muted-foreground bg-input dark:bg-background border-b  py-8 w-full flex flex-col items-center justify-center">
-      <h1 className="text-xl font-bold mx-0">Admin Header</h1>
+    <div className="border-muted-foreground bg-input dark:bg-background flex w-full flex-col items-center justify-center border-b py-8">
+      <h1 className="mx-0 text-xl font-bold">Admin Header</h1>
       <nav className="flex items-center justify-center">
-        <ul className="flex items-center gap-10 text-lg font-semibold text-sidebar-accent-foreground ">
+        <ul className="text-sidebar-accent-foreground flex items-center gap-10 text-lg font-semibold">
           <li>
             <Link href="/">START</Link>
           </li>

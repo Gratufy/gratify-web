@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import ThemeSwitch from '@/components/shared/ThemeSwitch';
+import ThemeSwitch from '@/components/ui/custom-ui/ThemeSwitch';
 
 import Image from 'next/image';
 import Link from 'next/link';

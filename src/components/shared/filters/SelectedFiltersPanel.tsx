@@ -1,7 +1,7 @@
 'use client';
 import { ONLINE_STATUS_LABELS, SORT_BY_LABELS } from '@/const/business';
 import React from 'react';
-import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
+import DeleteAllFiltersBtn from '../../ui/custom-ui/DeleteAllFiltersBtn';
 
 import { useFilters } from '@/hooks/useFilters';
 

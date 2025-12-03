@@ -8,7 +8,7 @@ import { validate as uuidValidate } from 'uuid'; // npm install uuid
 // } from '@tanstack/react-query';
 import { getBusinessById } from '@/lib/actions/getBusinessById';
 import BusinessDetails from '@/components/shared/oneCardDetails/BusinessDetails';
-import GoBackButton from '@/components/ui/GoBackButton';
+import GoBackButton from '@/components/ui/custom-ui/GoBackButton';
 // import { queryKeys } from '@/lib/reactQuery/queryKeys';
 
 interface BusinessPageProps {

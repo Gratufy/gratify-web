@@ -5,7 +5,7 @@ import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import CheckIcon from '@/assets/icons/general/icon-check.svg';
 
 import { SheetClose } from '@/components/ui/sheet';
-import CategoryRadio from '@/components/shared/CategoryRadio';
+import CategoryRadio from '@/components/shared/filters/CategoryRadio';
 import { useFilters } from '@/hooks/useFilters';
 
 type CategoryFilterProps = {

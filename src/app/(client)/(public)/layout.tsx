@@ -6,7 +6,7 @@ import {
 
 import { getBusinesses } from '@/lib/actions/businesses';
 import { PAGE_SIZE } from '@/const/business';
-import HeroSection from '@/components/shared/HeroSection';
+import HeroSection from '@/components/shared/client-shared/HeroSection';
 
 export default async function PublicLayout({
   children,

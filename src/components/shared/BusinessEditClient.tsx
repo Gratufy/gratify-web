@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import BackButton from '../ui/GoBackButton';
+import BackButton from '../ui/custom-ui/GoBackButton';
 
 import { BusinessWithDetails } from '@/types';
 import BusinessFormNew from './newForm/BusinessFormNew';

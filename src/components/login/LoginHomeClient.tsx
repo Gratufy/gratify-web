@@ -2,7 +2,7 @@
 import React from 'react';
 
 import Link from 'next/link';
-import GoogleBtn from '../ui/GoogleBtn';
+import GoogleBtn from '../ui/custom-ui/GoogleBtn';
 import CrossIcon from '@/assets/icons/form/x-cross.svg';
 
 function LoginHomeClient() {
