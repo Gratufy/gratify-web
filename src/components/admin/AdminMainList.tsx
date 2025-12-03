@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { BusinessStatusForm } from '@/components/admin/BusinessStatusForm';
 import { BusinessStatus, OnlineFilter, SortBy } from '@/types';
 import OnlineStatusFilter from '@/components/shared/filters/OnlineStatusFilter';
+import { Label } from '../ui/label';
 
 function AdminMainList() {
   const {
@@ -74,40 +75,68 @@ function AdminMainList() {
     alert('Business deleted successfully!');
   };
   return (
-    <>
-      <CustomSelect
-        value={businessStatus}
-        onChange={handleStatusChange}
-        options={BUSINESS_STATUS}
-        getOptionValue={(s) => s}
-        getOptionLabel={(s) => s.charAt(0).toUpperCase() + s.slice(1)}
-        placeholder="Оберіть статус"
-        className="w-36"
-        statusForm={true}
-      />
-      <CustomSelect
-        value={categoryId}
-        onChange={setCategoryId}
-        options={categoriesWithAll}
-        getOptionValue={(c) => c.categoryId}
-        getOptionLabel={(c) => c.name}
-        label="Категорія"
-        placeholder="Оберіть категорію"
-      />
-      {/* <p>Обрана категорія: {categoryId || "—"}</p> */}
-      <CustomSelect
-        label="Місто"
-        value={city}
-        onChange={setCity}
-        options={UKRAINE_REGIONAL_CENTERS}
-        getOptionValue={(option) => option.value}
-        getOptionLabel={(option) => option.label}
-        placeholder="Оберіть місто"
-      />
-      <OnlineStatusFilter
-        value={showOnlineStatus}
-        onChange={setShowOnlineStatus}
-      />
+    <div className="bg-background-white lg:p-5">
+      <div className="flex lg:gap-3">
+        <div>
+          <Label htmlFor="status-select" className="lg:placeholder-xs mb-1">
+            Статус:
+          </Label>
+          <CustomSelect
+            id="status-select"
+            value={businessStatus}
+            onChange={handleStatusChange}
+            options={BUSINESS_STATUS}
+            getOptionValue={(s) => s}
+            getOptionLabel={(s) => s.charAt(0).toUpperCase() + s.slice(1)}
+            placeholder="Оберіть статус"
+            className="admin-select w-40"
+            statusForm={true}
+          />
+        </div>
+        <div>
+          <Label htmlFor="category-select" className="lg:placeholder-xs mb-1">
+            Категорія:
+          </Label>
+          <CustomSelect
+            id="category-select"
+            value={categoryId}
+            onChange={setCategoryId}
+            options={categoriesWithAll}
+            getOptionValue={(c) => c.categoryId}
+            getOptionLabel={(c) => c.name}
+            // label="Категорія"
+            placeholder="Оберіть категорію"
+            className="admin-select w-40"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="city-select" className="lg:placeholder-xs mb-1">
+            Місто:
+          </Label>
+          <CustomSelect
+            id="city-select"
+            // label="Місто"
+            value={city}
+            onChange={setCity}
+            options={UKRAINE_REGIONAL_CENTERS}
+            getOptionValue={(option) => option.value}
+            getOptionLabel={(option) => option.label}
+            placeholder="Оберіть місто"
+            className="admin-select w-40"
+          />
+        </div>
+        <div>
+          <Label htmlFor="online-select" className="lg:placeholder-xs mb-1">
+            Online:
+          </Label>
+          <OnlineStatusFilter
+            value={showOnlineStatus}
+            onChange={setShowOnlineStatus}
+          />
+        </div>
+      </div>
+
       {/* <p>Обране місто: {city || "—"}</p> */}
       <h2 className="mb-2 text-xl font-bold">
         Список бізнесів with all status
@@ -144,7 +173,7 @@ function AdminMainList() {
       ) : (
         <p className="text-2xl"> Нема бізнесів</p>
       )}
-    </>
+    </div>
   );
 }
 
