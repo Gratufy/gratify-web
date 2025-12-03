@@ -5,11 +5,11 @@ import {
 } from '@tanstack/react-query';
 import { verifySession } from '@/lib/dal';
 import { redirect } from 'next/navigation';
-import AdminFooter from '@/components/admin/AdminFooter/AdminFooter';
-import AdminHeader from '@/components/admin/AdminHeader/AdminHeader';
+
 import { getBusinesses } from '@/lib/actions/businesses';
 import Footer from '@/components/public/PublicFooter/Footer';
 import PublicHeader from '@/components/public/PublicHeader/PublicHeader';
+import AdminSidebar from '@/components/admin/AdminSidebar';
 
 export default async function AdminDashboardLayout({
   children,
@@ -52,7 +52,10 @@ export default async function AdminDashboardLayout({
   const dehydratedState = dehydrate(queryClient);
   return (
     <HydrationBoundary state={dehydratedState}>
-      <div className="flex w-full flex-1 flex-col">{children}</div>
+      <div className="flex min-h-screen w-full lg:flex lg:gap-6">
+        <AdminSidebar />
+        {children}
+      </div>
     </HydrationBoundary>
   );
 }

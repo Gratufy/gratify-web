@@ -4,10 +4,10 @@ import AdminMainMobile from './AdminMainMobile';
 
 function AdminMainClient() {
   return (
-    <div className="container">
+    <>
       <AdminMainDesktop />
       <AdminMainMobile />
-    </div>
+    </>
   );
 }
 

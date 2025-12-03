@@ -42,7 +42,7 @@ function AdminMenu() {
             asChild
             className="text-text-950-grey cursor-pointer px-3 text-sm leading-[140%] lg:px-2 xl:text-base"
           >
-            <Link href="/admin/dashboard">Перейти до адмін-панелі</Link>
+            <Link href="/admin">Перейти до адмін-панелі</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <LogoutBtn />

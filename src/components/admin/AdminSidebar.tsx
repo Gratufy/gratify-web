@@ -12,7 +12,7 @@ function AdminSidebar() {
   const pathname = usePathname();
 
   return (
-    <nav className="w-65 bg-background-main-50 flex h-full flex-col lg:gap-8 lg:pl-[50px] lg:pt-3">
+    <nav className="lg:w-65 bg-background-main-50 hidden h-full min-h-screen flex-col lg:flex lg:gap-8 lg:pl-[50px] lg:pt-3">
       {/*isactive background-main-100 text-text-800-main */}
       <Link
         href="/admin"

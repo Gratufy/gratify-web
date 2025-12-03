@@ -4,8 +4,8 @@ import AdminMainSection from './AdminMainSection';
 
 function AdminMainDesktop() {
   return (
-    <div className="hidden w-full lg:flex lg:gap-6">
-      <AdminSidebar />
+    <div className="hidden w-full flex-col lg:flex">
+      {/* <AdminSidebar /> */}
       <AdminMainSection />
     </div>
   );
