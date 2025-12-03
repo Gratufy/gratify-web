@@ -16,13 +16,15 @@ import { BusinessStatus, OnlineFilter, SortBy } from '@/types';
 import OnlineStatusFilter from '@/components/shared/filters/OnlineStatusFilter';
 import { Label } from '../ui/label';
 import { ONLINE_STATUS } from '@/const/online-status';
+import { getBusinessesCount } from '@/lib/actions/getBusinessesCount';
 
-function AdminMainList() {
+function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
   const {
     categories,
     // isLoading: isCategoriesLoading,
     // isError: isCategoriesError,
   } = useBusinessCategories();
+
   const [city, setCity] = useState<string | undefined>('__all__');
   const [categoryId, setCategoryId] = useState<string>('__all__');
   const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>('all');
@@ -78,9 +80,9 @@ function AdminMainList() {
   return (
     <div className="bg-background-white lg:p-5">
       {/* It is not correct !!!!!!!!!!!!!!*/}
-      <h2 className="lg:title-h5 mb-2">Наявні бізнеси {businesses.length}</h2>
+      <h2 className="lg:title-h5 mb-2">Наявні бізнеси {totalBusinesses}</h2>
       {/*  !!!!!!!!!!!!!!*/}
-      <div className="flex lg:gap-3">
+      <div className="flex lg:mb-5 lg:gap-3">
         <div>
           <Label htmlFor="status-select" className="lg:placeholder-xs mb-1">
             Статус:
@@ -151,10 +153,7 @@ function AdminMainList() {
           /> */}
         </div>
       </div>
-      {/* <p>Обране місто: {city || "—"}</p> */}
-      <h2 className="mb-2 text-xl font-bold">
-        Список бізнесів with all status
-      </h2>
+
       {isBusinessesLoading && <p>Loading...</p>}
       {isBusinessesError && <p>Помилка: {error?.message}</p>}
       {businesses?.length ? (

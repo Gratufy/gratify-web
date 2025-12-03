@@ -2,10 +2,10 @@ import React from 'react';
 import AdminMainDesktop from './AdminMainDesktop';
 import AdminMainMobile from './AdminMainMobile';
 
-function AdminMainClient() {
+function AdminMainClient({ totalBusinesses }: { totalBusinesses: number }) {
   return (
     <>
-      <AdminMainDesktop />
+      <AdminMainDesktop totalBusinesses={totalBusinesses} />
       <AdminMainMobile />
     </>
   );
