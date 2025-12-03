@@ -9,7 +9,7 @@ import Link from 'next/link';
 import BusinessListSkeleton from './skeletons/BusinessListSkeleton';
 import { Spinner } from '../ui/spinner';
 import { useAuth } from '@/stores/useUserStore';
-import { CustomAlertDialog } from '../ui/CustomAlertDialog';
+import { CustomAlertDialog } from '../ui/custom-ui/CustomAlertDialog';
 
 type BusinessListProps = {
   businesses: BusinessWithCategoryName[];

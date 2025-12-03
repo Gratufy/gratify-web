@@ -7,11 +7,11 @@ import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 import SortIcon from '@/assets/icons/filters/icon-sort.svg';
 import CategoryIcon from '@/assets/icons/filters/icon-favor.svg';
 
-import CustomSelect from '../ui/CustomSelect';
-import OnlineStatusFilter from '../shared/OnlineStatusFilter';
-import DeleteAllFiltersBtn from '../ui/DeleteAllFiltersBtn';
-import SortFilterComponent from '../shared/SortFilterComponent';
-import CategoryRadio from '../shared/CategoryRadio';
+import CustomSelect from '../ui/custom-ui/CustomSelect';
+import OnlineStatusFilter from '../shared/filters/OnlineStatusFilter';
+import DeleteAllFiltersBtn from '../ui/custom-ui/DeleteAllFiltersBtn';
+import SortFilterComponent from '../shared/filters/SortFilterComponent';
+import CategoryRadio from '../shared/filters/CategoryRadio';
 
 import { useFilters } from '@/hooks/useFilters';
 

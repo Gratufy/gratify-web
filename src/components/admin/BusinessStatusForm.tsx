@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { BUSINESS_STATUS } from "@/const/business";
-import CustomSelect from "@/components/ui/CustomSelect";
-import { useUpdateBusiness } from "@/hooks/useBusinesses";
-import { BusinessStatus } from "@/types";
+import { useState } from 'react';
+import { BUSINESS_STATUS } from '@/const/business';
+import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
+import { useUpdateBusiness } from '@/hooks/useBusinesses';
+import { BusinessStatus } from '@/types';
 
 interface BusinessStatusFormProps {
   businessId: string;
@@ -32,7 +32,7 @@ export function BusinessStatusForm({
         values: { status: statusValue },
       });
     } catch (error) {
-      console.error("Failed to update status:", error);
+      console.error('Failed to update status:', error);
       setStatus(currentStatus); // rollback on error
     }
   };

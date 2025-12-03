@@ -1,4 +1,4 @@
-import AdminHomeClient from '@/components/admin/AdminHomeClient';
+import AdminModeringList from '@/components/admin/AdminModeringList';
 
 export default function AdminBusiness() {
   return (
@@ -21,7 +21,7 @@ export default function AdminBusiness() {
       <p className="mb-2 italic">
         На навігацію поки не звертати увагу. Це виключно для мене і тимчасово
       </p>
-      <AdminHomeClient />
+      <AdminModeringList />
     </div>
   );
 }

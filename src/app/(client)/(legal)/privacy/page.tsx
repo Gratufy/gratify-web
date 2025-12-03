@@ -1,5 +1,5 @@
 import React from 'react';
-import GoBackButton from '@/components/ui/GoBackButton';
+import GoBackButton from '@/components/ui/custom-ui/GoBackButton';
 
 function page() {
   return (

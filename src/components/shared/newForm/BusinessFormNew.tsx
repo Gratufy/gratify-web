@@ -45,10 +45,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import CustomSelect from '@/components/ui/CustomSelect';
-import OffersMultiSelect from '@/components/shared/OffersMultiSelect';
+import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
+import OffersMultiSelect from '@/components/shared/filters/OffersMultiSelect';
 import ImagesBlock from '@/components/shared/newForm/ImagesBlock';
-import { CustomToast } from '@/components/ui/CustomToast';
+import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,

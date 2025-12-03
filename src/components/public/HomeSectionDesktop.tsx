@@ -13,9 +13,9 @@ const BusinessMapAll = dynamic(
   }
 );
 
-import ShowMap from '../ui/ShowMap';
+import ShowMap from '../ui/custom-ui/ShowMap';
 import TopSheetFilter from './TopSheetFilter';
-import SelectedFiltersPanel from '../shared/SelectedFiltersPanel';
+import SelectedFiltersPanel from '../shared/filters/SelectedFiltersPanel';
 import BusinessList from '../shared/BusinessList';
 import NotFoundComponent from '../shared/NotFoundComponent';
 

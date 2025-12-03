@@ -5,7 +5,7 @@ import { BusinessWithCategoryName } from '@/types';
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 
 import BottomSheetFilters from './BottomSheetFilters';
-import SelectedFiltersPanel from '../shared/SelectedFiltersPanel';
+import SelectedFiltersPanel from '../shared/filters/SelectedFiltersPanel';
 import BusinessList from '../shared/BusinessList';
 import NotFoundComponent from '../shared/NotFoundComponent';
 import { getCityLabel } from '@/utils/getCityLabel';

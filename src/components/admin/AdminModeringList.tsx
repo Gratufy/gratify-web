@@ -1,32 +1,32 @@
-"use client";
-import { useState } from "react";
+'use client';
+import { useState } from 'react';
 import {
   useAdminBusinesses,
   useBusinesses,
   useDeleteBusiness,
-} from "@/hooks/useBusinesses";
-import { useBusinessCategories } from "@/hooks/useBusinessCategories";
-import CustomSelect from "@/components/ui/CustomSelect";
-import { UKRAINE_REGIONAL_CENTERS } from "@/const/regions";
-import { BUSINESS_STATUS } from "@/const/business";
+} from '@/hooks/useBusinesses';
+import { useBusinessCategories } from '@/hooks/useBusinessCategories';
+import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
+import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
+import { BUSINESS_STATUS } from '@/const/business';
 
-import Link from "next/link";
-import { BusinessStatusForm } from "@/components/admin/BusinessStatusForm";
-import { BusinessStatus, OnlineFilter, SortBy } from "@/types";
-import OnlineStatusFilter from "@/components/shared/OnlineStatusFilter";
+import Link from 'next/link';
+import { BusinessStatusForm } from '@/components/admin/BusinessStatusForm';
+import { BusinessStatus, OnlineFilter, SortBy } from '@/types';
+import OnlineStatusFilter from '@/components/shared/filters/OnlineStatusFilter';
 
-function AdminHomeClient() {
+function AdminModeringList() {
   const {
     categories,
     // isLoading: isCategoriesLoading,
     // isError: isCategoriesError,
   } = useBusinessCategories();
-  const [city, setCity] = useState<string | undefined>("__all__");
-  const [categoryId, setCategoryId] = useState<string>("__all__");
-  const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>("all");
-  const [sortBy, setSortBy] = useState<"newest" | "oldest">("newest");
+  const [city, setCity] = useState<string | undefined>('__all__');
+  const [categoryId, setCategoryId] = useState<string>('__all__');
+  const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>('all');
+  const [sortBy, setSortBy] = useState<'newest' | 'oldest'>('newest');
   const [businessStatus, setBusinessStatus] =
-    useState<BusinessStatus>("pending");
+    useState<BusinessStatus>('pending');
   // const [status, setStatus] = useState<string>("");
 
   //   const {
@@ -59,7 +59,7 @@ function AdminHomeClient() {
   //   return <p>Помилка: {error?.message}</p>;
 
   const categoriesWithAll = [
-    { categoryId: "__all__", name: "Всі" }, //index "__all__" for   "всi"
+    { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
     ...(categories || []),
   ];
 
@@ -68,10 +68,10 @@ function AdminHomeClient() {
   }
   const deleteBusinessMutation = useDeleteBusiness();
   const handleDelete = async (businessId: string) => {
-    const confirmed = confirm("Are you sure you want to delete this business?");
+    const confirmed = confirm('Are you sure you want to delete this business?');
     if (!confirmed) return;
     await deleteBusinessMutation.mutateAsync(businessId);
-    alert("Business deleted successfully!");
+    alert('Business deleted successfully!');
   };
   return (
     <>
@@ -109,7 +109,7 @@ function AdminHomeClient() {
         onChange={setShowOnlineStatus}
       />
       {/* <p>Обране місто: {city || "—"}</p> */}
-      <h2 className="text-xl font-bold mb-2">
+      <h2 className="mb-2 text-xl font-bold">
         Список бізнесів with all status
       </h2>
       {isBusinessesLoading && <p>Loading...</p>}
@@ -119,7 +119,7 @@ function AdminHomeClient() {
           {businesses.map((b) => (
             <li
               key={b.id}
-              className="mb-2 px-4 py-2 border border-gray-300 rounded-xl flex gap-8 items-center justify-center"
+              className="mb-2 flex items-center justify-center gap-8 rounded-xl border border-gray-300 px-4 py-2"
             >
               <p className="flex-1/8">{b.name}</p>
               {/* <p className="flex-1/8">{b.city}</p> */}
@@ -128,12 +128,12 @@ function AdminHomeClient() {
               <BusinessStatusForm businessId={b.id} currentStatus={b.status} />
               <Link
                 href={`./business/${b.id}`}
-                className="px-4 py-2 bg-chart-2 text-white rounded-full cursor-pointer"
+                className="bg-chart-2 cursor-pointer rounded-full px-4 py-2 text-white"
               >
                 See more
               </Link>
               <button
-                className="border rounded-3xl border-red-500 cursor-pointer px-4 py-2 flex items-center justify-center"
+                className="flex cursor-pointer items-center justify-center rounded-3xl border border-red-500 px-4 py-2"
                 onClick={() => handleDelete(b.id)}
               >
                 Delete
@@ -148,4 +148,4 @@ function AdminHomeClient() {
   );
 }
 
-export default AdminHomeClient;
+export default AdminModeringList;

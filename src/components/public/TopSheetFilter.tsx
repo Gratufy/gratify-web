@@ -18,12 +18,12 @@ import {
   SheetClose,
 } from '@/components/ui/sheet';
 
-import CustomSelect from '../ui/CustomSelect';
+import CustomSelect from '../ui/custom-ui/CustomSelect';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 
-import OnlineStatusFilter from '../shared/OnlineStatusFilter';
-import SortFilterComponent from '../shared/SortFilterComponent';
-import CategoryRadio from '../shared/CategoryRadio';
+import OnlineStatusFilter from '../shared/filters/OnlineStatusFilter';
+import SortFilterComponent from '../shared/filters/SortFilterComponent';
+import CategoryRadio from '../shared/filters/CategoryRadio';
 import { useFilters } from '@/hooks/useFilters';
 import { getCityLabel } from '@/utils/getCityLabel';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import BusinessFormNew from '@/components/shared/newForm/BusinessFormNew';
-import GoBackButton from '@/components/ui/GoBackButton';
+import GoBackButton from '@/components/ui/custom-ui/GoBackButton';
 
 export default function BusinessNew() {
   return (

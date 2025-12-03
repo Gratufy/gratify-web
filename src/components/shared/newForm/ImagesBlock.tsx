@@ -9,7 +9,7 @@ import ImageFolder from '@/assets/icons/form/image-folder.svg';
 
 import Image from 'next/image';
 import { PreviewImage } from '@/types/images';
-import { CustomToast } from '@/components/ui/CustomToast';
+import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 
 type ImagesBlockProps = {
   imagesState: PreviewImage[];

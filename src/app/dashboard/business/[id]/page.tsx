@@ -2,7 +2,7 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import BusinessEditDetails from '@/components/shared/BusinessEditDetails';
 import { getBusinessById } from '@/lib/actions/getBusinessById';
-import GoBackButton from '@/components/ui/GoBackButton';
+import GoBackButton from '@/components/ui/custom-ui/GoBackButton';
 
 interface BusinessPageProps {
   params: Promise<{ id: string }>;

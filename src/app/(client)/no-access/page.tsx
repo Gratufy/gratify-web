@@ -1,5 +1,5 @@
 import React from 'react';
-import BackToHomeBtn from '@/components/shared/BackToHomeBtn';
+import BackToHomeBtn from '@/components/ui/custom-ui/BackToHomeBtn';
 
 function Page() {
   return (

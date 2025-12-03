@@ -360,6 +360,18 @@
 @utility chip-checked {
   @apply bg-background-main-400 border-elements-main-600 font-medium;
 }
+
+/* // Admin sidebar  */
+@utility admin-link {
+  @apply title-h4 bg-background-main-50 flex items-center lg:gap-3 lg:px-2 lg:py-3;
+}
+@utility admin-link-active {
+  @apply bg-background-main-100 text-text-800-main;
+}
+@utility admin-select {
+  @apply bg-background-main-100! rounded-md border-none;
+}
+/* -------------  */
 @layer components {
   .sr-only {
     position: absolute;

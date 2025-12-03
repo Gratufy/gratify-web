@@ -5,7 +5,7 @@ import { BusinessWithCategoryName } from '@/types';
 import SidebarFavorites from './SidebarFavorites';
 import BusinessList from '../shared/BusinessList';
 import NotFoundComponent from '../shared/NotFoundComponent';
-import GoBackButton from '../ui/GoBackButton';
+import GoBackButton from '../ui/custom-ui/GoBackButton';
 
 type FavoritesSectionDesktopProps = {
   businesses: BusinessWithCategoryName[];
