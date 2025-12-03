@@ -8,7 +8,12 @@ import { useUserStore } from '@/stores/useUserStore';
 import { createClient } from '@/utils/supabase/client';
 
 import IconOut from '@/assets/icons/menu/icon-out.svg';
-const LogoutBtn = () => {
+
+type LogoutBtnProps = {
+  customClassName?: string;
+};
+
+const LogoutBtn = ({ customClassName }: LogoutBtnProps) => {
   const router = useRouter();
   const clear = useUserStore((s) => s.clear);
   const [loading, setLoading] = useState(false);
@@ -41,9 +46,13 @@ const LogoutBtn = () => {
       //onClick={handleLogout}
       onClick={handleLogout}
       disabled={loading}
-      className="focus:bg-elements-grey-200 hover:bg-elements-grey-200 xl:placeholder-base flex w-full cursor-pointer items-center rounded-sm border-none bg-white px-3 py-1.5 text-sm disabled:opacity-50 lg:px-2"
+      className={
+        customClassName
+          ? customClassName
+          : 'focus:bg-elements-grey-200 hover:bg-elements-grey-200 xl:placeholder-base flex w-full cursor-pointer items-center gap-2 rounded-sm border-none bg-white px-3 py-1.5 text-sm disabled:opacity-50 lg:px-2 xl:gap-3'
+      }
     >
-      <IconOut className="mr-2 size-4 xl:mr-3 xl:size-5" />
+      <IconOut className="size-4 xl:size-5" />
       {loading ? 'Виходимо...' : 'Вихід'}
     </button>
     /* I change it later for TOAST */
