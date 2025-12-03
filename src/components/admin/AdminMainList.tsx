@@ -8,13 +8,14 @@ import {
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
-import { BUSINESS_STATUS } from '@/const/business';
+import { BUSINESS_STATUS, ONLINE_STATUS_LABELS } from '@/const/business';
 
 import Link from 'next/link';
 import { BusinessStatusForm } from '@/components/admin/BusinessStatusForm';
 import { BusinessStatus, OnlineFilter, SortBy } from '@/types';
 import OnlineStatusFilter from '@/components/shared/filters/OnlineStatusFilter';
 import { Label } from '../ui/label';
+import { ONLINE_STATUS } from '@/const/online-status';
 
 function AdminMainList() {
   const {
@@ -76,6 +77,9 @@ function AdminMainList() {
   };
   return (
     <div className="bg-background-white lg:p-5">
+      {/* It is not correct !!!!!!!!!!!!!!*/}
+      <h2 className="lg:title-h5 mb-2">Наявні бізнеси {businesses.length}</h2>
+      {/*  !!!!!!!!!!!!!!*/}
       <div className="flex lg:gap-3">
         <div>
           <Label htmlFor="status-select" className="lg:placeholder-xs mb-1">
@@ -130,13 +134,23 @@ function AdminMainList() {
           <Label htmlFor="online-select" className="lg:placeholder-xs mb-1">
             Online:
           </Label>
-          <OnlineStatusFilter
+          <CustomSelect
+            id="online-select"
+            // label="Місто"
+            value={showOnlineStatus}
+            onChange={(val) => setShowOnlineStatus(val as OnlineFilter)}
+            options={ONLINE_STATUS}
+            getOptionValue={(option) => option.value}
+            getOptionLabel={(option) => option.label}
+            placeholder="Оберіть місто"
+            className="admin-select w-40"
+          />
+          {/* <OnlineStatusFilter
             value={showOnlineStatus}
             onChange={setShowOnlineStatus}
-          />
+          /> */}
         </div>
       </div>
-
       {/* <p>Обране місто: {city || "—"}</p> */}
       <h2 className="mb-2 text-xl font-bold">
         Список бізнесів with all status
