@@ -3,6 +3,9 @@ import React from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import IconCategory from '@/assets/icons/menu/icon-category.svg';
+import IconModering from '@/assets/icons/menu/icon-modering.svg';
+import IconSettings from '@/assets/icons/admin/icon-setting.svg';
+import IconMain from '@/assets/icons/admin/icon-main.svg';
 import LogoutBtn from '@/components/ui/custom-ui/LogoutBtn';
 
 function AdminSidebar() {
@@ -15,28 +18,28 @@ function AdminSidebar() {
         href="/admin"
         className={`admin-link ${pathname === '/admin' ? 'admin-link-active' : ''}`}
       >
-        <IconCategory className="size-4 xl:mr-3 xl:size-5" />
+        <IconMain className="size-5" />
         <span>Головна</span>
       </Link>
       <Link
-        href="/admin/business"
+        href="/admin/modering"
         className={`admin-link ${pathname === '/admin/business' ? 'admin-link-active' : ''}`}
       >
-        <IconCategory className="size-4 xl:mr-3 xl:size-5" />
+        <IconModering className="size-5" />
         <span>Модерування</span>
       </Link>
       <Link
         href="/admin/categories"
         className={`admin-link ${pathname === '/admin/categorie' ? 'admin-link-active' : ''}`}
       >
-        <IconCategory className="size-4 xl:mr-3 xl:size-5" />
+        <IconCategory className="size-5" />
         <span>Категорії</span>
       </Link>
       <Link
         href="/admin/settings"
         className={`admin-link ${pathname === '/admin/settings' ? 'admin-link-active' : ''}`}
       >
-        <IconCategory className="size-4 xl:mr-3 xl:size-5" />
+        <IconSettings className="size-5" />
         <span>Налаштування</span>
       </Link>
       <LogoutBtn customClassName="admin-link" />

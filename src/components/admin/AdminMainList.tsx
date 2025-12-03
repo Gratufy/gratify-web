@@ -15,7 +15,7 @@ import { BusinessStatusForm } from '@/components/admin/BusinessStatusForm';
 import { BusinessStatus, OnlineFilter, SortBy } from '@/types';
 import OnlineStatusFilter from '@/components/shared/filters/OnlineStatusFilter';
 
-function AdminHomeClient() {
+function AdminMainList() {
   const {
     categories,
     // isLoading: isCategoriesLoading,
@@ -148,4 +148,4 @@ function AdminHomeClient() {
   );
 }
 
-export default AdminHomeClient;
+export default AdminMainList;

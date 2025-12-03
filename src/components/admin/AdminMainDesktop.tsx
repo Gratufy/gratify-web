@@ -1,12 +1,12 @@
 import React from 'react';
 import AdminSidebar from './AdminSidebar';
-import AdminHomeSection from './AdminHomeSection';
+import AdminMainSection from './AdminMainSection';
 
 function AdminMainDesktop() {
   return (
     <div className="hidden w-full lg:flex lg:gap-6">
       <AdminSidebar />
-      <AdminHomeSection />
+      <AdminMainSection />
     </div>
   );
 }
