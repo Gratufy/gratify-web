@@ -5,7 +5,8 @@ export const BUSINESS_STATUS: BusinessStatus[] = [
   'approved',
   'hidden',
   'rejected',
-];
+] as const;
+//export const BUSINESS_STATUS = ['pending', 'approved', 'hidden', 'rejected'];
 
 export const BUSINESS_STATUS_LABELS: Record<string, string> = {
   pending: 'На модерації',

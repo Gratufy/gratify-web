@@ -1,4 +1,4 @@
-import { OnlineFilter, SortBy } from '@/types';
+import { BusinessStatus, OnlineFilter, SortBy } from '@/types';
 
 export const DEFAULT_FILTERS = {
   city: '__all__',
@@ -6,4 +6,12 @@ export const DEFAULT_FILTERS = {
   mode: 'all' as OnlineFilter,
   sort: 'newest' as SortBy,
   search: '',
+};
+
+export const DEFAULT_ADMIN_FILTERS = {
+  city: '__all__',
+  categoryId: '__all__',
+  mode: 'all' as OnlineFilter,
+  sort: 'newest' as SortBy,
+  businessStatus: 'pending' as BusinessStatus,
 };

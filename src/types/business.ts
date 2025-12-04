@@ -1,3 +1,4 @@
+import { BUSINESS_STATUS } from '@/const/business';
 import {
   businessCategories,
   businesses,
@@ -116,6 +117,7 @@ export type SortBy = 'newest' | 'mostKarma' | 'hot';
 export type Scope = 'public' | 'business_user' | 'admin';
 export type OnlineFilter = 'all' | 'online' | 'offline';
 export type BusinessStatus = 'pending' | 'approved' | 'hidden' | 'rejected';
+//export type BusinessStatus = (typeof BUSINESS_STATUS)[number];
 
 //Review
 export type BusinessReview = typeof businessReviews.$inferSelect;

@@ -17,6 +17,7 @@ import OnlineStatusFilter from '@/components/shared/filters/OnlineStatusFilter';
 import { Label } from '../ui/label';
 import { ONLINE_STATUS } from '@/const/online-status';
 import { getBusinessesCount } from '@/lib/actions/getBusinessesCount';
+import { useAdminFilters } from '@/hooks/useAdminFilters';
 
 function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
   const {
@@ -24,7 +25,7 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
     // isLoading: isCategoriesLoading,
     // isError: isCategoriesError,
   } = useBusinessCategories();
-
+  const { filters, updateFilter } = useAdminFilters();
   const [city, setCity] = useState<string | undefined>('__all__');
   const [categoryId, setCategoryId] = useState<string>('__all__');
   const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>('all');
@@ -52,12 +53,13 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
     isError: isBusinessesError,
     error,
   } = useAdminBusinesses({
-    businessStatus,
-    categoryId,
-    city,
-    showOnlineStatus,
+    businessStatus: filters.businessStatus,
+    categoryId: filters.categoryId,
+    city: filters.city,
+    showOnlineStatus: filters.mode,
     sortBy,
   });
+
   // if (isBusinessesLoading || isCategoriesLoading) return <p>Загрузка...</p>;
   // if (isBusinessesError || isCategoriesError)
   //   return <p>Помилка: {error?.message}</p>;
@@ -71,6 +73,7 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
     setBusinessStatus(value as BusinessStatus);
   }
   const deleteBusinessMutation = useDeleteBusiness();
+
   const handleDelete = async (businessId: string) => {
     const confirmed = confirm('Are you sure you want to delete this business?');
     if (!confirmed) return;
@@ -89,8 +92,11 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
           </Label>
           <CustomSelect
             id="status-select"
-            value={businessStatus}
-            onChange={handleStatusChange}
+            value={filters.businessStatus}
+            // onChange={handleStatusChange}
+            onChange={(val) =>
+              updateFilter('businessStatus', val as BusinessStatus)
+            }
             options={BUSINESS_STATUS}
             getOptionValue={(s) => s}
             getOptionLabel={(s) => s.charAt(0).toUpperCase() + s.slice(1)}
@@ -105,8 +111,9 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
           </Label>
           <CustomSelect
             id="category-select"
-            value={categoryId}
-            onChange={setCategoryId}
+            value={filters.categoryId}
+            // onChange={setCategoryId}
+            onChange={(val) => updateFilter('categoryId', val)}
             options={categoriesWithAll}
             getOptionValue={(c) => c.categoryId}
             getOptionLabel={(c) => c.name}
@@ -123,8 +130,9 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
           <CustomSelect
             id="city-select"
             // label="Місто"
-            value={city}
-            onChange={setCity}
+            value={filters.city}
+            // onChange={setCity}
+            onChange={(val) => updateFilter('city', val)}
             options={UKRAINE_REGIONAL_CENTERS}
             getOptionValue={(option) => option.value}
             getOptionLabel={(option) => option.label}
@@ -139,8 +147,10 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
           <CustomSelect
             id="online-select"
             // label="Місто"
-            value={showOnlineStatus}
-            onChange={(val) => setShowOnlineStatus(val as OnlineFilter)}
+            // value={showOnlineStatus}
+            value={filters.mode}
+            // onChange={(val) => setShowOnlineStatus(val as OnlineFilter)}
+            onChange={(val) => updateFilter('mode', val as OnlineFilter)}
             options={ONLINE_STATUS}
             getOptionValue={(option) => option.value}
             getOptionLabel={(option) => option.label}
