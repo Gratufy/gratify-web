@@ -4,6 +4,7 @@ import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useMemo, useCallback } from 'react';
 import { DEFAULT_ADMIN_FILTERS } from '@/const/filters-url';
 import { OnlineFilter, SortBy } from '@/types';
+import { parseBusinessStatus } from '@/lib/helpers/parseBusinessStatus';
 
 export function useAdminFilters() {
   const router = useRouter();
@@ -20,9 +21,7 @@ export function useAdminFilters() {
         DEFAULT_ADMIN_FILTERS.mode,
       sort: (searchParams.get('sort') as SortBy) || DEFAULT_ADMIN_FILTERS.sort,
       //   search: searchParams.get('search') || DEFAULT_ADMIN_FILTERS.search,
-      businessStatus:
-        searchParams.get('businessStatus') ||
-        DEFAULT_ADMIN_FILTERS.businessStatus,
+      businessStatus: parseBusinessStatus(searchParams.get('businessStatus')),
     }),
     [searchParams]
   );

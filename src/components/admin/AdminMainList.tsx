@@ -53,14 +53,13 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
     isError: isBusinessesError,
     error,
   } = useAdminBusinesses({
-    businessStatus: filters.businessStatus as BusinessStatus,
+    businessStatus: filters.businessStatus,
     categoryId: filters.categoryId,
     city: filters.city,
     showOnlineStatus: filters.mode,
     sortBy,
   });
 
-  console.log('filters.categoryId (from searchParams):', filters.categoryId);
   // if (isBusinessesLoading || isCategoriesLoading) return <p>Загрузка...</p>;
   // if (isBusinessesError || isCategoriesError)
   //   return <p>Помилка: {error?.message}</p>;
