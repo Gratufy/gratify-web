@@ -17,6 +17,7 @@ import OnlineStatusFilter from '@/components/shared/filters/OnlineStatusFilter';
 import { Label } from '../ui/label';
 import { ONLINE_STATUS } from '@/const/online-status';
 import { getBusinessesCount } from '@/lib/actions/getBusinessesCount';
+import { useAdminFilters } from '@/hooks/useAdminFilters';
 
 function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
   const {
@@ -24,7 +25,7 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
     // isLoading: isCategoriesLoading,
     // isError: isCategoriesError,
   } = useBusinessCategories();
-
+  const { filters, updateFilter } = useAdminFilters();
   const [city, setCity] = useState<string | undefined>('__all__');
   const [categoryId, setCategoryId] = useState<string>('__all__');
   const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>('all');
@@ -46,10 +47,6 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
   //     sortBy,
   //   });
 
-  console.log('businessStatus:', businessStatus);
-  console.log('categoryId:', categoryId);
-  console.log('city', city);
-  console.log('showOnlineStatus:', showOnlineStatus);
   const {
     data: businesses = [],
     isLoading: isBusinessesLoading,

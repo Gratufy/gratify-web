@@ -25,10 +25,6 @@ export async function getBusinessesForAdmin({
   showOnlineStatus = 'all',
   sortBy = 'newest',
 }: UseAdminBusinessesParams): Promise<AdminBusinessRowType[]> {
-  console.log('businessStatus:', businessStatus);
-  console.log('categoryId:', categoryId);
-  console.log('city', city);
-  console.log('showOnlineStatus:', showOnlineStatus);
   const supabase = await createClient();
   const {
     data: { user },
