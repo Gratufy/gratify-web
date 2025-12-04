@@ -13,15 +13,16 @@ export function useAdminFilters() {
   const filters = useMemo(
     () => ({
       city: searchParams.get('city') || DEFAULT_ADMIN_FILTERS.city,
-      category: searchParams.get('category') || DEFAULT_ADMIN_FILTERS.category,
+      categoryId:
+        searchParams.get('categoryId') || DEFAULT_ADMIN_FILTERS.categoryId,
       mode:
         (searchParams.get('mode') as OnlineFilter) ||
         DEFAULT_ADMIN_FILTERS.mode,
       sort: (searchParams.get('sort') as SortBy) || DEFAULT_ADMIN_FILTERS.sort,
       //   search: searchParams.get('search') || DEFAULT_ADMIN_FILTERS.search,
-      search:
-        searchParams.get('  business_status') ||
-        DEFAULT_ADMIN_FILTERS.business_status,
+      businessStatus:
+        searchParams.get('businessStatus') ||
+        DEFAULT_ADMIN_FILTERS.businessStatus,
     }),
     [searchParams]
   );

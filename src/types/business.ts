@@ -218,7 +218,7 @@ export type AdminBusinessRowType = {
 
 export interface UseAdminBusinessesParams {
   reviewStatus?: BusinessReviewStatus; // для фильтра по отзывам
-  businessStatus?: BusinessStatus;
+  businessStatus: BusinessStatus;
   categoryId?: string;
   city?: string;
   showOnlineStatus?: OnlineFilter;

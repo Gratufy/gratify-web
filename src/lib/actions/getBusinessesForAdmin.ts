@@ -72,7 +72,6 @@ export async function getBusinessesForAdmin({
         )
       `);
     } else if (showOnlineStatus === 'all') {
-      console.log('HIER HIER', city);
       // объединяем онлайн или с локацией в этом городе
       conditions.push(sql`(
         ${businesses.isOnline} = true OR EXISTS (
@@ -82,7 +81,7 @@ export async function getBusinessesForAdmin({
       `);
     }
   }
-  console.log('conditions', conditions);
+
   const rows = await db
     .select({
       id: businesses.id,
@@ -114,6 +113,6 @@ export async function getBusinessesForAdmin({
         ? sql`${businesses.createdAt} DESC`
         : sql`${businesses.createdAt} ASC`
     );
-  console.log('rows', rows);
+
   return rows;
 }
