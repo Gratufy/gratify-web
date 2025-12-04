@@ -12,7 +12,6 @@ import { queryKeys } from '@/lib/reactQuery/queryKeys';
 import {
   getBusinesses,
   getBusinessesWithReviewStatus,
-  getBusinessesForAdmin,
 } from '@/lib/actions/businesses';
 import { getBusinessById } from '@/lib/actions/getBusinessById';
 import { createBusiness } from '@/lib/actions/createBusiness';
@@ -27,6 +26,7 @@ import {
 import { PAGE_SIZE } from '@/const/business';
 import { updateBusiness } from '@/lib/actions/updateBusiness';
 import { deleteBusiness } from '@/lib/actions/deleteBusiness';
+import { getBusinessesForAdmin } from '@/lib/actions/getBusinessesForAdmin';
 
 // export type UseBusinessesParams = GetBusinessesParams;
 // all businesses

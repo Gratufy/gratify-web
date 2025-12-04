@@ -1,0 +1,123 @@
+'use server';
+
+import { createClient } from '@/utils/supabase/server';
+import { db } from '@/db';
+
+import {
+  businessCategories,
+  businesses,
+  businessLocations,
+  businessReviews,
+} from '@/db/schema';
+import { eq, sql, and, SQL } from 'drizzle-orm';
+import {
+  AdminBusinessRowType,
+  UseAdminBusinessesParams,
+} from '@/types/business';
+import { isAdmin } from '@/lib/helpers/isAdmin';
+
+// general admin query for businesses
+export async function getBusinessesForAdmin({
+  reviewStatus,
+  businessStatus,
+  categoryId,
+  city,
+  showOnlineStatus = 'all',
+  sortBy = 'newest',
+}: UseAdminBusinessesParams): Promise<AdminBusinessRowType[]> {
+  console.log('businessStatus:', businessStatus);
+  console.log('categoryId:', categoryId);
+  console.log('city', city);
+  console.log('showOnlineStatus:', showOnlineStatus);
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error('Unauthorized');
+
+  const isAdminUser = await isAdmin(user.id);
+  if (!isAdminUser) throw new Error('Forbidden');
+
+  const conditions: SQL[] = [];
+
+  if (categoryId && categoryId !== '__all__')
+    conditions.push(eq(businesses.categoryId, categoryId));
+
+  if (reviewStatus) conditions.push(eq(businessReviews.status, reviewStatus));
+  if (businessStatus) conditions.push(eq(businesses.status, businessStatus));
+
+  // let cityLabel: string | undefined;
+  // if (city && city !== '__all__') {
+  //   cityLabel = UKRAINE_REGIONAL_CENTERS.find((c) => c.value === city)?.label;
+  // }
+  // фильтр по city и онлайн/офлайн
+  if (!city || city === '__all__') {
+    // "__all__"
+    if (showOnlineStatus === 'online') {
+      conditions.push(eq(businesses.isOnline, true));
+    } else if (showOnlineStatus === 'offline') {
+      // есть хотя бы одна физическая локация
+      conditions.push(sql`
+        EXISTS (
+          SELECT 1 FROM ${businessLocations} bl
+          WHERE bl.business_id = ${businesses.id}
+        )
+      `);
+    }
+  } else {
+    // выбран конкретный город
+    if (showOnlineStatus === 'online') {
+      conditions.push(eq(businesses.isOnline, true));
+    } else if (showOnlineStatus === 'offline') {
+      conditions.push(sql`
+        EXISTS (
+          SELECT 1 FROM ${businessLocations} bl
+          WHERE bl.business_id = ${businesses.id} AND bl.city = ${city}
+        )
+      `);
+    } else if (showOnlineStatus === 'all') {
+      console.log('HIER HIER', city);
+      // объединяем онлайн или с локацией в этом городе
+      conditions.push(sql`(
+        ${businesses.isOnline} = true OR EXISTS (
+          SELECT 1 FROM ${businessLocations} bl
+          WHERE bl.business_id = ${businesses.id} AND bl.city = ${city}
+        ))
+      `);
+    }
+  }
+  console.log('conditions', conditions);
+  const rows = await db
+    .select({
+      id: businesses.id,
+      name: businesses.name,
+      isOnline: businesses.isOnline,
+      categoryId: businesses.categoryId,
+
+      status: businesses.status,
+      createdAt: businesses.createdAt,
+      updatedAt: businesses.updatedAt,
+      ownerId: businesses.ownerId,
+      reviewCount: businesses.reviewCount,
+      //join
+      //categoryName: businessCategories.name,
+      categoryName: sql<string>`MAX(${businessCategories.name})`,
+      //----
+      filteredReviewCount: sql<number>`COUNT(${businessReviews.id})`,
+    })
+    .from(businesses)
+    .leftJoin(businessReviews, eq(businesses.id, businessReviews.businessId))
+    .leftJoin(
+      businessCategories,
+      eq(businesses.categoryId, businessCategories.categoryId)
+    )
+    .where(conditions.length ? and(...conditions) : undefined)
+    .groupBy(businesses.id)
+    .orderBy(
+      sortBy === 'newest'
+        ? sql`${businesses.createdAt} DESC`
+        : sql`${businesses.createdAt} ASC`
+    );
+  console.log('rows', rows);
+  return rows;
+}

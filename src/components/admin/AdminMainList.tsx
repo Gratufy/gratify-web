@@ -46,6 +46,10 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
   //     sortBy,
   //   });
 
+  console.log('businessStatus:', businessStatus);
+  console.log('categoryId:', categoryId);
+  console.log('city', city);
+  console.log('showOnlineStatus:', showOnlineStatus);
   const {
     data: businesses = [],
     isLoading: isBusinessesLoading,
