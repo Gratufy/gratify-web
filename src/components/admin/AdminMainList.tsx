@@ -233,7 +233,7 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
                     checked={b.isOnline || false}
                   />
 
-                  <DropdownMenu>
+                  <DropdownMenu modal={false}>
                     <DropdownMenuTrigger asChild className="cursor-pointer">
                       <IconMenu className="size-6" />
                     </DropdownMenuTrigger>
@@ -271,7 +271,7 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
                         asChild
                         className="placeholder-sm xl:placeholder-base cursor-pointer gap-0 px-3 lg:px-2"
                       >
-                        <div
+                        <button
                           className="text-icons-color-error focus:bg-elements-grey-200 hover:bg-elements-grey-200 xl:placeholder-base flex w-full cursor-pointer items-center rounded-sm border-none bg-white px-3 py-1.5 text-sm disabled:opacity-50 lg:px-2"
                           onClick={() => {
                             setBusinessIdToDelete(b.id);
@@ -282,7 +282,7 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
                         >
                           <IconRecycle className="text-icons-color-error mr-2 size-4 xl:mr-3 xl:size-5" />
                           Видалити
-                        </div>
+                        </button>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
