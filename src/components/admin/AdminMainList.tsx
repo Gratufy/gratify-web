@@ -11,6 +11,8 @@ import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 import { BUSINESS_STATUS, ONLINE_STATUS_LABELS } from '@/const/business';
 
 import Link from 'next/link';
+import IconMenu from '@/assets/icons/admin/icon-menu.svg';
+import { Checkbox } from '@/components/ui/checkbox';
 import { BusinessStatusForm } from '@/components/admin/BusinessStatusForm';
 import { BusinessStatus, OnlineFilter, SortBy } from '@/types';
 import OnlineStatusFilter from '@/components/shared/filters/OnlineStatusFilter';
@@ -169,39 +171,58 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
       {/*  List*/}
       {businesses?.length ? (
         <div className="bg-background-main-50 lg:px-1 lg:py-4">
-          <div className="grid w-full min-w-0 grid-cols-[1fr_1fr_1fr_1fr_0.5fr] px-2">
+          <div className="grid w-full min-w-0 grid-cols-[1fr_1fr_1fr_1fr_0.5fr] px-2 lg:mb-6">
             <div className="min-w-0 py-2">Найменування </div>
             <div className="min-w-0 py-2">Статус</div>
             <div className="min-w-0 py-2">Категорія</div>
             <div className="min-w-0 py-2">Місто</div>
             <div className="min-w-0 py-2">Онлайн</div>
           </div>
-          <ul className="">
+          <ul className="flex flex-col lg:gap-5">
             {businesses.map((b) => (
               <li
                 key={b.id}
-                className="mb-2 flex items-center justify-center gap-8 rounded-xl border border-gray-300 px-4 py-2"
+                className="bg-background-main-200 grid grid-cols-[1fr_1fr_1fr_1fr_0.5fr] items-center justify-center rounded-lg p-2 px-2"
               >
-                <p className="flex-1/8">{b.name}</p>
-                {/* <p className="flex-1/8">{b.city}</p> */}
-                <p className="flex-1/8">{b.categoryName}</p>
+                <div className="py-2">
+                  <p className="">{b.name}</p>
+                </div>
 
-                <BusinessStatusForm
-                  businessId={b.id}
-                  currentStatus={b.status}
-                />
-                <Link
+                <div className="py-2">
+                  <BusinessStatusForm
+                    businessId={b.id}
+                    currentStatus={b.status}
+                  />
+                </div>
+
+                <div className="py-2">
+                  <p className="">{b.categoryName}</p>
+                </div>
+
+                <div className="py-2">
+                  <p className="">City</p>
+                </div>
+
+                <div className="flex items-center justify-between py-2">
+                  <Checkbox
+                    className="border-icons-grey-950 bg-background-main-200! data-[state=checked]:text-icons-grey-950 lg:mx-5 lg:size-4"
+                    checked={b.isOnline || false}
+                  />
+                  <IconMenu />
+                </div>
+
+                {/* <Link
                   href={`./business/${b.id}`}
                   className="bg-chart-2 cursor-pointer rounded-full px-4 py-2 text-white"
                 >
                   See more
-                </Link>
-                <button
+                </Link> */}
+                {/* <button
                   className="flex cursor-pointer items-center justify-center rounded-3xl border border-red-500 px-4 py-2"
                   onClick={() => handleDelete(b.id)}
                 >
                   Delete
-                </button>
+                </button> */}
               </li>
             ))}
           </ul>
