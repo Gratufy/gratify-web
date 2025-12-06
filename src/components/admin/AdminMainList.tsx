@@ -12,7 +12,18 @@ import { BUSINESS_STATUS, ONLINE_STATUS_LABELS } from '@/const/business';
 
 import Link from 'next/link';
 import IconMenu from '@/assets/icons/admin/icon-menu.svg';
+import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
+import EditPen from '@/assets/icons/general/feedback-edit.svg';
+import IconEyeOpen from '@/assets/icons/admin/icon-eye-open.svg';
 import { Checkbox } from '@/components/ui/checkbox';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { BusinessStatusForm } from '@/components/admin/BusinessStatusForm';
 import { BusinessStatus, OnlineFilter, SortBy } from '@/types';
 import OnlineStatusFilter from '@/components/shared/filters/OnlineStatusFilter';
@@ -208,7 +219,54 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
                     className="border-icons-grey-950 bg-background-main-200! data-[state=checked]:text-icons-grey-950 lg:mx-5 lg:size-4"
                     checked={b.isOnline || false}
                   />
-                  <IconMenu />
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <IconMenu className="size-6" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                      // shadow-menu border-icons-grey-400 border
+                      className="xl:w-75 lg:w-65 w-50 border-icons-grey-400 shadow-menu rounded-none border"
+                      align="center"
+                      side="left"
+                    >
+                      <DropdownMenuLabel className="sr-only">
+                        Відкрити меню
+                      </DropdownMenuLabel>
+                      <DropdownMenuItem
+                        asChild
+                        className="placeholder-sm xl:placeholder-base cursor-pointer gap-0 px-3 lg:px-2"
+                      >
+                        <Link href={`/admin/business/${b.id}`} className="">
+                          <IconEyeOpen className="mr-2 size-4 xl:mr-3 xl:size-5" />{' '}
+                          Подивитись
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        asChild
+                        className="placeholder-sm xl:placeholder-base cursor-pointer gap-0 px-3 lg:px-2"
+                      >
+                        <Link
+                          href={`/admin/business/${b.id}/edit`}
+                          className=""
+                        >
+                          <EditPen className="mr-2 size-4 xl:mr-3 xl:size-5" />
+                          Редагувати
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        asChild
+                        className="placeholder-sm xl:placeholder-base cursor-pointer gap-0 px-3 lg:px-2"
+                      >
+                        <button
+                          className="text-icons-color-error focus:bg-elements-grey-200 hover:bg-elements-grey-200 xl:placeholder-base flex w-full cursor-pointer items-center rounded-sm border-none bg-white px-3 py-1.5 text-sm disabled:opacity-50 lg:px-2"
+                          onClick={() => handleDelete(b.id)}
+                        >
+                          <IconRecycle className="text-icons-color-error mr-2 size-4 xl:mr-3 xl:size-5" />
+                          Видалити
+                        </button>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
 
                 {/* <Link
