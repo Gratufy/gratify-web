@@ -82,10 +82,10 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
   };
   return (
     <div className="bg-background-white lg:p-5">
-      {/* It is not correct !!!!!!!!!!!!!!*/}
+      {/*  Title*/}
       <h2 className="lg:title-h5 mb-2">Наявні бізнеси {totalBusinesses}</h2>
-      {/*  !!!!!!!!!!!!!!*/}
-      <div className="flex lg:mb-5 lg:gap-3">
+      {/*  Filters*/}
+      <div className="flex justify-center lg:mb-5 lg:gap-3">
         <div>
           <Label htmlFor="status-select" className="lg:placeholder-xs mb-1">
             Статус:
@@ -166,33 +166,46 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
 
       {isBusinessesLoading && <p>Loading...</p>}
       {isBusinessesError && <p>Помилка: {error?.message}</p>}
+      {/*  List*/}
       {businesses?.length ? (
-        <ul>
-          {businesses.map((b) => (
-            <li
-              key={b.id}
-              className="mb-2 flex items-center justify-center gap-8 rounded-xl border border-gray-300 px-4 py-2"
-            >
-              <p className="flex-1/8">{b.name}</p>
-              {/* <p className="flex-1/8">{b.city}</p> */}
-              <p className="flex-1/8">{b.categoryName}</p>
+        <div className="bg-background-main-50 lg:px-1 lg:py-4">
+          <div className="grid w-full min-w-0 grid-cols-[1fr_1fr_1fr_1fr_0.5fr] px-2">
+            <div className="min-w-0 py-2">Найменування </div>
+            <div className="min-w-0 py-2">Статус</div>
+            <div className="min-w-0 py-2">Категорія</div>
+            <div className="min-w-0 py-2">Місто</div>
+            <div className="min-w-0 py-2">Онлайн</div>
+          </div>
+          <ul className="">
+            {businesses.map((b) => (
+              <li
+                key={b.id}
+                className="mb-2 flex items-center justify-center gap-8 rounded-xl border border-gray-300 px-4 py-2"
+              >
+                <p className="flex-1/8">{b.name}</p>
+                {/* <p className="flex-1/8">{b.city}</p> */}
+                <p className="flex-1/8">{b.categoryName}</p>
 
-              <BusinessStatusForm businessId={b.id} currentStatus={b.status} />
-              <Link
-                href={`./business/${b.id}`}
-                className="bg-chart-2 cursor-pointer rounded-full px-4 py-2 text-white"
-              >
-                See more
-              </Link>
-              <button
-                className="flex cursor-pointer items-center justify-center rounded-3xl border border-red-500 px-4 py-2"
-                onClick={() => handleDelete(b.id)}
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
+                <BusinessStatusForm
+                  businessId={b.id}
+                  currentStatus={b.status}
+                />
+                <Link
+                  href={`./business/${b.id}`}
+                  className="bg-chart-2 cursor-pointer rounded-full px-4 py-2 text-white"
+                >
+                  See more
+                </Link>
+                <button
+                  className="flex cursor-pointer items-center justify-center rounded-3xl border border-red-500 px-4 py-2"
+                  onClick={() => handleDelete(b.id)}
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       ) : (
         <p className="text-2xl"> Нема бізнесів</p>
       )}
