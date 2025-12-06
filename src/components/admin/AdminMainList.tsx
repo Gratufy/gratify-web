@@ -24,6 +24,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { CustomToast } from '../ui/custom-ui/CustomToast';
+import { CustomAlertDialog } from '../ui/custom-ui/CustomAlertDialog';
 import { BusinessStatusForm } from '@/components/admin/BusinessStatusForm';
 import { BusinessStatus, OnlineFilter, SortBy } from '@/types';
 import OnlineStatusFilter from '@/components/shared/filters/OnlineStatusFilter';
@@ -38,11 +40,15 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
     // isLoading: isCategoriesLoading,
     // isError: isCategoriesError,
   } = useBusinessCategories();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const [businessIdToDelete, setBusinessIdToDelete] = useState<string>('');
   const { filters, updateFilter } = useAdminFilters();
-  const [city, setCity] = useState<string | undefined>('__all__');
-  const [categoryId, setCategoryId] = useState<string>('__all__');
-  const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>('all');
-  const [sortBy, setSortBy] = useState<'newest' | 'oldest'>('newest');
+  // const [city, setCity] = useState<string | undefined>('__all__');
+  // const [categoryId, setCategoryId] = useState<string>('__all__');
+  // const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>('all');
+  const [sortBy] = useState<'newest' | 'oldest'>('newest');
   const [businessStatus, setBusinessStatus] =
     useState<BusinessStatus>('pending');
   // const [status, setStatus] = useState<string>("");
@@ -88,10 +94,18 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
   const deleteBusinessMutation = useDeleteBusiness();
 
   const handleDelete = async (businessId: string) => {
-    const confirmed = confirm('Are you sure you want to delete this business?');
-    if (!confirmed) return;
+    // const confirmed = confirm('Are you sure you want to delete this business?');
+
+    // if (!confirmed) return;
     await deleteBusinessMutation.mutateAsync(businessId);
-    alert('Business deleted successfully!');
+    CustomToast({
+      type: 'success',
+      content: (
+        <>
+          <p className="font-semibold">Бізнес видалено</p>
+        </>
+      ),
+    });
   };
   return (
     <div className="bg-background-white lg:p-5">
@@ -176,7 +190,6 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
           /> */}
         </div>
       </div>
-
       {isBusinessesLoading && <p>Loading...</p>}
       {isBusinessesError && <p>Помилка: {error?.message}</p>}
       {/*  List*/}
@@ -219,8 +232,9 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
                     className="border-icons-grey-950 bg-background-main-200! data-[state=checked]:text-icons-grey-950 lg:mx-5 lg:size-4"
                     checked={b.isOnline || false}
                   />
+
                   <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
+                    <DropdownMenuTrigger asChild className="cursor-pointer">
                       <IconMenu className="size-6" />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
@@ -257,13 +271,18 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
                         asChild
                         className="placeholder-sm xl:placeholder-base cursor-pointer gap-0 px-3 lg:px-2"
                       >
-                        <button
+                        <div
                           className="text-icons-color-error focus:bg-elements-grey-200 hover:bg-elements-grey-200 xl:placeholder-base flex w-full cursor-pointer items-center rounded-sm border-none bg-white px-3 py-1.5 text-sm disabled:opacity-50 lg:px-2"
-                          onClick={() => handleDelete(b.id)}
+                          onClick={() => {
+                            setBusinessIdToDelete(b.id);
+                            setDialogOpen(true);
+                            // setMenuOpen(false);
+                            document.body.click();
+                          }}
                         >
                           <IconRecycle className="text-icons-color-error mr-2 size-4 xl:mr-3 xl:size-5" />
                           Видалити
-                        </button>
+                        </div>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -288,6 +307,18 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
       ) : (
         <p className="text-2xl"> Нема бізнесів</p>
       )}
+      <CustomAlertDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        title="Ви впевнені, що хочете видалити?"
+        description="Цю дію не можна буде скасувати."
+        actionContent="Так, видалити"
+        cancelText="Скасувати"
+        classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
+        classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
+        onAction={() => handleDelete(businessIdToDelete)}
+        //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
+      />
     </div>
   );
 }
