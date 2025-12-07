@@ -4,6 +4,11 @@ import {
   getBusinessStatusBgColor,
   getBusinessStatusCardBgColor,
 } from '@/lib/helpers/getBusinessStatusColorBg';
+import EyeIcon from '@/assets/icons/admin/icon-eye.svg';
+import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
+import IconModering from '@/assets/icons/menu/icon-modering.svg';
+import { CheckIcon } from 'lucide-react';
+
 import {
   Select,
   SelectContent,
@@ -41,10 +46,19 @@ function CustomSelect<T>({
 }: CustomSelectProps<T>) {
   let triggerClass = '';
   if (statusForm) {
-    triggerClass = getBusinessStatusBgColor(value as string) || '';
-    console.log('triggerClass', triggerClass);
+    triggerClass =
+      getBusinessStatusBgColor(value as string) + ' ' + 'h-5!' || '';
   }
-
+  const statusIcon = (value: string) =>
+    value === 'approved' ? (
+      <CheckIcon className="size-4" />
+    ) : value === 'pending' ? (
+      <IconModering className="size-4" />
+    ) : value === 'rejected' ? (
+      <CrossIcon className="size-4" />
+    ) : (
+      <EyeIcon className="size-4" />
+    );
   const autoId = useId();
   const selectId = id ?? autoId;
   return (
@@ -62,6 +76,7 @@ function CustomSelect<T>({
           id={selectId}
           className={`${className ?? 'xl:placeholder-base lg:placeholder-sm placeholder-sm w-[280px]'} ${triggerClass}`}
         >
+          {/* {statusForm && statusIcon(value as string)} */}
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent className="py-2">
@@ -77,8 +92,9 @@ function CustomSelect<T>({
                 <SelectItem
                   key={val ?? index}
                   value={val ?? ''}
-                  className="xl:placeholder-base placeholder-sm px-4"
+                  className={`xl:placeholder-base placeholder-sm ${statusForm && getBusinessStatusBgColor(val as string)}`}
                 >
+                  {statusForm && statusIcon(val as string)}
                   {label}
                 </SelectItem>
               );

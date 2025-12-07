@@ -59,7 +59,7 @@ export function BusinessStatusForm({
         // getOptionLabel={(s) => s.charAt(0).toUpperCase() + s.slice(1)}
         getOptionLabel={(s) => BUSINESS_STATUS_LABELS[s]}
         placeholder="Оберіть статус"
-        className="w-36"
+        className="w-40 rounded-sm border-none px-1"
         statusForm={true}
       />
       <CustomAlertDialog
