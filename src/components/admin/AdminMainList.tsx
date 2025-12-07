@@ -1,18 +1,10 @@
 'use client';
 import { useState } from 'react';
-import {
-  useAdminBusinesses,
-  useBusinesses,
-  useDeleteBusiness,
-} from '@/hooks/useBusinesses';
+import { useAdminBusinesses, useDeleteBusiness } from '@/hooks/useBusinesses';
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
-import {
-  BUSINESS_STATUS,
-  BUSINESS_STATUS_LABELS,
-  ONLINE_STATUS_LABELS,
-} from '@/const/business';
+import { BUSINESS_STATUS, BUSINESS_STATUS_LABELS } from '@/const/business';
 
 import Link from 'next/link';
 import IconMenu from '@/assets/icons/admin/icon-menu.svg';
@@ -30,11 +22,11 @@ import {
 import { CustomToast } from '../ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '../ui/custom-ui/CustomAlertDialog';
 import { BusinessStatusForm } from '@/components/admin/BusinessStatusForm';
-import { BusinessStatus, OnlineFilter, SortBy } from '@/types';
-import OnlineStatusFilter from '@/components/shared/filters/OnlineStatusFilter';
+import { BusinessStatus, OnlineFilter } from '@/types';
+
 import { Label } from '../ui/label';
 import { ONLINE_STATUS } from '@/const/online-status';
-import { getBusinessesCount } from '@/lib/actions/getBusinessesCount';
+
 import { useAdminFilters } from '@/hooks/admin/useAdminFilters';
 
 function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
@@ -44,30 +36,11 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
     // isError: isCategoriesError,
   } = useBusinessCategories();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   const [businessIdToDelete, setBusinessIdToDelete] = useState<string>('');
   const { filters, updateFilter } = useAdminFilters();
-  // const [city, setCity] = useState<string | undefined>('__all__');
-  // const [categoryId, setCategoryId] = useState<string>('__all__');
-  // const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>('all');
-  const [sortBy] = useState<'newest' | 'oldest'>('newest');
-  const [businessStatus, setBusinessStatus] =
-    useState<BusinessStatus>('pending');
-  // const [status, setStatus] = useState<string>("");
 
-  //   const {
-  //     data: businesses,
-  //     isLoading: isBusinessesLoading,
-  //     isError: isBusinessesError,
-  //     error,
-  //   } = useBusinesses({
-  //     city,
-  //     categoryId,
-  //     scope: "admin",
-  //     showOnlineStatus,
-  //     sortBy,
-  //   });
+  const [sortBy] = useState<'newest' | 'oldest'>('newest');
 
   const {
     data: businesses = [],
@@ -82,18 +55,11 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
     sortBy,
   });
 
-  // if (isBusinessesLoading || isCategoriesLoading) return <p>Загрузка...</p>;
-  // if (isBusinessesError || isCategoriesError)
-  //   return <p>Помилка: {error?.message}</p>;
-
   const categoriesWithAll = [
     { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
     ...(categories || []),
   ];
 
-  function handleStatusChange(value: string) {
-    setBusinessStatus(value as BusinessStatus);
-  }
   const deleteBusinessMutation = useDeleteBusiness();
 
   const handleDelete = async (businessId: string) => {
