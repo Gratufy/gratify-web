@@ -1,6 +1,9 @@
 'use client';
 import React, { useId } from 'react';
-
+import {
+  getBusinessStatusBgColor,
+  getBusinessStatusCardBgColor,
+} from '@/lib/helpers/getBusinessStatusColorBg';
 import {
   Select,
   SelectContent,
@@ -38,22 +41,25 @@ function CustomSelect<T>({
 }: CustomSelectProps<T>) {
   let triggerClass = '';
   if (statusForm) {
-    switch (value as string) {
-      case 'pending':
-        triggerClass = 'bg-yellow-200 text-yellow-900';
-        break;
-      case 'approved':
-        triggerClass = 'bg-green-200 text-green-900';
-        break;
-      case 'hidden':
-        triggerClass = 'bg-gray-200 text-gray-900';
-        break;
-      case 'rejected':
-        triggerClass = 'bg-red-200 text-red-900';
-        break;
-      default:
-        triggerClass = 'bg-white text-black';
-    }
+    triggerClass = getBusinessStatusBgColor(value as string) || '';
+    console.log('triggerClass', triggerClass);
+    // switch (value as string) {
+
+    //   case 'pending':
+    //     triggerClass = 'bg-yellow-200 text-yellow-900';
+    //     break;
+    //   case 'approved':
+    //     triggerClass = 'bg-green-200 text-green-900';
+    //     break;
+    //   case 'hidden':
+    //     triggerClass = 'bg-gray-200 text-gray-900';
+    //     break;
+    //   case 'rejected':
+    //     triggerClass = 'bg-red-200 text-red-900';
+    //     break;
+    //   default:
+    //     triggerClass = 'bg-white text-black';
+    // }
   }
 
   const autoId = useId();

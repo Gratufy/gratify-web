@@ -1,5 +1,10 @@
 import { useState } from 'react';
 import { BUSINESS_STATUS } from '@/const/business';
+import { BUSINESS_STATUS_LABELS } from '@/const/business';
+import {
+  getBusinessStatusBgColor,
+  getBusinessStatusCardBgColor,
+} from '@/lib/helpers/getBusinessStatusColorBg';
 import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import { useUpdateBusiness } from '@/hooks/useBusinesses';
 import { BusinessStatus } from '@/types';
@@ -18,7 +23,7 @@ export function BusinessStatusForm({
 
   const handleChange = async (newStatus: string) => {
     const confirmed = confirm(
-      `Ви впевнені, що хочете змінити статус ${status} на ${newStatus}?`
+      `Ви впевнені, що хочете змінити статус ${BUSINESS_STATUS_LABELS[status]} на ${BUSINESS_STATUS_LABELS[newStatus]}?`
     );
     if (!confirmed) {
       setStatus(currentStatus);
@@ -43,7 +48,8 @@ export function BusinessStatusForm({
       onChange={handleChange}
       options={BUSINESS_STATUS}
       getOptionValue={(s) => s}
-      getOptionLabel={(s) => s.charAt(0).toUpperCase() + s.slice(1)}
+      // getOptionLabel={(s) => s.charAt(0).toUpperCase() + s.slice(1)}
+      getOptionLabel={(s) => BUSINESS_STATUS_LABELS[s]}
       placeholder="Оберіть статус"
       className="w-36"
       statusForm={true}
