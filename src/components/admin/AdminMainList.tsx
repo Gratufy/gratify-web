@@ -8,7 +8,11 @@ import {
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
-import { BUSINESS_STATUS, ONLINE_STATUS_LABELS } from '@/const/business';
+import {
+  BUSINESS_STATUS,
+  BUSINESS_STATUS_LABELS,
+  ONLINE_STATUS_LABELS,
+} from '@/const/business';
 
 import Link from 'next/link';
 import IconMenu from '@/assets/icons/admin/icon-menu.svg';
@@ -31,7 +35,7 @@ import OnlineStatusFilter from '@/components/shared/filters/OnlineStatusFilter';
 import { Label } from '../ui/label';
 import { ONLINE_STATUS } from '@/const/online-status';
 import { getBusinessesCount } from '@/lib/actions/getBusinessesCount';
-import { useAdminFilters } from '@/hooks/useAdminFilters';
+import { useAdminFilters } from '@/hooks/admin/useAdminFilters';
 
 function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
   const {
@@ -125,10 +129,10 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
             }
             options={BUSINESS_STATUS}
             getOptionValue={(s) => s}
-            getOptionLabel={(s) => s.charAt(0).toUpperCase() + s.slice(1)}
+            getOptionLabel={(s) => BUSINESS_STATUS_LABELS[s]}
             placeholder="Оберіть статус"
             className="admin-select w-40"
-            statusForm={true}
+            // statusForm={true}
           />
         </div>
         <div>

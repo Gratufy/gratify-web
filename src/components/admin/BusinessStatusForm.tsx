@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import { BUSINESS_STATUS } from '@/const/business';
 import { BUSINESS_STATUS_LABELS } from '@/const/business';
-import {
-  getBusinessStatusBgColor,
-  getBusinessStatusCardBgColor,
-} from '@/lib/helpers/getBusinessStatusColorBg';
+
 import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
-import { useUpdateBusiness } from '@/hooks/useBusinesses';
+
 import { BusinessStatus } from '@/types';
+import { useAdminChangeBusinessStatus } from '@/hooks/admin/useAdminChangeStatus';
 
 interface BusinessStatusFormProps {
   businessId: string;
@@ -19,7 +17,8 @@ export function BusinessStatusForm({
   currentStatus,
 }: BusinessStatusFormProps) {
   const [status, setStatus] = useState(currentStatus);
-  const mutation = useUpdateBusiness();
+  // const mutation = useUpdateBusiness();
+  const mutation = useAdminChangeBusinessStatus();
 
   const handleChange = async (newStatus: string) => {
     const confirmed = confirm(
@@ -34,7 +33,7 @@ export function BusinessStatusForm({
     try {
       await mutation.mutateAsync({
         id: businessId,
-        values: { status: statusValue },
+        status: statusValue,
       });
     } catch (error) {
       console.error('Failed to update status:', error);
