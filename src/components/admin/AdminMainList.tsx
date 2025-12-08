@@ -29,7 +29,7 @@ import { ONLINE_STATUS } from '@/const/online-status';
 
 import { useAdminFilters } from '@/hooks/admin/useAdminFilters';
 
-function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
+function AdminMainList() {
   const {
     categories,
     // isLoading: isCategoriesLoading,
@@ -77,9 +77,12 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
     });
   };
   return (
-    <div className="bg-background-white lg:p-5">
+    <>
       {/*  Title*/}
-      <h2 className="lg:title-h5 mb-2">Наявні бізнеси {totalBusinesses}</h2>
+
+      <h3 className="lg:title-h5 mb-2">
+        Наявні бізнеси: {businesses ? businesses.length : 0}
+      </h3>
       {/*  Filters*/}
       <div className="flex justify-center lg:mb-5 lg:gap-3">
         <div>
@@ -288,7 +291,7 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
         onAction={() => handleDelete(businessIdToDelete)}
         //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
       />
-    </div>
+    </>
   );
 }
 

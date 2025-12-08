@@ -1,9 +1,6 @@
 'use client';
 import React, { useId } from 'react';
-import {
-  getBusinessStatusBgColor,
-  getBusinessStatusCardBgColor,
-} from '@/lib/helpers/getBusinessStatusColorBg';
+import { getBusinessStatusBgColor } from '@/lib/helpers/getBusinessStatusColorBg';
 import EyeIcon from '@/assets/icons/admin/icon-eye.svg';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import IconModering from '@/assets/icons/menu/icon-modering.svg';
