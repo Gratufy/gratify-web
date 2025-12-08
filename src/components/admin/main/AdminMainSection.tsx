@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminMainList from './AdminMainList';
+import AdminMainList from '@/components/admin/AdminMainList';
 
 function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
   return (

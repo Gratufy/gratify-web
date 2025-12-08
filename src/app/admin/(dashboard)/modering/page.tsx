@@ -1,4 +1,4 @@
-import AdminModeringClient from '@/components/admin/AdminModeringClient';
+import AdminModeringClient from '@/components/admin/modering/AdminModeringClient';
 
 export default function AdminModering() {
   return (
