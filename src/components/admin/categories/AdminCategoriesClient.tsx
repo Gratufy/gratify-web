@@ -8,6 +8,8 @@ import { CheckIcon } from 'lucide-react';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 import { categorySchema } from '@/lib/validators/categorySchema';
+import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
+import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
 function AdminCategoriesClient() {
   const {
@@ -34,14 +36,30 @@ function AdminCategoriesClient() {
   const handleAdd = async () => {
     const result = v.safeParse(categorySchema, { name: newName });
     if (!result.success) {
-      alert(result.issues[0].message);
+      //   alert(result.issues[0].message);
+      CustomToast({
+        type: 'error',
+        content: (
+          <>
+            <p className="font-semibold">{result.issues[0].message}</p>
+          </>
+        ),
+      });
       return;
     }
     try {
       await addCategory({ name: newName });
       setNewName('');
     } catch (error) {
-      alert('Помилка при додаванні категорії');
+      //alert('Помилка при додаванні категорії');
+      CustomToast({
+        type: 'error',
+        content: (
+          <>
+            <p className="font-semibold">Помилка при додаванні категорії</p>
+          </>
+        ),
+      });
       console.log('Error adding category:', error);
     }
   };
@@ -52,7 +70,17 @@ function AdminCategoriesClient() {
   //------- Editing
   const startEditing = (id: string, currentName: string) => {
     if (id === '11111111-1111-1111-1111-111111111111') {
-      alert('Увага! Це особлива категорія "Інше"');
+      //   alert('Увага! Це особлива категорія "Інше"');
+      CustomToast({
+        type: 'warning',
+        content: (
+          <>
+            <p className="font-semibold">
+              Увага! Це особлива категорія &ldquo;Інше&rdquo;
+            </p>
+          </>
+        ),
+      });
     }
     // setEditStates(() => ({
     //   [id]: { editing: true, name: currentName },
@@ -68,20 +96,46 @@ function AdminCategoriesClient() {
     if (!editState) return;
     const result = v.safeParse(categorySchema, { name: editState.name });
     if (!result.success) {
-      alert(result.issues[0].message);
+      //   alert(result.issues[0].message);
+      CustomToast({
+        type: 'error',
+        content: (
+          <>
+            <p className="font-semibold">{result.issues[0].message}</p>
+          </>
+        ),
+      });
       return;
     }
     try {
       await renameCategory({ id, name: editState.name });
       setEditState(null);
     } catch {
-      alert('Помилка при зміні назви категорії');
+      //   alert('Помилка при зміні назви категорії');
+      CustomToast({
+        type: 'error',
+        content: (
+          <>
+            <p className="font-semibold">Помилка при зміні назви категорії</p>
+          </>
+        ),
+      });
     }
   };
   // ----- Deleting
   const handleDelete = async (id: string) => {
     if (id === '11111111-1111-1111-1111-111111111111') {
-      alert('Видалення категорії "Інше" заборонено');
+      //   alert('Видалення категорії "Інше" заборонено');
+      CustomToast({
+        type: 'info',
+        content: (
+          <>
+            <p className="font-semibold">
+              Видалення категорії &ldquo;Інше&rdquo; заборонено
+            </p>
+          </>
+        ),
+      });
       return;
     }
     if (!confirm('Видалити категорію?')) return;
@@ -89,12 +143,30 @@ function AdminCategoriesClient() {
     try {
       const res = await deleteCategory(id);
       if (res.success) {
-        alert(
-          `Категорію видалено. Перепризначено бізнесів: ${res.reassignedCount}`
-        );
+        // alert(
+        //   `Категорію видалено. Перепризначено бізнесів: ${res.reassignedCount}`
+        // );
+        CustomToast({
+          type: 'success',
+          content: (
+            <>
+              <p className="font-semibold">
+                {`Категорію видалено. Перепризначено бізнесів: ${res.reassignedCount}`}
+              </p>
+            </>
+          ),
+        });
       }
     } catch {
-      alert('Помилка при видаленні категорії');
+      //   alert('Помилка при видаленні категорії');
+      CustomToast({
+        type: 'error',
+        content: (
+          <>
+            <p className="font-semibold">Помилка при видаленні категорії</p>
+          </>
+        ),
+      });
     }
   };
   return (
