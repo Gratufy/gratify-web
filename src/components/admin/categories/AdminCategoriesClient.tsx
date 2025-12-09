@@ -2,6 +2,10 @@
 import React, { useState } from 'react';
 import * as v from 'valibot';
 import { Plus } from 'lucide-react';
+import EditPen from '@/assets/icons/general/feedback-edit.svg';
+import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
+import { CheckIcon } from 'lucide-react';
+import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 import { categorySchema } from '@/lib/validators/categorySchema';
 
@@ -112,22 +116,32 @@ function AdminCategoriesClient() {
         {openInput && (
           <>
             <input
-              className={`rounded-md border border-gray-500 p-2 ${
+              className={`input-custom px-4 ${
                 isAdding ? 'cursor-not-allowed opacity-50' : ''
               }`}
+              //   className="input-custom"
               type="text"
-              placeholder="Новая категория"
+              placeholder="Назва категорії"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               disabled={isAdding}
             />
-            <button
-              onClick={handleAdd}
-              disabled={isAdding || !newName.trim()}
-              className="cursor-pointer border border-green-500"
-            >
-              {isAdding ? 'Додаємо...' : 'Додати'}
-            </button>
+            <div className="flex justify-between">
+              <button
+                onClick={handleAdd}
+                disabled={isAdding || !newName.trim()}
+                className="btn-aprove title-h6 bg- w-fit px-5 py-2 disabled:cursor-not-allowed"
+              >
+                {isAdding ? 'Створюємо...' : 'Створити категорію'}
+              </button>
+              <button
+                onClick={() => setOpenInput(false)}
+                className="btn-reject title-h6 w-fit px-5 py-2 disabled:cursor-not-allowed"
+                disabled={isAdding}
+              >
+                Скасувати
+              </button>
+            </div>
           </>
         )}
       </div>
@@ -141,12 +155,12 @@ function AdminCategoriesClient() {
             <li
               key={categoryId}
               style={{ marginBottom: 8 }}
-              className="flex items-center gap-4"
+              className="lg:border-b-elements-grey-400 flex items-center lg:w-[558px] lg:justify-between lg:border-b lg:px-4 lg:py-2"
             >
               {isEditingCategory ? (
                 <>
                   <input
-                    className={`cursor-not-allowed rounded-md border p-2 opacity-50 ${
+                    className={`input-custom cursor-not-allowed rounded-md border p-2 opacity-50 ${
                       isEditingCategory ? 'cursor-text border-gray-500' : ''
                     }`}
                     type="text"
@@ -159,42 +173,46 @@ function AdminCategoriesClient() {
                       }))
                     }
                   />
-                  <button
-                    className="cursor-pointer border border-green-500"
-                    onClick={() => saveEditing(categoryId)}
-                    disabled={isUpdating}
-                  >
-                    Зберегти
-                  </button>
-                  <button
-                    className="cursor-pointer border border-black"
-                    onClick={() => cancelEditing()}
-                    disabled={isUpdating}
-                  >
-                    Відміна
-                  </button>
+                  <div className="flex lg:gap-4">
+                    <button
+                      className="cursor-pointer border border-green-500 p-2 disabled:cursor-not-allowed"
+                      onClick={() => saveEditing(categoryId)}
+                      disabled={isUpdating}
+                    >
+                      <CheckIcon className="lg:size-6" />
+                    </button>
+                    <button
+                      className="cursor-pointer border border-black p-2 disabled:cursor-not-allowed"
+                      onClick={() => cancelEditing()}
+                      disabled={isUpdating}
+                    >
+                      <CrossIcon className="lg:size-6" />
+                    </button>
+                  </div>
                 </>
               ) : (
                 <>
-                  <span>{name}</span>
-                  <button
-                    onClick={() => startEditing(categoryId, name)}
-                    className="cursor-pointer border border-green-500"
-                  >
-                    Редагувати
-                  </button>
-                  <button
-                    className="cursor-pointer border border-red-500"
-                    onClick={() => handleDelete(categoryId)}
-                    disabled={
-                      isDeleting
-                      //we can make disabled by default for this category
-                      // isDeleting ||
-                      // categoryId === "11111111-1111-1111-1111-111111111111"
-                    }
-                  >
-                    Видалити
-                  </button>
+                  <span className="title-h6">{name}</span>
+                  <div className="flex lg:gap-4">
+                    <button
+                      onClick={() => startEditing(categoryId, name)}
+                      className="cursor-pointer border-none p-2"
+                    >
+                      <EditPen className="lg:size-6" />
+                    </button>
+                    <button
+                      className="cursor-pointer border-none p-2"
+                      onClick={() => handleDelete(categoryId)}
+                      disabled={
+                        isDeleting
+                        //we can make disabled by default for this category
+                        // isDeleting ||
+                        // categoryId === "11111111-1111-1111-1111-111111111111"
+                      }
+                    >
+                      <IconRecycle className="lg:size-6" />
+                    </button>
+                  </div>
                 </>
               )}
             </li>
