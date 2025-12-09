@@ -98,7 +98,7 @@ function AdminCategoriesClient() {
     }
   };
   return (
-    <div>
+    <div className="w-full">
       <div className="flex flex-col lg:mb-10 lg:gap-4">
         <button
           className="btn-aprove w-50 title-h6"
@@ -155,13 +155,16 @@ function AdminCategoriesClient() {
             <li
               key={categoryId}
               style={{ marginBottom: 8 }}
-              className="lg:border-b-elements-grey-400 flex items-center lg:w-[558px] lg:justify-between lg:border-b lg:px-4 lg:py-2"
+              //   lg:w-[558px]
+              className="lg:border-b-elements-grey-400 flex w-full items-center lg:justify-between lg:border-b lg:px-4 lg:py-2"
             >
               {isEditingCategory ? (
                 <>
                   <input
-                    className={`input-custom cursor-not-allowed rounded-md border p-2 opacity-50 ${
-                      isEditingCategory ? 'cursor-text border-gray-500' : ''
+                    className={`cursor-not-allowed p-2 opacity-50 ${
+                      isEditingCategory
+                        ? 'text-text-800-grey border-b-text-500-grey mr-8 w-full cursor-text border-b px-0 outline-none'
+                        : ''
                     }`}
                     type="text"
                     value={editName}
