@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import CustomSelect from '../ui/custom-ui/CustomSelect';
-import { BUSINESS_REVIEW_STATUS } from '@/const/review';
+import {
+  BUSINESS_REVIEW_STATUS,
+  BUSINESS_REVIEW_STATUS_LABELS,
+} from '@/const/review';
 import { BusinessReviewStatus } from '@/types';
 import { useUpdateReviewStatus } from '@/hooks/useReviews';
 
@@ -44,9 +47,9 @@ function BusinessReviewForm({
       onChange={handleStatusChange}
       options={BUSINESS_REVIEW_STATUS}
       getOptionValue={(s) => s}
-      getOptionLabel={(s) => s.charAt(0).toUpperCase() + s.slice(1)}
+      getOptionLabel={(s) => BUSINESS_REVIEW_STATUS_LABELS[s]}
       placeholder="Оберіть статус"
-      className="w-36"
+      className="w-full"
       statusForm={true}
     />
   );
