@@ -43,6 +43,7 @@ export async function updateBusiness(
       'name',
       'description',
       'website',
+      'isOnline',
     ];
     const allowedFieldsForAdmin = [...allowedFieldsForOwner, 'status'];
 

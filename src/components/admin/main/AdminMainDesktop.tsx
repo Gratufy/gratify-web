@@ -1,6 +1,6 @@
 import React from 'react';
-import AdminSidebar from './AdminSidebar';
-import AdminMainSection from './AdminMainSection';
+
+import AdminMainSection from '@/components/admin/main/AdminMainSection';
 
 function AdminMainDesktop({ totalBusinesses }: { totalBusinesses: number }) {
   return (

@@ -1,13 +1,13 @@
 export function getBusinessStatusBgColor(status: string) {
   switch (status) {
     case 'approved':
-      return 'bg-[#05b456]/35';
+      return 'bg-[#8ec89a]'; //#8ec89a bg-[#05b456]/35
     case 'hidden':
-      return 'bg-[#7c7c7c]/30';
+      return 'bg-[#efefef]'; //background-grey-100 bg-[#7c7c7c]/30
     case 'rejected':
-      return 'bg-[#c71143]/30';
+      return 'bg-[#c71143]/50'; //bg-[#c71143]/30
     case 'pending':
-      return 'bg-[#eae7dd]';
+      return 'bg-[#dfd077]'; //#dfd077; bg-[#eae7dd]
   }
 }
 

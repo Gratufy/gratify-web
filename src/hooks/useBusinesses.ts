@@ -26,7 +26,7 @@ import {
 import { PAGE_SIZE } from '@/const/business';
 import { updateBusiness } from '@/lib/actions/updateBusiness';
 import { deleteBusiness } from '@/lib/actions/deleteBusiness';
-import { getBusinessesForAdmin } from '@/lib/actions/getBusinessesForAdmin';
+import { getBusinessesForAdmin } from '@/lib/actions/admin/getBusinessesForAdmin';
 
 // export type UseBusinessesParams = GetBusinessesParams;
 // all businesses
@@ -149,6 +149,10 @@ export function useUpdateBusiness() {
       // Обновляем кэш списка бизнесов
       queryClient.invalidateQueries({
         queryKey: ['businesses'],
+      });
+      // Обновляем кэш списка бизнесов admin
+      queryClient.invalidateQueries({
+        queryKey: ['adminBusinesses'],
       });
     },
   });

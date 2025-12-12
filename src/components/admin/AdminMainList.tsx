@@ -1,14 +1,10 @@
 'use client';
 import { useState } from 'react';
-import {
-  useAdminBusinesses,
-  useBusinesses,
-  useDeleteBusiness,
-} from '@/hooks/useBusinesses';
+import { useAdminBusinesses, useDeleteBusiness } from '@/hooks/useBusinesses';
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
-import { BUSINESS_STATUS, ONLINE_STATUS_LABELS } from '@/const/business';
+import { BUSINESS_STATUS, BUSINESS_STATUS_LABELS } from '@/const/business';
 
 import Link from 'next/link';
 import IconMenu from '@/assets/icons/admin/icon-menu.svg';
@@ -19,7 +15,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
@@ -27,44 +22,25 @@ import {
 import { CustomToast } from '../ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '../ui/custom-ui/CustomAlertDialog';
 import { BusinessStatusForm } from '@/components/admin/BusinessStatusForm';
-import { BusinessStatus, OnlineFilter, SortBy } from '@/types';
-import OnlineStatusFilter from '@/components/shared/filters/OnlineStatusFilter';
+import { BusinessStatus, OnlineFilter } from '@/types';
+
 import { Label } from '../ui/label';
 import { ONLINE_STATUS } from '@/const/online-status';
-import { getBusinessesCount } from '@/lib/actions/getBusinessesCount';
-import { useAdminFilters } from '@/hooks/useAdminFilters';
 
-function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
+import { useAdminFilters } from '@/hooks/admin/useAdminFilters';
+
+function AdminMainList() {
   const {
     categories,
     // isLoading: isCategoriesLoading,
     // isError: isCategoriesError,
   } = useBusinessCategories();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   const [businessIdToDelete, setBusinessIdToDelete] = useState<string>('');
   const { filters, updateFilter } = useAdminFilters();
-  // const [city, setCity] = useState<string | undefined>('__all__');
-  // const [categoryId, setCategoryId] = useState<string>('__all__');
-  // const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>('all');
-  const [sortBy] = useState<'newest' | 'oldest'>('newest');
-  const [businessStatus, setBusinessStatus] =
-    useState<BusinessStatus>('pending');
-  // const [status, setStatus] = useState<string>("");
 
-  //   const {
-  //     data: businesses,
-  //     isLoading: isBusinessesLoading,
-  //     isError: isBusinessesError,
-  //     error,
-  //   } = useBusinesses({
-  //     city,
-  //     categoryId,
-  //     scope: "admin",
-  //     showOnlineStatus,
-  //     sortBy,
-  //   });
+  const [sortBy] = useState<'newest' | 'oldest'>('newest');
 
   const {
     data: businesses = [],
@@ -79,18 +55,11 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
     sortBy,
   });
 
-  // if (isBusinessesLoading || isCategoriesLoading) return <p>Загрузка...</p>;
-  // if (isBusinessesError || isCategoriesError)
-  //   return <p>Помилка: {error?.message}</p>;
-
   const categoriesWithAll = [
     { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
     ...(categories || []),
   ];
 
-  function handleStatusChange(value: string) {
-    setBusinessStatus(value as BusinessStatus);
-  }
   const deleteBusinessMutation = useDeleteBusiness();
 
   const handleDelete = async (businessId: string) => {
@@ -108,9 +77,12 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
     });
   };
   return (
-    <div className="bg-background-white lg:p-5">
+    <>
       {/*  Title*/}
-      <h2 className="lg:title-h5 mb-2">Наявні бізнеси {totalBusinesses}</h2>
+
+      <h3 className="lg:title-h5 mb-2">
+        Наявні бізнеси: {businesses ? businesses.length : 0}
+      </h3>
       {/*  Filters*/}
       <div className="flex justify-center lg:mb-5 lg:gap-3">
         <div>
@@ -126,10 +98,10 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
             }
             options={BUSINESS_STATUS}
             getOptionValue={(s) => s}
-            getOptionLabel={(s) => s.charAt(0).toUpperCase() + s.slice(1)}
+            getOptionLabel={(s) => BUSINESS_STATUS_LABELS[s]}
             placeholder="Оберіть статус"
             className="admin-select w-40"
-            statusForm={true}
+            // statusForm={true}
           />
         </div>
         <div>
@@ -319,7 +291,7 @@ function AdminMainList({ totalBusinesses }: { totalBusinesses: number }) {
         onAction={() => handleDelete(businessIdToDelete)}
         //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
       />
-    </div>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import AdminMainClient from '@/components/admin/AdminMainClient';
+import AdminMainClient from '@/components/admin/main/AdminMainClient';
 import { getBusinessesCount } from '@/lib/actions/getBusinessesCount';
 
 export default async function AdminMain() {

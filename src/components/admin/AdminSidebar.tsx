@@ -6,6 +6,7 @@ import IconCategory from '@/assets/icons/menu/icon-category.svg';
 import IconModering from '@/assets/icons/menu/icon-modering.svg';
 import IconSettings from '@/assets/icons/admin/icon-setting.svg';
 import IconMain from '@/assets/icons/admin/icon-main.svg';
+import EditPen from '@/assets/icons/general/feedback-edit.svg';
 import LogoutBtn from '@/components/ui/custom-ui/LogoutBtn';
 
 function AdminSidebar() {
@@ -23,7 +24,7 @@ function AdminSidebar() {
       </Link>
       <Link
         href="/admin/modering"
-        className={`admin-link ${pathname === '/admin/business' ? 'admin-link-active' : ''}`}
+        className={`admin-link ${pathname === '/admin/modering' ? 'admin-link-active' : ''}`}
       >
         <IconModering className="size-5" />
         <span>Модерування</span>
@@ -34,6 +35,13 @@ function AdminSidebar() {
       >
         <IconCategory className="size-5" />
         <span>Категорії</span>
+      </Link>
+      <Link
+        href="/admin/review"
+        className={`admin-link ${pathname === '/admin/review' ? 'admin-link-active' : ''}`}
+      >
+        <EditPen className="size-5" />
+        <span>Відгуки</span>
       </Link>
       <Link
         href="/admin/settings"

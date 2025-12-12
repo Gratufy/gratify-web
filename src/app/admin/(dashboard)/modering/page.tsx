@@ -1,9 +1,10 @@
-import AdminModeringList from '@/components/admin/AdminModeringList';
+import AdminModeringClient from '@/components/admin/modering/AdminModeringClient';
 
 export default function AdminModering() {
   return (
-    <div className="flex flex-col items-center justify-center p-4">
-      <AdminModeringList />
+    <div className="flex w-full flex-col items-center">
+      {/* <AdminModeringList /> */}
+      <AdminModeringClient />
     </div>
   );
 }
