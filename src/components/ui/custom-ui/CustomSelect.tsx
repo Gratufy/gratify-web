@@ -44,7 +44,8 @@ function CustomSelect<T>({
   let triggerClass = '';
   if (statusForm) {
     triggerClass =
-      getBusinessStatusBgColor(value as string) + ' ' + 'h-5!' || '';
+      //+ 'h-5!'
+      getBusinessStatusBgColor(value as string) + ' ' || '';
   }
   const statusIcon = (value: string) =>
     value === 'approved' ? (

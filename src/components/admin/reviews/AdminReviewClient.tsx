@@ -94,7 +94,6 @@ function AdminReviewClient() {
               getOptionLabel={(s) => BUSINESS_REVIEW_STATUS_LABELS[s]}
               placeholder="Оберіть статус"
               className="admin-select w-40"
-              // statusForm={true}
             />
           </div>
           <div>
