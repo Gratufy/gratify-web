@@ -10,6 +10,7 @@ import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 import { categorySchema } from '@/lib/validators/categorySchema';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
+import { set } from 'lodash';
 
 function AdminCategoriesClient() {
   const {
@@ -25,6 +26,8 @@ function AdminCategoriesClient() {
     error,
   } = useBusinessCategories();
   const [openInput, setOpenInput] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [deleteCategoryId, setDeleteCategoryId] = useState<string | null>(null);
   console.log('openInput', openInput);
   const [newName, setNewName] = useState('');
   const [editState, setEditState] = useState<{
@@ -49,6 +52,14 @@ function AdminCategoriesClient() {
     }
     try {
       await addCategory({ name: newName });
+      CustomToast({
+        type: 'success',
+        content: (
+          <>
+            <p className="font-semibold">Категорію створено</p>
+          </>
+        ),
+      });
       setNewName('');
     } catch (error) {
       //alert('Помилка при додаванні категорії');
@@ -124,21 +135,21 @@ function AdminCategoriesClient() {
   };
   // ----- Deleting
   const handleDelete = async (id: string) => {
-    if (id === '11111111-1111-1111-1111-111111111111') {
-      //   alert('Видалення категорії "Інше" заборонено');
-      CustomToast({
-        type: 'info',
-        content: (
-          <>
-            <p className="font-semibold">
-              Видалення категорії &ldquo;Інше&rdquo; заборонено
-            </p>
-          </>
-        ),
-      });
-      return;
-    }
-    if (!confirm('Видалити категорію?')) return;
+    // if (id === '11111111-1111-1111-1111-111111111111') {
+    //   //   alert('Видалення категорії "Інше" заборонено');
+    //   CustomToast({
+    //     type: 'info',
+    //     content: (
+    //       <>
+    //         <p className="font-semibold">
+    //           Видалення категорії &ldquo;Інше&rdquo; заборонено
+    //         </p>
+    //       </>
+    //     ),
+    //   });
+    //   return;
+    // }
+    // if (!confirm('Видалити категорію?')) return;
 
     try {
       const res = await deleteCategory(id);
@@ -150,8 +161,9 @@ function AdminCategoriesClient() {
           type: 'success',
           content: (
             <>
+              <p className="font-semibold">{`Категорію видалено.`}</p>
               <p className="font-semibold">
-                {`Категорію видалено. Перепризначено бізнесів: ${res.reassignedCount}`}
+                {` В ${res.reassignedCount} бізнесів змінено категорію на "Інше".`}
               </p>
             </>
           ),
@@ -175,7 +187,10 @@ function AdminCategoriesClient() {
         <button
           className="btn-aprove w-50 title-h6"
           type="button"
-          onClick={() => setOpenInput(!openInput)}
+          onClick={() => {
+            setOpenInput(!openInput);
+            setNewName('');
+          }}
         >
           {openInput ? (
             'Зачинити'
@@ -277,7 +292,28 @@ function AdminCategoriesClient() {
                     </button>
                     <button
                       className="cursor-pointer border-none p-2"
-                      onClick={() => handleDelete(categoryId)}
+                      //   onClick={() => handleDelete(categoryId)}
+                      onClick={() => {
+                        if (
+                          categoryId === '11111111-1111-1111-1111-111111111111'
+                        ) {
+                          //   alert('Видалення категорії "Інше" заборонено');
+                          CustomToast({
+                            type: 'info',
+                            content: (
+                              <>
+                                <p className="font-semibold">
+                                  Видалення категорії &ldquo;Інше&rdquo;
+                                  заборонено
+                                </p>
+                              </>
+                            ),
+                          });
+                          return;
+                        }
+                        setDeleteCategoryId(categoryId);
+                        setDialogOpen(true);
+                      }}
                       disabled={
                         isDeleting
                         //we can make disabled by default for this category
@@ -300,6 +336,19 @@ function AdminCategoriesClient() {
           <li key={category.categoryId}>{category.name}</li>
         ))}
       </ul> */}
+      {deleteCategoryId && (
+        <CustomAlertDialog
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
+          title="Ви впевнені, що хочете видалити цю категорію?"
+          actionContent="Видалити"
+          cancelText="Скасувати"
+          classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
+          classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
+          onAction={() => handleDelete(deleteCategoryId)}
+          //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
+        />
+      )}
     </div>
   );
 }
