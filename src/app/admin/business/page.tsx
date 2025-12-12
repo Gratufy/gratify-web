@@ -1,5 +1,3 @@
-import AdminModeringList from '@/components/admin/AdminModeringList';
-
 export default function AdminBusiness() {
   return (
     <div className="flex flex-col items-center justify-center p-4">
@@ -21,7 +19,7 @@ export default function AdminBusiness() {
       <p className="mb-2 italic">
         На навігацію поки не звертати увагу. Це виключно для мене і тимчасово
       </p>
-      <AdminModeringList />
+      {/* <AdminModeringList /> */}
     </div>
   );
 }
