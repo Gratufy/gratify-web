@@ -10,7 +10,6 @@ import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 import { categorySchema } from '@/lib/validators/categorySchema';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
-import { set } from 'lodash';
 
 function AdminCategoriesClient() {
   const {
@@ -28,7 +27,6 @@ function AdminCategoriesClient() {
   const [openInput, setOpenInput] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleteCategoryId, setDeleteCategoryId] = useState<string | null>(null);
-  console.log('openInput', openInput);
   const [newName, setNewName] = useState('');
   const [editState, setEditState] = useState<{
     id: string;
@@ -39,7 +37,6 @@ function AdminCategoriesClient() {
   const handleAdd = async () => {
     const result = v.safeParse(categorySchema, { name: newName });
     if (!result.success) {
-      //   alert(result.issues[0].message);
       CustomToast({
         type: 'error',
         content: (
@@ -62,7 +59,6 @@ function AdminCategoriesClient() {
       });
       setNewName('');
     } catch (error) {
-      //alert('Помилка при додаванні категорії');
       CustomToast({
         type: 'error',
         content: (
@@ -81,7 +77,6 @@ function AdminCategoriesClient() {
   //------- Editing
   const startEditing = (id: string, currentName: string) => {
     if (id === '11111111-1111-1111-1111-111111111111') {
-      //   alert('Увага! Це особлива категорія "Інше"');
       CustomToast({
         type: 'warning',
         content: (
@@ -93,9 +88,7 @@ function AdminCategoriesClient() {
         ),
       });
     }
-    // setEditStates(() => ({
-    //   [id]: { editing: true, name: currentName },
-    // }));
+
     setEditState({ id, name: currentName, editing: true });
   };
   //------- Cancel Editing
@@ -107,7 +100,6 @@ function AdminCategoriesClient() {
     if (!editState) return;
     const result = v.safeParse(categorySchema, { name: editState.name });
     if (!result.success) {
-      //   alert(result.issues[0].message);
       CustomToast({
         type: 'error',
         content: (
@@ -122,7 +114,6 @@ function AdminCategoriesClient() {
       await renameCategory({ id, name: editState.name });
       setEditState(null);
     } catch {
-      //   alert('Помилка при зміні назви категорії');
       CustomToast({
         type: 'error',
         content: (
@@ -135,28 +126,9 @@ function AdminCategoriesClient() {
   };
   // ----- Deleting
   const handleDelete = async (id: string) => {
-    // if (id === '11111111-1111-1111-1111-111111111111') {
-    //   //   alert('Видалення категорії "Інше" заборонено');
-    //   CustomToast({
-    //     type: 'info',
-    //     content: (
-    //       <>
-    //         <p className="font-semibold">
-    //           Видалення категорії &ldquo;Інше&rdquo; заборонено
-    //         </p>
-    //       </>
-    //     ),
-    //   });
-    //   return;
-    // }
-    // if (!confirm('Видалити категорію?')) return;
-
     try {
       const res = await deleteCategory(id);
       if (res.success) {
-        // alert(
-        //   `Категорію видалено. Перепризначено бізнесів: ${res.reassignedCount}`
-        // );
         CustomToast({
           type: 'success',
           content: (
@@ -170,7 +142,6 @@ function AdminCategoriesClient() {
         });
       }
     } catch {
-      //   alert('Помилка при видаленні категорії');
       CustomToast({
         type: 'error',
         content: (
@@ -292,7 +263,6 @@ function AdminCategoriesClient() {
                     </button>
                     <button
                       className="cursor-pointer border-none p-2"
-                      //   onClick={() => handleDelete(categoryId)}
                       onClick={() => {
                         if (
                           categoryId === '11111111-1111-1111-1111-111111111111'
@@ -331,11 +301,7 @@ function AdminCategoriesClient() {
         })}
       </ul>
       {error && <div style={{ color: 'red' }}>Ошибка: {error.message}</div>}
-      {/* <ul>
-        {categories?.map((category) => (
-          <li key={category.categoryId}>{category.name}</li>
-        ))}
-      </ul> */}
+
       {deleteCategoryId && (
         <CustomAlertDialog
           open={dialogOpen}
