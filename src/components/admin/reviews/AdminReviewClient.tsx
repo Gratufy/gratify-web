@@ -1,36 +1,27 @@
 'use client';
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { BusinessReviewStatus, OnlineFilter } from '@/types';
-import IconMenu from '@/assets/icons/admin/icon-menu.svg';
-import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
-import EditPen from '@/assets/icons/general/feedback-edit.svg';
-import IconEyeOpen from '@/assets/icons/admin/icon-eye-open.svg';
-import IconEyeClose from '@/assets/icons/admin/icon-eye.svg';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import CustomSelect from '../../ui/custom-ui/CustomSelect';
+
 import {
   BUSINESS_REVIEW_STATUS,
   BUSINESS_REVIEW_STATUS_LABELS,
 } from '@/const/review';
-
-import Link from 'next/link';
-import { useAdminBusinesses } from '@/hooks/useBusinesses';
-
-import AdminReviewList from '../AdminReviewList';
-import { useBusinessCategories } from '@/hooks/useBusinessCategories';
-import { Label } from '@/components/ui/label';
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 import { ONLINE_STATUS } from '@/const/online-status';
 
-// interface BusinessReviewTableProps {
-//   initialData: AdminBusinessRow[];
-// }
+import { useAdminBusinesses } from '@/hooks/useBusinesses';
+import { useBusinessCategories } from '@/hooks/useBusinessCategories';
+
+import IconEyeOpen from '@/assets/icons/admin/icon-eye-open.svg';
+import IconEyeClose from '@/assets/icons/admin/icon-eye.svg';
+
+import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
+import { Label } from '@/components/ui/label';
+
+import AdminReviewList from '@/components/admin/reviews/AdminReviewList';
+import AdminSkeleton from '../shared/AdminSkeleton';
+
 function AdminReviewClient() {
   const {
     categories,
@@ -52,7 +43,7 @@ function AdminReviewClient() {
     data: businesses = [],
     isLoading: isBusinessesLoading,
     // isError,
-    // error,
+    error,
   } = useAdminBusinesses({
     reviewStatus: status,
     categoryId,
@@ -83,7 +74,7 @@ function AdminReviewClient() {
               htmlFor="status-review-select"
               className="lg:placeholder-xs mb-1"
             >
-              Статус:
+              Статус відгуків:
             </Label>
             <CustomSelect
               id="status-review-select"
@@ -151,9 +142,13 @@ function AdminReviewClient() {
           /> */}
           </div>
         </div>
-
-        {isBusinessesLoading && <p>Loading businesses...</p>}
-        {businesses?.length ? (
+        {error && (
+          <div className="placeholder-sm xl:placeholder-base text-center">
+            Ошибка: {error?.message}
+          </div>
+        )}
+        {isBusinessesLoading && <AdminSkeleton count={3} />}
+        {businesses?.length > 0 && (
           <div className="bg-background-main-50 lg:px-1 lg:py-4">
             <ul className="flex flex-col lg:gap-5">
               {businesses.map((b) => (
@@ -175,6 +170,7 @@ function AdminReviewClient() {
                           <IconEyeClose className="mr-2 size-6" />
                           {/* <span> Зачинити</span> */}
                           <span>
+                            {/* do not delete {' '} */}
                             {BUSINESS_REVIEW_STATUS_LABELS[status]}:{' '}
                             {b.filteredReviewCount}
                           </span>
@@ -184,6 +180,7 @@ function AdminReviewClient() {
                           <IconEyeOpen className="mr-2 size-6" />
                           {/* <span> відгуки</span> */}
                           <span>
+                            {/* do not delete {' '} */}
                             {BUSINESS_REVIEW_STATUS_LABELS[status]}:{' '}
                             {b.filteredReviewCount}
                           </span>
@@ -194,9 +191,10 @@ function AdminReviewClient() {
 
                     <Link
                       href={`/admin/business/${b.id}`}
-                      className="bg-elements-main-600 mx-auto flex w-3/4 cursor-pointer items-center justify-center rounded-lg px-2 py-2 text-white"
+                      className="bg-elements-main-600 text-icons-grey-100 mx-auto flex w-3/4 cursor-pointer items-center justify-center rounded-lg px-2 py-2"
                     >
-                      See more
+                      <IconEyeOpen className="mr-2 size-6" />
+                      <span>картку</span>
                     </Link>
                   </div>
                   {showReviewsMap[b.id] && (
@@ -206,8 +204,11 @@ function AdminReviewClient() {
               ))}
             </ul>
           </div>
-        ) : (
-          <p className="text-2xl"> Нема бізнесів</p>
+        )}
+        {businesses?.length === 0 && !isBusinessesLoading && (
+          <p className="xl:placeholder-base placeholder-lg text-center">
+            Нема бізнесів з відгуками відповідних обраним фільтрам
+          </p>
         )}
       </div>
     </div>

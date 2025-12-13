@@ -1,12 +1,13 @@
 'use client';
 import React from 'react';
-import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import IconCategory from '@/assets/icons/menu/icon-category.svg';
 import IconModering from '@/assets/icons/menu/icon-modering.svg';
 import IconSettings from '@/assets/icons/admin/icon-setting.svg';
 import IconMain from '@/assets/icons/admin/icon-main.svg';
 import EditPen from '@/assets/icons/general/feedback-edit.svg';
+
 import LogoutBtn from '@/components/ui/custom-ui/LogoutBtn';
 
 function AdminSidebar() {

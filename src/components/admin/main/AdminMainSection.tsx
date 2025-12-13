@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminMainList from '@/components/admin/AdminMainList';
+import AdminBusinessesList from '@/components/admin/shared/AdminBusinessesList';
 
 function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
   return (
@@ -8,7 +8,7 @@ function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
       <h2 className="lg:title-h5 mb-2 underline">
         Всього бізнеси: {totalBusinesses}
       </h2>
-      <AdminMainList />
+      <AdminBusinessesList />
     </div>
   );
 }

@@ -1,13 +1,15 @@
 import { useState } from 'react';
+
+import { BusinessStatus } from '@/types';
+
 import { BUSINESS_STATUS } from '@/const/business';
 import { BUSINESS_STATUS_LABELS } from '@/const/business';
 
-import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
-
-import { BusinessStatus } from '@/types';
 import { useAdminChangeBusinessStatus } from '@/hooks/admin/useAdminChangeStatus';
-import { CustomToast } from '../ui/custom-ui/CustomToast';
-import { CustomAlertDialog } from '../ui/custom-ui/CustomAlertDialog';
+
+import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
+import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
+import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
 interface BusinessStatusFormProps {
   businessId: string;
