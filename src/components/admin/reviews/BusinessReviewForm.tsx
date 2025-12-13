@@ -28,14 +28,6 @@ function BusinessReviewForm({
 
   const handleStatusChange = async () => {
     setStatus(newStatus);
-    // const confirmed = confirm(
-    //   `Ви впевнені, що хочете змінити статус ${status} на ${newStatus}?`
-    // );
-    // if (!confirmed) {
-    //   setStatus(currentStatus);
-    //   return;
-    // }
-    // const statusValue = newStatus as BusinessReviewStatus;
 
     try {
       await updateReviewStatus.mutateAsync({

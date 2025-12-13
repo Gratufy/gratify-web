@@ -43,7 +43,7 @@ function AdminReviewClient() {
     data: businesses = [],
     isLoading: isBusinessesLoading,
     // isError,
-    // error,
+    error,
   } = useAdminBusinesses({
     reviewStatus: status,
     categoryId,
@@ -142,7 +142,11 @@ function AdminReviewClient() {
           /> */}
           </div>
         </div>
-
+        {error && (
+          <div className="placeholder-sm xl:placeholder-base text-center">
+            Ошибка: {error?.message}
+          </div>
+        )}
         {isBusinessesLoading && <AdminSkeleton count={3} />}
         {businesses?.length > 0 && (
           <div className="bg-background-main-50 lg:px-1 lg:py-4">

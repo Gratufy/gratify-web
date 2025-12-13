@@ -13,6 +13,7 @@ import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
+import AdminSkeleton from '../shared/AdminSkeleton';
 
 function AdminCategoriesClient() {
   const {
@@ -74,9 +75,9 @@ function AdminCategoriesClient() {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError)
-    return <div>Error Categories: {error?.message ?? 'Unknown error'}</div>;
+  // if (isLoading) return <div>Loading...</div>;
+  // if (isError)
+  //   return <div>Error Categories: {error?.message ?? 'Unknown error'}</div>;
   //------- Editing
   const startEditing = (id: string, currentName: string) => {
     if (id === '11111111-1111-1111-1111-111111111111') {
@@ -207,105 +208,117 @@ function AdminCategoriesClient() {
           </>
         )}
       </div>
-      <ul>
-        {categories.map(({ categoryId, name }) => {
-          // const isEditing = editState?.editing || false;
-          const isEditingCategory = editState?.id === categoryId || false;
-          const editName = editState?.name || '';
+      {isLoading && <AdminSkeleton count={7} />}
+      {isError && (
+        <div className="placeholder-sm xl:placeholder-base text-center">
+          Ошибка: {error?.message}
+        </div>
+      )}
+      {categories.length > 0 && (
+        <ul>
+          {categories.map(({ categoryId, name }) => {
+            // const isEditing = editState?.editing || false;
+            const isEditingCategory = editState?.id === categoryId || false;
+            const editName = editState?.name || '';
 
-          return (
-            <li
-              key={categoryId}
-              style={{ marginBottom: 8 }}
-              //   lg:w-[558px]
-              className="lg:border-b-elements-grey-400 flex w-full items-center lg:justify-between lg:border-b lg:px-4 lg:py-2"
-            >
-              {isEditingCategory ? (
-                <>
-                  <input
-                    className={`cursor-not-allowed p-2 opacity-50 ${
-                      isEditingCategory
-                        ? 'text-text-800-grey border-b-text-500-grey mr-8 w-full cursor-text border-b px-0 outline-none'
-                        : ''
-                    }`}
-                    type="text"
-                    value={editName}
-                    onChange={(e) =>
-                      setEditState(() => ({
-                        id: categoryId,
-                        name: e.target.value,
-                        editing: true,
-                      }))
-                    }
-                  />
-                  <div className="flex lg:gap-4">
-                    <button
-                      className="cursor-pointer border border-green-500 p-2 disabled:cursor-not-allowed"
-                      onClick={() => saveEditing(categoryId)}
-                      disabled={isUpdating}
-                    >
-                      <CheckIcon className="lg:size-6" />
-                    </button>
-                    <button
-                      className="cursor-pointer border border-black p-2 disabled:cursor-not-allowed"
-                      onClick={() => cancelEditing()}
-                      disabled={isUpdating}
-                    >
-                      <CrossIcon className="lg:size-6" />
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <span className="title-h6">{name}</span>
-                  <div className="flex lg:gap-4">
-                    <button
-                      onClick={() => startEditing(categoryId, name)}
-                      className="cursor-pointer border-none p-2"
-                    >
-                      <EditPen className="lg:size-6" />
-                    </button>
-                    <button
-                      className="cursor-pointer border-none p-2"
-                      onClick={() => {
-                        if (
-                          categoryId === '11111111-1111-1111-1111-111111111111'
-                        ) {
-                          //   alert('Видалення категорії "Інше" заборонено');
-                          CustomToast({
-                            type: 'info',
-                            content: (
-                              <>
-                                <p className="font-semibold">
-                                  Видалення категорії &ldquo;Інше&rdquo;
-                                  заборонено
-                                </p>
-                              </>
-                            ),
-                          });
-                          return;
-                        }
-                        setDeleteCategoryId(categoryId);
-                        setDialogOpen(true);
-                      }}
-                      disabled={
-                        isDeleting
-                        //we can make disabled by default for this category
-                        // isDeleting ||
-                        // categoryId === "11111111-1111-1111-1111-111111111111"
+            return (
+              <li
+                key={categoryId}
+                style={{ marginBottom: 8 }}
+                //   lg:w-[558px]
+                className="lg:border-b-elements-grey-400 flex w-full items-center lg:justify-between lg:border-b lg:px-4 lg:py-2"
+              >
+                {isEditingCategory ? (
+                  <>
+                    <input
+                      className={`cursor-not-allowed p-2 opacity-50 ${
+                        isEditingCategory
+                          ? 'text-text-800-grey border-b-text-500-grey mr-8 w-full cursor-text border-b px-0 outline-none'
+                          : ''
+                      }`}
+                      type="text"
+                      value={editName}
+                      onChange={(e) =>
+                        setEditState(() => ({
+                          id: categoryId,
+                          name: e.target.value,
+                          editing: true,
+                        }))
                       }
-                    >
-                      <IconRecycle className="lg:size-6" />
-                    </button>
-                  </div>
-                </>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-      {error && <div style={{ color: 'red' }}>Ошибка: {error.message}</div>}
-
+                    />
+                    <div className="flex lg:gap-4">
+                      <button
+                        className="cursor-pointer border border-green-500 p-2 disabled:cursor-not-allowed"
+                        onClick={() => saveEditing(categoryId)}
+                        disabled={isUpdating}
+                      >
+                        <CheckIcon className="lg:size-6" />
+                      </button>
+                      <button
+                        className="cursor-pointer border border-black p-2 disabled:cursor-not-allowed"
+                        onClick={() => cancelEditing()}
+                        disabled={isUpdating}
+                      >
+                        <CrossIcon className="lg:size-6" />
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <span className="title-h6">{name}</span>
+                    <div className="flex lg:gap-4">
+                      <button
+                        onClick={() => startEditing(categoryId, name)}
+                        className="cursor-pointer border-none p-2"
+                      >
+                        <EditPen className="lg:size-6" />
+                      </button>
+                      <button
+                        className="cursor-pointer border-none p-2"
+                        onClick={() => {
+                          if (
+                            categoryId ===
+                            '11111111-1111-1111-1111-111111111111'
+                          ) {
+                            //   alert('Видалення категорії "Інше" заборонено');
+                            CustomToast({
+                              type: 'info',
+                              content: (
+                                <>
+                                  <p className="font-semibold">
+                                    Видалення категорії &ldquo;Інше&rdquo;
+                                    заборонено
+                                  </p>
+                                </>
+                              ),
+                            });
+                            return;
+                          }
+                          setDeleteCategoryId(categoryId);
+                          setDialogOpen(true);
+                        }}
+                        disabled={
+                          isDeleting
+                          //we can make disabled by default for this category
+                          // isDeleting ||
+                          // categoryId === "11111111-1111-1111-1111-111111111111"
+                        }
+                      >
+                        <IconRecycle className="lg:size-6" />
+                      </button>
+                    </div>
+                  </>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+      {categories.length === 0 && !isLoading && !isError && (
+        <div className="placeholder-sm xl:placeholder-base text-center">
+          Немає створених категорій.
+        </div>
+      )}
       {deleteCategoryId && (
         <CustomAlertDialog
           open={dialogOpen}

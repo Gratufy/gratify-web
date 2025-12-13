@@ -21,11 +21,11 @@ interface AdminReviewListProps {
 function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleteReviewId, setDeleteReviewId] = useState<string | null>(null);
-  const { data: reviews, isLoading: isReviewsLoading } = useBusinessReviews(
-    businessId,
-    'admin',
-    currentStatus
-  );
+  const {
+    data: reviews,
+    isLoading: isReviewsLoading,
+    error,
+  } = useBusinessReviews(businessId, 'admin', currentStatus);
   const deleteReviewMutation = useDeleteReview(businessId);
 
   const handleDelete = async (reviewId: string) => {
@@ -56,6 +56,11 @@ function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
   return (
     <>
       {isReviewsLoading && <AdminSkeleton count={2} />}
+      {error && (
+        <div className="placeholder-sm xl:placeholder-base text-center">
+          Ошибка: {error?.message}
+        </div>
+      )}
       {reviews && !reviews.length && (
         <p>Ще нема відгуків зі статусом ${currentStatus}</p>
       )}
