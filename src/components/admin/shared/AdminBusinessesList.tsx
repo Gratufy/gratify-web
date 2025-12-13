@@ -31,6 +31,7 @@ import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
 import { BusinessStatusForm } from '@/components/admin/shared/BusinessStatusForm';
+import AdminSkeleton from './AdminSkeleton';
 
 function AdminBusinessesList() {
   const {
@@ -159,16 +160,12 @@ function AdminBusinessesList() {
             placeholder="Оберіть місто"
             className="admin-select w-40"
           />
-          {/* <OnlineStatusFilter
-            value={showOnlineStatus}
-            onChange={setShowOnlineStatus}
-          /> */}
         </div>
       </div>
-      {isBusinessesLoading && <p>Loading...</p>}
+      {isBusinessesLoading && <AdminSkeleton count={3} />}
       {isBusinessesError && <p>Помилка: {error?.message}</p>}
       {/*  List*/}
-      {businesses?.length ? (
+      {businesses?.length > 0 && (
         <div className="bg-background-main-50 lg:px-1 lg:py-4">
           <div className="grid w-full min-w-0 grid-cols-[1fr_1fr_1fr_1fr_0.5fr] px-2 lg:mb-6">
             <div className="min-w-0 py-2">Найменування </div>
@@ -266,7 +263,8 @@ function AdminBusinessesList() {
             ))}
           </ul>
         </div>
-      ) : (
+      )}
+      {businesses?.length === 0 && !isBusinessesLoading && (
         <p className="xl:placeholder-base placeholder-lg text-center">
           Нема бізнесів відповідних обраним фільтрам
         </p>

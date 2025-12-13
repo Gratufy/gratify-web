@@ -143,8 +143,8 @@ function AdminReviewClient() {
           </div>
         </div>
 
-        {isBusinessesLoading && <AdminSkeleton count={2} />}
-        {businesses?.length && !isBusinessesLoading && (
+        {isBusinessesLoading && <AdminSkeleton count={3} />}
+        {businesses?.length > 0 && (
           <div className="bg-background-main-50 lg:px-1 lg:py-4">
             <ul className="flex flex-col lg:gap-5">
               {businesses.map((b) => (
