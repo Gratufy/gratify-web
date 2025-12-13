@@ -54,7 +54,9 @@ function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
   return (
     <>
       {isReviewsLoading && <p>Loading reviews...</p>}
-      {reviews && !reviews.length && <p>No reviews yet.</p>}
+      {reviews && !reviews.length && (
+        <p>Ще нема відгуків зі статусом ${currentStatus}</p>
+      )}
       {reviews && reviews.length > 0 && (
         <ul className="flex flex-col gap-2">
           {reviews.map((r) => (
@@ -72,14 +74,15 @@ function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
                 currentStatus={currentStatus}
               />
               <button
-                className="text-icons-color-error focus:bg-elements-grey-200 hover:bg-elements-grey-200 xl:placeholder-base mx-auto flex cursor-pointer items-center border-none bg-transparent px-3 py-1.5 text-sm disabled:opacity-50 lg:px-2"
+                className="text-icons-color-error xl:placeholder-base focus:bg-elements-grey-200/50 hover:bg-elements-grey-200/50 mx-auto flex cursor-pointer items-center justify-center border-none bg-transparent px-3 py-1.5 text-sm disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:focus:bg-transparent lg:px-2"
                 // onClick={() => handleDelete(r.id)}
+                disabled={deleteReviewMutation.isPending}
                 onClick={() => {
                   setDeleteReviewId(r.id);
                   setDialogOpen(true);
                 }}
               >
-                <IconRecycle className="text-icons-color-error mr-2 size-4 xl:mr-3 xl:size-5" />
+                <IconRecycle className="text-icons-color-error size-4 xl:mr-3 xl:size-5" />
               </button>
             </li>
           ))}

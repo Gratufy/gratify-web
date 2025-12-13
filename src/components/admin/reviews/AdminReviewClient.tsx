@@ -73,7 +73,7 @@ function AdminReviewClient() {
               htmlFor="status-review-select"
               className="lg:placeholder-xs mb-1"
             >
-              Статус:
+              Статус відгуків:
             </Label>
             <CustomSelect
               id="status-review-select"
@@ -200,7 +200,9 @@ function AdminReviewClient() {
             </ul>
           </div>
         ) : (
-          <p className="text-2xl"> Нема бізнесів</p>
+          <p className="xl:placeholder-base placeholder-lg text-center">
+            Нема бізнесів з відгуками відповідних обраним фільтрам
+          </p>
         )}
       </div>
     </div>

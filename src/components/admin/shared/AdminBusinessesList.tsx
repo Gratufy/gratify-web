@@ -267,7 +267,9 @@ function AdminBusinessesList() {
           </ul>
         </div>
       ) : (
-        <p className="text-2xl"> Нема бізнесів</p>
+        <p className="xl:placeholder-base placeholder-lg text-center">
+          Нема бізнесів відповідних обраним фільтрам
+        </p>
       )}
       <CustomAlertDialog
         open={dialogOpen}
