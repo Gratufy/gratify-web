@@ -51,7 +51,10 @@ function DashboardBusinessList({
 }: DashboardBusinessListProps) {
   const loadMoreRef = useRef<HTMLDivElement>(null);
   // for modal
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, profile } = useAuth();
+  const currentUserId = profile?.userId;
+  const isAdmin = profile?.role === 'ADMIN';
+  // const isOwner = currentUserId === businesses[0].ownerId; // assume all businesses belong to the same owner
   const [open, setOpen] = useState(false);
   const [alertTitle, setAlertTitle] = useState('');
   const [actionContent, setActionContent] = useState<ReactNode>(null);
@@ -104,7 +107,12 @@ function DashboardBusinessList({
                   </span>
                 </div>
 
-                <DeleteEditBusinessBtns id={b.id} className="hidden lg:flex" />
+                <DeleteEditBusinessBtns
+                  id={b.id}
+                  className="hidden lg:flex"
+                  isAdmin={isAdmin}
+                  isOwner={currentUserId === b.ownerId}
+                />
               </div>
               <Link
                 prefetch={false}
@@ -132,7 +140,12 @@ function DashboardBusinessList({
                   />
                 </article>
               </Link>
-              <DeleteEditBusinessBtns id={b.id} className="lg:hidden" />
+              <DeleteEditBusinessBtns
+                id={b.id}
+                isAdmin={isAdmin}
+                isOwner={currentUserId === b.ownerId}
+                className="lg:hidden"
+              />
             </li>
           ))}
         </ul>
