@@ -20,6 +20,7 @@ import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import { Label } from '@/components/ui/label';
 
 import AdminReviewList from '@/components/admin/reviews/AdminReviewList';
+import AdminSkeleton from '../shared/AdminSkeleton';
 
 function AdminReviewClient() {
   const {
@@ -142,8 +143,8 @@ function AdminReviewClient() {
           </div>
         </div>
 
-        {isBusinessesLoading && <p>Loading businesses...</p>}
-        {businesses?.length ? (
+        {isBusinessesLoading && <AdminSkeleton count={2} />}
+        {businesses?.length && !isBusinessesLoading && (
           <div className="bg-background-main-50 lg:px-1 lg:py-4">
             <ul className="flex flex-col lg:gap-5">
               {businesses.map((b) => (
@@ -199,7 +200,8 @@ function AdminReviewClient() {
               ))}
             </ul>
           </div>
-        ) : (
+        )}
+        {businesses?.length === 0 && !isBusinessesLoading && (
           <p className="xl:placeholder-base placeholder-lg text-center">
             Нема бізнесів з відгуками відповідних обраним фільтрам
           </p>

@@ -12,6 +12,8 @@ import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
 import BusinessReviewForm from '@/components/admin/reviews/BusinessReviewForm';
 
+import AdminSkeleton from '@/components/admin/shared/AdminSkeleton';
+
 interface AdminReviewListProps {
   businessId: string;
   currentStatus: BusinessReviewStatus;
@@ -53,7 +55,7 @@ function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
   };
   return (
     <>
-      {isReviewsLoading && <p>Loading reviews...</p>}
+      {isReviewsLoading && <AdminSkeleton count={2} />}
       {reviews && !reviews.length && (
         <p>Ще нема відгуків зі статусом ${currentStatus}</p>
       )}
