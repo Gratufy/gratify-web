@@ -141,7 +141,7 @@ function AdminCategoriesClient() {
           ),
         });
       }
-    } catch {
+    } catch (error) {
       CustomToast({
         type: 'error',
         content: (
@@ -150,6 +150,7 @@ function AdminCategoriesClient() {
           </>
         ),
       });
+      console.error('Error deleting category:', error);
     }
   };
   return (

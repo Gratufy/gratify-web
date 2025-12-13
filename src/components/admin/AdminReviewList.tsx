@@ -1,15 +1,19 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
 import BusinessReviewForm from './BusinessReviewForm';
 import { useBusinessReviews, useDeleteReview } from '@/hooks/useReviews';
 import { BusinessReviewStatus } from '@/types';
+import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
+import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
 interface AdminReviewListProps {
   businessId: string;
   currentStatus: BusinessReviewStatus;
 }
 function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [deleteReviewId, setDeleteReviewId] = useState<string | null>(null);
   const { data: reviews, isLoading: isReviewsLoading } = useBusinessReviews(
     businessId,
     'admin',
@@ -18,10 +22,31 @@ function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
   const deleteReviewMutation = useDeleteReview(businessId);
 
   const handleDelete = async (reviewId: string) => {
-    const confirmed = confirm('Are you sure you want to delete this review?');
-    if (!confirmed) return;
-    await deleteReviewMutation.mutateAsync(reviewId);
-    alert('Review deleted successfully!');
+    // const confirmed = confirm('Are you sure you want to delete this review?');
+    // if (!confirmed) return;
+    try {
+      const res = await deleteReviewMutation.mutateAsync(reviewId);
+      if (res.success) {
+        CustomToast({
+          type: 'success',
+          content: (
+            <>
+              <p className="font-semibold">Відгук успішно видалено.</p>
+            </>
+          ),
+        });
+      } // alert('Review deleted successfully!'}
+    } catch (error) {
+      CustomToast({
+        type: 'error',
+        content: (
+          <>
+            <p className="font-semibold">Помилка при видаленні відгука</p>
+          </>
+        ),
+      });
+      console.error('Error deleting review:', error);
+    }
   };
   return (
     <>
@@ -45,13 +70,30 @@ function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
               />
               <button
                 className="text-icons-color-error focus:bg-elements-grey-200 hover:bg-elements-grey-200 xl:placeholder-base mx-auto flex cursor-pointer items-center border-none bg-transparent px-3 py-1.5 text-sm disabled:opacity-50 lg:px-2"
-                onClick={() => handleDelete(r.id)}
+                // onClick={() => handleDelete(r.id)}
+                onClick={() => {
+                  setDeleteReviewId(r.id);
+                  setDialogOpen(true);
+                }}
               >
                 <IconRecycle className="text-icons-color-error mr-2 size-4 xl:mr-3 xl:size-5" />
               </button>
             </li>
           ))}
         </ul>
+      )}
+      {deleteReviewId && (
+        <CustomAlertDialog
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
+          title="Ви впевнені, що хочете видалити цей відгук?"
+          actionContent="Видалити"
+          cancelText="Скасувати"
+          classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
+          classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
+          onAction={() => handleDelete(deleteReviewId)}
+          //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
+        />
       )}
     </>
   );

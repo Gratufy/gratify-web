@@ -6,6 +6,8 @@ import {
 } from '@/const/review';
 import { BusinessReviewStatus } from '@/types';
 import { useUpdateReviewStatus } from '@/hooks/useReviews';
+import { CustomToast } from '../ui/custom-ui/CustomToast';
+import { CustomAlertDialog } from '../ui/custom-ui/CustomAlertDialog';
 
 interface BusinessReviewFormProps {
   businessId: string;
@@ -14,27 +16,40 @@ interface BusinessReviewFormProps {
 }
 
 function BusinessReviewForm({
-  businessId,
+  // businessId,
   currentStatus,
   reviewId,
 }: BusinessReviewFormProps) {
   const [status, setStatus] = useState(currentStatus);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [newStatus, setNewStatus] = useState('');
+
   const updateReviewStatus = useUpdateReviewStatus();
 
-  const handleStatusChange = async (newStatus: string) => {
-    const confirmed = confirm(
-      `Ви впевнені, що хочете змінити статус ${status} на ${newStatus}?`
-    );
-    if (!confirmed) {
-      setStatus(currentStatus);
-      return;
-    }
-    const statusValue = newStatus as BusinessReviewStatus;
+  const handleStatusChange = async () => {
     setStatus(newStatus);
+    // const confirmed = confirm(
+    //   `Ви впевнені, що хочете змінити статус ${status} на ${newStatus}?`
+    // );
+    // if (!confirmed) {
+    //   setStatus(currentStatus);
+    //   return;
+    // }
+    // const statusValue = newStatus as BusinessReviewStatus;
+
     try {
       await updateReviewStatus.mutateAsync({
         reviewId,
-        status: statusValue,
+        status: newStatus as BusinessReviewStatus,
+      });
+      setNewStatus('');
+      CustomToast({
+        type: 'success',
+        content: (
+          <>
+            <p className="font-semibold">Статус відгуку оновлено успішно</p>
+          </>
+        ),
       });
     } catch (error) {
       console.error('Error updating status:', error);
@@ -42,16 +57,32 @@ function BusinessReviewForm({
     }
   };
   return (
-    <CustomSelect
-      value={status}
-      onChange={handleStatusChange}
-      options={BUSINESS_REVIEW_STATUS}
-      getOptionValue={(s) => s}
-      getOptionLabel={(s) => BUSINESS_REVIEW_STATUS_LABELS[s]}
-      placeholder="Оберіть статус"
-      className="w-full"
-      statusForm={true}
-    />
+    <>
+      <CustomSelect
+        value={status}
+        onChange={(newValue) => {
+          setNewStatus(newValue);
+          setDialogOpen(true);
+        }}
+        options={BUSINESS_REVIEW_STATUS}
+        getOptionValue={(s) => s}
+        getOptionLabel={(s) => BUSINESS_REVIEW_STATUS_LABELS[s]}
+        placeholder="Оберіть статус"
+        className="w-full"
+        statusForm={true}
+      />
+      <CustomAlertDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        title={`Ви впевнені, що хочете змінити статус відгуку "${BUSINESS_REVIEW_STATUS_LABELS[status]}" на "${BUSINESS_REVIEW_STATUS_LABELS[newStatus]}"?`}
+        actionContent="Змінити"
+        cancelText="Скасувати"
+        classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
+        classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
+        onAction={() => handleStatusChange()}
+        //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
+      />
+    </>
   );
 }
 
