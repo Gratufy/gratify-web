@@ -1,11 +1,16 @@
 'use client';
 import React, { useState } from 'react';
-import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
-import BusinessReviewForm from './BusinessReviewForm';
-import { useBusinessReviews, useDeleteReview } from '@/hooks/useReviews';
+
 import { BusinessReviewStatus } from '@/types';
+
+import { useBusinessReviews, useDeleteReview } from '@/hooks/useReviews';
+
+import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
+
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
+
+import BusinessReviewForm from '@/components/admin/reviews/BusinessReviewForm';
 
 interface AdminReviewListProps {
   businessId: string;
@@ -22,8 +27,6 @@ function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
   const deleteReviewMutation = useDeleteReview(businessId);
 
   const handleDelete = async (reviewId: string) => {
-    // const confirmed = confirm('Are you sure you want to delete this review?');
-    // if (!confirmed) return;
     try {
       const res = await deleteReviewMutation.mutateAsync(reviewId);
       if (res.success) {
@@ -92,7 +95,6 @@ function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
           classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
           classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
           onAction={() => handleDelete(deleteReviewId)}
-          //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
         />
       )}
     </>

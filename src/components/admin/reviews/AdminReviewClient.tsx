@@ -1,30 +1,26 @@
 'use client';
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { BusinessReviewStatus, OnlineFilter } from '@/types';
-import IconMenu from '@/assets/icons/admin/icon-menu.svg';
-import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
-import EditPen from '@/assets/icons/general/feedback-edit.svg';
-import IconEyeOpen from '@/assets/icons/admin/icon-eye-open.svg';
-import IconEyeClose from '@/assets/icons/admin/icon-eye.svg';
 
-import CustomSelect from '../../ui/custom-ui/CustomSelect';
 import {
   BUSINESS_REVIEW_STATUS,
   BUSINESS_REVIEW_STATUS_LABELS,
 } from '@/const/review';
-
-import Link from 'next/link';
-import { useAdminBusinesses } from '@/hooks/useBusinesses';
-
-import AdminReviewList from '../AdminReviewList';
-import { useBusinessCategories } from '@/hooks/useBusinessCategories';
-import { Label } from '@/components/ui/label';
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 import { ONLINE_STATUS } from '@/const/online-status';
 
-// interface BusinessReviewTableProps {
-//   initialData: AdminBusinessRow[];
-// }
+import { useAdminBusinesses } from '@/hooks/useBusinesses';
+import { useBusinessCategories } from '@/hooks/useBusinessCategories';
+
+import IconEyeOpen from '@/assets/icons/admin/icon-eye-open.svg';
+import IconEyeClose from '@/assets/icons/admin/icon-eye.svg';
+
+import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
+import { Label } from '@/components/ui/label';
+
+import AdminReviewList from '@/components/admin/reviews/AdminReviewList';
+
 function AdminReviewClient() {
   const {
     categories,

@@ -1,16 +1,23 @@
 'use client';
 import { useState } from 'react';
-import { useAdminBusinesses, useDeleteBusiness } from '@/hooks/useBusinesses';
-import { useBusinessCategories } from '@/hooks/useBusinessCategories';
-import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
+import Link from 'next/link';
+
+import { BusinessStatus, OnlineFilter } from '@/types';
+
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 import { BUSINESS_STATUS, BUSINESS_STATUS_LABELS } from '@/const/business';
+import { ONLINE_STATUS } from '@/const/online-status';
 
-import Link from 'next/link';
+import { useAdminBusinesses, useDeleteBusiness } from '@/hooks/useBusinesses';
+import { useBusinessCategories } from '@/hooks/useBusinessCategories';
+import { useAdminFilters } from '@/hooks/admin/useAdminFilters';
+
 import IconMenu from '@/assets/icons/admin/icon-menu.svg';
 import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
 import EditPen from '@/assets/icons/general/feedback-edit.svg';
 import IconEyeOpen from '@/assets/icons/admin/icon-eye-open.svg';
+
+import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   DropdownMenu,
@@ -19,17 +26,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { CustomToast } from '../ui/custom-ui/CustomToast';
-import { CustomAlertDialog } from '../ui/custom-ui/CustomAlertDialog';
-import { BusinessStatusForm } from '@/components/admin/BusinessStatusForm';
-import { BusinessStatus, OnlineFilter } from '@/types';
+import { Label } from '@/components/ui/label';
+import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
+import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
-import { Label } from '../ui/label';
-import { ONLINE_STATUS } from '@/const/online-status';
+import { BusinessStatusForm } from '@/components/admin/shared/BusinessStatusForm';
 
-import { useAdminFilters } from '@/hooks/admin/useAdminFilters';
-
-function AdminMainList() {
+function AdminBusinessesList() {
   const {
     categories,
     // isLoading: isCategoriesLoading,
@@ -259,19 +262,6 @@ function AdminMainList() {
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
-
-                {/* <Link
-                  href={`./business/${b.id}`}
-                  className="bg-chart-2 cursor-pointer rounded-full px-4 py-2 text-white"
-                >
-                  See more
-                </Link> */}
-                {/* <button
-                  className="flex cursor-pointer items-center justify-center rounded-3xl border border-red-500 px-4 py-2"
-                  onClick={() => handleDelete(b.id)}
-                >
-                  Delete
-                </button> */}
               </li>
             ))}
           </ul>
@@ -295,4 +285,4 @@ function AdminMainList() {
   );
 }
 
-export default AdminMainList;
+export default AdminBusinessesList;

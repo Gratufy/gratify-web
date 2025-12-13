@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import CustomSelect from '../ui/custom-ui/CustomSelect';
+import CustomSelect from '../../ui/custom-ui/CustomSelect';
 import {
   BUSINESS_REVIEW_STATUS,
   BUSINESS_REVIEW_STATUS_LABELS,
 } from '@/const/review';
 import { BusinessReviewStatus } from '@/types';
 import { useUpdateReviewStatus } from '@/hooks/useReviews';
-import { CustomToast } from '../ui/custom-ui/CustomToast';
-import { CustomAlertDialog } from '../ui/custom-ui/CustomAlertDialog';
+import { CustomToast } from '../../ui/custom-ui/CustomToast';
+import { CustomAlertDialog } from '../../ui/custom-ui/CustomAlertDialog';
 
 interface BusinessReviewFormProps {
   businessId: string;
