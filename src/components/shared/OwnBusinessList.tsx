@@ -1,24 +1,24 @@
-// new one
+// new one for Dashboard and Admin pages- OwnBusinessList.tsx
 'use client';
 import React, { useRef, useEffect, useState, ReactNode } from 'react';
-import { BusinessWithCategoryName } from '@/types';
-
 import Link from 'next/link';
 
-import { Spinner } from '../ui/spinner';
-
-import BusinessCardShot from '../shared/BusinessCardShot';
-
+import { BusinessWithCategoryName } from '@/types';
 import { BUSINESS_STATUS_LABELS } from '@/const/business';
+
+import { useAuth } from '@/stores/useUserStore';
 import {
   getBusinessStatusBgColor,
   getBusinessStatusCardBgColor,
 } from '@/lib/helpers/getBusinessStatusColorBg';
-import DeleteEditBusinessBtns from './DeleteEditBusinessBtns';
-import { useAuth } from '@/stores/useUserStore';
-import { CustomAlertDialog } from '../ui/custom-ui/CustomAlertDialog';
 
-type DashboardBusinessListProps = {
+import { Spinner } from '@/components/ui/spinner';
+import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
+
+import BusinessCardShot from '@/components/shared/BusinessCardShot';
+import DeleteEditBusinessBtns from '@/components/business/DeleteEditBusinessBtns';
+
+type OwnBusinessListProps = {
   businesses: BusinessWithCategoryName[];
   selectedCity?: string;
   isLoading?: boolean;
@@ -34,7 +34,7 @@ type DashboardBusinessListProps = {
   includeCityQuery?: boolean; // CityQuery only for public list for now
 };
 
-function DashboardBusinessList({
+function OwnBusinessList({
   businesses,
   selectedCity = '__all__',
   // isLoading,
@@ -48,7 +48,7 @@ function DashboardBusinessList({
   linkPrefix = '/business',
   includeCityQuery = false,
   // onHover,
-}: DashboardBusinessListProps) {
+}: OwnBusinessListProps) {
   const loadMoreRef = useRef<HTMLDivElement>(null);
   // for modal
   const { isLoggedIn, profile } = useAuth();
@@ -171,4 +171,4 @@ function DashboardBusinessList({
   );
 }
 
-export default DashboardBusinessList;
+export default OwnBusinessList;

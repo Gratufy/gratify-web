@@ -1,14 +1,15 @@
 'use client';
 import React from 'react';
-import { useAuth } from '@/stores/useUserStore';
+
 import { BusinessWithDetails } from '@/types';
 
-import BusinessDetails from './oneCardDetails/BusinessDetails';
-import DeleteEditBusinessBtns from '../business/DeleteEditBusinessBtns';
+import { useAuth } from '@/stores/useUserStore';
+
+import BusinessDetails from '@/components/shared/oneCardDetails/BusinessDetails';
+import DeleteEditBusinessBtns from '@/components/business/DeleteEditBusinessBtns';
 
 interface Props {
   id: string;
-
   initialData: BusinessWithDetails;
 }
 

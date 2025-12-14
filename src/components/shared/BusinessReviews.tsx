@@ -13,7 +13,7 @@ import {
 //import { Spinner } from '../ui/spinner';
 import { Plus } from 'lucide-react';
 
-import { Trash2 } from 'lucide-react';
+import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
 import EditPen from '@/assets/icons/general/feedback-edit.svg';
 
 //import { ScrollArea } from '@/components/ui/scroll-area';
@@ -142,7 +142,7 @@ export default function BusinessReviews({
                             className="bg-background-white flex cursor-pointer items-center justify-center rounded-full border-none p-1 hover:bg-gray-50"
                             onClick={() => handleDelete(r.id)}
                           >
-                            <Trash2 className="size-5 xl:size-6" />
+                            <IconRecycle className="size-5 xl:size-6" />
                           </button>
                           <button
                             onClick={() => {

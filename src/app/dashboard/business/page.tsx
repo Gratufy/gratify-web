@@ -1,6 +1,6 @@
 import React from 'react';
 
-import BusinessHomeClient from '@/components/business/BusinessHomeClient';
+import BusinessHomeClient from '@/components/shared/BusinessHomeClient';
 
 export default function BusinessHome() {
   return (

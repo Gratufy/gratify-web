@@ -1,15 +1,16 @@
 'use client';
 import React, { useMemo } from 'react';
-import { useBusinesses } from '@/hooks/useBusinesses';
-import { Plus } from 'lucide-react';
-import { useDashboardSearchStore } from '@/stores/dashboardSearchStore';
-//import BusinessList from '../shared/BusinessList';
-import { UserFavoritesProvider } from '@/providers/UserFavoritesProvider';
-import NotFoundComponent from '@/components/shared/NotFoundComponent';
-// import DashboardBusinessList from './DashboardBusinessList';
 import Link from 'next/link';
+
+import { UserFavoritesProvider } from '@/providers/UserFavoritesProvider';
+import { useDashboardSearchStore } from '@/stores/dashboardSearchStore';
+import { useBusinesses } from '@/hooks/useBusinesses';
+
+import { Plus } from 'lucide-react';
+
+import NotFoundComponent from '@/components/shared/NotFoundComponent';
 import BusinessListSkeleton from '@/components/shared/skeletons/BusinessListSkeleton';
-import DashboardBusinessList from '@/components/business/DashboardBusinessList';
+import OwnBusinessList from '@/components/shared/OwnBusinessList';
 
 function AdminBusinessClient() {
   const search = useDashboardSearchStore((s) => s.search);
@@ -69,13 +70,13 @@ function AdminBusinessClient() {
                 </button>
               </div>
             </div>
-            <DashboardBusinessList
+            <OwnBusinessList
               // businesses={businesses?.data ?? []}
               businesses={filtered}
               isLoading={isBusinessesLoading}
               isError={isBusinessesError}
               error={error}
-              linkPrefix="/dashboard/business"
+              linkPrefix="/admin/business"
             />
           </>
         )}

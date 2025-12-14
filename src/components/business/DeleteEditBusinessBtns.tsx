@@ -1,10 +1,13 @@
 'use client';
 import React, { useState } from 'react';
-
 import { useRouter } from 'next/navigation';
-import { Trash2 } from 'lucide-react';
-import EditPen from '@/assets/icons/general/feedback-edit.svg';
+import { usePathname } from 'next/navigation';
+
 import { useDeleteBusiness } from '@/hooks/useBusinesses';
+
+import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
+import EditPen from '@/assets/icons/general/feedback-edit.svg';
+
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
@@ -16,6 +19,16 @@ type Props = {
 };
 
 function DeleteEditBusinessBtns({ id, className, isAdmin, isOwner }: Props) {
+  const pathname = usePathname();
+
+  const isDashboardPage = pathname.startsWith('/dashboard');
+  const isAdminPage = pathname.startsWith('/admin');
+
+  const linkEdit = isDashboardPage
+    ? `/dashboard/business/${id}/edit`
+    : isAdminPage
+      ? `/admin/business/${id}/edit`
+      : '/';
   const [dialogOpen, setDialogOpen] = useState(false);
   const router = useRouter();
   const deleteBusinessMutation = useDeleteBusiness();
@@ -39,9 +52,9 @@ function DeleteEditBusinessBtns({ id, className, isAdmin, isOwner }: Props) {
           <button
             disabled={deleteBusinessMutation.isPending}
             onClick={() => {
-              router.push(`/dashboard/business/${id}/edit`);
+              // router.push(`/dashboard/business/${id}/edit`);
+              router.push(linkEdit);
             }}
-            // href={`/dashboard/business/${id}/edit`}
             className="disabled:bg-background-main-300/50 shadow-menu bg-background-main-300 title-h6 flex cursor-pointer items-center px-3 py-[6px] disabled:cursor-not-allowed xl:px-5 xl:py-2"
           >
             <EditPen className="mr-[6px] size-6 lg:size-5 xl:mr-3" />{' '}
@@ -53,7 +66,7 @@ function DeleteEditBusinessBtns({ id, className, isAdmin, isOwner }: Props) {
             className="text-text-warning bg-background-white disabled:bg-icons-grey-100/50 shadow-menu border-icons-color-error title-h6 flex cursor-pointer items-center border px-3 py-[6px] disabled:cursor-not-allowed xl:px-5 xl:py-2"
             onClick={() => setDialogOpen(true)}
           >
-            <Trash2 className="mr-[6px] size-6 lg:size-5" />
+            <IconRecycle className="mr-[6px] size-6 lg:size-5" />
             <span>Видалити</span>
           </button>
         </>
