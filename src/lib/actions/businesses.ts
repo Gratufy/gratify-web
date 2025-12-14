@@ -153,6 +153,7 @@ export async function getBusinesses(
     if (!isAdminUser) {
       throw new Error('Forbidden for non-admin users');
     }
+    conditions.push(eq(businesses.ownerId, user.id));
   }
 
   let orderBy;

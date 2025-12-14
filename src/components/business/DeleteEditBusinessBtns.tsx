@@ -20,8 +20,6 @@ function DeleteEditBusinessBtns({ id, className, isAdmin, isOwner }: Props) {
   const router = useRouter();
   const deleteBusinessMutation = useDeleteBusiness();
   const handleDelete = async (businessId: string) => {
-    // const confirmed = confirm('Are you sure you want to delete this business?');
-    // if (!confirmed) return;
     await deleteBusinessMutation.mutateAsync(businessId);
     CustomToast({
       type: 'success',
@@ -34,45 +32,30 @@ function DeleteEditBusinessBtns({ id, className, isAdmin, isOwner }: Props) {
   };
   return (
     <div
-      className={`max-[1024px]:max-w-150 flex w-full flex-col gap-4 px-4 lg:px-0 ${className}`}
+      className={`max-[1024px]:max-w-150 flex w-full items-center justify-between px-4 lg:px-0 ${className}`}
     >
       {(isAdmin || isOwner) && (
         <>
-          {isAdmin && !isOwner ? (
-            <div className="bg-icons-color-accent/40 py-2">
-              <p className="title-h4 text-text-700-grey text-center">
-                Увага! Цю картку створено не Адміном
-              </p>
-            </div>
-          ) : (
-            <div className="bg-icons-color-success/40 py-2">
-              <p className="title-h4 text-text-700-grey text-center">
-                Цю картку створено Адміном
-              </p>
-            </div>
-          )}
-          <div className="flex w-full items-center justify-between">
-            <button
-              disabled={deleteBusinessMutation.isPending}
-              onClick={() => {
-                router.push(`/dashboard/business/${id}/edit`);
-              }}
-              // href={`/dashboard/business/${id}/edit`}
-              className="disabled:bg-background-main-300/50 shadow-menu bg-background-main-300 title-h6 flex cursor-pointer items-center px-3 py-[6px] disabled:cursor-not-allowed xl:px-5 xl:py-2"
-            >
-              <EditPen className="mr-[6px] size-6 lg:size-5 xl:mr-3" />{' '}
-              <span>Внести зміни</span>
-            </button>
+          <button
+            disabled={deleteBusinessMutation.isPending}
+            onClick={() => {
+              router.push(`/dashboard/business/${id}/edit`);
+            }}
+            // href={`/dashboard/business/${id}/edit`}
+            className="disabled:bg-background-main-300/50 shadow-menu bg-background-main-300 title-h6 flex cursor-pointer items-center px-3 py-[6px] disabled:cursor-not-allowed xl:px-5 xl:py-2"
+          >
+            <EditPen className="mr-[6px] size-6 lg:size-5 xl:mr-3" />{' '}
+            <span>Внести зміни</span>
+          </button>
 
-            <button
-              disabled={deleteBusinessMutation.isPending}
-              className="text-text-warning bg-background-white disabled:bg-icons-grey-100/50 shadow-menu border-icons-color-error title-h6 flex cursor-pointer items-center border px-3 py-[6px] disabled:cursor-not-allowed xl:px-5 xl:py-2"
-              onClick={() => setDialogOpen(true)}
-            >
-              <Trash2 className="mr-[6px] size-6 lg:size-5" />
-              <span>Видалити</span>
-            </button>
-          </div>
+          <button
+            disabled={deleteBusinessMutation.isPending}
+            className="text-text-warning bg-background-white disabled:bg-icons-grey-100/50 shadow-menu border-icons-color-error title-h6 flex cursor-pointer items-center border px-3 py-[6px] disabled:cursor-not-allowed xl:px-5 xl:py-2"
+            onClick={() => setDialogOpen(true)}
+          >
+            <Trash2 className="mr-[6px] size-6 lg:size-5" />
+            <span>Видалити</span>
+          </button>
         </>
       )}
       <CustomAlertDialog

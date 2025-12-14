@@ -40,6 +40,7 @@ function PublicHeaderClient() {
   const isPublic = pathname === '/';
   const isDashboard = pathname.startsWith('/dashboard');
   const isFavorites = pathname === '/favorites';
+  const isAdmin = pathname.startsWith('/admin');
 
   useEffect(() => {
     setInputValue(''); // clear input value on path change
@@ -50,7 +51,7 @@ function PublicHeaderClient() {
   const [inputValue, setInputValue] = useState(
     isPublic
       ? (filters.search ?? '')
-      : isDashboard
+      : isDashboard || isAdmin
         ? dashboardLocal
         : isFavorites
           ? favoriteslocal
@@ -80,8 +81,8 @@ function PublicHeaderClient() {
     setInputValue(val);
     if (isPublic) {
       debouncedUpdate(val); // / URL
-    } else if (isDashboard) {
-      debouncedDashboardSearch(val); //  Dashboard Zustand
+    } else if (isDashboard || isAdmin) {
+      debouncedDashboardSearch(val); //  Dashboard Zustand and Admin!
     } else if (isFavorites) {
       debouncedFavoritesSearch(val); //  Favorites  Zustand
     }
