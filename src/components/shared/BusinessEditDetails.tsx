@@ -40,6 +40,7 @@ function BusinessEditDetails({ id, initialData }: Props) {
         isAdmin={isAdmin}
         isOwner={isOwner}
         className="mb-2"
+        businessStatus={initialData.status}
       />
       {initialData && (
         <BusinessDetails
