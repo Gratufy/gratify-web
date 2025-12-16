@@ -215,7 +215,7 @@ export type AdminBusinessRowType = {
   isOnline: boolean | null;
   categoryId: string;
   categoryName: string | null;
-  status: string;
+  status: BusinessStatus;
   createdAt: Date | null;
   updatedAt: Date | null;
   ownerId: string;
