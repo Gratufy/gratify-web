@@ -10,15 +10,23 @@ import EditPen from '@/assets/icons/general/feedback-edit.svg';
 
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
+import { BusinessStatus } from '@/types';
 
 type Props = {
   id: string;
   className?: string;
   isAdmin: boolean;
   isOwner: boolean;
+  businessStatus: BusinessStatus;
 };
 
-function DeleteEditBusinessBtns({ id, className, isAdmin, isOwner }: Props) {
+function DeleteEditBusinessBtns({
+  id,
+  className,
+  isAdmin,
+  isOwner,
+  businessStatus,
+}: Props) {
   const pathname = usePathname();
 
   const isDashboardPage = pathname.startsWith('/dashboard');
@@ -50,23 +58,25 @@ function DeleteEditBusinessBtns({ id, className, isAdmin, isOwner }: Props) {
       {(isAdmin || isOwner) && (
         <>
           <button
-            disabled={deleteBusinessMutation.isPending}
+            disabled={
+              deleteBusinessMutation.isPending || businessStatus === 'pending'
+            }
             onClick={() => {
               // router.push(`/dashboard/business/${id}/edit`);
               router.push(linkEdit);
             }}
-            className="disabled:bg-background-main-300/50 shadow-menu bg-background-main-300 title-h6 flex cursor-pointer items-center px-3 py-[6px] disabled:cursor-not-allowed xl:px-5 xl:py-2"
+            className="btn-aprove"
           >
-            <EditPen className="mr-[6px] size-6 lg:size-5 xl:mr-3" />{' '}
+            <EditPen className="size-6 lg:size-5" />
             <span>Внести зміни</span>
           </button>
 
           <button
             disabled={deleteBusinessMutation.isPending}
-            className="text-text-warning bg-background-white disabled:bg-icons-grey-100/50 shadow-menu border-icons-color-error title-h6 flex cursor-pointer items-center border px-3 py-[6px] disabled:cursor-not-allowed xl:px-5 xl:py-2"
+            className="btn-reject  text-text-warning    border-icons-color-error items-center border  "
             onClick={() => setDialogOpen(true)}
           >
-            <IconRecycle className="mr-[6px] size-6 lg:size-5" />
+            <IconRecycle className=" size-6 lg:size-5" />
             <span>Видалити</span>
           </button>
         </>

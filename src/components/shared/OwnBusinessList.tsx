@@ -112,6 +112,7 @@ function OwnBusinessList({
                   className="hidden lg:flex"
                   isAdmin={isAdmin}
                   isOwner={currentUserId === b.ownerId}
+                  businessStatus={b.status}
                 />
               </div>
               <Link
@@ -145,6 +146,7 @@ function OwnBusinessList({
                 isAdmin={isAdmin}
                 isOwner={currentUserId === b.ownerId}
                 className="lg:hidden"
+                businessStatus={b.status}
               />
             </li>
           ))}
