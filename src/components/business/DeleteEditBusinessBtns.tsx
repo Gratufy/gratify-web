@@ -65,7 +65,7 @@ function DeleteEditBusinessBtns({
               // router.push(`/dashboard/business/${id}/edit`);
               router.push(linkEdit);
             }}
-            className="btn-aprove"
+            className="btn-aprove title-h6"
           >
             <EditPen className="size-6 lg:size-5" />
             <span>Внести зміни</span>
@@ -73,10 +73,10 @@ function DeleteEditBusinessBtns({
 
           <button
             disabled={deleteBusinessMutation.isPending}
-            className="btn-reject  text-text-warning    border-icons-color-error items-center border  "
+            className="btn-reject title-h6 text-text-warning border-icons-color-error items-center border"
             onClick={() => setDialogOpen(true)}
           >
-            <IconRecycle className=" size-6 lg:size-5" />
+            <IconRecycle className="size-6 lg:size-5" />
             <span>Видалити</span>
           </button>
         </>

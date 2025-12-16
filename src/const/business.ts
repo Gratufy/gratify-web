@@ -5,6 +5,12 @@ export const BUSINESS_STATUS: BusinessStatus[] = [
   'approved',
   'hidden',
   'rejected',
+  // 'draft',
+] as const;
+
+export const BUSINESS_STATUS_OWNER: BusinessStatus[] = [
+  'approved',
+  // 'draft',
 ] as const;
 //export const BUSINESS_STATUS = ['pending', 'approved', 'hidden', 'rejected'];
 
@@ -13,6 +19,11 @@ export const BUSINESS_STATUS_LABELS: Record<string, string> = {
   approved: 'Опубліковано',
   hidden: 'Приховано',
   rejected: 'Відхилено',
+} as const;
+
+export const BUSINESS_STATUS_LABELS_OWNER: Record<string, string> = {
+  pending: 'На модерації',
+  //draft: 'Чорнетка',
 } as const;
 export const PAGE_SIZE = 4;
 
