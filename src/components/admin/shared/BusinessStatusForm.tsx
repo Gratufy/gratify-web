@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { BusinessStatus } from '@/types';
 
-import { BUSINESS_STATUS } from '@/const/business';
+import { BUSINESS_STATUS, BUSINESS_STATUS_OWNER } from '@/const/business';
 import { BUSINESS_STATUS_LABELS } from '@/const/business';
 
 import { useAdminChangeBusinessStatus } from '@/hooks/admin/useAdminChangeStatus';
@@ -14,11 +14,13 @@ import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 interface BusinessStatusFormProps {
   businessId: string;
   currentStatus: string;
+  owner?: boolean;
 }
 
 export function BusinessStatusForm({
   businessId,
   currentStatus,
+  owner = false,
 }: BusinessStatusFormProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [status, setStatus] = useState(currentStatus);
@@ -47,7 +49,7 @@ export function BusinessStatusForm({
       setStatus(currentStatus); // rollback on error
     }
   };
-
+  const optionsStatus = owner ? BUSINESS_STATUS_OWNER : BUSINESS_STATUS;
   return (
     <>
       <CustomSelect
@@ -56,13 +58,15 @@ export function BusinessStatusForm({
           setNewStatus(newValue);
           setDialogOpen(true);
         }}
-        options={BUSINESS_STATUS}
+        // options={BUSINESS_STATUS}
+        options={optionsStatus}
         getOptionValue={(s) => s}
         // getOptionLabel={(s) => s.charAt(0).toUpperCase() + s.slice(1)}
         getOptionLabel={(s) => BUSINESS_STATUS_LABELS[s]}
         placeholder="Оберіть статус"
-        className="w-40 rounded-sm border-none px-1"
+        className="border-none px-1" //rounded-sm w-40
         statusForm={true}
+        owner={owner}
       />
       <CustomAlertDialog
         open={dialogOpen}

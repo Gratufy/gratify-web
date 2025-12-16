@@ -26,7 +26,7 @@ export const businessStatusEnum = pgEnum('business_status', [
   'approved', // approved and active
   'hidden', // hidden by admin
   'rejected', // rejected by admin
-  // "deleted", // deleted/archived
+  'draft', // draft by owner
 ]);
 //User profiles table
 export const userProfiles = pgTable('user_profiles', {

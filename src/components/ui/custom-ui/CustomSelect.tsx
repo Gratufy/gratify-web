@@ -28,6 +28,7 @@ interface CustomSelectProps<T> {
   className?: string;
   statusForm?: boolean;
   id?: string;
+  owner?: boolean;
 }
 function CustomSelect<T>({
   value,
@@ -40,6 +41,7 @@ function CustomSelect<T>({
   className,
   statusForm = false,
   id,
+  owner = false,
 }: CustomSelectProps<T>) {
   let triggerClass = '';
   if (statusForm) {
@@ -92,7 +94,12 @@ function CustomSelect<T>({
                   value={val ?? ''}
                   className={`xl:placeholder-base placeholder-sm ${statusForm && getBusinessStatusBgColor(val as string)}`}
                 >
-                  {statusForm && statusIcon(val as string)}
+                  {statusForm && !owner && statusIcon(val as string)}
+                  {owner && (
+                    <span className="placeholder-xs xl:placeholder-sm">
+                      Статус
+                    </span>
+                  )}
                   {label}
                 </SelectItem>
               );

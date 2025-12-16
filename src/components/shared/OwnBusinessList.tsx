@@ -4,7 +4,10 @@ import React, { useRef, useEffect, useState, ReactNode } from 'react';
 import Link from 'next/link';
 
 import { BusinessWithCategoryName } from '@/types';
-import { BUSINESS_STATUS_LABELS } from '@/const/business';
+import {
+  BUSINESS_STATUS_LABELS,
+  
+} from '@/const/business';
 
 import { useAuth } from '@/stores/useUserStore';
 import {
@@ -17,6 +20,8 @@ import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
 import BusinessCardShot from '@/components/shared/BusinessCardShot';
 import DeleteEditBusinessBtns from '@/components/business/DeleteEditBusinessBtns';
+
+import { BusinessStatusForm } from '../admin/shared/BusinessStatusForm';
 
 type OwnBusinessListProps = {
   businesses: BusinessWithCategoryName[];
@@ -59,6 +64,7 @@ function OwnBusinessList({
   const [alertTitle, setAlertTitle] = useState('');
   const [actionContent, setActionContent] = useState<ReactNode>(null);
   const [onConfirm, setOnConfirm] = useState<() => void>(() => {});
+  
 
   useEffect(() => {
     if (!enableInfiniteScroll) return;
@@ -96,15 +102,27 @@ function OwnBusinessList({
               <div
                 className={`max-[1024px]:max-w-150 mb-1 flex w-full items-center lg:mb-2 lg:gap-6`}
               >
-                <div
-                  className={`flex w-full shrink-0 items-center px-5 py-2 lg:w-[170px] lg:px-1 xl:w-[194px] ${getBusinessStatusBgColor(b.status)}`}
-                >
-                  <span className="placeholder-xs xl:placeholder-sm mr-2">
-                    Статус
-                  </span>
-                  <span className="title-h6">
-                    {BUSINESS_STATUS_LABELS[b.status]}
-                  </span>
+                <div>
+                  {b.status === 'draft' || b.status === 'approved' ? (
+                  
+                      <BusinessStatusForm
+                        businessId={b.id}
+                        currentStatus={b.status}
+                        owner
+                      />
+                   
+                  ) : (
+                    <div
+                      className={`flex w-full shrink-0 items-center px-5 py-2 lg:w-[170px] lg:px-1 xl:w-[194px] ${getBusinessStatusBgColor(b.status)}`}
+                    >
+                      <span className="placeholder-xs xl:placeholder-sm mr-2">
+                        Статус
+                      </span>
+                      <span className="title-h6">
+                        {BUSINESS_STATUS_LABELS[b.status]}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 <DeleteEditBusinessBtns
