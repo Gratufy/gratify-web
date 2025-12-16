@@ -3,17 +3,48 @@ import { BusinessStatus } from '@/types';
 export const BUSINESS_STATUS: BusinessStatus[] = [
   'pending',
   'approved',
-  'hidden',
+  // 'hidden',
   'rejected',
+  // 'draft',
 ] as const;
+
+export const BUSINESS_STATUS_OWNER: BusinessStatus[] = [
+  'approved',
+  'hidden',
+] as const;
+
+export const BUSINESS_STATUS_FOR_FORM: BusinessStatus[] = [
+  'pending',
+  'draft',
+] as const;
+
+export const OWNER_ALLOWED_TRANSITIONS: Record<
+  BusinessStatus,
+  BusinessStatus[]
+> = {
+  approved: ['hidden'], // approved -> hidden
+  hidden: ['approved'], // hidden -> approved
+  draft: ['pending'], // draft -> pending
+  rejected: [], // rejected -> pending
+  pending: [], // owner cannot change from pending
+};
 //export const BUSINESS_STATUS = ['pending', 'approved', 'hidden', 'rejected'];
 
+// for ADMIN { value: BusinessStatus; label: string }[];
 export const BUSINESS_STATUS_LABELS: Record<string, string> = {
   pending: 'На модерації',
   approved: 'Опубліковано',
   hidden: 'Приховано',
   rejected: 'Відхилено',
+  draft: 'Чорнетка',
 } as const;
+
+// for OWNER
+// export const BUSINESS_STATUS_LABELS_OWNER: Record<string, string> = {
+//   pending: 'На модерації',
+//   draft: 'Чорнетка',
+// } as const;
+
 export const PAGE_SIZE = 4;
 
 export const ONLINE_STATUS_LABELS: Record<string, string> = {

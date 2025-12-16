@@ -188,6 +188,7 @@ function AdminBusinessesList() {
                   <BusinessStatusForm
                     businessId={b.id}
                     currentStatus={b.status}
+                    className="w-40"
                   />
                 </div>
 

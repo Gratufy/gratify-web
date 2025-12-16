@@ -1,25 +1,38 @@
 'use server';
-import { createClient } from '@/utils/supabase/server';
+
 import { db } from '@/db';
+import { eq } from 'drizzle-orm';
+
+import { createClient } from '@/utils/supabase/server';
 import {
   businesses,
   businessOwnSpecialOffers,
   businessSpecialOffers,
 } from '@/db/schema';
-import { NewBusinessFormData } from '@/types/business';
-import { eq } from 'drizzle-orm';
+import { BusinessStatus, NewBusinessFormData } from '@/types/business';
 
 import { saveBusinessLocations } from '@/lib/actions/businessLocation';
 import { isAdmin } from '@/lib/helpers/isAdmin';
 
 import { getBusinessById } from './getBusinessById';
+import {
+  BUSINESS_STATUS_FOR_FORM,
+  BUSINESS_STATUS_OWNER,
+} from '@/const/business';
 
 // update business
 export async function updateBusiness(
   id: string,
   // values: Partial<NewBusinessFormData>
-  values: Partial<NewBusinessFormData>
+  values: Partial<NewBusinessFormData>,
+  status: BusinessStatus
 ) {
+  console.log('status', status);
+  if (!BUSINESS_STATUS_FOR_FORM.includes(status)) {
+    throw new Error(
+      'After changing Owner can only set status pending or draft'
+    );
+  }
   try {
     const supabase = await createClient();
     const {
@@ -45,6 +58,7 @@ export async function updateBusiness(
       'website',
       'isOnline',
     ];
+    //we do not it any more because of changeBusinessStatus function
     const allowedFieldsForAdmin = [...allowedFieldsForOwner, 'status'];
 
     const allowedFields = isAdminUser
@@ -59,13 +73,12 @@ export async function updateBusiness(
       throw new Error('No valid fields to update');
     }
 
-    // let updatedBusiness = existing[0];
     if (Object.keys(filteredValues).length > 0) {
-      // const [updated] = await db
       await db
         .update(businesses)
         .set({
           ...filteredValues,
+          status: status,
           updatedAt: new Date(),
         })
         .where(eq(businesses.id, id))
@@ -120,6 +133,8 @@ export async function updateBusiness(
     return fullBusiness;
   } catch (error) {
     console.error('Error updating business:', error);
-    throw new Error('Failed to update business');
+    throw error instanceof Error
+      ? error
+      : new Error('Failed to update business');
   }
 }

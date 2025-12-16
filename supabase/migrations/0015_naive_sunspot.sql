@@ -1,0 +1,1 @@
+ALTER TYPE "public"."business_status" ADD VALUE 'draft';

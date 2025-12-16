@@ -2,67 +2,106 @@ import { useState } from 'react';
 
 import { BusinessStatus } from '@/types';
 
-import { BUSINESS_STATUS } from '@/const/business';
+import {
+  BUSINESS_STATUS,
+  BUSINESS_STATUS_OWNER,
+  OWNER_ALLOWED_TRANSITIONS,
+} from '@/const/business';
 import { BUSINESS_STATUS_LABELS } from '@/const/business';
 
-import { useAdminChangeBusinessStatus } from '@/hooks/admin/useAdminChangeStatus';
+import { useChangeBusinessStatus } from '@/hooks/OwnerAndAdmin/useChangeBusinessStatus';
 
 import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
+function getOwnerOptions(currentStatus: BusinessStatus) {
+  const allowedNextStatuses = OWNER_ALLOWED_TRANSITIONS[currentStatus] || [];
+  // Если нет разрешённых переходов — оставляем текущий, чтобы Select не был пустым
+  const statuses =
+    allowedNextStatuses.length > 0
+      ? [currentStatus, ...allowedNextStatuses]
+      : [currentStatus];
+  return statuses;
+}
 interface BusinessStatusFormProps {
   businessId: string;
-  currentStatus: string;
+  currentStatus: BusinessStatus;
+  owner?: boolean;
+  className?: string;
+  size?: 'sm' | 'default';
 }
 
 export function BusinessStatusForm({
   businessId,
   currentStatus,
+  owner = false,
+  className,
+  size = 'default',
 }: BusinessStatusFormProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [status, setStatus] = useState(currentStatus);
-  const [newStatus, setNewStatus] = useState('');
+  const [status, setStatus] = useState<BusinessStatus>(currentStatus);
+  const [newStatus, setNewStatus] = useState<BusinessStatus | ''>('');
   // const mutation = useUpdateBusiness();
-  const mutation = useAdminChangeBusinessStatus();
+  const mutation = useChangeBusinessStatus();
 
   const handleChange = async () => {
-    setStatus(newStatus); // locally update status for UI
     try {
-      await mutation.mutateAsync({
+      const res = await mutation.mutateAsync({
         id: businessId,
         status: newStatus as BusinessStatus,
       });
-      setNewStatus('');
-      CustomToast({
-        type: 'success',
-        content: (
-          <>
-            <p className="font-semibold">Статус бізнесу оновлено успішно</p>
-          </>
-        ),
-      });
+      if (res.success) {
+        if (newStatus) {
+          // "" будет false
+          setStatus(newStatus);
+          setNewStatus('');
+        }
+        CustomToast({
+          type: 'success',
+          content: (
+            <>
+              <p className="font-semibold">Статус бізнесу оновлено успішно</p>
+            </>
+          ),
+        });
+      } else {
+        CustomToast({
+          type: 'error',
+          content: (
+            <>
+              <p className="font-semibold">{res.error}</p>
+            </>
+          ),
+        });
+      }
     } catch (error) {
       console.error('Failed to update status:', error);
       setStatus(currentStatus); // rollback on error
     }
   };
-
+  //const optionsStatus = owner ? BUSINESS_STATUS_OWNER : BUSINESS_STATUS;
+  const optionsStatus = owner
+    ? getOwnerOptions(currentStatus)
+    : BUSINESS_STATUS;
   return (
     <>
       <CustomSelect
+        size={size}
         value={status}
         onChange={(newValue) => {
-          setNewStatus(newValue);
+          setNewStatus(newValue as BusinessStatus);
           setDialogOpen(true);
         }}
-        options={BUSINESS_STATUS}
+        // options={BUSINESS_STATUS}
+        options={optionsStatus}
         getOptionValue={(s) => s}
         // getOptionLabel={(s) => s.charAt(0).toUpperCase() + s.slice(1)}
         getOptionLabel={(s) => BUSINESS_STATUS_LABELS[s]}
         placeholder="Оберіть статус"
-        className="w-40 rounded-sm border-none px-1"
+        className={`border-none px-1 ${className}`} //rounded-sm w-40
         statusForm={true}
+        owner={owner}
       />
       <CustomAlertDialog
         open={dialogOpen}

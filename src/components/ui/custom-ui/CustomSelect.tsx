@@ -28,6 +28,8 @@ interface CustomSelectProps<T> {
   className?: string;
   statusForm?: boolean;
   id?: string;
+  owner?: boolean;
+  size?: 'sm' | 'default';
 }
 function CustomSelect<T>({
   value,
@@ -40,6 +42,8 @@ function CustomSelect<T>({
   className,
   statusForm = false,
   id,
+  owner = false,
+  size = 'default',
 }: CustomSelectProps<T>) {
   let triggerClass = '';
   if (statusForm) {
@@ -71,6 +75,7 @@ function CustomSelect<T>({
       )}
       <Select value={value} onValueChange={(v) => onChange(v)}>
         <SelectTrigger
+          size={size}
           id={selectId}
           className={`${className ?? 'xl:placeholder-base lg:placeholder-sm placeholder-sm w-[280px]'} ${triggerClass}`}
         >
@@ -92,7 +97,12 @@ function CustomSelect<T>({
                   value={val ?? ''}
                   className={`xl:placeholder-base placeholder-sm ${statusForm && getBusinessStatusBgColor(val as string)}`}
                 >
-                  {statusForm && statusIcon(val as string)}
+                  {statusForm && !owner && statusIcon(val as string)}
+                  {owner && (
+                    <span className="placeholder-xs xl:placeholder-sm">
+                      Статус
+                    </span>
+                  )}
                   {label}
                 </SelectItem>
               );

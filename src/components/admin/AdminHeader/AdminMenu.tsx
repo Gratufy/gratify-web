@@ -1,8 +1,11 @@
 import React from 'react';
+
+import IconCategory from '@/assets/icons/menu/icon-category.svg';
+import IconModering from '@/assets/icons/menu/icon-modering.svg';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
@@ -20,37 +23,43 @@ function AdminMenu() {
           <IconAdminUser className="text-icons-grey-950 h-6 w-[18px]" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="lg:w-55 w-50" align="start" side="bottom">
+      <DropdownMenuContent
+        className="xl:w-75 lg:w-65 w-50 border-icons-grey-400 shadow-menu rounded-none border"
+        align="center"
+        side="bottom"
+      >
         <DropdownMenuLabel className="sr-only">Admin Account</DropdownMenuLabel>
 
-        <DropdownMenuGroup>
-          {/* <DropdownMenuItem
-            asChild
-            className="text-text-950-grey cursor-pointer px-3 text-sm leading-[140%] lg:px-2 xl:text-base"
-          >
-            <Link href="/admin/business/new">Створити бізнес-картку</Link>
-          </DropdownMenuItem> */}
-          {/* <DropdownMenuItem
-            asChild
-            className="text-text-950-grey cursor-pointer px-3 text-sm leading-[140%] lg:px-2 xl:text-base"
-          >
-            <Link href="/dashboard/business">
-              Переглянути створені карточки
-            </Link>
-          </DropdownMenuItem> */}
-          <DropdownMenuItem
-            asChild
-            className="text-text-950-grey cursor-pointer px-3 text-sm leading-[140%] lg:px-2 xl:text-base"
-          >
-            <Link href="/admin">Перейти до адмін-панелі</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <LogoutBtn />
-          </DropdownMenuItem>
-          {/* <DropdownMenuItem asChild>
-            <DeleteAccountButton />
-          </DropdownMenuItem> */}
-        </DropdownMenuGroup>
+        <DropdownMenuItem
+          asChild
+          className="text-text-950-grey cursor-pointer px-3 text-sm leading-[140%] lg:px-2 xl:text-base"
+        >
+          <Link href="/admin">
+            <IconAdminUser className=" size-4  xl:size-5" />
+            <span>Перейти до адмін-панелі</span>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          asChild
+          className="text-text-950-grey cursor-pointer px-3 text-sm leading-[140%] lg:px-2 xl:text-base"
+        >
+          <Link href="/admin/business">
+            <IconModering className=" size-4  xl:size-5" />
+            <span>Переглянути створені картки</span>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          asChild
+          className="xl:placeholder-base placeholder-sm cursor-pointer gap-0 px-3 lg:px-2"
+        >
+          <Link href="/admin/business/new">
+            <IconCategory className="mr-2 size-4 xl:mr-3 xl:size-5" />
+            <span>Створити бізнес-картку</span>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <LogoutBtn />
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
