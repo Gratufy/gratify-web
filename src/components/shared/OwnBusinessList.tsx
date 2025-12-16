@@ -4,10 +4,7 @@ import React, { useRef, useEffect, useState, ReactNode } from 'react';
 import Link from 'next/link';
 
 import { BusinessWithCategoryName } from '@/types';
-import {
-  BUSINESS_STATUS_LABELS,
-  
-} from '@/const/business';
+import { BUSINESS_STATUS_LABELS } from '@/const/business';
 
 import { useAuth } from '@/stores/useUserStore';
 import {
@@ -64,7 +61,6 @@ function OwnBusinessList({
   const [alertTitle, setAlertTitle] = useState('');
   const [actionContent, setActionContent] = useState<ReactNode>(null);
   const [onConfirm, setOnConfirm] = useState<() => void>(() => {});
-  
 
   useEffect(() => {
     if (!enableInfiniteScroll) return;
@@ -102,15 +98,14 @@ function OwnBusinessList({
               <div
                 className={`max-[1024px]:max-w-150 mb-1 flex w-full items-center lg:mb-2 lg:gap-6`}
               >
-                <div>
+                <div className="">
                   {b.status === 'draft' || b.status === 'approved' ? (
-                  
-                      <BusinessStatusForm
-                        businessId={b.id}
-                        currentStatus={b.status}
-                        owner
-                      />
-                   
+                    <BusinessStatusForm
+                      businessId={b.id}
+                      currentStatus={b.status}
+                      owner
+                      className="w-full lg:w-[170px] xl:w-[194px]"
+                    />
                   ) : (
                     <div
                       className={`flex w-full shrink-0 items-center px-5 py-2 lg:w-[170px] lg:px-1 xl:w-[194px] ${getBusinessStatusBgColor(b.status)}`}

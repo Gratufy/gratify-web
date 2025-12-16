@@ -15,12 +15,14 @@ interface BusinessStatusFormProps {
   businessId: string;
   currentStatus: string;
   owner?: boolean;
+  className?: string;
 }
 
 export function BusinessStatusForm({
   businessId,
   currentStatus,
   owner = false,
+  className,
 }: BusinessStatusFormProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [status, setStatus] = useState(currentStatus);
@@ -64,7 +66,7 @@ export function BusinessStatusForm({
         // getOptionLabel={(s) => s.charAt(0).toUpperCase() + s.slice(1)}
         getOptionLabel={(s) => BUSINESS_STATUS_LABELS[s]}
         placeholder="Оберіть статус"
-        className="border-none px-1" //rounded-sm w-40
+        className={`border-none px-1 ${className}`} //rounded-sm w-40
         statusForm={true}
         owner={owner}
       />
