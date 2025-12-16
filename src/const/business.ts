@@ -3,15 +3,31 @@ import { BusinessStatus } from '@/types';
 export const BUSINESS_STATUS: BusinessStatus[] = [
   'pending',
   'approved',
-  'hidden',
+  // 'hidden',
   'rejected',
   // 'draft',
 ] as const;
 
 export const BUSINESS_STATUS_OWNER: BusinessStatus[] = [
   'approved',
+  'hidden',
+] as const;
+
+export const BUSINESS_STATUS_FOR_FORM: BusinessStatus[] = [
+  'pending',
   'draft',
 ] as const;
+
+export const OWNER_ALLOWED_TRANSITIONS: Record<
+  BusinessStatus,
+  BusinessStatus[]
+> = {
+  approved: ['hidden'], // approved -> hidden
+  hidden: ['approved'], // hidden -> approved
+  draft: ['pending'], // draft -> pending
+  rejected: ['pending'], // rejected -> pending
+  pending: [], // owner cannot change from pending
+};
 //export const BUSINESS_STATUS = ['pending', 'approved', 'hidden', 'rejected'];
 
 // for ADMIN

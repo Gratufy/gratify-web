@@ -99,7 +99,7 @@ function OwnBusinessList({
                 className={`max-[1024px]:max-w-150 mb-1 flex w-full items-center lg:mb-2 lg:gap-6`}
               >
                 <div className="">
-                  {b.status === 'draft' || b.status === 'approved' ? (
+                  {b.status === 'hidden' || b.status === 'approved' ? (
                     <BusinessStatusForm
                       businessId={b.id}
                       currentStatus={b.status}

@@ -5,7 +5,7 @@ import { BusinessStatus } from '@/types';
 import { BUSINESS_STATUS, BUSINESS_STATUS_OWNER } from '@/const/business';
 import { BUSINESS_STATUS_LABELS } from '@/const/business';
 
-import { useAdminChangeBusinessStatus } from '@/hooks/admin/useAdminChangeStatus';
+import { useChangeBusinessStatus } from '@/hooks/OwnerAndAdmin/useChangeBusinessStatus';
 
 import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
@@ -28,24 +28,36 @@ export function BusinessStatusForm({
   const [status, setStatus] = useState(currentStatus);
   const [newStatus, setNewStatus] = useState('');
   // const mutation = useUpdateBusiness();
-  const mutation = useAdminChangeBusinessStatus();
+  const mutation = useChangeBusinessStatus();
 
   const handleChange = async () => {
-    setStatus(newStatus); // locally update status for UI
     try {
-      await mutation.mutateAsync({
+      const res = await mutation.mutateAsync({
         id: businessId,
         status: newStatus as BusinessStatus,
       });
-      setNewStatus('');
-      CustomToast({
-        type: 'success',
-        content: (
-          <>
-            <p className="font-semibold">Статус бізнесу оновлено успішно</p>
-          </>
-        ),
-      });
+      if (res.success) {
+        console.log('in success');
+        setStatus(newStatus); // locally update status for UI
+        setNewStatus('');
+        CustomToast({
+          type: 'success',
+          content: (
+            <>
+              <p className="font-semibold">Статус бізнесу оновлено успішно</p>
+            </>
+          ),
+        });
+      } else {
+        CustomToast({
+          type: 'error',
+          content: (
+            <>
+              <p className="font-semibold">{res.error}</p>
+            </>
+          ),
+        });
+      }
     } catch (error) {
       console.error('Failed to update status:', error);
       setStatus(currentStatus); // rollback on error

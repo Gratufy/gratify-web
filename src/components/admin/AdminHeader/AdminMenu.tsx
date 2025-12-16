@@ -35,7 +35,7 @@ function AdminMenu() {
           className="text-text-950-grey cursor-pointer px-3 text-sm leading-[140%] lg:px-2 xl:text-base"
         >
           <Link href="/admin">
-            <IconAdminUser className="mr-2 size-4 xl:mr-3 xl:size-5" />
+            <IconAdminUser className=" size-4  xl:size-5" />
             <span>Перейти до адмін-панелі</span>
           </Link>
         </DropdownMenuItem>
@@ -44,7 +44,7 @@ function AdminMenu() {
           className="text-text-950-grey cursor-pointer px-3 text-sm leading-[140%] lg:px-2 xl:text-base"
         >
           <Link href="/admin/business">
-            <IconModering className="mr-2 size-4 xl:mr-3 xl:size-5" />
+            <IconModering className=" size-4  xl:size-5" />
             <span>Переглянути створені картки</span>
           </Link>
         </DropdownMenuItem>

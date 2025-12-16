@@ -121,6 +121,7 @@ export type BusinessStatus =
   | 'hidden'
   | 'rejected'
   | 'draft';
+
 //export type BusinessStatus = (typeof BUSINESS_STATUS)[number];
 
 //Review

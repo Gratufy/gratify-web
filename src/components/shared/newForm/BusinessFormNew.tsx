@@ -12,7 +12,12 @@ import type { FieldErrors, UseFormReturn } from 'react-hook-form';
 
 import { businessFormSchema } from '@/shemas/businessFormSchema';
 
-import { BusinessFormValues, BusinessImages, BusinessUpdate } from '@/types';
+import {
+  BusinessFormValues,
+  BusinessImages,
+  BusinessStatus,
+  BusinessUpdate,
+} from '@/types';
 import { PreviewImage } from '@/types/images';
 
 import { useCheckAddress } from '@/hooks/useBusinessLocation';
@@ -249,7 +254,10 @@ export default function BusinessFormNew({
   }
 
   // on Submit
-  async function onSubmit(data: FormValues) {
+  async function onSubmit(data: FormValues, action?: string) {
+    const nextStatus: BusinessStatus =
+      action === 'submit' ? 'pending' : 'draft';
+    console.log('nextStatus', nextStatus);
     try {
       const locationsWithCoords = await Promise.all(
         data.locations.map(async (loc) => {
@@ -318,11 +326,13 @@ export default function BusinessFormNew({
           locations: locationsWithCoords,
           specialOffers: data.specialOffers ?? [],
           ownOffers: data.ownOffers ?? [],
+          // status: nextStatus,
         };
 
         await updateBusinessMutation.mutateAsync({
           id: businessId,
           values: updateData,
+          status: nextStatus,
         });
 
         CustomToast({
@@ -349,6 +359,7 @@ export default function BusinessFormNew({
           specialOffers: data.specialOffers,
           //ownOffers: ownOfferLocalArr,
           ownOffers: data.ownOffers,
+          status: nextStatus,
         };
 
         // Create the business-user
@@ -418,7 +429,15 @@ export default function BusinessFormNew({
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit, onError)}
+        // onSubmit={form.handleSubmit(onSubmit, onError)}
+        onSubmit={(e) => {
+          const submitter = (e.nativeEvent as SubmitEvent)
+            .submitter as HTMLButtonElement | null;
+
+          const action = submitter?.dataset.action;
+
+          form.handleSubmit((data) => onSubmit(data, action), onError)(e);
+        }}
         className="flex w-full flex-col items-center justify-center"
       >
         {/* About Field */}
@@ -749,10 +768,24 @@ export default function BusinessFormNew({
             {/* ------ */}
           </div>
         </div>
-
-        <button className="btn-aprove" type="submit">
-          Передати на модерацію
-        </button>
+        <div className="flex gap-6">
+          <button
+            className="btn-reject"
+            type="submit"
+            data-action="save"
+            // disabled={form.formState.isSubmitting || mutation.isPending}
+          >
+            Зберегти зміни
+          </button>
+          <button
+            className="btn-aprove"
+            type="submit"
+            data-action="submit"
+            // disabled={form.formState.isSubmitting || mutation.isPending}
+          >
+            Передати на модерацію
+          </button>
+        </div>
       </form>
     </Form>
   );

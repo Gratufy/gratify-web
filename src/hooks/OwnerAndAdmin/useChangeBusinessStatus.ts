@@ -4,14 +4,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { BusinessStatus } from '@/types';
 
-import { adminChangeBusinessStatus } from '@/lib/actions/admin/adminChangeBusinessStatus';
+import { changeBusinessStatus } from '@/lib/actions/admin/changeBusinessStatus';
 
-export function useAdminChangeBusinessStatus() {
+export function useChangeBusinessStatus() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: ({ id, status }: { id: string; status: BusinessStatus }) =>
-      adminChangeBusinessStatus(id, status),
+      changeBusinessStatus(id, status),
 
     onSuccess: async () => {
       // Обновляем кэш конкретного бизнеса с полным объектом
