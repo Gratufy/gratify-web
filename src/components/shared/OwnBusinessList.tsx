@@ -18,7 +18,7 @@ import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 import BusinessCardShot from '@/components/shared/BusinessCardShot';
 import DeleteEditBusinessBtns from '@/components/business/DeleteEditBusinessBtns';
 
-import { BusinessStatusForm } from '../admin/shared/BusinessStatusForm';
+import { BusinessStatusForm } from '@/components/admin/shared/BusinessStatusForm';
 
 type OwnBusinessListProps = {
   businesses: BusinessWithCategoryName[];
@@ -87,82 +87,95 @@ function OwnBusinessList({
 
       {businesses.length > 0 && (
         <ul className="flex w-full flex-col items-center justify-center gap-10 overflow-hidden lg:gap-10">
-          {businesses.map((b) => (
-            <li
-              key={b.id}
-              className={` ${getBusinessStatusCardBgColor(b.status)} flex w-full flex-col items-center overflow-hidden py-5 lg:px-6 lg:py-3`}
-              // onMouseEnter={() => onHover?.(b.id)}
-              // onMouseLeave={() => onHover?.(null)}
-            >
-              {/* Status */}
-              <div
-                className={`max-[1024px]:max-w-150 mb-1 flex w-full items-center lg:mb-2 lg:gap-6`}
+          {businesses.map((b) => {
+            // const allowedNextStatuses =
+            //   OWNER_ALLOWED_TRANSITIONS[b.status] || [];
+            // const options = allowedNextStatuses.map((s) => ({
+            //   value: s,
+            //   label: BUSINESS_STATUS_LABELS[s],
+            // }));
+            return (
+              <li
+                key={b.id}
+                className={` ${getBusinessStatusCardBgColor(b.status)} flex w-full flex-col items-center overflow-hidden py-5 lg:px-6 lg:py-3`}
+                // onMouseEnter={() => onHover?.(b.id)}
+                // onMouseLeave={() => onHover?.(null)}
               >
-                <div className="">
-                  {b.status === 'hidden' || b.status === 'approved' ? (
-                    <BusinessStatusForm
-                      businessId={b.id}
-                      currentStatus={b.status}
-                      owner
-                      className="w-full lg:w-[170px] xl:w-[194px]"
-                    />
-                  ) : (
-                    <div
-                      className={`flex w-full shrink-0 items-center px-5 py-2 lg:w-[170px] lg:px-1 xl:w-[194px] ${getBusinessStatusBgColor(b.status)}`}
-                    >
-                      <span className="placeholder-xs xl:placeholder-sm mr-2">
-                        Статус
-                      </span>
-                      <span className="title-h6">
-                        {BUSINESS_STATUS_LABELS[b.status]}
-                      </span>
-                    </div>
-                  )}
-                </div>
+                {/* Status */}
+                <div
+                  className={`max-[1024px]:max-w-150 mb-1 flex w-full items-center lg:mb-2 lg:gap-6`}
+                >
+                  <div className="">
+                    {/* //b.status === 'rejected' */}
+                    {b.status === 'hidden' ||
+                    b.status === 'approved' ||
+                    b.status === 'draft' ? (
+                      <BusinessStatusForm
+                        size="sm"
+                        businessId={b.id}
+                        currentStatus={b.status}
+                        // options={options}
+                        owner
+                        className="w-full lg:w-[170px] xl:w-[194px]"
+                      />
+                    ) : (
+                      <div
+                        className={`flex w-full shrink-0 items-center px-5 py-[6px] lg:w-[170px] lg:px-1 xl:w-[194px] ${getBusinessStatusBgColor(b.status)}`}
+                      >
+                        <span className="placeholder-xs xl:placeholder-sm mr-2">
+                          Статус
+                        </span>
+                        <span className="title-h6">
+                          {BUSINESS_STATUS_LABELS[b.status]}
+                        </span>
+                      </div>
+                    )}
+                  </div>
 
+                  <DeleteEditBusinessBtns
+                    id={b.id}
+                    className="hidden lg:flex"
+                    isAdmin={isAdmin}
+                    isOwner={currentUserId === b.ownerId}
+                    businessStatus={b.status}
+                  />
+                </div>
+                <Link
+                  prefetch={false}
+                  href={{
+                    pathname: `${linkPrefix}/${b.id}`,
+                    ...(includeCityQuery && selectedCity !== '__all__'
+                      ? { query: { city: selectedCity } }
+                      : {}),
+                  }}
+                  className="max-[1024px]:max-w-150 block h-full w-full"
+                >
+                  <article
+                    className="bg-background-white w-full overflow-hidden pb-5"
+                    key={b.id}
+                  >
+                    <BusinessCardShot
+                      business={b}
+                      setOpen={setOpen}
+                      isLoggedIn={isLoggedIn}
+                      setAlertTitle={setAlertTitle}
+                      setActionContent={setActionContent}
+                      setOnConfirm={setOnConfirm}
+                      // selectedCity="__all__"
+                      // isFavorite
+                    />
+                  </article>
+                </Link>
                 <DeleteEditBusinessBtns
                   id={b.id}
-                  className="hidden lg:flex"
                   isAdmin={isAdmin}
                   isOwner={currentUserId === b.ownerId}
+                  className="lg:hidden"
                   businessStatus={b.status}
                 />
-              </div>
-              <Link
-                prefetch={false}
-                href={{
-                  pathname: `${linkPrefix}/${b.id}`,
-                  ...(includeCityQuery && selectedCity !== '__all__'
-                    ? { query: { city: selectedCity } }
-                    : {}),
-                }}
-                className="max-[1024px]:max-w-150 block h-full w-full"
-              >
-                <article
-                  className="bg-background-white w-full overflow-hidden pb-5"
-                  key={b.id}
-                >
-                  <BusinessCardShot
-                    business={b}
-                    setOpen={setOpen}
-                    isLoggedIn={isLoggedIn}
-                    setAlertTitle={setAlertTitle}
-                    setActionContent={setActionContent}
-                    setOnConfirm={setOnConfirm}
-                    // selectedCity="__all__"
-                    // isFavorite
-                  />
-                </article>
-              </Link>
-              <DeleteEditBusinessBtns
-                id={b.id}
-                isAdmin={isAdmin}
-                isOwner={currentUserId === b.ownerId}
-                className="lg:hidden"
-                businessStatus={b.status}
-              />
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
       )}
       {enableInfiniteScroll && (

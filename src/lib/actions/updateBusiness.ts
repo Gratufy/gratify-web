@@ -29,7 +29,9 @@ export async function updateBusiness(
 ) {
   console.log('status', status);
   if (!BUSINESS_STATUS_FOR_FORM.includes(status)) {
-    throw new Error('Owner can only set status pending or draft');
+    throw new Error(
+      'After changing Owner can only set status pending or draft'
+    );
   }
   try {
     const supabase = await createClient();

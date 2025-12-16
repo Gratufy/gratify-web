@@ -2,7 +2,11 @@ import { useState } from 'react';
 
 import { BusinessStatus } from '@/types';
 
-import { BUSINESS_STATUS, BUSINESS_STATUS_OWNER } from '@/const/business';
+import {
+  BUSINESS_STATUS,
+  BUSINESS_STATUS_OWNER,
+  OWNER_ALLOWED_TRANSITIONS,
+} from '@/const/business';
 import { BUSINESS_STATUS_LABELS } from '@/const/business';
 
 import { useChangeBusinessStatus } from '@/hooks/OwnerAndAdmin/useChangeBusinessStatus';
@@ -11,11 +15,21 @@ import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
+function getOwnerOptions(currentStatus: BusinessStatus) {
+  const allowedNextStatuses = OWNER_ALLOWED_TRANSITIONS[currentStatus] || [];
+  // Если нет разрешённых переходов — оставляем текущий, чтобы Select не был пустым
+  const statuses =
+    allowedNextStatuses.length > 0
+      ? [currentStatus, ...allowedNextStatuses]
+      : [currentStatus];
+  return statuses;
+}
 interface BusinessStatusFormProps {
   businessId: string;
-  currentStatus: string;
+  currentStatus: BusinessStatus;
   owner?: boolean;
   className?: string;
+  size?: 'sm' | 'default';
 }
 
 export function BusinessStatusForm({
@@ -23,10 +37,11 @@ export function BusinessStatusForm({
   currentStatus,
   owner = false,
   className,
+  size = 'default',
 }: BusinessStatusFormProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [status, setStatus] = useState(currentStatus);
-  const [newStatus, setNewStatus] = useState('');
+  const [status, setStatus] = useState<BusinessStatus>(currentStatus);
+  const [newStatus, setNewStatus] = useState<BusinessStatus | ''>('');
   // const mutation = useUpdateBusiness();
   const mutation = useChangeBusinessStatus();
 
@@ -37,9 +52,11 @@ export function BusinessStatusForm({
         status: newStatus as BusinessStatus,
       });
       if (res.success) {
-        console.log('in success');
-        setStatus(newStatus); // locally update status for UI
-        setNewStatus('');
+        if (newStatus) {
+          // "" будет false
+          setStatus(newStatus);
+          setNewStatus('');
+        }
         CustomToast({
           type: 'success',
           content: (
@@ -63,13 +80,17 @@ export function BusinessStatusForm({
       setStatus(currentStatus); // rollback on error
     }
   };
-  const optionsStatus = owner ? BUSINESS_STATUS_OWNER : BUSINESS_STATUS;
+  //const optionsStatus = owner ? BUSINESS_STATUS_OWNER : BUSINESS_STATUS;
+  const optionsStatus = owner
+    ? getOwnerOptions(currentStatus)
+    : BUSINESS_STATUS;
   return (
     <>
       <CustomSelect
+        size={size}
         value={status}
         onChange={(newValue) => {
-          setNewStatus(newValue);
+          setNewStatus(newValue as BusinessStatus);
           setDialogOpen(true);
         }}
         // options={BUSINESS_STATUS}

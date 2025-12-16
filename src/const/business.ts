@@ -25,12 +25,12 @@ export const OWNER_ALLOWED_TRANSITIONS: Record<
   approved: ['hidden'], // approved -> hidden
   hidden: ['approved'], // hidden -> approved
   draft: ['pending'], // draft -> pending
-  rejected: ['pending'], // rejected -> pending
+  rejected: [], // rejected -> pending
   pending: [], // owner cannot change from pending
 };
 //export const BUSINESS_STATUS = ['pending', 'approved', 'hidden', 'rejected'];
 
-// for ADMIN
+// for ADMIN { value: BusinessStatus; label: string }[];
 export const BUSINESS_STATUS_LABELS: Record<string, string> = {
   pending: 'На модерації',
   approved: 'Опубліковано',

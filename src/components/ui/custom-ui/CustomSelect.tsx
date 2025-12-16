@@ -29,6 +29,7 @@ interface CustomSelectProps<T> {
   statusForm?: boolean;
   id?: string;
   owner?: boolean;
+  size?: 'sm' | 'default';
 }
 function CustomSelect<T>({
   value,
@@ -42,6 +43,7 @@ function CustomSelect<T>({
   statusForm = false,
   id,
   owner = false,
+  size = 'default',
 }: CustomSelectProps<T>) {
   let triggerClass = '';
   if (statusForm) {
@@ -73,6 +75,7 @@ function CustomSelect<T>({
       )}
       <Select value={value} onValueChange={(v) => onChange(v)}>
         <SelectTrigger
+          size={size}
           id={selectId}
           className={`${className ?? 'xl:placeholder-base lg:placeholder-sm placeholder-sm w-[280px]'} ${triggerClass}`}
         >
