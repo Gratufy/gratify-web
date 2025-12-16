@@ -1,17 +1,17 @@
 import React from 'react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import Link from 'next/link';
+
 import IconBusinessUser from '@/assets/icons/general/icon-business-user.svg';
 import IconCategory from '@/assets/icons/menu/icon-category.svg';
 import IconModering from '@/assets/icons/menu/icon-modering.svg';
 
-import Link from 'next/link';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import LogoutBtn from '@/components/ui/custom-ui/LogoutBtn';
 import DeleteAccountButton from '@/components/ui/custom-ui/DeleteAccountButton';
 
@@ -47,7 +47,7 @@ function BusinessMenu() {
         >
           <Link href="/dashboard/business">
             <IconModering className="mr-2 size-4 xl:mr-3 xl:size-5" />
-            <span> Переглянути створені карточки</span>
+            <span> Переглянути створені картки</span>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
