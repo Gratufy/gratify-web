@@ -44,7 +44,12 @@ export function BusinessStatusForm({
   const [newStatus, setNewStatus] = useState<BusinessStatus | ''>('');
   // const mutation = useUpdateBusiness();
   const mutation = useChangeBusinessStatus();
-
+  console.log(
+    'BusinessStatusForm rendered with currentStatus:',
+    currentStatus,
+    'and status state:',
+    status
+  );
   const handleChange = async () => {
     try {
       const res = await mutation.mutateAsync({
@@ -81,9 +86,7 @@ export function BusinessStatusForm({
     }
   };
   //const optionsStatus = owner ? BUSINESS_STATUS_OWNER : BUSINESS_STATUS;
-  const optionsStatus = owner
-    ? getOwnerOptions(currentStatus)
-    : BUSINESS_STATUS;
+  const optionsStatus = owner ? getOwnerOptions(status) : BUSINESS_STATUS;
   return (
     <>
       <CustomSelect

@@ -88,12 +88,8 @@ function OwnBusinessList({
       {businesses.length > 0 && (
         <ul className="flex w-full flex-col items-center justify-center gap-10 overflow-hidden lg:gap-10">
           {businesses.map((b) => {
-            // const allowedNextStatuses =
-            //   OWNER_ALLOWED_TRANSITIONS[b.status] || [];
-            // const options = allowedNextStatuses.map((s) => ({
-            //   value: s,
-            //   label: BUSINESS_STATUS_LABELS[s],
-            // }));
+            console.log('Rendering business:', b.name, "-",b.status);
+           
             return (
               <li
                 key={b.id}

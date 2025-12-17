@@ -149,7 +149,8 @@ function OffersMultiSelect({
             id="own-offer"
             className="input-custom px-4"
             placeholder="Напишить власну пропозицію"
-            maxLength={30}
+            minLength={5}
+            maxLength={60}
             value={ownOfferLocal}
             onChange={(e) => setOwnOfferLocal(e.currentTarget.value)}
           />

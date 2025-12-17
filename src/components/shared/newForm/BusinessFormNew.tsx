@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as v from 'valibot';
 
 import { usePathname, useRouter } from 'next/navigation';
@@ -83,8 +83,10 @@ export default function BusinessFormNew({
       isCover: false,
     }))
   );
-  // for button Перевірити
+  // for button Перевірити Location
   const [checkingIndex, setCheckingIndex] = useState<number | null>(null);
+
+  // photo
   useEffect(() => {
     if (!existingImages?.length) return;
 
@@ -127,7 +129,7 @@ export default function BusinessFormNew({
       ownOffers: [],
     },
   });
-
+  const locationsInitializedRef = useRef(false);
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: 'locations',
@@ -139,12 +141,25 @@ export default function BusinessFormNew({
     lat: number;
     lng: number;
   } | null>(null);
+  //locations
+  // useEffect(() => {
+  //   if (!defaultValues && fields.length === 0) {
+  //     append({ city: '', address: '' });
+  //   }
+  // }, [defaultValues, fields.length, append]);
 
+  // useEffect(() => {
+  //   if (fields.length === 0) {
+  //     console.log('Appending initial location field');
+  //     append({ city: '', address: '' });
+  //   }
+  // }, [fields.length, append]);
   useEffect(() => {
-    if (!defaultValues && fields.length === 0) {
+    if (fields.length === 0 && !locationsInitializedRef.current) {
       append({ city: '', address: '' });
+      locationsInitializedRef.current = true;
     }
-  }, [defaultValues, fields.length, append]);
+  }, [fields.length, append]);
 
   function validateCity(index: number): boolean {
     const loc = form.getValues(`locations.${index}`);
@@ -259,6 +274,7 @@ export default function BusinessFormNew({
       action === 'submit' ? 'pending' : 'draft';
     console.log('nextStatus', nextStatus);
     try {
+      console.log('data.locations', data.locations);
       const locationsWithCoords = await Promise.all(
         data.locations.map(async (loc) => {
           // if coords already confirmed (in  "Check") — use them
@@ -359,12 +375,13 @@ export default function BusinessFormNew({
           specialOffers: data.specialOffers,
           //ownOffers: ownOfferLocalArr,
           ownOffers: data.ownOffers,
-          status: nextStatus,
         };
 
         // Create the business-user
-        const { business, profile } =
-          await createBusinessMutation.mutateAsync(newBusinessData);
+        const { business, profile } = await createBusinessMutation.mutateAsync({
+          values: newBusinessData,
+          status: nextStatus,
+        });
         // Update Zustand profile
         useUserStore.getState().setProfile(profile);
 
@@ -423,6 +440,7 @@ export default function BusinessFormNew({
   const onError = (
     errors: FieldErrors<v.InferOutput<typeof businessFormSchema>>
   ) => {
+    console.log(form.getValues());
     console.log('❌ Form Error', errors);
   };
 
@@ -563,7 +581,8 @@ export default function BusinessFormNew({
                   <FormControl className="w-[70%] shrink-0">
                     <Textarea
                       id="description"
-                      maxLength={3000}
+                      minLength={20}
+                      maxLength={400}
                       className="input-custom h-23 px-2 lg:h-[148px] lg:px-3 xl:px-4"
                       placeholder="Коротко опишіть ваші головні переваги, унікальні торгові пропозиціі"
                       {...field}
@@ -773,7 +792,11 @@ export default function BusinessFormNew({
             className="btn-reject"
             type="submit"
             data-action="save"
-            // disabled={form.formState.isSubmitting || mutation.isPending}
+            disabled={
+              form.formState.isSubmitting ||
+              createBusinessMutation.isPending ||
+              updateBusinessMutation.isPending
+            }
           >
             Зберегти зміни
           </button>
@@ -781,7 +804,11 @@ export default function BusinessFormNew({
             className="btn-aprove"
             type="submit"
             data-action="submit"
-            // disabled={form.formState.isSubmitting || mutation.isPending}
+            disabled={
+              form.formState.isSubmitting ||
+              createBusinessMutation.isPending ||
+              updateBusinessMutation.isPending
+            }
           >
             Передати на модерацію
           </button>

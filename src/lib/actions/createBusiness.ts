@@ -8,15 +8,24 @@ import {
   businessSpecialOffers,
 } from '@/db/schema';
 import { eq, desc, sql, and, SQL, inArray, or } from 'drizzle-orm';
-import { NewBusinessFormData } from '@/types/business';
+import { BusinessStatus, NewBusinessFormData } from '@/types/business';
 import { isAdmin } from '@/lib/helpers/isAdmin';
 import { userProfiles } from '@/db/schema';
 
 import { saveBusinessLocations } from '@/lib/actions/businessLocation';
+import { BUSINESS_STATUS_FOR_FORM } from '@/const/business';
 
 // create business
 
-export async function createBusiness(values: NewBusinessFormData) {
+export async function createBusiness(
+  values: NewBusinessFormData,
+  status: BusinessStatus
+) {
+  if (!BUSINESS_STATUS_FOR_FORM.includes(status)) {
+    throw new Error(
+      'After creating Owner can only set status pending or draft'
+    );
+  }
   // console.log('Creating business with values:', values);
   try {
     const supabase = await createClient();
@@ -53,7 +62,8 @@ export async function createBusiness(values: NewBusinessFormData) {
         isOnline: values.isOnline,
         website: values.website ?? null,
         categoryId: values.categoryId,
-        ownerId: user.id, // insert ownerId
+        ownerId: user.id,
+        status: status, // insert status
       })
       .returning();
 
