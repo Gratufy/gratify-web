@@ -40,21 +40,17 @@ export function BusinessStatusForm({
   size = 'default',
 }: BusinessStatusFormProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [status, setStatus] = useState<BusinessStatus>(currentStatus);
+  // const [status, setStatus] = useState<BusinessStatus>(currentStatus);
   const [newStatus, setNewStatus] = useState<BusinessStatus | ''>('');
 
-  useEffect(() => {
-    setStatus(currentStatus);
-  }, [currentStatus]);
+  // useEffect(() => {
+  //   setStatus(currentStatus);
+  // }, [currentStatus]);
   // const mutation = useUpdateBusiness();
   const mutation = useChangeBusinessStatus();
-  console.log(
-    'BusinessStatusForm rendered with currentStatus:',
-    currentStatus,
-    'and status state:',
-    status
-  );
+  console.log('BusinessStatusForm rendered with currentStatus:', currentStatus);
   const handleChange = async () => {
+    if (!newStatus) return;
     try {
       const res = await mutation.mutateAsync({
         id: businessId,
@@ -63,7 +59,7 @@ export function BusinessStatusForm({
       if (res.success) {
         if (newStatus) {
           // "" будет false
-          setStatus(newStatus);
+          // setStatus(newStatus);
           setNewStatus('');
         }
         CustomToast({
@@ -86,16 +82,19 @@ export function BusinessStatusForm({
       }
     } catch (error) {
       console.error('Failed to update status:', error);
-      setStatus(currentStatus); // rollback on error
+      //setStatus(currentStatus); // rollback on error
     }
   };
   //const optionsStatus = owner ? BUSINESS_STATUS_OWNER : BUSINESS_STATUS;
-  const optionsStatus = owner ? getOwnerOptions(status) : BUSINESS_STATUS;
+  // const optionsStatus = owner ? getOwnerOptions(status) : BUSINESS_STATUS;
+  const optionsStatus = owner
+    ? getOwnerOptions(currentStatus)
+    : BUSINESS_STATUS;
   return (
     <>
       <CustomSelect
         size={size}
-        value={status}
+        value={currentStatus}
         onChange={(newValue) => {
           setNewStatus(newValue as BusinessStatus);
           setDialogOpen(true);
