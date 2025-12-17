@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { BusinessStatus } from '@/types';
 
@@ -42,6 +42,10 @@ export function BusinessStatusForm({
   const [dialogOpen, setDialogOpen] = useState(false);
   const [status, setStatus] = useState<BusinessStatus>(currentStatus);
   const [newStatus, setNewStatus] = useState<BusinessStatus | ''>('');
+
+  useEffect(() => {
+    setStatus(currentStatus);
+  }, [currentStatus]);
   // const mutation = useUpdateBusiness();
   const mutation = useChangeBusinessStatus();
   console.log(
