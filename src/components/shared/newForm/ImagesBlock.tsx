@@ -90,10 +90,14 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
     <div className="bg-background-grey-50 mb-10 w-full py-10">
       <div className="container mx-auto flex w-full flex-col items-center gap-6 max-[1024px]:px-4">
         <div className="flex justify-center gap-3 px-7">
-          <label className="btn-reject gap-[6px] border px-3 xl:px-5">
+          <label
+            className="btn-reject gap-[6px] border px-3 xl:px-5"
+            htmlFor="images-file"
+          >
             <Plus className="size-4" />
             <p>Додати фото</p>
             <input
+              id="images-file"
               type="file"
               accept="image/*"
               multiple

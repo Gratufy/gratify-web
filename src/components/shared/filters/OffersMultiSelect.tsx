@@ -1,22 +1,25 @@
 'use client';
 import React, { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
+
+import { BusinessFormValues, SpecialOffer } from '@/types';
+
+import { ChevronDownIcon } from 'lucide-react';
+import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
+
+import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import {
   DropdownMenu,
   DropdownMenuContent,
-
   // DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
-import { ChevronDownIcon } from 'lucide-react';
-import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
+// import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
+
 // import CheckIcon from '@/assets/icons/general/icon-check.svg';
-type Checked = DropdownMenuCheckboxItemProps['checked'];
-import { BusinessFormValues, SpecialOffer } from '@/types';
-import { Input } from '../../ui/input';
+// type Checked = DropdownMenuCheckboxItemProps['checked'];
 
 type CustomCheckBoxProps = {
   offers: SpecialOffer[]; // all offers
@@ -149,7 +152,8 @@ function OffersMultiSelect({
             id="own-offer"
             className="input-custom px-4"
             placeholder="Напишить власну пропозицію"
-            maxLength={30}
+            minLength={5}
+            maxLength={60}
             value={ownOfferLocal}
             onChange={(e) => setOwnOfferLocal(e.currentTarget.value)}
           />

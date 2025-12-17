@@ -41,7 +41,7 @@ function CustomSelect<T>({
   placeholder = 'Оберіть...',
   className,
   statusForm = false,
-  id,
+  id, //name aria
   owner = false,
   size = 'default',
 }: CustomSelectProps<T>) {
@@ -73,9 +73,11 @@ function CustomSelect<T>({
           {label}
         </label>
       )}
-      <Select value={value} onValueChange={(v) => onChange(v)}>
+      {/* name={selectId} */}
+      <Select value={value} onValueChange={(v) => onChange(v)} name={selectId}>
         <SelectTrigger
           size={size}
+          aria-labelledby={selectId}
           id={selectId}
           className={`${className ?? 'xl:placeholder-base lg:placeholder-sm placeholder-sm w-[280px]'} ${triggerClass}`}
         >

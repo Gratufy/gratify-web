@@ -237,6 +237,8 @@ function AdminCategoriesClient() {
                           : ''
                       }`}
                       type="text"
+                      minLength={5}
+                      maxLength={60}
                       value={editName}
                       onChange={(e) =>
                         setEditState(() => ({

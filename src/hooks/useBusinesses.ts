@@ -22,6 +22,7 @@ import {
   BusinessUpdate,
   BusinessWithDetails,
   GetBusinessesParams,
+  NewBusinessFormData,
   UseAdminBusinessesParams,
 } from '@/types';
 import { PAGE_SIZE } from '@/const/business';
@@ -102,7 +103,13 @@ export function useBusiness(
 export function useCreateBusiness() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: createBusiness,
+    mutationFn: ({
+      values,
+      status,
+    }: {
+      values: NewBusinessFormData;
+      status: BusinessStatus;
+    }) => createBusiness(values, status),
     onSuccess: () => {
       // update all business lists
       queryClient.invalidateQueries({

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as v from 'valibot';
 
 import { usePathname, useRouter } from 'next/navigation';
@@ -83,8 +83,10 @@ export default function BusinessFormNew({
       isCover: false,
     }))
   );
-  // for button Перевірити
+  // for button Перевірити Location
   const [checkingIndex, setCheckingIndex] = useState<number | null>(null);
+
+  // photo
   useEffect(() => {
     if (!existingImages?.length) return;
 
@@ -127,7 +129,7 @@ export default function BusinessFormNew({
       ownOffers: [],
     },
   });
-
+  const locationsInitializedRef = useRef(false);
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: 'locations',
@@ -139,12 +141,25 @@ export default function BusinessFormNew({
     lat: number;
     lng: number;
   } | null>(null);
+  //locations
+  // useEffect(() => {
+  //   if (!defaultValues && fields.length === 0) {
+  //     append({ city: '', address: '' });
+  //   }
+  // }, [defaultValues, fields.length, append]);
 
+  // useEffect(() => {
+  //   if (fields.length === 0) {
+  //     console.log('Appending initial location field');
+  //     append({ city: '', address: '' });
+  //   }
+  // }, [fields.length, append]);
   useEffect(() => {
-    if (!defaultValues && fields.length === 0) {
+    if (fields.length === 0 && !locationsInitializedRef.current) {
       append({ city: '', address: '' });
+      locationsInitializedRef.current = true;
     }
-  }, [defaultValues, fields.length, append]);
+  }, [fields.length, append]);
 
   function validateCity(index: number): boolean {
     const loc = form.getValues(`locations.${index}`);
@@ -259,6 +274,7 @@ export default function BusinessFormNew({
       action === 'submit' ? 'pending' : 'draft';
     console.log('nextStatus', nextStatus);
     try {
+      console.log('data.locations', data.locations);
       const locationsWithCoords = await Promise.all(
         data.locations.map(async (loc) => {
           // if coords already confirmed (in  "Check") — use them
@@ -359,12 +375,13 @@ export default function BusinessFormNew({
           specialOffers: data.specialOffers,
           //ownOffers: ownOfferLocalArr,
           ownOffers: data.ownOffers,
-          status: nextStatus,
         };
 
         // Create the business-user
-        const { business, profile } =
-          await createBusinessMutation.mutateAsync(newBusinessData);
+        const { business, profile } = await createBusinessMutation.mutateAsync({
+          values: newBusinessData,
+          status: nextStatus,
+        });
         // Update Zustand profile
         useUserStore.getState().setProfile(profile);
 
@@ -423,6 +440,7 @@ export default function BusinessFormNew({
   const onError = (
     errors: FieldErrors<v.InferOutput<typeof businessFormSchema>>
   ) => {
+    console.log(form.getValues());
     console.log('❌ Form Error', errors);
   };
 
@@ -449,20 +467,24 @@ export default function BusinessFormNew({
             render={({ field }) => (
               <FormItem className="mb-5 w-full lg:mb-0">
                 <div className="flex w-full justify-between gap-4 lg:justify-start lg:gap-8 xl:gap-6">
-                  <FormLabel htmlFor="name" className="title-h6">
+                  <FormLabel htmlFor="name-business" className="title-h6">
                     Назва*
                   </FormLabel>
                   <FormControl className="w-[70%] shrink-0 lg:w-[237px] xl:w-[267px]">
                     <Input
-                      id="name"
+                      id="name-business"
                       className="input-custom px-2 lg:px-3 xl:px-4"
                       placeholder="Назва"
                       {...field}
+                      autoComplete="off"
                     />
                   </FormControl>
                 </div>
 
-                <FormMessage className="placeholder-xs text-text-warning text-center" />
+                <FormMessage
+                  id="name-business"
+                  className="placeholder-xs text-text-warning text-center"
+                />
               </FormItem>
             )}
           />
@@ -473,11 +495,16 @@ export default function BusinessFormNew({
             render={({ field }) => (
               <FormItem className="w-full">
                 <div className="flex w-full justify-between gap-4 lg:justify-end lg:gap-8 xl:gap-6">
-                  <FormLabel htmlFor="category" className="title-h6">
+                  <div id="category-label" className="title-h6">
                     Категорія*
-                  </FormLabel>
-                  <FormControl className="">
+                  </div>
+                  <FormControl
+                    className=""
+                    role="group"
+                    aria-labelledby="category-label"
+                  >
                     <CustomSelect
+                      id="category-select" //name
                       className="standart bg-background-white w-[70%] px-4 lg:w-[237px] xl:w-[285px]"
                       value={field.value}
                       onChange={field.onChange}
@@ -490,7 +517,10 @@ export default function BusinessFormNew({
                   </FormControl>
                 </div>
 
-                <FormMessage className="placeholder-xs text-text-warning text-center" />
+                <FormMessage
+                  id="category"
+                  className="placeholder-xs text-text-warning text-center"
+                />
               </FormItem>
             )}
           />
@@ -508,8 +538,9 @@ export default function BusinessFormNew({
             render={({ field }) => (
               <FormItem className="mb-6 w-full lg:mb-0">
                 <div className="flex w-full items-start justify-between gap-6 lg:gap-5 xl:gap-6">
-                  <FormLabel
-                    htmlFor="specialOffers"
+                  <div
+                    id="special-offers-label"
+                    // htmlFor="specialOffers"
                     className="flex flex-col items-start gap-2"
                   >
                     <span className="title-h6">Спеціальні пропозиції*</span>
@@ -517,8 +548,12 @@ export default function BusinessFormNew({
                       Можете обрати будь-яку кількість, але на головній сторінці
                       каталогу буде видно перші 3 позиції
                     </span>
-                  </FormLabel>
-                  <FormControl className="shrink-0">
+                  </div>
+                  <FormControl
+                    className="shrink-0"
+                    role="group"
+                    aria-labelledby="special-offers-label"
+                  >
                     <OffersMultiSelect
                       className="lg:w-[260px] xl:w-[364px]"
                       form={form as UseFormReturn<BusinessFormValues>}
@@ -563,8 +598,9 @@ export default function BusinessFormNew({
                   <FormControl className="w-[70%] shrink-0">
                     <Textarea
                       id="description"
-                      maxLength={3000}
-                      className="input-custom h-23 px-2 lg:h-[148px] lg:px-3 xl:px-4"
+                      minLength={20}
+                      maxLength={400}
+                      className="input-custom h-23 px-2 lg:h-[148px] lg:w-[315px] lg:px-3 xl:px-4"
                       placeholder="Коротко опишіть ваші головні переваги, унікальні торгові пропозиціі"
                       {...field}
                     />
@@ -590,12 +626,19 @@ export default function BusinessFormNew({
                     <div className="flex gap-2 lg:items-center">
                       <FormControl>
                         <Checkbox
+                          id="online-check"
+                          name="isOnline"
                           className="border-icons-grey-950"
                           checked={field.value}
                           onCheckedChange={(val) => field.onChange(val)}
+                          aria-labelledby="online-check-label"
                         />
                       </FormControl>
-                      <FormLabel className="title-h5 lg:text-nowrap">
+                      <FormLabel
+                        className="title-h5 lg:text-nowrap"
+                        htmlFor="online-check"
+                        id="online-check-label"
+                      >
                         працюємо як он-лайн бізнес
                       </FormLabel>
                     </div>
@@ -611,11 +654,12 @@ export default function BusinessFormNew({
                 render={({ field }) => (
                   <div className="flex flex-col">
                     <FormItem className="w-full gap-1 lg:flex lg:justify-end lg:gap-5">
-                      <FormLabel className="title-h6">
+                      <FormLabel className="title-h6" htmlFor="website-link">
                         Посилання на сайт/соцмережу
                       </FormLabel>
                       <FormControl>
                         <Input
+                          id="website-link"
                           className="input-custom cursor-text px-2 lg:w-[325px] lg:px-3 xl:w-[296px] xl:px-4"
                           placeholder="Посилання"
                           {...field}
@@ -644,9 +688,19 @@ export default function BusinessFormNew({
                       name={`locations.${index}.city`}
                       render={({ field }) => (
                         <FormItem className="mb-2 w-full xl:mb-3">
+                          <p
+                            className="sr-only"
+                            id={`locations.${index}.city-label`}
+                          >
+                            Місто
+                          </p>
                           {/* <FormLabel>City</FormLabel> */}
-                          <FormControl>
+                          <FormControl
+                            role="group"
+                            aria-labelledby={`locations.${index}.city-label`}
+                          >
                             <CustomSelect
+                              id={`locations.${index}.city-select`}
                               className="standart w-full px-4"
                               value={field.value}
                               onChange={field.onChange}
@@ -665,11 +719,15 @@ export default function BusinessFormNew({
                       name={`locations.${index}.address`}
                       render={({ field }) => (
                         <FormItem className="w-full gap-1">
-                          <FormLabel className="placeholder-small xl:placeholder-sm">
+                          <FormLabel
+                            className="placeholder-small xl:placeholder-sm"
+                            htmlFor={`locations.${index}.address-input`}
+                          >
                             вулиця, будівля, приміщення
                           </FormLabel>
                           <FormControl>
                             <Input
+                              id={`locations.${index}.address-input`}
                               {...field}
                               placeholder="Вулиця, будівля, приміщення"
                               className="input-custom mb-4 px-2 lg:px-3 xl:mb-6 xl:px-4"
@@ -773,7 +831,11 @@ export default function BusinessFormNew({
             className="btn-reject"
             type="submit"
             data-action="save"
-            // disabled={form.formState.isSubmitting || mutation.isPending}
+            disabled={
+              form.formState.isSubmitting ||
+              createBusinessMutation.isPending ||
+              updateBusinessMutation.isPending
+            }
           >
             Зберегти зміни
           </button>
@@ -781,7 +843,11 @@ export default function BusinessFormNew({
             className="btn-aprove"
             type="submit"
             data-action="submit"
-            // disabled={form.formState.isSubmitting || mutation.isPending}
+            disabled={
+              form.formState.isSubmitting ||
+              createBusinessMutation.isPending ||
+              updateBusinessMutation.isPending
+            }
           >
             Передати на модерацію
           </button>

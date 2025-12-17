@@ -9,8 +9,7 @@ import { BusinessStatus } from '@/types/business';
 
 import { isAdmin } from '@/lib/helpers/isAdmin';
 import {
-  BUSINESS_STATUS,
-  BUSINESS_STATUS_OWNER,
+  BUSINESS_STATUS_ALL,
   OWNER_ALLOWED_TRANSITIONS,
 } from '@/const/business';
 
@@ -45,7 +44,7 @@ export async function changeBusinessStatus(
 
     // Admin can change to any status
     if (isAdminUser) {
-      if (!BUSINESS_STATUS.includes(nextStatus)) {
+      if (!BUSINESS_STATUS_ALL.includes(nextStatus)) {
         return { success: false, error: 'Invalid status' };
       }
       await db

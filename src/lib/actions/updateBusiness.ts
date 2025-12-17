@@ -27,7 +27,6 @@ export async function updateBusiness(
   values: Partial<NewBusinessFormData>,
   status: BusinessStatus
 ) {
-  console.log('status', status);
   if (!BUSINESS_STATUS_FOR_FORM.includes(status)) {
     throw new Error(
       'After changing Owner can only set status pending or draft'
