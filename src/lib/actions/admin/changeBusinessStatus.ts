@@ -9,9 +9,7 @@ import { BusinessStatus } from '@/types/business';
 
 import { isAdmin } from '@/lib/helpers/isAdmin';
 import {
-  BUSINESS_STATUS,
   BUSINESS_STATUS_ALL,
-  BUSINESS_STATUS_OWNER,
   OWNER_ALLOWED_TRANSITIONS,
 } from '@/const/business';
 

@@ -1,12 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { BusinessStatus } from '@/types';
 
-import {
-  BUSINESS_STATUS,
-  BUSINESS_STATUS_OWNER,
-  OWNER_ALLOWED_TRANSITIONS,
-} from '@/const/business';
+import { BUSINESS_STATUS, OWNER_ALLOWED_TRANSITIONS } from '@/const/business';
 import { BUSINESS_STATUS_LABELS } from '@/const/business';
 
 import { useChangeBusinessStatus } from '@/hooks/OwnerAndAdmin/useChangeBusinessStatus';
