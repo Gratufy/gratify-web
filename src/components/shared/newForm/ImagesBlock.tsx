@@ -122,9 +122,10 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
                   <Image
                     src={img.url}
                     alt={`preview-${index}`}
-                    width={400}
-                    height={400}
-                    className="h-full w-full object-cover"
+                    // width={400}
+                    // height={400}
+                    fill
+                    className="object-cover"
                   />
 
                   <div className="absolute right-0 top-0 flex gap-2 p-2 max-[1024px]:left-0 max-[1024px]:justify-between">
