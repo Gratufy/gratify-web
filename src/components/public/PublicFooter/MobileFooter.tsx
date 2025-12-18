@@ -14,7 +14,7 @@ function MobileFooter() {
           width={136}
           height={28}
           alt="Logo"
-          className="mb-3 h-auto"
+          className="mb-3"
         />
         <div className="flex justify-between gap-4">
           <div className="flex flex-col gap-1">
