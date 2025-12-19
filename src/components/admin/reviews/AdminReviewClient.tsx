@@ -70,7 +70,7 @@ function AdminReviewClient() {
           <div>
             <Label
               htmlFor="status-review-select"
-              className="lg:placeholder-xs mb-1"
+              className="lg:placeholder-xs xl:placeholder-sm mb-1"
             >
               Статус відгуків:
             </Label>
@@ -86,7 +86,10 @@ function AdminReviewClient() {
             />
           </div>
           <div>
-            <Label htmlFor="category-select" className="lg:placeholder-xs mb-1">
+            <Label
+              htmlFor="category-select"
+              className="xl:placeholder-sm lg:placeholder-xs mb-1"
+            >
               Категорія:
             </Label>
             <CustomSelect
@@ -101,7 +104,10 @@ function AdminReviewClient() {
             />
           </div>
           <div>
-            <Label htmlFor="city-select" className="lg:placeholder-xs mb-1">
+            <Label
+              htmlFor="city-select"
+              className="xl:placeholder-sm lg:placeholder-xs mb-1"
+            >
               Місто:
             </Label>
             <CustomSelect
@@ -118,7 +124,10 @@ function AdminReviewClient() {
             />
           </div>
           <div>
-            <Label htmlFor="online-select" className="lg:placeholder-xs mb-1">
+            <Label
+              htmlFor="online-select"
+              className="xl:placeholder-sm lg:placeholder-xs mb-1"
+            >
               Online:
             </Label>
             <CustomSelect
@@ -147,20 +156,34 @@ function AdminReviewClient() {
         )}
         {isBusinessesLoading && <AdminSkeleton count={3} />}
         {businesses?.length > 0 && (
-          <div className="bg-background-main-50 lg:px-1 lg:py-4">
+          <div className="bg-background-main-50 rounded-lg lg:px-1 lg:py-4">
+            <div className="grid w-full min-w-0 grid-cols-[1fr_1fr_1fr_0.5fr] gap-2 px-2 lg:mb-6">
+              <div className="title-h6 min-w-0 py-2">
+                <span>Найменування </span>
+              </div>
+              <div className="title-h6 min-w-0 py-2">
+                <span>Статус</span>
+              </div>
+              <div className="title-h6 min-w-0 py-2 text-center">
+                <span>Дивитись відгуки</span>
+              </div>
+              <div className="title-h6 min-w-0 py-2 text-center">
+                <span>Дивитись картку</span>
+              </div>
+            </div>
             <ul className="flex flex-col lg:gap-5">
               {businesses.map((b) => (
                 <li key={b.id}>
                   <div className="bg-background-main-200 grid grid-cols-[1fr_1fr_1fr_0.5fr] items-center justify-center gap-2 rounded-lg px-2 py-2">
-                    <p className="flex-1/7">{b.name}</p>
+                    <p className="title-h6">{b.name}</p>
                     {/* <p className="flex-1/7">{b.city}</p> */}
 
-                    <p className="flex-1/7">{b.categoryName}</p>
+                    <p className="title-h6">{b.categoryName}</p>
                     {/* <p className="flex-1/7">
                       {status}: {b.filteredReviewCount}
                     </p> */}
                     <button
-                      className="border-icons-main-500 mx-auto flex cursor-pointer items-center justify-center rounded-lg border px-2 py-2"
+                      className="title-h6 border-icons-main-500 mx-auto flex cursor-pointer items-center justify-center rounded-lg border px-2 py-2"
                       onClick={() => toggleReviews(b.id)}
                     >
                       {showReviewsMap[b.id] ? (
@@ -189,7 +212,7 @@ function AdminReviewClient() {
 
                     <Link
                       href={`/admin/business/${b.id}`}
-                      className="bg-elements-main-600 text-icons-grey-100 mx-auto flex w-3/4 cursor-pointer items-center justify-center rounded-lg px-2 py-2"
+                      className="title-h6 bg-elements-main-600 text-icons-grey-100 mx-auto flex w-3/4 cursor-pointer items-center justify-center rounded-lg px-2 py-2"
                     >
                       <IconEyeOpen className="mr-2 size-6" />
                       <span>картку</span>

@@ -89,7 +89,10 @@ function AdminBusinessesList() {
       {/*  Filters*/}
       <div className="flex justify-center lg:mb-5 lg:gap-3">
         <div>
-          <Label htmlFor="status-select" className="lg:placeholder-xs mb-1">
+          <Label
+            htmlFor="status-select"
+            className="lg:placeholder-xs xl:placeholder-sm mb-1"
+          >
             Статус:
           </Label>
           <CustomSelect
@@ -108,7 +111,10 @@ function AdminBusinessesList() {
           />
         </div>
         <div>
-          <Label htmlFor="category-select" className="lg:placeholder-xs mb-1">
+          <Label
+            htmlFor="category-select"
+            className="lg:placeholder-xs xl:placeholder-sm mb-1"
+          >
             Категорія:
           </Label>
           <CustomSelect
@@ -126,7 +132,10 @@ function AdminBusinessesList() {
         </div>
 
         <div>
-          <Label htmlFor="city-select" className="lg:placeholder-xs mb-1">
+          <Label
+            htmlFor="city-select"
+            className="lg:placeholder-xs xl:placeholder-sm mb-1"
+          >
             Місто:
           </Label>
           <CustomSelect
@@ -143,7 +152,10 @@ function AdminBusinessesList() {
           />
         </div>
         <div>
-          <Label htmlFor="online-select" className="lg:placeholder-xs mb-1">
+          <Label
+            htmlFor="online-select"
+            className="lg:placeholder-xs xl:placeholder-sm mb-1"
+          >
             Online:
           </Label>
           <CustomSelect
@@ -165,13 +177,23 @@ function AdminBusinessesList() {
       {isBusinessesError && <p>Помилка: {error?.message}</p>}
       {/*  List*/}
       {businesses?.length > 0 && (
-        <div className="bg-background-main-50 lg:px-1 lg:py-4">
+        <div className="bg-background-main-50 rounded-lg lg:px-1 lg:py-4">
           <div className="grid w-full min-w-0 grid-cols-[1fr_1fr_1fr_1fr_0.5fr] px-2 lg:mb-6">
-            <div className="min-w-0 py-2">Найменування </div>
-            <div className="min-w-0 py-2">Статус</div>
-            <div className="min-w-0 py-2">Категорія</div>
-            <div className="min-w-0 py-2">Місто</div>
-            <div className="min-w-0 py-2">Онлайн</div>
+            <div className="title-h6 min-w-0 py-2">
+              <span>Найменування </span>
+            </div>
+            <div className="title-h6 min-w-0 py-2">
+              <span>Статус</span>
+            </div>
+            <div className="title-h6 min-w-0 py-2">
+              <span>Категорія</span>
+            </div>
+            <div className="title-h6 min-w-0 py-2">
+              <span>Місто</span>
+            </div>
+            <div className="title-h6 min-w-0 py-2">
+              <span>Онлайн</span>
+            </div>
           </div>
           <ul className="flex flex-col lg:gap-5">
             {businesses.map((b) => (
@@ -179,11 +201,11 @@ function AdminBusinessesList() {
                 key={b.id}
                 className="bg-background-main-200 grid grid-cols-[1fr_1fr_1fr_1fr_0.5fr] items-center justify-center rounded-lg p-2 px-2"
               >
-                <div className="py-2">
+                <div className="title-h6 py-2">
                   <p className="">{b.name}</p>
                 </div>
 
-                <div className="py-2">
+                <div className="title-h6 py-2">
                   <BusinessStatusForm
                     businessId={b.id}
                     currentStatus={b.status}
@@ -191,11 +213,11 @@ function AdminBusinessesList() {
                   />
                 </div>
 
-                <div className="py-2">
+                <div className="title-h6 py-2">
                   <p className="">{b.categoryName}</p>
                 </div>
 
-                <div className="py-2">
+                <div className="title-h6 py-2">
                   <p className="">City</p>
                 </div>
 
@@ -211,7 +233,7 @@ function AdminBusinessesList() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
                       // shadow-menu border-icons-grey-400 border
-                      className="xl:w-75 lg:w-65 w-50 border-icons-grey-400 shadow-menu rounded-none border"
+                      className="xl:w-65 lg:w-65 w-50 border-icons-grey-400 shadow-menu rounded-none border"
                       align="center"
                       side="left"
                     >

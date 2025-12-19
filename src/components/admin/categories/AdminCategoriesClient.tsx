@@ -172,14 +172,15 @@ function AdminCategoriesClient() {
             'Зачинити'
           ) : (
             <>
-              <Plus className="lg:size-4" /> <span>Додати категорію</span>
+              <Plus className="lg:size-4 xl:size-4" />{' '}
+              <span>Додати категорію</span>
             </>
           )}
         </button>
         {openInput && (
           <>
             <input
-              className={`input-custom px-4 ${
+              className={`input-custom w-2/3 px-4 ${
                 isAdding ? 'cursor-not-allowed opacity-50' : ''
               }`}
               //   className="input-custom"
@@ -189,7 +190,7 @@ function AdminCategoriesClient() {
               onChange={(e) => setNewName(e.target.value)}
               disabled={isAdding}
             />
-            <div className="flex justify-between">
+            <div className="flex w-2/3 justify-between">
               <button
                 onClick={handleAdd}
                 disabled={isAdding || !newName.trim()}
@@ -231,7 +232,7 @@ function AdminCategoriesClient() {
                 {isEditingCategory ? (
                   <>
                     <input
-                      className={`cursor-not-allowed p-2 opacity-50 ${
+                      className={`cursor-not-allowed p-2 opacity-90 ${
                         isEditingCategory
                           ? 'text-text-800-grey border-b-text-500-grey mr-8 w-full cursor-text border-b px-0 outline-none'
                           : ''
@@ -248,7 +249,7 @@ function AdminCategoriesClient() {
                         }))
                       }
                     />
-                    <div className="flex lg:gap-4">
+                    <div className="flex lg:gap-4 xl:gap-8">
                       <button
                         className="cursor-pointer border border-green-500 p-2 disabled:cursor-not-allowed"
                         onClick={() => saveEditing(categoryId)}
@@ -268,7 +269,7 @@ function AdminCategoriesClient() {
                 ) : (
                   <>
                     <span className="title-h6">{name}</span>
-                    <div className="flex lg:gap-4">
+                    <div className="flex lg:gap-4 xl:gap-8">
                       <button
                         onClick={() => startEditing(categoryId, name)}
                         className="cursor-pointer border-none p-2"

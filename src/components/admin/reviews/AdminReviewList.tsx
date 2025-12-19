@@ -64,32 +64,43 @@ function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
         <p>Ще нема відгуків зі статусом ${currentStatus}</p>
       )}
       {reviews && reviews.length > 0 && (
-        <ul className="flex flex-col gap-2">
+        <ul className="bg-background-main-100 flex flex-col gap-4 px-4 py-4">
           {reviews.map((r) => (
             <li
               key={r.id}
-              className="bg-text-50-grey grid grid-cols-[0.5fr_3fr_1fr_0.5fr] items-center justify-center gap-4 px-2 py-2"
+              className="shadow-menu bg-text-50-grey grid grid-cols-[0.5fr_3fr_1fr_0.5fr] items-center justify-center gap-4 px-2 py-2"
             >
-              <p className="flex-1/6 text-sm text-gray-600">
-                {r.createdAt?.toLocaleDateString()}
-              </p>
-              <p className="flex-3/6">{r.text}</p>
-              <BusinessReviewForm
-                businessId={businessId}
-                reviewId={r.id}
-                currentStatus={currentStatus}
-              />
-              <button
-                className="text-icons-color-error xl:placeholder-base focus:bg-elements-grey-200/50 hover:bg-elements-grey-200/50 mx-auto flex cursor-pointer items-center justify-center border-none bg-transparent px-3 py-1.5 text-sm disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:focus:bg-transparent lg:px-2"
-                // onClick={() => handleDelete(r.id)}
-                disabled={deleteReviewMutation.isPending}
-                onClick={() => {
-                  setDeleteReviewId(r.id);
-                  setDialogOpen(true);
-                }}
-              >
-                <IconRecycle className="text-icons-color-error size-4 xl:mr-3 xl:size-5" />
-              </button>
+              <div className="border-r-elements-grey-200 flex h-full items-center border-r pr-2">
+                <p className="placeholder-sm xl:placeholder-base text-gray-600">
+                  {r.createdAt?.toLocaleDateString()}
+                </p>
+              </div>
+
+              <div className="border-r-elements-grey-200 flex h-full items-center border-r pr-2">
+                <p className="placeholder-sm xl:placeholder-base">{r.text}</p>
+              </div>
+
+              <div className="border-r-elements-grey-200 flex h-full items-center border-r pr-4">
+                <BusinessReviewForm
+                  businessId={businessId}
+                  reviewId={r.id}
+                  currentStatus={currentStatus}
+                />
+              </div>
+
+              <div>
+                <button
+                  className="text-icons-color-error placeholder-sm xl:placeholder-base focus:bg-elements-grey-200/50 hover:bg-elements-grey-200/50 mx-auto flex cursor-pointer items-center justify-center border-none bg-transparent px-3 py-1.5 text-sm disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:focus:bg-transparent lg:px-2"
+                  // onClick={() => handleDelete(r.id)}
+                  disabled={deleteReviewMutation.isPending}
+                  onClick={() => {
+                    setDeleteReviewId(r.id);
+                    setDialogOpen(true);
+                  }}
+                >
+                  <IconRecycle className="text-icons-color-error size-4 xl:size-5" />
+                </button>
+              </div>
             </li>
           ))}
         </ul>

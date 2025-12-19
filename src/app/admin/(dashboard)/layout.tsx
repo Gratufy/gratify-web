@@ -53,8 +53,7 @@ export default async function AdminDashboardLayout({
     <HydrationBoundary state={dehydratedState}>
       <div className="bg-background-grey-50 flex min-h-screen w-full lg:flex lg:gap-6">
         <AdminSidebar />
-
-        {children}
+        <div className="w-full lg:pr-[50px] xl:pr-[100px]"> {children}</div>
       </div>
     </HydrationBoundary>
   );
