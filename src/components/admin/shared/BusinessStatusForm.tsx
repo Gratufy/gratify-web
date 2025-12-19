@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { BusinessStatus } from '@/types/enums';
+
 import { BUSINESS_STATUS, OWNER_ALLOWED_TRANSITIONS } from '@/const/business';
 import { BUSINESS_STATUS_LABELS } from '@/const/business';
 
@@ -8,7 +10,6 @@ import { useChangeBusinessStatus } from '@/hooks/OwnerAndAdmin/useChangeBusiness
 import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
-import { BusinessStatus } from '@/types/enums';
 
 function getOwnerOptions(currentStatus: BusinessStatus) {
   const allowedNextStatuses = OWNER_ALLOWED_TRANSITIONS[currentStatus] || [];
@@ -43,7 +44,7 @@ export function BusinessStatusForm({
   // }, [currentStatus]);
   // const mutation = useUpdateBusiness();
   const mutation = useChangeBusinessStatus();
-  console.log('BusinessStatusForm rendered with currentStatus:', currentStatus);
+
   const handleChange = async () => {
     if (!newStatus) return;
     try {
@@ -107,7 +108,7 @@ export function BusinessStatusForm({
       <CustomAlertDialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
-        title={`Ви впевнені, що хочете змінити статус ${BUSINESS_STATUS_LABELS[status]} на ${BUSINESS_STATUS_LABELS[newStatus]}?`}
+        title={`Ви впевнені, що хочете змінити статус "${BUSINESS_STATUS_LABELS[currentStatus]}" на "${BUSINESS_STATUS_LABELS[newStatus]}"?`}
         actionContent="Змінити"
         cancelText="Скасувати"
         classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"

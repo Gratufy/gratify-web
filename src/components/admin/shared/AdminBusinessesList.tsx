@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
+import { BusinessStatus, OnlineFilter } from '@/types/enums';
+
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 import { BUSINESS_STATUS, BUSINESS_STATUS_LABELS } from '@/const/business';
 import { ONLINE_STATUS } from '@/const/online-status';
@@ -29,8 +31,7 @@ import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
 import { BusinessStatusForm } from '@/components/admin/shared/BusinessStatusForm';
-import AdminSkeleton from './AdminSkeleton';
-import { BusinessStatus, OnlineFilter } from '@/types/enums';
+import AdminSkeleton from '@/components/admin/shared/AdminSkeleton';
 
 function AdminBusinessesList() {
   const {

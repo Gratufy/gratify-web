@@ -1,7 +1,8 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
-import {} from '@/types';
+
+import { BusinessReviewStatus, OnlineFilter } from '@/types/enums';
 
 import {
   BUSINESS_REVIEW_STATUS,
@@ -20,8 +21,7 @@ import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import { Label } from '@/components/ui/label';
 
 import AdminReviewList from '@/components/admin/reviews/AdminReviewList';
-import AdminSkeleton from '../shared/AdminSkeleton';
-import { BusinessReviewStatus, OnlineFilter } from '@/types/enums';
+import AdminSkeleton from '@/components/admin/shared/AdminSkeleton';
 
 function AdminReviewClient() {
   const {

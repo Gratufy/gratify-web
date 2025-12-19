@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import CustomSelect from '../../ui/custom-ui/CustomSelect';
+
+import { BusinessReviewStatus } from '@/types/enums';
+
 import {
   BUSINESS_REVIEW_STATUS,
   BUSINESS_REVIEW_STATUS_LABELS,
 } from '@/const/review';
 
 import { useUpdateReviewStatus } from '@/hooks/useReviews';
-import { CustomToast } from '../../ui/custom-ui/CustomToast';
-import { CustomAlertDialog } from '../../ui/custom-ui/CustomAlertDialog';
-import { BusinessReviewStatus } from '@/types/enums';
+
+import CustomSelect from '@/components//ui/custom-ui/CustomSelect';
+import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
+import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
 interface BusinessReviewFormProps {
   businessId: string;

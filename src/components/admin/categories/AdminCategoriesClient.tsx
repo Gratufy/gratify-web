@@ -13,7 +13,7 @@ import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
-import AdminSkeleton from '../shared/AdminSkeleton';
+import AdminSkeleton from '@/components/admin/shared/AdminSkeleton';
 
 function AdminCategoriesClient() {
   const {

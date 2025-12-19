@@ -51,7 +51,7 @@ function AdminSidebar() {
         <IconSettings className="lg:size-5 xl:size-6" />
         <span>Налаштування</span>
       </Link>
-      <LogoutBtn customClassName="admin-link" />
+      <LogoutBtn customClassName="admin-link cursor-pointer" />
     </nav>
   );
 }
