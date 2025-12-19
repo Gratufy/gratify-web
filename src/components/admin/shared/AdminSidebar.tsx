@@ -14,44 +14,44 @@ function AdminSidebar() {
   const pathname = usePathname();
 
   return (
-    <nav className="lg:w-65 bg-background-main-50 hidden min-h-screen flex-col lg:flex lg:gap-8 lg:pl-[50px] lg:pt-3">
+    <nav className="lg:w-65 xl:w-100 bg-background-main-50 hidden min-h-screen flex-col lg:flex lg:gap-8 lg:pb-8 lg:pl-[50px] lg:pt-3 xl:pl-[100px]">
       {/*isactive background-main-100 text-text-800-main */}
       <Link
         href="/admin"
         className={`admin-link ${pathname === '/admin' ? 'admin-link-active' : ''}`}
       >
-        <IconMain className="size-5" />
+        <IconMain className="lg:size-5 xl:size-6" />
         <span>Головна</span>
       </Link>
       <Link
         href="/admin/modering"
         className={`admin-link ${pathname === '/admin/modering' ? 'admin-link-active' : ''}`}
       >
-        <IconModering className="size-5" />
+        <IconModering className="lg:size-5 xl:size-6" />
         <span>Модерування</span>
       </Link>
       <Link
         href="/admin/categories"
-        className={`admin-link ${pathname === '/admin/categorie' ? 'admin-link-active' : ''}`}
+        className={`admin-link ${pathname === '/admin/categories' ? 'admin-link-active' : ''}`}
       >
-        <IconCategory className="size-5" />
+        <IconCategory className="lg:size-5 xl:size-6" />
         <span>Категорії</span>
       </Link>
       <Link
         href="/admin/review"
         className={`admin-link ${pathname === '/admin/review' ? 'admin-link-active' : ''}`}
       >
-        <EditPen className="size-5" />
+        <EditPen className="lg:size-5 xl:size-6" />
         <span>Відгуки</span>
       </Link>
       <Link
         href="/admin/settings"
         className={`admin-link ${pathname === '/admin/settings' ? 'admin-link-active' : ''}`}
       >
-        <IconSettings className="size-5" />
+        <IconSettings className="lg:size-5 xl:size-6" />
         <span>Налаштування</span>
       </Link>
-      <LogoutBtn customClassName="admin-link" />
+      <LogoutBtn customClassName="admin-link cursor-pointer" />
     </nav>
   );
 }

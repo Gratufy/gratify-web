@@ -24,6 +24,7 @@ type CustomAlertDialogProps = {
   cancelClassName?: string;
   classNameTitle?: string;
   classNameDescription?: string;
+  classNameContent?: string;
   // actionHref?: string;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -41,6 +42,7 @@ export function CustomAlertDialog({
   cancelClassName,
   classNameTitle,
   classNameDescription,
+  classNameContent,
   // actionHref,
   open,
   onOpenChange,
@@ -49,7 +51,7 @@ export function CustomAlertDialog({
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
 
-      <AlertDialogContent>
+      <AlertDialogContent className={classNameContent}>
         <AlertDialogCancel className="hover:text-icons-color-accent absolute right-3 top-3 h-5 cursor-pointer border-none px-0 py-0">
           <IconCross className="size-5" />
         </AlertDialogCancel>
@@ -66,14 +68,11 @@ export function CustomAlertDialog({
         </AlertDialogHeader>
 
         <AlertDialogFooter>
-          <AlertDialogCancel className={cn('btn-reject', cancelClassName)}>
+          <AlertDialogCancel className={cn(cancelClassName)}>
             {cancelText}
           </AlertDialogCancel>
 
-          <AlertDialogAction
-            className={cn('btn-aprove', actionClassName)}
-            onClick={onAction}
-          >
+          <AlertDialogAction className={cn(actionClassName)} onClick={onAction}>
             {actionContent}
           </AlertDialogAction>
           {/* <AlertDialogAction asChild>

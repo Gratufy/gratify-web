@@ -1,12 +1,11 @@
 'use client';
 import { ONLINE_STATUS_LABELS, SORT_BY_LABELS } from '@/const/business';
 import React from 'react';
-import DeleteAllFiltersBtn from '../../ui/custom-ui/DeleteAllFiltersBtn';
+import DeleteAllFiltersBtn from '@/components/ui/custom-ui/DeleteAllFiltersBtn';
 
 import { useFilters } from '@/hooks/useFilters';
 
 import { getCategoryLabel } from '@/utils/getCategoryLabel';
-import { BusinessCategory } from '@/types/db';
 
 type SelectedFiltersPanelProps = {
   categoriesWithAll: { categoryId: string; name: string }[];
