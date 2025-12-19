@@ -4,11 +4,8 @@ import { db } from '@/db';
 import { businesses, businessReviews, userProfiles } from '@/db/schema';
 import { eq, and, desc, sql } from 'drizzle-orm';
 import { isAdmin } from '../helpers/isAdmin';
-import {
-  BusinessReviewStatus,
-  BusinessReviewWithUser,
-  ScopeReview,
-} from '@/types';
+import { BusinessReviewWithUser } from '@/types';
+import { BusinessReviewStatus, ScopeReview } from '@/types/enums';
 
 export async function createReview({
   businessId,

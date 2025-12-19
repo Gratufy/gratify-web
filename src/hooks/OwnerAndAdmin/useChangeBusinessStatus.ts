@@ -2,9 +2,8 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { BusinessStatus } from '@/types';
-
 import { changeBusinessStatus } from '@/lib/actions/admin/changeBusinessStatus';
+import { BusinessStatus } from '@/types/enums';
 
 export function useChangeBusinessStatus() {
   const queryClient = useQueryClient();

@@ -10,7 +10,7 @@ import EditPen from '@/assets/icons/general/feedback-edit.svg';
 
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
-import { BusinessStatus } from '@/types';
+import { BusinessStatus } from '@/types/enums';
 
 type Props = {
   id: string;

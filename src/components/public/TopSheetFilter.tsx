@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { OnlineFilter, SortBy } from '@/types';
+
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 
 import CheckIcon from '@/assets/icons/general/icon-check.svg';
@@ -26,6 +26,7 @@ import SortFilterComponent from '../shared/filters/SortFilterComponent';
 import CategoryRadio from '../shared/filters/CategoryRadio';
 import { useFilters } from '@/hooks/useFilters';
 import { getCityLabel } from '@/utils/getCityLabel';
+import { OnlineFilter, SortBy } from '@/types/enums';
 
 type TopSheetFilterProps = {
   categoriesWithAll: { categoryId: string; name: string }[];

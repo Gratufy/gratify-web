@@ -7,8 +7,7 @@ import { verifySession } from '@/lib/dal';
 import { redirect } from 'next/navigation';
 
 import { getBusinesses } from '@/lib/actions/businesses';
-import Footer from '@/components/public/PublicFooter/Footer';
-import PublicHeader from '@/components/public/PublicHeader/PublicHeader';
+
 import AdminSidebar from '@/components/admin/shared/AdminSidebar';
 
 export default async function AdminDashboardLayout({

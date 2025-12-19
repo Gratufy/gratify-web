@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import { BusinessStatus } from '@/types';
-
 import { BUSINESS_STATUS, OWNER_ALLOWED_TRANSITIONS } from '@/const/business';
 import { BUSINESS_STATUS_LABELS } from '@/const/business';
 
@@ -10,6 +8,7 @@ import { useChangeBusinessStatus } from '@/hooks/OwnerAndAdmin/useChangeBusiness
 import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
+import { BusinessStatus } from '@/types/enums';
 
 function getOwnerOptions(currentStatus: BusinessStatus) {
   const allowedNextStatuses = OWNER_ALLOWED_TRANSITIONS[currentStatus] || [];

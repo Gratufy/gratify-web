@@ -1,14 +1,15 @@
 'use client';
 
-import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useMemo, useCallback } from 'react';
 import { DEFAULT_ADMIN_FILTERS } from '@/const/filters-url';
-import { OnlineFilter, SortBy } from '@/types';
+
 import { parseBusinessStatus } from '@/lib/helpers/parseBusinessStatus';
+import { OnlineFilter, SortBy } from '@/types/enums';
 
 export function useAdminFilters() {
   const router = useRouter();
-  const pathname = usePathname();
+
   const searchParams = useSearchParams();
 
   const filters = useMemo(

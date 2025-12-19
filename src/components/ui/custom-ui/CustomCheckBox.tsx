@@ -2,7 +2,7 @@
 import React from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { SpecialOffer } from '@/types';
+import { SpecialOffer } from '@/types/db';
 
 type CustomCheckBoxProps = {
   offers: SpecialOffer[]; // all offers
@@ -15,7 +15,7 @@ function CustomCheckBox({
   offers,
   selectedOfferIds,
   onChange,
-  error,
+  // error,
   className,
 }: CustomCheckBoxProps) {
   if (!offers || offers.length === 0) return <p>No special offers found</p>;

@@ -2,8 +2,8 @@
 
 import { db } from '@/db';
 import { businessImages } from '@/db/schema';
-import { BusinessImage } from '@/types';
-import { eq, desc, sql, and, SQL, inArray, or } from 'drizzle-orm';
+
+import { eq, and, inArray } from 'drizzle-orm';
 
 export async function getCoverImagesForBusinesses(ids: string[]): Promise<
   {

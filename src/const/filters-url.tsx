@@ -1,4 +1,4 @@
-import { BusinessStatus, OnlineFilter, SortBy } from '@/types';
+import { BusinessStatus, OnlineFilter, SortBy } from '@/types/enums';
 
 export const DEFAULT_FILTERS = {
   city: '__all__',

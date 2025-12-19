@@ -1,6 +1,6 @@
 // to check user authentication status
 import 'server-only';
-import { cookies } from 'next/headers';
+// import { cookies } from 'next/headers';
 import { userProfiles } from '@/db/schema';
 import { createClient } from '@/utils/supabase/server';
 import { db } from '@/db';
@@ -17,7 +17,7 @@ export async function verifySession() {
     return null;
   }
 
-  // Берём роль из твоей таблицы user_profiles
+  // Берём роль  таблицы user_profiles
   const [profile] = await db
     .select({
       userId: userProfiles.userId,

@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useMemo, useCallback } from 'react';
 
 import { DEFAULT_FILTERS } from '@/const/filters-url';
-import { OnlineFilter, SortBy } from '@/types';
+import { OnlineFilter, SortBy } from '@/types/enums';
 
 export function useFilters() {
   const router = useRouter();

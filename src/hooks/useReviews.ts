@@ -9,7 +9,7 @@ import {
   updateReviewStatus,
   getBusinessReviews,
 } from '@/lib/actions/reviews';
-import { BusinessReviewStatus, ScopeReview } from '@/types';
+import { BusinessReviewStatus, ScopeReview } from '@/types/enums';
 
 export function useBusinessReviews(
   businessId: string,

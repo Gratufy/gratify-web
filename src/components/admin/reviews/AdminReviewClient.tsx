@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { BusinessReviewStatus, OnlineFilter } from '@/types';
+import {} from '@/types';
 
 import {
   BUSINESS_REVIEW_STATUS,
@@ -21,6 +21,7 @@ import { Label } from '@/components/ui/label';
 
 import AdminReviewList from '@/components/admin/reviews/AdminReviewList';
 import AdminSkeleton from '../shared/AdminSkeleton';
+import { BusinessReviewStatus, OnlineFilter } from '@/types/enums';
 
 function AdminReviewClient() {
   const {
@@ -35,9 +36,6 @@ function AdminReviewClient() {
     {}
   );
   const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>('all');
-
-  // const { data: businesses, isLoading: isBusinessesLoading } =
-  //   useAdminBusinessesByReviewStatus(status, categoryId);
 
   const {
     data: businesses = [],

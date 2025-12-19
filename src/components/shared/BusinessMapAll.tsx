@@ -5,9 +5,9 @@ import 'leaflet/dist/leaflet.css';
 //, Popup
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import L from 'leaflet';
-import type { BusinessWithCategoryName } from '@/types/business';
+
 import { useMap } from 'react-leaflet/hooks';
-import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
+// import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: '/icons/leaflet/marker-icon-2x.png',
@@ -61,10 +61,10 @@ function BusinessMapAll({
   selectedCity = '__all__',
   hoveredId = null,
 }: BusinessMapAllProps) {
-  const cityLabel =
-    selectedCity === '__all__'
-      ? '__all__'
-      : UKRAINE_REGIONAL_CENTERS.find((c) => c.value === selectedCity)?.label;
+  // const cityLabel =
+  //   selectedCity === '__all__'
+  //     ? '__all__'
+  //     : UKRAINE_REGIONAL_CENTERS.find((c) => c.value === selectedCity)?.label;
 
   // const coords = useMemo(
   //   () =>

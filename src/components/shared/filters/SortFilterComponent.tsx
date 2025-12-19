@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { SortBy } from '@/types';
-
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { SortBy } from '@/types/enums';
 
 function SortFilterComponent({
   value,

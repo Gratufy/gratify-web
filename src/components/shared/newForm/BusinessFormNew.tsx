@@ -12,12 +12,7 @@ import type { FieldErrors, UseFormReturn } from 'react-hook-form';
 
 import { businessFormSchema } from '@/shemas/businessFormSchema';
 
-import {
-  BusinessFormValues,
-  BusinessImages,
-  BusinessStatus,
-  BusinessUpdate,
-} from '@/types';
+import { BusinessFormValues, BusinessImages, BusinessUpdate } from '@/types';
 import { PreviewImage } from '@/types/images';
 
 import { useCheckAddress } from '@/hooks/useBusinessLocation';
@@ -54,6 +49,7 @@ import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import OffersMultiSelect from '@/components/shared/filters/OffersMultiSelect';
 import ImagesBlock from '@/components/shared/newForm/ImagesBlock';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
+import { BusinessStatus } from '@/types/enums';
 
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
@@ -826,7 +822,7 @@ export default function BusinessFormNew({
             {/* ------ */}
           </div>
         </div>
-        <div className="flex gap-6">
+        <div className="mb-15 flex gap-6">
           <button
             className="btn-reject"
             type="submit"

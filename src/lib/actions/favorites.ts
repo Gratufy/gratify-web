@@ -2,13 +2,14 @@
 import { db } from '@/db';
 import { businessCategories, businesses, favorites } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
-import type { BusinessWithCategoryName, Favorite } from '@/types';
+import type { BusinessWithCategoryName } from '@/types';
 import { createClient } from '@/utils/supabase/server';
 import {
   getOwnOffersForBusinesses,
   getSpecialOffersForBusinesses,
 } from '../helpers/getSpecialOffersForBusinesses';
 import { getCoverImagesForBusinesses } from '../helpers/getCoverImagesForBusinesses';
+import { Favorite } from '@/types/db';
 
 //for provider of user favorites. Simplz arraz of favorite business IDs
 export async function getUserFavorites(): Promise<Favorite[]> {
