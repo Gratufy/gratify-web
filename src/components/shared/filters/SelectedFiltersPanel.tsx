@@ -9,7 +9,7 @@ import { getCategoryLabel } from '@/utils/getCategoryLabel';
 import { BusinessCategory } from '@/types/db';
 
 type SelectedFiltersPanelProps = {
-  categoriesWithAll: BusinessCategory[];
+  categoriesWithAll: { categoryId: string; name: string }[];
 };
 
 function SelectedFiltersPanel({

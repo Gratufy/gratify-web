@@ -6,11 +6,16 @@
 //   return category ? category.name : 'Всі категорії';
 // }
 
-import { BusinessCategory } from '@/types/db';
+
 
 export function getCategoryLabel(
   categoryId: string,
-  categoriesWithAll?: BusinessCategory[]
+  categoriesWithAll?:  {
+    categoryId: string;
+    name: string;
+    createdAt?: Date | null;
+    updatedAt?: Date | null;
+  }[]
 ): string {
   return (
     categoriesWithAll?.find((c) => c.categoryId === categoryId)?.name ??
