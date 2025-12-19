@@ -1,12 +1,12 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { queryKeys } from "@/lib/reactQuery/queryKeys";
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { queryKeys } from '@/lib/reactQuery/queryKeys';
 import {
   getAllBusinessCategories,
   addBusinessCategory,
   renameBusinessCategory,
   deleteBusinessCategory,
-} from "@/lib/actions/businessCategories";
-import { BusinessCategory, NewBusinessCategory } from "@/types";
+} from '@/lib/actions/businessCategories';
+import { BusinessCategory, NewBusinessCategory } from '@/types/db';
 
 export function useBusinessCategories() {
   const queryClient = useQueryClient();
@@ -40,7 +40,7 @@ export function useBusinessCategories() {
         queryKey: queryKeys.businessCategories,
       });
       queryClient.invalidateQueries({
-        queryKey: ["businesses"], // вместо queryKeys.businesses
+        queryKey: ['businesses'], // вместо queryKeys.businesses
         exact: false,
       });
     },

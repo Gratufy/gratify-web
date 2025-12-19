@@ -1,12 +1,13 @@
 import React from 'react';
-import { BusinessSpecialOffer, ownOffersForCard } from '@/types';
+import { OwnOffersForCard } from '@/types';
 import CheckIcon from '@/assets/icons/general/icon-check.svg';
+import { BusinessSpecialOffer } from '@/types/db';
 
 type SpecialOffersProps = {
   specialOffers: (BusinessSpecialOffer & {
     title: string | null;
   })[];
-  ownOffers: ownOffersForCard;
+  ownOffers: OwnOffersForCard;
 };
 
 function SpecialOffersBlock({ specialOffers, ownOffers }: SpecialOffersProps) {

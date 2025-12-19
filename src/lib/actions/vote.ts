@@ -1,11 +1,12 @@
-"use server";
+'use server';
 
-import { createClient } from "@/utils/supabase/server";
-import { db } from "@/db";
-import { businesses, businessVotes } from "@/db/schema";
+import { createClient } from '@/utils/supabase/server';
+import { db } from '@/db';
+import { businesses, businessVotes } from '@/db/schema';
 
-import { eq, and, sql } from "drizzle-orm";
-import type { BusinessVote, NewBusinessVote } from "@/types/business";
+import { eq, and, sql } from 'drizzle-orm';
+
+import { BusinessVote, NewBusinessVote } from '@/types/db';
 
 export async function voteBusiness(
   businessId: string,
@@ -16,7 +17,7 @@ export async function voteBusiness(
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) throw new Error("Unauthorized");
+  if (!user) throw new Error('Unauthorized');
 
   // check if there is vote already
   const existing = await db

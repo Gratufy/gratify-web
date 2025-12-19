@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { OnlineFilter, SortBy } from '@/types';
 
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import CheckIcon from '@/assets/icons/general/icon-check.svg';
@@ -12,6 +11,7 @@ import { SheetClose } from '@/components/ui/sheet';
 import OnlineStatusFilter from '@/components/shared/filters/OnlineStatusFilter';
 import SortFilterComponent from '@/components/shared/filters/SortFilterComponent';
 import { useFilters } from '@/hooks/useFilters';
+import { OnlineFilter, SortBy } from '@/types/enums';
 
 type SortFilterProps = {
   onApply: () => void;

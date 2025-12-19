@@ -2,14 +2,13 @@ import React from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import IconUser from '@/assets/icons/general/icon-user.svg';
 import IconCategory from '@/assets/icons/menu/icon-category.svg';
-import IconModering from '@/assets/icons/menu/icon-modering.svg';
+
 import Link from 'next/link';
 import LogoutBtn from '@/components/ui/custom-ui/LogoutBtn';
 import DeleteAccountButton from '@/components/ui/custom-ui/DeleteAccountButton';

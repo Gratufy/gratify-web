@@ -96,7 +96,7 @@ function PublicHeaderClient() {
             width={181}
             height={38}
             alt="Logo"
-            className="h-auto w-full"
+            className="w-full"
           />
         </Link>
 

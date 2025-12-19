@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
-import { BusinessFormValues, SpecialOffer } from '@/types';
+import { BusinessFormValues } from '@/types';
 
 import { ChevronDownIcon } from 'lucide-react';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
@@ -16,6 +16,7 @@ import {
   // DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { SpecialOffer } from '@/types/db';
 // import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
 
 // import CheckIcon from '@/assets/icons/general/icon-check.svg';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { OnlineFilter } from '@/types';
+import { OnlineFilter } from '@/types/enums';
 
 function OnlineStatusFilter({
   value,

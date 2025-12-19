@@ -1,7 +1,8 @@
-"use server";
-import { db } from "@/db";
-import { specialOffers } from "@/db/schema";
-import { SpecialOffer } from "@/types";
+'use server';
+import { db } from '@/db';
+import { specialOffers } from '@/db/schema';
+import {} from '@/types';
+import { SpecialOffer } from '@/types/db';
 
 export async function getAllSpecialOffers(): Promise<SpecialOffer[]> {
   try {
@@ -11,7 +12,7 @@ export async function getAllSpecialOffers(): Promise<SpecialOffer[]> {
       .orderBy(specialOffers.createdAt);
     return offers;
   } catch (error) {
-    console.error("Failed to fetch special offers:", error);
-    throw new Error("Failed to fetch special offers");
+    console.error('Failed to fetch special offers:', error);
+    throw new Error('Failed to fetch special offers');
   }
 }

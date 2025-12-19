@@ -5,13 +5,13 @@ import { eq } from 'drizzle-orm';
 import { createClient } from '@/utils/supabase/server';
 
 import { businesses } from '@/db/schema';
-import { BusinessStatus } from '@/types/business';
 
 import { isAdmin } from '@/lib/helpers/isAdmin';
 import {
   BUSINESS_STATUS_ALL,
   OWNER_ALLOWED_TRANSITIONS,
 } from '@/const/business';
+import { BusinessStatus } from '@/types/enums';
 
 export async function changeBusinessStatus(
   id: string,

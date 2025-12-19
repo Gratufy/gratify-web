@@ -1,4 +1,4 @@
-import { BusinessCategory } from '@/types';
+import { BusinessCategory } from '@/types/db';
 
 export function getCategoriesWithAll(categories: BusinessCategory[]): {
   categoryId: string;

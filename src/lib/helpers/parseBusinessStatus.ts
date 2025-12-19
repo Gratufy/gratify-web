@@ -1,5 +1,6 @@
 import { DEFAULT_ADMIN_FILTERS } from '@/const/filters-url';
-import { BusinessStatus } from '@/types';
+
+import { BusinessStatus } from '@/types/enums';
 
 export function parseBusinessStatus(value: string | null): BusinessStatus {
   if (!value) return DEFAULT_ADMIN_FILTERS.businessStatus;

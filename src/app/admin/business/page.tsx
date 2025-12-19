@@ -1,6 +1,5 @@
 import React from 'react';
 
-import GoBackButton from '@/components/ui/custom-ui/GoBackButton';
 import AdminBusinessClient from '@/components/admin/business/AdminBusinessClient';
 
 export default async function BAdminBusinessPage() {

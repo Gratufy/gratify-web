@@ -1,4 +1,4 @@
-import { BusinessStatus } from '@/types';
+import { BusinessStatus } from '@/types/enums';
 
 export const BUSINESS_STATUS_ALL: BusinessStatus[] = [
   'pending',

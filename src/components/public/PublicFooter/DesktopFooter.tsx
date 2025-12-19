@@ -17,7 +17,7 @@ function DesktopFooter() {
             width={344}
             height={71}
             alt="Logo"
-            className="h-auto w-full"
+            className="h-auto"
           />
         </div>
         {/* lg:gap-4 xl:gap-7*/}

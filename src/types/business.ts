@@ -1,55 +1,64 @@
+import { Business, BusinessReview, BusinessSpecialOffer } from './db';
 import {
-  businessCategories,
-  businesses,
-  // businessHours,
-  businessLocations,
-  businessOwnSpecialOffers,
-  businessReviews,
-  businessSpecialOffers,
-  businessVotes,
-  favorites,
-  specialOffers,
-} from '@/db/schema';
+  BusinessReviewStatus,
+  BusinessStatus,
+  OnlineFilter,
+  Scope,
+  SortBy,
+} from './enums';
+
+//Location
+//more for form update.
+export type LocationFormData = {
+  city?: string | null;
+  // district?: string | null;
+  address?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+};
+//more for get
+export type BusinessLocationDTO = {
+  city: string;
+  address?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+};
+
+//OFFERS own offers for card
+export type OwnOfferForCard = {
+  offerId: string;
+  businessId: string;
+  title: string;
+};
+export type OfferRow = {
+  offerId: string;
+  businessId: string;
+  title: string | null;
+};
+export type OwnOffersForCard = OwnOfferForCard[];
+//OFFERS own offers for card
+export type AllOffersRows = OfferRow[];
 
 //Business
-export type Business = typeof businesses.$inferSelect;
 
 // +
 export type BusinessWithCategoryName = Business & {
   categoryName: string | null;
-  locations: {
-    city: string;
-    address?: string | null;
-    latitude?: number | null;
-    longitude?: number | null;
-  }[];
-
-  allOffersRows: allOffersRows;
+  locations: BusinessLocationDTO[];
+  allOffersRows: AllOffersRows;
   coverImageUrl?: string | null;
 };
-// export type AdminBusinessRow = Business & {
-//   filteredReviewCount: number; // dynamic count based on selected status
-// };
 
 // for one card details- NEW!!!! +
 export type BusinessWithDetails = Business & {
   categoryName: string;
-  locations: {
-    city: string;
-    address?: string | null;
-    latitude?: number | null;
-    longitude?: number | null;
-  }[];
-  specialOffers: (BusinessSpecialOffer & {
-    title: string | null;
-  })[];
-  ownOffers: ownOffersForCard;
+  locations: BusinessLocationDTO[];
+  specialOffers: AllOffersRows;
+  ownOffers: OwnOffersForCard;
   images: BusinessImages;
 };
 
-//export type NewBusiness = typeof businesses.$inferInsert;
-
-//+
+//+ for form / UI
 export type BusinessFormValues = {
   name: string;
   description: string;
@@ -60,15 +69,14 @@ export type BusinessFormValues = {
   locations: LocationFormData[];
   ownOffers: string[];
 };
-//FORM +
+//FORM + for API / create/update
 export type NewBusinessFormData = {
   name: string;
   description: string;
   website?: string | null;
-  categoryId: string;
   isOnline: boolean;
-  specialOffers: NewBusinessSpecialOffer['offerId'][];
-  //ownOffers?: BusinessOwnSpecialOffer['title'][];
+  categoryId: string;
+  specialOffers: BusinessSpecialOffer['offerId'][];
   locations: LocationFormData[];
   ownOffers?: string[];
 };
@@ -98,11 +106,6 @@ export type GetBusinessesWithPagination = GetBusinessesParams & {
   offset?: number;
 };
 
-// export type BusinessesResponse = {
-//   businesses: BusinessWithCategoryName[];
-//   total: number;
-// };
-
 //images
 //+~
 export type BusinessImage = {
@@ -111,24 +114,9 @@ export type BusinessImage = {
 };
 //+
 export type BusinessImages = BusinessImage[];
-//Sort
-export type SortBy = 'newest' | 'mostKarma' | 'hot';
-export type Scope = 'public' | 'business_user' | 'admin';
-export type OnlineFilter = 'all' | 'online' | 'offline';
-export type BusinessStatus =
-  | 'pending'
-  | 'approved'
-  | 'hidden'
-  | 'rejected'
-  | 'draft';
-
-//export type BusinessStatus = (typeof BUSINESS_STATUS)[number];
 
 //Review
-export type BusinessReview = typeof businessReviews.$inferSelect;
-export type NewBusinessReview = typeof businessReviews.$inferInsert;
-export type BusinessReviewStatus = 'pending' | 'approved' | 'rejected';
-export type ScopeReview = 'public' | 'admin';
+
 export type BusinessReviewWithUser = BusinessReview & {
   user: {
     name: string | null;
@@ -137,55 +125,14 @@ export type BusinessReviewWithUser = BusinessReview & {
 };
 
 // Category
-export type BusinessCategory = typeof businessCategories.$inferSelect;
-export type NewBusinessCategory = typeof businessCategories.$inferInsert;
+
 export type RenameCategoryInput = {
   id: string;
   name: string;
 };
 
-//Vote
-export type BusinessVote = typeof businessVotes.$inferSelect;
-export type NewBusinessVote = typeof businessVotes.$inferInsert;
-
-//Location
-export type BusinessLocation = typeof businessLocations.$inferSelect;
-export type NewBusinessLocation = typeof businessLocations.$inferInsert;
-export type LocationFormData = {
-  city?: string | null;
-  district?: string | null;
-  address?: string | null;
-  latitude?: number | null;
-  longitude?: number | null;
-};
-
-// //Business Hours
-// export type BusinessHour = typeof businessHours.$inferSelect;
-// export type NewBusinessHour = typeof businessHours.$inferInsert;
-
-//OFFERS
-export type SpecialOffer = typeof specialOffers.$inferSelect;
-export type NewSpecialOffer = typeof specialOffers.$inferInsert;
-
-export type BusinessSpecialOffer = typeof businessSpecialOffers.$inferSelect;
-export type NewBusinessSpecialOffer = typeof businessSpecialOffers.$inferInsert;
-
-//own offers
-export type BusinessOwnSpecialOffer =
-  typeof businessOwnSpecialOffers.$inferSelect;
-export type ownOfferForCard = {
-  offerId: string;
-  businessId: string;
-  title: string;
-};
-export type ownOffersForCard = ownOfferForCard[];
-export type allOffersRows = {
-  offerId: string;
-  businessId: string;
-  title: string | null;
-}[];
 //FAVORITES
-export type Favorite = typeof favorites.$inferSelect;
+
 export type BusinessFavorite = Business & {
   categoryName: string;
   specialOffers: (BusinessSpecialOffer & {
@@ -193,7 +140,7 @@ export type BusinessFavorite = Business & {
   })[];
 };
 
-//////////////
+//ADMIN
 //old one
 export type AdminBusinessRow = {
   id: string;
@@ -207,7 +154,6 @@ export type AdminBusinessRow = {
   reviewCount: number;
   filteredReviewCount: number;
 };
-
 //new one
 export type AdminBusinessRowType = {
   id: string;

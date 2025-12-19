@@ -1,17 +1,18 @@
-"use server";
+'use server';
 
-import { createClient } from "@/utils/supabase/server";
-import { db } from "@/db";
-import { businessCategories, businesses } from "@/db/schema";
-import { eq } from "drizzle-orm";
-import { isAdmin } from "@/lib/helpers/isAdmin";
+import { createClient } from '@/utils/supabase/server';
+import { db } from '@/db';
+import { businessCategories, businesses } from '@/db/schema';
+import { eq } from 'drizzle-orm';
+import { isAdmin } from '@/lib/helpers/isAdmin';
 import {
-  BusinessCategory,
-  NewBusinessCategory,
+  // BusinessCategory,
+  // NewBusinessCategory,
   RenameCategoryInput,
-} from "@/types";
+} from '@/types';
+import { BusinessCategory, NewBusinessCategory } from '@/types/db';
 
-const PROTECTED_CATEGORY_ID = "11111111-1111-1111-1111-111111111111";
+const PROTECTED_CATEGORY_ID = '11111111-1111-1111-1111-111111111111';
 
 // async function isAdmin(userId: string) {
 //   const profile = await db
@@ -33,9 +34,9 @@ export async function addBusinessCategory(category: NewBusinessCategory) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) throw new Error("Not authenticated");
+  if (!user) throw new Error('Not authenticated');
   if (!(await isAdmin(user.id)))
-    throw new Error("Forbidden for non-admin users");
+    throw new Error('Forbidden for non-admin users');
 
   await db.insert(businessCategories).values(category);
 }
@@ -48,9 +49,9 @@ export async function renameBusinessCategory({
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) throw new Error("Not authenticated");
+  if (!user) throw new Error('Not authenticated');
   if (!(await isAdmin(user.id)))
-    throw new Error("Forbidden for non-admin users");
+    throw new Error('Forbidden for non-admin users');
 
   await db
     .update(businessCategories)
@@ -63,11 +64,11 @@ export async function deleteBusinessCategory(id: string) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) throw new Error("Not authenticated");
+  if (!user) throw new Error('Not authenticated');
   if (!(await isAdmin(user.id)))
-    throw new Error("Forbidden for non-admin users");
+    throw new Error('Forbidden for non-admin users');
   if (id === PROTECTED_CATEGORY_ID)
-    throw new Error("Cannot delete protected category");
+    throw new Error('Cannot delete protected category');
   /*  // update businesses categoryId that has deleted category
   await db
     .update(businesses)

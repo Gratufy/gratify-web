@@ -1,9 +1,5 @@
-import {
-  BusinessReviewStatus,
-  GetBusinessesParams,
-  ScopeReview,
-  UseAdminBusinessesParams,
-} from '@/types';
+import { GetBusinessesParams, UseAdminBusinessesParams } from '@/types';
+import { BusinessReviewStatus, ScopeReview } from '@/types/enums';
 
 export const queryKeys = {
   businessCategories: ['businessCategories'] as const,

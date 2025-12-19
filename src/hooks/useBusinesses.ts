@@ -9,16 +9,11 @@ import {
 } from '@tanstack/react-query';
 import { queryKeys } from '@/lib/reactQuery/queryKeys';
 
-import {
-  getBusinesses,
-  getBusinessesWithReviewStatus,
-} from '@/lib/actions/businesses';
+import { getBusinesses } from '@/lib/actions/businesses';
 import { getBusinessById } from '@/lib/actions/getBusinessById';
 import { createBusiness } from '@/lib/actions/createBusiness';
 import {
   AdminBusinessRowType,
-  BusinessReviewStatus,
-  BusinessStatus,
   BusinessUpdate,
   BusinessWithDetails,
   GetBusinessesParams,
@@ -29,6 +24,7 @@ import { PAGE_SIZE } from '@/const/business';
 import { updateBusiness } from '@/lib/actions/updateBusiness';
 import { deleteBusiness } from '@/lib/actions/deleteBusiness';
 import { getBusinessesForAdmin } from '@/lib/actions/admin/getBusinessesForAdmin';
+import { BusinessStatus } from '@/types/enums';
 
 // export type UseBusinessesParams = GetBusinessesParams;
 // all businesses
@@ -70,21 +66,6 @@ export function useInfiniteBusinesses(
   });
 }
 
-// one business
-// export function useBusiness(id: string) {
-//   const queryClient = useQueryClient();
-
-//   return useQuery<BusinessWithCategoryName | null>({
-//     queryKey: queryKeys.businessById(id),
-//     queryFn: () => getBusinessById(id),
-//     initialData: () =>
-//       queryClient.getQueryData<BusinessWithCategoryName>(
-//         queryKeys.businessById(id)
-//       ) ?? null,
-//     staleTime: 1000 * 60 * 10,
-//     enabled: !!id,
-//   });
-// }
 //I do not remember if we use it
 export function useBusiness(
   businessId: string,
@@ -118,26 +99,6 @@ export function useCreateBusiness() {
     },
   });
 }
-
-// update
-// export function useUpdateBusiness() {
-//   const queryClient = useQueryClient();
-//   return useMutation({
-//     mutationFn: ({ id, values }: { id: string; values: BusinessUpdate }) =>
-//       updateBusiness(id, values),
-//     onSuccess: (_data, variables) => {
-//       // one business
-//       queryClient.invalidateQueries({
-//         queryKey: queryKeys.businessById(variables.id),
-//         exact: true,
-//       });
-//       // all lists
-//       queryClient.invalidateQueries({
-//         queryKey: ['businesses'],
-//       });
-//     },
-//   });
-// }
 
 export function useUpdateBusiness() {
   const queryClient = useQueryClient();
@@ -191,17 +152,17 @@ export function useDeleteBusiness() {
   });
 }
 //get businesses by review status
-export function useAdminBusinessesByReviewStatus(
-  status: BusinessReviewStatus,
-  categoryId?: string | null
-) {
-  return useQuery({
-    queryKey: ['adminBusinessesByReviewStatus', { status, categoryId }],
-    queryFn: () =>
-      getBusinessesWithReviewStatus(status, categoryId ?? undefined),
-    staleTime: 1000 * 60 * 5,
-  });
-}
+// export function useAdminBusinessesByReviewStatus(
+//   status: BusinessReviewStatus,
+//   categoryId?: string | null
+// ) {
+//   return useQuery({
+//     queryKey: ['adminBusinessesByReviewStatus', { status, categoryId }],
+//     queryFn: () =>
+//       getBusinessesWithReviewStatus(status, categoryId ?? undefined),
+//     staleTime: 1000 * 60 * 5,
+//   });
+// }
 
 // new one
 export function useAdminBusinesses(params: UseAdminBusinessesParams) {

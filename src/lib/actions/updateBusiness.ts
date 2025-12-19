@@ -9,16 +9,14 @@ import {
   businessOwnSpecialOffers,
   businessSpecialOffers,
 } from '@/db/schema';
-import { BusinessStatus, NewBusinessFormData } from '@/types/business';
+import { NewBusinessFormData } from '@/types/business';
 
 import { saveBusinessLocations } from '@/lib/actions/businessLocation';
 import { isAdmin } from '@/lib/helpers/isAdmin';
 
 import { getBusinessById } from './getBusinessById';
-import {
-  BUSINESS_STATUS_FOR_FORM,
-  BUSINESS_STATUS_OWNER,
-} from '@/const/business';
+import { BUSINESS_STATUS_FOR_FORM } from '@/const/business';
+import { BusinessStatus } from '@/types/enums';
 
 // update business
 export async function updateBusiness(

@@ -6,6 +6,7 @@ import DeleteAllFiltersBtn from '../../ui/custom-ui/DeleteAllFiltersBtn';
 import { useFilters } from '@/hooks/useFilters';
 
 import { getCategoryLabel } from '@/utils/getCategoryLabel';
+import { BusinessCategory } from '@/types/db';
 
 type SelectedFiltersPanelProps = {
   categoriesWithAll: { categoryId: string; name: string }[];

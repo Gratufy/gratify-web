@@ -7,17 +7,13 @@ import {
   businessCategories,
   businesses,
   businessLocations,
-  businessReviews,
   businessVotes,
 } from '@/db/schema';
 import { eq, desc, sql, and, SQL, inArray, or, ilike } from 'drizzle-orm';
 import {
   BusinessWithCategoryName,
-  BusinessReviewStatus,
-  AdminBusinessRow,
+  // BusinessReviewStatus,
   GetBusinessesWithPagination,
-  AdminBusinessRowType,
-  UseAdminBusinessesParams,
 } from '@/types/business';
 import { isAdmin } from '@/lib/helpers/isAdmin';
 
@@ -289,44 +285,44 @@ export async function getBusinesses(
 }
 
 //for admin
-export async function getBusinessesWithReviewStatus(
-  reviewStatus: BusinessReviewStatus,
-  categoryId?: string
-): Promise<AdminBusinessRow[]> {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) throw new Error('Unauthorized');
+// export async function getBusinessesWithReviewStatus(
+//   reviewStatus: BusinessReviewStatus,
+//   categoryId?: string
+// ): Promise<AdminBusinessRow[]> {
+//   const supabase = await createClient();
+//   const {
+//     data: { user },
+//   } = await supabase.auth.getUser();
+//   if (!user) throw new Error('Unauthorized');
 
-  const isAdminUser = await isAdmin(user.id);
-  if (!isAdminUser) throw new Error('Forbidden');
+//   const isAdminUser = await isAdmin(user.id);
+//   if (!isAdminUser) throw new Error('Forbidden');
 
-  const conditions = [];
-  if (categoryId && categoryId !== '__all__')
-    conditions.push(eq(businesses.categoryId, categoryId));
-  if (reviewStatus) conditions.push(eq(businessReviews.status, reviewStatus));
+//   const conditions = [];
+//   if (categoryId && categoryId !== '__all__')
+//     conditions.push(eq(businesses.categoryId, categoryId));
+//   if (reviewStatus) conditions.push(eq(businessReviews.status, reviewStatus));
 
-  // businesses with matching review status and category
-  const rows = await db
-    .select({
-      id: businesses.id,
-      name: businesses.name,
-      isOnline: businesses.isOnline,
-      categoryId: businesses.categoryId,
-      status: businesses.status,
-      createdAt: businesses.createdAt,
-      updatedAt: businesses.updatedAt,
-      ownerId: businesses.ownerId,
-      reviewCount: businesses.reviewCount,
-      // считаем отзывы выбранного статуса для каждого бизнеса
-      filteredReviewCount: sql<number>`COUNT(${businessReviews.id})`,
-    })
-    .from(businesses)
-    .leftJoin(businessReviews, eq(businesses.id, businessReviews.businessId))
+//   // businesses with matching review status and category
+//   const rows = await db
+//     .select({
+//       id: businesses.id,
+//       name: businesses.name,
+//       isOnline: businesses.isOnline,
+//       categoryId: businesses.categoryId,
+//       status: businesses.status,
+//       createdAt: businesses.createdAt,
+//       updatedAt: businesses.updatedAt,
+//       ownerId: businesses.ownerId,
+//       reviewCount: businesses.reviewCount,
+//       // считаем отзывы выбранного статуса для каждого бизнеса
+//       filteredReviewCount: sql<number>`COUNT(${businessReviews.id})`,
+//     })
+//     .from(businesses)
+//     .leftJoin(businessReviews, eq(businesses.id, businessReviews.businessId))
 
-    .where(conditions.length ? and(...conditions) : undefined)
-    .groupBy(businesses.id);
+//     .where(conditions.length ? and(...conditions) : undefined)
+//     .groupBy(businesses.id);
 
-  return rows;
-}
+//   return rows;
+// }
