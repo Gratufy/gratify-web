@@ -65,24 +65,23 @@ const LogoutBtn = ({ customClassName, onRequestLogout }: LogoutBtnProps) => {
         <IconOut className="size-4 xl:size-5" />
         {loading ? 'Виходимо...' : 'Вихід'}
       </button>
-      {!onRequestLogout && (
-        <CustomAlertDialog
-          // forceMount
-          open={dialogOpen}
-          onOpenChange={setDialogOpen}
-          title="Ви впевнені, що хочете вийти з акаунту? "
-          // description="Цю дію не можна буде скасувати."
-          actionContent="Так, вийти"
-          cancelText="Скасувати"
-          classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
-          classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
-          onAction={() => {
-            handleLogout();
-          }}
-
-          //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
-        />
-      )}
+      {/* {!onRequestLogout && ( */}
+      <CustomAlertDialog
+        // forceMount
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        classNameContent="z-80"
+        title="Ви впевнені, що хочете вийти з акаунту? "
+        // description="Цю дію не можна буде скасувати."
+        actionContent="Так, вийти"
+        cancelText="Скасувати"
+        classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
+        classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
+        onAction={() => {
+          handleLogout();
+        }}
+      />
+      {/* )} */}
     </>
 
     /* I change it later for TOAST */

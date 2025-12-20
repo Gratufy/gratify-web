@@ -6,7 +6,7 @@ function AdminMainClient({ totalBusinesses }: { totalBusinesses: number }) {
   return (
     <>
       <AdminMainDesktop totalBusinesses={totalBusinesses} />
-      <AdminMainMobile />
+      <AdminMainMobile totalBusinesses={totalBusinesses} />
     </>
   );
 }

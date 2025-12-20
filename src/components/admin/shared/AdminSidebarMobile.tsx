@@ -9,25 +9,24 @@ import IconMain from '@/assets/icons/admin/icon-main.svg';
 import EditPen from '@/assets/icons/general/feedback-edit.svg';
 
 import IconSidebar from '@/assets/icons/admin/icon-sidebar.svg';
-import { Button } from '@/components/ui/button';
 
 import {
   Sheet,
   SheetClose,
   SheetContent,
   SheetDescription,
-  SheetFooter,
+  //   SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
 import LogoutBtn from '@/components/ui/custom-ui/LogoutBtn';
-import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
+// import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
 function AdminSidebarMobile() {
   const pathname = usePathname();
   const [sheetOpen, setSheetOpen] = useState(false);
-  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
+  //   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
   return (
     <>
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
@@ -52,7 +51,6 @@ function AdminSidebarMobile() {
               <SheetClose asChild>
                 <Link
                   href="/admin"
-                  onClick={() => setSheetOpen(false)}
                   className={`admin-link ${pathname === '/admin' ? 'admin-link-active' : ''}`}
                 >
                   <IconMain className="size-5" />
@@ -70,9 +68,7 @@ function AdminSidebarMobile() {
                 </Link>
               </SheetClose>
               <SheetClose asChild>
-                
                 <Link
-                  onClick={() => setSheetOpen(false)}
                   href="/admin/categories"
                   className={`admin-link ${pathname === '/admin/categories' ? 'admin-link-active' : ''}`}
                 >
@@ -83,7 +79,6 @@ function AdminSidebarMobile() {
 
               <SheetClose asChild>
                 <Link
-                  onClick={() => setSheetOpen(false)}
                   href="/admin/review"
                   className={`admin-link ${pathname === '/admin/review' ? 'admin-link-active' : ''}`}
                 >
@@ -94,7 +89,6 @@ function AdminSidebarMobile() {
 
               <SheetClose asChild>
                 <Link
-                  onClick={() => setSheetOpen(false)}
                   href="/admin/settings"
                   className={`admin-link ${pathname === '/admin/settings' ? 'admin-link-active' : ''}`}
                 >
@@ -106,18 +100,18 @@ function AdminSidebarMobile() {
               {/* <SheetClose asChild> */}
               <LogoutBtn
                 customClassName="admin-link cursor-pointer"
-                onRequestLogout={() => {
-                  setSheetOpen(false);
-                  setLogoutDialogOpen(true);
-                }}
+                // onRequestLogout={() => {
+                //   setSheetOpen(false);
+                //   setLogoutDialogOpen(true);
+                // }}
               />
               {/* </SheetClose> */}
             </div>
           </div>
         </SheetContent>
       </Sheet>
-      {/* 🔥 Диалог живёт СНАРУЖИ */}
-      <CustomAlertDialog
+
+      {/* <CustomAlertDialog
         open={logoutDialogOpen}
         onOpenChange={setLogoutDialogOpen}
         title="Ви впевнені, що хочете вийти з акаунту?"
@@ -125,7 +119,7 @@ function AdminSidebarMobile() {
         cancelText="Скасувати"
         classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
         classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
-      />
+      /> */}
     </>
   );
 }
