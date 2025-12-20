@@ -1,16 +1,12 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-
+import { UseMutationResult } from '@tanstack/react-query';
 import { BusinessStatus, OnlineFilter } from '@/types/enums';
 
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 import { BUSINESS_STATUS, BUSINESS_STATUS_LABELS } from '@/const/business';
 import { ONLINE_STATUS } from '@/const/online-status';
-
-import { useAdminBusinesses, useDeleteBusiness } from '@/hooks/useBusinesses';
-import { useBusinessCategories } from '@/hooks/useBusinessCategories';
-import { useAdminFilters } from '@/hooks/admin/useAdminFilters';
 
 import IconMenu from '@/assets/icons/admin/icon-menu.svg';
 import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
@@ -27,59 +23,62 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
-import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
+
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
 import { BusinessStatusForm } from '@/components/admin/shared/BusinessStatusForm';
 import AdminSkeleton from '@/components/admin/shared/AdminSkeleton';
+import { BusinessCategory } from '@/types/db';
+import { AdminFilters } from '@/types/filters-query';
+import { AdminBusinessRowType } from '@/types';
 
-function AdminDesktopBusinessesList() {
-  const {
-    categories,
-    // isLoading: isCategoriesLoading,
-    // isError: isCategoriesError,
-  } = useBusinessCategories();
-  const [dialogOpen, setDialogOpen] = useState(false);
+interface AdminDesktopBusinessesListProps {
+  // categories: { categoryId: string; name: string }[] | undefined;
+  categories: BusinessCategory[];
+  dialogOpen: boolean;
+  setDialogOpen: (open: boolean) => void;
+  businessIdToDelete: string;
+  setBusinessIdToDelete: (id: string) => void;
+  sortBy: 'newest' | 'oldest';
+  filters: AdminFilters;
+  updateFilter: <K extends keyof AdminFilters>(
+    key: K,
+    value: AdminFilters[K]
+  ) => void;
+  businesses: AdminBusinessRowType[];
+  isBusinessesLoading: boolean;
+  isBusinessesError: boolean;
+  error: Error | null;
+  deleteBusinessMutation: UseMutationResult<
+    { success: boolean },
+    Error,
+    string,
+    unknown
+  >;
+  handleDelete: (businessId: string) => Promise<void>;
+}
 
-  const [businessIdToDelete, setBusinessIdToDelete] = useState<string>('');
-  const { filters, updateFilter } = useAdminFilters();
-
-  const [sortBy] = useState<'newest' | 'oldest'>('newest');
-
-  const {
-    data: businesses = [],
-    isLoading: isBusinessesLoading,
-    isError: isBusinessesError,
-    error,
-  } = useAdminBusinesses({
-    businessStatus: filters.businessStatus,
-    categoryId: filters.categoryId,
-    city: filters.city,
-    showOnlineStatus: filters.mode,
-    sortBy,
-  });
-
+function AdminDesktopBusinessesList({
+  categories,
+  dialogOpen,
+  setDialogOpen,
+  businessIdToDelete,
+  setBusinessIdToDelete,
+  sortBy,
+  filters,
+  updateFilter,
+  businesses,
+  isBusinessesLoading,
+  isBusinessesError,
+  error,
+  deleteBusinessMutation,
+  handleDelete,
+}: AdminDesktopBusinessesListProps) {
   const categoriesWithAll = [
     { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
     ...(categories || []),
   ];
 
-  const deleteBusinessMutation = useDeleteBusiness();
-
-  const handleDelete = async (businessId: string) => {
-    // const confirmed = confirm('Are you sure you want to delete this business?');
-
-    // if (!confirmed) return;
-    await deleteBusinessMutation.mutateAsync(businessId);
-    CustomToast({
-      type: 'success',
-      content: (
-        <>
-          <p className="font-semibold">Бізнес видалено</p>
-        </>
-      ),
-    });
-  };
   return (
     <>
       {/*  Title*/}
@@ -292,18 +291,6 @@ function AdminDesktopBusinessesList() {
           Нема бізнесів відповідних обраним фільтрам
         </p>
       )}
-      <CustomAlertDialog
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
-        title="Ви впевнені, що хочете видалити?"
-        description="Цю дію не можна буде скасувати."
-        actionContent="Так, видалити"
-        cancelText="Скасувати"
-        classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
-        classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
-        onAction={() => handleDelete(businessIdToDelete)}
-        //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
-      />
     </>
   );
 }
