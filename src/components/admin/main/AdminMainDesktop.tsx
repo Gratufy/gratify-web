@@ -4,7 +4,7 @@ import AdminMainSection from '@/components/admin/main/AdminMainSection';
 
 function AdminMainDesktop({ totalBusinesses }: { totalBusinesses: number }) {
   return (
-    <div className="hidden w-full flex-col lg:flex">
+    <div className=" w-full flex-col flex">
       {/* <AdminSidebar /> */}
       <AdminMainSection totalBusinesses={totalBusinesses} />
     </div>

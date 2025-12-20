@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminBusinessesList from '@/components/admin/shared/AdminBusinessesList';
+import AdminBusinessesList from '@/components/admin/shared/AdminDesktopBusinessesList';
 
 function AdminModeringClient() {
   return (

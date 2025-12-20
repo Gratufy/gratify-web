@@ -4,7 +4,7 @@ import { getBusinessesCount } from '@/lib/actions/getBusinessesCount';
 export default async function AdminMain() {
   const total = await getBusinessesCount();
   return (
-    <div className="w-full lg:flex ">
+    <div className="w-full lg:flex">
       <AdminMainClient totalBusinesses={total} />
     </div>
   );

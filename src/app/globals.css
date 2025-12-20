@@ -454,3 +454,6 @@ input::placeholder {
     line-height: 1.4;
   }
 }
+body[data-scroll-locked] {
+  margin-right: 0 !important;
+}

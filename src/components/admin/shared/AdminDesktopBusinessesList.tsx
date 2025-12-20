@@ -33,7 +33,7 @@ import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 import { BusinessStatusForm } from '@/components/admin/shared/BusinessStatusForm';
 import AdminSkeleton from '@/components/admin/shared/AdminSkeleton';
 
-function AdminBusinessesList() {
+function AdminDesktopBusinessesList() {
   const {
     categories,
     // isLoading: isCategoriesLoading,
@@ -308,4 +308,4 @@ function AdminBusinessesList() {
   );
 }
 
-export default AdminBusinessesList;
+export default AdminDesktopBusinessesList;

@@ -1,5 +1,6 @@
 import React from 'react';
-import AdminBusinessesList from '@/components/admin/shared/AdminBusinessesList';
+import AdminDesktopBusinessesList from '@/components/admin/shared/AdminDesktopBusinessesList';
+import AdminMobileBusinessList from '../shared/AdminMobileBusinessList';
 
 function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
   return (
@@ -8,7 +9,12 @@ function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
       <h2 className="lg:title-h5 mb-2 underline">
         Всього бізнеси: {totalBusinesses}
       </h2>
-      <AdminBusinessesList />
+      <div className="hidden lg:block">
+        <AdminDesktopBusinessesList />
+      </div>
+      <div className="lg:hidden">
+        <AdminMobileBusinessList />
+      </div>
     </div>
   );
 }

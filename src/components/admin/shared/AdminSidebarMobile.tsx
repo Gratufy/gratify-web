@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import IconCategory from '@/assets/icons/menu/icon-category.svg';
@@ -27,9 +27,10 @@ function AdminSidebarMobile() {
   const pathname = usePathname();
   const [sheetOpen, setSheetOpen] = useState(false);
   //   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
+
   return (
     <>
-      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+      <Sheet open={sheetOpen} onOpenChange={setSheetOpen} modal={false}>
         <SheetTrigger asChild>
           <button className="ml-auto mr-4 py-4">
             <IconSidebar className="size-6" />
