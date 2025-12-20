@@ -2,13 +2,13 @@ import React from 'react';
 
 import AdminMainSection from '@/components/admin/main/AdminMainSection';
 
-function AdminMainDesktop({ totalBusinesses }: { totalBusinesses: number }) {
+function AdminMain({ totalBusinesses }: { totalBusinesses: number }) {
   return (
-    <div className="hidden w-full flex-col lg:flex">
+    <div className="bg-background-white flex w-full flex-col">
       {/* <AdminSidebar /> */}
       <AdminMainSection totalBusinesses={totalBusinesses} />
     </div>
   );
 }
 
-export default AdminMainDesktop;
+export default AdminMain;

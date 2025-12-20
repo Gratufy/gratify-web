@@ -8,7 +8,7 @@ import { redirect } from 'next/navigation';
 
 import { getBusinesses } from '@/lib/actions/businesses';
 
-import AdminSidebar from '@/components/admin/shared/AdminSidebar';
+import AdminSidebarManager from '@/components/admin/shared/AdminSidebarManager';
 
 export default async function AdminDashboardLayout({
   children,
@@ -51,8 +51,9 @@ export default async function AdminDashboardLayout({
   const dehydratedState = dehydrate(queryClient);
   return (
     <HydrationBoundary state={dehydratedState}>
-      <div className="bg-background-grey-50 flex min-h-screen w-full lg:flex lg:gap-6">
-        <AdminSidebar />
+      <div className="bg-background-grey-50 flex min-h-screen w-full flex-col lg:flex lg:flex-row lg:gap-6">
+        <AdminSidebarManager />
+
         <div className="w-full lg:pr-[50px] xl:pr-[100px]"> {children}</div>
       </div>
     </HydrationBoundary>

@@ -8,7 +8,7 @@ import { useAdminFilters } from '@/hooks/admin/useAdminFilters';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
-function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
+function AdminModeratingSection() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [businessIdToDelete, setBusinessIdToDelete] = useState<string>('');
   const [sortBy] = useState<'newest' | 'oldest'>('newest');
@@ -48,13 +48,8 @@ function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
       ),
     });
   };
-
   return (
     <div className="mt-3 w-full max-[1024px]:px-4 lg:p-5">
-      {/*  Title*/}
-      <h2 className="title-h5 mb-2 underline">
-        Всього бізнеси: {totalBusinesses}
-      </h2>
       <div className="hidden lg:block">
         <AdminDesktopBusinessesList
           categories={categories}
@@ -107,4 +102,4 @@ function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
   );
 }
 
-export default AdminMainSection;
+export default AdminModeratingSection;

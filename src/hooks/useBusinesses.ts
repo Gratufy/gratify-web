@@ -148,6 +148,10 @@ export function useDeleteBusiness() {
       queryClient.invalidateQueries({
         queryKey: ['businesses'],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['adminBusinesses'],
+        exact: false,
+      });
     },
   });
 }

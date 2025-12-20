@@ -11,14 +11,23 @@ import IconOut from '@/assets/icons/menu/icon-out.svg';
 
 type LogoutBtnProps = {
   customClassName?: string;
+  onRequestLogout?: () => void;
 };
 
-const LogoutBtn = ({ customClassName }: LogoutBtnProps) => {
+const LogoutBtn = ({ customClassName, onRequestLogout }: LogoutBtnProps) => {
   const router = useRouter();
   const [dialogOpen, setDialogOpen] = useState(false);
   const clear = useUserStore((s) => s.clear);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const openDialog = () => {
+    if (onRequestLogout) {
+      onRequestLogout(); // controlled mode
+    } else {
+      setDialogOpen(true); // standalone mode
+    }
+  };
 
   const handleLogout = async () => {
     setLoading(true);
@@ -45,8 +54,7 @@ const LogoutBtn = ({ customClassName }: LogoutBtnProps) => {
   return (
     <>
       <button
-        //onClick={handleLogout}
-        onClick={() => setDialogOpen(true)}
+        onClick={openDialog}
         disabled={loading}
         className={
           customClassName
@@ -57,21 +65,23 @@ const LogoutBtn = ({ customClassName }: LogoutBtnProps) => {
         <IconOut className="size-4 xl:size-5" />
         {loading ? 'Виходимо...' : 'Вихід'}
       </button>
+      {/* {!onRequestLogout && ( */}
       <CustomAlertDialog
+        // forceMount
         open={dialogOpen}
         onOpenChange={setDialogOpen}
+        classNameContent="z-80"
         title="Ви впевнені, що хочете вийти з акаунту? "
         // description="Цю дію не можна буде скасувати."
         actionContent="Так, вийти"
         cancelText="Скасувати"
-        classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
+        classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
         classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
         onAction={() => {
           handleLogout();
         }}
-
-        //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
       />
+      {/* )} */}
     </>
 
     /* I change it later for TOAST */
