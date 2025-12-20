@@ -1,9 +1,19 @@
+import Image from 'next/image';
 import React from 'react';
 
 function HeroSection() {
   return (
-    <section className="lg:h-46 xl:h-65 mx-auto flex h-[150px] w-full justify-center bg-cover bg-center max-[1023px]:bg-[url('/images/hero-img-sm@2x.png')] lg:bg-[url('/images/hero-img-lg@2x.png')] xl:bg-[url('/images/hero-img-xl@2x.png')]">
-      <div className="container flex h-full">
+    // max-[1023px]:bg-[url('/images/hero-img-sm@2x.png')] lg:bg-[url('/images/hero-img-lg@2x.png')] xl:bg-[url('/images/hero-img-xl@2x.png')]
+    <section className="lg:h-46 xl:h-65 relative mx-auto flex h-[150px] w-full justify-center bg-cover bg-center">
+      <Image
+        src="/images/hero-img-xl@2x.png"
+        alt="Hero background"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
+      />
+      <div className="container relative flex h-full">
         <div className="flex h-full flex-col px-4 text-left lg:pl-14 xl:px-0">
           <div className="xl:mt-30 mb-auto mt-auto lg:mt-20">
             <h1 className="title-h1 text-text-white mb-1 lg:mb-2">
