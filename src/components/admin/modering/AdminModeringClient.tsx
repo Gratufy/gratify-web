@@ -1,10 +1,12 @@
 import React from 'react';
-import AdminBusinessesList from '@/components/admin/shared/AdminDesktopBusinessesList';
+
+import AdminModeratingSection from './AdminModeratingSection';
 
 function AdminModeringClient() {
   return (
+    // className="bg-background-white w-full flex-col lg:mt-3 lg:flex lg:p-5"
     <div className="bg-background-white w-full flex-col lg:mt-3 lg:flex lg:p-5">
-      <AdminBusinessesList />
+      <AdminModeratingSection />
     </div>
   );
 }

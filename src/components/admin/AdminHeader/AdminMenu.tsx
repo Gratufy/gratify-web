@@ -17,7 +17,7 @@ import LogoutBtn from '@/components/ui/custom-ui/LogoutBtn';
 
 function AdminMenu() {
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <button className="outline-hidden cursor-pointer border-none focus:ring-0">
           <IconAdminUser className="text-icons-grey-950 h-6 w-[18px]" />
@@ -35,7 +35,7 @@ function AdminMenu() {
           className="text-text-950-grey cursor-pointer px-3 text-sm leading-[140%] lg:px-2 xl:text-base"
         >
           <Link href="/admin">
-            <IconAdminUser className=" size-4  xl:size-5" />
+            <IconAdminUser className="size-4 xl:size-5" />
             <span>Перейти до адмін-панелі</span>
           </Link>
         </DropdownMenuItem>
@@ -44,7 +44,7 @@ function AdminMenu() {
           className="text-text-950-grey cursor-pointer px-3 text-sm leading-[140%] lg:px-2 xl:text-base"
         >
           <Link href="/admin/business">
-            <IconModering className=" size-4  xl:size-5" />
+            <IconModering className="size-4 xl:size-5" />
             <span>Переглянути створені картки</span>
           </Link>
         </DropdownMenuItem>

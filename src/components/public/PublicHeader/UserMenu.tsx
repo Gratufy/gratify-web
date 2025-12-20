@@ -15,7 +15,7 @@ import DeleteAccountButton from '@/components/ui/custom-ui/DeleteAccountButton';
 
 function UserMenu() {
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <button className="outline-hidden cursor-pointer border-none focus:ring-0">
           <IconUser className="text-icons-grey-950 size-5" />
