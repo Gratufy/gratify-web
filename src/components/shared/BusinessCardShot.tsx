@@ -91,18 +91,25 @@ function BusinessCardShot({
         </div>
 
         {/* block with image */}
-        {/* <div className="ml-15 lg:ml-26 xl:ml-67 relative h-full flex-1 overflow-hidden"> */}
+
         <div className="relative flex h-full flex-1 justify-end">
           <div className="xl:w-7/10 w-6/7 relative h-full overflow-hidden">
             {business.coverImageUrl ? (
               <>
-                <Image
+                {/* <Image
                   src={business.coverImageUrl}
                   alt={business.name}
                   fill
                   //unoptimized
                   style={{ objectFit: 'cover' }}
                   className="relative z-0"
+                /> */}
+                <Image
+                  src={business.coverImageUrl}
+                  alt={business.name}
+                  fill
+                  sizes="(min-width: 1024px) 586px, 515px"
+                  className="relative z-0 object-cover"
                 />
                 <div className="z-5 bg-linear-to-l to-background-white pointer-events-none absolute inset-0 from-white/0"></div>
                 <div className="z-5 bg-linear-to-l to-gradient-card/ from-gradient-card/0 pointer-events-none absolute inset-0"></div>
