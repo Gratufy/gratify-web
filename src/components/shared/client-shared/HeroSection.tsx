@@ -31,7 +31,15 @@ function HeroSection() {
       </picture> */}
       <div className="container relative flex h-full">
         <div className="flex h-full flex-col px-4 text-left lg:pl-14 xl:px-0">
-          <div className="xl:mt-30 mb-auto mt-auto lg:mt-20">
+          <div className="xl:mt-30 mb-auto mt-auto lg:mt-20 lg:hidden">
+            <h1 className="title-h1 text-text-white mb-1">
+              Знижки та бонуси від бізнесу для військових
+            </h1>
+            <h5 className="title-h5 text-text-50-grey">
+              Cила єдності у кожному дні
+            </h5>
+          </div>
+          <div className="xl:mt-30 mb-auto mt-auto hidden lg:mt-20 lg:block">
             <h1 className="title-h1 text-text-white mb-1 lg:mb-2">
               Cила єдності у кожному дні
             </h1>
