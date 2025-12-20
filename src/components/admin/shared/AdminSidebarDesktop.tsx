@@ -10,11 +10,11 @@ import EditPen from '@/assets/icons/general/feedback-edit.svg';
 
 import LogoutBtn from '@/components/ui/custom-ui/LogoutBtn';
 
-function AdminSidebar() {
+function AdminSidebarDesktop() {
   const pathname = usePathname();
 
   return (
-    <nav className="lg:w-65 xl:w-100 bg-background-main-50 hidden min-h-screen flex-col lg:flex lg:gap-8 lg:pb-8 lg:pl-[50px] lg:pt-3 xl:pl-[100px]">
+    <nav className="lg:w-65 xl:w-100 bg-background-main-50 min-h-screen lg:gap-8 lg:pb-8 lg:pl-[50px] lg:pt-3 xl:pl-[100px]">
       {/*isactive background-main-100 text-text-800-main */}
       <Link
         href="/admin"
@@ -56,4 +56,4 @@ function AdminSidebar() {
   );
 }
 
-export default AdminSidebar;
+export default AdminSidebarDesktop;
