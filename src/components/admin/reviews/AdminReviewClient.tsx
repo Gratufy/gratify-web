@@ -227,7 +227,7 @@ function AdminReviewClient() {
           </div>
         )}
         {businesses?.length === 0 && !isBusinessesLoading && (
-          <p className="xl:placeholder-base placeholder-lg text-center">
+          <p className="xl:placeholder-base placeholder-sm text-center">
             Нема бізнесів з відгуками відповідних обраним фільтрам
           </p>
         )}

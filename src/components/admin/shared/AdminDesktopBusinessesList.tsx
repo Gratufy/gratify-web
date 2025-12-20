@@ -287,7 +287,7 @@ function AdminDesktopBusinessesList({
         </div>
       )}
       {businesses?.length === 0 && !isBusinessesLoading && (
-        <p className="xl:placeholder-base placeholder-lg text-center">
+        <p className="xl:placeholder-base placeholder-sm text-center">
           Нема бізнесів відповідних обраним фільтрам
         </p>
       )}

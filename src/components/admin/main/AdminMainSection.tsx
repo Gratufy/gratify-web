@@ -50,9 +50,9 @@ function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
   };
 
   return (
-    <div className="bg-background-white mt-3 w-full lg:p-5">
+    <div className="mt-3 w-full max-[1024px]:px-4 lg:p-5">
       {/*  Title*/}
-      <h2 className="lg:title-h5 mb-2 underline">
+      <h2 className="title-h5 mb-2 underline">
         Всього бізнеси: {totalBusinesses}
       </h2>
       <div className="hidden lg:block">
