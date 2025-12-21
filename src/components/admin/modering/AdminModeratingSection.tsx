@@ -49,7 +49,7 @@ function AdminModeratingSection() {
     });
   };
   return (
-    <div className="mt-3 w-full max-[1024px]:px-4 lg:p-5">
+    <div className="bg-background-white w-full max-[1024px]:px-4 lg:mt-3 lg:p-5">
       <div className="hidden lg:block">
         <AdminDesktopBusinessesList
           categories={categories}

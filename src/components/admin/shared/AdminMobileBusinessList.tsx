@@ -76,14 +76,14 @@ function AdminMobileBusinessList({
     );
   return (
     <div className="bg-background-white flex flex-col">
-      {/*  Title amd Filters*/}
-      <div className="mb-4 flex w-full justify-between">
-        {/*  Title*/}
-        <h3 className="title-h5 mb-2">
-          Наявні бізнеси: {businesses ? businesses.length : 0}
-        </h3>
-        {/*  Filters*/}
-        <div className="flex flex-col gap-5">
+      {/*  Title*/}
+      <h3 className="title-h5 mb-2">
+        Наявні бізнеси: {businesses ? businesses.length : 0}
+      </h3>
+      {/*  Filters*/}
+
+      <div className="mb-4 flex w-full justify-between gap-5">
+        <div className="flex flex-col gap-4">
           <div>
             <Label htmlFor="status-select" className="placeholder-xs mb-1">
               Статус:
@@ -120,7 +120,9 @@ function AdminMobileBusinessList({
               className="admin-select w-40"
             />
           </div>
+        </div>
 
+        <div className="flex flex-col gap-4">
           <div>
             <Label htmlFor="city-select" className="placeholder-xs mb-1">
               Місто:
@@ -158,6 +160,7 @@ function AdminMobileBusinessList({
           </div>
         </div>
       </div>
+
       {isBusinessesLoading && <AdminSkeleton count={3} />}
       {isBusinessesError && <p>Помилка: {error?.message}</p>}
       {businesses?.length > 0 && (

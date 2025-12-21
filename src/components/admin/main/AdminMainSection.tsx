@@ -50,7 +50,7 @@ function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
   };
 
   return (
-    <div className="mt-3 w-full max-[1024px]:px-4 lg:p-5">
+    <div className="bg-background-white w-full max-[1024px]:px-4 lg:mt-3 lg:p-5">
       {/*  Title*/}
       <h2 className="title-h5 mb-2 underline">
         Всього бізнеси: {totalBusinesses}
@@ -73,7 +73,7 @@ function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
           handleDelete={handleDelete}
         />
       </div>
-      <div className="lg:hidden">
+      <div className="max-w-150 flex justify-center lg:hidden">
         <AdminMobileBusinessList
           categories={categories}
           dialogOpen={dialogOpen}
