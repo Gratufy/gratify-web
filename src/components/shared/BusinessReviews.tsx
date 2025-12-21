@@ -42,7 +42,11 @@ export default function BusinessReviews({
   //   const queryClient = useQueryClient();
   const router = useRouter();
   const user = useUserStore((state) => state.profile);
-  const { data: reviews, isLoading } = useBusinessReviews(businessId, 'public');
+  const { data: reviews, isLoading } = useBusinessReviews(
+    businessId,
+    'public'
+    // 'approved'
+  );
 
   const [newText, setNewText] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
