@@ -73,7 +73,7 @@ function BusinessReviewForm({
         title={`Ви впевнені, що хочете змінити статус відгуку "${BUSINESS_REVIEW_STATUS_LABELS[status]}" на "${BUSINESS_REVIEW_STATUS_LABELS[newStatus]}"?`}
         actionContent="Змінити"
         cancelText="Скасувати"
-        classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
+        classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
         classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
         onAction={() => handleStatusChange()}
         //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
