@@ -18,7 +18,7 @@ import {
   BusinessWithDetails,
   GetBusinessesParams,
   NewBusinessFormData,
-  UseAdminBusinessesParams,
+  AdminBusinessesParams,
 } from '@/types';
 import { PAGE_SIZE } from '@/const/business';
 import { updateBusiness } from '@/lib/actions/updateBusiness';
@@ -169,7 +169,7 @@ export function useDeleteBusiness() {
 // }
 
 // new one
-export function useAdminBusinesses(params: UseAdminBusinessesParams) {
+export function useAdminBusinesses(params: AdminBusinessesParams) {
   return useQuery<AdminBusinessRowType[]>({
     queryKey: queryKeys.adminBusinesses(params),
     queryFn: () => getBusinessesForAdmin(params),

@@ -1,4 +1,4 @@
-import { GetBusinessesParams, UseAdminBusinessesParams } from '@/types';
+import { AdminBusinessesParams, GetBusinessesParams } from '@/types';
 import { BusinessReviewStatus, ScopeReview } from '@/types/enums';
 
 export const queryKeys = {
@@ -29,7 +29,7 @@ export const queryKeys = {
   // old
   adminBusinessesByReviewStatusRoot: ['adminBusinessesByReviewStatus'] as const,
   //new
-  adminBusinesses: (params: UseAdminBusinessesParams) =>
+  adminBusinesses: (params: AdminBusinessesParams) =>
     ['adminBusinesses', params] as const,
 
   adminBusinessesByReviewStatus: (

@@ -1,4 +1,11 @@
-import { BusinessStatus, OnlineFilter, SortBy } from '@/types/enums';
+import { AdminBusinessesParams } from '@/types';
+import {
+  AdminSort,
+  BusinessReviewStatus,
+  BusinessStatus,
+  OnlineFilter,
+  SortBy,
+} from '@/types/enums';
 
 export const DEFAULT_FILTERS = {
   city: '__all__',
@@ -8,10 +15,14 @@ export const DEFAULT_FILTERS = {
   search: '',
 };
 
-export const DEFAULT_ADMIN_FILTERS = {
+// main dashboard and modering
+export const DEFAULT_ADMIN_FILTERS: Required<
+  Omit<AdminBusinessesParams, 'reviewStatus'>
+> = {
+  //reviewStatus: 'pending' as BusinessReviewStatus,
   city: '__all__',
   categoryId: '__all__',
-  mode: 'all' as OnlineFilter,
-  sort: 'newest' as SortBy,
+  showOnlineStatus: 'all' as OnlineFilter, //mode
+  sortBy: 'newest' as AdminSort, //sortBy,
   businessStatus: 'pending' as BusinessStatus,
 };

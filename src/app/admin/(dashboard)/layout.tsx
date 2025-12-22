@@ -15,28 +15,28 @@ export default async function AdminDashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const queryClient = new QueryClient();
+  // const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: [
-      'businesses',
-      {
-        city: '__all__',
-        categoryId: '__all__',
-        sortBy: 'newest',
-        scope: 'admin',
-        showOnlineStatus: 'all',
-      },
-    ],
-    queryFn: () =>
-      getBusinesses({
-        city: '__all__',
-        categoryId: '__all__',
-        sortBy: 'newest',
-        scope: 'admin',
-        showOnlineStatus: 'all',
-      }),
-  });
+  // await queryClient.prefetchQuery({
+  //   queryKey: [
+  //     'businesses',
+  //     {
+  //       city: '__all__',
+  //       categoryId: '__all__',
+  //       sortBy: 'newest',
+  //       scope: 'admin',
+  //       showOnlineStatus: 'all',
+  //     },
+  //   ],
+  //   queryFn: () =>
+  //     getBusinesses({
+  //       city: '__all__',
+  //       categoryId: '__all__',
+  //       sortBy: 'newest',
+  //       scope: 'admin',
+  //       showOnlineStatus: 'all',
+  //     }),
+  // });
 
   const session = await verifySession();
 
@@ -48,14 +48,13 @@ export default async function AdminDashboardLayout({
     redirect('/no-access');
   }
 
-  const dehydratedState = dehydrate(queryClient);
+  // const dehydratedState = dehydrate(queryClient);
   return (
-    <HydrationBoundary state={dehydratedState}>
-      <div className=" bg-background-grey-50  flex min-h-screen w-full flex-col lg:flex lg:flex-row lg:gap-6">
-        <AdminSidebarManager />
+    // <HydrationBoundary state={dehydratedState}>    </HydrationBoundary>
+    <div className="bg-background-grey-50 flex min-h-screen w-full flex-col lg:flex lg:flex-row lg:gap-6">
+      <AdminSidebarManager />
 
-        <div className="w-full lg:pr-[50px] xl:pr-[100px]"> {children}</div>
-      </div>
-    </HydrationBoundary>
+      <div className="w-full lg:pr-[50px] xl:pr-[100px]"> {children}</div>
+    </div>
   );
 }

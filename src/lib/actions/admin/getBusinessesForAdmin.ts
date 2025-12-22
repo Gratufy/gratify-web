@@ -10,10 +10,7 @@ import {
   businessReviews,
 } from '@/db/schema';
 import { eq, sql, and, SQL } from 'drizzle-orm';
-import {
-  AdminBusinessRowType,
-  UseAdminBusinessesParams,
-} from '@/types/business';
+import { AdminBusinessRowType, AdminBusinessesParams } from '@/types/business';
 import { isAdmin } from '@/lib/helpers/isAdmin';
 
 // general admin query for businesses
@@ -24,7 +21,7 @@ export async function getBusinessesForAdmin({
   city,
   showOnlineStatus = 'all',
   sortBy = 'newest',
-}: UseAdminBusinessesParams): Promise<AdminBusinessRowType[]> {
+}: AdminBusinessesParams): Promise<AdminBusinessRowType[]> {
   const supabase = await createClient();
   const {
     data: { user },
