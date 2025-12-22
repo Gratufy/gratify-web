@@ -42,6 +42,7 @@ interface AdminMobileBusinessListProps {
     unknown
   >;
   handleDelete: (businessId: string) => Promise<void>;
+  isModeringSection?: boolean;
 }
 function AdminMobileBusinessList({
   categories,
@@ -58,6 +59,7 @@ function AdminMobileBusinessList({
   error,
   deleteBusinessMutation,
   handleDelete,
+  isModeringSection,
 }: AdminMobileBusinessListProps) {
   const categoriesWithAll = [
     { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
@@ -75,34 +77,36 @@ function AdminMobileBusinessList({
       <EyeIcon className="size-4" />
     );
   return (
-    <div className="bg-background-white flex flex-col">
+    <div className="bg-background-white flex w-full flex-col">
       {/*  Title*/}
-      <h3 className="title-h5 mb-2">
+      <h3 className="placeholder-base mb-4">
         Наявні бізнеси: {businesses ? businesses.length : 0}
       </h3>
       {/*  Filters*/}
 
-      <div className="mb-4 flex w-full justify-between gap-5">
-        <div className="flex flex-col gap-4">
-          <div>
-            <Label htmlFor="status-select" className="placeholder-xs mb-1">
-              Статус:
-            </Label>
-            <CustomSelect
-              id="status-select"
-              value={filters.businessStatus}
-              // onChange={handleStatusChange}
-              onChange={(val) =>
-                updateFilter('businessStatus', val as BusinessStatus)
-              }
-              options={BUSINESS_STATUS}
-              getOptionValue={(s) => s}
-              getOptionLabel={(s) => BUSINESS_STATUS_LABELS[s]}
-              placeholder="Оберіть статус"
-              className="admin-select w-40"
-              // statusForm={true}
-            />
-          </div>
+      <div className="mb-8 flex w-full justify-between gap-5">
+        <div className="flex flex-1 flex-col gap-3">
+          {!isModeringSection && (
+            <div>
+              <Label htmlFor="status-select" className="placeholder-xs mb-1">
+                Статус:
+              </Label>
+              <CustomSelect
+                id="status-select"
+                value={filters.businessStatus}
+                // onChange={handleStatusChange}
+                onChange={(val) =>
+                  updateFilter('businessStatus', val as BusinessStatus)
+                }
+                options={BUSINESS_STATUS}
+                getOptionValue={(s) => s}
+                getOptionLabel={(s) => BUSINESS_STATUS_LABELS[s]}
+                placeholder="Оберіть статус"
+                className="admin-select w-full"
+                // statusForm={true}
+              />
+            </div>
+          )}
           <div>
             <Label htmlFor="category-select" className="placeholder-xs mb-1">
               Категорія:
@@ -117,12 +121,12 @@ function AdminMobileBusinessList({
               getOptionLabel={(c) => c.name}
               // label="Категорія"
               placeholder="Оберіть категорію"
-              className="admin-select w-40"
+              className="admin-select w-full"
             />
           </div>
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-1 flex-col gap-3">
           <div>
             <Label htmlFor="city-select" className="placeholder-xs mb-1">
               Місто:
@@ -137,7 +141,7 @@ function AdminMobileBusinessList({
               getOptionValue={(option) => option.value}
               getOptionLabel={(option) => option.label}
               placeholder="Оберіть місто"
-              className="admin-select w-40"
+              className="admin-select w-full"
             />
           </div>
           <div>
@@ -148,14 +152,16 @@ function AdminMobileBusinessList({
               id="online-select"
               // label="Місто"
               // value={showOnlineStatus}
-              value={filters.mode}
+              value={filters.showOnlineStatus}
               // onChange={(val) => setShowOnlineStatus(val as OnlineFilter)}
-              onChange={(val) => updateFilter('mode', val as OnlineFilter)}
+              onChange={(val) =>
+                updateFilter('showOnlineStatus', val as OnlineFilter)
+              }
               options={ONLINE_STATUS}
               getOptionValue={(option) => option.value}
               getOptionLabel={(option) => option.label}
               placeholder="Оберіть місто"
-              className="admin-select w-40"
+              className="admin-select w-full"
             />
           </div>
         </div>

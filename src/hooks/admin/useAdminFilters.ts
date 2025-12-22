@@ -5,7 +5,7 @@ import { useMemo, useCallback } from 'react';
 import { DEFAULT_ADMIN_FILTERS } from '@/const/filters-url';
 
 import { parseBusinessStatus } from '@/lib/helpers/parseBusinessStatus';
-import { OnlineFilter, SortBy } from '@/types/enums';
+import { AdminSort, OnlineFilter } from '@/types/enums';
 import { AdminFilters } from '@/types/filters-query';
 
 export function useAdminFilters() {
@@ -18,12 +18,16 @@ export function useAdminFilters() {
       city: searchParams.get('city') || DEFAULT_ADMIN_FILTERS.city,
       categoryId:
         searchParams.get('categoryId') || DEFAULT_ADMIN_FILTERS.categoryId,
-      mode:
-        (searchParams.get('mode') as OnlineFilter) ||
-        DEFAULT_ADMIN_FILTERS.mode,
-      sort: (searchParams.get('sort') as SortBy) || DEFAULT_ADMIN_FILTERS.sort,
+      showOnlineStatus:
+        (searchParams.get('showOnlineStatus') as OnlineFilter) ||
+        DEFAULT_ADMIN_FILTERS.showOnlineStatus,
+      sortBy:
+        (searchParams.get('sortBy') as AdminSort) ||
+        DEFAULT_ADMIN_FILTERS.sortBy,
       //   search: searchParams.get('search') || DEFAULT_ADMIN_FILTERS.search,
-      businessStatus: parseBusinessStatus(searchParams.get('businessStatus')),
+      businessStatus:
+        parseBusinessStatus(searchParams.get('businessStatus')) ||
+        DEFAULT_ADMIN_FILTERS.businessStatus,
     }),
     [searchParams]
   );

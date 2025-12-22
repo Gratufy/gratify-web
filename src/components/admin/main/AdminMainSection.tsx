@@ -7,11 +7,12 @@ import { useAdminBusinesses, useDeleteBusiness } from '@/hooks/useBusinesses';
 import { useAdminFilters } from '@/hooks/admin/useAdminFilters';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
+import { AdminSort } from '@/types/enums';
 
 function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [businessIdToDelete, setBusinessIdToDelete] = useState<string>('');
-  const [sortBy] = useState<'newest' | 'oldest'>('newest');
+  const [sortBy] = useState<AdminSort>('newest');
   const {
     categories,
     // isLoading: isCategoriesLoading,
@@ -29,7 +30,7 @@ function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
     businessStatus: filters.businessStatus,
     categoryId: filters.categoryId,
     city: filters.city,
-    showOnlineStatus: filters.mode,
+    showOnlineStatus: filters.showOnlineStatus,
     sortBy,
   });
   const deleteBusinessMutation = useDeleteBusiness();
@@ -50,11 +51,9 @@ function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
   };
 
   return (
-    <div className="bg-background-white w-full max-[1024px]:px-4 lg:mt-3 lg:p-5">
+    <div className="bg-background-white mt-3 w-full max-[1024px]:p-4 lg:p-5">
       {/*  Title*/}
-      <h2 className="title-h5 mb-2 underline">
-        Всього бізнеси: {totalBusinesses}
-      </h2>
+      <h2 className="title-h5 mb-2">Всього бізнеси: {totalBusinesses}</h2>
       <div className="hidden lg:block">
         <AdminDesktopBusinessesList
           categories={categories}

@@ -1,5 +1,6 @@
 import { Business, BusinessReview, BusinessSpecialOffer } from './db';
 import {
+  AdminSort,
   BusinessReviewStatus,
   BusinessStatus,
   OnlineFilter,
@@ -169,11 +170,11 @@ export type AdminBusinessRowType = {
   filteredReviewCount: number;
 };
 
-export interface UseAdminBusinessesParams {
+export interface AdminBusinessesParams {
   reviewStatus?: BusinessReviewStatus; // для фильтра по отзывам
   businessStatus?: BusinessStatus;
   categoryId?: string;
   city?: string;
   showOnlineStatus?: OnlineFilter;
-  sortBy?: 'newest' | 'oldest';
+  sortBy?: AdminSort;
 }
