@@ -108,8 +108,12 @@ export function useUpdateReviewStatus() {
       queryClient.invalidateQueries({
         queryKey: queryKeys.businessReviewsRoot(review.businessId),
       });
+      // queryClient.invalidateQueries({
+      //   queryKey: queryKeys.adminBusinesses({ reviewStatus: review.status }),
+      // });
+      // Обновляем кэш списка бизнесов admin
       queryClient.invalidateQueries({
-        queryKey: queryKeys.adminBusinesses({ reviewStatus: review.status }),
+        queryKey: ['adminBusinesses'],
       });
     },
   });

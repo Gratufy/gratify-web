@@ -73,7 +73,7 @@ export const businessFormSchema = v.pipe(
         // offline → it should have at least one location with city
         return (
           data.locations.length > 0 &&
-          data.locations.every(
+          data.locations.some(
             (loc: LocationFormData) => loc.city && loc.city.trim() !== ''
           )
         );

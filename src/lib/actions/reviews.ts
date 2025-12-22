@@ -46,7 +46,7 @@ export async function updateReviewText({
   //check if review belongs to user
   const [review] = await db
     .update(businessReviews)
-    .set({ text, updatedAt: new Date() })
+    .set({ text, status: 'pending', updatedAt: new Date() })
     .where(
       and(eq(businessReviews.id, reviewId), eq(businessReviews.userId, user.id))
     )

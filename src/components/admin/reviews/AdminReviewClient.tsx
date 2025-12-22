@@ -162,7 +162,7 @@ function AdminReviewClient() {
                 <span>Найменування </span>
               </div>
               <div className="title-h6 min-w-0 py-2">
-                <span>Статус</span>
+                <span>Категорія</span>
               </div>
               <div className="title-h6 min-w-0 py-2 text-center">
                 <span>Дивитись відгуки</span>
