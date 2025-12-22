@@ -25,10 +25,9 @@ export default async function AdminModering() {
   const dehydratedState = dehydrate(queryClient);
   return (
     <HydrationBoundary state={dehydratedState}>
-     
       <div className="w-full lg:flex lg:flex-col lg:items-center">
         {/* <AdminModeringList /> */}
-        <AdminModeringClient />
+        <AdminModeringClient totalBusinesses={total} />
       </div>
     </HydrationBoundary>
   );

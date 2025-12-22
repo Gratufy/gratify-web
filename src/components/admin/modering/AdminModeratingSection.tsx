@@ -56,7 +56,7 @@ function AdminModeratingSection({
   return (
     <div className="bg-background-white mt-3 w-full max-[1024px]:p-4 lg:p-5">
       {/*  Title*/}
-      {/* <h2 className="title-h5 mb-2">Всього бізнеси: {totalBusinesses}</h2> */}
+      <h2 className="title-h5 mb-2">Всього бізнеси: {totalBusinesses}</h2>
       <div className="hidden lg:block">
         <AdminDesktopBusinessesList
           categories={categories}
