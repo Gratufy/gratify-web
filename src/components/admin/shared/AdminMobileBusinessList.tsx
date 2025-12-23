@@ -79,9 +79,9 @@ function AdminMobileBusinessList({
   return (
     <div className="bg-background-white flex w-full flex-col">
       {/*  Title*/}
-      <h3 className="placeholder-base mb-4">
+      {/* <h3 className="placeholder-base mb-4">
         Наявні бізнеси: {businesses ? businesses.length : 0}
-      </h3>
+      </h3> */}
       {/*  Filters*/}
 
       <div className="mb-8 flex w-full justify-between gap-5">

@@ -19,7 +19,7 @@ export const STATUS_ENUM = pgEnum('user_status', ['active', 'blocked']);
 export const BUSINESS_REVIEW_STATUS_ENUM = pgEnum('business_review_status', [
   'pending',
   'approved',
-  'rejected',
+  'hidden',
 ]);
 export const businessStatusEnum = pgEnum('business_status', [
   'pending', // on moderation

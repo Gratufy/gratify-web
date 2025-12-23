@@ -74,7 +74,7 @@ function AdminDesktopBusinessesList({
   error,
   deleteBusinessMutation,
   handleDelete,
-  isModeringSection ,
+  isModeringSection,
 }: AdminDesktopBusinessesListProps) {
   const categoriesWithAll = [
     { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
@@ -85,9 +85,9 @@ function AdminDesktopBusinessesList({
     <>
       {/*  Title*/}
 
-      <h3 className="lg:placeholder-base mb-4">
+      {/* <h3 className="lg:placeholder-base mb-4">
         Наявні бізнеси: {businesses ? businesses.length : 0}
-      </h3>
+      </h3> */}
       {/*  Filters*/}
       <div className="flex justify-center lg:mb-5 lg:gap-6">
         {!isModeringSection && (
