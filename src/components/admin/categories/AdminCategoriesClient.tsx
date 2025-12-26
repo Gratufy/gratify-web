@@ -28,7 +28,7 @@ function AdminCategoriesClient() {
     isDeleting,
     error,
   } = useBusinessCategories();
-  const [openInput, setOpenInput] = useState(false);
+  // const [openInput, setOpenInput] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleteCategoryId, setDeleteCategoryId] = useState<string | null>(null);
   const [newName, setNewName] = useState('');
@@ -160,7 +160,7 @@ function AdminCategoriesClient() {
   return (
     <div className="w-full">
       <div className="flex flex-col lg:mb-10 lg:gap-4">
-        <button
+        {/* <button
           className="btn-aprove w-50 title-h6"
           type="button"
           onClick={() => {
@@ -176,38 +176,39 @@ function AdminCategoriesClient() {
               <span>Додати категорію</span>
             </>
           )}
-        </button>
-        {openInput && (
-          <>
-            <input
-              className={`input-custom w-2/3 px-4 ${
-                isAdding ? 'cursor-not-allowed opacity-50' : ''
-              }`}
-              //   className="input-custom"
-              type="text"
-              placeholder="Назва категорії"
-              value={newName}
-              onChange={(e) => setNewName(e.target.value)}
-              disabled={isAdding}
-            />
-            <div className="flex w-2/3 justify-between">
-              <button
-                onClick={handleAdd}
-                disabled={isAdding || !newName.trim()}
-                className="btn-aprove title-h6 bg- w-fit px-5 py-2 disabled:cursor-not-allowed"
-              >
-                {isAdding ? 'Створюємо...' : 'Створити категорію'}
-              </button>
-              <button
-                onClick={() => setOpenInput(false)}
-                className="btn-reject title-h6 w-fit px-5 py-2 disabled:cursor-not-allowed"
-                disabled={isAdding}
-              >
-                Скасувати
-              </button>
-            </div>
-          </>
-        )}
+        </button> */}
+        {/* {openInput && ( */}
+        <p className="placeholder-sm xl:placeholder-base"> Додати категорію</p>
+        <input
+          className={`input-custom w-2/3 px-4 ${
+            isAdding ? 'cursor-not-allowed opacity-50' : ''
+          }`}
+          //   className="input-custom"
+          type="text"
+          placeholder="Назва категорії"
+          value={newName}
+          onChange={(e) => setNewName(e.target.value)}
+          disabled={isAdding}
+        />
+        <div className="flex w-2/3 justify-between">
+          <button
+            onClick={handleAdd}
+            disabled={isAdding || !newName.trim()}
+            className="btn-aprove title-h6 bg- w-fit px-5 py-2 disabled:cursor-not-allowed"
+          >
+            {isAdding ? 'Створюємо...' : 'Створити категорію'}
+          </button>
+          <button
+            // onClick={() => setOpenInput(false)}
+            onClick={() => setNewName('')}
+            className="btn-reject title-h6 w-fit px-5 py-2 disabled:cursor-not-allowed"
+            disabled={isAdding || !newName.trim()}
+          >
+            Очистити
+          </button>
+        </div>
+
+        {/* )} */}
       </div>
       {isLoading && <AdminSkeleton count={7} />}
       {isError && (
