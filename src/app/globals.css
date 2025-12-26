@@ -371,6 +371,7 @@
 @utility admin-select {
   @apply bg-background-main-100! rounded-md border-none;
 }
+
 /* -------------  */
 @layer components {
   .sr-only {
