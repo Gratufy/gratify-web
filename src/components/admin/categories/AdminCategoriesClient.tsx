@@ -5,7 +5,6 @@ import { categorySchema } from '@/lib/validators/categorySchema';
 
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 
-import { Plus } from 'lucide-react';
 import { CheckIcon } from 'lucide-react';
 import EditPen from '@/assets/icons/general/feedback-edit.svg';
 import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';

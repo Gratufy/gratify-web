@@ -157,7 +157,7 @@ function AdminReviewClient() {
         {isBusinessesLoading && <AdminSkeleton count={3} />}
         {businesses?.length > 0 && (
           <div className="bg-background-main-50 rounded-lg lg:px-1 lg:py-4">
-            <div className="grid w-full min-w-0 grid-cols-[1fr_1fr_1fr_0.5fr] gap-2 px-2 lg:mb-6">
+            <div className="grid w-full min-w-0 grid-cols-[1fr_1fr_1fr] gap-2 px-2 lg:mb-6">
               <div className="title-h6 min-w-0 py-2">
                 <span>Найменування </span>
               </div>
@@ -167,14 +167,14 @@ function AdminReviewClient() {
               <div className="title-h6 min-w-0 py-2 text-center">
                 <span>Дивитись відгуки</span>
               </div>
-              <div className="title-h6 min-w-0 py-2 text-center">
-                <span>Дивитись картку</span>
-              </div>
             </div>
             <ul className="flex flex-col lg:gap-5">
               {businesses.map((b) => (
                 <li key={b.id}>
-                  <div className="bg-background-main-200 grid grid-cols-[1fr_1fr_1fr_0.5fr] items-center justify-center gap-2 rounded-lg px-2 py-2">
+                  <Link
+                    href={`/admin/business/${b.id}`}
+                    className="bg-background-main-200 hover:bg-background-main-300/80 grid grid-cols-[1fr_1fr_1fr] items-center justify-center gap-2 rounded-lg px-2 py-2"
+                  >
                     <p className="title-h6">{b.name}</p>
                     {/* <p className="flex-1/7">{b.city}</p> */}
 
@@ -184,7 +184,11 @@ function AdminReviewClient() {
                     </p> */}
                     <button
                       className="title-h6 border-icons-main-500 mx-auto flex cursor-pointer items-center justify-center rounded-lg border px-2 py-2"
-                      onClick={() => toggleReviews(b.id)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        toggleReviews(b.id);
+                      }}
                     >
                       {showReviewsMap[b.id] ? (
                         <>
@@ -210,14 +214,14 @@ function AdminReviewClient() {
                     </button>
                     {/* <p className="flex-1/6">{b.categoryName}</p> */}
 
-                    <Link
+                    {/* <Link
                       href={`/admin/business/${b.id}`}
                       className="title-h6 bg-elements-main-600 text-icons-grey-100 mx-auto flex w-3/4 cursor-pointer items-center justify-center rounded-lg px-2 py-2"
                     >
                       <IconEyeOpen className="mr-2 size-6" />
                       <span>картку</span>
-                    </Link>
-                  </div>
+                    </Link> */}
+                  </Link>
                   {showReviewsMap[b.id] && (
                     <AdminReviewList businessId={b.id} currentStatus={status} />
                   )}
