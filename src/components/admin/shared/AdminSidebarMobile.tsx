@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 
 import IconSidebar from '@/assets/icons/admin/icon-sidebar.svg';
 
-import LogoutBtn from '@/components/ui/custom-ui/LogoutBtn';
+// import LogoutBtn from '@/components/ui/custom-ui/LogoutBtn';
 import { ADMIN_LINKS } from '@/const/admin-links';
 
 function AdminSidebarMobile() {

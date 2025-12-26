@@ -16,7 +16,6 @@ function AdminSidebarDesktop() {
         <Link
           key={href}
           href={href}
-          // onClick={onClick}
           className={`admin-link ${pathname === href ? 'admin-link-active' : ''} `}
         >
           <Icon className="size-5" />
