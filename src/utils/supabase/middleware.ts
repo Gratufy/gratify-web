@@ -41,11 +41,18 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const protectedPaths = ['/favorites', '/dashboard', '/admin'];
-  const path = request.nextUrl.pathname;
-  const isProtectedPath = protectedPaths.some((p) => path.startsWith(p));
-  console.log('isProtectedPath', isProtectedPath);
-  if (isProtectedPath && !user) {
+  // Attention
+  // const protectedPaths = ['/favorites', '/dashboard', '/admin'];
+  // const path = request.nextUrl.pathname;
+  // const isProtectedPath = protectedPaths.some((p) => path.startsWith(p));
+  // console.log('isProtectedPath', isProtectedPath);
+  // if (isProtectedPath && !user) {
+  //   const url = request.nextUrl.clone();
+  //   url.pathname = '/login';
+  //   return NextResponse.redirect(url);
+  // }
+  // or
+  if (!user) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     return NextResponse.redirect(url);
