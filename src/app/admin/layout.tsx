@@ -22,7 +22,7 @@ export default async function AdminLayout({
   return (
     <div className="flex min-h-screen flex-col">
       <PublicHeader />
-      <main className="flex h-full w-full flex-1 flex-col">{children}</main>
+      <div className="flex h-full w-full flex-1 flex-col">{children}</div>
       <Footer />
     </div>
   );

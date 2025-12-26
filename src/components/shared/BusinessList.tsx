@@ -92,7 +92,7 @@ function BusinessList({
                 }}
                 onClick={(e) => {
                   if (!isLoggedIn && open) {
-                    e.preventDefault(); // блокируем переход, пока модалка открыта
+                    e.preventDefault(); // block navigation if modal is open
                   }
                 }}
                 className="block h-full w-full"

@@ -1,14 +1,15 @@
 import React from 'react';
 import AdminSidebarDesktop from './AdminSidebarDesktop';
+
 import AdminSidebarMobile from './AdminSidebarMobile';
 
 function AdminSidebarManager() {
   return (
     <>
-      <div className="hidden flex-col lg:flex">
+      <aside className="hidden flex-col lg:flex">
         <AdminSidebarDesktop />
-      </div>
-      <div className="border-b-icons-grey-30 flex flex-col border-b lg:hidden">
+      </aside>
+      <div className="border-b-icons-grey-30 container flex flex-col border-b px-4 lg:hidden">
         <AdminSidebarMobile />
       </div>
     </>

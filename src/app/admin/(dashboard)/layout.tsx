@@ -54,7 +54,7 @@ export default async function AdminDashboardLayout({
     <div className="bg-background-grey-50 flex min-h-screen w-full flex-col lg:flex lg:flex-row lg:gap-6">
       <AdminSidebarManager />
 
-      <div className="w-full lg:pr-[50px] xl:pr-[100px]"> {children}</div>
+      <main className="w-full lg:pr-[50px] xl:pr-[100px]"> {children}</main>
     </div>
   );
 }
