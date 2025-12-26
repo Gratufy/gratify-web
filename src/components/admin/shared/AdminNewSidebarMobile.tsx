@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -16,6 +16,18 @@ import LogoutBtn from '@/components/ui/custom-ui/LogoutBtn';
 function AdminNewSidebarMobile() {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // ESC
+  useEffect(() => {
+    if (!sidebarOpen) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSidebarOpen(false);
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [sidebarOpen]);
   return (
     <>
       <button
@@ -25,7 +37,13 @@ function AdminNewSidebarMobile() {
       >
         <IconSidebar className="size-6" />
       </button>
-
+      {/* Overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/30"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
       <aside
         className={cn(
           'bg-background-main-50 absolute left-0 top-[100px] z-50 h-full w-64 shadow-lg',
@@ -38,6 +56,7 @@ function AdminNewSidebarMobile() {
           <div className="grid gap-3">
             <Link
               href="/admin"
+              onClick={() => setSidebarOpen(false)}
               className={`admin-link ${pathname === '/admin' ? 'admin-link-active' : ''}`}
             >
               <IconMain className="size-5" />
@@ -45,6 +64,7 @@ function AdminNewSidebarMobile() {
             </Link>
             <Link
               href="/admin/modering"
+              onClick={() => setSidebarOpen(false)}
               className={`admin-link ${pathname === '/admin/modering' ? 'admin-link-active' : ''}`}
             >
               <IconModering className="size-5" />
@@ -52,6 +72,7 @@ function AdminNewSidebarMobile() {
             </Link>
             <Link
               href="/admin/categories"
+              onClick={() => setSidebarOpen(false)}
               className={`admin-link ${pathname === '/admin/categories' ? 'admin-link-active' : ''}`}
             >
               <IconCategory className="size-5" />
@@ -59,6 +80,7 @@ function AdminNewSidebarMobile() {
             </Link>
             <Link
               href="/admin/review"
+              onClick={() => setSidebarOpen(false)}
               className={`admin-link ${pathname === '/admin/review' ? 'admin-link-active' : ''}`}
             >
               <EditPen className="size-5" />
@@ -66,13 +88,14 @@ function AdminNewSidebarMobile() {
             </Link>
             <Link
               href="/admin/settings"
+              onClick={() => setSidebarOpen(false)}
               className={`admin-link ${pathname === '/admin/settings' ? 'admin-link-active' : ''}`}
             >
               <IconSettings className="size-5" />
               <span>Налаштування</span>
             </Link>
           </div>
-          <div className="mt-auto">
+          <div className="mt-auto" onClick={() => setSidebarOpen(false)}>
             <LogoutBtn customClassName="admin-link cursor-pointer" />
           </div>
         </div>
