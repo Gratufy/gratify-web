@@ -36,6 +36,7 @@ function AdminReviewClient() {
     {}
   );
   const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>('all');
+  const [isHoveringButton, setIsHoveringButton] = useState<boolean>(false);
 
   const {
     data: businesses = [],
@@ -173,7 +174,9 @@ function AdminReviewClient() {
                 <li key={b.id}>
                   <Link
                     href={`/admin/business/${b.id}`}
-                    className="bg-background-main-200 hover:bg-background-main-300/80 grid grid-cols-[1fr_1fr_1fr] items-center justify-center gap-2 rounded-lg px-2 py-2"
+                    className={`bg-background-main-200  grid grid-cols-[1fr_1fr_1fr] items-center justify-center gap-2 rounded-lg px-2 py-2 ${
+                      isHoveringButton ? '' : 'hover:bg-background-main-300/80'
+                    }`}
                   >
                     <p className="title-h6">{b.name}</p>
                     {/* <p className="flex-1/7">{b.city}</p> */}
@@ -183,12 +186,14 @@ function AdminReviewClient() {
                       {status}: {b.filteredReviewCount}
                     </p> */}
                     <button
-                      className="title-h6 border-icons-main-500 mx-auto flex cursor-pointer items-center justify-center rounded-lg border px-2 py-2"
+                      className="title-h6 bg-background-grey-100 hover:bg-background-grey-100/80 border-icons-main-500 mx-auto flex cursor-pointer items-center justify-center rounded-lg border px-2 py-2"
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
                         toggleReviews(b.id);
                       }}
+                      onMouseEnter={() => setIsHoveringButton(true)}
+                      onMouseLeave={() => setIsHoveringButton(false)}
                     >
                       {showReviewsMap[b.id] ? (
                         <>
