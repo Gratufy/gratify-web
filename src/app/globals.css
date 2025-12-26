@@ -52,6 +52,7 @@
   --font-second: var(--second-family);
 
   --color-overlay-background: var(--overlay-background);
+  --color-overlay-foreground: var(--overlay-foreground);
   --color-background-white: var(--white);
   --color-background-main-200: var(--main-200);
   --color-background-main-100: var(--main-100);
@@ -150,6 +151,7 @@
   --second-family: 'Ubuntu Sans', sans-serif;
   /* --second-family: 'Roboto', sans-serif; */
   --overlay-background: #f5f3f059;
+  --overlay-foreground: rgba(0, 0, 0, 0.132);
   --white: #fff;
   --accent: #c71143;
   --error: #dc0b0e;
@@ -337,10 +339,10 @@
 }
 /* w-30  px-3*/
 @utility btn-reject {
-  @apply disabled:bg-background-grey-200 active:shadow-pressed hover:shadow-hover focus:shadow-hover bg-background-white xl:placeholder-base shadow-menu placeholder-sm border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-[6px] text-nowrap border px-3 py-[6px] transition-all hover:underline focus:underline disabled:cursor-not-allowed xl:gap-3 xl:px-5 xl:py-2;
+  @apply disabled:bg-background-grey-200 active:shadow-pressed hover:shadow-hover focus:shadow-hover bg-background-white xl:placeholder-base shadow-menu placeholder-sm border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-[6px] text-nowrap border px-3 py-[6px] outline-none transition-all hover:underline focus:underline disabled:cursor-not-allowed xl:gap-3 xl:px-5 xl:py-2;
 }
 @utility btn-aprove {
-  @apply disabled:text-text-500-grey disabled:bg-background-main-200 active:shadow-pressed hover:shadow-hover focus:shadow-hover active:bg-background-main-500 placeholder-sm xl:placeholder-base bg-background-main-300 border-background-main-300 shadow-menu hover:bg-background-main-400 focus:bg-background-main-400 flex h-8 cursor-pointer items-center justify-center gap-[6px] text-nowrap border px-3 py-[6px] transition-all hover:underline focus:underline disabled:cursor-not-allowed xl:gap-3 xl:px-5 xl:py-2;
+  @apply disabled:text-text-500-grey disabled:bg-background-main-200 active:shadow-pressed hover:shadow-hover focus:shadow-hover active:bg-background-main-500 placeholder-sm xl:placeholder-base bg-background-main-300 border-background-main-300 shadow-menu hover:bg-background-main-400 focus:bg-background-main-400 flex h-8 cursor-pointer items-center justify-center gap-[6px] text-nowrap border px-3 py-[6px] outline-none transition-all hover:underline focus:underline disabled:cursor-not-allowed xl:gap-3 xl:px-5 xl:py-2;
 }
 
 /* px-4  */

@@ -37,7 +37,7 @@ function SheetOverlay({
       data-slot="sheet-overlay"
       // bg-black/50
       className={cn(
-        'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 bg-icons-grey-50/40 fixed inset-0 z-50',
+        'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 bg-overlay-background fixed inset-0 z-50',
         className
       )}
       {...props}

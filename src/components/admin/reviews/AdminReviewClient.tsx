@@ -188,7 +188,7 @@ function AdminReviewClient() {
                       {status}: {b.filteredReviewCount}
                     </p> */}
                     <button
-                      className="title-h6 bg-background-grey-100 hover:bg-background-grey-100/80 border-icons-main-500 mx-auto flex cursor-pointer items-center justify-center gap-2 rounded-lg border px-2 py-2 transition-colors"
+                      className="xl:placeholder-base placeholder-sm items-centertitle-h6 bg-background-grey-100 hover:bg-background-grey-100/80 border-icons-main-500 mx-auto flex w-48 cursor-pointer items-center rounded-lg border px-2 py-2 transition-colors"
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -199,25 +199,27 @@ function AdminReviewClient() {
                     >
                       {showReviewsMap[b.id] ? (
                         <>
-                          <IconEyeClose className="size-6" />
-                          {/* <span> Зачинити</span> */}
-                          <span>
-                            {/* do not delete {' '} */}
-                            {BUSINESS_REVIEW_STATUS_LABELS[status]}:{' '}
-                            {b.filteredReviewCount}
-                          </span>
-                          <ArrowBigUp className="size-5" />
+                          <IconEyeClose className="mr-2 size-6" />
+                          <div className="flex w-full justify-between">
+                            <span>
+                              {BUSINESS_REVIEW_STATUS_LABELS[status]}:{' '}
+                              {b.filteredReviewCount}
+                            </span>
+                            <ArrowBigUp className="size-5" />
+                          </div>
                         </>
                       ) : (
                         <>
-                          <IconEyeOpen className="size-6" />
+                          <IconEyeOpen className="mr-2 size-6" />
                           {/* <span> відгуки</span> */}
-                          <span>
-                            {/* do not delete {' '} */}
-                            {BUSINESS_REVIEW_STATUS_LABELS[status]}:{' '}
-                            {b.filteredReviewCount}
-                          </span>
-                          <ArrowBigDown className="size-5" />
+                          <div className="flex w-full justify-between">
+                            <span>
+                              {/* do not delete {' '} */}
+                              {BUSINESS_REVIEW_STATUS_LABELS[status]}:{' '}
+                              {b.filteredReviewCount}
+                            </span>
+                            <ArrowBigDown className="size-5" />
+                          </div>
                         </>
                       )}
                     </button>
