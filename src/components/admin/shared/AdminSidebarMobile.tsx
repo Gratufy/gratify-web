@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import IconCategory from '@/assets/icons/menu/icon-category.svg';
@@ -32,14 +32,17 @@ function AdminSidebarMobile() {
     <>
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen} modal={false}>
         <SheetTrigger asChild>
-          <button className="ml-auto mr-4 py-4">
+          <button
+            className="mr-auto py-2"
+            aria-label="Відкрити меню адміністратора"
+          >
             <IconSidebar className="size-6" />
           </button>
         </SheetTrigger>
         <SheetContent
-          side="right"
+          side="left"
           showCloseButton={false}
-          className="bg-background-main-50 mt-[148px] flex flex-col"
+          className="bg-background-main-50 mt-[100px] flex flex-col"
         >
           <SheetHeader className="sr-only">
             <SheetTitle className="sr-only">Адміністративне меню</SheetTitle>
@@ -111,16 +114,6 @@ function AdminSidebarMobile() {
           </div>
         </SheetContent>
       </Sheet>
-
-      {/* <CustomAlertDialog
-        open={logoutDialogOpen}
-        onOpenChange={setLogoutDialogOpen}
-        title="Ви впевнені, що хочете вийти з акаунту?"
-        actionContent="Так, вийти"
-        cancelText="Скасувати"
-        classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
-        classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
-      /> */}
     </>
   );
 }

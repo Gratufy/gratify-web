@@ -161,12 +161,14 @@ function PublicHeaderClient() {
             </div>
           </div>
 
-          <InputSearch
-            id="search-mobile"
-            name="search-mobile"
-            value={inputValue}
-            onChange={handleChange}
-          />
+          {!isAdmin && (
+            <InputSearch
+              id="search-mobile"
+              name="search-mobile"
+              value={inputValue}
+              onChange={handleChange}
+            />
+          )}
         </div>
       </div>
     </>

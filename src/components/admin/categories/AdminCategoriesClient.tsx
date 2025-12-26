@@ -307,7 +307,7 @@ function AdminCategoriesClient() {
                           // categoryId === "11111111-1111-1111-1111-111111111111"
                         }
                       >
-                        <IconRecycle className="lg:size-6" />
+                        <IconRecycle className="text-text-warning lg:size-6" />
                       </button>
                     </div>
                   </>
