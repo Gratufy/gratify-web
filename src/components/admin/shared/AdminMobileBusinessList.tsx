@@ -208,7 +208,7 @@ function AdminMobileBusinessList({
                   )}
                 >
                   <div className="title-h6 py-2">
-                    <p className="">{b.name}</p>
+                    <p>{b.name}</p>
                   </div>
                   <div className="flex h-full justify-center">
                     {showFullCard[b.id] ? (
