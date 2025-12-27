@@ -326,9 +326,9 @@
   @apply text-base font-medium leading-[130%] lg:text-lg xl:text-xl;
 }
 
-/* H6 */
+/* H6 text-xs lg:text-sm  */
 @utility title-h6 {
-  @apply text-xs font-medium leading-[140%] lg:text-sm xl:text-base;
+  @apply text-sm font-medium leading-[140%] xl:text-base;
 }
 
 @utility link-big {

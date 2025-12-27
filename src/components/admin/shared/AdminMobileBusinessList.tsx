@@ -17,7 +17,10 @@ import { BusinessStatusForm } from './BusinessStatusForm';
 import EyeIcon from '@/assets/icons/admin/icon-eye.svg';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import IconModering from '@/assets/icons/menu/icon-modering.svg';
-import { CheckIcon } from 'lucide-react';
+import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+
+import { getBusinessStatusBgColor } from '@/lib/helpers/getBusinessStatusColorBg';
+import { is } from 'drizzle-orm';
 
 interface AdminMobileBusinessListProps {
   categories: BusinessCategory[];
@@ -61,6 +64,8 @@ function AdminMobileBusinessList({
   handleDelete,
   isModeringSection,
 }: AdminMobileBusinessListProps) {
+  const [showFullCard, setShowFullCard] = useState<Record<string, boolean>>({});
+  console.log('FFFFF', showFullCard);
   const categoriesWithAll = [
     { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
     ...(categories || []),
@@ -184,23 +189,41 @@ function AdminMobileBusinessList({
             </div>
           </div>
           {/* Rows */}
-          <ul className="flex flex-col gap-5">
+          <ul className="flex flex-col gap-5 px-1">
             {businesses.map((b) => (
               <li
                 key={b.id}
-                className="bg-background-main-200 grid grid-cols-[2fr_1fr_2fr_1fr] items-center justify-center rounded-lg p-2 px-2"
+                className="bg-background-main-200 grid grid-cols-[2fr_1fr_2fr_1fr] items-center justify-center rounded-lg p-2"
               >
                 <div className="title-h6 py-2">
                   <p className="">{b.name}</p>
                 </div>
-                <div className="flex justify-center">
-                  <div className="bg-background-grey-100 flex h-full w-7 items-center justify-center rounded-sm py-2">
+                <div className="flex h-full justify-center">
+                  <div
+                    className={`${b.status && getBusinessStatusBgColor(b.status)} flex h-full w-7 items-center justify-center rounded-sm`}
+                  >
                     {statusIcon(b.status)}
                   </div>
                 </div>
 
                 <div className="title-h6 py-2 text-center">
                   <p className="">{b.categoryName}</p>
+                </div>
+                <div className="flex justify-end">
+                  <button
+                    onClick={() =>
+                      setShowFullCard((prev) => ({
+                        ...prev,
+                        [b.id]: !prev[b.id],
+                      }))
+                    }
+                  >
+                    {showFullCard[b.id] ? (
+                      <ChevronUpIcon className="size-8" />
+                    ) : (
+                      <ChevronDownIcon className="size-8" />
+                    )}
+                  </button>
                 </div>
               </li>
             ))}
