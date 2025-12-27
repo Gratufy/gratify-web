@@ -18,9 +18,12 @@ import EyeIcon from '@/assets/icons/admin/icon-eye.svg';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import IconModering from '@/assets/icons/menu/icon-modering.svg';
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+import EditPen from '@/assets/icons/general/feedback-edit.svg';
+import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
 
 import { getBusinessStatusBgColor } from '@/lib/helpers/getBusinessStatusColorBg';
-import { is } from 'drizzle-orm';
+
+import { cn } from '@/lib/utils';
 
 interface AdminMobileBusinessListProps {
   categories: BusinessCategory[];
@@ -49,23 +52,23 @@ interface AdminMobileBusinessListProps {
 }
 function AdminMobileBusinessList({
   categories,
-  dialogOpen,
-  setDialogOpen,
-  businessIdToDelete,
-  setBusinessIdToDelete,
-  sortBy,
+  // dialogOpen,
+  // setDialogOpen,
+  // businessIdToDelete,
+  // setBusinessIdToDelete,
+  // sortBy,
   filters,
   updateFilter,
   businesses,
   isBusinessesLoading,
   isBusinessesError,
   error,
-  deleteBusinessMutation,
-  handleDelete,
+  // deleteBusinessMutation,
+  // handleDelete,
   isModeringSection,
 }: AdminMobileBusinessListProps) {
   const [showFullCard, setShowFullCard] = useState<Record<string, boolean>>({});
-  console.log('FFFFF', showFullCard);
+
   const categoriesWithAll = [
     { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
     ...(categories || []),
@@ -191,40 +194,91 @@ function AdminMobileBusinessList({
           {/* Rows */}
           <ul className="flex flex-col gap-5 px-1">
             {businesses.map((b) => (
-              <li
-                key={b.id}
-                className="bg-background-main-200 grid grid-cols-[2fr_1fr_2fr_1fr] items-center justify-center rounded-lg p-2"
-              >
-                <div className="title-h6 py-2">
-                  <p className="">{b.name}</p>
-                </div>
-                <div className="flex h-full justify-center">
-                  <div
-                    className={`${b.status && getBusinessStatusBgColor(b.status)} flex h-full w-7 items-center justify-center rounded-sm`}
-                  >
-                    {statusIcon(b.status)}
+              <li key={b.id} className="bg-background-main-200 rounded-lg p-2">
+                {/* short */}
+                <div
+                  className={cn(
+                    'grid items-center justify-center',
+                    showFullCard[b.id]
+                      ? 'mb-3 grid-cols-[2fr_3fr_1fr]'
+                      : 'grid-cols-[2fr_1fr_2fr_1fr]'
+                  )}
+                >
+                  <div className="title-h6 py-2">
+                    <p className="">{b.name}</p>
+                  </div>
+                  <div className="flex h-full justify-center">
+                    {showFullCard[b.id] ? (
+                      <div className="title-h6 py-2">
+                        <BusinessStatusForm
+                          businessId={b.id}
+                          currentStatus={b.status}
+                          className="w-full"
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        className={`${b.status && getBusinessStatusBgColor(b.status)} flex h-full w-7 items-center justify-center rounded-sm`}
+                      >
+                        {statusIcon(b.status)}
+                      </div>
+                    )}
+                  </div>
+                  {!showFullCard[b.id] && (
+                    <div className="title-h6 py-2 text-center">
+                      <p className="">{b.categoryName}</p>
+                    </div>
+                  )}
+                  <div className="flex justify-end">
+                    <button
+                      onClick={() =>
+                        setShowFullCard((prev) => ({
+                          ...prev,
+                          [b.id]: !prev[b.id],
+                        }))
+                      }
+                    >
+                      {showFullCard[b.id] ? (
+                        <ChevronUpIcon className="size-8" />
+                      ) : (
+                        <ChevronDownIcon className="size-8" />
+                      )}
+                    </button>
                   </div>
                 </div>
 
-                <div className="title-h6 py-2 text-center">
-                  <p className="">{b.categoryName}</p>
-                </div>
-                <div className="flex justify-end">
-                  <button
-                    onClick={() =>
-                      setShowFullCard((prev) => ({
-                        ...prev,
-                        [b.id]: !prev[b.id],
-                      }))
-                    }
-                  >
-                    {showFullCard[b.id] ? (
-                      <ChevronUpIcon className="size-8" />
-                    ) : (
-                      <ChevronDownIcon className="size-8" />
-                    )}
-                  </button>
-                </div>
+                {/* full */}
+                {showFullCard[b.id] && (
+                  <div className="flex flex-col gap-3">
+                    {/* 2 row */}
+                    <div className="grid grid-cols-[2fr_3fr_1fr] items-center py-2">
+                      <div className="title-h6">
+                        <p className="">{b.categoryName}</p>
+                      </div>
+                      <div className="title-h6">
+                        <p className="">City</p>
+                      </div>
+                      <div className="title-h6 flex flex-col items-center gap-1">
+                        <Checkbox
+                          className="border-icons-grey-950 bg-background-main-200! data-[state=checked]:text-icons-grey-950 size-4"
+                          checked={b.isOnline || false}
+                        />
+                        <p>онлайн</p>
+                      </div>
+                    </div>
+                    {/* 3 row */}
+                    <div className="placeholder-base flex justify-center gap-4">
+                      <button className="btn-reject placeholder-base px-2 py-3">
+                        <EditPen className="size-4" />
+                        <span>Редагувати</span>
+                      </button>
+                      <button className="btn-reject placeholder-base px-2 py-3">
+                        <IconRecycle className="text-icons-color-error size-4" />
+                        <span>Видалити</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
               </li>
             ))}
           </ul>
