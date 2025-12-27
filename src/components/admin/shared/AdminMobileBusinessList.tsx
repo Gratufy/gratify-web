@@ -1,8 +1,9 @@
+'use client';
 import { UseMutationResult } from '@tanstack/react-query';
-import { useAdminBusinesses, useDeleteBusiness } from '@/hooks/useBusinesses';
+
 import { BusinessCategory } from '@/types/db';
 import React, { useState } from 'react';
-import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
+
 import { AdminFilters } from '@/types/filters-query';
 import { AdminBusinessRowType } from '@/types';
 import { Label } from '@/components/ui/label';
@@ -20,18 +21,20 @@ import IconModering from '@/assets/icons/menu/icon-modering.svg';
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 import EditPen from '@/assets/icons/general/feedback-edit.svg';
 import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
+import IconEyeOpen from '@/assets/icons/admin/icon-eye-open.svg';
 
 import { getBusinessStatusBgColor } from '@/lib/helpers/getBusinessStatusColorBg';
 
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 interface AdminMobileBusinessListProps {
   categories: BusinessCategory[];
-  dialogOpen: boolean;
+  // dialogOpen: boolean;
   setDialogOpen: (open: boolean) => void;
-  businessIdToDelete: string;
+  // businessIdToDelete: string;
   setBusinessIdToDelete: (id: string) => void;
-  sortBy: 'newest' | 'oldest';
+  // sortBy: 'newest' | 'oldest';
   filters: AdminFilters;
   updateFilter: <K extends keyof AdminFilters>(
     key: K,
@@ -41,21 +44,21 @@ interface AdminMobileBusinessListProps {
   isBusinessesLoading: boolean;
   isBusinessesError: boolean;
   error: Error | null;
-  deleteBusinessMutation: UseMutationResult<
-    { success: boolean },
-    Error,
-    string,
-    unknown
-  >;
-  handleDelete: (businessId: string) => Promise<void>;
+  // deleteBusinessMutation: UseMutationResult<
+  //   { success: boolean },
+  //   Error,
+  //   string,
+  //   unknown
+  // >;
+  // handleDelete: (businessId: string) => Promise<void>;
   isModeringSection?: boolean;
 }
 function AdminMobileBusinessList({
   categories,
-  // dialogOpen,
-  // setDialogOpen,
+  //  dialogOpen,
+  setDialogOpen,
   // businessIdToDelete,
-  // setBusinessIdToDelete,
+  setBusinessIdToDelete,
   // sortBy,
   filters,
   updateFilter,
@@ -267,14 +270,31 @@ function AdminMobileBusinessList({
                       </div>
                     </div>
                     {/* 3 row */}
-                    <div className="placeholder-base flex justify-center gap-4">
-                      <button className="btn-reject placeholder-base px-2 py-3">
-                        <EditPen className="size-4" />
-                        <span>Редагувати</span>
-                      </button>
-                      <button className="btn-reject placeholder-base px-2 py-3">
-                        <IconRecycle className="text-icons-color-error size-4" />
-                        <span>Видалити</span>
+                    <div className="placeholder-base flex justify-center gap-6">
+                      <Link
+                        href={`/admin/business/${b.id}`}
+                        className="btn-reject placeholder-base px-2 py-2"
+                      >
+                        <IconEyeOpen className="size-5" />
+                      </Link>
+                      <Link
+                        href={`/admin/business/${b.id}/edit`}
+                        className="btn-reject placeholder-base px-2 py-2"
+                      >
+                        <EditPen className="size-5" />
+                        {/* <span>Редагувати</span> */}
+                      </Link>
+                      <button
+                        className="btn-reject placeholder-base px-2 py-2"
+                        onClick={() => {
+                          setBusinessIdToDelete(b.id);
+                          setDialogOpen(true);
+                          // setMenuOpen(false);
+                          document.body.click();
+                        }}
+                      >
+                        <IconRecycle className="text-icons-color-error size-5" />
+                        {/* <span>Видалити</span> */}
                       </button>
                     </div>
                   </div>
