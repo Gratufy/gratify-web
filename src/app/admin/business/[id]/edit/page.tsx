@@ -15,7 +15,7 @@ export default async function AdminEditPage({ params }: AdminEditPageProps) {
     return notFound();
   }
   return (
-    <div className="flex flex-col items-center justify-center p-4">
+    <div className="flex flex-col items-center justify-center">
       <BusinessEditClient
         id={id}
         href={`/admin/business/${id}`}

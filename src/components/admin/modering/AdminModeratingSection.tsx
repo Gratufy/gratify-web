@@ -62,38 +62,38 @@ function AdminModeratingSection({
       <div className="hidden lg:block">
         <AdminDesktopBusinessesList
           categories={categories}
-          dialogOpen={dialogOpen}
+          // dialogOpen={dialogOpen}
           setDialogOpen={setDialogOpen}
-          businessIdToDelete={businessIdToDelete}
+          // businessIdToDelete={businessIdToDelete}
           setBusinessIdToDelete={setBusinessIdToDelete}
-          sortBy={sortBy}
+          // sortBy={sortBy}
           updateFilter={updateFilter}
           filters={filters}
           businesses={businesses}
           isBusinessesLoading={isBusinessesLoading}
           isBusinessesError={isBusinessesError}
           error={error}
-          deleteBusinessMutation={deleteBusinessMutation}
-          handleDelete={handleDelete}
+          // deleteBusinessMutation={deleteBusinessMutation}
+          // handleDelete={handleDelete}
           isModeringSection={true}
         />
       </div>
       <div className="lg:hidden">
         <AdminMobileBusinessList
           categories={categories}
-          dialogOpen={dialogOpen}
+          // dialogOpen={dialogOpen}
           setDialogOpen={setDialogOpen}
-          businessIdToDelete={businessIdToDelete}
+          // businessIdToDelete={businessIdToDelete}
           setBusinessIdToDelete={setBusinessIdToDelete}
-          sortBy={sortBy}
+          // sortBy={sortBy}
           updateFilter={updateFilter}
           filters={filters}
           businesses={businesses}
           isBusinessesLoading={isBusinessesLoading}
           isBusinessesError={isBusinessesError}
           error={error}
-          deleteBusinessMutation={deleteBusinessMutation}
-          handleDelete={handleDelete}
+          // deleteBusinessMutation={deleteBusinessMutation}
+          // handleDelete={handleDelete}
           isModeringSection={true}
         />
       </div>
@@ -104,8 +104,8 @@ function AdminModeratingSection({
         description="Цю дію не можна буде скасувати."
         actionContent="Так, видалити"
         cancelText="Скасувати"
-        classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
-        classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
+        classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
+        classNameDescription="text-center text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
         onAction={() => handleDelete(businessIdToDelete)}
         //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
       />

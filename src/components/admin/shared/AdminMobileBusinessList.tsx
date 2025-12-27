@@ -1,8 +1,9 @@
+'use client';
 import { UseMutationResult } from '@tanstack/react-query';
-import { useAdminBusinesses, useDeleteBusiness } from '@/hooks/useBusinesses';
+
 import { BusinessCategory } from '@/types/db';
 import React, { useState } from 'react';
-import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
+
 import { AdminFilters } from '@/types/filters-query';
 import { AdminBusinessRowType } from '@/types';
 import { Label } from '@/components/ui/label';
@@ -17,15 +18,23 @@ import { BusinessStatusForm } from './BusinessStatusForm';
 import EyeIcon from '@/assets/icons/admin/icon-eye.svg';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import IconModering from '@/assets/icons/menu/icon-modering.svg';
-import { CheckIcon } from 'lucide-react';
+import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+import EditPen from '@/assets/icons/general/feedback-edit.svg';
+import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
+import IconEyeOpen from '@/assets/icons/admin/icon-eye-open.svg';
+
+import { getBusinessStatusBgColor } from '@/lib/helpers/getBusinessStatusColorBg';
+
+import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 interface AdminMobileBusinessListProps {
   categories: BusinessCategory[];
-  dialogOpen: boolean;
+  // dialogOpen: boolean;
   setDialogOpen: (open: boolean) => void;
-  businessIdToDelete: string;
+  // businessIdToDelete: string;
   setBusinessIdToDelete: (id: string) => void;
-  sortBy: 'newest' | 'oldest';
+  // sortBy: 'newest' | 'oldest';
   filters: AdminFilters;
   updateFilter: <K extends keyof AdminFilters>(
     key: K,
@@ -35,32 +44,34 @@ interface AdminMobileBusinessListProps {
   isBusinessesLoading: boolean;
   isBusinessesError: boolean;
   error: Error | null;
-  deleteBusinessMutation: UseMutationResult<
-    { success: boolean },
-    Error,
-    string,
-    unknown
-  >;
-  handleDelete: (businessId: string) => Promise<void>;
+  // deleteBusinessMutation: UseMutationResult<
+  //   { success: boolean },
+  //   Error,
+  //   string,
+  //   unknown
+  // >;
+  // handleDelete: (businessId: string) => Promise<void>;
   isModeringSection?: boolean;
 }
 function AdminMobileBusinessList({
   categories,
-  dialogOpen,
+  //  dialogOpen,
   setDialogOpen,
-  businessIdToDelete,
+  // businessIdToDelete,
   setBusinessIdToDelete,
-  sortBy,
+  // sortBy,
   filters,
   updateFilter,
   businesses,
   isBusinessesLoading,
   isBusinessesError,
   error,
-  deleteBusinessMutation,
-  handleDelete,
+  // deleteBusinessMutation,
+  // handleDelete,
   isModeringSection,
 }: AdminMobileBusinessListProps) {
+  const [showFullCard, setShowFullCard] = useState<Record<string, boolean>>({});
+
   const categoriesWithAll = [
     { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
     ...(categories || []),
@@ -184,24 +195,110 @@ function AdminMobileBusinessList({
             </div>
           </div>
           {/* Rows */}
-          <ul className="flex flex-col gap-5">
+          <ul className="flex flex-col gap-5 px-1">
             {businesses.map((b) => (
-              <li
-                key={b.id}
-                className="bg-background-main-200 grid grid-cols-[2fr_1fr_2fr_1fr] items-center justify-center rounded-lg p-2 px-2"
-              >
-                <div className="title-h6 py-2">
-                  <p className="">{b.name}</p>
-                </div>
-                <div className="flex justify-center">
-                  <div className="bg-background-grey-100 flex h-full w-7 items-center justify-center rounded-sm py-2">
-                    {statusIcon(b.status)}
+              <li key={b.id} className="bg-background-main-200 rounded-lg p-2">
+                {/* short */}
+                <div
+                  className={cn(
+                    'grid items-center justify-center',
+                    showFullCard[b.id]
+                      ? 'mb-3 grid-cols-[2fr_3fr_1fr]'
+                      : 'grid-cols-[2fr_1fr_2fr_1fr]'
+                  )}
+                >
+                  <div className="title-h6 py-2">
+                    <p className="">{b.name}</p>
+                  </div>
+                  <div className="flex h-full justify-center">
+                    {showFullCard[b.id] ? (
+                      <div className="title-h6 py-2">
+                        <BusinessStatusForm
+                          businessId={b.id}
+                          currentStatus={b.status}
+                          className="w-full"
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        className={`${b.status && getBusinessStatusBgColor(b.status)} flex h-full w-7 items-center justify-center rounded-sm`}
+                      >
+                        {statusIcon(b.status)}
+                      </div>
+                    )}
+                  </div>
+                  {!showFullCard[b.id] && (
+                    <div className="title-h6 py-2 text-center">
+                      <p className="">{b.categoryName}</p>
+                    </div>
+                  )}
+                  <div className="flex justify-end">
+                    <button
+                      onClick={() =>
+                        setShowFullCard((prev) => ({
+                          ...prev,
+                          [b.id]: !prev[b.id],
+                        }))
+                      }
+                    >
+                      {showFullCard[b.id] ? (
+                        <ChevronUpIcon className="size-8" />
+                      ) : (
+                        <ChevronDownIcon className="size-8" />
+                      )}
+                    </button>
                   </div>
                 </div>
 
-                <div className="title-h6 py-2 text-center">
-                  <p className="">{b.categoryName}</p>
-                </div>
+                {/* full */}
+                {showFullCard[b.id] && (
+                  <div className="flex flex-col gap-3">
+                    {/* 2 row */}
+                    <div className="grid grid-cols-[2fr_3fr_1fr] items-center py-2">
+                      <div className="title-h6">
+                        <p className="">{b.categoryName}</p>
+                      </div>
+                      <div className="title-h6">
+                        <p className="">City</p>
+                      </div>
+                      <div className="title-h6 flex flex-col items-center gap-1">
+                        <Checkbox
+                          className="border-icons-grey-950 bg-background-main-200! data-[state=checked]:text-icons-grey-950 size-4"
+                          checked={b.isOnline || false}
+                        />
+                        <p>онлайн</p>
+                      </div>
+                    </div>
+                    {/* 3 row */}
+                    <div className="placeholder-base flex justify-center gap-6">
+                      <Link
+                        href={`/admin/business/${b.id}`}
+                        className="btn-reject placeholder-base px-2 py-2"
+                      >
+                        <IconEyeOpen className="size-5" />
+                      </Link>
+                      <Link
+                        href={`/admin/business/${b.id}/edit`}
+                        className="btn-reject placeholder-base px-2 py-2"
+                      >
+                        <EditPen className="size-5" />
+                        {/* <span>Редагувати</span> */}
+                      </Link>
+                      <button
+                        className="btn-reject placeholder-base px-2 py-2"
+                        onClick={() => {
+                          setBusinessIdToDelete(b.id);
+                          setDialogOpen(true);
+                          // setMenuOpen(false);
+                          document.body.click();
+                        }}
+                      >
+                        <IconRecycle className="text-icons-color-error size-5" />
+                        {/* <span>Видалити</span> */}
+                      </button>
+                    </div>
+                  </div>
+                )}
               </li>
             ))}
           </ul>

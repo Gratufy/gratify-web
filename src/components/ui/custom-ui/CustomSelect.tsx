@@ -79,7 +79,7 @@ function CustomSelect<T>({
           size={size}
           aria-labelledby={selectId}
           id={selectId}
-          className={`${className ?? 'xl:placeholder-base lg:placeholder-sm placeholder-sm w-[280px]'} ${triggerClass}`}
+          className={`${className ?? 'xl:placeholder-base placeholder-sm w-[280px]'} ${triggerClass}`}
         >
           {/* {statusForm && statusIcon(value as string)} */}
           <SelectValue placeholder={placeholder} />

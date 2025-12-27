@@ -89,9 +89,9 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
   return (
     <div className="bg-background-grey-50 mb-10 w-full py-10">
       <div className="container mx-auto flex w-full flex-col items-center gap-6 max-[1024px]:px-4">
-        <div className="flex justify-center gap-3 px-7">
+        <div className="flex justify-center gap-3">
           <label
-            className="btn-reject gap-[6px] border px-3 xl:px-5"
+            className="btn-reject h-8 gap-[6px] border px-3 xl:px-5"
             htmlFor="images-file"
           >
             <Plus className="size-4" />

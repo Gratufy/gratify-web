@@ -35,11 +35,11 @@ import { AdminBusinessRowType } from '@/types';
 interface AdminDesktopBusinessesListProps {
   // categories: { categoryId: string; name: string }[] | undefined;
   categories: BusinessCategory[];
-  dialogOpen: boolean;
+  // dialogOpen: boolean;
   setDialogOpen: (open: boolean) => void;
-  businessIdToDelete: string;
+  // businessIdToDelete: string;
   setBusinessIdToDelete: (id: string) => void;
-  sortBy: 'newest' | 'oldest';
+  // sortBy: 'newest' | 'oldest';
   filters: AdminFilters;
   updateFilter: <K extends keyof AdminFilters>(
     key: K,
@@ -49,31 +49,31 @@ interface AdminDesktopBusinessesListProps {
   isBusinessesLoading: boolean;
   isBusinessesError: boolean;
   error: Error | null;
-  deleteBusinessMutation: UseMutationResult<
-    { success: boolean },
-    Error,
-    string,
-    unknown
-  >;
-  handleDelete: (businessId: string) => Promise<void>;
+  // deleteBusinessMutation: UseMutationResult<
+  //   { success: boolean },
+  //   Error,
+  //   string,
+  //   unknown
+  // >;
+  // handleDelete: (businessId: string) => Promise<void>;
   isModeringSection?: boolean;
 }
 
 function AdminDesktopBusinessesList({
   categories,
-  dialogOpen,
+  // dialogOpen,
   setDialogOpen,
-  businessIdToDelete,
+  // businessIdToDelete,
   setBusinessIdToDelete,
-  sortBy,
+  // sortBy,
   filters,
   updateFilter,
   businesses,
   isBusinessesLoading,
   isBusinessesError,
   error,
-  deleteBusinessMutation,
-  handleDelete,
+  // deleteBusinessMutation,
+  // handleDelete,
   isModeringSection,
 }: AdminDesktopBusinessesListProps) {
   const categoriesWithAll = [
