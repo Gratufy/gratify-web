@@ -56,9 +56,9 @@ function AdminReviewClient() {
         <EditPen className="size-5" />
         <span className="title-h4">Модерування</span>
       </div>
-      <div className="bg-background-grey-50 w-full max-[1024px]:px-4 lg:mt-3 lg:p-5">
+      <div className="bg-background-grey-50 w-full max-[1024px]:px-4 max-[1024px]:py-4 lg:mt-3 lg:p-5">
         <button
-          className="btn-reject mb-4"
+          className="btn-reject"
           onClick={() => {
             queryClient.invalidateQueries({
               queryKey: ['adminBusinesses'],
@@ -77,17 +77,19 @@ function AdminReviewClient() {
           <RefreshCcw className="size-4" />
           <span>Оновити</span>
         </button>
-        <AdminDesktopBusinessReviewsList
-          categoriesWithAll={categoriesWithAll}
-          filters={filters}
-          updateFilter={updateFilter}
-          businesses={businesses}
-          isBusinessesLoading={isBusinessesLoading}
-          isError={isError}
-          error={error}
-          toggleReviews={toggleReviews}
-          showReviewsMap={showReviewsMap}
-        />
+        <div className="w-full pt-8 lg:pt-4">
+          <AdminDesktopBusinessReviewsList
+            categoriesWithAll={categoriesWithAll}
+            filters={filters}
+            updateFilter={updateFilter}
+            businesses={businesses}
+            isBusinessesLoading={isBusinessesLoading}
+            isError={isError}
+            error={error}
+            toggleReviews={toggleReviews}
+            showReviewsMap={showReviewsMap}
+          />
+        </div>
       </div>
     </div>
   );

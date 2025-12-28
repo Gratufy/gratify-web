@@ -55,9 +55,9 @@ function AdminModeratingSection({
     });
   };
   return (
-    <div className="bg-background-grey-50 w-full max-[1024px]:px-4 lg:mt-3 lg:p-5">
+    <div className="bg-background-grey-50 mt-6 w-full max-[1024px]:px-4 lg:mt-3 lg:p-5">
       {/*  Title*/}
-      <h2 className="title-h5 mt-6 lg:mb-4 lg:mt-0">
+      <h2 className="title-h5 lg:mb-4">
         Усього бізнесів: {totalBusinesses}/{businesses.length}
       </h2>
       <div className="hidden lg:block">
