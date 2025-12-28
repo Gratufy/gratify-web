@@ -113,8 +113,7 @@ function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
           title="Ви впевнені, що хочете видалити цей відгук?"
           actionContent="Видалити"
           cancelText="Скасувати"
-          classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
-          classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
+          classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
           onAction={() => handleDelete(deleteReviewId)}
         />
       )}

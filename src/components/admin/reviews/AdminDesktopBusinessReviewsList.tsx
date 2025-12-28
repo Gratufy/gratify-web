@@ -1,3 +1,4 @@
+'use client';
 import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import { Label } from '@/components/ui/label';
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
@@ -5,50 +6,64 @@ import {
   BUSINESS_REVIEW_STATUS,
   BUSINESS_REVIEW_STATUS_LABELS,
 } from '@/const/review';
-import React from 'react';
+import React, { useState } from 'react';
 import AdminSkeleton from '../shared/AdminSkeleton';
 import Link from 'next/link';
 
-import EditPen from '@/assets/icons/general/feedback-edit.svg';
 import IconEyeOpen from '@/assets/icons/admin/icon-eye-open.svg';
 import IconEyeClose from '@/assets/icons/admin/icon-eye.svg';
 import { ArrowBigDown } from 'lucide-react';
 import { ArrowBigUp } from 'lucide-react';
-import { BusinessCategory } from '@/types/db';
-import { AdminFilters } from '@/types/filters-query';
-import { AdminBusinessRowType } from '@/types';
 
-interface AdminDesktopBusinessesListProps {
-  // categories: { categoryId: string; name: string }[] | undefined;
-  categories: BusinessCategory[];
-  // dialogOpen: boolean;
-  setDialogOpen: (open: boolean) => void;
-  // businessIdToDelete: string;
-  setBusinessIdToDelete: (id: string) => void;
-  // sortBy: 'newest' | 'oldest';
-  filters: AdminFilters;
-  updateFilter: <K extends keyof AdminFilters>(
-    key: K,
-    value: AdminFilters[K]
-  ) => void;
+import { AdminFiltersWithReviewStatus } from '@/types/filters-query';
+import { AdminBusinessRowType } from '@/types';
+import { BusinessReviewStatus, OnlineFilter } from '@/types/enums';
+import { ONLINE_STATUS } from '@/const/online-status';
+import AdminReviewList from './AdminReviewList';
+
+interface AdminDesktopBusinessReviewsListProps {
   businesses: AdminBusinessRowType[];
-  isBusinessesLoading: boolean;
-  isBusinessesError: boolean;
+  filters: AdminFiltersWithReviewStatus;
+  updateFilter: <K extends keyof AdminFiltersWithReviewStatus>(
+    key: K,
+    value: AdminFiltersWithReviewStatus[K]
+  ) => void;
+
+  categoriesWithAll: (
+    | {
+        categoryId: string;
+        name: string;
+        createdAt: Date | null;
+        updatedAt: Date | null;
+      }
+    | {
+        categoryId: string;
+        name: string;
+      }
+  )[];
   error: Error | null;
-  // deleteBusinessMutation: UseMutationResult<
-  //   { success: boolean },
-  //   Error,
-  //   string,
-  //   unknown
-  // >;
-  // handleDelete: (businessId: string) => Promise<void>;
-  isModeringSection?: boolean;
+  isError?: boolean;
+  isBusinessesLoading: boolean;
+  toggleReviews: (businessId: string) => void;
+  showReviewsMap: Record<string, boolean>;
 }
 function AdminDesktopBusinessReviewsList({
-  handleStatusChange,
-}: {
-  handleStatusChange: (value: string) => void;
-}) {
+  businesses,
+  filters,
+  updateFilter,
+  categoriesWithAll,
+  error,
+  isError,
+  isBusinessesLoading,
+  toggleReviews,
+  showReviewsMap,
+}: AdminDesktopBusinessReviewsListProps) {
+  const [isHoveringButton, setIsHoveringButton] = useState<boolean>(false);
+
+  // const categoriesWithAll = [
+  //   { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
+  //   ...(categories || []),
+  // ];
   return (
     <>
       {/*  Filters*/}
@@ -62,8 +77,10 @@ function AdminDesktopBusinessReviewsList({
           </Label>
           <CustomSelect
             id="status-review-select"
-            value={status}
-            onChange={handleStatusChange}
+            value={filters.reviewStatus}
+            onChange={(val) =>
+              updateFilter('reviewStatus', val as BusinessReviewStatus)
+            }
             options={BUSINESS_REVIEW_STATUS}
             getOptionValue={(s) => s}
             getOptionLabel={(s) => BUSINESS_REVIEW_STATUS_LABELS[s]}
@@ -80,8 +97,8 @@ function AdminDesktopBusinessReviewsList({
           </Label>
           <CustomSelect
             id="category-select"
-            value={categoryId}
-            onChange={setCategoryId}
+            value={filters.categoryId}
+            onChange={(val) => updateFilter('categoryId', val)}
             options={categoriesWithAll}
             getOptionValue={(c) => c.categoryId}
             getOptionLabel={(c) => c.name}
@@ -98,10 +115,8 @@ function AdminDesktopBusinessReviewsList({
           </Label>
           <CustomSelect
             id="city-select"
-            // label="Місто"
-            value={cityFilter}
-            onChange={setCityFilter}
-            // onChange={(val) => updateFilter('city', val)}
+            value={filters.city}
+            onChange={(val) => updateFilter('city', val)}
             options={UKRAINE_REGIONAL_CENTERS}
             getOptionValue={(option) => option.value}
             getOptionLabel={(option) => option.label}
@@ -119,9 +134,10 @@ function AdminDesktopBusinessReviewsList({
           <CustomSelect
             id="online-select"
             // label="Місто"
-            value={showOnlineStatus}
-            // value={filters.mode}
-            onChange={(val) => setShowOnlineStatus(val as OnlineFilter)}
+            value={filters.showOnlineStatus}
+            onChange={(val) =>
+              updateFilter('showOnlineStatus', val as OnlineFilter)
+            }
             // onChange={(val) => updateFilter('mode', val as OnlineFilter)}
             options={ONLINE_STATUS}
             getOptionValue={(option) => option.value}
@@ -185,8 +201,12 @@ function AdminDesktopBusinessReviewsList({
                         <IconEyeClose className="mr-2 size-6" />
                         <div className="flex w-full justify-between">
                           <span>
-                            {BUSINESS_REVIEW_STATUS_LABELS[status]}:{' '}
-                            {b.filteredReviewCount}
+                            {
+                              BUSINESS_REVIEW_STATUS_LABELS[
+                                filters.reviewStatus
+                              ]
+                            }
+                            : {b.filteredReviewCount}
                           </span>
                           <ArrowBigUp className="size-5" />
                         </div>
@@ -198,8 +218,12 @@ function AdminDesktopBusinessReviewsList({
                         <div className="flex w-full justify-between">
                           <span>
                             {/* do not delete {' '} */}
-                            {BUSINESS_REVIEW_STATUS_LABELS[status]}:{' '}
-                            {b.filteredReviewCount}
+                            {
+                              BUSINESS_REVIEW_STATUS_LABELS[
+                                filters.reviewStatus
+                              ]
+                            }
+                            : {b.filteredReviewCount}
                           </span>
                           <ArrowBigDown className="size-5" />
                         </div>
@@ -208,7 +232,10 @@ function AdminDesktopBusinessReviewsList({
                   </button>
                 </Link>
                 {showReviewsMap[b.id] && (
-                  <AdminReviewList businessId={b.id} currentStatus={status} />
+                  <AdminReviewList
+                    businessId={b.id}
+                    currentStatus={filters.reviewStatus}
+                  />
                 )}
               </li>
             ))}

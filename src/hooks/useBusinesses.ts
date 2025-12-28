@@ -174,6 +174,7 @@ export function useAdminBusinesses(params: AdminBusinessesParams) {
     queryKey: queryKeys.adminBusinesses(params),
     queryFn: () => getBusinessesForAdmin(params),
     staleTime: 1000 * 60 * 10,
+    // refetchOnWindowFocus: true,
     placeholderData: keepPreviousData,
     //keepPreviousData: true, // чтобы UI не дергался при смене фильтров
   });

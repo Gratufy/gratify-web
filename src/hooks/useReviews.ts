@@ -31,21 +31,25 @@ export function useCreateReview() {
       queryClient.invalidateQueries({
         queryKey: queryKeys.businessReviewsRoot(variables.businessId),
       });
+      // delete?
+      queryClient.invalidateQueries({
+        queryKey: ['businessReviews'],
+        exact: false,
+      });
       // карточка бизнеса (reviewCount и т.п.)
       queryClient.invalidateQueries({
         queryKey: queryKeys.businessById(variables.businessId),
         exact: true,
       });
       // все списки бизнесов (мог измениться счетчик/сортировка)
-      queryClient.invalidateQueries({
-        queryKey: ['businesses'], // вместо queryKeys.businesses
-        exact: false,
-      });
+      // queryClient.invalidateQueries({
+      //   queryKey: ['businesses'], // вместо queryKeys.businesses
+      //   exact: false,
+      // });
 
-      // админ-агрегаты по статусам
+      // update admin list of admin
       queryClient.invalidateQueries({
-        queryKey: queryKeys.adminBusinesses({ reviewStatus: review.status }),
-        exact: false,
+        queryKey: ['adminBusinesses'],
       });
     },
   });
@@ -92,26 +96,35 @@ export function useDeleteReview(businessId: string) {
         exact: false,
       });
       // 4. update admin list of businesses
+
       queryClient.invalidateQueries({
-        queryKey: queryKeys.adminBusinesses({ reviewStatus: undefined }),
-        exact: false,
+        queryKey: ['adminBusinesses'],
       });
     },
   });
 }
-// for Admin
+// for Admin  Review Status Update
 export function useUpdateReviewStatus() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateReviewStatus,
     onSuccess: (review) => {
+      // 1. update list reviews for this business
       queryClient.invalidateQueries({
         queryKey: queryKeys.businessReviewsRoot(review.businessId),
       });
-      // queryClient.invalidateQueries({
-      //   queryKey: queryKeys.adminBusinesses({ reviewStatus: review.status }),
-      // });
-      // Обновляем кэш списка бизнесов admin
+      // 2. update business (detailed card)
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.businessById(review.businessId),
+        exact: true,
+      });
+      // 3. update general list of businesses
+      queryClient.invalidateQueries({
+        queryKey: ['businesses'], // instead of queryKeys.businesses
+        exact: false,
+      });
+
+      // update admin list of admin
       queryClient.invalidateQueries({
         queryKey: ['adminBusinesses'],
       });
