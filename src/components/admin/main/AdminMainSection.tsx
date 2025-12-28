@@ -51,7 +51,7 @@ function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
   };
 
   return (
-    <div className="bg-background-white mt-3 w-full max-[1024px]:p-4 lg:p-5">
+    <div className="bg-background-white my-3 w-full max-[1024px]:p-4 lg:p-5">
       {/*  Title*/}
       <h2 className="title-h5 mb-4">
         Усього бізнесів: {totalBusinesses}/{businesses.length}

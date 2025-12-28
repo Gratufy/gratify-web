@@ -165,8 +165,8 @@ function AdminCategoriesClient() {
         <span className="title-h4">Модерування</span>
       </div>
       {/*  section */}
-      <div className="bg-background-white w-full max-[1024px]:px-4 max-[1024px]:pb-6 max-[1024px]:pt-8">
-        <div className="flex flex-col lg:mb-10 lg:gap-4">
+      <div className="bg-background-white w-full flex-col items-center max-[1024px]:px-4 max-[1024px]:pb-6 max-[1024px]:pt-8 lg:my-3 lg:px-[50px] lg:py-10">
+        <div className="mb-10 flex flex-col gap-4">
           <p className="placeholder-sm xl:placeholder-base">Додати категорію</p>
           <input
             className={`input-custom w-2/3 px-4 ${
@@ -215,9 +215,8 @@ function AdminCategoriesClient() {
               return (
                 <li
                   key={categoryId}
-                  style={{ marginBottom: 8 }}
                   //   lg:w-[558px]
-                  className="lg:border-b-elements-grey-400 flex w-full items-center lg:justify-between lg:border-b lg:px-4 lg:py-2"
+                  className="border-b-elements-grey-400 mb-3 flex w-full items-center justify-between border-b px-4 py-2"
                 >
                   {isEditingCategory ? (
                     <>
@@ -239,35 +238,35 @@ function AdminCategoriesClient() {
                           }))
                         }
                       />
-                      <div className="flex lg:gap-4 xl:gap-8">
+                      <div className="flex gap-10 lg:gap-4 xl:gap-8">
                         <button
-                          className="cursor-pointer border border-green-500 p-2 disabled:cursor-not-allowed"
+                          className="btn-custom bg-background-white border border-green-500 p-2"
                           onClick={() => saveEditing(categoryId)}
                           disabled={isUpdating}
                         >
-                          <CheckIcon className="lg:size-6" />
+                          <CheckIcon className="size-6" />
                         </button>
                         <button
-                          className="cursor-pointer border border-black p-2 disabled:cursor-not-allowed"
+                          className="btn-custom border-elements-grey-950 border p-2"
                           onClick={() => cancelEditing()}
                           disabled={isUpdating}
                         >
-                          <CrossIcon className="lg:size-6" />
+                          <CrossIcon className="size-6" />
                         </button>
                       </div>
                     </>
                   ) : (
                     <>
                       <span className="title-h6">{name}</span>
-                      <div className="flex lg:gap-4 xl:gap-8">
+                      <div className="flex gap-10 lg:gap-4 xl:gap-8">
                         <button
                           onClick={() => startEditing(categoryId, name)}
-                          className="cursor-pointer border-none p-2"
+                          className="btn-custom border-none p-2"
                         >
-                          <EditPen className="lg:size-6" />
+                          <EditPen className="size-6" />
                         </button>
                         <button
-                          className="cursor-pointer border-none p-2"
+                          className="btn-custom border-none p-2"
                           onClick={() => {
                             if (
                               categoryId ===
@@ -297,7 +296,7 @@ function AdminCategoriesClient() {
                             // categoryId === "11111111-1111-1111-1111-111111111111"
                           }
                         >
-                          <IconRecycle className="text-text-warning lg:size-6" />
+                          <IconRecycle className="text-text-warning size-6" />
                         </button>
                       </div>
                     </>
@@ -319,8 +318,8 @@ function AdminCategoriesClient() {
             title="Ви впевнені, що хочете видалити цю категорію?"
             actionContent="Видалити"
             cancelText="Скасувати"
-            classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
-            classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
+            classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
+            classNameDescription="text-center text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
             onAction={() => handleDelete(deleteCategoryId)}
             //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
           />
