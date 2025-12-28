@@ -26,3 +26,13 @@ export const DEFAULT_ADMIN_FILTERS: Required<
   sortBy: 'newest' as AdminSort, //sortBy,
   businessStatus: 'pending' as BusinessStatus,
 };
+
+export const DEFAULT_ADMIN_FILTERS_WITH_REVIEW_STATUS: Required<AdminBusinessesParams> =
+  {
+    reviewStatus: 'pending' as BusinessReviewStatus,
+    city: '__all__',
+    categoryId: '__all__',
+    showOnlineStatus: 'all' as OnlineFilter, //mode
+    sortBy: 'newest' as AdminSort, //sortBy,
+    businessStatus: 'approved' as BusinessStatus,
+  };

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 
-import { BusinessReviewStatus, OnlineFilter } from '@/types/enums';
+import { AdminSort, BusinessReviewStatus, OnlineFilter } from '@/types/enums';
 
 import {
   BUSINESS_REVIEW_STATUS,
@@ -14,6 +14,7 @@ import { ONLINE_STATUS } from '@/const/online-status';
 import { useAdminBusinesses } from '@/hooks/useBusinesses';
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 
+import EditPen from '@/assets/icons/general/feedback-edit.svg';
 import IconEyeOpen from '@/assets/icons/admin/icon-eye-open.svg';
 import IconEyeClose from '@/assets/icons/admin/icon-eye.svg';
 import { ArrowBigDown } from 'lucide-react';
@@ -24,6 +25,7 @@ import { Label } from '@/components/ui/label';
 
 import AdminReviewList from '@/components/admin/reviews/AdminReviewList';
 import AdminSkeleton from '@/components/admin/shared/AdminSkeleton';
+import { useAdminFiltersWithReviewStatus } from '@/hooks/admin/useAdminFiltersWithReviewStatus';
 
 function AdminReviewClient() {
   const {
@@ -31,26 +33,29 @@ function AdminReviewClient() {
     // isLoading: isCategoriesLoading,
     // isError: isCategoriesError,
   } = useBusinessCategories();
-  const [categoryId, setCategoryId] = useState<string>('__all__');
-  const [status, setStatus] = useState<BusinessReviewStatus>('pending');
-  const [cityFilter, setCityFilter] = useState<string>('__all__');
+  // const [categoryId, setCategoryId] = useState<string>('__all__');
+  // const [status, setStatus] = useState<BusinessReviewStatus>('pending');
+  // const [cityFilter, setCityFilter] = useState<string>('__all__');
   const [showReviewsMap, setShowReviewsMap] = useState<Record<string, boolean>>(
     {}
   );
-  const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>('all');
+  // const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>('all');
   const [isHoveringButton, setIsHoveringButton] = useState<boolean>(false);
+  const [sortBy] = useState<AdminSort>('newest');
 
+  const { filters, updateFilter } = useAdminFiltersWithReviewStatus();
   const {
     data: businesses = [],
     isLoading: isBusinessesLoading,
-    // isError,
+    isError,
     error,
   } = useAdminBusinesses({
-    reviewStatus: status,
-    categoryId,
-    city: cityFilter,
-    showOnlineStatus: showOnlineStatus,
-    sortBy: 'newest',
+    businessStatus: 'approved',
+    reviewStatus: filters.reviewStatus,
+    categoryId: filters.categoryId,
+    city: filters.city,
+    showOnlineStatus: filters.showOnlineStatus,
+    sortBy,
   });
   function toggleReviews(businessId: string) {
     setShowReviewsMap((prev) => ({
@@ -58,16 +63,21 @@ function AdminReviewClient() {
       [businessId]: !prev[businessId],
     }));
   }
-  function handleStatusChange(value: string) {
-    setStatus(value as BusinessReviewStatus);
-  }
+  // function handleStatusChange(value: string) {
+  //   setStatus(value as BusinessReviewStatus);
+  // }
   const categoriesWithAll = [
     { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
     ...(categories || []),
   ];
   return (
-    <div className="flex w-full flex-col items-center justify-center">
-      <div className="bg-background-white w-full lg:mt-3 lg:p-5">
+    <div className="max-[1024px]:max-w-150 w-full max-[1024px]:mx-auto lg:flex lg:flex-col lg:items-center lg:justify-center">
+      {/*  mobile nav title */}
+      <div className="bg-background-main-100 flex items-center justify-center gap-3 py-3 lg:hidden">
+        <EditPen className="size-5" />
+        <span className="title-h4">Модерування</span>
+      </div>
+      <div className="bg-background-grey-50 w-full max-[1024px]:px-4 lg:mt-3 lg:p-5">
         {/*  Filters*/}
         <div className="flex justify-center lg:mb-5 lg:gap-3">
           <div>
@@ -79,8 +89,10 @@ function AdminReviewClient() {
             </Label>
             <CustomSelect
               id="status-review-select"
-              value={status}
-              onChange={handleStatusChange}
+              value={filters.reviewStatus}
+              onChange={(val) =>
+                updateFilter('reviewStatus', val as BusinessReviewStatus)
+              }
               options={BUSINESS_REVIEW_STATUS}
               getOptionValue={(s) => s}
               getOptionLabel={(s) => BUSINESS_REVIEW_STATUS_LABELS[s]}
@@ -97,8 +109,8 @@ function AdminReviewClient() {
             </Label>
             <CustomSelect
               id="category-select"
-              value={categoryId}
-              onChange={setCategoryId}
+              value={filters.categoryId}
+              onChange={(val) => updateFilter('categoryId', val)}
               options={categoriesWithAll}
               getOptionValue={(c) => c.categoryId}
               getOptionLabel={(c) => c.name}
@@ -116,8 +128,8 @@ function AdminReviewClient() {
             <CustomSelect
               id="city-select"
               // label="Місто"
-              value={cityFilter}
-              onChange={setCityFilter}
+              value={filters.city}
+              onChange={(val) => updateFilter('city', val)}
               // onChange={(val) => updateFilter('city', val)}
               options={UKRAINE_REGIONAL_CENTERS}
               getOptionValue={(option) => option.value}
@@ -136,9 +148,11 @@ function AdminReviewClient() {
             <CustomSelect
               id="online-select"
               // label="Місто"
-              value={showOnlineStatus}
+              value={filters.showOnlineStatus}
               // value={filters.mode}
-              onChange={(val) => setShowOnlineStatus(val as OnlineFilter)}
+              onChange={(val) =>
+                updateFilter('showOnlineStatus', val as OnlineFilter)
+              }
               // onChange={(val) => updateFilter('mode', val as OnlineFilter)}
               options={ONLINE_STATUS}
               getOptionValue={(option) => option.value}
@@ -152,7 +166,7 @@ function AdminReviewClient() {
           /> */}
           </div>
         </div>
-        {error && (
+        {isError && (
           <div className="placeholder-sm xl:placeholder-base text-center">
             Ошибка: {error?.message}
           </div>
@@ -202,8 +216,12 @@ function AdminReviewClient() {
                           <IconEyeClose className="mr-2 size-6" />
                           <div className="flex w-full justify-between">
                             <span>
-                              {BUSINESS_REVIEW_STATUS_LABELS[status]}:{' '}
-                              {b.filteredReviewCount}
+                              {
+                                BUSINESS_REVIEW_STATUS_LABELS[
+                                  filters.reviewStatus
+                                ]
+                              }
+                              : {b.filteredReviewCount}
                             </span>
                             <ArrowBigUp className="size-5" />
                           </div>
@@ -215,26 +233,24 @@ function AdminReviewClient() {
                           <div className="flex w-full justify-between">
                             <span>
                               {/* do not delete {' '} */}
-                              {BUSINESS_REVIEW_STATUS_LABELS[status]}:{' '}
-                              {b.filteredReviewCount}
+                              {
+                                BUSINESS_REVIEW_STATUS_LABELS[
+                                  filters.reviewStatus
+                                ]
+                              }
+                              : {b.filteredReviewCount}
                             </span>
                             <ArrowBigDown className="size-5" />
                           </div>
                         </>
                       )}
                     </button>
-                    {/* <p className="flex-1/6">{b.categoryName}</p> */}
-
-                    {/* <Link
-                      href={`/admin/business/${b.id}`}
-                      className="title-h6 bg-elements-main-600 text-icons-grey-100 mx-auto flex w-3/4 cursor-pointer items-center justify-center rounded-lg px-2 py-2"
-                    >
-                      <IconEyeOpen className="mr-2 size-6" />
-                      <span>картку</span>
-                    </Link> */}
                   </Link>
                   {showReviewsMap[b.id] && (
-                    <AdminReviewList businessId={b.id} currentStatus={status} />
+                    <AdminReviewList
+                      businessId={b.id}
+                      currentStatus={filters.reviewStatus}
+                    />
                   )}
                 </li>
               ))}
