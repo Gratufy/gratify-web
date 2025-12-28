@@ -1,5 +1,4 @@
 'use client';
-import { UseMutationResult } from '@tanstack/react-query';
 
 import { BusinessCategory } from '@/types/db';
 import React, { useState } from 'react';
@@ -88,7 +87,7 @@ function AdminMobileBusinessList({
       <EyeIcon className="size-4" />
     );
   return (
-    <div className="bg-background-white flex w-full flex-col">
+    <div className="flex w-full flex-col">
       {/*  Title*/}
       {/* <h3 className="placeholder-base mb-4">
         Наявні бізнеси: {businesses ? businesses.length : 0}
@@ -208,7 +207,7 @@ function AdminMobileBusinessList({
                   )}
                 >
                   <div className="title-h6 py-2">
-                    <p className="">{b.name}</p>
+                    <p>{b.name}</p>
                   </div>
                   <div className="flex h-full justify-center">
                     {showFullCard[b.id] ? (

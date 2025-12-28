@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+
 import AdminDesktopBusinessesList from '@/components/admin/shared/AdminDesktopBusinessesList';
 import AdminMobileBusinessList from '../shared/AdminMobileBusinessList';
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
@@ -54,9 +55,9 @@ function AdminModeratingSection({
     });
   };
   return (
-    <div className="bg-background-white mt-3 w-full max-[1024px]:p-4 lg:p-5">
+    <div className="bg-background-grey-50 mt-6 w-full max-[1024px]:px-4 lg:mt-3 lg:p-5">
       {/*  Title*/}
-      <h2 className="title-h5 mb-4">
+      <h2 className="title-h5 lg:mb-4">
         Усього бізнесів: {totalBusinesses}/{businesses.length}
       </h2>
       <div className="hidden lg:block">
@@ -78,7 +79,7 @@ function AdminModeratingSection({
           isModeringSection={true}
         />
       </div>
-      <div className="lg:hidden">
+      <div className="pb-6 lg:hidden">
         <AdminMobileBusinessList
           categories={categories}
           // dialogOpen={dialogOpen}
