@@ -7,7 +7,7 @@ import AdminCategoriesClient from '@/components/admin/categories/AdminCategories
 
 export default function AdminCategory() {
   return (
-    <div className="flex w-full flex-col items-center lg:px-[50px] lg:py-10">
+    <div className="flex w-full flex-col items-center lg:mt-3 lg:px-[50px] lg:py-10">
       <AdminCategoriesClient />
     </div>
   );
