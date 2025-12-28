@@ -1,55 +1,27 @@
 'use client';
 import React, { useState } from 'react';
-import Link from 'next/link';
 
-import { AdminSort, BusinessReviewStatus, OnlineFilter } from '@/types/enums';
-
-import {
-  BUSINESS_REVIEW_STATUS,
-  BUSINESS_REVIEW_STATUS_LABELS,
-} from '@/const/review';
-import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
-import { ONLINE_STATUS } from '@/const/online-status';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { useAdminBusinesses } from '@/hooks/useBusinesses';
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
-
-import EditPen from '@/assets/icons/general/feedback-edit.svg';
-import IconEyeOpen from '@/assets/icons/admin/icon-eye-open.svg';
-import IconEyeClose from '@/assets/icons/admin/icon-eye.svg';
-import { ArrowBigDown } from 'lucide-react';
-import { ArrowBigUp } from 'lucide-react';
-
-import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
-import { Label } from '@/components/ui/label';
-
-import AdminReviewList from '@/components/admin/reviews/AdminReviewList';
-import AdminSkeleton from '@/components/admin/shared/AdminSkeleton';
 import { useAdminFiltersWithReviewStatus } from '@/hooks/admin/useAdminFiltersWithReviewStatus';
-import AdminDesktopBusinessReviewsList from './AdminDesktopBusinessReviewsList';
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  useInfiniteQuery,
-  keepPreviousData,
-} from '@tanstack/react-query';
+
 import { RefreshCcw } from 'lucide-react';
+import EditPen from '@/assets/icons/general/feedback-edit.svg';
+
+import AdminDesktopBusinessReviewsList from '@/components/admin/reviews/AdminDesktopBusinessReviewsList';
+
 function AdminReviewClient() {
   const {
     categories,
     // isLoading: isCategoriesLoading,
     // isError: isCategoriesError,
   } = useBusinessCategories();
-  // const [categoryId, setCategoryId] = useState<string>('__all__');
-  // const [status, setStatus] = useState<BusinessReviewStatus>('pending');
-  // const [cityFilter, setCityFilter] = useState<string>('__all__');
+
   const [showReviewsMap, setShowReviewsMap] = useState<Record<string, boolean>>(
     {}
   );
-  // const [showOnlineStatus, setShowOnlineStatus] = useState<OnlineFilter>('all');
-  const [isHoveringButton, setIsHoveringButton] = useState<boolean>(false);
-  const [sortBy] = useState<AdminSort>('newest');
 
   const { filters, updateFilter } = useAdminFiltersWithReviewStatus();
   const {
@@ -63,7 +35,7 @@ function AdminReviewClient() {
     categoryId: filters.categoryId,
     city: filters.city,
     showOnlineStatus: filters.showOnlineStatus,
-    sortBy,
+    sortBy: 'newest',
   });
   function toggleReviews(businessId: string) {
     setShowReviewsMap((prev) => ({
@@ -71,9 +43,7 @@ function AdminReviewClient() {
       [businessId]: !prev[businessId],
     }));
   }
-  // function handleStatusChange(value: string) {
-  //   setStatus(value as BusinessReviewStatus);
-  // }
+
   const categoriesWithAll = [
     { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
     ...(categories || []),
@@ -100,12 +70,12 @@ function AdminReviewClient() {
                 Array.isArray(query.queryKey) &&
                 query.queryKey[0] === 'businessReviews' &&
                 query.queryKey[2] === 'admin' &&
-                query.queryKey[3] === filters.reviewStatus, // динамически
+                query.queryKey[3] === filters.reviewStatus,
             });
           }}
         >
           <RefreshCcw className="size-4" />
-          <span>Обновить</span>
+          <span>Оновити</span>
         </button>
         <AdminDesktopBusinessReviewsList
           categoriesWithAll={categoriesWithAll}

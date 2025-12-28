@@ -1,7 +1,6 @@
-'use client';
-import { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { UseMutationResult } from '@tanstack/react-query';
+
 import { BusinessStatus, OnlineFilter } from '@/types/enums';
 
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
@@ -24,8 +23,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
 
-import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
-
 import { BusinessStatusForm } from '@/components/admin/shared/BusinessStatusForm';
 import AdminSkeleton from '@/components/admin/shared/AdminSkeleton';
 import { BusinessCategory } from '@/types/db';
@@ -33,13 +30,9 @@ import { AdminFilters } from '@/types/filters-query';
 import { AdminBusinessRowType } from '@/types';
 
 interface AdminDesktopBusinessesListProps {
-  // categories: { categoryId: string; name: string }[] | undefined;
   categories: BusinessCategory[];
-  // dialogOpen: boolean;
   setDialogOpen: (open: boolean) => void;
-  // businessIdToDelete: string;
   setBusinessIdToDelete: (id: string) => void;
-  // sortBy: 'newest' | 'oldest';
   filters: AdminFilters;
   updateFilter: <K extends keyof AdminFilters>(
     key: K,
@@ -49,31 +42,19 @@ interface AdminDesktopBusinessesListProps {
   isBusinessesLoading: boolean;
   isBusinessesError: boolean;
   error: Error | null;
-  // deleteBusinessMutation: UseMutationResult<
-  //   { success: boolean },
-  //   Error,
-  //   string,
-  //   unknown
-  // >;
-  // handleDelete: (businessId: string) => Promise<void>;
   isModeringSection?: boolean;
 }
 
 function AdminDesktopBusinessesList({
   categories,
-  // dialogOpen,
   setDialogOpen,
-  // businessIdToDelete,
   setBusinessIdToDelete,
-  // sortBy,
   filters,
   updateFilter,
   businesses,
   isBusinessesLoading,
   isBusinessesError,
   error,
-  // deleteBusinessMutation,
-  // handleDelete,
   isModeringSection,
 }: AdminDesktopBusinessesListProps) {
   const categoriesWithAll = [
@@ -83,11 +64,6 @@ function AdminDesktopBusinessesList({
 
   return (
     <>
-      {/*  Title*/}
-
-      {/* <h3 className="lg:placeholder-base mb-4">
-        Наявні бізнеси: {businesses ? businesses.length : 0}
-      </h3> */}
       {/*  Filters*/}
       <div className="flex justify-center lg:mb-5 lg:gap-6">
         {!isModeringSection && (

@@ -1,25 +1,28 @@
 'use client';
-import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
-import { Label } from '@/components/ui/label';
+import React, { useState } from 'react';
+import Link from 'next/link';
+
+import { AdminFiltersWithReviewStatus } from '@/types/filters-query';
+import { AdminBusinessRowType } from '@/types';
+import { BusinessReviewStatus, OnlineFilter } from '@/types/enums';
+
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
+import { ONLINE_STATUS } from '@/const/online-status';
 import {
   BUSINESS_REVIEW_STATUS,
   BUSINESS_REVIEW_STATUS_LABELS,
 } from '@/const/review';
-import React, { useState } from 'react';
-import AdminSkeleton from '../shared/AdminSkeleton';
-import Link from 'next/link';
 
 import IconEyeOpen from '@/assets/icons/admin/icon-eye-open.svg';
 import IconEyeClose from '@/assets/icons/admin/icon-eye.svg';
 import { ArrowBigDown } from 'lucide-react';
 import { ArrowBigUp } from 'lucide-react';
 
-import { AdminFiltersWithReviewStatus } from '@/types/filters-query';
-import { AdminBusinessRowType } from '@/types';
-import { BusinessReviewStatus, OnlineFilter } from '@/types/enums';
-import { ONLINE_STATUS } from '@/const/online-status';
-import AdminReviewList from './AdminReviewList';
+import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
+import { Label } from '@/components/ui/label';
+
+import AdminSkeleton from '@/components/admin/shared/AdminSkeleton';
+import AdminReviewList from '@/components/admin/reviews/AdminReviewList';
 
 interface AdminDesktopBusinessReviewsListProps {
   businesses: AdminBusinessRowType[];
@@ -60,10 +63,6 @@ function AdminDesktopBusinessReviewsList({
 }: AdminDesktopBusinessReviewsListProps) {
   const [isHoveringButton, setIsHoveringButton] = useState<boolean>(false);
 
-  // const categoriesWithAll = [
-  //   { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
-  //   ...(categories || []),
-  // ];
   return (
     <>
       {/*  Filters*/}
@@ -138,22 +137,17 @@ function AdminDesktopBusinessReviewsList({
             onChange={(val) =>
               updateFilter('showOnlineStatus', val as OnlineFilter)
             }
-            // onChange={(val) => updateFilter('mode', val as OnlineFilter)}
             options={ONLINE_STATUS}
             getOptionValue={(option) => option.value}
             getOptionLabel={(option) => option.label}
             placeholder="Оберіть місто"
             className="admin-select w-40"
           />
-          {/* <OnlineStatusFilter
-            value={showOnlineStatus}
-            onChange={setShowOnlineStatus}
-          /> */}
         </div>
       </div>
       {isError && (
         <div className="placeholder-sm xl:placeholder-base text-center">
-          Ошибка: {error?.message}
+          Помилка: {error?.message}
         </div>
       )}
       {isBusinessesLoading && <AdminSkeleton count={3} />}
@@ -180,12 +174,9 @@ function AdminDesktopBusinessReviewsList({
                   }`}
                 >
                   <p className="title-h6">{b.name}</p>
-                  {/* <p className="flex-1/7">{b.city}</p> */}
 
                   <p className="title-h6">{b.categoryName}</p>
-                  {/* <p className="flex-1/7">
-                      {status}: {b.filteredReviewCount}
-                    </p> */}
+
                   <button
                     className="xl:placeholder-base placeholder-sm items-centertitle-h6 bg-background-grey-100 hover:bg-background-grey-100/80 border-icons-main-500 mx-auto flex w-48 cursor-pointer items-center rounded-lg border px-2 py-2 transition-colors"
                     onClick={(e) => {
@@ -214,10 +205,9 @@ function AdminDesktopBusinessReviewsList({
                     ) : (
                       <>
                         <IconEyeOpen className="mr-2 size-6" />
-                        {/* <span> відгуки</span> */}
+
                         <div className="flex w-full justify-between">
                           <span>
-                            {/* do not delete {' '} */}
                             {
                               BUSINESS_REVIEW_STATUS_LABELS[
                                 filters.reviewStatus
