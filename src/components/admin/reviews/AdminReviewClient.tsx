@@ -90,8 +90,18 @@ function AdminReviewClient() {
         <button
           className="btn-reject mb-4"
           onClick={() => {
-            queryClient.invalidateQueries({ queryKey: ['adminBusinesses'] });
-            queryClient.invalidateQueries({ queryKey: ['businessReviews'] });
+            queryClient.invalidateQueries({
+              queryKey: ['adminBusinesses'],
+              exact: false,
+            });
+            // queryClient.invalidateQueries({ queryKey: ['businessReviews'] });
+            queryClient.invalidateQueries({
+              predicate: (query) =>
+                Array.isArray(query.queryKey) &&
+                query.queryKey[0] === 'businessReviews' &&
+                query.queryKey[2] === 'admin' &&
+                query.queryKey[3] === filters.reviewStatus, // динамически
+            });
           }}
         >
           <RefreshCcw className="size-4" />
