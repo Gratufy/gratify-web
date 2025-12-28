@@ -186,7 +186,7 @@ function AdminDesktopBusinessReviewsList({
                   <p className="title-h6">{b.categoryName}</p>
 
                   <button
-                    className="xl:placeholder-base placeholder-sm items-centertitle-h6 bg-background-grey-100 hover:bg-background-grey-100/80 border-icons-main-500 mx-auto flex w-48 cursor-pointer items-center rounded-lg border px-2 py-2 transition-colors"
+                    className="w-full xl:placeholder-base placeholder-sm items-centertitle-h6 bg-background-grey-100 hover:bg-background-grey-100/80 border-icons-main-500 mx-auto flex cursor-pointer items-center rounded-lg border px-2 py-2 transition-colors lg:w-48"
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
@@ -199,14 +199,18 @@ function AdminDesktopBusinessReviewsList({
                       <>
                         <IconEyeClose className="mr-2 size-6" />
                         <div className="flex w-full justify-between">
-                          <span>
-                            {
-                              BUSINESS_REVIEW_STATUS_LABELS[
-                                filters.reviewStatus
-                              ]
-                            }
-                            : {b.filteredReviewCount}
-                          </span>
+                          <div>
+                            <span className="hidden lg:inline-block">
+                              {
+                                BUSINESS_REVIEW_STATUS_LABELS[
+                                  filters.reviewStatus
+                                ]
+                              }
+                              :
+                            </span>
+                            <span>{b.filteredReviewCount}</span>
+                          </div>
+
                           <ArrowBigUp className="size-5" />
                         </div>
                       </>
@@ -215,14 +219,17 @@ function AdminDesktopBusinessReviewsList({
                         <IconEyeOpen className="mr-2 size-6" />
 
                         <div className="flex w-full justify-between">
-                          <span>
-                            {
-                              BUSINESS_REVIEW_STATUS_LABELS[
-                                filters.reviewStatus
-                              ]
-                            }
-                            : {b.filteredReviewCount}
-                          </span>
+                          <div>
+                            <span className="hidden lg:inline-block">
+                              {
+                                BUSINESS_REVIEW_STATUS_LABELS[
+                                  filters.reviewStatus
+                                ]
+                              }
+                              :
+                            </span>
+                            <span>{b.filteredReviewCount}</span>
+                          </div>
                           <ArrowBigDown className="size-5" />
                         </div>
                       </>
