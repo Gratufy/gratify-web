@@ -122,9 +122,11 @@ function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
           open={dialogOpen}
           onOpenChange={setDialogOpen}
           title="Ви впевнені, що хочете видалити цей відгук?"
+          description="Цю дію не можна буде скасувати."
           actionContent="Видалити"
           cancelText="Скасувати"
           classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
+          classNameDescription="text-center text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
           onAction={() => handleDelete(deleteReviewId)}
         />
       )}

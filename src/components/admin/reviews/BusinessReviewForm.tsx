@@ -73,10 +73,11 @@ function BusinessReviewForm({
         open={dialogOpen}
         onOpenChange={setDialogOpen}
         title={`Ви впевнені, що хочете змінити статус відгуку "${BUSINESS_REVIEW_STATUS_LABELS[status]}" на "${BUSINESS_REVIEW_STATUS_LABELS[newStatus]}"?`}
+        description="Зміна статусу відгуку вплине на його видимість на платформі."
         actionContent="Змінити"
         cancelText="Скасувати"
         classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
-        classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
+        classNameDescription="text-center text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
         onAction={() => handleStatusChange()}
         //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
       />

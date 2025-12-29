@@ -109,10 +109,11 @@ export function BusinessStatusForm({
         open={dialogOpen}
         onOpenChange={setDialogOpen}
         title={`Ви впевнені, що хочете змінити статус "${BUSINESS_STATUS_LABELS[currentStatus]}" на "${BUSINESS_STATUS_LABELS[newStatus]}"?`}
+        description="Зміна статусу бізнесу вплине на його видимість на платформі."
         actionContent="Змінити"
         cancelText="Скасувати"
-        classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
-        classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
+        classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
+        classNameDescription="text-center text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
         onAction={() => handleChange()}
         //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
       />

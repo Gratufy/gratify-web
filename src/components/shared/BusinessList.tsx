@@ -127,7 +127,7 @@ function BusinessList({
         description={alertTitle}
         actionContent={actionContent}
         //cancelText={cancelText}
-        classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
+        classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
         classNameDescription="sr-only"
         onAction={onConfirm}
       />
