@@ -30,6 +30,7 @@ const getRedirectUrl = () => {
 //update session in 	usePopupChannel
 const GoogleBtn = () => {
   const isExchangingRef = useRef(false);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
   const [popup, setPopup] = useState<Window | null>(null);
@@ -53,11 +54,14 @@ const GoogleBtn = () => {
       const supabase = createClient();
       // it is important to trigger the exchangeCodeForSession for userProvider
       const { error } = await supabase.auth.exchangeCodeForSession(code);
+
       if (error) {
+        setLoading(false);
         console.error('Failed to exchange code', error);
         return;
       }
-      router.replace('/'); // or any other route you want to redirect to after login
+      router.replace('/');
+      // or any other route you want to redirect to after login
     };
 
     channel.addEventListener('message', listener);
@@ -72,7 +76,7 @@ const GoogleBtn = () => {
   const handleGoogleLogin = async () => {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const supabase = createClient();
-
+    if (!isMobile) setLoading(true);
     const redirectUrl = getRedirectUrl();
 
     // to prevent popup blocker on Desktop
@@ -104,6 +108,7 @@ const GoogleBtn = () => {
     if (error || !data?.url) {
       console.error('OAuth login error', error);
       if (popup) popup.close();
+
       return;
     }
     if (isMobile) return; // if we are on mobile, we will redirect to the redirectUrl
@@ -112,16 +117,23 @@ const GoogleBtn = () => {
     }
   };
   return (
-    <button
-      className="flex cursor-pointer items-center border border-gray-950 px-5 py-3"
-      onClick={handleGoogleLogin}
-    >
-      <IconGoogle className="mr-3 size-4 xl:size-6" />
+    <>
+      {loading ? (
+        <span>Завантаження...</span>
+      ) : (
+        <button
+          className="flex cursor-pointer items-center border border-gray-950 px-5 py-3"
+          onClick={handleGoogleLogin}
+          disabled={loading}
+        >
+          <IconGoogle className="mr-3 size-4 xl:size-6" />
 
-      <span className="xl:placeholder-base lg:placeholder-sm placeholder-xs">
-        Продовжити з Google
-      </span>
-    </button>
+          <span className="xl:placeholder-base lg:placeholder-sm placeholder-xs">
+            Продовжити з Google
+          </span>
+        </button>
+      )}
+    </>
   );
 };
 
