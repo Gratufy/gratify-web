@@ -171,7 +171,7 @@ export async function getBusinesses(
       orderBy = desc(businesses.createdAt);
   }
   // search
-  console.log('Search term:', search);
+
   if (search && search.trim() !== '') {
     // const term = `%${search.toLowerCase()}%`; // any inclusion
     const term = `${search.toLowerCase()}%`; // starts with

@@ -54,6 +54,11 @@ export async function updateReviewText({
 
   if (!review) throw new Error('Forbidden');
 
+  await db
+    .update(businesses)
+    .set({ reviewCount: sql`GREATEST(${businesses.reviewCount} - 1, 0)` })
+    .where(eq(businesses.id, review.businessId));
+
   return review;
 }
 
