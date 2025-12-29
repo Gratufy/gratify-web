@@ -17,12 +17,14 @@ interface BusinessReviewFormProps {
   businessId: string;
   currentStatus: string;
   reviewId: string;
+  className?: string;
 }
 
 function BusinessReviewForm({
   // businessId,
   currentStatus,
   reviewId,
+  className = 'w-full',
 }: BusinessReviewFormProps) {
   const [status, setStatus] = useState(currentStatus);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -64,7 +66,7 @@ function BusinessReviewForm({
         getOptionValue={(s) => s}
         getOptionLabel={(s) => BUSINESS_REVIEW_STATUS_LABELS[s]}
         placeholder="Оберіть статус"
-        className="w-full"
+        className={className}
         statusForm={true}
       />
       <CustomAlertDialog
