@@ -4,8 +4,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Image from 'next/image';
 
-import IconLeft from '@/assets/icons/general/icon-arrow-left.svg';
 import { BusinessImages } from '@/types';
+import IconLeft from '@/assets/icons/general/icon-arrow-left.svg';
 
 interface EmblaCarouselProps {
   slides: BusinessImages;

@@ -1,19 +1,17 @@
-"use client";
+'use client';
 
-import { useEffect } from "react"; //, Suspense
+import { useEffect } from 'react';
 
 export default function PopupCallback() {
-  // const params = useSearchParams();
-
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const code = params.get("code");
+    const code = params.get('code');
     if (!code) {
       window.close();
       return;
     }
 
-    const channel = new BroadcastChannel("popup-channel");
+    const channel = new BroadcastChannel('popup-channel');
     channel.postMessage({ authResultCode: code });
     channel.close();
 

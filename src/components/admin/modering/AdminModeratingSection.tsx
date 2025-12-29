@@ -1,14 +1,21 @@
 'use client';
 import React, { useState } from 'react';
 
-import AdminDesktopBusinessesList from '@/components/admin/shared/AdminDesktopBusinessesList';
-import AdminMobileBusinessList from '../shared/AdminMobileBusinessList';
+import { useQueryClient } from '@tanstack/react-query';
+
+import { AdminSort } from '@/types/enums';
+
+import { RefreshCcw } from 'lucide-react';
+
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 import { useAdminBusinesses, useDeleteBusiness } from '@/hooks/useBusinesses';
 import { useAdminFilters } from '@/hooks/admin/useAdminFilters';
+
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
-import { AdminSort } from '@/types/enums';
+
+import AdminDesktopBusinessesList from '@/components/admin/shared/AdminDesktopBusinessesList';
+import AdminMobileBusinessList from '@/components/admin/shared/AdminMobileBusinessList';
 
 function AdminModeratingSection({
   totalBusinesses,
@@ -54,8 +61,22 @@ function AdminModeratingSection({
       ),
     });
   };
+
+  const queryClient = useQueryClient();
   return (
-    <div className="bg-background-grey-50 mt-6 w-full max-[1024px]:px-4 lg:mt-3 lg:p-5">
+    <div className="bg-background-grey-50 w-full max-[1024px]:px-4 max-[1024px]:py-4 lg:mt-3 lg:p-5">
+      <button
+        className="btn-reject mb-8 lg:mb-4"
+        onClick={() => {
+          queryClient.invalidateQueries({
+            queryKey: ['adminBusinesses'],
+            exact: false,
+          });
+        }}
+      >
+        <RefreshCcw className="size-4" />
+        <span>Оновити</span>
+      </button>
       {/*  Title*/}
       <h2 className="title-h5 lg:mb-4">
         Усього бізнесів: {totalBusinesses}/{businesses.length}

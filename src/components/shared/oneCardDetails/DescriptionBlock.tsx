@@ -1,8 +1,8 @@
 import React from 'react';
 
-type DescriptionBlockProps = {
+interface DescriptionBlockProps {
   description: string | null;
-};
+}
 
 function DescriptionBlock({ description }: DescriptionBlockProps) {
   return (

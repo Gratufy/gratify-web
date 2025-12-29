@@ -50,7 +50,7 @@ interface AdminDesktopBusinessReviewsListProps {
   toggleReviews: (businessId: string) => void;
   showReviewsMap: Record<string, boolean>;
 }
-function AdminDesktopBusinessReviewsList({
+function AdminBusinessReviewsList({
   businesses,
   filters,
   updateFilter,
@@ -256,4 +256,4 @@ function AdminDesktopBusinessReviewsList({
   );
 }
 
-export default AdminDesktopBusinessReviewsList;
+export default AdminBusinessReviewsList;

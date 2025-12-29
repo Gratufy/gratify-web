@@ -88,8 +88,8 @@ function DeleteEditBusinessBtns({
         description="Цю дію не можна буде скасувати."
         actionContent="Так, видалити"
         cancelText="Скасувати"
-        classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
-        classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
+        classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
+        classNameDescription="text-center text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
         onAction={() => handleDelete(id)}
         //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
       />

@@ -16,14 +16,13 @@ import BusinessCardSkeleton from '../skeletons/BusinessCardSkeleton';
 import IconFavorite from '@/assets/icons/general/favorite-h.svg';
 import IconUser from '@/assets/icons/general/icon-user.svg';
 
-import Karma from '../Karma';
-import BusinessReviews from '../BusinessReviews';
-import TitleBlock from './TitleBlock';
-import DescriptionBlock from './DescriptionBlock';
-import CaruselThumbnails from './caruselThumb/CaruselThumbnails';
-// import { FAKE_IMAGES_ARR } from '@/const/fake-images-arr';
-import SpecialOffersBlock from './SpecialOffersBlock';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
+import Karma from '@/components/shared/Karma';
+import BusinessReviews from '@/components/shared/BusinessReviews';
+import TitleBlock from '@/components/shared/oneCardDetails/TitleBlock';
+import DescriptionBlock from '@/components/shared/oneCardDetails/DescriptionBlock';
+import CaruselThumbnails from '@/components/shared/oneCardDetails/caruselThumb/CaruselThumbnails';
+import SpecialOffersBlock from '@/components/shared/oneCardDetails/SpecialOffersBlock';
 
 import dynamic from 'next/dynamic';
 
@@ -33,7 +32,6 @@ const BusinessMapAll = dynamic(() => import('../BusinessMapAll'), {
 
 interface Props {
   id: string;
-
   selectedCity: string;
   initialData: BusinessWithDetails;
 }
@@ -257,7 +255,7 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
         description={alertTitle}
         actionContent={actionContent}
         // cancelText="Отмена"
-        classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
+        classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
         classNameDescription="sr-only"
         onAction={onConfirm}
       />

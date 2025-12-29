@@ -7,7 +7,7 @@ import { useUserVote, useVoteBusiness } from '@/hooks/useVoteBusiness';
 import { Plus } from 'lucide-react';
 import { Minus } from 'lucide-react';
 
-type KarmaProps = {
+interface KarmaProps {
   businessId: string;
   initialKarma: number;
 
@@ -17,6 +17,7 @@ type KarmaProps = {
   setActionContent: React.Dispatch<React.SetStateAction<React.ReactNode>>;
   setOnConfirm: React.Dispatch<React.SetStateAction<() => void>>;
 };
+
 function Karma({
   businessId,
   initialKarma,

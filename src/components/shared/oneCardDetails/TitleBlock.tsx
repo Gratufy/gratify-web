@@ -1,9 +1,10 @@
 import React from 'react';
-type TitleBlockProps = {
+
+interface TitleBlockProps {
   name: string;
   categoryName: string | null;
   website: string | null;
-};
+}
 
 function TitleBlock({ name, categoryName, website }: TitleBlockProps) {
   return (

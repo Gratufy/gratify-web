@@ -17,10 +17,9 @@ import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
 import BusinessCardShot from '@/components/shared/BusinessCardShot';
 import DeleteEditBusinessBtns from '@/components/business/DeleteEditBusinessBtns';
-
 import { BusinessStatusForm } from '@/components/admin/shared/BusinessStatusForm';
 
-type OwnBusinessListProps = {
+interface OwnBusinessListProps {
   businesses: BusinessWithCategoryName[];
   selectedCity?: string;
   isLoading?: boolean;
@@ -88,8 +87,8 @@ function OwnBusinessList({
       {businesses.length > 0 && (
         <ul className="flex w-full flex-col items-center justify-center gap-10 overflow-hidden lg:gap-10">
           {businesses.map((b) => {
-            console.log('Rendering business:', b.name, "-",b.status);
-           
+            console.log('Rendering business:', b.name, '-', b.status);
+
             return (
               <li
                 key={b.id}
@@ -187,7 +186,7 @@ function OwnBusinessList({
         description={alertTitle}
         actionContent={actionContent}
         //cancelText={cancelText}
-        classNameTitle="xl:placeholder-base! placeholder-sm! font-normal"
+        classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
         classNameDescription="sr-only"
         onAction={onConfirm}
       />

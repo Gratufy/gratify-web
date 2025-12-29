@@ -17,12 +17,14 @@ interface BusinessReviewFormProps {
   businessId: string;
   currentStatus: string;
   reviewId: string;
+  className?: string;
 }
 
 function BusinessReviewForm({
   // businessId,
   currentStatus,
   reviewId,
+  className = 'w-full',
 }: BusinessReviewFormProps) {
   const [status, setStatus] = useState(currentStatus);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -64,17 +66,18 @@ function BusinessReviewForm({
         getOptionValue={(s) => s}
         getOptionLabel={(s) => BUSINESS_REVIEW_STATUS_LABELS[s]}
         placeholder="Оберіть статус"
-        className="w-full"
+        className={className}
         statusForm={true}
       />
       <CustomAlertDialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
         title={`Ви впевнені, що хочете змінити статус відгуку "${BUSINESS_REVIEW_STATUS_LABELS[status]}" на "${BUSINESS_REVIEW_STATUS_LABELS[newStatus]}"?`}
+        description="Зміна статусу відгуку вплине на його видимість на платформі."
         actionContent="Змінити"
         cancelText="Скасувати"
         classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
-        classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
+        classNameDescription="text-center text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
         onAction={() => handleStatusChange()}
         //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
       />

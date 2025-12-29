@@ -2,6 +2,17 @@ import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
 export async function updateSession(request: NextRequest) {
+  //new
+  const path = request.nextUrl.pathname;
+  //end new
+  // never take auth callbacks
+  if (
+    path.startsWith('/auth/callback') ||
+    path.startsWith('/auth/popup-callback') ||
+    path.startsWith('/login')
+  ) {
+    return NextResponse.next();
+  }
   let supabaseResponse = NextResponse.next({
     request,
   });

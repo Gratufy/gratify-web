@@ -321,6 +321,7 @@ function AdminCategoriesClient() {
             open={dialogOpen}
             onOpenChange={setDialogOpen}
             title="Ви впевнені, що хочете видалити цю категорію?"
+            description="Всі бізнеси цієї категорії будуть переміщені до категорії 'Інше'. Цю дію не можна буде скасувати."
             actionContent="Видалити"
             cancelText="Скасувати"
             classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
