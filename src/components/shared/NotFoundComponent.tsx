@@ -1,11 +1,13 @@
 import React from 'react';
-import BackToHomeBtn from '@/components/ui/custom-ui/BackToHomeBtn';
+
 import Image from 'next/image';
 
-type NotFoundComponentProps = {
+import BackToHomeBtn from '@/components/ui/custom-ui/BackToHomeBtn';
+
+interface NotFoundComponentProps {
   IfFavorites?: boolean;
   business?: boolean;
-};
+}
 
 function NotFoundComponent({ IfFavorites, business }: NotFoundComponentProps) {
   return (

@@ -4,19 +4,27 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
+import { BusinessWithCategoryName } from '@/types';
+
 import { useFavorites } from '@/providers/UserFavoritesProvider';
 import { useAddFavorite, useRemoveFavorite } from '@/hooks/useFavorites';
-import { BusinessWithCategoryName } from '@/types';
-import IconUser from '@/assets/icons/general/icon-user.svg';
-// import Link from 'next/link';
-// import { renderLocations } from '@/lib/helpers/renderLocations';
 
+import IconUser from '@/assets/icons/general/icon-user.svg';
 import CheckIcon from '@/assets/icons/general/icon-check.svg';
 import ReviewIcon from '@/assets/icons/general/icon-bubble.svg';
 import IconFavoriteNo from '@/assets/icons/general/icon-favorite-no.svg';
 import IconFavoriteYes from '@/assets/icons/general/icon-favorite-yes.svg';
 
-import Karma from './Karma';
+import Karma from '@/components/shared/Karma';
+
+interface BusinessCardShotProps {
+  business: BusinessWithCategoryName;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoggedIn: boolean;
+  setAlertTitle: React.Dispatch<React.SetStateAction<string>>;
+  setActionContent: React.Dispatch<React.SetStateAction<React.ReactNode>>;
+  setOnConfirm: React.Dispatch<React.SetStateAction<() => void>>;
+}
 
 function BusinessCardShot({
   business,
@@ -26,16 +34,7 @@ function BusinessCardShot({
   setAlertTitle,
   setActionContent,
   setOnConfirm,
-}: {
-  business: BusinessWithCategoryName;
-
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  isLoggedIn: boolean;
-
-  setAlertTitle: React.Dispatch<React.SetStateAction<string>>;
-  setActionContent: React.Dispatch<React.SetStateAction<React.ReactNode>>;
-  setOnConfirm: React.Dispatch<React.SetStateAction<() => void>>;
-}) {
+}: BusinessCardShotProps) {
   const router = useRouter();
   const favoritesSet = useFavorites();
   const isFavorite = favoritesSet.has(business.id);

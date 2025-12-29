@@ -17,10 +17,9 @@ import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
 import BusinessCardShot from '@/components/shared/BusinessCardShot';
 import DeleteEditBusinessBtns from '@/components/business/DeleteEditBusinessBtns';
-
 import { BusinessStatusForm } from '@/components/admin/shared/BusinessStatusForm';
 
-type OwnBusinessListProps = {
+interface OwnBusinessListProps {
   businesses: BusinessWithCategoryName[];
   selectedCity?: string;
   isLoading?: boolean;

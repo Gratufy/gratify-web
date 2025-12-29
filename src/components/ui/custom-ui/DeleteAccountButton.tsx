@@ -1,25 +1,29 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useUserStore } from '@/stores/useUserStore';
-//import { createClient } from "@/utils/supabase/client";
+import { useRouter } from 'next/navigation';
+
 import { useQueryClient } from '@tanstack/react-query';
-import { CustomToast } from './CustomToast';
+import { useUserStore } from '@/stores/useUserStore';
+
 import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
 
+import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
+import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
+
 export default function DeleteAccountButton() {
+  const [dialogOpen, setDialogOpen] = useState(false);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const clear = useUserStore((s) => s.clear);
   const setError = useUserStore((s) => s.setError);
 
   const queryClient = useQueryClient();
-  const handleDelete = async () => {
-    const confirmed = window.confirm('Confirm account deletion?');
-    if (!confirmed) return;
 
+  const handleDelete = async () => {
     setLoading(true);
+    // const confirmed = window.confirm('Confirm account deletion?');
+    // if (!confirmed) return;
 
     try {
       const res = await fetch('/api/delete-account', {
@@ -77,13 +81,30 @@ export default function DeleteAccountButton() {
   };
 
   return (
-    <button
-      onClick={handleDelete}
-      disabled={loading}
-      className="text-icons-color-error focus:bg-elements-grey-200 hover:bg-elements-grey-200 xl:placeholder-base flex w-full cursor-pointer items-center rounded-sm border-none bg-white px-3 py-1.5 text-sm disabled:opacity-50 lg:px-2"
-    >
-      <IconRecycle className="text-icons-color-error mr-2 size-4 xl:mr-3 xl:size-5" />
-      <span>{loading ? 'Видаляємо...' : 'Видалити акаунт'}</span>
-    </button>
+    <>
+      <button
+        onClick={() => setDialogOpen(true)}
+        disabled={loading}
+        className="text-icons-color-error focus:bg-elements-grey-200 hover:bg-elements-grey-200 xl:placeholder-base flex w-full cursor-pointer items-center rounded-sm border-none bg-white px-3 py-1.5 text-sm disabled:opacity-50 lg:px-2"
+      >
+        <IconRecycle className="text-icons-color-error mr-2 size-4 xl:mr-3 xl:size-5" />
+        <span>{loading ? 'Видаляємо...' : 'Видалити акаунт'}</span>
+      </button>{' '}
+      <CustomAlertDialog
+        // forceMount
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        classNameContent="z-80"
+        title="Ви впевнені, що хочете видалити акаунт? "
+        description="Ця дія вплине на всі ваші дані"
+        actionContent="Так, видалити"
+        cancelText="Скасувати"
+        classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
+        classNameDescription="text-center text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
+        onAction={() => {
+          handleDelete();
+        }}
+      />
+    </>
   );
 }

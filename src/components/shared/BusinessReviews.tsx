@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-import IconUser from '@/assets/icons/general/icon-user.svg';
 import { useRouter } from 'next/navigation';
+
 import { useUserStore } from '@/stores/useUserStore';
 import {
   useBusinessReviews,
@@ -10,19 +10,16 @@ import {
   useUpdateReview,
 } from '@/hooks/useReviews';
 
-//import { Spinner } from '../ui/spinner';
-import { Plus } from 'lucide-react';
-
+import IconUser from '@/assets/icons/general/icon-user.svg';
 import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
 import EditPen from '@/assets/icons/general/feedback-edit.svg';
+import { Plus } from 'lucide-react';
 
-//import { ScrollArea } from '@/components/ui/scroll-area';
-import ReviewsSkeleton from './skeletons/ReviewsSkeleton';
-import { CustomToast } from '../ui/custom-ui/CustomToast';
+import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
+import ReviewsSkeleton from '@/components/shared/skeletons/ReviewsSkeleton';
 
 interface Props {
   businessId: string;
-
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isLoggedIn: boolean;
   setAlertTitle: React.Dispatch<React.SetStateAction<string>>;

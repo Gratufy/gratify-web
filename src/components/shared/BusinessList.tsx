@@ -1,17 +1,17 @@
 // new one
 'use client';
 import React, { useRef, useEffect, useState, ReactNode } from 'react';
-
+import Link from 'next/link';
+import { useAuth } from '@/stores/useUserStore';
 import { BusinessWithCategoryName } from '@/types';
 
-import BusinessCardShot from './BusinessCardShot';
-import Link from 'next/link';
-import BusinessListSkeleton from './skeletons/BusinessListSkeleton';
-import { Spinner } from '../ui/spinner';
-import { useAuth } from '@/stores/useUserStore';
-import { CustomAlertDialog } from '../ui/custom-ui/CustomAlertDialog';
+import { Spinner } from '@/components/ui/spinner';
+import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
-type BusinessListProps = {
+import BusinessCardShot from '@/components/shared/BusinessCardShot';
+import BusinessListSkeleton from '@/components/shared/skeletons/BusinessListSkeleton';
+
+interface BusinessListProps {
   businesses: BusinessWithCategoryName[];
   selectedCity?: string;
   isLoading?: boolean;
@@ -24,7 +24,7 @@ type BusinessListProps = {
   enableInfiniteScroll?: boolean; // on/off infinity scroll
   linkPrefix?: string; // for different routes: `/business` , `/dashboard/business`
   includeCityQuery?: boolean; // CityQuery only for public list for now
-};
+}
 
 function BusinessList({
   businesses,

@@ -11,6 +11,7 @@ interface Props {
   href: string;
   business: BusinessWithDetails;
 }
+
 export default function BusinessEditClient({
   id,
   href,

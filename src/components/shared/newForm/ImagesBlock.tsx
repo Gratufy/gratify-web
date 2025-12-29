@@ -1,20 +1,22 @@
 'use client';
 import React from 'react';
 
+import Image from 'next/image';
+
+import { PreviewImage } from '@/types/images';
+
+import ImageFolder from '@/assets/icons/form/image-folder.svg';
 import PhotoMainIcon from '@/assets/icons/form/photo-main.svg';
 import PhotoChooseIcon from '@/assets/icons/form/icon-choose.svg';
 import CrossIcon from '@/assets/icons/form/x-cross.svg';
 import { Plus } from 'lucide-react';
-import ImageFolder from '@/assets/icons/form/image-folder.svg';
 
-import Image from 'next/image';
-import { PreviewImage } from '@/types/images';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 
-type ImagesBlockProps = {
+interface ImagesBlockProps {
   imagesState: PreviewImage[];
   setImagesState: React.Dispatch<React.SetStateAction<PreviewImage[]>>;
-};
+}
 
 function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

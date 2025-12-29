@@ -1,17 +1,24 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
-import * as v from 'valibot';
-
+import dynamic from 'next/dynamic';
 import { usePathname, useRouter } from 'next/navigation';
 
-import dynamic from 'next/dynamic';
-
+import * as v from 'valibot';
 import { valibotResolver } from '@hookform/resolvers/valibot';
+
 import { useForm, useFieldArray } from 'react-hook-form';
 import type { FieldErrors, UseFormReturn } from 'react-hook-form';
 
+import { uploadBusinessImages } from '@/lib/actions/uploadBusinessImages';
+import { ensureOneCover } from '@/lib/helpers/ensureOneCover';
+import { uploadImagesAndReturnUrls } from '@/lib/helpers/uploadImagesAndReturnUrls';
+import { updateBusinessImagesOnServer } from '@/lib/helpers/updateBusinessImagesOnServer';
+
+import { UKRAINE_REGIONAL_CENTERS_WITHOUT_ALL } from '@/const/regions';
+
 import { businessFormSchema } from '@/shemas/businessFormSchema';
 
+import { BusinessStatus } from '@/types/enums';
 import { BusinessFormValues, BusinessImages, BusinessUpdate } from '@/types';
 import { PreviewImage } from '@/types/images';
 
@@ -22,15 +29,8 @@ import { useAllSpecialOffers } from '@/hooks/useSpecialOffers';
 
 import { useUserStore } from '@/stores/useUserStore';
 
-import { uploadBusinessImages } from '@/lib/actions/uploadBusinessImages';
-import { ensureOneCover } from '@/lib/helpers/ensureOneCover';
-import { uploadImagesAndReturnUrls } from '@/lib/helpers/uploadImagesAndReturnUrls';
-import { updateBusinessImagesOnServer } from '@/lib/helpers/updateBusinessImagesOnServer';
-
-import { UKRAINE_REGIONAL_CENTERS_WITHOUT_ALL } from '@/const/regions';
-
-import { Plus } from 'lucide-react';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
+import { Plus } from 'lucide-react';
 
 import {
   Form,
@@ -46,10 +46,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
+import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
+
 import OffersMultiSelect from '@/components/shared/filters/OffersMultiSelect';
 import ImagesBlock from '@/components/shared/newForm/ImagesBlock';
-import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
-import { BusinessStatus } from '@/types/enums';
+
 
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
@@ -57,7 +58,7 @@ const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
 
 type FormValues = v.InferOutput<typeof businessFormSchema>;
 
-type BusinessFormProps = {
+interface BusinessFormProps  {
   businessId?: string; // if edit
   defaultValues?: FormValues;
   existingImages?: BusinessImages;

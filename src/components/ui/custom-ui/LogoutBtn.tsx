@@ -6,8 +6,10 @@ import { useRouter } from 'next/navigation';
 
 import { useUserStore } from '@/stores/useUserStore';
 import { createClient } from '@/utils/supabase/client';
-import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
+
 import IconOut from '@/assets/icons/menu/icon-out.svg';
+
+import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
 type LogoutBtnProps = {
   customClassName?: string;
