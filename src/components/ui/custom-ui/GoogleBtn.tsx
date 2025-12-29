@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 import IconGoogle from '@/assets/icons/general/icon-google.svg';
@@ -29,11 +29,8 @@ const getRedirectUrl = () => {
 //listen channel in 	usePopupChannel
 //update session in 	usePopupChannel
 const GoogleBtn = () => {
-  // const { handleGoogleLogin, popup } = useGoogleLogin();
+  const isExchangingRef = useRef(false);
 
-  // usePopupChannel(popup, () => {
-  //   if (popup) popup.close();
-  // });
   const router = useRouter();
   const [popup, setPopup] = useState<Window | null>(null);
 
@@ -47,7 +44,10 @@ const GoogleBtn = () => {
 
       const code = event.data?.authResultCode;
       if (!code) return;
-
+      /// new not to call exchangeCodeForSession multiple times
+      if (isExchangingRef.current) return;
+      isExchangingRef.current = true;
+      ////
       setPopup(null);
 
       const supabase = createClient();
@@ -110,11 +110,6 @@ const GoogleBtn = () => {
     if (popup) {
       popup.location.href = data.url; // open the OAuth URL in the popup
     }
-    // usePopupChannel(popup, () => {
-    //   if (popup) popup.close();
-    // });
-
-    // if (newPopup) setPopup(newPopup);
   };
   return (
     <button
