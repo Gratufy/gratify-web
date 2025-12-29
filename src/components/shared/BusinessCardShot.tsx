@@ -121,8 +121,8 @@ function BusinessCardShot({
                   alt={business.name}
                   fill
                   //unoptimized
-                  style={{ objectFit: 'cover' }}
-                  className="relative z-0"
+                  sizes="(min-width: 1024px) 586px, 515px"
+                  className="relative z-0 object-cover"
                 />
                 <div className="z-5 bg-linear-to-l to-background-white pointer-events-none absolute inset-0 from-white/0"></div>
                 <div className="z-5 bg-linear-to-l to-gradient-card/ from-gradient-card/0 pointer-events-none absolute inset-0"></div>
