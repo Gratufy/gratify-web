@@ -14,6 +14,7 @@ import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 import AdminSkeleton from '@/components/admin/shared/AdminSkeleton';
+import { Label } from '@/components/ui/label';
 
 function AdminCategoriesClient() {
   const {
@@ -168,8 +169,13 @@ function AdminCategoriesClient() {
       <div className="bg-background-white w-full flex-col items-center max-[1024px]:px-4 max-[1024px]:pb-6 max-[1024px]:pt-8 lg:my-3 lg:px-[50px] lg:py-10">
         <div className="mb-10 flex flex-col gap-4">
           <p className="placeholder-sm xl:placeholder-base">Додати категорію</p>
+          <Label className="sr-only" htmlFor="new-category-name">
+            Назва категорії
+          </Label>
+
           <input
-            className={`input-custom w-2/3 px-4 ${
+            id="new-category-name"
+            className={`input-custom w-full px-4 lg:w-2/3 ${
               isAdding ? 'cursor-not-allowed opacity-50' : ''
             }`}
             //   className="input-custom"
@@ -179,7 +185,7 @@ function AdminCategoriesClient() {
             onChange={(e) => setNewName(e.target.value)}
             disabled={isAdding}
           />
-          <div className="flex w-2/3 justify-between">
+          <div className="flex w-full justify-between lg:w-2/3">
             <button
               onClick={handleAdd}
               disabled={isAdding || !newName.trim()}
@@ -196,7 +202,6 @@ function AdminCategoriesClient() {
               Очистити
             </button>
           </div>
-
           {/* )} */}
         </div>
         {isLoading && <AdminSkeleton count={7} />}
@@ -238,7 +243,7 @@ function AdminCategoriesClient() {
                           }))
                         }
                       />
-                      <div className="flex gap-10 lg:gap-4 xl:gap-8">
+                      <div className="flex gap-4 lg:gap-4 xl:gap-8">
                         <button
                           className="btn-custom bg-background-white border border-green-500 p-2"
                           onClick={() => saveEditing(categoryId)}
@@ -258,7 +263,7 @@ function AdminCategoriesClient() {
                   ) : (
                     <>
                       <span className="title-h6">{name}</span>
-                      <div className="flex gap-10 lg:gap-4 xl:gap-8">
+                      <div className="flex gap-4 lg:gap-4 xl:gap-8">
                         <button
                           onClick={() => startEditing(categoryId, name)}
                           className="btn-custom border-none p-2"
