@@ -10,7 +10,7 @@ import { useAdminFiltersWithReviewStatus } from '@/hooks/admin/useAdminFiltersWi
 import { RefreshCcw } from 'lucide-react';
 import EditPen from '@/assets/icons/general/feedback-edit.svg';
 
-import AdminDesktopBusinessReviewsList from '@/components/admin/reviews/AdminDesktopBusinessReviewsList';
+import AdminBusinessReviewsList from '@/components/admin/reviews/AdminBusinessReviewsList';
 
 function AdminReviewClient() {
   const {
@@ -54,7 +54,7 @@ function AdminReviewClient() {
       {/*  mobile nav title */}
       <div className="bg-background-main-100 flex items-center justify-center gap-3 py-3 lg:hidden">
         <EditPen className="size-5" />
-        <span className="title-h4">Модерування</span>
+        <span className="title-h4">Відгуки</span>
       </div>
       <div className="bg-background-grey-50 w-full max-[1024px]:px-4 max-[1024px]:py-4 lg:mt-3 lg:p-5">
         <button
@@ -78,7 +78,7 @@ function AdminReviewClient() {
           <span>Оновити</span>
         </button>
         <div className="w-full pt-8 lg:pt-4">
-          <AdminDesktopBusinessReviewsList
+          <AdminBusinessReviewsList
             categoriesWithAll={categoriesWithAll}
             filters={filters}
             updateFilter={updateFilter}
