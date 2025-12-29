@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 import IconGoogle from '@/assets/icons/general/icon-google.svg';
+import { Spinner } from '@/components/ui/spinner';
 // import { useGoogleLogin } from "@/hooks/useGoogleLogin";
 // import { usePopupChannel } from "@/hooks/usePopupChannel";
 
@@ -119,7 +120,7 @@ const GoogleBtn = () => {
   return (
     <>
       {loading ? (
-        <span>Завантаження...</span>
+        <Spinner />
       ) : (
         <button
           className="flex cursor-pointer items-center border border-gray-950 px-5 py-3"
