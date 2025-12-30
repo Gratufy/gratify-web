@@ -93,11 +93,10 @@ function AdminMobileBusinessList({
         Наявні бізнеси: {businesses ? businesses.length : 0}
       </h3> */}
       {/*  Filters*/}
-
-      <div className="mb-8 flex w-full justify-between gap-5">
-        <div className="flex flex-1 flex-col gap-3">
+      <div className="border-b-elements-grey-200 mb-8 flex flex-col justify-center gap-5 border-b pb-8 lg:mb-8 lg:flex-row lg:gap-3">
+        <div className="flex flex-1 flex-col gap-5 lg:gap-3">
           {!isModeringSection && (
-            <div>
+            <div className="w-full">
               <Label htmlFor="status-select" className="placeholder-xs mb-1">
                 Статус:
               </Label>
@@ -117,7 +116,7 @@ function AdminMobileBusinessList({
               />
             </div>
           )}
-          <div>
+          <div className="w-full">
             <Label htmlFor="category-select" className="placeholder-xs mb-1">
               Категорія:
             </Label>
@@ -136,8 +135,8 @@ function AdminMobileBusinessList({
           </div>
         </div>
 
-        <div className="flex flex-1 flex-col gap-3">
-          <div>
+        <div className="flex flex-1 flex-col gap-5 lg:gap-3">
+          <div className="w-full">
             <Label htmlFor="city-select" className="placeholder-xs mb-1">
               Місто:
             </Label>
@@ -154,7 +153,7 @@ function AdminMobileBusinessList({
               className="admin-select w-full"
             />
           </div>
-          <div>
+          <div className="w-full">
             <Label htmlFor="online-select" className="placeholder-xs mb-1">
               Online:
             </Label>

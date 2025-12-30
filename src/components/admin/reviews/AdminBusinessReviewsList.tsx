@@ -66,8 +66,8 @@ function AdminBusinessReviewsList({
   return (
     <>
       {/*  Filters*/}
-      <div className="mb-8 flex justify-center gap-5 lg:mb-5 lg:gap-3">
-        <div className="flex flex-1 flex-col gap-3 lg:flex-row">
+      <div className="border-b-elements-grey-200 mb-8 flex flex-col justify-center gap-5 border-b pb-8 lg:flex-row lg:gap-3">
+        <div className="flex flex-1 flex-col gap-5 lg:gap-3">
           <div className="w-full">
             <Label
               htmlFor="status-review-select"
@@ -108,7 +108,7 @@ function AdminBusinessReviewsList({
           </div>
         </div>
 
-        <div className="flex flex-1 flex-col gap-3 lg:flex-row">
+        <div className="flex flex-1 flex-col gap-5 lg:gap-3">
           <div className="w-full">
             <Label
               htmlFor="city-select"
@@ -186,7 +186,7 @@ function AdminBusinessReviewsList({
                   <p className="title-h6">{b.categoryName}</p>
 
                   <button
-                    className="w-full xl:placeholder-base placeholder-sm items-centertitle-h6 bg-background-grey-100 hover:bg-background-grey-100/80 border-icons-main-500 mx-auto flex cursor-pointer items-center rounded-lg border px-2 py-2 transition-colors lg:w-48"
+                    className="xl:placeholder-base placeholder-sm items-centertitle-h6 bg-background-grey-100 hover:bg-background-grey-100/80 border-icons-main-500 mx-auto flex w-full cursor-pointer items-center rounded-lg border px-2 py-2 transition-colors lg:w-48"
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
