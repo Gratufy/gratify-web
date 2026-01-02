@@ -1,12 +1,5 @@
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from '@tanstack/react-query';
 import { verifySession } from '@/lib/dal';
 import { redirect } from 'next/navigation';
-
-import { getBusinesses } from '@/lib/actions/businesses';
 
 import AdminSidebarManager from '@/components/admin/shared/AdminSidebarManager';
 
@@ -15,29 +8,6 @@ export default async function AdminDashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const queryClient = new QueryClient();
-
-  // await queryClient.prefetchQuery({
-  //   queryKey: [
-  //     'businesses',
-  //     {
-  //       city: '__all__',
-  //       categoryId: '__all__',
-  //       sortBy: 'newest',
-  //       scope: 'admin',
-  //       showOnlineStatus: 'all',
-  //     },
-  //   ],
-  //   queryFn: () =>
-  //     getBusinesses({
-  //       city: '__all__',
-  //       categoryId: '__all__',
-  //       sortBy: 'newest',
-  //       scope: 'admin',
-  //       showOnlineStatus: 'all',
-  //     }),
-  // });
-
   const session = await verifySession();
 
   if (!session) {

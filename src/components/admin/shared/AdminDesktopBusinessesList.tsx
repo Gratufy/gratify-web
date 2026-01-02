@@ -1,18 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { BusinessStatus, OnlineFilter } from '@/types/enums';
-
-import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
-import { BUSINESS_STATUS, BUSINESS_STATUS_LABELS } from '@/const/business';
-import { ONLINE_STATUS } from '@/const/online-status';
-
 import IconMenu from '@/assets/icons/admin/icon-menu.svg';
 import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
 import EditPen from '@/assets/icons/general/feedback-edit.svg';
 import IconEyeOpen from '@/assets/icons/admin/icon-eye-open.svg';
 
-import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   DropdownMenu,
@@ -21,16 +14,27 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Label } from '@/components/ui/label';
 
 import { BusinessStatusForm } from '@/components/admin/shared/BusinessStatusForm';
 import AdminSkeleton from '@/components/admin/shared/AdminSkeleton';
 import { BusinessCategory } from '@/types/db';
 import { AdminFilters } from '@/types/filters-query';
 import { AdminBusinessRowType } from '@/types';
+import MainPageFilters from './MainPageFilters';
 
 interface AdminDesktopBusinessesListProps {
-  categories: BusinessCategory[];
+  categoriesWithAll: (
+    | {
+        name: string;
+        categoryId: string;
+        createdAt: Date | null;
+        updatedAt: Date | null;
+      }
+    | {
+        categoryId: string;
+        name: string;
+      }
+  )[];
   setDialogOpen: (open: boolean) => void;
   setBusinessIdToDelete: (id: string) => void;
   filters: AdminFilters;
@@ -46,7 +50,7 @@ interface AdminDesktopBusinessesListProps {
 }
 
 function AdminDesktopBusinessesList({
-  categories,
+  categoriesWithAll,
   setDialogOpen,
   setBusinessIdToDelete,
   filters,
@@ -57,15 +61,16 @@ function AdminDesktopBusinessesList({
   error,
   isModeringSection,
 }: AdminDesktopBusinessesListProps) {
-  const categoriesWithAll = [
-    { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
-    ...(categories || []),
-  ];
-
   return (
     <>
       {/*  Filters*/}
-      <div className="border-b-elements-grey-200 mb-8 flex flex-col justify-center gap-5 border-b pb-8 lg:mb-8 lg:flex-row lg:gap-3">
+      <MainPageFilters
+        isModeringSection={isModeringSection}
+        categoriesWithAll={categoriesWithAll}
+        filters={filters}
+        updateFilter={updateFilter}
+      />
+      {/* <div className="border-b-elements-grey-200 mb-8 flex flex-col justify-center gap-5 border-b pb-8 lg:mb-8 lg:flex-row lg:gap-3">
         <div className="flex flex-1 flex-col gap-5 lg:gap-3">
           {!isModeringSection && (
             <div className="w-full">
@@ -157,7 +162,7 @@ function AdminDesktopBusinessesList({
             />
           </div>
         </div>
-      </div>
+      </div> */}
       {isBusinessesLoading && <AdminSkeleton count={3} />}
       {isBusinessesError && <p>Помилка: {error?.message}</p>}
       {/*  List*/}

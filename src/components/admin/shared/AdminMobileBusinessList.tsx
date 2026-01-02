@@ -1,16 +1,11 @@
 'use client';
-
-import { BusinessCategory } from '@/types/db';
 import React, { useState } from 'react';
-
+import Link from 'next/link';
+import { cn } from '@/lib/utils';
+import { BusinessCategory } from '@/types/db';
 import { AdminFilters } from '@/types/filters-query';
 import { AdminBusinessRowType } from '@/types';
-import { Label } from '@/components/ui/label';
-import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
-import { BusinessStatus, OnlineFilter } from '@/types/enums';
-import { BUSINESS_STATUS, BUSINESS_STATUS_LABELS } from '@/const/business';
-import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
-import { ONLINE_STATUS } from '@/const/online-status';
+
 import AdminSkeleton from './AdminSkeleton';
 import { Checkbox } from '@/components/ui/checkbox';
 import { BusinessStatusForm } from './BusinessStatusForm';
@@ -24,11 +19,21 @@ import IconEyeOpen from '@/assets/icons/admin/icon-eye-open.svg';
 
 import { getBusinessStatusBgColor } from '@/lib/helpers/getBusinessStatusColorBg';
 
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
+import MainPageFilters from './MainPageFilters';
 
 interface AdminMobileBusinessListProps {
-  categories: BusinessCategory[];
+  categoriesWithAll: (
+    | {
+        name: string;
+        categoryId: string;
+        createdAt: Date | null;
+        updatedAt: Date | null;
+      }
+    | {
+        categoryId: string;
+        name: string;
+      }
+  )[];
   // dialogOpen: boolean;
   setDialogOpen: (open: boolean) => void;
   // businessIdToDelete: string;
@@ -53,7 +58,7 @@ interface AdminMobileBusinessListProps {
   isModeringSection?: boolean;
 }
 function AdminMobileBusinessList({
-  categories,
+  categoriesWithAll,
   //  dialogOpen,
   setDialogOpen,
   // businessIdToDelete,
@@ -71,11 +76,6 @@ function AdminMobileBusinessList({
 }: AdminMobileBusinessListProps) {
   const [showFullCard, setShowFullCard] = useState<Record<string, boolean>>({});
 
-  const categoriesWithAll = [
-    { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
-    ...(categories || []),
-  ];
-
   const statusIcon = (value: string) =>
     value === 'approved' ? (
       <CheckIcon className="size-4" />
@@ -88,12 +88,14 @@ function AdminMobileBusinessList({
     );
   return (
     <div className="flex w-full flex-col">
-      {/*  Title*/}
-      {/* <h3 className="placeholder-base mb-4">
-        Наявні бізнеси: {businesses ? businesses.length : 0}
-      </h3> */}
       {/*  Filters*/}
-      <div className="border-b-elements-grey-200 mb-8 flex flex-col justify-center gap-5 border-b pb-8 lg:mb-8 lg:flex-row lg:gap-3">
+      <MainPageFilters
+        isModeringSection={isModeringSection}
+        categoriesWithAll={categoriesWithAll}
+        filters={filters}
+        updateFilter={updateFilter}
+      />
+      {/* <div className="border-b-elements-grey-200 mb-8 flex flex-col justify-center gap-5 border-b pb-8 lg:mb-8 lg:flex-row lg:gap-3">
         <div className="flex flex-1 flex-col gap-5 lg:gap-3">
           {!isModeringSection && (
             <div className="w-full">
@@ -174,7 +176,7 @@ function AdminMobileBusinessList({
             />
           </div>
         </div>
-      </div>
+      </div> */}
 
       {isBusinessesLoading && <AdminSkeleton count={3} />}
       {isBusinessesError && <p>Помилка: {error?.message}</p>}
