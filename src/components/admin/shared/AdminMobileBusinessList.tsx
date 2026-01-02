@@ -20,6 +20,7 @@ import IconEyeOpen from '@/assets/icons/admin/icon-eye-open.svg';
 import { getBusinessStatusBgColor } from '@/lib/helpers/getBusinessStatusColorBg';
 
 import MainPageFilters from './MainPageFilters';
+import { BUSINESS_STATUS_LABELS } from '@/const/business';
 
 interface AdminMobileBusinessListProps {
   categoriesWithAll: (
@@ -95,88 +96,6 @@ function AdminMobileBusinessList({
         filters={filters}
         updateFilter={updateFilter}
       />
-      {/* <div className="border-b-elements-grey-200 mb-8 flex flex-col justify-center gap-5 border-b pb-8 lg:mb-8 lg:flex-row lg:gap-3">
-        <div className="flex flex-1 flex-col gap-5 lg:gap-3">
-          {!isModeringSection && (
-            <div className="w-full">
-              <Label htmlFor="status-select" className="placeholder-xs mb-1">
-                Статус:
-              </Label>
-              <CustomSelect
-                id="status-select"
-                value={filters.businessStatus}
-                // onChange={handleStatusChange}
-                onChange={(val) =>
-                  updateFilter('businessStatus', val as BusinessStatus)
-                }
-                options={BUSINESS_STATUS}
-                getOptionValue={(s) => s}
-                getOptionLabel={(s) => BUSINESS_STATUS_LABELS[s]}
-                placeholder="Оберіть статус"
-                className="admin-select w-full"
-                // statusForm={true}
-              />
-            </div>
-          )}
-          <div className="w-full">
-            <Label htmlFor="category-select" className="placeholder-xs mb-1">
-              Категорія:
-            </Label>
-            <CustomSelect
-              id="category-select"
-              value={filters.categoryId}
-              // onChange={setCategoryId}
-              onChange={(val) => updateFilter('categoryId', val)}
-              options={categoriesWithAll}
-              getOptionValue={(c) => c.categoryId}
-              getOptionLabel={(c) => c.name}
-              // label="Категорія"
-              placeholder="Оберіть категорію"
-              className="admin-select w-full"
-            />
-          </div>
-        </div>
-
-        <div className="flex flex-1 flex-col gap-5 lg:gap-3">
-          <div className="w-full">
-            <Label htmlFor="city-select" className="placeholder-xs mb-1">
-              Місто:
-            </Label>
-            <CustomSelect
-              id="city-select"
-              // label="Місто"
-              value={filters.city}
-              // onChange={setCity}
-              onChange={(val) => updateFilter('city', val)}
-              options={UKRAINE_REGIONAL_CENTERS}
-              getOptionValue={(option) => option.value}
-              getOptionLabel={(option) => option.label}
-              placeholder="Оберіть місто"
-              className="admin-select w-full"
-            />
-          </div>
-          <div className="w-full">
-            <Label htmlFor="online-select" className="placeholder-xs mb-1">
-              Online:
-            </Label>
-            <CustomSelect
-              id="online-select"
-              // label="Місто"
-              // value={showOnlineStatus}
-              value={filters.showOnlineStatus}
-              // onChange={(val) => setShowOnlineStatus(val as OnlineFilter)}
-              onChange={(val) =>
-                updateFilter('showOnlineStatus', val as OnlineFilter)
-              }
-              options={ONLINE_STATUS}
-              getOptionValue={(option) => option.value}
-              getOptionLabel={(option) => option.label}
-              placeholder="Оберіть місто"
-              className="admin-select w-full"
-            />
-          </div>
-        </div>
-      </div> */}
 
       {isBusinessesLoading && <AdminSkeleton count={3} />}
       {isBusinessesError && <p>Помилка: {error?.message}</p>}
@@ -224,6 +143,9 @@ function AdminMobileBusinessList({
                         className={`${b.status && getBusinessStatusBgColor(b.status)} flex h-full w-7 items-center justify-center rounded-sm`}
                       >
                         {statusIcon(b.status)}
+                        <span className="sr-only">
+                          статус {BUSINESS_STATUS_LABELS[b.status]}
+                        </span>
                       </div>
                     )}
                   </div>
@@ -234,6 +156,8 @@ function AdminMobileBusinessList({
                   )}
                   <div className="flex justify-end">
                     <button
+                      aria-expanded={!!showFullCard[b.id]}
+                      aria-controls={`card-${b.id}`}
                       onClick={() =>
                         setShowFullCard((prev) => ({
                           ...prev,
@@ -246,13 +170,18 @@ function AdminMobileBusinessList({
                       ) : (
                         <ChevronDownIcon className="size-8" />
                       )}
+                      <span className="sr-only">
+                        {showFullCard[b.id]
+                          ? 'скрити повну інформацію'
+                          : 'Показати повну інформацію'}
+                      </span>
                     </button>
                   </div>
                 </div>
 
                 {/* full */}
                 {showFullCard[b.id] && (
-                  <div className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-3" id={`card-${b.id}`}>
                     {/* 2 row */}
                     <div className="grid grid-cols-[2fr_3fr_1fr] items-center py-2">
                       <div className="title-h6">
@@ -274,18 +203,22 @@ function AdminMobileBusinessList({
                       <Link
                         href={`/admin/business/${b.id}`}
                         className="btn-reject placeholder-base px-2 py-2"
+                        aria-label="Переглянути бізнес"
                       >
                         <IconEyeOpen className="size-5" />
                       </Link>
                       <Link
                         href={`/admin/business/${b.id}/edit`}
                         className="btn-reject placeholder-base px-2 py-2"
+                        aria-label="Редагувати бізнес"
                       >
                         <EditPen className="size-5" />
                         {/* <span>Редагувати</span> */}
                       </Link>
                       <button
                         className="btn-reject placeholder-base px-2 py-2"
+                        aria-label="Видалити бізнес"
+                        type="button"
                         onClick={() => {
                           setBusinessIdToDelete(b.id);
                           setDialogOpen(true);

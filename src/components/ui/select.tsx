@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import * as SelectPrimitive from '@radix-ui/react-select';
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+import { Check, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
@@ -39,7 +39,7 @@ function SelectTrigger({
       style={{ fontFamily: 'var(--font-family)' }}
       // [&_svg:not([class*='text-'])]:text-muted-foreground
       className={cn(
-        "xl:placeholder-base placeholder-sm border-elements-grey-400 data-[placeholder]:text-muted-foreground focus-visible:border-elements-grey-400 focus-visible:ring-icons-grey-300/50 hover:ring-icons-grey-300/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 shadow-xs flex w-fit cursor-pointer items-center justify-between gap-2 whitespace-nowrap border-[0.5px] bg-transparent px-3 py-2 outline-none transition-[color,box-shadow] hover:ring-[2px] focus-visible:ring-[2px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "xl:placeholder-base placeholder-sm border-elements-grey-400 data-[placeholder]:text-muted-foreground focus-visible:border-elements-grey-400 focus-visible:ring-icons-grey-300/50 hover:ring-icons-grey-300/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 shadow-xs flex w-fit cursor-pointer items-center justify-between gap-2 whitespace-nowrap border-[0.5px] bg-transparent px-3 py-2 outline-none transition-[color,box-shadow] hover:ring-[2px] focus-visible:ring-[2px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 data-[state=open]:[&_svg]:rotate-180",
         className
       )}
       {...props}
@@ -124,7 +124,7 @@ function SelectItem({
     >
       <span className="absolute right-2 flex size-3.5 items-center justify-center">
         <SelectPrimitive.ItemIndicator>
-          <CheckIcon className="size-4" />
+          <Check className="size-4" />
         </SelectPrimitive.ItemIndicator>
       </span>
       <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>

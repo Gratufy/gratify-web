@@ -61,7 +61,10 @@ function AdminModeratingSection({
       ),
     });
   };
-
+  const categoriesWithAll = [
+    { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
+    ...(categories || []),
+  ];
   const queryClient = useQueryClient();
   return (
     <div className="bg-background-grey-50 w-full max-[1024px]:px-4 max-[1024px]:py-4 lg:mt-3 lg:p-5">
@@ -83,7 +86,7 @@ function AdminModeratingSection({
       </h2>
       <div className="hidden lg:block">
         <AdminDesktopBusinessesList
-          categories={categories}
+          categoriesWithAll={categoriesWithAll}
           // dialogOpen={dialogOpen}
           setDialogOpen={setDialogOpen}
           // businessIdToDelete={businessIdToDelete}
@@ -102,7 +105,7 @@ function AdminModeratingSection({
       </div>
       <div className="pb-6 lg:hidden">
         <AdminMobileBusinessList
-          categories={categories}
+          categoriesWithAll={categoriesWithAll}
           // dialogOpen={dialogOpen}
           setDialogOpen={setDialogOpen}
           // businessIdToDelete={businessIdToDelete}

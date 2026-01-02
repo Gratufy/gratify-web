@@ -13,7 +13,6 @@ import { CheckIcon } from 'lucide-react';
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
