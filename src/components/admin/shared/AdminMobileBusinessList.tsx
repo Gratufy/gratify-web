@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { BusinessCategory } from '@/types/db';
+
 import { AdminFilters } from '@/types/filters-query';
 import { AdminBusinessRowType } from '@/types';
 

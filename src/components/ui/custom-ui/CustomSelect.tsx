@@ -77,7 +77,6 @@ function CustomSelect<T>({
       <Select value={value} onValueChange={(v) => onChange(v)} name={selectId}>
         <SelectTrigger
           size={size}
-          aria-labelledby={selectId}
           id={selectId}
           className={`${className ?? 'xl:placeholder-base placeholder-sm w-[280px]'} ${triggerClass}`}
         >

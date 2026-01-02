@@ -17,7 +17,7 @@ import {
 
 import { BusinessStatusForm } from '@/components/admin/shared/BusinessStatusForm';
 import AdminSkeleton from '@/components/admin/shared/AdminSkeleton';
-import { BusinessCategory } from '@/types/db';
+
 import { AdminFilters } from '@/types/filters-query';
 import { AdminBusinessRowType } from '@/types';
 import MainPageFilters from './MainPageFilters';
