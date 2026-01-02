@@ -12,7 +12,7 @@ import { BusinessStatusForm } from './BusinessStatusForm';
 import EyeIcon from '@/assets/icons/admin/icon-eye.svg';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import IconModering from '@/assets/icons/menu/icon-modering.svg';
-import { Check, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+import { Check, ChevronDownIcon } from 'lucide-react';
 import EditPen from '@/assets/icons/general/feedback-edit.svg';
 import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
 import IconEyeOpen from '@/assets/icons/admin/icon-eye-open.svg';
@@ -200,8 +200,9 @@ function AdminMobileBusinessList({
                       </div>
                       <div className="title-h6 flex flex-col items-center gap-1">
                         <Checkbox
-                          className="border-icons-grey-950 bg-background-main-200! data-[state=checked]:text-icons-grey-950 size-4"
-                          checked={b.isOnline || false}
+                          aria-label="Статус онлайн"
+                          className="border-icons-grey-950 bg-background-main-200! data-[state=checked]:text-icons-grey-950 size-4 disabled:opacity-100"
+                          checked={!!b.isOnline}
                         />
                         <p>онлайн</p>
                       </div>

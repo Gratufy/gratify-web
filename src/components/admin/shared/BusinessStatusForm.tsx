@@ -10,6 +10,7 @@ import { useChangeBusinessStatus } from '@/hooks/OwnerAndAdmin/useChangeBusiness
 import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
+import { Label } from '@/components/ui/label';
 
 function getOwnerOptions(currentStatus: BusinessStatus) {
   const allowedNextStatuses = OWNER_ALLOWED_TRANSITIONS[currentStatus] || [];
@@ -88,7 +89,11 @@ export function BusinessStatusForm({
     : BUSINESS_STATUS;
   return (
     <>
+      <Label htmlFor="business-status-select" className="sr-only">
+        змінити статус бізнесу:
+      </Label>
       <CustomSelect
+        id="business-status-select"
         size={size}
         value={currentStatus}
         onChange={(newValue) => {

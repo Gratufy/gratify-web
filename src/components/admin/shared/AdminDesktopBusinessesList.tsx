@@ -121,8 +121,10 @@ function AdminDesktopBusinessesList({
 
                 <div className="flex items-center justify-between py-2">
                   <Checkbox
-                    className="border-icons-grey-950 bg-background-main-200! data-[state=checked]:text-icons-grey-950 lg:mx-5 lg:size-4"
-                    checked={b.isOnline || false}
+                    disabled
+                    aria-label="Статус онлайн"
+                    className="border-icons-grey-950! bg-background-main-200! data-[state=checked]:text-icons-grey-950 disabled:opacity-100 lg:mx-5 lg:size-4"
+                    checked={!!b.isOnline}
                   />
 
                   <DropdownMenu modal={false}>

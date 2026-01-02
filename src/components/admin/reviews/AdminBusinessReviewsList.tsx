@@ -4,25 +4,17 @@ import Link from 'next/link';
 
 import { AdminFiltersWithReviewStatus } from '@/types/filters-query';
 import { AdminBusinessRowType } from '@/types';
-import { BusinessReviewStatus, OnlineFilter } from '@/types/enums';
 
-import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
-import { ONLINE_STATUS } from '@/const/online-status';
-import {
-  BUSINESS_REVIEW_STATUS,
-  BUSINESS_REVIEW_STATUS_LABELS,
-} from '@/const/review';
+import { BUSINESS_REVIEW_STATUS_LABELS } from '@/const/review';
 
 import IconEyeOpen from '@/assets/icons/admin/icon-eye-open.svg';
 import IconEyeClose from '@/assets/icons/admin/icon-eye.svg';
 import { ArrowBigDown } from 'lucide-react';
 import { ArrowBigUp } from 'lucide-react';
 
-import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
-import { Label } from '@/components/ui/label';
-
 import AdminSkeleton from '@/components/admin/shared/AdminSkeleton';
 import AdminReviewList from '@/components/admin/reviews/AdminReviewList';
+import ReviewsPageFilters from './ReviewsPageFilters';
 
 interface AdminDesktopBusinessReviewsListProps {
   businesses: AdminBusinessRowType[];
@@ -66,91 +58,12 @@ function AdminBusinessReviewsList({
   return (
     <>
       {/*  Filters*/}
-      <div className="border-b-elements-grey-200 mb-8 flex flex-col justify-center gap-5 border-b pb-8 lg:flex-row lg:gap-3">
-        <div className="flex flex-1 flex-col gap-5 lg:gap-3">
-          <div className="w-full">
-            <Label
-              htmlFor="status-review-select"
-              className="lg:placeholder-xs xl:placeholder-sm mb-1"
-            >
-              Статус відгуків:
-            </Label>
-            <CustomSelect
-              id="status-review-select"
-              value={filters.reviewStatus}
-              onChange={(val) =>
-                updateFilter('reviewStatus', val as BusinessReviewStatus)
-              }
-              options={BUSINESS_REVIEW_STATUS}
-              getOptionValue={(s) => s}
-              getOptionLabel={(s) => BUSINESS_REVIEW_STATUS_LABELS[s]}
-              placeholder="Оберіть статус"
-              className="admin-select w-full"
-            />
-          </div>
-          <div className="w-full">
-            <Label
-              htmlFor="category-select"
-              className="xl:placeholder-sm lg:placeholder-xs mb-1"
-            >
-              Категорія:
-            </Label>
-            <CustomSelect
-              id="category-select"
-              value={filters.categoryId}
-              onChange={(val) => updateFilter('categoryId', val)}
-              options={categoriesWithAll}
-              getOptionValue={(c) => c.categoryId}
-              getOptionLabel={(c) => c.name}
-              placeholder="Оберіть категорію"
-              className="admin-select w-full"
-            />
-          </div>
-        </div>
+      <ReviewsPageFilters
+        filters={filters}
+        updateFilter={updateFilter}
+        categoriesWithAll={categoriesWithAll}
+      />
 
-        <div className="flex flex-1 flex-col gap-5 lg:gap-3">
-          <div className="w-full">
-            <Label
-              htmlFor="city-select"
-              className="xl:placeholder-sm lg:placeholder-xs mb-1"
-            >
-              Місто:
-            </Label>
-            <CustomSelect
-              id="city-select"
-              value={filters.city}
-              onChange={(val) => updateFilter('city', val)}
-              options={UKRAINE_REGIONAL_CENTERS}
-              getOptionValue={(option) => option.value}
-              getOptionLabel={(option) => option.label}
-              placeholder="Оберіть місто"
-              className="admin-select w-full"
-            />
-          </div>
-          <div className="w-full">
-            <Label
-              htmlFor="online-select"
-              className="xl:placeholder-sm lg:placeholder-xs mb-1"
-            >
-              Online:
-            </Label>
-            <CustomSelect
-              id="online-select"
-              // label="Місто"
-              value={filters.showOnlineStatus}
-              onChange={(val) =>
-                updateFilter('showOnlineStatus', val as OnlineFilter)
-              }
-              options={ONLINE_STATUS}
-              getOptionValue={(option) => option.value}
-              getOptionLabel={(option) => option.label}
-              placeholder="Оберіть місто"
-              className="admin-select w-full"
-            />
-          </div>
-        </div>
-      </div>
-      {/*End  Filters*/}
       {isError && (
         <div className="placeholder-sm xl:placeholder-base text-center">
           Помилка: {error?.message}
@@ -176,6 +89,7 @@ function AdminBusinessReviewsList({
             {businesses.map((b) => (
               <li key={b.id}>
                 <Link
+                  aria-label={`Перейти до бізнесу ${b.name}`}
                   href={`/admin/business/${b.id}`}
                   className={`bg-background-main-200 grid grid-cols-[1fr_1fr_1fr] items-center justify-center gap-2 rounded-lg px-2 py-2 transition-colors ${
                     isHoveringButton ? '' : 'hover:bg-background-main-300/80'
@@ -186,6 +100,11 @@ function AdminBusinessReviewsList({
                   <p className="title-h6">{b.categoryName}</p>
 
                   <button
+                    aria-label={
+                      showReviewsMap[b.id]
+                        ? `Приховати відгуки для бізнесу ${b.name}`
+                        : `Переглянути ${b.filteredReviewCount} відгуків для бізнесу ${b.name}`
+                    }
                     className="xl:placeholder-base placeholder-sm items-centertitle-h6 bg-background-grey-100 hover:bg-background-grey-100/80 border-icons-main-500 mx-auto flex w-full cursor-pointer items-center rounded-lg border px-2 py-2 transition-colors lg:w-48"
                     onClick={(e) => {
                       e.preventDefault();
