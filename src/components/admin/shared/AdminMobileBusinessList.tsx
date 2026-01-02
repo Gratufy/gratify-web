@@ -12,7 +12,7 @@ import { BusinessStatusForm } from './BusinessStatusForm';
 import EyeIcon from '@/assets/icons/admin/icon-eye.svg';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import IconModering from '@/assets/icons/menu/icon-modering.svg';
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+import { Check, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 import EditPen from '@/assets/icons/general/feedback-edit.svg';
 import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
 import IconEyeOpen from '@/assets/icons/admin/icon-eye-open.svg';
@@ -79,7 +79,7 @@ function AdminMobileBusinessList({
 
   const statusIcon = (value: string) =>
     value === 'approved' ? (
-      <CheckIcon className="size-4" />
+      <Check className="size-4" />
     ) : value === 'pending' ? (
       <IconModering className="size-4" />
     ) : value === 'rejected' ? (
@@ -106,7 +106,7 @@ function AdminMobileBusinessList({
             <div className="title-h6 min-w-0">
               <span>Найменування </span>
             </div>
-            <div className="title-h6 min-w-0 text-center">
+            <div className="title-h6 min-w-0">
               <span>Статус</span>
             </div>
             <div className="title-h6 min-w-0 text-center">
@@ -129,9 +129,9 @@ function AdminMobileBusinessList({
                   <div className="title-h6 py-2">
                     <p>{b.name}</p>
                   </div>
-                  <div className="flex h-full justify-center">
+                  <div className="flex h-full">
                     {showFullCard[b.id] ? (
-                      <div className="title-h6 py-2">
+                      <div className="title-h6">
                         <BusinessStatusForm
                           businessId={b.id}
                           currentStatus={b.status}
@@ -156,6 +156,7 @@ function AdminMobileBusinessList({
                   )}
                   <div className="flex justify-end">
                     <button
+                      className="cursor-pointer"
                       aria-expanded={!!showFullCard[b.id]}
                       aria-controls={`card-${b.id}`}
                       onClick={() =>
@@ -165,11 +166,18 @@ function AdminMobileBusinessList({
                         }))
                       }
                     >
-                      {showFullCard[b.id] ? (
+                      {/* {showFullCard[b.id] ? (
                         <ChevronUpIcon className="size-8" />
                       ) : (
                         <ChevronDownIcon className="size-8" />
-                      )}
+                      )} */}
+                      <ChevronDownIcon
+                        className={cn(
+                          'size-8',
+                          showFullCard[b.id] &&
+                            'rotate-180 transition-transform'
+                        )}
+                      />
                       <span className="sr-only">
                         {showFullCard[b.id]
                           ? 'скрити повну інформацію'
