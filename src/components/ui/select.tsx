@@ -117,7 +117,7 @@ function SelectItem({
       data-slot="select-item"
       // [&_svg:not([class*='text-'])]:text-muted-foreground
       className={cn(
-        "focus:bg-elements-grey-200 focus:text-accent-foreground outline-hidden *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2 xl:placeholder-base lg:placeholder-sm placeholder-xs relative flex w-full cursor-pointer select-none items-center gap-2 py-1.5 pl-2 pr-8 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "focus:bg-elements-grey-200/80 focus:text-accent-foreground outline-hidden *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2 xl:placeholder-base lg:placeholder-sm placeholder-xs relative flex w-full cursor-pointer select-none items-center gap-2 py-1.5 pl-2 pr-8 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className
       )}
       {...props}
