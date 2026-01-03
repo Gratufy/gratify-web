@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { AdminSort } from '@/types/enums';
-import { getCityLabel } from '@/utils/getCityLabel';
 
 import { useBusinessCategories } from '@/hooks/useBusinessCategories';
 import { useAdminBusinesses, useDeleteBusiness } from '@/hooks/useBusinesses';
