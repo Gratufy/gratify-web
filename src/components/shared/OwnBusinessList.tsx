@@ -21,10 +21,10 @@ import { BusinessStatusForm } from '@/components/admin/shared/BusinessStatusForm
 
 interface OwnBusinessListProps {
   businesses: BusinessWithCategoryName[];
-  selectedCity?: string;
+  // selectedCity?: string;
   isLoading?: boolean;
   isError?: boolean;
-  isFetching?: boolean;
+
   error?: Error | null;
   fetchNextPage?: () => void;
   // onHover?: (id: string | null) => void;
@@ -32,13 +32,13 @@ interface OwnBusinessListProps {
   isFetchingNextPage?: boolean;
   enableInfiniteScroll?: boolean; // on/off infinity scroll
   linkPrefix?: string; // for different routes: `/business` , `/dashboard/business`
-  includeCityQuery?: boolean; // CityQuery only for public list for now
+  // includeCityQuery?: boolean; // CityQuery only for public list for now
 }
 
 function OwnBusinessList({
   businesses,
-  selectedCity = '__all__',
-  // isLoading,
+  // selectedCity = '__all__',
+
   isError,
   error,
   fetchNextPage,
@@ -47,7 +47,7 @@ function OwnBusinessList({
   isFetchingNextPage,
   enableInfiniteScroll = false,
   linkPrefix = '/business',
-  includeCityQuery = false,
+  // includeCityQuery = false,
   // onHover,
 }: OwnBusinessListProps) {
   const loadMoreRef = useRef<HTMLDivElement>(null);
@@ -87,8 +87,6 @@ function OwnBusinessList({
       {businesses.length > 0 && (
         <ul className="flex w-full flex-col items-center justify-center gap-10 overflow-hidden lg:gap-10">
           {businesses.map((b) => {
-            console.log('Rendering business:', b.name, '-', b.status);
-
             return (
               <li
                 key={b.id}
@@ -98,7 +96,7 @@ function OwnBusinessList({
               >
                 {/* Status */}
                 <div
-                  className={`max-[1024px]:max-w-150 mb-1 flex w-full items-center lg:mb-2 lg:gap-6`}
+                  className={`max-[1024px]:max-w-150 mb-1 flex w-full items-center max-[1024px]:px-4 lg:mb-2 lg:gap-6`}
                 >
                   <div className="">
                     {/* //b.status === 'rejected' */}
@@ -110,7 +108,6 @@ function OwnBusinessList({
                         size="sm"
                         businessId={b.id}
                         currentStatus={b.status}
-                        // options={options}
                         owner
                         className="w-full lg:w-[170px] xl:w-[194px]"
                       />
@@ -138,16 +135,18 @@ function OwnBusinessList({
                 </div>
                 <Link
                   prefetch={false}
-                  href={{
-                    pathname: `${linkPrefix}/${b.id}`,
-                    ...(includeCityQuery && selectedCity !== '__all__'
-                      ? { query: { city: selectedCity } }
-                      : {}),
-                  }}
+                  href={`${linkPrefix}/${b.id}`}
+                  aria-label={`Перейти до бізнес-картки ${b.name}`}
+                  // href={{
+                  // pathname: `${linkPrefix}/${b.id}`,
+                  // ...(includeCityQuery && selectedCity !== '__all__'
+                  //   ? { query: { city: selectedCity } }
+                  //   : {}),
+                  //}}
                   className="max-[1024px]:max-w-150 block h-full w-full"
                 >
                   <article
-                    className="bg-background-white w-full overflow-hidden pb-5"
+                    className="bg-background-white mb-5 w-full overflow-hidden"
                     key={b.id}
                   >
                     <BusinessCardShot
