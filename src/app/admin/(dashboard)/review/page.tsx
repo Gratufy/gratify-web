@@ -14,7 +14,7 @@ const AdminReviewPage = async () => {
   const queryClient = new QueryClient();
   const defaultParams = DEFAULT_ADMIN_FILTERS_WITH_REVIEW_STATUS;
   await queryClient.prefetchQuery({
-    queryKey: [queryKeys.adminBusinesses(defaultParams)],
+    queryKey: queryKeys.adminBusinesses(defaultParams),
     queryFn: () => getBusinessesForAdmin({ ...defaultParams }),
   });
 

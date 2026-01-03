@@ -58,14 +58,11 @@ function BusinessHomeClient() {
                 Мої бізнес-картки
               </h2>
               <div className="flex w-full items-center justify-between">
-                <Link
-                  href="/dashboard/business/new"
-                  className="xl:placeholder-base shadow-menu bg-background-main-300 placeholder-sm flex cursor-pointer items-center px-3 py-[6px] xl:px-5 xl:py-2"
-                >
+                <Link href="/dashboard/business/new" className="btn-aprove">
                   <Plus className="mr-[6px] size-4 xl:mr-3 xl:size-5" />{' '}
                   <span>Додати нову</span>
                 </Link>
-                <button className="xl:placeholder-base bg-background-white shadow-menu border-background-main-300 placeholder-sm flex cursor-pointer items-center border px-3 py-[6px] xl:px-5 xl:py-2">
+                <button className="btn-reject">
                   Зв&rsquo;язатись з адміном
                 </button>
               </div>
@@ -73,7 +70,7 @@ function BusinessHomeClient() {
             <OwnBusinessList
               // businesses={businesses?.data ?? []}
               businesses={filtered}
-              isLoading={isBusinessesLoading}
+              //isLoading={isBusinessesLoading}
               isError={isBusinessesError}
               error={error}
               linkPrefix="/dashboard/business"

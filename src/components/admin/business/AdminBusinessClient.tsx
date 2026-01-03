@@ -18,6 +18,7 @@ function AdminBusinessClient() {
     data: businesses,
     isLoading: isBusinessesLoading,
     isError: isBusinessesError,
+
     error,
   } = useBusinesses({
     city: '__all__',
@@ -32,6 +33,7 @@ function AdminBusinessClient() {
       b.name.toLowerCase().includes(search.toLowerCase())
     );
   }, [businesses, search]);
+
   return (
     <UserFavoritesProvider>
       {/* {isBusinessesFetching && <BusinessListSkeleton count={6} />} lg:w-[764px] xl:w-[900px]*/}
@@ -58,14 +60,11 @@ function AdminBusinessClient() {
                 Мої бізнес-картки
               </h2>
               <div className="flex w-full items-center justify-between">
-                <Link
-                  href="/admin/business/new"
-                  className="xl:placeholder-base shadow-menu bg-background-main-300 placeholder-sm flex cursor-pointer items-center px-3 py-[6px] xl:px-5 xl:py-2"
-                >
+                <Link href="/admin/business/new" className="btn-aprove">
                   <Plus className="mr-[6px] size-4 xl:mr-3 xl:size-5" />
                   <span>Додати нову</span>
                 </Link>
-                <button className="xl:placeholder-base bg-background-white shadow-menu border-background-main-300 placeholder-sm flex cursor-pointer items-center border px-3 py-[6px] xl:px-5 xl:py-2">
+                <button className="btn-reject">
                   Зв&rsquo;язатись з адміном
                 </button>
               </div>
@@ -73,7 +72,7 @@ function AdminBusinessClient() {
             <OwnBusinessList
               // businesses={businesses?.data ?? []}
               businesses={filtered}
-              isLoading={isBusinessesLoading}
+              //isLoading={isBusinessesLoading}
               isError={isBusinessesError}
               error={error}
               linkPrefix="/admin/business"

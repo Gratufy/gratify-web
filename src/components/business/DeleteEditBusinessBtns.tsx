@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 
+import { BusinessStatus } from '@/types/enums';
+
 import { useDeleteBusiness } from '@/hooks/useBusinesses';
 
 import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
@@ -10,7 +12,6 @@ import EditPen from '@/assets/icons/general/feedback-edit.svg';
 
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
-import { BusinessStatus } from '@/types/enums';
 
 type Props = {
   id: string;
@@ -91,7 +92,6 @@ function DeleteEditBusinessBtns({
         classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
         classNameDescription="text-center text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
         onAction={() => handleDelete(id)}
-        //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
       />
     </div>
   );

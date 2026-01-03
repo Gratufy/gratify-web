@@ -168,6 +168,7 @@ export type AdminBusinessRowType = {
   ownerId: string;
   reviewCount: number;
   filteredReviewCount: number;
+  cities: string[];
 };
 
 export interface AdminBusinessesParams {

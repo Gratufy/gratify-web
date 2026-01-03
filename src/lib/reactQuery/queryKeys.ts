@@ -1,14 +1,34 @@
 import { AdminBusinessesParams, GetBusinessesParams } from '@/types';
 import { BusinessReviewStatus, ScopeReview } from '@/types/enums';
 
+// businesses: ["businesses"] as const,
+// businessList: (filters: GetBusinessesParams) =>
+//   ['businesses', filters] as const,
+
 export const queryKeys = {
   businessCategories: ['businessCategories'] as const,
 
-  // businesses: ["businesses"] as const,
-  businessList: (filters: GetBusinessesParams) =>
-    ['businesses', filters] as const,
-
+  businessList: (params: GetBusinessesParams) =>
+    [
+      'businesses',
+      params.scope ?? 'public',
+      params.city ?? '__all__',
+      params.categoryId ?? '__all__',
+      params.sortBy ?? 'newest',
+      params.showOnlineStatus ?? 'all',
+    ] as const,
+  businessInfiniteList: (params: GetBusinessesParams) =>
+    [
+      'businesses',
+      'infinite',
+      params.scope ?? 'public',
+      params.city ?? '__all__',
+      params.categoryId ?? '__all__',
+      params.sortBy ?? 'newest',
+      params.showOnlineStatus ?? 'all',
+    ] as const,
   businessById: (id: string) => ['businesses', 'byId', id] as const,
+
   // karma
   userVote: (businessId: string, userId?: string) =>
     ['userVote', businessId, userId] as const,
@@ -26,31 +46,31 @@ export const queryKeys = {
   //old?
   userReview: (businessId: string, userId: string) =>
     ['userReview', businessId, userId] as const,
-  // old
-  adminBusinessesByReviewStatusRoot: ['adminBusinessesByReviewStatus'] as const,
-  //new
-  adminBusinesses: (params: AdminBusinessesParams) =>
-    ['adminBusinesses', params] as const,
 
-  adminBusinessesByReviewStatus: (
-    status?: BusinessReviewStatus,
-    categoryId?: string | null
-  ) => ['adminBusinessesByReviewStatus', { status, categoryId }] as const,
+  //new
+  // adminBusinesses: (params: AdminBusinessesParams) =>
+  //   ['adminBusinesses', params] as const,
+  adminBusinesses: (params: AdminBusinessesParams) =>
+    [
+      'adminBusinesses',
+      params.reviewStatus ?? null,
+      params.businessStatus ?? null,
+      params.categoryId ?? '__all__',
+      params.city ?? '__all__',
+      params.showOnlineStatus ?? 'all',
+      params.sortBy ?? 'newest',
+    ] as const,
 
   // ...businessLocation
   businessLocation: (businessId: string) =>
     ['businessLocation', businessId] as const,
 
-  // if i need it
-  // checkAddress: (city: string, address: string) =>
-  //   ["checkAddress", { city, address }] as const,
   // Special Offers
   specialOffers: ['specialOffers'] as const,
   businessSpecialOffers: (businessId: string) =>
     ['businessSpecialOffers', businessId] as const,
   // Favorites
-  // favorites: (userId: string) => ['favorites', userId] as const,
+
   favorites: ['favorites'] as const,
   favoriteBusinesses: ['favoriteBusinesses'],
-  // userFavorites: (userId: string) => ['favorites', 'user', userId] as const,
 };

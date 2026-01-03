@@ -75,9 +75,15 @@ function BusinessCardShot({
       <div className="lg:h-22 relative mb-4 flex h-16 items-center">
         <div
           className="absolute right-2 top-0 z-10"
-          onClick={(e) => e.stopPropagation()} // блокируем клик до Link
+          onClick={(e) => e.stopPropagation()} // block click on Link
         >
           <button
+            aria-label={
+              isFavorite
+                ? `Видалити з обраного ${business.name}`
+                : `Додати в обране ${business.name}`
+            }
+            aria-pressed={isFavorite ? 'true' : 'false'}
             onClick={handleToggleFavorite}
             className="cursor-pointer border-none bg-transparent px-2 pb-1 outline-none lg:right-9"
           >
@@ -117,7 +123,7 @@ function BusinessCardShot({
               <>
                 <Image
                   src="/images/default-header-img.png"
-                  alt={business.name}
+                  alt="Дефолтне зображення бізнесу"
                   fill
                   //unoptimized
                   sizes="(min-width: 1024px) 586px, 515px"

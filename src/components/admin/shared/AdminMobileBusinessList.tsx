@@ -21,6 +21,7 @@ import { getBusinessStatusBgColor } from '@/lib/helpers/getBusinessStatusColorBg
 
 import MainPageFilters from './MainPageFilters';
 import { BUSINESS_STATUS_LABELS } from '@/const/business';
+import { getCityLabel } from '@/utils/getCityLabel';
 
 interface AdminMobileBusinessListProps {
   categoriesWithAll: (
@@ -192,7 +193,15 @@ function AdminMobileBusinessList({
                         <p className="">{b.categoryName}</p>
                       </div>
                       <div className="title-h6">
-                        <p className="">City</p>
+                        {b.cities.length > 0 ? (
+                          b.cities.map((city, index) => (
+                            <p key={city + index} className="">
+                              {getCityLabel(city)}
+                            </p>
+                          ))
+                        ) : (
+                          <p className="">Місто не вказано</p>
+                        )}
                       </div>
                       <div className="title-h6 flex flex-col items-center gap-1">
                         <Checkbox

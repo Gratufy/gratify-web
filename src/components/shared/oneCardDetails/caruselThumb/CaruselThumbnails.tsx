@@ -50,6 +50,7 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
             {/* buttons only for mobile */}
             <div className="w-30 mx-auto mb-4 flex justify-between lg:hidden">
               <button
+                aria-label="Перейти до фотографії вліво"
                 // variant="outline"
                 className="hover:bg-background-grey-50 flex items-center justify-center bg-white"
                 onClick={() => emblaMainApi?.scrollPrev()}
@@ -57,6 +58,7 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
                 <IconLeft className="size-5" />
               </button>
               <button
+                aria-label="Перейти до фотографіївправо"
                 className="hover:bg-background-grey-50 flex items-center justify-center bg-white"
                 onClick={() => emblaMainApi?.scrollNext()}
               >
@@ -78,7 +80,7 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
                     <div className="relative mx-auto h-[317px] w-[343px] lg:h-[414px] lg:w-[450px] xl:h-[424px] xl:w-[461px]">
                       <Image
                         src={image.url}
-                        alt={`Image ${index + 1}`}
+                        alt={`фотографія бізнесу ${index + 1}`}
                         fill
                         //unoptimized
                         priority={index === 0}
@@ -101,6 +103,7 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
                 {slides.map((image, index) => (
                   <button
                     key={index}
+                    aria-label={`Перейти до фотографії ${index + 1}`}
                     onClick={() => onThumbClick(index)}
                     className={`h-18 w-18 lg:w-15 lg:h-15 xl:w-18 xl:h-18 relative shrink-0 cursor-pointer overflow-hidden transition ${
                       selectedIndex === index
@@ -110,7 +113,7 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
                   >
                     <Image
                       src={image.url}
-                      alt={`Thumb ${index + 1}`}
+                      alt={`прев'ю фотографії ${index + 1}`}
                       width={80}
                       height={80}
                       // fill
@@ -125,13 +128,14 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
           </div>
           <div className="lg:w-30 xl:w-34 mx-auto hidden lg:flex lg:justify-between">
             <button
-              // variant="outline"
+              aria-label="Перейти до фотографії вліво"
               className="hover:bg-background-grey-50 flex cursor-pointer items-center justify-center bg-white"
               onClick={() => emblaMainApi?.scrollPrev()}
             >
               <IconLeft className="lg:size-5 xl:size-6" />
             </button>
             <button
+              aria-label="Перейти до фотографії вправо"
               className="hover:bg-background-grey-50 flex cursor-pointer items-center justify-center bg-white"
               onClick={() => emblaMainApi?.scrollNext()}
             >
@@ -149,9 +153,6 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
               height={316}
               src="/images/default-image.png"
               alt="Фото ще не завантажені — але ми впевнені, що тут гарно"
-              // fill
-              // className="object-cover"
-              // sizes="(max-width: 1024px) 343px, (max-width: 1440px) 460px, 462px"
             />
           </div>
           <div className="title-h5 text-text-800-grey px-15 lg:px-18 xl:px-20">
