@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 
+import { getCityLabel } from '@/utils/getCityLabel';
+
 import IconMenu from '@/assets/icons/admin/icon-menu.svg';
 import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
 import EditPen from '@/assets/icons/general/feedback-edit.svg';
@@ -117,7 +119,15 @@ function AdminDesktopBusinessesList({
                 </div>
 
                 <div className="title-h6 py-2">
-                  <p className="">City</p>
+                  {b.cities.length > 0 ? (
+                    b.cities.map((city, index) => (
+                      <p key={city + index} className="">
+                        {getCityLabel(city)}
+                      </p>
+                    ))
+                  ) : (
+                    <p className="">-----</p>
+                  )}
                 </div>
 
                 <div className="flex items-center justify-between py-2">

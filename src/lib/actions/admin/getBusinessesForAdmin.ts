@@ -9,7 +9,8 @@ import {
   businessLocations,
   businessReviews,
 } from '@/db/schema';
-import { eq, sql, and, SQL } from 'drizzle-orm';
+import { eq, sql, and, SQL, inArray } from 'drizzle-orm';
+
 import { AdminBusinessRowType, AdminBusinessesParams } from '@/types/business';
 import { isAdmin } from '@/lib/helpers/isAdmin';
 
@@ -39,10 +40,6 @@ export async function getBusinessesForAdmin({
   if (reviewStatus) conditions.push(eq(businessReviews.status, reviewStatus));
   if (businessStatus) conditions.push(eq(businesses.status, businessStatus));
 
-  // let cityLabel: string | undefined;
-  // if (city && city !== '__all__') {
-  //   cityLabel = UKRAINE_REGIONAL_CENTERS.find((c) => c.value === city)?.label;
-  // }
   // фильтр по city и онлайн/офлайн
   if (!city || city === '__all__') {
     // "__all__"
@@ -96,12 +93,23 @@ export async function getBusinessesForAdmin({
       categoryName: sql<string>`MAX(${businessCategories.name})`,
       //----
       filteredReviewCount: sql<number>`COUNT(${businessReviews.id})`,
+      cities: sql<string[]>`
+  COALESCE(
+    ARRAY_AGG(DISTINCT ${businessLocations.city})
+      FILTER (WHERE ${businessLocations.city} IS NOT NULL),
+    '{}'
+  )
+`,
     })
     .from(businesses)
     .leftJoin(businessReviews, eq(businesses.id, businessReviews.businessId))
     .leftJoin(
       businessCategories,
       eq(businesses.categoryId, businessCategories.categoryId)
+    )
+    .leftJoin(
+      businessLocations,
+      eq(businesses.id, businessLocations.businessId)
     )
     .where(conditions.length ? and(...conditions) : undefined)
     .groupBy(businesses.id)
@@ -110,6 +118,7 @@ export async function getBusinessesForAdmin({
         ? sql`${businesses.createdAt} DESC`
         : sql`${businesses.createdAt} ASC`
     );
+
 
   return rows;
 }
