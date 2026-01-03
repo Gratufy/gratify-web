@@ -1,18 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { BusinessStatus, OnlineFilter } from '@/types/enums';
-
-import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
-import { BUSINESS_STATUS, BUSINESS_STATUS_LABELS } from '@/const/business';
-import { ONLINE_STATUS } from '@/const/online-status';
-
 import IconMenu from '@/assets/icons/admin/icon-menu.svg';
 import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
 import EditPen from '@/assets/icons/general/feedback-edit.svg';
 import IconEyeOpen from '@/assets/icons/admin/icon-eye-open.svg';
 
-import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   DropdownMenu,
@@ -21,16 +14,27 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Label } from '@/components/ui/label';
 
 import { BusinessStatusForm } from '@/components/admin/shared/BusinessStatusForm';
 import AdminSkeleton from '@/components/admin/shared/AdminSkeleton';
-import { BusinessCategory } from '@/types/db';
+
 import { AdminFilters } from '@/types/filters-query';
 import { AdminBusinessRowType } from '@/types';
+import MainPageFilters from './MainPageFilters';
 
 interface AdminDesktopBusinessesListProps {
-  categories: BusinessCategory[];
+  categoriesWithAll: (
+    | {
+        name: string;
+        categoryId: string;
+        createdAt: Date | null;
+        updatedAt: Date | null;
+      }
+    | {
+        categoryId: string;
+        name: string;
+      }
+  )[];
   setDialogOpen: (open: boolean) => void;
   setBusinessIdToDelete: (id: string) => void;
   filters: AdminFilters;
@@ -46,7 +50,7 @@ interface AdminDesktopBusinessesListProps {
 }
 
 function AdminDesktopBusinessesList({
-  categories,
+  categoriesWithAll,
   setDialogOpen,
   setBusinessIdToDelete,
   filters,
@@ -57,107 +61,16 @@ function AdminDesktopBusinessesList({
   error,
   isModeringSection,
 }: AdminDesktopBusinessesListProps) {
-  const categoriesWithAll = [
-    { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
-    ...(categories || []),
-  ];
-
   return (
     <>
       {/*  Filters*/}
-      <div className="border-b-elements-grey-200 mb-8 flex flex-col justify-center gap-5 border-b pb-8 lg:mb-8 lg:flex-row lg:gap-3">
-        <div className="flex flex-1 flex-col gap-5 lg:gap-3">
-          {!isModeringSection && (
-            <div className="w-full">
-              <Label
-                htmlFor="status-select"
-                className="lg:placeholder-xs xl:placeholder-sm mb-1"
-              >
-                Статус:
-              </Label>
-              <CustomSelect
-                id="status-select"
-                value={filters.businessStatus}
-                // onChange={handleStatusChange}
-                onChange={(val) =>
-                  updateFilter('businessStatus', val as BusinessStatus)
-                }
-                options={BUSINESS_STATUS}
-                getOptionValue={(s) => s}
-                getOptionLabel={(s) => BUSINESS_STATUS_LABELS[s]}
-                placeholder="Оберіть статус"
-                className="admin-select w-full"
-                // statusForm={true}
-              />
-            </div>
-          )}
-          <div className="w-full">
-            <Label
-              htmlFor="category-select"
-              className="lg:placeholder-xs xl:placeholder-sm mb-1"
-            >
-              Категорія:
-            </Label>
-            <CustomSelect
-              id="category-select"
-              value={filters.categoryId}
-              // onChange={setCategoryId}
-              onChange={(val) => updateFilter('categoryId', val)}
-              options={categoriesWithAll}
-              getOptionValue={(c) => c.categoryId}
-              getOptionLabel={(c) => c.name}
-              // label="Категорія"
-              placeholder="Оберіть категорію"
-              className="admin-select w-full"
-            />
-          </div>
-        </div>
-        <div className="flex flex-1 flex-col gap-5 lg:gap-3">
-          <div className="w-full">
-            <Label
-              htmlFor="city-select"
-              className="lg:placeholder-xs xl:placeholder-sm mb-1"
-            >
-              Місто:
-            </Label>
-            <CustomSelect
-              id="city-select"
-              // label="Місто"
-              value={filters.city}
-              // onChange={setCity}
-              onChange={(val) => updateFilter('city', val)}
-              options={UKRAINE_REGIONAL_CENTERS}
-              getOptionValue={(option) => option.value}
-              getOptionLabel={(option) => option.label}
-              placeholder="Оберіть місто"
-              className="admin-select w-full"
-            />
-          </div>
-          <div className="w-full">
-            <Label
-              htmlFor="online-select"
-              className="lg:placeholder-xs xl:placeholder-sm mb-1"
-            >
-              Online:
-            </Label>
-            <CustomSelect
-              id="online-select"
-              // label="Місто"
-              // value={showOnlineStatus}
-              value={filters.showOnlineStatus}
-              // onChange={(val) => setShowOnlineStatus(val as OnlineFilter)}
-              onChange={(val) =>
-                updateFilter('showOnlineStatus', val as OnlineFilter)
-              }
-              options={ONLINE_STATUS}
-              getOptionValue={(option) => option.value}
-              getOptionLabel={(option) => option.label}
-              placeholder="Оберіть місто"
-              className="admin-select w-full"
-            />
-          </div>
-        </div>
-      </div>
+      <MainPageFilters
+        isModeringSection={isModeringSection}
+        categoriesWithAll={categoriesWithAll}
+        filters={filters}
+        updateFilter={updateFilter}
+      />
+
       {isBusinessesLoading && <AdminSkeleton count={3} />}
       {isBusinessesError && <p>Помилка: {error?.message}</p>}
       {/*  List*/}
@@ -192,6 +105,7 @@ function AdminDesktopBusinessesList({
 
                 <div className="title-h6 py-2">
                   <BusinessStatusForm
+                    businessName={b.name}
                     businessId={b.id}
                     currentStatus={b.status}
                     className="w-40"
@@ -208,8 +122,10 @@ function AdminDesktopBusinessesList({
 
                 <div className="flex items-center justify-between py-2">
                   <Checkbox
-                    className="border-icons-grey-950 bg-background-main-200! data-[state=checked]:text-icons-grey-950 lg:mx-5 lg:size-4"
-                    checked={b.isOnline || false}
+                    disabled
+                    aria-label={`Статус онлайн ${b.name}`}
+                    className="border-icons-grey-950! bg-background-main-200! data-[state=checked]:text-icons-grey-950 disabled:opacity-100 lg:mx-5 lg:size-4"
+                    checked={!!b.isOnline}
                   />
 
                   <DropdownMenu modal={false}>
@@ -223,7 +139,7 @@ function AdminDesktopBusinessesList({
                       side="left"
                     >
                       <DropdownMenuLabel className="sr-only">
-                        Відкрити меню
+                        Відкрити меню картки бізнесу {b.name}
                       </DropdownMenuLabel>
                       <DropdownMenuItem
                         asChild
@@ -238,10 +154,7 @@ function AdminDesktopBusinessesList({
                         asChild
                         className="placeholder-sm xl:placeholder-base cursor-pointer gap-0 px-3 lg:px-2"
                       >
-                        <Link
-                          href={`/admin/business/${b.id}/edit`}
-                          className=""
-                        >
+                        <Link href={`/admin/business/${b.id}/edit`}>
                           <EditPen className="mr-2 size-4 xl:mr-3 xl:size-5" />
                           Редагувати
                         </Link>
@@ -251,6 +164,7 @@ function AdminDesktopBusinessesList({
                         className="placeholder-sm xl:placeholder-base cursor-pointer gap-0 px-3 lg:px-2"
                       >
                         <button
+                          aria-label={`Видалити бізнес ${b.name}`}
                           className="text-icons-color-error focus:bg-elements-grey-200 hover:bg-elements-grey-200 xl:placeholder-base flex w-full cursor-pointer items-center rounded-sm border-none bg-white px-3 py-1.5 text-sm disabled:opacity-50 lg:px-2"
                           onClick={() => {
                             setBusinessIdToDelete(b.id);

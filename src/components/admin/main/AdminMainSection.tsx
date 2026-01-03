@@ -57,6 +57,11 @@ function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
       ),
     });
   };
+
+  const categoriesWithAll = [
+    { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
+    ...(categories || []),
+  ];
   const queryClient = useQueryClient();
   return (
     <div className="bg-background-white w-full max-[1024px]:p-4 max-[1024px]:py-4 lg:my-3 lg:p-5">
@@ -78,7 +83,7 @@ function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
       </h2>
       <div className="hidden lg:block">
         <AdminDesktopBusinessesList
-          categories={categories}
+          categoriesWithAll={categoriesWithAll}
           // dialogOpen={dialogOpen}
           setDialogOpen={setDialogOpen}
           // businessIdToDelete={businessIdToDelete}
@@ -96,7 +101,7 @@ function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
       </div>
       <div className="max-w-150 flex justify-center lg:hidden">
         <AdminMobileBusinessList
-          categories={categories}
+          categoriesWithAll={categoriesWithAll}
           // dialogOpen={dialogOpen}
           setDialogOpen={setDialogOpen}
           // businessIdToDelete={businessIdToDelete}

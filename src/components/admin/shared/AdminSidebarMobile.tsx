@@ -50,46 +50,6 @@ function AdminSidebarMobile() {
       >
         <div className="grid flex-1 auto-rows-min gap-3 px-4 py-6">
           <nav className="grid gap-8">
-            {/* <Link
-              href="/admin"
-              onClick={() => setSidebarOpen(false)}
-              className={`admin-link ${pathname === '/admin' ? 'admin-link-active' : ''}`}
-            >
-              <IconMain className="size-5" />
-              <span>Головна</span>
-            </Link>
-            <Link
-              href="/admin/modering"
-              onClick={() => setSidebarOpen(false)}
-              className={`admin-link ${pathname === '/admin/modering' ? 'admin-link-active' : ''}`}
-            >
-              <IconModering className="size-5" />
-              <span>Модерування</span>
-            </Link>
-            <Link
-              href="/admin/categories"
-              onClick={() => setSidebarOpen(false)}
-              className={`admin-link ${pathname === '/admin/categories' ? 'admin-link-active' : ''}`}
-            >
-              <IconCategory className="size-5" />
-              <span>Категорії</span>
-            </Link>
-            <Link
-              href="/admin/review"
-              onClick={() => setSidebarOpen(false)}
-              className={`admin-link ${pathname === '/admin/review' ? 'admin-link-active' : ''}`}
-            >
-              <EditPen className="size-5" />
-              <span>Відгуки</span>
-            </Link>
-            <Link
-              href="/admin/settings"
-              onClick={() => setSidebarOpen(false)}
-              className={`admin-link ${pathname === '/admin/settings' ? 'admin-link-active' : ''}`}
-            >
-              <IconSettings className="size-5" />
-              <span>Налаштування</span>
-            </Link> */}
             {ADMIN_LINKS.map(({ href, label, icon: Icon }) => (
               <Link
                 key={href}

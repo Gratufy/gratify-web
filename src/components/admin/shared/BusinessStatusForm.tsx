@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 
 import { BusinessStatus } from '@/types/enums';
@@ -10,6 +11,7 @@ import { useChangeBusinessStatus } from '@/hooks/OwnerAndAdmin/useChangeBusiness
 import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
+import { Label } from '@/components/ui/label';
 
 function getOwnerOptions(currentStatus: BusinessStatus) {
   const allowedNextStatuses = OWNER_ALLOWED_TRANSITIONS[currentStatus] || [];
@@ -21,6 +23,7 @@ function getOwnerOptions(currentStatus: BusinessStatus) {
   return statuses;
 }
 interface BusinessStatusFormProps {
+  businessName: string;
   businessId: string;
   currentStatus: BusinessStatus;
   owner?: boolean;
@@ -34,6 +37,7 @@ export function BusinessStatusForm({
   owner = false,
   className,
   size = 'default',
+  businessName,
 }: BusinessStatusFormProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
   // const [status, setStatus] = useState<BusinessStatus>(currentStatus);
@@ -88,7 +92,14 @@ export function BusinessStatusForm({
     : BUSINESS_STATUS;
   return (
     <>
+      <Label
+        htmlFor={`business-status-select-${businessId}`}
+        className="sr-only"
+      >
+        змінити статус бізнесу {businessName}:
+      </Label>
       <CustomSelect
+        id={`business-status-select-${businessId}`}
         size={size}
         value={currentStatus}
         onChange={(newValue) => {

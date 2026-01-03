@@ -1,6 +1,10 @@
 'use client';
 import React, { useId } from 'react';
-import { getBusinessStatusBgColor } from '@/lib/helpers/getBusinessStatusColorBg';
+import { cn } from '@/lib/utils';
+import {
+  getBusinessStatusBgColor,
+  getStatusBgAddClasses,
+} from '@/lib/helpers/getBusinessStatusColorBg';
 import EyeIcon from '@/assets/icons/admin/icon-eye.svg';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import IconModering from '@/assets/icons/menu/icon-modering.svg';
@@ -9,7 +13,6 @@ import { CheckIcon } from 'lucide-react';
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -49,7 +52,7 @@ function CustomSelect<T>({
   if (statusForm) {
     triggerClass =
       //+ 'h-5!'
-      getBusinessStatusBgColor(value as string) + ' ' || '';
+      getBusinessStatusBgColor(value as string) + '' || '';
   }
   const statusIcon = (value: string) =>
     value === 'approved' ? (
@@ -77,39 +80,41 @@ function CustomSelect<T>({
       <Select value={value} onValueChange={(v) => onChange(v)} name={selectId}>
         <SelectTrigger
           size={size}
-          aria-labelledby={selectId}
           id={selectId}
           className={`${className ?? 'xl:placeholder-base placeholder-sm w-[280px]'} ${triggerClass}`}
         >
           {/* {statusForm && statusIcon(value as string)} */}
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
-        <SelectContent className="py-2">
-          <SelectGroup>
-            {options.map((option, index) => {
-              const val = getOptionValue
-                ? getOptionValue(option)
-                : (option as unknown as string);
-              const label = getOptionLabel
-                ? getOptionLabel(option)
-                : (option as unknown as string);
-              return (
-                <SelectItem
-                  key={val ?? index}
-                  value={val ?? ''}
-                  className={`xl:placeholder-base placeholder-sm ${statusForm && getBusinessStatusBgColor(val as string)}`}
-                >
-                  {statusForm && !owner && statusIcon(val as string)}
-                  {owner && (
-                    <span className="placeholder-xs xl:placeholder-sm">
-                      Статус
-                    </span>
-                  )}
-                  {label}
-                </SelectItem>
-              );
-            })}
-          </SelectGroup>
+        <SelectContent>
+          {options.map((option, index) => {
+            const val = getOptionValue
+              ? getOptionValue(option)
+              : (option as unknown as string);
+            const label = getOptionLabel
+              ? getOptionLabel(option)
+              : (option as unknown as string);
+            return (
+              <SelectItem
+                key={val ?? index}
+                value={val ?? ''}
+                className={cn(
+                  'xl:placeholder-base placeholder-sm',
+                  statusForm && getBusinessStatusBgColor(val as string),
+                  statusForm && 'not-last:mb-1',
+                  statusForm && getStatusBgAddClasses(val as string)
+                )}
+              >
+                {statusForm && !owner && statusIcon(val as string)}
+                {owner && (
+                  <span className="placeholder-xs xl:placeholder-sm">
+                    Статус
+                  </span>
+                )}
+                {label}
+              </SelectItem>
+            );
+          })}
         </SelectContent>
       </Select>
     </>

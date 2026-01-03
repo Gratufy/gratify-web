@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 
 import { BusinessReviewStatus } from '@/types/enums';
@@ -12,6 +13,7 @@ import { useUpdateReviewStatus } from '@/hooks/useReviews';
 import CustomSelect from '@/components//ui/custom-ui/CustomSelect';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
+import { Label } from '@/components/ui/label';
 
 interface BusinessReviewFormProps {
   businessId: string;
@@ -56,7 +58,11 @@ function BusinessReviewForm({
   };
   return (
     <>
+      <Label htmlFor={`review-status-select-${reviewId}`} className="sr-only">
+        змінити статус відгуку {reviewId}
+      </Label>
       <CustomSelect
+        id={`review-status-select-${reviewId}`}
         value={status}
         onChange={(newValue) => {
           setNewStatus(newValue);
