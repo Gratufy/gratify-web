@@ -133,6 +133,7 @@ function AdminMobileBusinessList({
                     {showFullCard[b.id] ? (
                       <div className="title-h6">
                         <BusinessStatusForm
+                          businessName={b.name}
                           businessId={b.id}
                           currentStatus={b.status}
                           className="w-full"
