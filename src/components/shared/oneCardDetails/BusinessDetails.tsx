@@ -95,28 +95,6 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
       {/* -------------------------------------------- */}
       {business && (
         <>
-          {/* general favorites*/}
-          {/* <div className="max-[1024px]:max-w-150 w-full pb-2 lg:container max-[1024px]:px-4">
-            <div className="flex justify-end">
-              <button
-                aria-label={isFavorite ? "Видалити з обраного" : "Додати в обране"}
-                onClick={handleToggleFavorite}
-                className="cursor-pointer border-none bg-transparent outline-none"
-              >
-                {isFavorite ? (
-                  <div className="flex gap-1">
-                    <IconFavorite className="text-icons-color-accent h-7 w-6 lg:h-7 lg:w-6" />
-                    <p className="title-h6 underline">Збережено</p>
-                  </div>
-                ) : (
-                  <div className="flex gap-1">
-                    <IconFavorite className="text-background-white h-7 w-6 lg:h-7 lg:w-6" />
-                    <p className="title-h6 underline">Зберегти</p>
-                  </div>
-                )}
-              </button>
-            </div>
-          </div> */}
           {/* mobile */}
           <section className="max-w-150 flex w-full flex-col px-4 pb-5 lg:hidden">
             <div className="mb-6 w-full">

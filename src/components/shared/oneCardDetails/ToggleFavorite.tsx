@@ -14,6 +14,7 @@ function ToggleFavorite({
     <div className="flex items-start pt-1">
       <button
         aria-label={isFavorite ? 'Видалити з обраного' : 'Додати в обране'}
+        aria-pressed={isFavorite ? 'true' : 'false'}
         onClick={handleToggleFavorite}
         className="cursor-pointer border-none bg-transparent outline-none"
       >

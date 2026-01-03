@@ -78,7 +78,12 @@ function BusinessCardShot({
           onClick={(e) => e.stopPropagation()} // block click on Link
         >
           <button
-            aria-label={isFavorite ? 'Видалити з обраного' : 'Додати в обране'}
+            aria-label={
+              isFavorite
+                ? `Видалити з обраного ${business.name}`
+                : `Додати в обране ${business.name}`
+            }
+            aria-pressed={isFavorite ? 'true' : 'false'}
             onClick={handleToggleFavorite}
             className="cursor-pointer border-none bg-transparent px-2 pb-1 outline-none lg:right-9"
           >
