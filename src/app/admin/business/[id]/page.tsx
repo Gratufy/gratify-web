@@ -13,7 +13,7 @@ export default async function AdminBusinessDetailsPage({
   const { id } = await params;
   const business = await getBusinessById(id);
   if (!business) {
-    // если ID неправильный → NotFound
+    // if ID is invalid → NotFound
     return notFound();
   }
 

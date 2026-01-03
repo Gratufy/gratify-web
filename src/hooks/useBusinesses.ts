@@ -73,9 +73,7 @@ export function useBusiness(
     queryKey: queryKeys.businessById(businessId),
     queryFn: () => getBusinessById(businessId),
     initialData,
-    enabled: false, // не делаем лишний запрос, если данные уже есть
-    // refetchOnMount: true, // перезапрос при монтировании компонента
-    // refetchOnWindowFocus: false, // не нужно лишний раз при фокусе
+    enabled: false, // do not fetch automatically
   });
 }
 // create

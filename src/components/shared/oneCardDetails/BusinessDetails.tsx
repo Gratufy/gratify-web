@@ -13,7 +13,6 @@ import { BusinessWithDetails } from '@/types';
 
 import BusinessCardSkeleton from '../skeletons/BusinessCardSkeleton';
 
-import IconFavorite from '@/assets/icons/general/favorite-h.svg';
 import IconUser from '@/assets/icons/general/icon-user.svg';
 
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
@@ -97,9 +96,10 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
       {business && (
         <>
           {/* general favorites*/}
-          <div className="max-[1024px]:max-w-150 w-full pb-2 lg:container max-[1024px]:px-4">
+          {/* <div className="max-[1024px]:max-w-150 w-full pb-2 lg:container max-[1024px]:px-4">
             <div className="flex justify-end">
               <button
+                aria-label={isFavorite ? "Видалити з обраного" : "Додати в обране"}
                 onClick={handleToggleFavorite}
                 className="cursor-pointer border-none bg-transparent outline-none"
               >
@@ -116,7 +116,7 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
                 )}
               </button>
             </div>
-          </div>
+          </div> */}
           {/* mobile */}
           <section className="max-w-150 flex w-full flex-col px-4 pb-5 lg:hidden">
             <div className="mb-6 w-full">
@@ -124,6 +124,8 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
                 name={business.name}
                 categoryName={business.categoryName}
                 website={business.website}
+                isFavorite={isFavorite}
+                handleToggleFavorite={handleToggleFavorite}
               />
             </div>
 
@@ -168,13 +170,15 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
           {/* big screens */}
           <section className="lg:gap-25 xl:gap-30 hidden w-full lg:flex lg:w-[1024px] lg:px-[50px] lg:pb-5 xl:w-[1440px] xl:px-[150px] xl:pb-11">
             <CaruselThumbnails slides={business.images} />
-            <div className="flex w-full flex-col">
+            <div className="relative flex w-full flex-col">
               <div className="border-elements-grey-400 mb-2 flex flex-col border-b lg:pb-4">
                 <div className="mb-10 w-full">
                   <TitleBlock
                     name={business.name}
                     categoryName={business.categoryName}
                     website={business.website}
+                    isFavorite={isFavorite}
+                    handleToggleFavorite={handleToggleFavorite}
                   />
                 </div>
                 {/* -------------------------------------------- */}
