@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 
 import { BusinessStatus } from '@/types/enums';
@@ -22,6 +23,7 @@ function getOwnerOptions(currentStatus: BusinessStatus) {
   return statuses;
 }
 interface BusinessStatusFormProps {
+  businessName: string;
   businessId: string;
   currentStatus: BusinessStatus;
   owner?: boolean;
@@ -35,6 +37,7 @@ export function BusinessStatusForm({
   owner = false,
   className,
   size = 'default',
+  businessName,
 }: BusinessStatusFormProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
   // const [status, setStatus] = useState<BusinessStatus>(currentStatus);
@@ -89,11 +92,14 @@ export function BusinessStatusForm({
     : BUSINESS_STATUS;
   return (
     <>
-      <Label htmlFor="business-status-select" className="sr-only">
-        змінити статус бізнесу:
+      <Label
+        htmlFor={`business-status-select-${businessId}`}
+        className="sr-only"
+      >
+        змінити статус бізнесу {businessName}:
       </Label>
       <CustomSelect
-        id="business-status-select"
+        id={`business-status-select-${businessId}`}
         size={size}
         value={currentStatus}
         onChange={(newValue) => {

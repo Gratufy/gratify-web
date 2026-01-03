@@ -1,5 +1,5 @@
-import React from 'react';
-import { useId } from 'react';
+// 'use client';
+import React, { useId } from 'react';
 
 import { AdminFiltersWithReviewStatus } from '@/types/filters-query';
 

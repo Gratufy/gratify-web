@@ -88,7 +88,7 @@ function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
                   className="w-45"
                 />
                 <button
-                  aria-label="видалити відгук"
+                  aria-label={`видалити відгук ${r.id}`}
                   className="text-icons-color-error placeholder-sm xl:placeholder-base focus:bg-elements-grey-200/50 hover:bg-elements-grey-200/50 mx-auto flex cursor-pointer items-center justify-center border-none bg-transparent px-3 py-1.5 text-sm disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:focus:bg-transparent lg:hidden lg:px-2"
                   // onClick={() => handleDelete(r.id)}
                   disabled={deleteReviewMutation.isPending}
@@ -103,7 +103,7 @@ function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
 
               <div className="hidden h-full items-center justify-center lg:flex">
                 <button
-                  aria-label="видалити відгук"
+                  aria-label={`видалити відгук ${r.id}`}
                   className="text-icons-color-error placeholder-sm xl:placeholder-base focus:bg-elements-grey-200/50 hover:bg-elements-grey-200/50 mx-auto flex cursor-pointer items-center justify-center border-none bg-transparent px-3 py-1.5 text-sm disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:focus:bg-transparent lg:px-2"
                   // onClick={() => handleDelete(r.id)}
                   disabled={deleteReviewMutation.isPending}

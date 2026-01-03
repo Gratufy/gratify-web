@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 
 import { BusinessReviewStatus } from '@/types/enums';
@@ -57,11 +58,11 @@ function BusinessReviewForm({
   };
   return (
     <>
-      <Label htmlFor="review-status-select" className="sr-only">
-        змінити статус відгуку:
+      <Label htmlFor={`review-status-select-${reviewId}`} className="sr-only">
+        змінити статус відгуку {reviewId}
       </Label>
       <CustomSelect
-        id="review-status-select"
+        id={`review-status-select-${reviewId}`}
         value={status}
         onChange={(newValue) => {
           setNewStatus(newValue);

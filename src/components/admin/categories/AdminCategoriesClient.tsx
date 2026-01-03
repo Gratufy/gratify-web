@@ -226,6 +226,8 @@ function AdminCategoriesClient() {
                   {isEditingCategory ? (
                     <>
                       <input
+                        aria-label={`Редагування назви категорії ${name}`}
+                        // id={`edit-category-${categoryId}`}
                         className={`cursor-not-allowed p-2 opacity-90 ${
                           isEditingCategory
                             ? 'text-text-800-grey border-b-text-500-grey mr-8 w-full cursor-text border-b px-0 outline-none'
@@ -245,6 +247,7 @@ function AdminCategoriesClient() {
                       />
                       <div className="flex gap-4 lg:gap-4 xl:gap-8">
                         <button
+                          aria-label={`Підтвердити зміни категорії ${name}`}
                           className="btn-custom bg-background-white border border-green-500 p-2"
                           onClick={() => saveEditing(categoryId)}
                           disabled={isUpdating}
@@ -252,6 +255,7 @@ function AdminCategoriesClient() {
                           <CheckIcon className="size-6" />
                         </button>
                         <button
+                          aria-label={`Скасувати редагування категорії ${name}`}
                           className="btn-custom border-elements-grey-950 border p-2"
                           onClick={() => cancelEditing()}
                           disabled={isUpdating}
@@ -265,19 +269,21 @@ function AdminCategoriesClient() {
                       <span className="title-h6">{name}</span>
                       <div className="flex gap-4 lg:gap-4 xl:gap-8">
                         <button
+                          aria-label={`Редагувати категорію ${name}`}
                           onClick={() => startEditing(categoryId, name)}
                           className="btn-custom border-none p-2"
                         >
                           <EditPen className="size-6" />
                         </button>
                         <button
+                          aria-label={`Видалити категорію ${name}`}
+                          aria-haspopup="dialog"
                           className="btn-custom border-none p-2"
                           onClick={() => {
                             if (
                               categoryId ===
                               '11111111-1111-1111-1111-111111111111'
                             ) {
-                              //   alert('Видалення категорії "Інше" заборонено');
                               CustomToast({
                                 type: 'info',
                                 content: (
@@ -327,7 +333,6 @@ function AdminCategoriesClient() {
             classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
             classNameDescription="text-center text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
             onAction={() => handleDelete(deleteCategoryId)}
-            //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
           />
         )}
       </div>

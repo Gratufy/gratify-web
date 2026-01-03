@@ -52,7 +52,10 @@ export function CustomAlertDialog({
       <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
 
       <AlertDialogContent className={classNameContent}>
-        <AlertDialogCancel className="hover:text-icons-color-accent absolute right-3 top-3 h-5 cursor-pointer border-none px-0 py-0">
+        <AlertDialogCancel
+          aria-label="Закрити"
+          className="hover:bg-background-grey-100/80 absolute right-3 top-3 cursor-pointer border-none p-1"
+        >
           <IconCross className="size-5" />
         </AlertDialogCancel>
         <AlertDialogHeader>

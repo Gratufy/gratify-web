@@ -144,7 +144,7 @@ function AdminMobileBusinessList({
                       >
                         {statusIcon(b.status)}
                         <span className="sr-only">
-                          статус {BUSINESS_STATUS_LABELS[b.status]}
+                          статус {b.name} {BUSINESS_STATUS_LABELS[b.status]}
                         </span>
                       </div>
                     )}
@@ -166,11 +166,6 @@ function AdminMobileBusinessList({
                         }))
                       }
                     >
-                      {/* {showFullCard[b.id] ? (
-                        <ChevronUpIcon className="size-8" />
-                      ) : (
-                        <ChevronDownIcon className="size-8" />
-                      )} */}
                       <ChevronDownIcon
                         className={cn(
                           'size-8',
@@ -180,8 +175,8 @@ function AdminMobileBusinessList({
                       />
                       <span className="sr-only">
                         {showFullCard[b.id]
-                          ? 'скрити повну інформацію'
-                          : 'Показати повну інформацію'}
+                          ? `скрити повну інформацію ${b.name}`
+                          : `Показати повну інформацію ${b.name}`}
                       </span>
                     </button>
                   </div>
@@ -200,7 +195,7 @@ function AdminMobileBusinessList({
                       </div>
                       <div className="title-h6 flex flex-col items-center gap-1">
                         <Checkbox
-                          aria-label="Статус онлайн"
+                          aria-label={`Статус онлайн ${b.name}`}
                           className="border-icons-grey-950 bg-background-main-200! data-[state=checked]:text-icons-grey-950 size-4 disabled:opacity-100"
                           checked={!!b.isOnline}
                         />
@@ -212,21 +207,21 @@ function AdminMobileBusinessList({
                       <Link
                         href={`/admin/business/${b.id}`}
                         className="btn-reject placeholder-base px-2 py-2"
-                        aria-label="Переглянути бізнес"
+                        aria-label={`Переглянути бізнес ${b.name}`}
                       >
                         <IconEyeOpen className="size-5" />
                       </Link>
                       <Link
                         href={`/admin/business/${b.id}/edit`}
                         className="btn-reject placeholder-base px-2 py-2"
-                        aria-label="Редагувати бізнес"
+                        aria-label={`Редагувати бізнес ${b.name}`}
                       >
                         <EditPen className="size-5" />
                         {/* <span>Редагувати</span> */}
                       </Link>
                       <button
                         className="btn-reject placeholder-base px-2 py-2"
-                        aria-label="Видалити бізнес"
+                        aria-label={`Видалити бізнес ${b.name}`}
                         type="button"
                         onClick={() => {
                           setBusinessIdToDelete(b.id);

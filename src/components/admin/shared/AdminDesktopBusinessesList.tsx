@@ -105,6 +105,7 @@ function AdminDesktopBusinessesList({
 
                 <div className="title-h6 py-2">
                   <BusinessStatusForm
+                    businessName={b.name}
                     businessId={b.id}
                     currentStatus={b.status}
                     className="w-40"
@@ -122,7 +123,7 @@ function AdminDesktopBusinessesList({
                 <div className="flex items-center justify-between py-2">
                   <Checkbox
                     disabled
-                    aria-label="Статус онлайн"
+                    aria-label={`Статус онлайн ${b.name}`}
                     className="border-icons-grey-950! bg-background-main-200! data-[state=checked]:text-icons-grey-950 disabled:opacity-100 lg:mx-5 lg:size-4"
                     checked={!!b.isOnline}
                   />
@@ -138,7 +139,7 @@ function AdminDesktopBusinessesList({
                       side="left"
                     >
                       <DropdownMenuLabel className="sr-only">
-                        Відкрити меню
+                        Відкрити меню картки бізнесу {b.name}
                       </DropdownMenuLabel>
                       <DropdownMenuItem
                         asChild
@@ -153,10 +154,7 @@ function AdminDesktopBusinessesList({
                         asChild
                         className="placeholder-sm xl:placeholder-base cursor-pointer gap-0 px-3 lg:px-2"
                       >
-                        <Link
-                          href={`/admin/business/${b.id}/edit`}
-                          className=""
-                        >
+                        <Link href={`/admin/business/${b.id}/edit`}>
                           <EditPen className="mr-2 size-4 xl:mr-3 xl:size-5" />
                           Редагувати
                         </Link>
@@ -166,6 +164,7 @@ function AdminDesktopBusinessesList({
                         className="placeholder-sm xl:placeholder-base cursor-pointer gap-0 px-3 lg:px-2"
                       >
                         <button
+                          aria-label={`Видалити бізнес ${b.name}`}
                           className="text-icons-color-error focus:bg-elements-grey-200 hover:bg-elements-grey-200 xl:placeholder-base flex w-full cursor-pointer items-center rounded-sm border-none bg-white px-3 py-1.5 text-sm disabled:opacity-50 lg:px-2"
                           onClick={() => {
                             setBusinessIdToDelete(b.id);
