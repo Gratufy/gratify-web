@@ -6,11 +6,9 @@ interface DescriptionBlockProps {
 
 function DescriptionBlock({ description }: DescriptionBlockProps) {
   return (
-    <>
-      <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base">
-        {description}
-      </p>
-    </>
+    <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base">
+      {description}
+    </p>
   );
 }
 

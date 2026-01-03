@@ -1,0 +1,1 @@
+ALTER TABLE "business_votes" ADD CONSTRAINT "vote_value_check" CHECK ("business_votes"."vote" IN (-1, 1));

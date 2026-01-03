@@ -117,7 +117,10 @@ export const businessVotes = pgTable(
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
   },
-  (t) => [uniqueIndex('business_user_vote_unique').on(t.userId, t.businessId)]
+  (t) => [
+    uniqueIndex('business_user_vote_unique').on(t.userId, t.businessId),
+    check('vote_value_check', sql`${t.vote} IN (-1, 1)`),
+  ]
 );
 
 export const businessLocations = pgTable('business_locations', {

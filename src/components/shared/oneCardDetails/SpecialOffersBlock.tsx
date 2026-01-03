@@ -14,8 +14,6 @@ interface SpecialOffersProps {
 function SpecialOffersBlock({ specialOffers, ownOffers }: SpecialOffersProps) {
   const combinedOffers = [...ownOffers, ...specialOffers];
 
-  // const combinedOffers2 = [...specialOffers, ...ownOffers];
-  // console.log('combinedOffers2', combinedOffers2);
   return (
     <>
       {combinedOffers.length > 0 && (
