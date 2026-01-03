@@ -33,7 +33,7 @@ interface OwnBusinessListProps {
   enableInfiniteScroll?: boolean; // on/off infinity scroll
   linkPrefix?: string; // for different routes: `/business` , `/dashboard/business`
   includeCityQuery?: boolean; // CityQuery only for public list for now
-};
+}
 
 function OwnBusinessList({
   businesses,
@@ -106,6 +106,7 @@ function OwnBusinessList({
                     b.status === 'approved' ||
                     b.status === 'draft' ? (
                       <BusinessStatusForm
+                        businessName={b.name}
                         size="sm"
                         businessId={b.id}
                         currentStatus={b.status}
