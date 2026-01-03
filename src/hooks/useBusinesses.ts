@@ -42,8 +42,7 @@ export function useInfiniteBusinesses(
   params: Omit<GetBusinessesParams, 'limit' | 'offset'>
 ) {
   return useInfiniteQuery({
-    //queryKey: queryKeys.businessList(params),
-    queryKey: ['businesses', params],
+    queryKey: queryKeys.businessInfiniteList(params),
     queryFn: async ({ pageParam = 0 }) => {
       const result = await getBusinesses({
         ...params,
@@ -55,9 +54,8 @@ export function useInfiniteBusinesses(
         nextOffset: result.nextOffset,
       };
     },
-    //getNextPageParam: (lastPage) => lastPage.nextOffset,
+
     getNextPageParam: (lastPage) => {
-      // console.log("lastPage in getNextPageParam:", lastPage);
       return lastPage?.nextOffset ?? undefined;
     },
     staleTime: 1000 * 60 * 10, // 10 минут кеш
@@ -155,18 +153,6 @@ export function useDeleteBusiness() {
     },
   });
 }
-//get businesses by review status
-// export function useAdminBusinessesByReviewStatus(
-//   status: BusinessReviewStatus,
-//   categoryId?: string | null
-// ) {
-//   return useQuery({
-//     queryKey: ['adminBusinessesByReviewStatus', { status, categoryId }],
-//     queryFn: () =>
-//       getBusinessesWithReviewStatus(status, categoryId ?? undefined),
-//     staleTime: 1000 * 60 * 5,
-//   });
-// }
 
 // new one
 export function useAdminBusinesses(params: AdminBusinessesParams) {

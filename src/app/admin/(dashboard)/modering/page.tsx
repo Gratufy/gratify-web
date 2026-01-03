@@ -18,7 +18,7 @@ export default async function AdminModering() {
 
   const defaultParams = DEFAULT_ADMIN_FILTERS;
   await queryClient.prefetchQuery({
-    queryKey: [queryKeys.adminBusinesses(defaultParams)],
+    queryKey: queryKeys.adminBusinesses(defaultParams),
     queryFn: () => getBusinessesForAdmin({ ...defaultParams }),
   });
 
