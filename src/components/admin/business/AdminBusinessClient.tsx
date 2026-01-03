@@ -18,7 +18,6 @@ function AdminBusinessClient() {
     data: businesses,
     isLoading: isBusinessesLoading,
     isError: isBusinessesError,
-    isFetching,
 
     error,
   } = useBusinesses({
@@ -34,8 +33,6 @@ function AdminBusinessClient() {
       b.name.toLowerCase().includes(search.toLowerCase())
     );
   }, [businesses, search]);
-  console.log('isLoading', isBusinessesLoading);
-  console.log('isFetching', isFetching);
 
   return (
     <UserFavoritesProvider>
@@ -75,7 +72,7 @@ function AdminBusinessClient() {
             <OwnBusinessList
               // businesses={businesses?.data ?? []}
               businesses={filtered}
-              isLoading={isBusinessesLoading}
+              //isLoading={isBusinessesLoading}
               isError={isBusinessesError}
               error={error}
               linkPrefix="/admin/business"

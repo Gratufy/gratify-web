@@ -1,6 +1,6 @@
 // new one for Dashboard and Admin pages- OwnBusinessList.tsx
 'use client';
-import React, { useRef, useEffect, useState, ReactNode } from 'react';
+import React, { useState, ReactNode } from 'react';
 import Link from 'next/link';
 
 import { BusinessWithCategoryName } from '@/types';
@@ -12,7 +12,6 @@ import {
   getBusinessStatusCardBgColor,
 } from '@/lib/helpers/getBusinessStatusColorBg';
 
-import { Spinner } from '@/components/ui/spinner';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
 import BusinessCardShot from '@/components/shared/BusinessCardShot';
@@ -21,36 +20,36 @@ import { BusinessStatusForm } from '@/components/admin/shared/BusinessStatusForm
 
 interface OwnBusinessListProps {
   businesses: BusinessWithCategoryName[];
-  // selectedCity?: string;
-  isLoading?: boolean;
   isError?: boolean;
-
   error?: Error | null;
-  fetchNextPage?: () => void;
-  // onHover?: (id: string | null) => void;
-  hasNextPage?: boolean;
-  isFetchingNextPage?: boolean;
-  enableInfiniteScroll?: boolean; // on/off infinity scroll
   linkPrefix?: string; // for different routes: `/business` , `/dashboard/business`
+
+  // selectedCity?: string;
+  //isLoading?: boolean;
+  //fetchNextPage?: () => void;
+  // onHover?: (id: string | null) => void;
+  //hasNextPage?: boolean;
+  //isFetchingNextPage?: boolean;
+  //enableInfiniteScroll?: boolean; // on/off infinity scroll
+
   // includeCityQuery?: boolean; // CityQuery only for public list for now
 }
 
 function OwnBusinessList({
   businesses,
-  // selectedCity = '__all__',
-
   isError,
   error,
-  fetchNextPage,
-
-  hasNextPage,
-  isFetchingNextPage,
-  enableInfiniteScroll = false,
   linkPrefix = '/business',
+  // fetchNextPage,
+  // selectedCity = '__all__',
+  // hasNextPage,
+  // isFetchingNextPage,
+  // enableInfiniteScroll = false,
+
   // includeCityQuery = false,
   // onHover,
 }: OwnBusinessListProps) {
-  const loadMoreRef = useRef<HTMLDivElement>(null);
+  // const loadMoreRef = useRef<HTMLDivElement>(null);
   // for modal
   const { isLoggedIn, profile } = useAuth();
   const currentUserId = profile?.userId;
@@ -61,24 +60,24 @@ function OwnBusinessList({
   const [actionContent, setActionContent] = useState<ReactNode>(null);
   const [onConfirm, setOnConfirm] = useState<() => void>(() => {});
 
-  useEffect(() => {
-    if (!enableInfiniteScroll) return;
-    if (!loadMoreRef.current) return;
+  // useEffect(() => {
+  //   if (!enableInfiniteScroll) return;
+  //   if (!loadMoreRef.current) return;
 
-    const observer = new IntersectionObserver((entries) => {
-      if (
-        entries[0].isIntersecting &&
-        hasNextPage &&
-        !isFetchingNextPage &&
-        fetchNextPage
-      ) {
-        fetchNextPage();
-      }
-    });
+  //   const observer = new IntersectionObserver((entries) => {
+  //     if (
+  //       entries[0].isIntersecting &&
+  //       hasNextPage &&
+  //       !isFetchingNextPage &&
+  //       fetchNextPage
+  //     ) {
+  //       fetchNextPage();
+  //     }
+  //   });
 
-    observer.observe(loadMoreRef.current);
-    return () => observer.disconnect();
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage, enableInfiniteScroll]);
+  //   observer.observe(loadMoreRef.current);
+  //   return () => observer.disconnect();
+  // }, [fetchNextPage, hasNextPage, isFetchingNextPage, enableInfiniteScroll]);
 
   return (
     <section className="flex w-full flex-1 flex-col items-center overflow-hidden lg:w-[764px] xl:w-[900px]">
@@ -98,7 +97,7 @@ function OwnBusinessList({
                 <div
                   className={`max-[1024px]:max-w-150 mb-1 flex w-full items-center max-[1024px]:px-4 lg:mb-2 lg:gap-6`}
                 >
-                  <div className="">
+                  <div>
                     {/* //b.status === 'rejected' */}
                     {b.status === 'hidden' ||
                     b.status === 'approved' ||
@@ -173,11 +172,11 @@ function OwnBusinessList({
           })}
         </ul>
       )}
-      {enableInfiniteScroll && (
+      {/* {enableInfiniteScroll && (
         <div ref={loadMoreRef} className="h-4">
           {isFetchingNextPage && <Spinner />}
         </div>
-      )}
+      )} */}
       <CustomAlertDialog
         open={open}
         onOpenChange={setOpen}

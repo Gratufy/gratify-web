@@ -70,7 +70,7 @@ function BusinessHomeClient() {
             <OwnBusinessList
               // businesses={businesses?.data ?? []}
               businesses={filtered}
-              isLoading={isBusinessesLoading}
+              //isLoading={isBusinessesLoading}
               isError={isBusinessesError}
               error={error}
               linkPrefix="/dashboard/business"
