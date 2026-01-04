@@ -15,11 +15,14 @@ import IconRecycle from '@/assets/icons/menu/icon-recycle.svg';
 import EditPen from '@/assets/icons/general/feedback-edit.svg';
 import { Plus } from 'lucide-react';
 
+import { Label } from '@/components/ui/label';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
-import ReviewsSkeleton from '@/components/shared/skeletons/ReviewsSkeleton';
-import { Label } from '../ui/label';
+import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
-interface Props {
+import ReviewsSkeleton from '@/components/shared/skeletons/ReviewsSkeleton';
+
+
+interface BusinessReviewsProps {
   businessId: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isLoggedIn: boolean;
@@ -36,8 +39,8 @@ export default function BusinessReviews({
   setAlertTitle,
   setActionContent,
   setOnConfirm,
-}: Props) {
-  //   const queryClient = useQueryClient();
+}: BusinessReviewsProps) {
+  
   const router = useRouter();
   const user = useUserStore((state) => state.profile);
   const {
@@ -50,7 +53,8 @@ export default function BusinessReviews({
     'public'
     // 'approved'
   );
-
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [deleteReviewId, setDeleteReviewId] = useState<string | null>(null);
   const [newText, setNewText] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingText, setEditingText] = useState('');
@@ -104,17 +108,27 @@ export default function BusinessReviews({
   };
 
   const handleDelete = async (reviewId: string) => {
-    const confirmed = confirm('Are you sure you want to delete this review?');
-    if (!confirmed) return;
-    await deleteReviewMutation.mutateAsync(reviewId);
-    CustomToast({
-      type: 'success',
-      content: (
-        <>
-          <p className="font-semibold">Відгук успішно видалено!</p>
-        </>
-      ),
-    });
+    try {
+      await deleteReviewMutation.mutateAsync(reviewId);
+      CustomToast({
+        type: 'success',
+        content: (
+          <>
+            <p className="font-semibold">Відгук успішно видалено!</p>
+          </>
+        ),
+      });
+    } catch (error) {
+      CustomToast({
+        type: 'error',
+        content: (
+          <>
+            <p className="font-semibold">Помилка при видаленні категорії</p>
+          </>
+        ),
+      });
+      console.error('Error deleting category:', error);
+    }
   };
 
   return (
@@ -152,8 +166,12 @@ export default function BusinessReviews({
                         <>
                           <button
                             aria-label="Видалити відгук"
+                            aria-haspopup="dialog"
                             className="btn-custom text-icons-color-error border-none p-1"
-                            onClick={() => handleDelete(r.id)}
+                            onClick={() => {
+                              setDeleteReviewId(r.id);
+                              setDialogOpen(true);
+                            }}
                             disabled={deleteReviewMutation.isPending}
                           >
                             <IconRecycle
@@ -273,6 +291,19 @@ export default function BusinessReviews({
           </button>
         </div>
       </div>
+      {deleteReviewId && (
+        <CustomAlertDialog
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
+          title="Ви впевнені, що хочете видалити цей відгук?"
+          description="Цю дію не можна буде скасувати."
+          actionContent="Видалити"
+          cancelText="Скасувати"
+          classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
+          classNameDescription="text-center text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
+          onAction={() => handleDelete(deleteReviewId)}
+        />
+      )}
     </>
   );
 }

@@ -252,7 +252,7 @@ function AdminCategoriesClient() {
                           onClick={() => saveEditing(categoryId)}
                           disabled={isUpdating}
                         >
-                          <CheckIcon className="size-6" />
+                          <CheckIcon className="size-6" aria-hidden="true" />
                         </button>
                         <button
                           aria-label={`Скасувати редагування категорії ${name}`}
@@ -260,7 +260,7 @@ function AdminCategoriesClient() {
                           onClick={() => cancelEditing()}
                           disabled={isUpdating}
                         >
-                          <CrossIcon className="size-6" />
+                          <CrossIcon className="size-6" aria-hidden="true" />
                         </button>
                       </div>
                     </>
@@ -273,7 +273,7 @@ function AdminCategoriesClient() {
                           onClick={() => startEditing(categoryId, name)}
                           className="btn-custom border-none p-2"
                         >
-                          <EditPen className="size-6" />
+                          <EditPen className="size-6" aria-hidden="true" />
                         </button>
                         <button
                           aria-label={`Видалити категорію ${name}`}
@@ -307,7 +307,10 @@ function AdminCategoriesClient() {
                             // categoryId === "11111111-1111-1111-1111-111111111111"
                           }
                         >
-                          <IconRecycle className="text-text-warning size-6" />
+                          <IconRecycle
+                            className="text-text-warning size-6"
+                            aria-hidden="true"
+                          />
                         </button>
                       </div>
                     </>
