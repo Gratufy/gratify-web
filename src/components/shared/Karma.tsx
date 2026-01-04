@@ -7,6 +7,7 @@ import { useUserVote, useVoteBusiness } from '@/hooks/useVoteBusiness';
 import { Plus } from 'lucide-react';
 import { Minus } from 'lucide-react';
 import { VoteValue } from '@/types/enums';
+import { useBusiness } from '@/hooks/useBusinesses';
 
 interface KarmaProps {
   businessId: string;
@@ -30,7 +31,7 @@ function Karma({
   setOnConfirm,
 }: KarmaProps) {
   const router = useRouter();
-   const [karma, setKarma] = useState(initialKarma);
+  const [karma, setKarma] = useState(initialKarma);
   const [currentVote, setCurrentVote] = useState<VoteValue>(0);
   // if props change, update karma
 
