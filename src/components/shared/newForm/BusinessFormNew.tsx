@@ -537,7 +537,6 @@ export default function BusinessFormNew({
                 <div className="flex w-full items-start justify-between gap-6 lg:gap-5 xl:gap-6">
                   <div
                     id="special-offers-label"
-                    // htmlFor="specialOffers"
                     className="flex flex-col items-start gap-2"
                   >
                     <span className="title-h6">Спеціальні пропозиції*</span>
@@ -554,11 +553,8 @@ export default function BusinessFormNew({
                     <OffersMultiSelect
                       className="lg:w-[260px] xl:w-[364px]"
                       form={form as UseFormReturn<BusinessFormValues>}
-                      // className="placeholder:text-text-950-grey border-elements-grey-400 bg-background-white placeholder:text-xs"
                       offers={allSpecialOffers ?? []}
                       selectedOfferIds={field.value ?? []}
-                      // ownOfferLocalArr={ownOfferLocalArr}
-                      // setOwnOfferLocalArr={setOwnOfferLocalArr}
                       onChange={(offerId, checked) => {
                         let newValue = field.value ?? [];
                         if (checked) {
@@ -568,7 +564,6 @@ export default function BusinessFormNew({
                         }
                         field.onChange(newValue);
                       }}
-                      // error={form.formState.errors.specialOffers?.message as string}
                     />
                   </FormControl>
                 </div>

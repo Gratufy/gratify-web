@@ -18,35 +18,28 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { SpecialOffer } from '@/types/db';
-// import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
 
-// import CheckIcon from '@/assets/icons/general/icon-check.svg';
-// type Checked = DropdownMenuCheckboxItemProps['checked'];
 
 type CustomCheckBoxProps = {
   offers: SpecialOffer[]; // all offers
   selectedOfferIds: string[]; // currently selected
   onChange: (offerId: string, checked: boolean) => void; // change handler
-  error?: string;
+
   className?: string;
   form: UseFormReturn<BusinessFormValues>;
-  // ownOfferLocalArr: string[];
-  // setOwnOfferLocalArr: React.Dispatch<React.SetStateAction<string[]>>;
+
 };
 
 function OffersMultiSelect({
   offers,
   selectedOfferIds,
   onChange,
-  error,
+
   className,
   form,
-  // ownOfferLocalArr,
-  // setOwnOfferLocalArr,
+  
 }: CustomCheckBoxProps) {
-  // const [localSelectedOffers, setLocalSelectedOffers] = useState<
-  //   SpecialOffer[]
-  // >([]);
+  
   ///////////////////////////////////////////////
   const ownOffers = form.watch('ownOffers') || [];
   const specialOffers = form.watch('specialOffers') || [];
@@ -55,7 +48,6 @@ function OffersMultiSelect({
 
   const [ownOfferLocal, setOwnOfferLocal] = useState<string>('');
 
-  //const [ownOfferLocalArr, setOwnOfferLocalArr] = useState<string[]>([]);
   if (!offers || offers.length === 0) return <p>No special offers found</p>;
 
   const addOwnOffer = () => {
