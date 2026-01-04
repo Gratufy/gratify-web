@@ -587,8 +587,8 @@ export default function BusinessFormNew({
                     <p className="title-h6">Опис*</p>
                     <p className="caption">Максимальний розмір 3000 знаків</p>
                   </FormLabel>
-                  <div>
-                    <FormControl className="w-[70%] shrink-0">
+                  <div className="shrink-0 max-[1024px]:w-[70%]">
+                    <FormControl className="">
                       <Textarea
                         id="description"
                         minLength={20}
