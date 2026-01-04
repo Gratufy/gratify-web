@@ -32,10 +32,10 @@ export function useCreateReview() {
         queryKey: queryKeys.businessReviewsRoot(variables.businessId),
       });
       // delete?
-      queryClient.invalidateQueries({
-        queryKey: ['businessReviews'],
-        exact: false,
-      });
+      // queryClient.invalidateQueries({
+      //   queryKey: ['businessReviews'],
+      //   exact: false,
+      // });
       // карточка бизнеса (reviewCount и т.п.)
       queryClient.invalidateQueries({
         queryKey: queryKeys.businessById(variables.businessId),

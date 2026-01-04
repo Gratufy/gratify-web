@@ -7,7 +7,6 @@ import { useUserVote, useVoteBusiness } from '@/hooks/useVoteBusiness';
 import { Plus } from 'lucide-react';
 import { Minus } from 'lucide-react';
 import { VoteValue } from '@/types/enums';
-import { useBusiness } from '@/hooks/useBusinesses';
 
 interface KarmaProps {
   businessId: string;

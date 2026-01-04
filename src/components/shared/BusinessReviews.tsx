@@ -17,6 +17,7 @@ import { Plus } from 'lucide-react';
 
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import ReviewsSkeleton from '@/components/shared/skeletons/ReviewsSkeleton';
+import { Label } from '../ui/label';
 
 interface Props {
   businessId: string;
@@ -39,7 +40,12 @@ export default function BusinessReviews({
   //   const queryClient = useQueryClient();
   const router = useRouter();
   const user = useUserStore((state) => state.profile);
-  const { data: reviews, isLoading } = useBusinessReviews(
+  const {
+    data: reviews,
+    isLoading,
+    isError,
+    error,
+  } = useBusinessReviews(
     businessId,
     'public'
     // 'approved'
@@ -117,8 +123,13 @@ export default function BusinessReviews({
         Відгуки ({reviews?.length || 0})
       </h3>
       {isLoading && <ReviewsSkeleton count={3} />}
+      {isError && (
+        <p className="text-icons-color-error placeholder-sm xl:placeholder-base text-center">
+          {error?.message}
+        </p>
+      )}
       {/* -------------------------------------------- */}
-      {/* <ScrollArea className="h-[466px] w-full lg:h-[686px] xl:h-[518px]"> */}
+
       {/* Container with overflow-auto */}
       <div className="custom-scrollbar relative max-h-[466px] w-full overflow-y-auto lg:max-h-[686px] lg:pr-3 xl:max-h-[518px]">
         {reviews && reviews.length === 0 && (
@@ -140,19 +151,28 @@ export default function BusinessReviews({
                       {user.userId === r.userId && (
                         <>
                           <button
-                            className="bg-background-white flex cursor-pointer items-center justify-center rounded-full border-none p-1 hover:bg-gray-50"
+                            aria-label="Видалити відгук"
+                            className="btn-custom text-icons-color-error border-none p-1"
                             onClick={() => handleDelete(r.id)}
+                            disabled={deleteReviewMutation.isPending}
                           >
-                            <IconRecycle className="size-5 xl:size-6" />
+                            <IconRecycle
+                              className="size-5 xl:size-6"
+                              aria-hidden="true"
+                            />
                           </button>
                           <button
+                            aria-label="Редагувати відгук"
                             onClick={() => {
                               setEditingId(r.id);
                               setEditingText(r.text);
                             }}
-                            className="bg-background-white flex cursor-pointer items-center justify-center rounded-full border-none p-1 hover:bg-gray-50"
+                            className="btn-custom border-none p-1"
                           >
-                            <EditPen className="size-5 xl:size-6" />
+                            <EditPen
+                              className="size-5 xl:size-6"
+                              aria-hidden="true"
+                            />
                           </button>
                         </>
                       )}
@@ -166,8 +186,18 @@ export default function BusinessReviews({
                 <div className="w-full">
                   {editingId === r.id && (
                     <div className="p-6">
+                      <Label
+                        htmlFor={`edit-review-${r.id}`}
+                        className="sr-only"
+                      >
+                        Редагувати ваш відгук про цей бізнес
+                      </Label>
+                      <p id={`review-edit-help-${r.id}`} className="sr-only">
+                        Редагувати ваш відгук про цей бізнес
+                      </p>
                       <textarea
-                        name="review"
+                        aria-describedby={`review-edit-help-${r.id}`}
+                        id={`edit-review-${r.id}`}
                         value={editingText}
                         onChange={(e) => setEditingText(e.target.value)}
                         className="border-elements-grey-200 xl:placeholder-base placeholder-sm mb-5 h-32 w-full border-[0.5px] p-1"
@@ -175,13 +205,13 @@ export default function BusinessReviews({
                       <div className="flex items-center justify-center gap-7">
                         <button
                           onClick={() => setEditingId(null)}
-                          // className="bg-background-white xl:placeholder-base placeholder-sm border-background-main-300 shadow-menu flex cursor-pointer items-center justify-center border px-3 py-[6px]"
                           className="btn-reject"
                         >
                           Скасувати
                         </button>
                         <button
-                          className="bg-background-main-300 xl:placeholder-base placeholder-sm border-background-main-300 shadow-menu flex cursor-pointer items-center justify-center border px-3 py-[6px]"
+                          disabled={updateReview.isPending}
+                          className="btn-aprove"
                           onClick={() => handleEdit(r.id)}
                         >
                           Зберегти
@@ -213,17 +243,21 @@ export default function BusinessReviews({
 
       <div className="mt-2 flex flex-col pb-7 pt-5 lg:flex-row">
         <div className="title-h4 mb-6 lg:mb-0 lg:mr-6">
-          {' '}
-          <h4 className="title-h4 text-center">Додати відгук</h4>
+          <Label htmlFor="create-review" className="title-h4 text-center">
+            Додати відгук
+          </Label>
         </div>
 
         <div className="lg:pr-15 flex-1">
           {/* <p className="placeholder-sm xl:placeholder-base mb-2 font-medium lg:mt-1 lg:hidden">
             Відгук
           </p> */}
-
+          <p id="review-help" className="sr-only">
+            Напишіть ваш відгук про цей бізнес
+          </p>
           <textarea
-            name="add_review"
+            id="create-review"
+            aria-describedby="review-help"
             placeholder="Поділіться враженням..."
             value={newText}
             onChange={(e) => setNewText(e.target.value)}
@@ -231,9 +265,10 @@ export default function BusinessReviews({
           />
           <button
             onClick={handleAdd}
-            className="shadow-menu placeholder-sm xl:placeholder-base border-background-main-300 bg-background-main-300 lg:w-30 flex w-full cursor-pointer items-center justify-center border px-3 py-[6px]"
+            disabled={createReviewMutation.isPending || newText.trim() === ''}
+            className="btn-aprove lg:w-30"
           >
-            <Plus className="mr-[6px] size-3 font-medium" />
+            <Plus className="mr-[6px] size-3 font-medium" aria-hidden="true" />
             Додати
           </button>
         </div>
