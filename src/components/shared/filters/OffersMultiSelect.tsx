@@ -13,6 +13,7 @@ import { Label } from '@/components/ui/label';
 import {
   DropdownMenu,
   DropdownMenuContent,
+  //DropdownMenuItem,
   // DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
@@ -51,8 +52,9 @@ function OffersMultiSelect({
   const specialOffers = form.watch('specialOffers') || [];
 
   ///////////////////////////////////////////
-  const [showOwnPanel, setShowOwnPanel] = useState<boolean>(false);
+
   const [ownOfferLocal, setOwnOfferLocal] = useState<string>('');
+
   //const [ownOfferLocalArr, setOwnOfferLocalArr] = useState<string[]>([]);
   if (!offers || offers.length === 0) return <p>No special offers found</p>;
 
@@ -63,7 +65,6 @@ function OffersMultiSelect({
       ...(form.watch('ownOffers') ?? []),
     ]);
     setOwnOfferLocal('');
-    setShowOwnPanel(false);
   };
 
   const removeOwnOffer = (title: string) => {
@@ -75,7 +76,7 @@ function OffersMultiSelect({
   return (
     <div className={`w-[70%] shrink-0 ${className || ''}`}>
       {/* choosed offers */}
-      {!showOwnPanel && (specialOffers.length > 0 || ownOffers.length > 0) && (
+      {(specialOffers.length > 0 || ownOffers.length > 0) && (
         <div className="mb-2 flex flex-col gap-2">
           {/* choosed own offers */}
           {ownOffers.length > 0 && (
@@ -87,11 +88,12 @@ function OffersMultiSelect({
                 >
                   <p className="placeholder-sm">{ownOffer}</p>
                   <button
+                    aria-label={`видалити власну пропозицію ${ownOffer}`}
                     type="button"
                     onClick={() => removeOwnOffer(ownOffer)}
-                    className="cursor-pointer border-none outline-none"
+                    className="btn-custom border-none p-1"
                   >
-                    <CrossIcon className="size-4" />
+                    <CrossIcon className="size-4" aria-hidden="true" />
                   </button>
                 </div>
               ))}
@@ -109,31 +111,27 @@ function OffersMultiSelect({
                 <p className="placeholder-sm">{offer.title}</p>
                 <button
                   type="button"
+                  aria-label={`видалити пропозицію ${offer.title}`}
                   onClick={() => {
-                    // setLocalSelectedOffers((prev) =>
-                    //   prev.filter((o) => o.id !== offer.id)
-                    // );
-                    // onChange(offer.id, false);
                     form.setValue(
                       'specialOffers',
                       specialOffers.filter((i) => i !== offer.id)
                     );
                   }}
-                  className="cursor-pointer border-none outline-none"
+                  className="btn-custom border-none p-1"
                 >
-                  <CrossIcon className="size-4" />
+                  <CrossIcon className="size-4" aria-hidden="true" />
                 </button>
               </div>
             );
           })}
         </div>
       )}
-      {/* Own offer pannel */}
 
-      {/* ///////////////////////////// */}
+      {/* Own offer input */}
       <div className="mb-5 flex flex-col gap-3">
         <Label htmlFor="own-offer" className="sr-only">
-          власну пропозиція
+          Додайте власну пропозицію
         </Label>
         <Input
           id="own-offer"
@@ -147,13 +145,15 @@ function OffersMultiSelect({
         <div className="flex justify-between">
           <button
             type="button"
+            disabled={!ownOfferLocal.trim()}
             className="btn-reject px-3"
             onClick={() => setOwnOfferLocal('')}
           >
-            Скасувати
+            Очистити
           </button>
           <button
             type="button"
+            disabled={!ownOfferLocal.trim()}
             className="btn-aprove px-3"
             onClick={addOwnOffer}
           >
@@ -161,10 +161,10 @@ function OffersMultiSelect({
           </button>
         </div>
       </div>
-      {/* ///////////////////////////// */}
+      {/* Special offer input */}
       <DropdownMenu>
         <DropdownMenuTrigger className="standart w-full cursor-pointer justify-between px-4">
-          <span>Спеціальні пропозиції</span>
+          <span>Оберіть пропозиції</span>
           <ChevronDownIcon className="size-5" />
         </DropdownMenuTrigger>
         <DropdownMenuContent
@@ -174,6 +174,7 @@ function OffersMultiSelect({
         >
           {/* <DropdownMenuLabel>Select Categories</DropdownMenuLabel> */}
           {offers.map((offer) => (
+            // DropdownMenuItem if close after each click is needed
             <div
               key={offer.id}
               className="flex items-center justify-between gap-2"
@@ -185,17 +186,13 @@ function OffersMultiSelect({
                 {offer.title.toLowerCase()}
               </Label>
               <Checkbox
-                className="data-[state=checked]:text-text-950-grey data-[state=checked]:bg-background-white cursor-pointer border-none"
+                className="data-[state=checked]:text-text-950-grey data-[state=checked]:bg-background-white border-text-700-grey cursor-pointer"
                 id={offer.id}
                 checked={selectedOfferIds.includes(offer.id)}
                 onCheckedChange={(checked) => {
                   const isChecked = checked === true;
                   onChange(offer.id, isChecked);
-                  // setLocalSelectedOffers((prev) =>
-                  //   isChecked
-                  //     ? [...prev, offer]
-                  //     : prev.filter((id) => id !== offer)
-                  // );
+
                   const newValue = isChecked
                     ? [...specialOffers, offer.id]
                     : specialOffers.filter((id) => id !== offer.id);

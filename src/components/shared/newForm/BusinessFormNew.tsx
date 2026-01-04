@@ -592,21 +592,25 @@ export default function BusinessFormNew({
                     <p className="title-h6">Опис*</p>
                     <p className="caption">Максимальний розмір 3000 знаків</p>
                   </FormLabel>
-                  <FormControl className="w-[70%] shrink-0">
-                    <Textarea
-                      id="description"
-                      minLength={20}
-                      maxLength={1000}
-                      className="input-custom h-23 px-2 lg:h-[148px] lg:w-[315px] lg:px-3 xl:px-4"
-                      placeholder="Коротко опишіть ваші головні переваги, унікальні торгові пропозиціі"
-                      {...field}
-                    />
-                  </FormControl>
+                  <div>
+                    <FormControl className="w-[70%] shrink-0">
+                      <Textarea
+                        id="description"
+                        minLength={20}
+                        maxLength={1000}
+                        className="input-custom h-23 mb-1 px-2 lg:h-[148px] lg:w-[315px] lg:px-3 xl:px-4"
+                        placeholder="Коротко опишіть ваші головні переваги, унікальні торгові пропозиціі"
+                        {...field}
+                      />
+                    </FormControl>
+                    <p className="text-text-500-grey text-right text-xs">
+                      {field.value.length} / 1000
+                    </p>
+                  </div>
+
                   {/* <FormDescription>Description.</FormDescription> */}
                 </div>
-                <p className="text-text-500-grey ml-auto text-xs">
-                  {field.value.length} / 1000
-                </p>
+
                 <FormMessage className="placeholder-xs text-text-warning" />
               </FormItem>
             )}
