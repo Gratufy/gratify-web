@@ -51,18 +51,17 @@ import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import OffersMultiSelect from '@/components/shared/filters/OffersMultiSelect';
 import ImagesBlock from '@/components/shared/newForm/ImagesBlock';
 
-
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
 });
 
 type FormValues = v.InferOutput<typeof businessFormSchema>;
 
-interface BusinessFormProps  {
+interface BusinessFormProps {
   businessId?: string; // if edit
   defaultValues?: FormValues;
   existingImages?: BusinessImages;
-};
+}
 
 export default function BusinessFormNew({
   defaultValues,
@@ -109,7 +108,6 @@ export default function BusinessFormNew({
   } = useBusinessCategories();
   const createBusinessMutation = useCreateBusiness();
   const updateBusinessMutation = useUpdateBusiness();
-
   const checkAddressMutation = useCheckAddress();
   const { data: allSpecialOffers } = useAllSpecialOffers();
 
@@ -151,6 +149,7 @@ export default function BusinessFormNew({
   //     append({ city: '', address: '' });
   //   }
   // }, [fields.length, append]);
+
   useEffect(() => {
     if (fields.length === 0 && !locationsInitializedRef.current) {
       append({ city: '', address: '' });
@@ -158,6 +157,7 @@ export default function BusinessFormNew({
     }
   }, [fields.length, append]);
 
+  // validate city before check
   function validateCity(index: number): boolean {
     const loc = form.getValues(`locations.${index}`);
     if (!loc.city || loc.city.trim() === '') {
@@ -173,6 +173,7 @@ export default function BusinessFormNew({
     }
     return !!(loc.city && loc.city.trim() !== '');
   }
+  // validate address
   function validateAdress(index: number): boolean {
     const loc = form.getValues(`locations.${index}`);
     if (!loc.address || loc.address.trim() === '') {
@@ -442,7 +443,6 @@ export default function BusinessFormNew({
   return (
     <Form {...form}>
       <form
-        // onSubmit={form.handleSubmit(onSubmit, onError)}
         onSubmit={(e) => {
           const submitter = (e.nativeEvent as SubmitEvent)
             .submitter as HTMLButtonElement | null;
@@ -468,6 +468,8 @@ export default function BusinessFormNew({
                   <FormControl className="w-[70%] shrink-0 lg:w-[237px] xl:w-[267px]">
                     <Input
                       id="name-business"
+                      minLength={2}
+                      maxLength={70}
                       className="input-custom px-2 lg:px-3 xl:px-4"
                       placeholder="Назва"
                       {...field}
@@ -478,7 +480,7 @@ export default function BusinessFormNew({
 
                 <FormMessage
                   id="name-business"
-                  className="placeholder-xs text-text-warning text-center"
+                  className="placeholder-xs text-text-warning lg:mr-auto"
                 />
               </FormItem>
             )}
@@ -514,7 +516,7 @@ export default function BusinessFormNew({
 
                 <FormMessage
                   id="category"
-                  className="placeholder-xs text-text-warning text-center"
+                  className="placeholder-xs text-text-warning lg:ml-auto"
                 />
               </FormItem>
             )}
@@ -535,7 +537,6 @@ export default function BusinessFormNew({
                 <div className="flex w-full items-start justify-between gap-6 lg:gap-5 xl:gap-6">
                   <div
                     id="special-offers-label"
-                    // htmlFor="specialOffers"
                     className="flex flex-col items-start gap-2"
                   >
                     <span className="title-h6">Спеціальні пропозиції*</span>
@@ -552,11 +553,8 @@ export default function BusinessFormNew({
                     <OffersMultiSelect
                       className="lg:w-[260px] xl:w-[364px]"
                       form={form as UseFormReturn<BusinessFormValues>}
-                      // className="placeholder:text-text-950-grey border-elements-grey-400 bg-background-white placeholder:text-xs"
                       offers={allSpecialOffers ?? []}
                       selectedOfferIds={field.value ?? []}
-                      // ownOfferLocalArr={ownOfferLocalArr}
-                      // setOwnOfferLocalArr={setOwnOfferLocalArr}
                       onChange={(offerId, checked) => {
                         let newValue = field.value ?? [];
                         if (checked) {
@@ -566,12 +564,11 @@ export default function BusinessFormNew({
                         }
                         field.onChange(newValue);
                       }}
-                      // error={form.formState.errors.specialOffers?.message as string}
                     />
                   </FormControl>
                 </div>
 
-                <FormMessage className="placeholder-xs text-text-warning text-center" />
+                <FormMessage className="placeholder-xs text-text-warning" />
               </FormItem>
             )}
           />
@@ -590,19 +587,26 @@ export default function BusinessFormNew({
                     <p className="title-h6">Опис*</p>
                     <p className="caption">Максимальний розмір 3000 знаків</p>
                   </FormLabel>
-                  <FormControl className="w-[70%] shrink-0">
-                    <Textarea
-                      id="description"
-                      minLength={20}
-                      maxLength={400}
-                      className="input-custom h-23 px-2 lg:h-[148px] lg:w-[315px] lg:px-3 xl:px-4"
-                      placeholder="Коротко опишіть ваші головні переваги, унікальні торгові пропозиціі"
-                      {...field}
-                    />
-                  </FormControl>
+                  <div>
+                    <FormControl className="w-[70%] shrink-0">
+                      <Textarea
+                        id="description"
+                        minLength={20}
+                        maxLength={1000}
+                        className="input-custom h-23 mb-1 px-2 lg:h-[148px] lg:w-[315px] lg:px-3 xl:px-4"
+                        placeholder="Коротко опишіть ваші головні переваги, унікальні торгові пропозиціі"
+                        {...field}
+                      />
+                    </FormControl>
+                    <p className="text-text-500-grey text-right text-xs">
+                      {field.value.length} / 1000
+                    </p>
+                  </div>
+
                   {/* <FormDescription>Description.</FormDescription> */}
                 </div>
-                <FormMessage className="placeholder-xs text-text-warning text-center" />
+
+                <FormMessage className="placeholder-xs text-text-warning" />
               </FormItem>
             )}
           />
@@ -634,7 +638,7 @@ export default function BusinessFormNew({
                         htmlFor="online-check"
                         id="online-check-label"
                       >
-                        працюємо як он-лайн бізнес
+                        працюємо як online бізнес
                       </FormLabel>
                     </div>
 
@@ -669,7 +673,7 @@ export default function BusinessFormNew({
             {/** Location Fields */}
             {/* ------ */}
             {form.formState.errors.locations && (
-              <div className="placeholder-sm bg-text-warning/10 text-text-warning mb-4 mt-2 rounded py-2 text-center">
+              <div className="placeholder-sm bg-text-warning/10 text-text-warning mb-4 mt-2 px-3 py-2">
                 {form.formState.errors.locations.root?.message}
               </div>
             )}
@@ -732,6 +736,7 @@ export default function BusinessFormNew({
                               <Input
                                 id={`locations.${index}.address-input`}
                                 {...field}
+                                maxLength={200}
                                 placeholder="Вулиця, будівля, приміщення"
                                 className="input-custom mb-4 px-2 lg:px-3 xl:mb-6 xl:px-4"
                               />

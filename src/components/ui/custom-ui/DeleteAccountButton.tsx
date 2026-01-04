@@ -22,8 +22,6 @@ export default function DeleteAccountButton() {
 
   const handleDelete = async () => {
     setLoading(true);
-    // const confirmed = window.confirm('Confirm account deletion?');
-    // if (!confirmed) return;
 
     try {
       const res = await fetch('/api/delete-account', {

@@ -48,9 +48,6 @@ function AdminModeratingSection({
   const deleteBusinessMutation = useDeleteBusiness();
 
   const handleDelete = async (businessId: string) => {
-    // const confirmed = confirm('Are you sure you want to delete this business?');
-
-    // if (!confirmed) return;
     await deleteBusinessMutation.mutateAsync(businessId);
     CustomToast({
       type: 'success',
@@ -132,7 +129,6 @@ function AdminModeratingSection({
         classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
         classNameDescription="text-center text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
         onAction={() => handleDelete(businessIdToDelete)}
-        //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
       />
     </div>
   );
