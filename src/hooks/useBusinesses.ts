@@ -73,7 +73,8 @@ export function useBusiness(
     queryKey: queryKeys.businessById(businessId),
     queryFn: () => getBusinessById(businessId),
     initialData,
-    enabled: false, // do not fetch automatically
+    //enabled: false, // do not fetch automatically
+    staleTime: 1000 * 60 * 5,
   });
 }
 // create

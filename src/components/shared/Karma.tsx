@@ -7,6 +7,7 @@ import { useUserVote, useVoteBusiness } from '@/hooks/useVoteBusiness';
 import { Plus } from 'lucide-react';
 import { Minus } from 'lucide-react';
 import { VoteValue } from '@/types/enums';
+import { useBusiness } from '@/hooks/useBusinesses';
 
 interface KarmaProps {
   businessId: string;
@@ -38,8 +39,10 @@ function Karma({
   const voteMutation = useVoteBusiness(businessId);
 
   useEffect(() => {
+    console.log('in effect', initialKarma);
     setKarma(initialKarma);
   }, [initialKarma]);
+
   function normalizeVote(vote?: number): VoteValue {
     if (vote === 1 || vote === -1) return vote;
     return 0;
@@ -63,10 +66,10 @@ function Karma({
       setOpen(true);
       return;
     }
-    // const prev = userVote?.vote ?? 0;
-    const prev = currentVote;
-    //const newVote = prev === vote ? 0 : vote;
+    const prev = userVote?.vote ?? 0;
+    // const prev = currentVote;
     const newVote = prev === vote ? 0 : vote;
+
     const delta = newVote - prev;
     setKarma((k) => k + delta);
     setCurrentVote(newVote);
