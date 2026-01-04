@@ -30,7 +30,7 @@ function Karma({
   setOnConfirm,
 }: KarmaProps) {
   const router = useRouter();
-  const [karma, setKarma] = useState(initialKarma);
+   const [karma, setKarma] = useState(initialKarma);
   const [currentVote, setCurrentVote] = useState<VoteValue>(0);
   // if props change, update karma
 
@@ -38,8 +38,10 @@ function Karma({
   const voteMutation = useVoteBusiness(businessId);
 
   useEffect(() => {
+    console.log('in effect', initialKarma);
     setKarma(initialKarma);
   }, [initialKarma]);
+
   function normalizeVote(vote?: number): VoteValue {
     if (vote === 1 || vote === -1) return vote;
     return 0;
@@ -63,10 +65,10 @@ function Karma({
       setOpen(true);
       return;
     }
-    // const prev = userVote?.vote ?? 0;
-    const prev = currentVote;
-    //const newVote = prev === vote ? 0 : vote;
+    const prev = userVote?.vote ?? 0;
+    // const prev = currentVote;
     const newVote = prev === vote ? 0 : vote;
+
     const delta = newVote - prev;
     setKarma((k) => k + delta);
     setCurrentVote(newVote);
