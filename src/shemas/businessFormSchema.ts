@@ -9,10 +9,19 @@ const emptyToUndefined = v.transform((value: unknown) => {
 export const businessFormSchema = v.pipe(
   v.object({
     isOnline: v.boolean(), // checkbox for online status
-    name: v.pipe(v.string(), v.nonEmpty('Будь ласка, введіть назву бізнесу')),
+    // v.nonEmpty('Будь ласка, введіть назву бізнесу'))
+    name: v.pipe(
+      v.string(),
+      v.nonEmpty('Будь ласка, введіть назву бізнесу'),
+      v.minLength(2, 'Назва має містити щонайменше 2 символи'),
+      v.maxLength(70, 'Назва не може перевищувати 70 символів')
+    ),
     description: v.pipe(
       v.string(),
-      v.nonEmpty('Будь ласка, введіть опис бізнесу')
+      v.nonEmpty('Будь ласка, введіть опис бізнесу'),
+      v.minLength(20, 'Опис має містити щонайменше 20 символів'),
+      v.maxLength(1000, 'Опис не може перевищувати 1000 символів')
+      // v.nonEmpty('Будь ласка, введіть опис бізнесу')
     ),
     website: v.pipe(
       v.any(),
@@ -23,7 +32,14 @@ export const businessFormSchema = v.pipe(
     ),
 
     specialOffers: v.array(v.string()),
-    ownOffers: v.array(v.string()),
+    // ownOffers: v.array(v.string()),
+    ownOffers: v.array(
+      v.pipe(
+        v.string(),
+        v.minLength(5, 'Пропозиція занадто коротка'),
+        v.maxLength(100, 'Пропозиція занадто довга')
+      )
+    ),
     category: v.pipe(
       v.string(),
       v.nonEmpty('Будь ласка, оберіть категорію бізнесу')
@@ -31,7 +47,13 @@ export const businessFormSchema = v.pipe(
     locations: v.array(
       v.object({
         city: v.optional(v.string()),
-        address: v.optional(v.string()),
+        // address: v.optional(v.string()),
+        address: v.optional(
+          v.pipe(
+            v.string(),
+            v.maxLength(200, 'Адреса не може перевищувати 200 символів')
+          )
+        ),
         latitude: v.optional(v.number()),
         longitude: v.optional(v.number()),
         // latitude: v.optional(v.nullable(v.number())),

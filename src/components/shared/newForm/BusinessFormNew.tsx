@@ -468,6 +468,8 @@ export default function BusinessFormNew({
                   <FormControl className="w-[70%] shrink-0 lg:w-[237px] xl:w-[267px]">
                     <Input
                       id="name-business"
+                      minLength={2}
+                      maxLength={70}
                       className="input-custom px-2 lg:px-3 xl:px-4"
                       placeholder="Назва"
                       {...field}
@@ -594,7 +596,7 @@ export default function BusinessFormNew({
                     <Textarea
                       id="description"
                       minLength={20}
-                      maxLength={400}
+                      maxLength={1000}
                       className="input-custom h-23 px-2 lg:h-[148px] lg:w-[315px] lg:px-3 xl:px-4"
                       placeholder="Коротко опишіть ваші головні переваги, унікальні торгові пропозиціі"
                       {...field}
@@ -602,6 +604,9 @@ export default function BusinessFormNew({
                   </FormControl>
                   {/* <FormDescription>Description.</FormDescription> */}
                 </div>
+                <p className="text-text-500-grey ml-auto text-xs">
+                  {field.value.length} / 1000
+                </p>
                 <FormMessage className="placeholder-xs text-text-warning" />
               </FormItem>
             )}
@@ -634,7 +639,7 @@ export default function BusinessFormNew({
                         htmlFor="online-check"
                         id="online-check-label"
                       >
-                        працюємо як он-лайн бізнес
+                        працюємо як online бізнес
                       </FormLabel>
                     </div>
 
@@ -732,6 +737,7 @@ export default function BusinessFormNew({
                               <Input
                                 id={`locations.${index}.address-input`}
                                 {...field}
+                                maxLength={200}
                                 placeholder="Вулиця, будівля, приміщення"
                                 className="input-custom mb-4 px-2 lg:px-3 xl:mb-6 xl:px-4"
                               />
