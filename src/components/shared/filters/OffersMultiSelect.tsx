@@ -75,7 +75,6 @@ function OffersMultiSelect({
   return (
     <div className={`w-[70%] shrink-0 ${className || ''}`}>
       {/* choosed offers */}
-
       {!showOwnPanel && (specialOffers.length > 0 || ownOffers.length > 0) && (
         <div className="mb-2 flex flex-col gap-2">
           {/* choosed own offers */}
@@ -130,52 +129,39 @@ function OffersMultiSelect({
         </div>
       )}
       {/* Own offer pannel */}
-      {showOwnPanel && (
-        <div className="mb-5 flex flex-col gap-3">
-          <div className="bg-background-grey-50 standart justify-between px-4">
-            <p className="placeholder-sm">свій вариант</p>
-            <button
-              type="button"
-              onClick={() => {
-                //setOwnOfferLocalArr((prev)=>[...prev,ownOfferLocal]);
-                // onChange(offer.id, false);
-                setShowOwnPanel(false);
-              }}
-              className="cursor-pointer border-none outline-none"
-            >
-              <CrossIcon className="size-4" />
-            </button>
-          </div>
-          <Label htmlFor="own-offer" className="sr-only">
-            власну пропозиція
-          </Label>
-          <Input
-            id="own-offer"
-            className="input-custom px-4"
-            placeholder="Напишить власну пропозицію"
-            minLength={5}
-            maxLength={100}
-            value={ownOfferLocal}
-            onChange={(e) => setOwnOfferLocal(e.currentTarget.value)}
-          />
-          <div className="flex justify-between">
-            <button
-              type="button"
-              className="btn-reject px-3"
-              onClick={() => setOwnOfferLocal('')}
-            >
-              Скасувати
-            </button>
-            <button
-              type="button"
-              className="btn-aprove px-3"
-              onClick={addOwnOffer}
-            >
-              Зберегти
-            </button>
-          </div>
+
+      {/* ///////////////////////////// */}
+      <div className="mb-5 flex flex-col gap-3">
+        <Label htmlFor="own-offer" className="sr-only">
+          власну пропозиція
+        </Label>
+        <Input
+          id="own-offer"
+          className="input-custom px-4"
+          placeholder="Напишить власну пропозицію"
+          minLength={5}
+          maxLength={100}
+          value={ownOfferLocal}
+          onChange={(e) => setOwnOfferLocal(e.currentTarget.value)}
+        />
+        <div className="flex justify-between">
+          <button
+            type="button"
+            className="btn-reject px-3"
+            onClick={() => setOwnOfferLocal('')}
+          >
+            Скасувати
+          </button>
+          <button
+            type="button"
+            className="btn-aprove px-3"
+            onClick={addOwnOffer}
+          >
+            Зберегти
+          </button>
         </div>
-      )}
+      </div>
+      {/* ///////////////////////////// */}
       <DropdownMenu>
         <DropdownMenuTrigger className="standart w-full cursor-pointer justify-between px-4">
           <span>Спеціальні пропозиції</span>
@@ -218,15 +204,6 @@ function OffersMultiSelect({
               />
             </div>
           ))}
-          <button
-            type="button"
-            onClick={() => {
-              setShowOwnPanel(true);
-            }}
-            className="placeholder-sm flex w-full cursor-pointer justify-start"
-          >
-            <span>cвій вариант</span>
-          </button>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
