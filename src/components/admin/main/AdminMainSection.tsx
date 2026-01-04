@@ -44,9 +44,7 @@ function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
   const deleteBusinessMutation = useDeleteBusiness();
 
   const handleDelete = async (businessId: string) => {
-    // const confirmed = confirm('Are you sure you want to delete this business?');
-
-    // if (!confirmed) return;
+    
     await deleteBusinessMutation.mutateAsync(businessId);
     CustomToast({
       type: 'success',
@@ -127,7 +125,7 @@ function AdminMainSection({ totalBusinesses }: { totalBusinesses: number }) {
         classNameTitle="xl:placeholder-base! placeholder-sm! font-normal text-center"
         classNameDescription="text-center text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
         onAction={() => handleDelete(businessIdToDelete)}
-        //  setOnConfirm(() => () => removeFavorite.mutate(business.id));
+        
       />
     </div>
   );
