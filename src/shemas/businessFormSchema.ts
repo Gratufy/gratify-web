@@ -59,7 +59,7 @@ export const businessFormSchema = v.pipe(
         // if online but no website -> error
         return !(data.isOnline && !data.website);
       },
-      "Посилка на сайт є обов'язковою для онлайн бізнесу."
+      "Посилання на сайт є обов'язковим для online бізнесу."
     ),
     ['website']
   ),
@@ -78,7 +78,7 @@ export const businessFormSchema = v.pipe(
           )
         );
       },
-      'Будь ласка, додайте принаймні одну локацію з містом для офлайн бізнесу.'
+      'Будь ласка, додайте принаймні одну локацію з містом для офлайн бізнесу. Чи позначте бізнес як online.'
     ),
     ['locations']
   )

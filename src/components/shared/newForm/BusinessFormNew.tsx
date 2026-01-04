@@ -51,18 +51,17 @@ import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import OffersMultiSelect from '@/components/shared/filters/OffersMultiSelect';
 import ImagesBlock from '@/components/shared/newForm/ImagesBlock';
 
-
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
 });
 
 type FormValues = v.InferOutput<typeof businessFormSchema>;
 
-interface BusinessFormProps  {
+interface BusinessFormProps {
   businessId?: string; // if edit
   defaultValues?: FormValues;
   existingImages?: BusinessImages;
-};
+}
 
 export default function BusinessFormNew({
   defaultValues,
@@ -109,7 +108,6 @@ export default function BusinessFormNew({
   } = useBusinessCategories();
   const createBusinessMutation = useCreateBusiness();
   const updateBusinessMutation = useUpdateBusiness();
-
   const checkAddressMutation = useCheckAddress();
   const { data: allSpecialOffers } = useAllSpecialOffers();
 
@@ -151,6 +149,7 @@ export default function BusinessFormNew({
   //     append({ city: '', address: '' });
   //   }
   // }, [fields.length, append]);
+
   useEffect(() => {
     if (fields.length === 0 && !locationsInitializedRef.current) {
       append({ city: '', address: '' });
@@ -158,6 +157,7 @@ export default function BusinessFormNew({
     }
   }, [fields.length, append]);
 
+  // validate city before check
   function validateCity(index: number): boolean {
     const loc = form.getValues(`locations.${index}`);
     if (!loc.city || loc.city.trim() === '') {
@@ -173,6 +173,7 @@ export default function BusinessFormNew({
     }
     return !!(loc.city && loc.city.trim() !== '');
   }
+  // validate address
   function validateAdress(index: number): boolean {
     const loc = form.getValues(`locations.${index}`);
     if (!loc.address || loc.address.trim() === '') {
@@ -442,7 +443,6 @@ export default function BusinessFormNew({
   return (
     <Form {...form}>
       <form
-        // onSubmit={form.handleSubmit(onSubmit, onError)}
         onSubmit={(e) => {
           const submitter = (e.nativeEvent as SubmitEvent)
             .submitter as HTMLButtonElement | null;
@@ -478,7 +478,7 @@ export default function BusinessFormNew({
 
                 <FormMessage
                   id="name-business"
-                  className="placeholder-xs text-text-warning text-center"
+                  className="placeholder-xs text-text-warning lg:mr-auto"
                 />
               </FormItem>
             )}
@@ -514,7 +514,7 @@ export default function BusinessFormNew({
 
                 <FormMessage
                   id="category"
-                  className="placeholder-xs text-text-warning text-center"
+                  className="placeholder-xs text-text-warning lg:ml-auto"
                 />
               </FormItem>
             )}
@@ -571,7 +571,7 @@ export default function BusinessFormNew({
                   </FormControl>
                 </div>
 
-                <FormMessage className="placeholder-xs text-text-warning text-center" />
+                <FormMessage className="placeholder-xs text-text-warning" />
               </FormItem>
             )}
           />
@@ -602,7 +602,7 @@ export default function BusinessFormNew({
                   </FormControl>
                   {/* <FormDescription>Description.</FormDescription> */}
                 </div>
-                <FormMessage className="placeholder-xs text-text-warning text-center" />
+                <FormMessage className="placeholder-xs text-text-warning" />
               </FormItem>
             )}
           />
@@ -669,7 +669,7 @@ export default function BusinessFormNew({
             {/** Location Fields */}
             {/* ------ */}
             {form.formState.errors.locations && (
-              <div className="placeholder-sm bg-text-warning/10 text-text-warning mb-4 mt-2 rounded py-2 text-center">
+              <div className="placeholder-sm bg-text-warning/10 text-text-warning mb-4 mt-2 px-3 py-2">
                 {form.formState.errors.locations.root?.message}
               </div>
             )}
