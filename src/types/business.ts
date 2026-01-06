@@ -179,3 +179,8 @@ export interface AdminBusinessesParams {
   showOnlineStatus?: OnlineFilter;
   sortBy?: AdminSort;
 }
+///
+export type LatLng = {
+  lat: number;
+  lng: number;
+};

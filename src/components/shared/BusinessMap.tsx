@@ -24,7 +24,7 @@ type BusinessMapProps = {
   onDragEnd?: (lat: number, lng: number) => void;
   className?: string;
   height?: number | string;
-  isForm?: boolean; // <-- flag
+  //isForm?: boolean; // <-- flag
 };
 function BusinessMap({
   lat,

@@ -50,11 +50,16 @@ import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 
 import OffersMultiSelect from '@/components/shared/filters/OffersMultiSelect';
 import ImagesBlock from '@/components/shared/newForm/ImagesBlock';
+import { getDistanceMeters } from '@/lib/helpers/getDistanceMeters';
 
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
 });
 
+type LocationWarning = {
+  distance: number;
+  type: 'none' | 'notice' | 'warning' | 'error'; // <300 — none, 300–1000 — warning, >1000 — error
+};
 type FormValues = v.InferOutput<typeof businessFormSchema>;
 
 interface BusinessFormProps {
@@ -79,8 +84,6 @@ export default function BusinessFormNew({
       isCover: false,
     }))
   );
-  // for button Перевірити Location
-  const [checkingIndex, setCheckingIndex] = useState<number | null>(null);
 
   // photo
   useEffect(() => {
@@ -130,25 +133,23 @@ export default function BusinessFormNew({
     name: 'locations',
   });
 
+  // for button Перевірити Location
+  const [checkingIndex, setCheckingIndex] = useState<number | null>(null);
   // local state for check
   const [mapOpenIndex, setMapOpenIndex] = useState<number | null>(null);
+  // when map is open, store temp lat lng
   const [tempLatLng, setTempLatLng] = useState<{
     lat: number;
     lng: number;
   } | null>(null);
-  //locations
-  // useEffect(() => {
-  //   if (!defaultValues && fields.length === 0) {
-  //     append({ city: '', address: '' });
-  //   }
-  // }, [defaultValues, fields.length, append]);
-
-  // useEffect(() => {
-  //   if (fields.length === 0) {
-  //     console.log('Appending initial location field');
-  //     append({ city: '', address: '' });
-  //   }
-  // }, [fields.length, append]);
+  // for distance check
+  const [initialLatLng, setInitialLatLng] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+  const [locationWarnings, setLocationWarnings] = useState<LocationWarning[]>(
+    []
+  );
 
   useEffect(() => {
     if (fields.length === 0 && !locationsInitializedRef.current) {
@@ -196,6 +197,16 @@ export default function BusinessFormNew({
   async function handleOpenCheck(index: number) {
     setCheckingIndex(index);
     setMapOpenIndex(null);
+    const savedLat = form.getValues(`locations.${index}.latitude`);
+    const savedLng = form.getValues(`locations.${index}.longitude`);
+    if (savedLat && savedLng) {
+      const point = { lat: savedLat, lng: savedLng };
+
+      setTempLatLng(point);
+      setMapOpenIndex(index);
+      setCheckingIndex(null);
+      return;
+    }
     const ifCityValid = validateCity(index);
     if (!ifCityValid) return;
     const ifAddressValid = validateAdress(index);
@@ -234,8 +245,11 @@ export default function BusinessFormNew({
         });
         return;
       }
-
+      //for check distance
+      setInitialLatLng({ lat: res.latitude, lng: res.longitude });
+      ///
       setTempLatLng({ lat: res.latitude, lng: res.longitude });
+
       setMapOpenIndex(index);
     } catch (error) {
       console.error('Check address failed:', error);
@@ -255,7 +269,58 @@ export default function BusinessFormNew({
   }
   // to confirm location
   function handleConfirmLocation() {
-    if (tempLatLng === null || mapOpenIndex === null) return;
+    if (initialLatLng === null || tempLatLng === null || mapOpenIndex === null)
+      return;
+
+    const distance = getDistanceMeters(initialLatLng, tempLatLng);
+    // Обновляем уведомление
+    setLocationWarnings((prev) => {
+      const newWarnings = [...prev];
+      newWarnings[mapOpenIndex] = {
+        distance,
+        type:
+          distance < 100
+            ? 'none'
+            : distance < 300
+              ? 'notice'
+              : distance <= 1000
+                ? 'warning'
+                : 'error',
+      };
+      return newWarnings;
+    });
+    console.log('distance', distance);
+    if (distance > 300 && distance <= 1000) {
+      CustomToast({
+        type: 'warning',
+        content: (
+          <>
+            <p className="font-semibold">
+              Відстань між початковою та новою локацією занадто велика.
+            </p>
+            <p>
+              Ви можете підтвердити локацію, якщо впевнені в правильності
+              введених координат.
+            </p>
+          </>
+        ),
+      });
+    }
+    if (distance > 1000) {
+      CustomToast({
+        type: 'error',
+        content: (
+          <>
+            <p className="font-semibold">
+              Відстань між початковою та новою локацією занадто велика.
+            </p>
+            <p>Будь ласка, перевірте правильність введених координат.</p>
+          </>
+        ),
+      });
+      return;
+    }
+
     form.setValue(`locations.${mapOpenIndex}.latitude`, tempLatLng.lat, {
       shouldValidate: true,
     });
@@ -765,9 +830,7 @@ export default function BusinessFormNew({
                         </div>
 
                         {/* ................ */}
-                        {/* {fields[index]?.city?.trim() !== '' && ( */}
 
-                        {/* {fields.length === 0 && ( */}
                         <button
                           type="button"
                           className="bg-icons-color-accent/60 btn-aprove disabled:cursor-not-allowed disabled:opacity-50 max-[1024px]:w-40"
@@ -808,7 +871,7 @@ export default function BusinessFormNew({
                                 setTempLatLng({ lat, lng })
                               }
                               height={360}
-                              isForm
+                              // isForm
                             />
                             <p className="placeholder-sm my-3 text-center">
                               Ви можете перетягувати маркер, щоб уточнити
@@ -828,11 +891,41 @@ export default function BusinessFormNew({
                                 className="border-background-main-300 placeholder-sm xl:placeholder-base w-50 rounded-none border"
                                 onClick={() => setMapOpenIndex(null)}
                               >
-                                Закрити без збереження
+                                Скасувати зміни
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="secondary"
+                                className="border-background-main-300 placeholder-sm xl:placeholder-base w-50 rounded-none border"
+                                onClick={() => setTempLatLng(initialLatLng)}
+                              >
+                                Початкові координати
                               </Button>
                             </div>
                           </div>
                         )}
+                      {locationWarnings[index]?.type === 'notice' && (
+                        <p className="mb-2 mt-1 flex items-center gap-1 text-sm text-blue-600">
+                          <span>ℹ️</span>
+                          <span>
+                            Координати змінені на{' '}
+                            {Math.round(locationWarnings[index].distance)}{' '}
+                            метрів
+                          </span>
+                        </p>
+                      )}
+                      {locationWarnings[index]?.type === 'warning' && (
+                        <p className="mb-2 mt-1 text-sm text-yellow-600">
+                          ⚠️ Координати змінені на{' '}
+                          {Math.round(locationWarnings[index].distance)} метрів
+                        </p>
+                      )}
+
+                      {locationWarnings[index]?.type === 'error' && (
+                        <p className="mb-2 mt-1 text-sm text-red-600">
+                          ❌ Координати змінені більше 1 км. Перевірте адресу
+                        </p>
+                      )}
                     </div>
                     {index === fields.length - 1 && (
                       <button
