@@ -17,7 +17,7 @@ export function renderLocations(b: BusinessWithDetails, selectedCity: string) {
             .map((loc, idx) => (
               <li key={idx}>
                 <address className="title-h6 not-italic">
-                  м. {getCityLabel(loc.city)},{' '}
+                  м. {getCityLabel(loc.city)},&nbsp;
                   {loc.address?.trim() || ' адреса не додана'}
                 </address>
               </li>
@@ -57,7 +57,7 @@ export function renderLocations(b: BusinessWithDetails, selectedCity: string) {
             .map((loc, idx) => (
               <li key={idx}>
                 <address className="title-h6 not-italic">
-                  м. {getCityLabel(loc.city)},
+                  м. {getCityLabel(loc.city)}, &nbsp;
                   {loc.address?.trim() || ' адреса не додана'}
                 </address>
               </li>

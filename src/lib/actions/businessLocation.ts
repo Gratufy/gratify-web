@@ -60,7 +60,6 @@ export async function checkAddress(city: string, address: string) {
   //   },
   // });
   const response = await fetch(url.toString());
-  //'Nominatim request failed'
 
   if (response.status === 403) {
     throw new Error('ACCESS_BLOCKED');
@@ -79,8 +78,6 @@ export async function checkAddress(city: string, address: string) {
     latitude: parseFloat(data[0].lat),
     longitude: parseFloat(data[0].lon),
     displayName: data[0].display_name,
-    // latitude: parseFloat(data[0].lat),
-    // longitude: parseFloat(data[0].lon),
   };
 }
 export async function saveBusinessLocations(

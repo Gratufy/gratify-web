@@ -38,7 +38,6 @@ function Karma({
   const voteMutation = useVoteBusiness(businessId);
 
   useEffect(() => {
-    console.log('in effect', initialKarma);
     setKarma(initialKarma);
   }, [initialKarma]);
 
