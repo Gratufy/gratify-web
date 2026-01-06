@@ -19,7 +19,12 @@ import { UKRAINE_REGIONAL_CENTERS_WITHOUT_ALL } from '@/const/regions';
 import { businessFormSchema } from '@/shemas/businessFormSchema';
 
 import { BusinessStatus } from '@/types/enums';
-import { BusinessFormValues, BusinessImages, BusinessUpdate } from '@/types';
+import {
+  BusinessFormValues,
+  BusinessImages,
+  BusinessUpdate,
+  LatLng,
+} from '@/types';
 import { PreviewImage } from '@/types/images';
 
 import { useCheckAddress } from '@/hooks/useBusinessLocation';
@@ -135,16 +140,15 @@ export default function BusinessFormNew({
   const [checkingIndex, setCheckingIndex] = useState<number | null>(null);
   // local state for check
   const [mapOpenIndex, setMapOpenIndex] = useState<number | null>(null);
-  // when map is open, store temp lat lng
-  const [tempLatLng, setTempLatLng] = useState<{
-    lat: number;
-    lng: number;
-  } | null>(null);
+  // // то, что пользователь двигает на карте
+  const [tempLatLng, setTempLatLng] = useState<LatLng | null>(null);
   // for distance check and this is from server or previous confirmed
-  const [initialLatLng, setInitialLatLng] = useState<{
-    lat: number;
-    lng: number;
-  } | null>(null);
+  // const [initialLatLng, setInitialLatLng] = useState<{
+  //   lat: number;
+  //   lng: number;
+  // } | null>(null);
+  // ЭТАЛОН — координаты из адреса (геокодинг)
+  const [addressLatLng, setAddressLatLng] = useState<LatLng | null>(null);
   const [locationWarnings, setLocationWarnings] = useState<LocationWarning[]>(
     []
   );
@@ -198,38 +202,12 @@ export default function BusinessFormNew({
   async function handleOpenCheck(index: number) {
     setCheckingIndex(index);
     setMapOpenIndex(null);
-    const savedLat = form.getValues(`locations.${index}.latitude`);
-    const savedLng = form.getValues(`locations.${index}.longitude`);
-    if (savedLat != null && savedLng != null) {
-      const point = { lat: savedLat, lng: savedLng };
-
-      setInitialLatLng(point);
-      setTempLatLng(point);
-      setMapOpenIndex(index);
-      setCheckingIndex(null);
-      //not look for location if already have coords
-      return;
-    }
+    //  проверки формы
     const ifCityValid = validateCity(index);
     if (!ifCityValid) return;
     const ifAddressValid = validateAdress(index);
     if (!ifAddressValid) return;
 
-    // it is allowed  that city is valid but address is not
-    //but we do not open map in this case
-    // if (!ifCityValid && ifAddressValid) {
-    //   console.log('HIER');
-    //   CustomToast({
-    //     type: 'warning',
-    //     content: (
-    //       <>
-    //         <p className="font-semibold">Будь ласка, вкажить спочатку місто</p>
-    //       </>
-    //     ),
-    //   });
-    //   setCheckingIndex(null);
-    //   return;
-    // }
     const loc = form.getValues(`locations.${index}`);
     if (!loc.city || !loc.address) {
       setCheckingIndex(null);
@@ -237,6 +215,7 @@ export default function BusinessFormNew({
     }
 
     try {
+      // получаем эталон из адреса (геокодинг)
       const res = await checkAddressMutation.mutateAsync({
         city: loc.city,
         address: loc.address,
@@ -254,11 +233,19 @@ export default function BusinessFormNew({
         });
         return;
       }
-      //for check distance
-      setInitialLatLng({ lat: res.latitude, lng: res.longitude });
-      ///
-      setTempLatLng({ lat: res.latitude, lng: res.longitude });
+      const addressPoint = { lat: res.latitude, lng: res.longitude };
+      setAddressLatLng(addressPoint);
 
+      // 3️ tempLatLng
+      // edit → берем сохранённые координаты
+      // create → берём адрес
+      const savedLat = form.getValues(`locations.${index}.latitude`);
+      const savedLng = form.getValues(`locations.${index}.longitude`);
+      if (savedLat != null && savedLng != null) {
+        setTempLatLng({ lat: savedLat, lng: savedLng });
+      } else {
+        setTempLatLng(addressPoint);
+      }
       setMapOpenIndex(index);
     } catch (error) {
       console.error('Check address failed:', error);
@@ -278,12 +265,13 @@ export default function BusinessFormNew({
   }
   // to confirm location
   function handleConfirmLocation() {
-    if (initialLatLng === null || tempLatLng === null || mapOpenIndex === null)
-      return;
-    console.log('initialLatLng ', initialLatLng);
+    if (!addressLatLng || !tempLatLng || mapOpenIndex === null) return;
+
+    console.log('initialLatLng ', addressLatLng);
     console.log('tempLatLng', tempLatLng);
-    const distance = getDistanceMeters(initialLatLng, tempLatLng);
+    const distance = getDistanceMeters(addressLatLng, tempLatLng);
     console.log('distance', distance);
+
     // Обновляем уведомление
     setLocationWarnings((prev) => {
       const newWarnings = [...prev];
@@ -332,6 +320,7 @@ export default function BusinessFormNew({
       return;
     }
 
+    //  сохраняем ТОЛЬКО tempLatLng
     form.setValue(`locations.${mapOpenIndex}.latitude`, tempLatLng.lat, {
       shouldValidate: true,
     });
@@ -921,32 +910,33 @@ export default function BusinessFormNew({
                               Ви можете перетягувати маркер, щоб уточнити
                               локацію.
                             </p>
-                            {tempLatLng !== initialLatLng && (
-                              <div className="flex flex-col items-center justify-center gap-4 lg:flex-row">
-                                <button
-                                  type="button"
-                                  onClick={handleConfirmLocation}
-                                  className="btn-aprove hover:bg-primary/90 focus:bg-primary/90 w-50 bg-primary border-primary text-text-50-grey text-nowrap"
-                                  // className="placeholder-sm xl:placeholder-base w-50 rounded-none"
-                                >
-                                  Підтвердити координати
-                                </button>
-                                <button
-                                  type="button"
-                                  className="btn-aprove bg-elements-grey-200/60 hover:bg-elements-grey-200 focus:bg-elements-grey-200 w-50 text-nowrap"
-                                  onClick={() => setMapOpenIndex(null)}
-                                >
-                                  Залишити без змін
-                                </button>
+
+                            <div className="flex flex-col items-center justify-center gap-4 lg:flex-row">
+                              <button
+                                type="button"
+                                onClick={handleConfirmLocation}
+                                className="btn-aprove hover:bg-primary/90 focus:bg-primary/90 w-50 bg-primary border-primary text-text-50-grey text-nowrap"
+                                // className="placeholder-sm xl:placeholder-base w-50 rounded-none"
+                              >
+                                Підтвердити координати
+                              </button>
+                              <button
+                                type="button"
+                                className="btn-aprove bg-elements-grey-200/60 hover:bg-elements-grey-200 focus:bg-elements-grey-200 w-50 text-nowrap"
+                                onClick={() => setMapOpenIndex(null)}
+                              >
+                                Закрити без змін
+                              </button>
+                              {tempLatLng !== addressLatLng && (
                                 <button
                                   type="button"
                                   className="w-50 btn-reject text-nowrap"
-                                  onClick={() => setTempLatLng(initialLatLng)}
+                                  onClick={() => setTempLatLng(addressLatLng)}
                                 >
                                   Початкові координати
                                 </button>
-                              </div>
-                            )}
+                              )}
+                            </div>
                           </div>
                         )}
                       {locationWarnings[index]?.type === 'notice' && (
