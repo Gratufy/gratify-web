@@ -30,7 +30,7 @@ import { useAllSpecialOffers } from '@/hooks/useSpecialOffers';
 import { useUserStore } from '@/stores/useUserStore';
 
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
-import { Plus } from 'lucide-react';
+import { Info, Plus, SquareCheck, SquareX, TriangleAlert } from 'lucide-react';
 
 import {
   Form,
@@ -280,8 +280,10 @@ export default function BusinessFormNew({
   function handleConfirmLocation() {
     if (initialLatLng === null || tempLatLng === null || mapOpenIndex === null)
       return;
-
+    console.log('initialLatLng ', initialLatLng);
+    console.log('tempLatLng', tempLatLng);
     const distance = getDistanceMeters(initialLatLng, tempLatLng);
+    console.log('distance', distance);
     // Обновляем уведомление
     setLocationWarnings((prev) => {
       const newWarnings = [...prev];
@@ -751,10 +753,14 @@ export default function BusinessFormNew({
                 {form.formState.errors.locations.root?.message}
               </div>
             )}
-            <p className="title-h6 text-text-700-grey mt-2 text-center">
-              ℹ️ Якщо ваш бізнес працює тільки онлайн, можете пропустити
-              наступний розділ
-            </p>
+
+            <div className="bg-text-link/20 mb-2 flex items-center justify-center p-1">
+              <Info className="text-text-link mr-2 h-4 w-4" aria-hidden />
+              <span className="title-h6 text-text-700-grey">
+                Якщо ваш бізнес працює тільки онлайн, можете пропустити
+                наступний розділ
+              </span>
+            </div>
             <div className="w-full space-y-5 xl:space-y-6">
               {fields.map((field, index) => {
                 const city = form.watch(`locations.${index}.city`);
@@ -769,10 +775,17 @@ export default function BusinessFormNew({
                       <p className="title-h6 mb-3 xl:mb-4">
                         Адреса {index + 1}:
                       </p>
-                      <p className="title-h6 text-text-500-grey mb-1">
-                        ℹ️ Ви можете додати тільки місто але тоді ваша локація
-                        не буде відображатися на мапі
-                      </p>
+                      <div className="mb-1 flex items-center">
+                        <Info
+                          className="text-text-link mr-2 h-4 w-4"
+                          aria-hidden
+                        />
+                        <span className="title-h6 text-text-500-grey">
+                          Ви можете додати тільки місто але тоді ваша локація не
+                          буде відображатися на мапі
+                        </span>
+                      </div>
+
                       <FormField
                         control={form.control}
                         name={`locations.${index}.city`}
@@ -937,33 +950,33 @@ export default function BusinessFormNew({
                           </div>
                         )}
                       {locationWarnings[index]?.type === 'notice' && (
-                        <p className="mb-2 mt-1 flex items-center gap-1 text-sm text-blue-600">
-                          <span aria-hidden="true">ℹ️ </span>
-                          <span>
+                        <div className="mb-2 flex items-center text-blue-600">
+                          <SquareCheck className="mr-2 h-4 w-4" aria-hidden />
+                          <span className="placeholder-sm flex items-center gap-1">
                             Координати змінені на{' '}
                             {Math.round(locationWarnings[index].distance)}{' '}
                             метрів
                           </span>
-                        </p>
+                        </div>
                       )}
                       {locationWarnings[index]?.type === 'warning' && (
-                        <p className="mb-2 mt-1 text-sm text-yellow-600">
-                          <span aria-hidden="true">⚠️ </span>
-                          <span>
+                        <div className="mb-2 flex items-center text-yellow-600">
+                          <TriangleAlert className="mr-2 h-4 w-4" aria-hidden />
+                          <span className="placeholder-sm flex items-center gap-1">
                             Координати змінені на{' '}
                             {Math.round(locationWarnings[index].distance)}{' '}
                             метрів
                           </span>
-                        </p>
+                        </div>
                       )}
 
                       {locationWarnings[index]?.type === 'error' && (
-                        <p className="mb-2 mt-1 text-sm text-red-600">
-                          <span aria-hidden="true">❌ </span>
-                          <span>
+                        <div className="text-text-warning mb-2 flex items-center">
+                          <SquareX className="mr-2 h-4 w-4" aria-hidden />
+                          <span className="placeholder-sm flex items-center gap-1">
                             Координати змінені більше 1 км. Перевірте адресу
                           </span>
-                        </p>
+                        </div>
                       )}
                     </div>
                     {index === fields.length - 1 && (

@@ -14,6 +14,7 @@ import { BusinessWithDetails } from '@/types';
 import BusinessCardSkeleton from '../skeletons/BusinessCardSkeleton';
 
 import IconUser from '@/assets/icons/general/icon-user.svg';
+import { Info } from 'lucide-react';
 
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 import Karma from '@/components/shared/Karma';
@@ -227,6 +228,14 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
               <div className="w-full lg:flex-1">{CityListElements}</div>
             </div>
           </section>
+          <div className="flex">
+            {' '}
+            <Info className="text-text-link mr-2 h-4 w-4" aria-hidden />
+            <span className="caption">
+              Уся інформація в картці бізнесу надається його представниками.
+              Платформа не несе відповідальності за її точність та актуальність.
+            </span>
+          </div>
         </>
       )}
       <CustomAlertDialog
