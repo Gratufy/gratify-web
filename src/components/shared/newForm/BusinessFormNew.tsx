@@ -44,7 +44,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+
 import CustomSelect from '@/components/ui/custom-ui/CustomSelect';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 
@@ -104,16 +104,13 @@ export default function BusinessFormNew({
     setImagesState([...filled, ...empty]);
   }, [existingImages]);
 
-  const {
-    categories,
-    // isLoading: isCategoriesLoading,
-    // isError: isCategoriesError,
-  } = useBusinessCategories();
+  // hooks
+  const { categories } = useBusinessCategories();
   const createBusinessMutation = useCreateBusiness();
   const updateBusinessMutation = useUpdateBusiness();
   const checkAddressMutation = useCheckAddress();
   const { data: allSpecialOffers } = useAllSpecialOffers();
-
+  ///////
   const form = useForm<FormValues>({
     resolver: valibotResolver(businessFormSchema),
     defaultValues: defaultValues ?? {
@@ -127,6 +124,7 @@ export default function BusinessFormNew({
       ownOffers: [],
     },
   });
+  //LOCATIONS
   const locationsInitializedRef = useRef(false);
   const { fields, append, remove } = useFieldArray({
     control: form.control,
@@ -142,7 +140,7 @@ export default function BusinessFormNew({
     lat: number;
     lng: number;
   } | null>(null);
-  // for distance check
+  // for distance check and this is from server or previous confirmed
   const [initialLatLng, setInitialLatLng] = useState<{
     lat: number;
     lng: number;
@@ -170,6 +168,7 @@ export default function BusinessFormNew({
           </>
         ),
       });
+      setCheckingIndex(null);
       return false;
     }
     return !!(loc.city && loc.city.trim() !== '');
@@ -188,42 +187,52 @@ export default function BusinessFormNew({
           </>
         ),
       });
+      setCheckingIndex(null);
       return false;
     }
     return !!(loc.address && loc.address.trim() !== '');
   }
 
   // open map and check location for a specific location index
+
   async function handleOpenCheck(index: number) {
     setCheckingIndex(index);
     setMapOpenIndex(null);
     const savedLat = form.getValues(`locations.${index}.latitude`);
     const savedLng = form.getValues(`locations.${index}.longitude`);
-    if (savedLat && savedLng) {
+    if (savedLat != null && savedLng != null) {
       const point = { lat: savedLat, lng: savedLng };
 
+      setInitialLatLng(point);
       setTempLatLng(point);
       setMapOpenIndex(index);
       setCheckingIndex(null);
+      //not look for location if already have coords
       return;
     }
     const ifCityValid = validateCity(index);
     if (!ifCityValid) return;
     const ifAddressValid = validateAdress(index);
     if (!ifAddressValid) return;
+
+    // it is allowed  that city is valid but address is not
+    //but we do not open map in this case
+    // if (!ifCityValid && ifAddressValid) {
+    //   console.log('HIER');
+    //   CustomToast({
+    //     type: 'warning',
+    //     content: (
+    //       <>
+    //         <p className="font-semibold">Будь ласка, вкажить спочатку місто</p>
+    //       </>
+    //     ),
+    //   });
+    //   setCheckingIndex(null);
+    //   return;
+    // }
     const loc = form.getValues(`locations.${index}`);
-    if (!ifCityValid && ifAddressValid) {
-      CustomToast({
-        type: 'warning',
-        content: (
-          <>
-            <p className="font-semibold">Будь ласка, вкажить спочатку місто</p>
-          </>
-        ),
-      });
-      return;
-    }
     if (!loc.city || !loc.address) {
+      setCheckingIndex(null);
       return;
     }
 
@@ -289,7 +298,7 @@ export default function BusinessFormNew({
       };
       return newWarnings;
     });
-    console.log('distance', distance);
+
     if (distance > 300 && distance <= 1000) {
       CustomToast({
         type: 'warning',
@@ -330,7 +339,7 @@ export default function BusinessFormNew({
 
     setMapOpenIndex(null);
   }
-
+  ////////// end Locations
   // on Submit
   async function onSubmit(data: FormValues, action?: string) {
     const nextStatus: BusinessStatus =
@@ -681,7 +690,7 @@ export default function BusinessFormNew({
         <div className="bg-background-grey-50 mb-15 w-full py-5 lg:py-10">
           <div className="container mx-auto w-full max-[1024px]:px-4">
             {/* Online checkbox */}
-            <div className="border-elements-grey-400 mb-4 border-[0.5px] p-4 lg:flex lg:items-center lg:justify-between lg:gap-20 lg:px-3 lg:py-5">
+            <div className="border-elements-grey-400 mb-8 border-[0.5px] p-4 lg:flex lg:items-center lg:justify-between lg:gap-20 lg:px-3 lg:py-5">
               <FormField
                 control={form.control}
                 name="isOnline"
@@ -742,6 +751,10 @@ export default function BusinessFormNew({
                 {form.formState.errors.locations.root?.message}
               </div>
             )}
+            <p className="title-h6 text-text-700-grey mt-2 text-center">
+              ℹ️ Якщо ваш бізнес працює тільки онлайн, можете пропустити
+              наступний розділ
+            </p>
             <div className="w-full space-y-5 xl:space-y-6">
               {fields.map((field, index) => {
                 const city = form.watch(`locations.${index}.city`);
@@ -749,11 +762,16 @@ export default function BusinessFormNew({
 
                 const isOnlyEmptyLocation =
                   fields.length === 1 && !city?.trim() && !address?.trim();
+
                 return (
                   <div key={field.id}>
                     <div>
                       <p className="title-h6 mb-3 xl:mb-4">
                         Адреса {index + 1}:
+                      </p>
+                      <p className="title-h6 text-text-500-grey mb-1">
+                        ℹ️ Ви можете додати тільки місто але тоді ваша локація
+                        не буде відображатися на мапі
                       </p>
                       <FormField
                         control={form.control}
@@ -863,7 +881,10 @@ export default function BusinessFormNew({
                             setMapOpenIndex(null);
                           }}
                         >
-                          <CrossIcon className="mr-2 size-4" />{' '}
+                          <CrossIcon
+                            className="mr-2 size-4"
+                            aria-hidden="true"
+                          />{' '}
                           <span>Видалити адресу</span>
                         </button>
                         {/* )} */}
@@ -887,35 +908,37 @@ export default function BusinessFormNew({
                               Ви можете перетягувати маркер, щоб уточнити
                               локацію.
                             </p>
-                            <div className="flex flex-col items-center justify-center gap-4 lg:flex-row">
-                              <button
-                                type="button"
-                                onClick={handleConfirmLocation}
-                                className="btn-aprove hover:bg-primary/90 focus:bg-primary/90 w-50 bg-primary border-primary text-text-50-grey text-nowrap"
-                                // className="placeholder-sm xl:placeholder-base w-50 rounded-none"
-                              >
-                                Підтвердити локацію
-                              </button>
-                              <button
-                                type="button"
-                                className="btn-aprove bg-elements-grey-200/60 hover:bg-elements-grey-200 focus:bg-elements-grey-200 w-50 text-nowrap"
-                                onClick={() => setMapOpenIndex(null)}
-                              >
-                                Попередні координати
-                              </button>
-                              <button
-                                type="button"
-                                className="w-50 btn-reject text-nowrap"
-                                onClick={() => setTempLatLng(initialLatLng)}
-                              >
-                                Початкові координати
-                              </button>
-                            </div>
+                            {tempLatLng !== initialLatLng && (
+                              <div className="flex flex-col items-center justify-center gap-4 lg:flex-row">
+                                <button
+                                  type="button"
+                                  onClick={handleConfirmLocation}
+                                  className="btn-aprove hover:bg-primary/90 focus:bg-primary/90 w-50 bg-primary border-primary text-text-50-grey text-nowrap"
+                                  // className="placeholder-sm xl:placeholder-base w-50 rounded-none"
+                                >
+                                  Підтвердити координати
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btn-aprove bg-elements-grey-200/60 hover:bg-elements-grey-200 focus:bg-elements-grey-200 w-50 text-nowrap"
+                                  onClick={() => setMapOpenIndex(null)}
+                                >
+                                  Залишити без змін
+                                </button>
+                                <button
+                                  type="button"
+                                  className="w-50 btn-reject text-nowrap"
+                                  onClick={() => setTempLatLng(initialLatLng)}
+                                >
+                                  Початкові координати
+                                </button>
+                              </div>
+                            )}
                           </div>
                         )}
                       {locationWarnings[index]?.type === 'notice' && (
                         <p className="mb-2 mt-1 flex items-center gap-1 text-sm text-blue-600">
-                          <span>ℹ️</span>
+                          <span aria-hidden="true">ℹ️ </span>
                           <span>
                             Координати змінені на{' '}
                             {Math.round(locationWarnings[index].distance)}{' '}
@@ -925,14 +948,21 @@ export default function BusinessFormNew({
                       )}
                       {locationWarnings[index]?.type === 'warning' && (
                         <p className="mb-2 mt-1 text-sm text-yellow-600">
-                          ⚠️ Координати змінені на{' '}
-                          {Math.round(locationWarnings[index].distance)} метрів
+                          <span aria-hidden="true">⚠️ </span>
+                          <span>
+                            Координати змінені на{' '}
+                            {Math.round(locationWarnings[index].distance)}{' '}
+                            метрів
+                          </span>
                         </p>
                       )}
 
                       {locationWarnings[index]?.type === 'error' && (
                         <p className="mb-2 mt-1 text-sm text-red-600">
-                          ❌ Координати змінені більше 1 км. Перевірте адресу
+                          <span aria-hidden="true">❌ </span>
+                          <span>
+                            Координати змінені більше 1 км. Перевірте адресу
+                          </span>
                         </p>
                       )}
                     </div>
@@ -947,7 +977,8 @@ export default function BusinessFormNew({
                           setMapOpenIndex(null);
                         }}
                       >
-                        <Plus className="mr-2 size-4" /> <span>Додати ще</span>
+                        <Plus className="mr-2 size-4" aria-hidden="true" />{' '}
+                        <span>Додати ще</span>
                       </button>
                     )}
                   </div>
@@ -987,36 +1018,3 @@ export default function BusinessFormNew({
     </Form>
   );
 }
-
-// const uploadedImagesWithUrl: {
-//   businessId: string;
-//   url: string;
-//   isCover: boolean;
-// }[] = [];
-// const supabase = createClient();
-
-// const uploadedImages = imagesState
-//   .filter((img) => img.file !== null)
-//   .map((img) => ({
-//     file: img.file!,
-//     isCover: img.isCover,
-//   }));
-// for (const { file, isCover } of uploadedImages) {
-//   const filePath = `${business.id}/${Date.now()}_${file.name}`;
-//   const { error } = await supabase.storage
-//     .from('business-images')
-//     .upload(filePath, file);
-//   if (error) {
-//     console.error('Upload error:', error);
-//     continue;
-//   }
-
-//   const {
-//     data: { publicUrl },
-//   } = supabase.storage.from('business-images').getPublicUrl(filePath);
-//   uploadedImagesWithUrl.push({
-//     businessId: business.id,
-//     url: publicUrl,
-//     isCover,
-//   });
-// }
