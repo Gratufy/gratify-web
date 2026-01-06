@@ -295,7 +295,8 @@ export default function BusinessFormNew({
         content: (
           <>
             <p className="font-semibold">
-              Відстань між початковою та новою локацією занадто велика.
+              Відстань між офіційною геолокацією та новою локацією занадто
+              велика.
             </p>
             <p>
               Ви можете підтвердити локацію, якщо впевнені в правильності
@@ -927,7 +928,8 @@ export default function BusinessFormNew({
                               >
                                 Закрити без змін
                               </button>
-                              {tempLatLng !== addressLatLng && (
+                              {(tempLatLng.lat !== addressLatLng?.lat ||
+                                tempLatLng.lng !== addressLatLng?.lng) && (
                                 <button
                                   type="button"
                                   className="w-50 btn-reject text-nowrap"
@@ -943,7 +945,8 @@ export default function BusinessFormNew({
                         <div className="mb-2 flex items-center text-blue-600">
                           <SquareCheck className="mr-2 h-4 w-4" aria-hidden />
                           <span className="placeholder-sm flex items-center gap-1">
-                            Координати змінені на{' '}
+                            Координати, які збережено, відрізняються від
+                            офіційної геолокації для цього адреса на{' '}
                             {Math.round(locationWarnings[index].distance)}{' '}
                             метрів
                           </span>
@@ -953,7 +956,8 @@ export default function BusinessFormNew({
                         <div className="mb-2 flex items-center text-yellow-600">
                           <TriangleAlert className="mr-2 h-4 w-4" aria-hidden />
                           <span className="placeholder-sm flex items-center gap-1">
-                            Координати змінені на{' '}
+                            Координати, які збережено, відрізняються від
+                            офіційної геолокації для цього адреса на{' '}
                             {Math.round(locationWarnings[index].distance)}{' '}
                             метрів
                           </span>
