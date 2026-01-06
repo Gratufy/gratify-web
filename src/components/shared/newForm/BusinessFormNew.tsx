@@ -816,17 +816,27 @@ export default function BusinessFormNew({
                           <span className="caption">
                             Можете перевірити локацію на мапі перед збереженням
                           </span>
-                          <button
-                            type="button"
-                            className="placeholder-sm xl:placeholder-base bg-elements-grey-200 border-background-main-300 flex min-w-40 cursor-pointer items-center justify-center text-nowrap border-[0.5px] px-3 py-[6px] lg:mb-0 xl:px-5 xl:py-2"
-                            // onClick={() => checkAddress(index)}
-                            onClick={() => handleOpenCheck(index)}
-                            disabled={checkingIndex === index}
-                          >
-                            {checkingIndex === index
-                              ? 'Перевіряємо...'
-                              : 'Перевірити локацію'}
-                          </button>
+                          {mapOpenIndex !== null && mapOpenIndex === index ? (
+                            <button
+                              className="btn-aprove hover:bg-elements-grey-200/60 focus:bg-elements-grey-200/60 bg-elements-grey-200 min-w-40 text-nowrap"
+                              type="button"
+                              onClick={() => setMapOpenIndex(null)}
+                            >
+                              Зачинити мапу
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              className="btn-aprove bg-elements-grey-200/60 hover:bg-elements-grey-200 focus:bg-elements-grey-200 min-w-40 text-nowrap"
+                              // onClick={() => checkAddress(index)}
+                              onClick={() => handleOpenCheck(index)}
+                              disabled={checkingIndex === index}
+                            >
+                              {checkingIndex === index
+                                ? 'Перевіряємо...'
+                                : 'Перевірити локацію'}
+                            </button>
+                          )}
                         </div>
 
                         {/* ................ */}
@@ -878,29 +888,28 @@ export default function BusinessFormNew({
                               локацію.
                             </p>
                             <div className="flex flex-col items-center justify-center gap-4 lg:flex-row">
-                              <Button
+                              <button
                                 type="button"
                                 onClick={handleConfirmLocation}
-                                className="placeholder-sm xl:placeholder-base w-50 rounded-none"
+                                className="btn-aprove hover:bg-primary/90 focus:bg-primary/90 w-50 bg-primary border-primary text-text-50-grey text-nowrap"
+                                // className="placeholder-sm xl:placeholder-base w-50 rounded-none"
                               >
                                 Підтвердити локацію
-                              </Button>
-                              <Button
+                              </button>
+                              <button
                                 type="button"
-                                variant="secondary"
-                                className="border-background-main-300 placeholder-sm xl:placeholder-base w-50 rounded-none border"
+                                className="btn-aprove bg-elements-grey-200/60 hover:bg-elements-grey-200 focus:bg-elements-grey-200 w-50 text-nowrap"
                                 onClick={() => setMapOpenIndex(null)}
                               >
-                                Скасувати зміни
-                              </Button>
-                              <Button
+                                Попередні координати
+                              </button>
+                              <button
                                 type="button"
-                                variant="secondary"
-                                className="border-background-main-300 placeholder-sm xl:placeholder-base w-50 rounded-none border"
+                                className="w-50 btn-reject text-nowrap"
                                 onClick={() => setTempLatLng(initialLatLng)}
                               >
                                 Початкові координати
-                              </Button>
+                              </button>
                             </div>
                           </div>
                         )}

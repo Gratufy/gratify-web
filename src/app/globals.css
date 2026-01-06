@@ -121,7 +121,7 @@
   --card-foreground: #09090b;
   --popover: #ffffff;
   --popover-foreground: #09090b;
-  --primary: #18181b;
+
   --primary-foreground: #fafafa;
   --secondary: #f4f4f5;
   --secondary-foreground: #18181b;
@@ -150,6 +150,10 @@
   --font-family: 'Ubuntu Sans', sans-serif;
   --second-family: 'Ubuntu Sans', sans-serif;
   /* --second-family: 'Roboto', sans-serif; */
+  /* ....... */
+  --primary: #18181b;
+
+  /* ....... */
   --overlay-background: #f5f3f059;
   --overlay-foreground: rgba(0, 0, 0, 0.132);
   --white: #fff;
