@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import BackButton from '../ui/custom-ui/GoBackButton';
+import GoBackButton from '../ui/custom-ui/GoBackButton';
 
 import { BusinessWithDetails } from '@/types';
 import BusinessFormNew from './newForm/BusinessFormNew';
@@ -27,8 +27,8 @@ export default function BusinessEditClient({
 
   return (
     <div className="pb-15 flex flex-1 flex-col items-center justify-center">
-      <div className="container w-full max-[1024px]:px-4">
-        <BackButton href={href} className="w-8 py-2 pr-2" />
+      <div className="container w-full max-[1024px]:px-4 lg:py-2">
+        <GoBackButton href={href} className="w-8 py-2 pr-2" />
       </div>
       <h2 className="title-h2 mx-auto mb-10 text-center">
         Редагувати бізнес-картку

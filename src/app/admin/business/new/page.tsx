@@ -5,7 +5,7 @@ export default function AdminNewBusiness() {
   return (
     <div className="flex flex-col items-center justify-center">
       {/**/}
-      <div className="container w-full max-[1024px]:px-4">
+      <div className="container w-full max-[1024px]:px-4 lg:py-2">
         <GoBackButton href="/admin/business" className="w-8 py-2 pr-2" />
       </div>
       <h2 className="title-h2 mx-auto mb-10 text-center">
