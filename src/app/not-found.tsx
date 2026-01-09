@@ -19,8 +19,9 @@ export default function NotFound() {
             src="/images/404.png"
             width={1135}
             height={600}
-            alt="Logo"
+            alt="Зображення 404 помилки"
             className="h-auto w-full"
+            priority
           />
         </div>
       </div>

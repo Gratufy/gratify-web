@@ -94,6 +94,7 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
       <div className="container mx-auto flex w-full flex-col items-center gap-6 max-[1024px]:px-4">
         <div className="flex justify-center gap-3">
           <Label
+         
             htmlFor="images-file"
             className="btn-reject h-8 gap-[6px] border px-3 xl:px-5"
           >
