@@ -13,7 +13,7 @@ function MobileFooter() {
           src="/images/logo.png"
           width={136}
           height={28}
-          alt="Logo"
+          alt="Логотип Gratify"
           className="mb-3"
         />
         <div className="flex justify-between gap-4">

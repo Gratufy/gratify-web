@@ -55,14 +55,14 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
                 className="hover:bg-background-grey-50 flex items-center justify-center bg-white"
                 onClick={() => emblaMainApi?.scrollPrev()}
               >
-                <IconLeft className="size-5" />
+                <IconLeft className="size-5" aria-hidden="true" />
               </button>
               <button
                 aria-label="Перейти до фотографіївправо"
                 className="hover:bg-background-grey-50 flex items-center justify-center bg-white"
                 onClick={() => emblaMainApi?.scrollNext()}
               >
-                <IconLeft className="size-5 rotate-180" />
+                <IconLeft className="size-5 rotate-180" aria-hidden="true" />
               </button>
             </div>
             {/* main photo */}
@@ -132,14 +132,17 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
               className="hover:bg-background-grey-50 flex cursor-pointer items-center justify-center bg-white"
               onClick={() => emblaMainApi?.scrollPrev()}
             >
-              <IconLeft className="lg:size-5 xl:size-6" />
+              <IconLeft className="lg:size-5 xl:size-6" aria-hidden="true" />
             </button>
             <button
               aria-label="Перейти до фотографії вправо"
               className="hover:bg-background-grey-50 flex cursor-pointer items-center justify-center bg-white"
               onClick={() => emblaMainApi?.scrollNext()}
             >
-              <IconLeft className="rotate-180 lg:size-5 xl:size-6" />
+              <IconLeft
+                className="rotate-180 lg:size-5 xl:size-6"
+                aria-hidden="true"
+              />
             </button>
           </div>
         </>

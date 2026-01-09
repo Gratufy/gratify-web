@@ -95,7 +95,7 @@ function PublicHeaderClient() {
             src="/images/logo.png"
             width={181}
             height={38}
-            alt="Logo"
+            alt="Логотип Gratify"
             className="w-full"
           />
         </Link>

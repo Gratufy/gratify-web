@@ -16,7 +16,7 @@ function LoginHeader() {
               src="/images/logo.png"
               width={181}
               height={38}
-              alt="Logo"
+              alt="Логотип Gratify"
               className="h-auto w-full"
             />
           </div>
@@ -25,10 +25,11 @@ function LoginHeader() {
             <ThemeSwitch />
 
             <Link
+              aria-label="перейти на головну сторинку"
               href="/"
               className="bg-icons-grey-50 flex w-8 items-center justify-center p-1.5"
             >
-              <House size={20} absoluteStrokeWidth />
+              <House size={20} absoluteStrokeWidth aria-hidden="true" />
             </Link>
           </div>
         </div>
