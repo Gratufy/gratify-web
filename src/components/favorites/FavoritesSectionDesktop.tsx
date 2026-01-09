@@ -36,7 +36,7 @@ function FavoritesSectionDesktop({
   console.log('FavoritesSectionDesktop render', businesses);
   return (
     <div className="container hidden w-full lg:block">
-      <div className="w-full">
+      <div className="w-full lg:py-2">
         <GoBackButton href="/" className="w-8 pb-4 pr-2 pt-2" />
       </div>
       <div className="hidden w-full lg:flex lg:flex-row lg:gap-6">

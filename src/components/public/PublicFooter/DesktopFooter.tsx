@@ -16,7 +16,7 @@ function DesktopFooter() {
             src="/images/logo.png"
             width={344}
             height={71}
-            alt="Logo"
+            alt="Логотип Gratify"
             className="h-auto"
           />
         </div>

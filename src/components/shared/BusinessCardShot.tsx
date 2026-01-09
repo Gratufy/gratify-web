@@ -88,9 +88,15 @@ function BusinessCardShot({
             className="cursor-pointer border-none bg-transparent px-2 pb-1 outline-none lg:right-9"
           >
             {isFavorite ? (
-              <IconFavoriteYes className="h-7 w-6 lg:h-10 lg:w-8" />
+              <IconFavoriteYes
+                className="h-7 w-6 lg:h-10 lg:w-8"
+                aria-hidden="true"
+              />
             ) : (
-              <IconFavoriteNo className="h-7 w-6 lg:h-10 lg:w-8" />
+              <IconFavoriteNo
+                className="h-7 w-6 lg:h-10 lg:w-8"
+                aria-hidden="true"
+              />
             )}
           </button>
         </div>
@@ -101,17 +107,9 @@ function BusinessCardShot({
           <div className="xl:w-7/10 w-6/7 relative h-full overflow-hidden">
             {business.coverImageUrl ? (
               <>
-                {/* <Image
-                  src={business.coverImageUrl}
-                  alt={business.name}
-                  fill
-                  //unoptimized
-                  style={{ objectFit: 'cover' }}
-                  className="relative z-0"
-                /> */}
                 <Image
                   src={business.coverImageUrl}
-                  alt={business.name}
+                  alt={`Зображення бізнесу ${business.name}`}
                   fill
                   sizes="(min-width: 1024px) 586px, 515px"
                   className="relative z-0 object-cover"
@@ -153,7 +151,7 @@ function BusinessCardShot({
                 key={offer.offerId}
                 className="flex items-center gap-3 overflow-hidden"
               >
-                <CheckIcon className="h-3 w-3 flex-shrink-0 lg:h-4 lg:w-4 xl:h-5 xl:w-5" />
+                <CheckIcon className="h-3 w-3 flex-shrink-0 lg:h-4 lg:w-4 xl:h-5 xl:w-5" aria-hidden="true" />
                 <span className="placeholder-xs lg:placeholder-sm xl:placeholder-base block truncate">
                   {offer.title?.toLowerCase()}
                 </span>
@@ -180,7 +178,7 @@ function BusinessCardShot({
           />
 
           <div className="flex items-center gap-0.5">
-            <ReviewIcon className="h-4 w-4 xl:h-5 xl:w-5" />
+            <ReviewIcon className="h-4 w-4 xl:h-5 xl:w-5" aria-hidden="true" />
             <span className="placeholder-sm xl:placeholder-base font-medium">
               {business.reviewCount}
             </span>

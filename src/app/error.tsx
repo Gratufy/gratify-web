@@ -22,7 +22,7 @@ export default function Error({
           src="/images/global-err.png"
           width={358}
           height={206}
-          alt="Error image"
+          alt="Помилка сторінки"
           className="h-auto w-full"
         />
       </div>
@@ -31,7 +31,7 @@ export default function Error({
       </p>
       <p className="title-h4 mb-8 text-center">Повернеться з перемогою!</p>
       <button
-        className="xl:w-58 bg-background-main-300 shadow-menu placeholder-xs lg:placeholder-sm xl:placeholder-base lg:w-50 flex w-44 items-center justify-center border-none px-3 py-2 outline-none lg:px-4 xl:px-5"
+        className="xl:w-58 btn-aprove lg:w-50 w-44 px-3 py-2 lg:px-4 xl:px-5"
         onClick={
           // Attempt to recover by trying to re-render the segment
           () => reset()
