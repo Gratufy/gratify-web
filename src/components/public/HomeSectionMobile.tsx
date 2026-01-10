@@ -10,6 +10,7 @@ import BusinessList from '../shared/BusinessList';
 import NotFoundComponent from '../shared/NotFoundComponent';
 import { getCityLabel } from '@/utils/getCityLabel';
 import { useFilters } from '@/hooks/useFilters';
+import NewBottomSheetFilters from './NewBottomSheetFilters';
 
 type HomeSectionMobileProps = {
   businesses: BusinessWithCategoryName[];
@@ -34,7 +35,7 @@ function HomeSectionMobile({
 }: HomeSectionMobileProps) {
   const { filters } = useFilters();
   return (
-    <>
+    <div className="relative w-full lg:hidden">
       <div className="container flex w-full flex-col pt-2 lg:hidden">
         <div className="flex items-center px-2 pb-2" aria-label="Обране місто">
           <CityIcon className="mr-2 size-4" aria-hidden="true" />
@@ -62,11 +63,11 @@ function HomeSectionMobile({
           />
         </div>
       </div>
-      <BottomSheetFilters
+      <NewBottomSheetFilters
         businesses={businesses} // for Map
         categoriesWithAll={categoriesWithAll}
       />
-    </>
+    </div>
   );
 }
 

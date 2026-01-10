@@ -32,6 +32,7 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
   const [activeFilter, setActiveFilter] = useState<
     'city' | 'sort' | 'category' | 'map' | null
   >(null);
+
   const renderContent = () => {
     switch (activeFilter) {
       case 'city':
