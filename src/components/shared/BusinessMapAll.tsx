@@ -61,36 +61,13 @@ function BusinessMapAll({
   selectedCity = '__all__',
   hoveredId = null,
 }: BusinessMapAllProps) {
-  // const cityLabel =
-  //   selectedCity === '__all__'
-  //     ? '__all__'
-  //     : UKRAINE_REGIONAL_CENTERS.find((c) => c.value === selectedCity)?.label;
-
-  // const coords = useMemo(
-  //   () =>
-  //     businesses.flatMap((b) =>
-  //       (b.locations || [])
-  //         .filter(
-  //           (loc) =>
-  //             loc.latitude &&
-  //             loc.longitude &&
-  //             (cityLabel === '__all__' || loc.city === cityLabel)
-  //         )
-  //         .map((loc) => ({
-  //           businessId: b.id,
-  //           lat: loc.latitude!,
-  //           lng: loc.longitude!,
-  //         }))
-  //     ),
-  //   [businesses, cityLabel]
-  // );
   const coords = useMemo(() => {
     return businesses.flatMap((b) =>
       b.locations
         .filter((loc) => {
           if (!loc.latitude || !loc.longitude) return false;
           if (selectedCity === '__all__') return true;
-          return loc.city === selectedCity; // теперь loc.city = value
+          return loc.city === selectedCity; // now loc.city = value
         })
         .map((loc) => ({
           businessId: b.id,

@@ -68,7 +68,6 @@ function BusinessCardShot({
     }
   };
 
-  // const CityListElements = renderLocations(business, selectedCity);
   return (
     <>
       {/* header */}
@@ -131,7 +130,7 @@ function BusinessCardShot({
               </>
             )}
             <div className="z-5 bg-linear-to-l to-background-white pointer-events-none absolute inset-0 from-white/0"></div>
-                <div className="z-5 bg-linear-to-l to-gradient-card/ from-gradient-card/0 pointer-events-none absolute inset-0"></div>
+            <div className="z-5 bg-linear-to-l to-gradient-card/ from-gradient-card/0 pointer-events-none absolute inset-0"></div>
           </div>
         </div>
 
@@ -181,7 +180,10 @@ function BusinessCardShot({
             setOnConfirm={setOnConfirm}
           />
 
-          <div className="flex items-center gap-0.5">
+          <div
+            className="flex items-center gap-0.5"
+            aria-label={`Кількість відгуків: ${business.reviewCount}`}
+          >
             <ReviewIcon className="h-4 w-4 xl:h-5 xl:w-5" aria-hidden="true" />
             <span className="placeholder-sm xl:placeholder-base font-medium">
               {business.reviewCount}

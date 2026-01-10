@@ -16,7 +16,7 @@ function SelectedFiltersPanel({
 }: SelectedFiltersPanelProps) {
   const { filters } = useFilters();
   return (
-    <div className="flex w-full flex-wrap gap-2">
+    <div className="flex w-full flex-wrap gap-2" aria-label="Обрані фільтри">
       <div className="bg-background-grey-100 flex gap-1 px-2 py-2 lg:gap-2">
         <span className="placeholder-small lg:placeholder-xs xl:placeholder-sm">
           {/* {ONLINE_STATUS_LABELS[showOnlineStatus]} */}

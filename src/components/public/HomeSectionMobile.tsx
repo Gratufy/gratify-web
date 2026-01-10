@@ -36,8 +36,8 @@ function HomeSectionMobile({
   return (
     <>
       <div className="container flex w-full flex-col pt-2 lg:hidden">
-        <div className="flex items-center px-2 pb-2">
-          <CityIcon className="mr-2 size-4" />
+        <div className="flex items-center px-2 pb-2" aria-label="Обране місто">
+          <CityIcon className="mr-2 size-4" aria-hidden="true" />
           <span className="placeholder-xs"> {getCityLabel(filters.city)}</span>
         </div>
         <div className="px-2 pb-2">
