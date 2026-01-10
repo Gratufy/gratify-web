@@ -23,7 +23,7 @@ interface OwnBusinessListProps {
   isError?: boolean;
   error?: Error | null;
   linkPrefix?: string; // for different routes: `/business` , `/dashboard/business`
-
+  isBusinessesLoading?: boolean;
   // selectedCity?: string;
   //isLoading?: boolean;
   //fetchNextPage?: () => void;
@@ -40,6 +40,7 @@ function OwnBusinessList({
   isError,
   error,
   linkPrefix = '/business',
+  isBusinessesLoading,
   // fetchNextPage,
   // selectedCity = '__all__',
   // hasNextPage,
@@ -59,25 +60,6 @@ function OwnBusinessList({
   const [alertTitle, setAlertTitle] = useState('');
   const [actionContent, setActionContent] = useState<ReactNode>(null);
   const [onConfirm, setOnConfirm] = useState<() => void>(() => {});
-
-  // useEffect(() => {
-  //   if (!enableInfiniteScroll) return;
-  //   if (!loadMoreRef.current) return;
-
-  //   const observer = new IntersectionObserver((entries) => {
-  //     if (
-  //       entries[0].isIntersecting &&
-  //       hasNextPage &&
-  //       !isFetchingNextPage &&
-  //       fetchNextPage
-  //     ) {
-  //       fetchNextPage();
-  //     }
-  //   });
-
-  //   observer.observe(loadMoreRef.current);
-  //   return () => observer.disconnect();
-  // }, [fetchNextPage, hasNextPage, isFetchingNextPage, enableInfiniteScroll]);
 
   return (
     <section className="flex w-full flex-1 flex-col items-center overflow-hidden lg:w-[764px] xl:w-[900px]">
@@ -189,6 +171,8 @@ function OwnBusinessList({
         classNameDescription="sr-only"
         onAction={onConfirm}
       />
+      {/* for LIGHT HOUSE */}
+      {isBusinessesLoading && <div aria-hidden className="h-[300px]" />}
     </section>
   );
 }

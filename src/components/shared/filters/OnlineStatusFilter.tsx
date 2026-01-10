@@ -15,15 +15,16 @@ function OnlineStatusFilter({
   return (
     // p-3 xl:p-4 placeholder-xs xl:placeholder-sm
     <div className={`w-full ${classNameDiv}`}>
-      <label htmlFor="online-status" className="sr-only">
-        Online Status
-      </label>
       <RadioGroup
-        id="online-status"
         value={value}
         onValueChange={onChange}
         className="flex flex-col gap-2 xl:gap-3"
+        aria-labelledby="online-status"
       >
+        <span id="online-status" className="sr-only">
+          Сортувати за статусом бізнесу: всі, тільки он-лайн, тільки з фізичною
+          адресою
+        </span>
         <div className="flex items-center gap-1 xl:gap-2">
           <RadioGroupItem
             value="all"

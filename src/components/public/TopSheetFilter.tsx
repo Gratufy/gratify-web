@@ -74,7 +74,10 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
     >
       <SheetTrigger className="flex cursor-pointer items-center gap-8 px-3 xl:gap-10 xl:px-4">
         <div className="flex items-center px-3 py-1 xl:px-4">
-          <CityIcon className="mr-2 size-4 xl:mr-3 xl:size-5" />
+          <CityIcon
+            className="mr-2 size-4 xl:mr-3 xl:size-5"
+            aria-hidden="true"
+          />
           <span className="placeholder-sm xl:placeholder-base">
             {/* {cityLabel} */}
             {getCityLabel(filters.city)}
@@ -82,12 +85,18 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
         </div>
 
         <div className="flex items-center px-3 py-1 xl:px-4">
-          <SortIcon className="mr-2 size-4 xl:mr-3 xl:size-5" />
+          <SortIcon
+            className="mr-2 size-4 xl:mr-3 xl:size-5"
+            aria-hidden="true"
+          />
           <span className="placeholder-sm xl:placeholder-base">Сортувати</span>
         </div>
 
         <div className="flex items-center px-3 py-1 xl:px-4">
-          <CategoryIcon className="mr-2 size-4 xl:mr-3 xl:size-5" />
+          <CategoryIcon
+            className="mr-2 size-4 xl:mr-3 xl:size-5"
+            aria-hidden="true"
+          />
           <span className="placeholder-sm xl:placeholder-base">Послуги</span>
         </div>
       </SheetTrigger>
@@ -98,8 +107,7 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
         <SheetHeader className="sr-only">
           <SheetTitle>Застосувати фільтри</SheetTitle>
           <SheetDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            Виберіть фільтри для пошуку бізнесів
           </SheetDescription>
         </SheetHeader>
         <div className="flex justify-around gap-6">
@@ -108,7 +116,7 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
               htmlFor="top-city"
               className="placeholder-sm xl:placeholder-base mb-3 flex items-center gap-3 xl:mb-4"
             >
-              <CityIcon className="h-4 w-4 xl:h-5 xl:w-5" />
+              <CityIcon className="h-4 w-4 xl:h-5 xl:w-5" aria-hidden="true" />
               <span>Місто</span>
             </label>
             <CustomSelect
@@ -132,7 +140,10 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
 
           <div className="px-3 xl:px-4">
             <div className="mb-3 flex items-center xl:mb-4">
-              <SortIcon className="mr-2 size-4 xl:mr-3 xl:size-5" />
+              <SortIcon
+                className="mr-2 size-4 xl:mr-3 xl:size-5"
+                aria-hidden="true"
+              />
               <span className="placeholder-sm xl:placeholder-base">
                 Сортувати
               </span>
@@ -145,16 +156,19 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
           </div>
 
           <div className="px-3 xl:px-4">
-            <label
-              htmlFor="categories"
-              className="placeholder-sm xl:placeholder-base mb-3 flex items-center gap-3 xl:mb-4"
-            >
-              <CategoryIcon className="h-4 w-4 xl:h-5 xl:w-5" />
+            <span className="placeholder-sm xl:placeholder-base mb-3 flex items-center gap-3 xl:mb-4">
+              <CategoryIcon
+                className="h-4 w-4 xl:h-5 xl:w-5"
+                aria-hidden="true"
+              />
               <span>Послуги</span>
-            </label>
+            </span>
+            <span id="category-group-label" className="sr-only">
+              Обрати категорію послуг
+            </span>
             <div
               role="radiogroup"
-              aria-label="Category options"
+              aria-labelledby="category-group-label"
               className="flex flex-wrap gap-x-2 gap-y-4 py-2"
             >
               {categoriesWithAll.map((category) => (
@@ -182,10 +196,12 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
               setTempSortBy('newest');
             }}
             type="button"
-            // className={`placeholder-small lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 flex cursor-pointer items-center gap-1 border bg-white px-2 py-2 lg:gap-2`}
             className="btn-reject"
           >
-            <CrossIcon className="size-3 lg:size-4 xl:size-5" />
+            <CrossIcon
+              className="size-3 lg:size-4 xl:size-5"
+              aria-hidden="true"
+            />
             <span>Очистити все</span>
           </button>
           <SheetClose
@@ -200,7 +216,10 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
             //className="placeholder-xs bg-background-main-300 w-30 border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2 shadow-[1px_2px_10px_2px_var(--elements-grey-50)]"
             className="btn-aprove"
           >
-            <CheckIcon className="size-3 lg:size-4 xl:size-5" />
+            <CheckIcon
+              className="size-3 lg:size-4 xl:size-5"
+              aria-hidden="true"
+            />
             <span>Застосувати</span>
           </SheetClose>
         </div>

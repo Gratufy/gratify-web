@@ -74,6 +74,7 @@ function BusinessHomeClient() {
               isError={isBusinessesError}
               error={error}
               linkPrefix="/dashboard/business"
+              isBusinessesLoading={isBusinessesLoading}
             />
           </>
         )}

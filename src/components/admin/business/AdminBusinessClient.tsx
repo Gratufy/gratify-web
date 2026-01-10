@@ -76,6 +76,7 @@ function AdminBusinessClient() {
               isError={isBusinessesError}
               error={error}
               linkPrefix="/admin/business"
+              isBusinessesLoading={isBusinessesLoading}
             />
           </>
         )}
