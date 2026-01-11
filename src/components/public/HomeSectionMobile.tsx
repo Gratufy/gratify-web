@@ -10,7 +10,6 @@ import BusinessList from '../shared/BusinessList';
 import NotFoundComponent from '../shared/NotFoundComponent';
 import { getCityLabel } from '@/utils/getCityLabel';
 import { useFilters } from '@/hooks/useFilters';
-import NewBottomSheetFilters from './NewBottomSheetFilters';
 
 type HomeSectionMobileProps = {
   businesses: BusinessWithCategoryName[];
@@ -63,7 +62,7 @@ function HomeSectionMobile({
           />
         </div>
       </div>
-      <NewBottomSheetFilters
+      <BottomSheetFilters
         businesses={businesses} // for Map
         categoriesWithAll={categoriesWithAll}
       />
