@@ -11,11 +11,11 @@ function DesktopFooter() {
     <>
       <div className="container mx-auto hidden items-center justify-between lg:flex">
         {/* lg:mr-54 xl:mr-60*/}
-        <div className="lg:h-14 lg:w-[260px] xl:w-[344px]">
+        <div className="xl:h-18 lg:h-14 lg:w-[260px] xl:w-[344px]">
           <Image
             src="/images/logo.png"
             width={344}
-            height={71}
+            height={72}
             alt="Логотип Gratify"
             className="h-auto"
           />

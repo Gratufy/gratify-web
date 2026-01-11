@@ -74,7 +74,15 @@ function Karma({
     voteMutation.mutate(vote);
   }
   return (
-    <div className="title-h6 flex items-center gap-2 py-1">
+    <div
+      className="title-h6 flex items-center gap-2 py-1"
+      onClick={(e) => {
+        // e.stopPropagation();
+        e.preventDefault();
+      }}
+      role="group" // optional, для screen reader
+      aria-label="Голосування за бізнес"
+    >
       <button
         aria-label={
           userVote?.vote === 1
@@ -93,10 +101,10 @@ function Karma({
         }}
         disabled={voteMutation.isPending}
       >
-        <Plus className="h-3 w-3" />
+        <Plus className="h-3 w-3" aria-hidden="true" />
       </button>
 
-      <p className="">{karma}</p>
+      <p aria-label="Поточна карма">{karma}</p>
 
       <button
         aria-label={
@@ -113,7 +121,7 @@ function Karma({
         }}
         disabled={voteMutation.isPending}
       >
-        <Minus className="h-3 w-3" />
+        <Minus className="h-3 w-3" aria-hidden="true" />
       </button>
     </div>
   );

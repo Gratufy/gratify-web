@@ -16,19 +16,26 @@ function DeleteAllFiltersBtn({
   const { resetFilters } = useFilters();
   return (
     <button
+      aria-label="Очистити фільтри"
       type="button"
       className={`btn-reject ${className}`}
       onClick={resetFilters}
     >
       {!isSecondVariant ? (
         <>
-          <CrossIcon className="size-3 lg:size-4 xl:size-5" />
+          <CrossIcon
+            className="size-3 lg:size-4 xl:size-5"
+            aria-hidden="true"
+          />
           <span>Очистити все</span>
         </>
       ) : (
         <>
           <span>Очистити все</span>
-          <CrossIcon className="size-3 lg:size-4 xl:size-5" />
+          <CrossIcon
+            className="size-3 lg:size-4 xl:size-5"
+            aria-hidden="true"
+          />
         </>
       )}
     </button>

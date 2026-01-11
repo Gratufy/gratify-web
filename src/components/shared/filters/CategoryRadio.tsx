@@ -21,11 +21,9 @@ function CategoryRadio({
   return (
     <label
       className={cn(
-        // 'flex cursor-pointer items-center transition',
         'chip',
         checked && 'chip-checked',
-        // ? 'bg-elements-grey-200 border-elements-main-500 font-medium'
-        // : 'bg-background-white border-elements-main-500',
+
         className
       )}
     >
@@ -36,6 +34,7 @@ function CategoryRadio({
         checked={checked}
         onChange={() => onChange(value)}
         className="sr-only"
+        aria-checked={checked}
       />
       {children}
     </label>

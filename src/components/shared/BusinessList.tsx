@@ -69,16 +69,14 @@ function BusinessList({
 
   return (
     <section className="flex flex-1 flex-col items-center overflow-hidden">
-      {isLoading && <BusinessListSkeleton count={6} />}
-
+      {isLoading && <BusinessListSkeleton count={4} />}
       {isError && <p>Error: {error?.message}</p>}
-
       {businesses.length > 0 && (
         <ul className="flex w-full max-w-full flex-col items-center justify-center gap-5 overflow-hidden lg:gap-10">
           {businesses.map((b) => (
             <li
               key={b.id}
-              className="shadow-card w-full overflow-hidden bg-white pb-5"
+              className="shadow-card h-[226px] w-full overflow-hidden bg-white pb-5 lg:h-[248px] xl:h-[260px]"
               onMouseEnter={() => onHover?.(b.id)}
               onMouseLeave={() => onHover?.(null)}
             >
@@ -97,7 +95,7 @@ function BusinessList({
                 }}
                 className="block h-full w-full"
               >
-                <article className="w-full overflow-hidden" key={b.id}>
+                <article className="w-full overflow-hidden">
                   <BusinessCardShot
                     business={b}
                     setOpen={setOpen}
@@ -131,6 +129,8 @@ function BusinessList({
         classNameDescription="sr-only"
         onAction={onConfirm}
       />
+      {/* for LIGHT HOUSE */}
+      {hasNextPage && <div aria-hidden className="h-[300px]" />}
     </section>
   );
 }

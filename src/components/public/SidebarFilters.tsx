@@ -29,15 +29,15 @@ function SidebarFilters({ categoriesWithAll }: SidebarFiltersProps) {
         <div className="flex flex-col gap-6 xl:gap-8">
           <div className="border-elements-grey-200 border-b pb-3">
             <label
-              htmlFor="city"
+              htmlFor="sidebar-city"
               className="placeholder-sm xl:placeholder-base flex items-center gap-3 px-4 py-1 xl:mb-2"
             >
-              <CityIcon className="h-4 w-4 xl:h-5 xl:w-5" />
+              <CityIcon className="h-4 w-4 xl:h-5 xl:w-5" aria-hidden="true" />
               <span>Місто</span>
             </label>
             <CustomSelect
               className="standart w-full px-3 py-1.5 xl:px-4"
-              id="city"
+              id="sidebar-city"
               value={filters.city}
               onChange={(val) => updateFilter('city', val)}
               options={UKRAINE_REGIONAL_CENTERS}
@@ -53,13 +53,10 @@ function SidebarFilters({ categoriesWithAll }: SidebarFiltersProps) {
             />
           </div>
           <div className="border-elements-grey-200 border-b pb-3">
-            <label
-              htmlFor="sort"
-              className="placeholder-sm xl:placeholder-base flex items-center gap-3 px-4 py-1 xl:mb-2"
-            >
-              <SortIcon className="h-4 w-4 xl:h-5 xl:w-5" />
+            <span className="placeholder-sm xl:placeholder-base flex items-center gap-3 px-4 py-1 xl:mb-2">
+              <SortIcon className="h-4 w-4 xl:h-5 xl:w-5" aria-hidden="true" />
               <span>Сортувати</span>
-            </label>
+            </span>
             <SortFilterComponent
               classNameDiv="p-3 xl:p-4 placeholder-xs xl:placeholder-sm"
               value={filters.sort}
@@ -67,16 +64,19 @@ function SidebarFilters({ categoriesWithAll }: SidebarFiltersProps) {
             />
           </div>
           <div>
-            <label
-              htmlFor="categories"
-              className="placeholder-sm xl:placeholder-base flex items-center gap-3 px-4 py-1 xl:mb-2"
-            >
-              <CategoryIcon className="h-4 w-4 xl:h-5 xl:w-5" />
+            <span className="placeholder-sm xl:placeholder-base flex items-center gap-3 px-4 py-1 xl:mb-2">
+              <CategoryIcon
+                className="h-4 w-4 xl:h-5 xl:w-5"
+                aria-hidden="true"
+              />
               <span>Послуги</span>
-            </label>
+            </span>
+            <span id="Sidebar-category-group-label" className="sr-only">
+              Обрати категорію послуг
+            </span>
             <div
               role="radiogroup"
-              aria-label="Category options"
+              aria-labelledby="Sidebar-category-group-label"
               className="flex flex-wrap gap-x-2 gap-y-4 py-2"
             >
               {categoriesWithAll.map((category) => (

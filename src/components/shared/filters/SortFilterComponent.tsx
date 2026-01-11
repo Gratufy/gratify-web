@@ -16,15 +16,15 @@ function SortFilterComponent({
   return (
     // p-3 xl:p-4 placeholder-xs xl:placeholder-sm
     <div className={`w-full ${classNameDiv}`}>
-      <label htmlFor="sortby-status" className="sr-only">
-        SORT BY
-      </label>
       <RadioGroup
-        id="sortby-status"
         value={value}
         onValueChange={onChange}
         className="flex flex-col gap-2 xl:gap-3"
+        aria-labelledby="sortby-status"
       >
+        <span id="sortby-status" className="sr-only">
+          Сортувати за статусом бізнесу: нові, популярні, стрімкий ріст
+        </span>
         <div className="flex items-center gap-1 xl:gap-2">
           <RadioGroupItem
             value="newest"

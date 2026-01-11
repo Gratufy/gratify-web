@@ -68,7 +68,6 @@ function BusinessCardShot({
     }
   };
 
-  // const CityListElements = renderLocations(business, selectedCity);
   return (
     <>
       {/* header */}
@@ -104,18 +103,18 @@ function BusinessCardShot({
         {/* block with image */}
 
         <div className="relative flex h-full flex-1 justify-end">
-          <div className="xl:w-7/10 w-6/7 relative h-full overflow-hidden">
+          <div className="xl:w-7/10 w-6/7 relative h-16 overflow-hidden lg:h-[88px]">
             {business.coverImageUrl ? (
               <>
                 <Image
                   src={business.coverImageUrl}
                   alt={`Зображення бізнесу ${business.name}`}
                   fill
+                  loading="lazy"
+                  fetchPriority="low"
                   sizes="(min-width: 1024px) 586px, 515px"
                   className="relative z-0 object-cover"
                 />
-                <div className="z-5 bg-linear-to-l to-background-white pointer-events-none absolute inset-0 from-white/0"></div>
-                <div className="z-5 bg-linear-to-l to-gradient-card/ from-gradient-card/0 pointer-events-none absolute inset-0"></div>
               </>
             ) : (
               <>
@@ -123,14 +122,15 @@ function BusinessCardShot({
                   src="/images/default-header-img.png"
                   alt="Дефолтне зображення бізнесу"
                   fill
-                  //unoptimized
+                  loading="lazy"
+                  fetchPriority="low"
                   sizes="(min-width: 1024px) 586px, 515px"
                   className="relative z-0 object-cover"
                 />
-                <div className="z-5 bg-linear-to-l to-background-white pointer-events-none absolute inset-0 from-white/0"></div>
-                <div className="z-5 bg-linear-to-l to-gradient-card/ from-gradient-card/0 pointer-events-none absolute inset-0"></div>
               </>
             )}
+            <div className="z-5 bg-linear-to-l to-background-white pointer-events-none absolute inset-0 from-white/0"></div>
+            <div className="z-5 bg-linear-to-l to-gradient-card/ from-gradient-card/0 pointer-events-none absolute inset-0"></div>
           </div>
         </div>
 
@@ -151,7 +151,10 @@ function BusinessCardShot({
                 key={offer.offerId}
                 className="flex items-center gap-3 overflow-hidden"
               >
-                <CheckIcon className="h-3 w-3 flex-shrink-0 lg:h-4 lg:w-4 xl:h-5 xl:w-5" aria-hidden="true" />
+                <CheckIcon
+                  className="h-3 w-3 flex-shrink-0 lg:h-4 lg:w-4 xl:h-5 xl:w-5"
+                  aria-hidden="true"
+                />
                 <span className="placeholder-xs lg:placeholder-sm xl:placeholder-base block truncate">
                   {offer.title?.toLowerCase()}
                 </span>
@@ -177,7 +180,10 @@ function BusinessCardShot({
             setOnConfirm={setOnConfirm}
           />
 
-          <div className="flex items-center gap-0.5">
+          <div
+            className="flex items-center gap-0.5"
+            aria-label={`Кількість відгуків: ${business.reviewCount}`}
+          >
             <ReviewIcon className="h-4 w-4 xl:h-5 xl:w-5" aria-hidden="true" />
             <span className="placeholder-sm xl:placeholder-base font-medium">
               {business.reviewCount}
