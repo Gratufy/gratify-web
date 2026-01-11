@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { BusinessWithCategoryName } from '@/types';
 
+import { useFilters } from '@/hooks/useFilters';
+
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 import SortIcon from '@/assets/icons/filters/icon-sort.svg';
 import MapIcon from '@/assets/icons/filters/icon-map.svg';
@@ -16,11 +18,10 @@ import {
   SheetDescription,
 } from '@/components/ui/sheet';
 
-import CityFilter from './mobiles-filters/CityFilter';
-import SortFilter from './mobiles-filters/SortFilter';
-import CategoryFilter from './mobiles-filters/CategoryFilter';
-import MobileMapBottom from './mobiles-filters/MobileMapBottom';
-import { useFilters } from '@/hooks/useFilters';
+import CityFilter from '@/components/public/mobiles-filters/CityFilter';
+import SortFilter from '@/components/public/mobiles-filters/SortFilter';
+import CategoryFilter from '@/components/public/mobiles-filters/CategoryFilter';
+import MobileMapBottom from '@/components/public/mobiles-filters/MobileMapBottom';
 
 type BottomSheetFiltersProps = {
   categoriesWithAll: { categoryId: string; name: string }[];
@@ -69,32 +70,32 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
               className="flex cursor-pointer flex-col items-center justify-center gap-1 px-5"
               onClick={() => setActiveFilter('city')}
             >
-              <CityIcon className="h-4 w-4" />
-              <p className="placeholder-xs">Місто</p>
+              <CityIcon className="h-4 w-4" aria-hidden="true" />
+              <span className="placeholder-xs">Місто</span>
             </button>
             <button
               type="button"
               className="flex cursor-pointer flex-col items-center justify-center gap-1 px-5"
               onClick={() => setActiveFilter('sort')}
             >
-              <SortIcon className="h-4 w-4" />
-              <p className="placeholder-xs">Сортувати</p>
+              <SortIcon className="h-4 w-4" aria-hidden="true" />
+              <span className="placeholder-xs">Сортувати</span>
             </button>
             <button
               type="button"
               className="flex cursor-pointer flex-col items-center justify-center gap-1 px-5"
               onClick={() => setActiveFilter('category')}
             >
-              <CategoryIcon className="h-4 w-4" />
-              <p className="placeholder-xs">Послуги</p>
+              <CategoryIcon className="h-4 w-4" aria-hidden="true" />
+              <span className="placeholder-xs">Послуги</span>
             </button>
             <button
               type="button"
               className="flex cursor-pointer flex-col items-center justify-center gap-1 px-5"
               onClick={() => setActiveFilter('map')}
             >
-              <MapIcon className="h-4 w-4" />
-              <p className="placeholder-xs">Мапа</p>
+              <MapIcon className="h-4 w-4" aria-hidden="true" />
+              <span className="placeholder-xs">Мапа</span>
             </button>
           </div>
         </SheetTrigger>

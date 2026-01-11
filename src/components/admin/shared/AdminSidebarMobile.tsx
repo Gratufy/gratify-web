@@ -32,7 +32,7 @@ function AdminSidebarMobile() {
         aria-label="Відкрити меню адміністратора"
         onClick={() => setSidebarOpen(!sidebarOpen)}
       >
-        <IconSidebar className="size-6" />
+        <IconSidebar className="size-6" aria-hidden="true" />
       </button>
       {/* Overlay */}
       {sidebarOpen && (
@@ -50,7 +50,7 @@ function AdminSidebarMobile() {
         )}
       >
         <div className="grid flex-1 auto-rows-min gap-3 px-4 py-6">
-          <nav className="grid gap-8">
+          <nav className="grid gap-8" aria-label="Навігація по адмін сайдбару">
             {ADMIN_LINKS.map(({ href, label, icon: Icon }) => (
               <Link
                 key={href}
@@ -61,14 +61,11 @@ function AdminSidebarMobile() {
                   pathname === href && 'admin-link-active'
                 )}
               >
-                <Icon className="size-5" />
+                <Icon className="size-5" aria-hidden="true" />
                 <span>{label}</span>
               </Link>
             ))}
           </nav>
-          {/* <div className="mt-auto" onClick={() => setSidebarOpen(false)}>
-            <LogoutBtn customClassName="admin-link cursor-pointer" />
-          </div> */}
         </div>
       </aside>
     </>

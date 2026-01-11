@@ -26,7 +26,7 @@ function SortFilter({ onApply }: SortFilterProps) {
   return (
     <div className="w-65 flex flex-col gap-4 self-center py-5">
       <div className="flex items-center gap-3 py-2">
-        <SortIcon className="h-5 w-5" />
+        <SortIcon className="h-5 w-5" aria-hidden="true" />
         <h2 className="placeholder-sm font-medium">Сортувати</h2>
       </div>
       <div className="flex justify-center gap-4">
@@ -55,7 +55,10 @@ function SortFilter({ onApply }: SortFilterProps) {
           // className="placeholder-xs w-30 border-background-main-400 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2"
           className="btn-reject"
         >
-          <CrossIcon className="size-3 lg:size-4 xl:size-5" />
+          <CrossIcon
+            className="size-3 lg:size-4 xl:size-5"
+            aria-hidden="true"
+          />
           <span>Скасувати</span>
         </button>
         <SheetClose
@@ -69,7 +72,10 @@ function SortFilter({ onApply }: SortFilterProps) {
           //className="placeholder-sm bg-background-main-300 w-30 border-background-main-300 flex h-8 cursor-pointer items-center justify-center gap-1 border p-2 shadow-[1px_2px_10px_2px_var(--elements-grey-50)]"
           className="btn-aprove"
         >
-          <CheckIcon className="size-3 lg:size-4 xl:size-5" />
+          <CheckIcon
+            className="size-3 lg:size-4 xl:size-5"
+            aria-hidden="true"
+          />
           <span>Застосувати</span>
         </SheetClose>
       </div>
