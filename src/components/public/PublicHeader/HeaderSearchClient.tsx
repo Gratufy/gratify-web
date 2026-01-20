@@ -1,25 +1,26 @@
 'use client';
 import React, { useState, useMemo, useEffect } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import debounce from 'lodash/debounce';
+
 import { useDashboardSearchStore } from '@/stores/dashboardSearchStore';
 import { useFavoritesSearchStore } from '@/stores/FavoritesSearchStore';
-import { usePathname } from 'next/navigation';
-import { useAuth, useUserStore } from '@/stores/useUserStore';
+import { useAuth } from '@/stores/useUserStore';
 import { useFilters } from '@/hooks/useFilters';
-import ThemeSwitch from '@/components/ui/custom-ui/ThemeSwitch';
 
-import Image from 'next/image';
-
-import InputSearch from './InputSearch';
-import LoginHeaderBtn from './LoginHeaderBtn';
 import FavoriteHeaderIcon from '@/assets/icons/general/favorite-h.svg';
-// import IconUser from '@/assets/icons/general/icon-user.svg';
-import UserMenu from './UserMenu';
+
+import ThemeSwitch from '@/components/ui/custom-ui/ThemeSwitch';
+import AuthHeaderSkeleton from '@/components/shared/skeletons/AuthHeaderSkeleton';
+
+import InputSearch from '@/components/public/PublicHeader/InputSearch';
+import LoginHeaderBtn from '@/components/public/PublicHeader/LoginHeaderBtn';
+import UserMenu from '@/components/public/PublicHeader/UserMenu';
 
 import BusinessMenu from '@/components/business/BusinessHeader/BusinessMenu';
-import Link from 'next/link';
 import AdminMenu from '@/components/admin/AdminHeader/AdminMenu';
-import AuthHeaderSkeleton from '@/components/shared/skeletons/AuthHeaderSkeleton';
 
 function PublicHeaderClient() {
   const pathname = usePathname();
@@ -56,23 +57,8 @@ function PublicHeaderClient() {
           ? favoriteslocal
           : ''
   );
-  // const session = useUserStore((s) => s.session);
-  // const user = useUserStore((s) => s.profile);
-  // const isLoading = useUserStore((s) => s.isLoading);
-  const {
-    session,
-    isLoggedIn,
-    isLoadingAuth,
 
-    profile: user,
-    hasCheckedSession,
-  } = useAuth();
-  //const isUserLoaded = session && isLoading === false;
-
-  console.log('isLoggedIn', isLoggedIn);
-  console.log('session', session);
-  console.log('isLoadingAuth ', isLoadingAuth);
-  console.log('hasCheckedSession ', hasCheckedSession);
+  const { session, profile: user, hasCheckedSession } = useAuth();
 
   const debouncedUpdate = useMemo(
     () => debounce((val: string) => updateFilter('search', val), 500),
@@ -147,20 +133,6 @@ function PublicHeaderClient() {
           ) : (
             <LoginHeaderBtn />
           )}
-          {/* {!session && <LoginHeaderBtn />}
-          {session && (
-            // gap-1 lg:gap-3
-            <div className="flex w-12 items-start justify-between">
-              {user?.role === 'USER' && <UserMenu />}
-              {user?.role === 'BUSINESS' && <BusinessMenu />}
-              {user?.role === 'ADMIN' && <AdminMenu />}
-              <Link href="/favorites">
-                <FavoriteHeaderIcon
-                  className={`text-background-white h-5 w-4 ${isFavorites ? 'text-icons-color-accent' : 'text-background-white'}`}
-                />
-              </Link>
-            </div>
-          )} */}
         </div>
       </div>
       {/* mobile */}

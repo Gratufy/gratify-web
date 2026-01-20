@@ -1,7 +1,5 @@
 import React from 'react';
-
 import Link from 'next/link';
-// import FavoriteHeaderIcon from '@/assets/icons/general/favorite-header.svg';
 
 import IconUser from '@/assets/icons/general/icon-user.svg';
 

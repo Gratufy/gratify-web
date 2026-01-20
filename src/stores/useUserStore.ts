@@ -1,6 +1,3 @@
-// import { create } from "zustand";
-// import { createClient } from "@/utils/supabase/client";
-// //import type { UserProfile } from "@/types/user";
 import { create } from 'zustand';
 import type { Session } from '@supabase/supabase-js';
 import { UserProfile } from '@/types';
