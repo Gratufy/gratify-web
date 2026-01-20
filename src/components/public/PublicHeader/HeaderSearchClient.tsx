@@ -15,8 +15,6 @@ import LoginHeaderBtn from './LoginHeaderBtn';
 import FavoriteHeaderIcon from '@/assets/icons/general/favorite-h.svg';
 // import IconUser from '@/assets/icons/general/icon-user.svg';
 import UserMenu from './UserMenu';
-import { House } from 'lucide-react';
-<House size={20} strokeWidth={2.75} absoluteStrokeWidth />;
 
 import BusinessMenu from '@/components/business/BusinessHeader/BusinessMenu';
 import Link from 'next/link';
@@ -106,12 +104,11 @@ function PublicHeaderClient() {
           value={inputValue}
           onChange={handleChange}
         />
-        {/* lg:w-34 xl:w-42* was before House */}
+
         <div className="w-25 lg:w-34 xl:w-42 flex items-center justify-between">
           <ThemeSwitch />
-          {/* <House className="size-5" /> */}
-
-          {session ? (
+          {!session && <LoginHeaderBtn />}
+          {session && (
             // gap-1 lg:gap-3
             <div className="flex w-12 items-start justify-between">
               {user?.role === 'USER' && <UserMenu />}
@@ -123,8 +120,6 @@ function PublicHeaderClient() {
                 />
               </Link>
             </div>
-          ) : (
-            <LoginHeaderBtn />
           )}
         </div>
       </div>

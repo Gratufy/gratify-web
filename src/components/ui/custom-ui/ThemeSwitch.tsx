@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 import { Moon, Sun } from 'lucide-react';
+import { Spinner } from '@/components/ui/spinner';
 
 export default function ThemeSwitch() {
   const [mounted, setMounted] = useState(false);
@@ -11,23 +12,24 @@ export default function ThemeSwitch() {
     setMounted(true);
   }, []);
 
-  if (!mounted) {
-    return null;
-  }
   return (
     <div className="bg-icons-grey-50 flex w-8 items-center justify-center p-1.5">
-      {resolvedTheme === 'dark' ? (
-        <Sun
-          onClick={() => setTheme('light')}
-          className="size-5 cursor-pointer"
-          aria-label="Switch to light"
-        />
+      {mounted ? (
+        resolvedTheme === 'dark' ? (
+          <Sun
+            onClick={() => setTheme('light')}
+            className="size-5 cursor-pointer"
+            aria-label="Switch to light"
+          />
+        ) : (
+          <Moon
+            onClick={() => setTheme('dark')}
+            className="size-5 cursor-pointer"
+            aria-label="Switch to dark"
+          />
+        )
       ) : (
-        <Moon
-          onClick={() => setTheme('dark')}
-          className="size-5 cursor-pointer"
-          aria-label="Switch to dark"
-        />
+        <Spinner size={20} />
       )}
     </div>
   );

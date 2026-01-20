@@ -9,7 +9,6 @@ function LoginHeaderBtn() {
   return (
     <Link
       href="/login"
-      // gap-1 lg:gap-2
       className="xl:w-15 flex w-12 items-center justify-between lg:w-14"
     >
       <IconUser className="text-icons-grey-950 size-5" />
