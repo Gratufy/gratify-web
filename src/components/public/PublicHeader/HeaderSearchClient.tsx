@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce';
 import { useDashboardSearchStore } from '@/stores/dashboardSearchStore';
 import { useFavoritesSearchStore } from '@/stores/FavoritesSearchStore';
 import { usePathname } from 'next/navigation';
-import { useUserStore } from '@/stores/useUserStore';
+import { useAuth, useUserStore } from '@/stores/useUserStore';
 import { useFilters } from '@/hooks/useFilters';
 import ThemeSwitch from '@/components/ui/custom-ui/ThemeSwitch';
 
@@ -19,6 +19,7 @@ import UserMenu from './UserMenu';
 import BusinessMenu from '@/components/business/BusinessHeader/BusinessMenu';
 import Link from 'next/link';
 import AdminMenu from '@/components/admin/AdminHeader/AdminMenu';
+import AuthHeaderSkeleton from '@/components/shared/skeletons/AuthHeaderSkeleton';
 
 function PublicHeaderClient() {
   const pathname = usePathname();
@@ -55,8 +56,23 @@ function PublicHeaderClient() {
           ? favoriteslocal
           : ''
   );
-  const session = useUserStore((s) => s.session);
-  const user = useUserStore((s) => s.profile);
+  // const session = useUserStore((s) => s.session);
+  // const user = useUserStore((s) => s.profile);
+  // const isLoading = useUserStore((s) => s.isLoading);
+  const {
+    session,
+    isLoggedIn,
+    isLoadingAuth,
+
+    profile: user,
+    hasCheckedSession,
+  } = useAuth();
+  //const isUserLoaded = session && isLoading === false;
+
+  console.log('isLoggedIn', isLoggedIn);
+  console.log('session', session);
+  console.log('isLoadingAuth ', isLoadingAuth);
+  console.log('hasCheckedSession ', hasCheckedSession);
 
   const debouncedUpdate = useMemo(
     () => debounce((val: string) => updateFilter('search', val), 500),
@@ -107,7 +123,31 @@ function PublicHeaderClient() {
 
         <div className="w-25 lg:w-34 xl:w-42 flex items-center justify-between">
           <ThemeSwitch />
-          {!session && <LoginHeaderBtn />}
+          {!hasCheckedSession ? (
+            <AuthHeaderSkeleton />
+          ) : session ? (
+            <div className="xl:w-15 flex w-14 items-start justify-between">
+              <div
+                className={`${user?.role ? '' : 'bg-icons-grey-300/80'} h-6 w-[18px]`}
+              >
+                {user?.role === 'USER' && <UserMenu />}
+                {user?.role === 'BUSINESS' && <BusinessMenu />}
+                {user?.role === 'ADMIN' && <AdminMenu />}
+              </div>
+              <Link href="/favorites">
+                <FavoriteHeaderIcon
+                  className={`text-background-white ml-auto h-5 w-4 ${
+                    isFavorites
+                      ? 'text-icons-color-accent'
+                      : 'text-background-white'
+                  }`}
+                />
+              </Link>
+            </div>
+          ) : (
+            <LoginHeaderBtn />
+          )}
+          {/* {!session && <LoginHeaderBtn />}
           {session && (
             // gap-1 lg:gap-3
             <div className="flex w-12 items-start justify-between">
@@ -120,7 +160,7 @@ function PublicHeaderClient() {
                 />
               </Link>
             </div>
-          )}
+          )} */}
         </div>
       </div>
       {/* mobile */}
@@ -140,12 +180,17 @@ function PublicHeaderClient() {
             <div className="w-25 flex items-center justify-between">
               <ThemeSwitch />
 
-              {session ? (
-                // gap-1 lg:gap-3
+              {!hasCheckedSession ? (
+                <AuthHeaderSkeleton />
+              ) : session ? (
                 <div className="flex w-12 items-start justify-between">
-                  {user?.role === 'USER' && <UserMenu />}
-                  {user?.role === 'BUSINESS' && <BusinessMenu />}
-                  {user?.role === 'ADMIN' && <AdminMenu />}
+                  <div
+                    className={`${user?.role ? '' : 'bg-icons-grey-300/80'} h-5 w-5`}
+                  >
+                    {user?.role === 'USER' && <UserMenu />}
+                    {user?.role === 'BUSINESS' && <BusinessMenu />}
+                    {user?.role === 'ADMIN' && <AdminMenu />}
+                  </div>
                   <Link href="/favorites">
                     <FavoriteHeaderIcon className="text-background-white h-5 w-4" />
                   </Link>
