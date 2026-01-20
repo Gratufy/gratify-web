@@ -1,6 +1,7 @@
 import { userProfiles } from '@/db/schema';
 
 export type Role = 'USER' | 'BUSINESS' | 'ADMIN';
+export type AuthStatus = 'init' | 'loading' | 'guest' | 'auth';
 // export type UserProfile = {
 //   userId: string;
 //   email: string;
