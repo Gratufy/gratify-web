@@ -1,7 +1,9 @@
 import React from 'react';
+import Link from 'next/link';
 
 import IconCategory from '@/assets/icons/menu/icon-category.svg';
 import IconModering from '@/assets/icons/menu/icon-modering.svg';
+import IconAdminUser from '@/assets/icons/general/icon-admin-user.svg';
 
 import {
   DropdownMenu,
@@ -10,10 +12,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import IconAdminUser from '@/assets/icons/general/icon-admin-user.svg';
-import Link from 'next/link';
+
 import LogoutBtn from '@/components/ui/custom-ui/LogoutBtn';
-//import DeleteAccountButton from '@/components/ui/DeleteAccountButton';
 
 function AdminMenu() {
   return (

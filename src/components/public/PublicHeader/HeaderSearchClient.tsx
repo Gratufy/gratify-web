@@ -1,25 +1,25 @@
 'use client';
 import React, { useState, useMemo, useEffect } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import debounce from 'lodash/debounce';
+
 import { useDashboardSearchStore } from '@/stores/dashboardSearchStore';
 import { useFavoritesSearchStore } from '@/stores/FavoritesSearchStore';
-import { usePathname } from 'next/navigation';
-import { useUserStore } from '@/stores/useUserStore';
+import { useAuth } from '@/stores/useUserStore';
 import { useFilters } from '@/hooks/useFilters';
-import ThemeSwitch from '@/components/ui/custom-ui/ThemeSwitch';
 
-import Image from 'next/image';
-
-import InputSearch from './InputSearch';
-import LoginHeaderBtn from './LoginHeaderBtn';
 import FavoriteHeaderIcon from '@/assets/icons/general/favorite-h.svg';
-// import IconUser from '@/assets/icons/general/icon-user.svg';
-import UserMenu from './UserMenu';
-import { House } from 'lucide-react';
-<House size={20} strokeWidth={2.75} absoluteStrokeWidth />;
+
+import ThemeSwitch from '@/components/ui/custom-ui/ThemeSwitch';
+import AuthHeaderSkeleton from '@/components/shared/skeletons/AuthHeaderSkeleton';
+
+import InputSearch from '@/components/public/PublicHeader/InputSearch';
+import LoginHeaderBtn from '@/components/public/PublicHeader/LoginHeaderBtn';
+import UserMenu from '@/components/public/PublicHeader/UserMenu';
 
 import BusinessMenu from '@/components/business/BusinessHeader/BusinessMenu';
-import Link from 'next/link';
 import AdminMenu from '@/components/admin/AdminHeader/AdminMenu';
 
 function PublicHeaderClient() {
@@ -57,8 +57,8 @@ function PublicHeaderClient() {
           ? favoriteslocal
           : ''
   );
-  const session = useUserStore((s) => s.session);
-  const user = useUserStore((s) => s.profile);
+
+  const { session, profile: user, hasCheckedSession } = useAuth();
 
   const debouncedUpdate = useMemo(
     () => debounce((val: string) => updateFilter('search', val), 500),
@@ -106,20 +106,27 @@ function PublicHeaderClient() {
           value={inputValue}
           onChange={handleChange}
         />
-        {/* lg:w-34 xl:w-42* was before House */}
+
         <div className="w-25 lg:w-34 xl:w-42 flex items-center justify-between">
           <ThemeSwitch />
-          {/* <House className="size-5" /> */}
-
-          {session ? (
-            // gap-1 lg:gap-3
-            <div className="flex w-12 items-start justify-between">
-              {user?.role === 'USER' && <UserMenu />}
-              {user?.role === 'BUSINESS' && <BusinessMenu />}
-              {user?.role === 'ADMIN' && <AdminMenu />}
+          {!hasCheckedSession ? (
+            <AuthHeaderSkeleton />
+          ) : session ? (
+            <div className="xl:w-15 flex w-14 items-start justify-between">
+              <div
+                className={`${user?.role ? '' : 'bg-icons-grey-300/80'} h-6 w-[18px]`}
+              >
+                {user?.role === 'USER' && <UserMenu />}
+                {user?.role === 'BUSINESS' && <BusinessMenu />}
+                {user?.role === 'ADMIN' && <AdminMenu />}
+              </div>
               <Link href="/favorites">
                 <FavoriteHeaderIcon
-                  className={`text-background-white h-5 w-4 ${isFavorites ? 'text-icons-color-accent' : 'text-background-white'}`}
+                  className={`text-background-white ml-auto h-5 w-4 ${
+                    isFavorites
+                      ? 'text-icons-color-accent'
+                      : 'text-background-white'
+                  }`}
                 />
               </Link>
             </div>
@@ -145,12 +152,17 @@ function PublicHeaderClient() {
             <div className="w-25 flex items-center justify-between">
               <ThemeSwitch />
 
-              {session ? (
-                // gap-1 lg:gap-3
+              {!hasCheckedSession ? (
+                <AuthHeaderSkeleton />
+              ) : session ? (
                 <div className="flex w-12 items-start justify-between">
-                  {user?.role === 'USER' && <UserMenu />}
-                  {user?.role === 'BUSINESS' && <BusinessMenu />}
-                  {user?.role === 'ADMIN' && <AdminMenu />}
+                  <div
+                    className={`${user?.role ? '' : 'bg-icons-grey-300/80'} h-5 w-5`}
+                  >
+                    {user?.role === 'USER' && <UserMenu />}
+                    {user?.role === 'BUSINESS' && <BusinessMenu />}
+                    {user?.role === 'ADMIN' && <AdminMenu />}
+                  </div>
                   <Link href="/favorites">
                     <FavoriteHeaderIcon className="text-background-white h-5 w-4" />
                   </Link>
