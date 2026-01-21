@@ -13,18 +13,18 @@ export default function ThemeSwitch() {
   }, []);
 
   return (
-    <div className="bg-icons-grey-50 flex w-8 items-center justify-center p-1.5">
+    <div className="bg-icons-color-white flex w-8 items-center justify-center p-1.5">
       {mounted ? (
         resolvedTheme === 'dark' ? (
           <Sun
             onClick={() => setTheme('light')}
-            className="size-5 cursor-pointer"
+            className="dark:text-icons-main-800 size-5 cursor-pointer"
             aria-label="Switch to light"
           />
         ) : (
           <Moon
             onClick={() => setTheme('dark')}
-            className="size-5 cursor-pointer"
+            className="text-icons-main-600 size-5 cursor-pointer"
             aria-label="Switch to dark"
           />
         )

@@ -76,7 +76,7 @@ function BusinessList({
           {businesses.map((b) => (
             <li
               key={b.id}
-              className="shadow-card h-[226px] w-full overflow-hidden bg-white pb-5 lg:h-[248px] xl:h-[260px]"
+              className="dark:hover:bg-background-white dark:focus:bg-background-white dark:focus:border-elements-main-500 shadow-card bg-background-white dark:bg-background-main-50 h-[226px] w-full overflow-hidden pb-5 lg:h-[248px] xl:h-[260px] dark:shadow-none dark:focus:border-2"
               onMouseEnter={() => onHover?.(b.id)}
               onMouseLeave={() => onHover?.(null)}
             >

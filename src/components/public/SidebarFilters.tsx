@@ -32,7 +32,10 @@ function SidebarFilters({ categoriesWithAll }: SidebarFiltersProps) {
               htmlFor="sidebar-city"
               className="placeholder-sm xl:placeholder-base flex items-center gap-3 px-4 py-1 xl:mb-2"
             >
-              <CityIcon className="h-4 w-4 xl:h-5 xl:w-5" aria-hidden="true" />
+              <CityIcon
+                className="text-icons-main-600 h-4 w-4 xl:h-5 xl:w-5"
+                aria-hidden="true"
+              />
               <span>Місто</span>
             </label>
             <CustomSelect
@@ -54,7 +57,10 @@ function SidebarFilters({ categoriesWithAll }: SidebarFiltersProps) {
           </div>
           <div className="border-elements-grey-200 border-b pb-3">
             <span className="placeholder-sm xl:placeholder-base flex items-center gap-3 px-4 py-1 xl:mb-2">
-              <SortIcon className="h-4 w-4 xl:h-5 xl:w-5" aria-hidden="true" />
+              <SortIcon
+                className="text-icons-main-600 h-4 w-4 xl:h-5 xl:w-5"
+                aria-hidden="true"
+              />
               <span>Сортувати</span>
             </span>
             <SortFilterComponent
@@ -66,7 +72,7 @@ function SidebarFilters({ categoriesWithAll }: SidebarFiltersProps) {
           <div>
             <span className="placeholder-sm xl:placeholder-base flex items-center gap-3 px-4 py-1 xl:mb-2">
               <CategoryIcon
-                className="h-4 w-4 xl:h-5 xl:w-5"
+                className="text-icons-main-600 h-4 w-4 xl:h-5 xl:w-5"
                 aria-hidden="true"
               />
               <span>Послуги</span>

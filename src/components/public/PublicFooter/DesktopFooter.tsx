@@ -17,7 +17,14 @@ function DesktopFooter() {
             width={344}
             height={72}
             alt="Логотип Gratify"
-            className="h-auto"
+            className="h-auto dark:hidden"
+          />
+          <Image
+            src="/images/logo_dark.png"
+            width={344}
+            height={72}
+            alt="Логотип Gratify"
+            className="hidden h-auto dark:block"
           />
         </div>
         {/* lg:gap-4 xl:gap-7*/}

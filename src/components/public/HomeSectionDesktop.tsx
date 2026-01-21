@@ -69,7 +69,7 @@ function HomeSectionDesktop({
         <div
           className={`w-full ${showMap ? 'lg:pr-[50px] xl:pr-[150px]' : ''}`}
         >
-          <div className="flex w-full justify-between bg-white py-3">
+          <div className="bg-background-white flex w-full justify-between py-3">
             {showMap && (
               <TopSheetFilter categoriesWithAll={categoriesWithAll} />
             )}

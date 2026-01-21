@@ -96,7 +96,14 @@ function PublicHeaderClient() {
             width={181}
             height={38}
             alt="Логотип Gratify"
-            className="w-full"
+            className="w-full dark:hidden"
+          />
+          <Image
+            src="/images/logo_dark.png"
+            width={181}
+            height={38}
+            alt="Логотип Gratify"
+            className="hidden w-full dark:block"
           />
         </Link>
 
@@ -122,10 +129,8 @@ function PublicHeaderClient() {
               </div>
               <Link href="/favorites">
                 <FavoriteHeaderIcon
-                  className={`text-background-white ml-auto h-5 w-4 ${
-                    isFavorites
-                      ? 'text-icons-color-accent'
-                      : 'text-background-white'
+                  className={`ml-auto h-5 w-4 ${
+                    isFavorites ? 'text-icons-color-accent fill-icons-color-accent' : 'fill-transparent'
                   }`}
                 />
               </Link>
@@ -144,7 +149,15 @@ function PublicHeaderClient() {
                 src="/images/logo.png"
                 width={169}
                 height={35}
-                alt="Logo"
+                alt="Логотип Gratify"
+                className="dark:hidden"
+              />
+              <Image
+                src="/images/logo_dark.png"
+                width={169}
+                height={35}
+                alt="Логотип Gratify"
+                className="hidden dark:block"
               />
             </Link>
 
