@@ -221,6 +221,40 @@
   --sidebar-ring: oklch(0.552 0.016 285.938);
   /* ................................................................; */
   --color-overlay-background: var(--overlay-background);
+  --primary: #18181b;
+
+  /* ....... */
+  --overlay-background: #f5f3f059;
+  --overlay-foreground: rgba(0, 0, 0, 0.132);
+  --white: #343226;
+  --accent: #c71143;
+  --error: #dc0b0e;
+  --success: #05b456;
+  --grey-50: #292929;
+  --grey-100: #3d3d3d;
+  --grey-200: #464646;
+  --grey-300: #525252;
+  --grey-400: #656565;
+  --grey-500: #7c7c7c;
+  --grey-600: #989898;
+  --grey-700: #bdbdbd;
+  --grey-800: #dcdcdc;
+  --grey-900: #efefef;
+  --grey-950: #f9f9f9;
+  --link: #139cc7;
+  --main-50: #27251c;
+  --main-100: #3b3a2c;
+  --main-200: #444230;
+  --main-300: #535038;
+  --main-400: #6b6645;
+  --main-500-def: #8b845c;
+  --main-600: #a49c77;
+  --main-700: #bdb699;
+  --main-800: #d7d2bf;
+  --main-900: #eae7dd;
+  --main-950: #f5f3f0;
+  --default-photo: #f7f5ee;
+  --shadow-card: #27251c;
 }
 
 @layer base {

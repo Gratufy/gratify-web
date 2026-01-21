@@ -130,7 +130,7 @@ function BusinessCardShot({
               </>
             )}
             <div className="z-5 bg-linear-to-l to-background-white pointer-events-none absolute inset-0 from-white/0"></div>
-            <div className="z-5 bg-linear-to-l to-gradient-card/ from-gradient-card/0 pointer-events-none absolute inset-0"></div>
+            <div className="z-5 bg-linear-to-l to-gradient-card from-gradient-card/0 pointer-events-none absolute inset-0"></div>
           </div>
         </div>
 
