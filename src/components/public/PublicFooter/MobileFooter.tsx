@@ -14,7 +14,14 @@ function MobileFooter() {
           width={136}
           height={28}
           alt="Логотип Gratify"
-          className="mb-3"
+          className="mb-3 dark:hidden"
+        />
+        <Image
+          src="/images/logo_dark.png"
+          width={136}
+          height={28}
+          alt="Логотип Gratify"
+          className="mb-3 hidden dark:block"
         />
         <div className="flex justify-between gap-4">
           <div className="flex flex-col gap-1">

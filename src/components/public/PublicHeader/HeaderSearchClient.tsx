@@ -96,7 +96,14 @@ function PublicHeaderClient() {
             width={181}
             height={38}
             alt="Логотип Gratify"
-            className="w-full"
+            className="w-full dark:hidden"
+          />
+          <Image
+            src="/images/logo_dark.png"
+            width={181}
+            height={38}
+            alt="Логотип Gratify"
+            className="hidden w-full dark:block"
           />
         </Link>
 
@@ -144,7 +151,15 @@ function PublicHeaderClient() {
                 src="/images/logo.png"
                 width={169}
                 height={35}
-                alt="Logo"
+                alt="Логотип Gratify"
+                className="dark:hidden"
+              />
+              <Image
+                src="/images/logo_dark.png"
+                width={169}
+                height={35}
+                alt="Логотип Gratify"
+                className="hidden dark:block"
               />
             </Link>
 
