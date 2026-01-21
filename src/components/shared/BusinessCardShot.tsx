@@ -181,7 +181,7 @@ function BusinessCardShot({
           />
 
           <div
-            className="flex items-center gap-0.5"
+            className="bg-background-white shadow-menu flex items-center gap-0.5 lg:px-[6px] lg:py-1"
             aria-label={`Кількість відгуків: ${business.reviewCount}`}
           >
             <ReviewIcon className="h-4 w-4 xl:h-5 xl:w-5" aria-hidden="true" />
