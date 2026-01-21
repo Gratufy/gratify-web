@@ -33,7 +33,7 @@ function SidebarFilters({ categoriesWithAll }: SidebarFiltersProps) {
               className="placeholder-sm xl:placeholder-base flex items-center gap-3 px-4 py-1 xl:mb-2"
             >
               <CityIcon
-                className="dark:text-icons-main-600 h-4 w-4 xl:h-5 xl:w-5"
+                className="text-icons-main-600 h-4 w-4 xl:h-5 xl:w-5"
                 aria-hidden="true"
               />
               <span>Місто</span>
@@ -58,7 +58,7 @@ function SidebarFilters({ categoriesWithAll }: SidebarFiltersProps) {
           <div className="border-elements-grey-200 border-b pb-3">
             <span className="placeholder-sm xl:placeholder-base flex items-center gap-3 px-4 py-1 xl:mb-2">
               <SortIcon
-                className="dark:text-icons-main-600 h-4 w-4 xl:h-5 xl:w-5"
+                className="text-icons-main-600 h-4 w-4 xl:h-5 xl:w-5"
                 aria-hidden="true"
               />
               <span>Сортувати</span>
@@ -72,7 +72,7 @@ function SidebarFilters({ categoriesWithAll }: SidebarFiltersProps) {
           <div>
             <span className="placeholder-sm xl:placeholder-base flex items-center gap-3 px-4 py-1 xl:mb-2">
               <CategoryIcon
-                className="dark:text-icons-main-600 h-4 w-4 xl:h-5 xl:w-5"
+                className="text-icons-main-600 h-4 w-4 xl:h-5 xl:w-5"
                 aria-hidden="true"
               />
               <span>Послуги</span>

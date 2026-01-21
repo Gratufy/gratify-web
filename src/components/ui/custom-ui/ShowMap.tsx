@@ -11,7 +11,7 @@ type ShowMapProps = {
 function ShowMap({ showMap, setShowMap }: ShowMapProps) {
   return (
     <div className="ml-auto flex items-center">
-      <MapIcon className="mr-2 inline size-4 xl:mr-3 xl:size-5" />
+      <MapIcon className="text-icons-main-600 mr-2 inline size-4 xl:mr-3 xl:size-5" />
       <span className="placeholder-sm xl:placeholder-base mr-3 xl:mr-4">
         Мапа
       </span>
