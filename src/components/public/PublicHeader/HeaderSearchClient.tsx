@@ -129,10 +129,8 @@ function PublicHeaderClient() {
               </div>
               <Link href="/favorites">
                 <FavoriteHeaderIcon
-                  className={`text-background-white ml-auto h-5 w-4 ${
-                    isFavorites
-                      ? 'text-icons-color-accent'
-                      : 'text-background-white'
+                  className={`ml-auto h-5 w-4 ${
+                    isFavorites ? 'text-icons-color-accent fill-icons-color-accent' : 'fill-transparent'
                   }`}
                 />
               </Link>

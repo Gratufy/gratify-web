@@ -18,13 +18,13 @@ export default function ThemeSwitch() {
         resolvedTheme === 'dark' ? (
           <Sun
             onClick={() => setTheme('light')}
-            className="size-5 cursor-pointer"
+            className="dark:text-icons-main-800 size-5 cursor-pointer"
             aria-label="Switch to light"
           />
         ) : (
           <Moon
             onClick={() => setTheme('dark')}
-            className="size-5 cursor-pointer"
+            className="text-icons-main-600 size-5 cursor-pointer"
             aria-label="Switch to dark"
           />
         )
