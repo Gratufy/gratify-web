@@ -37,7 +37,7 @@ function SelectedFiltersPanel({
       </div>
       <DeleteAllFiltersBtn
         isSecondVariant
-        className="placeholder-small lg:placeholder-xs xl:placeholder-sm border-elements-grey-200 gap-1 border bg-white px-2 py-2 lg:gap-2"
+        className="placeholder-small lg:placeholder-xs xl:placeholder-sm gap-1 px-2 py-2 lg:gap-2"
       />
     </div>
   );

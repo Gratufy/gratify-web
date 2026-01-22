@@ -114,7 +114,7 @@
   --shadow-pressed: inset 0px 0px 8px 4px rgba(229, 233, 235, 0.25);
   --shadow-hover-chip: 0 2px 3px 0 rgba(0, 0, 0, 0.3) 0 6px 10px 4px
     rgba(0, 0, 0, 0.15);
-  --shadow-card-dark: inset 0px 0px 15px 1px var(--color-icons-main-50);
+  --shadow-card-dark: 1px 1px 10px 2px var(--color-background-main-300);
 }
 
 :root {
