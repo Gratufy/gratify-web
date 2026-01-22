@@ -73,9 +73,9 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
       }}
     >
       <SheetTrigger className="flex cursor-pointer items-center gap-8 px-3 xl:gap-10 xl:px-4">
-        <div className="flex items-center px-3 py-1 xl:px-4">
+        <div className="bg-background-white-3 flex items-center px-3 py-1 xl:px-4">
           <CityIcon
-            className="mr-2 size-4 xl:mr-3 xl:size-5"
+            className="text-icons-main-600 mr-2 size-4 xl:mr-3 xl:size-5"
             aria-hidden="true"
           />
           <span className="placeholder-sm xl:placeholder-base">
@@ -84,17 +84,17 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
           </span>
         </div>
 
-        <div className="flex items-center px-3 py-1 xl:px-4">
+        <div className="bg-background-white-3 flex items-center px-3 py-1 xl:px-4">
           <SortIcon
-            className="mr-2 size-4 xl:mr-3 xl:size-5"
+            className="text-icons-main-600 mr-2 size-4 xl:mr-3 xl:size-5"
             aria-hidden="true"
           />
           <span className="placeholder-sm xl:placeholder-base">Сортувати</span>
         </div>
 
-        <div className="flex items-center px-3 py-1 xl:px-4">
+        <div className="bg-background-white-3 flex items-center px-3 py-1 xl:px-4">
           <CategoryIcon
-            className="mr-2 size-4 xl:mr-3 xl:size-5"
+            className="text-icons-main-600 mr-2 size-4 xl:mr-3 xl:size-5"
             aria-hidden="true"
           />
           <span className="placeholder-sm xl:placeholder-base">Послуги</span>
@@ -114,9 +114,12 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
           <div className="px-3 xl:px-4">
             <label
               htmlFor="top-city"
-              className="placeholder-sm xl:placeholder-base mb-3 flex items-center gap-3 xl:mb-4"
+              className="bg-background-white placeholder-sm xl:placeholder-base mb-3 flex items-center gap-3 px-4 py-1 xl:mb-4"
             >
-              <CityIcon className="h-4 w-4 xl:h-5 xl:w-5" aria-hidden="true" />
+              <CityIcon
+                className="text-icons-main-600 h-4 w-4 xl:h-5 xl:w-5"
+                aria-hidden="true"
+              />
               <span>Місто</span>
             </label>
             <CustomSelect
@@ -139,9 +142,9 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
           </div>
 
           <div className="px-3 xl:px-4">
-            <div className="mb-3 flex items-center xl:mb-4">
+            <div className="bg-background-white mb-3 flex items-center px-4 py-1 xl:mb-4">
               <SortIcon
-                className="mr-2 size-4 xl:mr-3 xl:size-5"
+                className="text-icons-main-600 mr-2 size-4 xl:mr-3 xl:size-5"
                 aria-hidden="true"
               />
               <span className="placeholder-sm xl:placeholder-base">
@@ -156,9 +159,9 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
           </div>
 
           <div className="px-3 xl:px-4">
-            <span className="placeholder-sm xl:placeholder-base mb-3 flex items-center gap-3 xl:mb-4">
+            <span className="bg-background-white placeholder-sm xl:placeholder-base mb-3 flex w-60 items-center gap-3 px-4 py-1 xl:mb-4">
               <CategoryIcon
-                className="h-4 w-4 xl:h-5 xl:w-5"
+                className="text-icons-main-600 h-4 w-4 xl:h-5 xl:w-5"
                 aria-hidden="true"
               />
               <span>Послуги</span>

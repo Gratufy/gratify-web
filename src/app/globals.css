@@ -54,6 +54,7 @@
   --color-overlay-background: var(--overlay-background);
   --color-overlay-foreground: var(--overlay-foreground);
   --color-background-white: var(--white);
+  --color-background-white-3: var(--white-3);
   --color-background-main-200: var(--main-200);
   --color-background-main-100: var(--main-100);
   --color-background-main-300: var(--main-300);
@@ -72,7 +73,7 @@
   --color-icons-grey-400: var(--grey-400);
   --color-icons-grey-950: var(--grey-950);
 
-  --color-icons-color-white: var(--white);
+  --color-icons-color-white: var(--white-2);
   --color-icons-color-error: var(--error);
   --color-icons-color-success: var(--success);
   --color-icons-color-accent: var(--accent);
@@ -89,7 +90,7 @@
   --color-text-50-grey: var(--grey-50);
   --color-text-700-grey: var(--grey-700);
   --color-text-link: var(--link);
-  --color-text-white: var(--white);
+  --color-text-white: var(----white-2);
   --color-text-800-grey: var(--grey-800);
   --color-text-800-main: var(--main-700);
   --color-text-warning: var(--error);
@@ -103,6 +104,8 @@
   --color-elements-grey-50: var(--grey-50);
   --color-elements-grey-950: var(--grey-950);
 
+  --color-bg-card-dark: var(--dark-card);
+  --color-card-hover-dark: var(--dark-card-hover);
   --color-default-photo: var(--color-default-photo);
   --color-gradient-card: var(--shadow-card);
   --shadow-card: 1px 2px 10px 2px rgba(229, 233, 235, 0.25);
@@ -111,6 +114,7 @@
   --shadow-pressed: inset 0px 0px 8px 4px rgba(229, 233, 235, 0.25);
   --shadow-hover-chip: 0 2px 3px 0 rgba(0, 0, 0, 0.3) 0 6px 10px 4px
     rgba(0, 0, 0, 0.15);
+  --shadow-card-dark: 1px 1px 10px 2px var(--color-background-main-300);
 }
 
 :root {
@@ -157,6 +161,8 @@
   --overlay-background: #f5f3f059;
   --overlay-foreground: rgba(0, 0, 0, 0.132);
   --white: #fff;
+  --white-2: #fff;
+  --white-3: #fff;
   --accent: #c71143;
   --error: #dc0b0e;
   --success: #05b456;
@@ -226,7 +232,12 @@
   /* ....... */
   --overlay-background: #f5f3f059;
   --overlay-foreground: rgba(0, 0, 0, 0.132);
-  --white: #343226;
+  /* //dark white */
+  --white: #1b1a14;
+  /* //dark white for bg icons */
+  --white-2: #343226;
+  /* //dark for top panel */
+  --white-3: #27251c;
   --accent: #c71143;
   --error: #dc0b0e;
   --success: #05b456;
@@ -244,7 +255,8 @@
   --link: #139cc7;
   --main-50: #27251c;
   --main-100: #3b3a2c;
-  --main-200: #444230;
+  /* --main-200: #444230; */
+  --main-200: #27251c;
   --main-300: #535038;
   --main-400: #6b6645;
   --main-500-def: #8b845c;
@@ -255,6 +267,8 @@
   --main-950: #f5f3f0;
   --default-photo: #f7f5ee;
   --shadow-card: #27251c;
+  --dark-card: #27251c;
+  --dark-card-hover: #343226;
 }
 
 @layer base {
@@ -377,7 +391,7 @@
 }
 /* w-30  px-3*/
 @utility btn-reject {
-  @apply dark:hover:bg-background-main-500/30 dark:focus:bg-background-main-500/20 focus:bg-background-grey-50 hover:bg-background-grey-50 disabled:bg-background-grey-200 active:shadow-pressed hover:shadow-hover focus:shadow-hover bg-background-white xl:placeholder-base shadow-menu placeholder-sm border-background-main-300 flex cursor-pointer items-center justify-center gap-[6px] text-nowrap border px-3 py-[6px] outline-none transition-colors hover:underline focus:underline disabled:cursor-not-allowed xl:gap-3 xl:px-5 xl:py-2;
+  @apply dark:bg-background-main-50 dark:hover:bg-background-main-500/30 dark:focus:bg-background-main-500/20 focus:bg-background-grey-50 hover:bg-background-grey-50 disabled:bg-background-grey-200 active:shadow-pressed hover:shadow-hover focus:shadow-hover bg-background-white xl:placeholder-base shadow-menu placeholder-sm border-background-main-300 flex cursor-pointer items-center justify-center gap-[6px] text-nowrap border px-3 py-[6px] outline-none transition-colors hover:underline focus:underline disabled:cursor-not-allowed xl:gap-3 xl:px-5 xl:py-2;
 }
 @utility btn-aprove {
   @apply disabled:text-text-500-grey disabled:bg-background-main-200 active:shadow-pressed hover:shadow-hover focus:shadow-hover active:bg-background-main-500 placeholder-sm xl:placeholder-base bg-background-main-300 border-background-main-300 shadow-menu hover:bg-background-main-400 focus:bg-background-main-400 flex cursor-pointer items-center justify-center gap-[6px] text-nowrap border px-3 py-[6px] outline-none transition-all hover:underline focus:underline disabled:cursor-not-allowed xl:gap-3 xl:px-5 xl:py-2;
@@ -402,7 +416,7 @@
 }
 
 @utility chip-checked {
-  @apply bg-background-main-400 border-elements-main-600 font-medium;
+  @apply bg-background-main-400 border-elements-main-600 dark:bg-card-hover-dark font-medium;
 }
 
 /* // Admin sidebar  */

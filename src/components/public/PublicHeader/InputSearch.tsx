@@ -35,7 +35,7 @@ function InputSearch({ id, name, value, onChange }: InputSearchProps) {
         id={id}
         value={localValue}
         onChange={handleChange}
-        className="active:shadow-pressed hover:shadow-hover bg-background-white placeholder:text-text-500-grey lg:placeholder-sm xl:placeholder-base lg:w-71 placeholder-xs focus:shadow-hover w-full py-2 pl-6 pr-2 focus:outline-none lg:py-1 lg:pl-9 lg:pr-3 xl:pl-12 xl:pr-4"
+        className="active:shadow-pressed hover:shadow-card-dark bg-icons-color-white placeholder:text-text-500-grey lg:placeholder-sm xl:placeholder-base lg:w-71 placeholder-xs focus:shadow-hover w-full py-2 pl-6 pr-2 focus:outline-none lg:py-1 lg:pl-9 lg:pr-3 xl:pl-12 xl:pr-4"
         placeholder="Пошук"
       />
     </div>

@@ -75,7 +75,7 @@ function Karma({
   }
   return (
     <div
-      className="title-h6 bg-background-white shadow-menu flex items-center gap-2 py-1"
+      className="title-h6 bg-background-white dark:bg-card-hover-dark shadow-menu flex items-center gap-2 py-1"
       onClick={(e) => {
         // e.stopPropagation();
         e.preventDefault();
