@@ -73,7 +73,7 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
       }}
     >
       <SheetTrigger className="flex cursor-pointer items-center gap-8 px-3 xl:gap-10 xl:px-4">
-        <div className="flex items-center px-3 py-1 xl:px-4">
+        <div className="bg-background-white-3 flex items-center px-3 py-1 xl:px-4">
           <CityIcon
             className="mr-2 size-4 xl:mr-3 xl:size-5"
             aria-hidden="true"
@@ -84,7 +84,7 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
           </span>
         </div>
 
-        <div className="flex items-center px-3 py-1 xl:px-4">
+        <div className="bg-background-white-3 flex items-center px-3 py-1 xl:px-4">
           <SortIcon
             className="mr-2 size-4 xl:mr-3 xl:size-5"
             aria-hidden="true"
@@ -92,7 +92,7 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
           <span className="placeholder-sm xl:placeholder-base">Сортувати</span>
         </div>
 
-        <div className="flex items-center px-3 py-1 xl:px-4">
+        <div className="bg-background-white-3 flex items-center px-3 py-1 xl:px-4">
           <CategoryIcon
             className="mr-2 size-4 xl:mr-3 xl:size-5"
             aria-hidden="true"
