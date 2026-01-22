@@ -10,7 +10,7 @@ function BusinessListSkeleton({ count = 3 }: BusinessListSkeletonProps) {
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}
-          className="h-[226px] rounded bg-gray-200 lg:h-[248px] xl:h-[260px]"
+          className="dark:bg-background-main-50 h-[226px] rounded bg-gray-200 lg:h-[248px] xl:h-[260px]"
         ></div>
       ))}
     </div>
