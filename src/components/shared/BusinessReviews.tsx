@@ -21,7 +21,6 @@ import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
 import ReviewsSkeleton from '@/components/shared/skeletons/ReviewsSkeleton';
 
-
 interface BusinessReviewsProps {
   businessId: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -40,7 +39,6 @@ export default function BusinessReviews({
   setActionContent,
   setOnConfirm,
 }: BusinessReviewsProps) {
-  
   const router = useRouter();
   const user = useUserStore((state) => state.profile);
   const {
@@ -218,7 +216,7 @@ export default function BusinessReviews({
                         id={`edit-review-${r.id}`}
                         value={editingText}
                         onChange={(e) => setEditingText(e.target.value)}
-                        className="border-elements-grey-200 xl:placeholder-base placeholder-sm mb-5 h-32 w-full border-[0.5px] p-1"
+                        className="bg-button-white border-elements-grey-950 xl:placeholder-base placeholder-sm focus:outline-elements-grey-950 mb-5 h-32 w-full border-[0.5px] p-1"
                       />
                       <div className="flex items-center justify-center gap-7">
                         <button
@@ -279,7 +277,7 @@ export default function BusinessReviews({
             placeholder="Поділіться враженням..."
             value={newText}
             onChange={(e) => setNewText(e.target.value)}
-            className="bg-background-white placeholder-sm xl:placeholder-base border-elements-grey-950 placeholder:placeholder-sm xl:placeholder:placeholder-base placeholder:text-text-500-grey mb-6 h-14 w-full border-[0.5px] px-3 py-1 lg:h-20"
+            className="bg-button-white placeholder-sm xl:placeholder-base border-elements-grey-950 placeholder:placeholder-sm xl:placeholder:placeholder-base placeholder:text-text-500-grey focus:outline-elements-grey-950 mb-6 h-14 w-full border-[0.5px] px-3 py-1 lg:h-20"
           />
           <button
             onClick={handleAdd}

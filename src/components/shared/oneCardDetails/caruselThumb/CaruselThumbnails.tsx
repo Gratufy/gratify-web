@@ -158,7 +158,7 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
               alt="Фото ще не завантажені — але ми впевнені, що тут гарно"
             />
           </div>
-          <div className="title-h5 text-text-800-grey px-15 lg:px-18 xl:px-20">
+          <div className="title-h5 px-15 lg:px-18 text-[#464646] xl:px-20">
             <p>Фото ще не завантажені —</p>
             <p>але ми впевнені, що тут гарно</p>
           </div>

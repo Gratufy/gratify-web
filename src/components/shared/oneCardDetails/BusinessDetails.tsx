@@ -199,7 +199,7 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
           </section>
           {/* -------------------------------------------- */}
           {/* REVIEW */}
-          <section className="bg-background-grey-50 flex w-full flex-col items-center py-5 lg:py-10">
+          <section className="bg-background-grey-50 dark:bg-background-main-50 flex w-full flex-col items-center py-5 lg:py-10">
             <div className="max-[1024px]:max-w-150 w-full px-4 lg:w-[1024px] lg:px-28 xl:w-[1440px] xl:px-[320px]">
               <BusinessReviews
                 businessId={id}
@@ -228,10 +228,9 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
               <div className="w-full lg:flex-1">{CityListElements}</div>
             </div>
           </section>
-          <div className="flex">
-            {' '}
+          <div className="flex pb-4">
             <Info className="text-text-link mr-2 h-4 w-4" aria-hidden />
-            <span className="caption">
+            <span className="caption text-text-700-grey">
               Уся інформація в картці бізнесу надається його представниками.
               Платформа не несе відповідальності за її точність та актуальність.
             </span>
