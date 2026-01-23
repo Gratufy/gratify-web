@@ -657,7 +657,7 @@ export default function BusinessFormNew({
                         id="description"
                         minLength={20}
                         maxLength={1000}
-                        className="input-custom h-23 mb-1 px-2 lg:h-[148px] lg:w-[315px] lg:px-3 xl:px-4"
+                        className="bg-button-white h-23 mb-1 px-2 lg:h-[148px] lg:w-[315px] lg:px-3 xl:px-4"
                         placeholder="Коротко опишіть ваші головні переваги, унікальні торгові пропозиціі"
                         {...field}
                       />
