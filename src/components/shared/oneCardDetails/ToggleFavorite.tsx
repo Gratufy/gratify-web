@@ -21,12 +21,12 @@ function ToggleFavorite({
         {isFavorite ? (
           <div className="flex gap-1">
             <p className="title-h6 underline">Збережено</p>
-            <IconFavorite className="text-icons-color-accent h-7 w-6 lg:h-7 lg:w-6" />
+            <IconFavorite className="text-icons-color-accent fill-icons-color-accent h-7 w-6 lg:h-7 lg:w-6" />
           </div>
         ) : (
           <div className="flex gap-1">
             <p className="title-h6 underline">Зберегти</p>
-            <IconFavorite className="text-background-white h-7 w-6 lg:h-7 lg:w-6" />
+            <IconFavorite className="h-7 w-6 fill-transparent lg:h-7 lg:w-6" />
           </div>
         )}
       </button>
