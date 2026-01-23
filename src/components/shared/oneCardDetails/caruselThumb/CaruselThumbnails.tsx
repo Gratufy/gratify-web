@@ -148,20 +148,21 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
         </>
       )}
       {slides.length === 0 && (
-        <div className="bg-default-photo mx-auto h-[317px] w-[343px] lg:h-[414px] lg:w-[450px] xl:h-[424px] xl:w-[461px]">
-          <div className="h-[236px] w-full lg:h-[309px] xl:h-[316px]">
-            <Image
-              className="h-auto"
-              width={460}
-              height={316}
-              src="/images/default-image.png"
-              alt="Фото ще не завантажені — але ми впевнені, що тут гарно"
-            />
-          </div>
-          <div className="title-h5 px-15 lg:px-18 text-[#464646] xl:px-20">
-            <p>Фото ще не завантажені —</p>
-            <p>але ми впевнені, що тут гарно</p>
-          </div>
+        <div className="mx-auto h-[317px] w-[343px] lg:h-[414px] lg:w-[450px] xl:h-[424px] xl:w-[461px]">
+          <Image
+            className="h-auto dark:hidden"
+            width={461}
+            height={424}
+            src="/images/default-image.png"
+            alt="Фото ще не завантажені — але ми впевнені, що тут гарно"
+          />
+          <Image
+            className="hidden h-auto dark:block"
+            width={461}
+            height={424}
+            src="/images/default-image-dark.png"
+            alt="Фото ще не завантажені — але ми впевнені, що тут гарно"
+          />
         </div>
       )}
     </div>
