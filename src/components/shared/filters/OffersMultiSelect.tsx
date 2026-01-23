@@ -19,7 +19,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { SpecialOffer } from '@/types/db';
 
-
 type CustomCheckBoxProps = {
   offers: SpecialOffer[]; // all offers
   selectedOfferIds: string[]; // currently selected
@@ -27,7 +26,6 @@ type CustomCheckBoxProps = {
 
   className?: string;
   form: UseFormReturn<BusinessFormValues>;
-
 };
 
 function OffersMultiSelect({
@@ -37,9 +35,7 @@ function OffersMultiSelect({
 
   className,
   form,
-  
 }: CustomCheckBoxProps) {
-  
   ///////////////////////////////////////////////
   const ownOffers = form.watch('ownOffers') || [];
   const specialOffers = form.watch('specialOffers') || [];
@@ -155,12 +151,12 @@ function OffersMultiSelect({
       </div>
       {/* Special offer input */}
       <DropdownMenu>
-        <DropdownMenuTrigger className="standart w-full cursor-pointer justify-between px-4">
+        <DropdownMenuTrigger className="focus-visible:border-elements-grey-400 focus-visible:ring-icons-grey-300/50 border-elements-grey-400 standart w-full cursor-pointer justify-between px-4 focus-visible:ring-[2px]">
           <span>Оберіть пропозиції</span>
           <ChevronDownIcon className="size-5" />
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className="max-h-60 w-[var(--radix-dropdown-menu-trigger-width)] space-y-4 overflow-y-auto rounded-none px-4 py-2"
+          className="bg-background-white max-h-60 w-[var(--radix-dropdown-menu-trigger-width)] space-y-4 overflow-y-auto rounded-none py-2"
           align="start"
           side="bottom"
         >
@@ -169,7 +165,7 @@ function OffersMultiSelect({
             // DropdownMenuItem if close after each click is needed
             <div
               key={offer.id}
-              className="flex items-center justify-between gap-2"
+              className="dark:hover:bg-elements-main-500/30 hover:bg-elements-grey-400/30 focus:bg-elements-grey-400/30 dark:focus:bg-elements-main-500/30 flex items-center justify-between px-4 py-1.5 transition-colors"
             >
               <Label
                 htmlFor={offer.id}
@@ -178,7 +174,7 @@ function OffersMultiSelect({
                 {offer.title.toLowerCase()}
               </Label>
               <Checkbox
-                className="data-[state=checked]:text-text-950-grey data-[state=checked]:bg-background-white border-text-700-grey cursor-pointer"
+                className="border-text-700-grey cursor-pointer"
                 id={offer.id}
                 checked={selectedOfferIds.includes(offer.id)}
                 onCheckedChange={(checked) => {

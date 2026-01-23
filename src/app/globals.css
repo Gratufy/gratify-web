@@ -71,7 +71,7 @@
   --color-icons-grey-100: var(--grey-100);
   --color-icons-grey-300: var(--grey-300);
   --color-icons-grey-400: var(--grey-400);
-  --color-icons-grey-950: var(--grey-950);
+  --color-icons-grey-950: var(--text-950-grey);
 
   --color-icons-color-white: var(--white-2);
   --color-icons-color-error: var(--error);
