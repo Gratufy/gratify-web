@@ -147,7 +147,7 @@ export default function BusinessFormNew({
   //   lat: number;
   //   lng: number;
   // } | null>(null);
-  // ЭТАЛОН — координаты из адреса (геокодинг)
+
   const [addressLatLng, setAddressLatLng] = useState<LatLng | null>(null);
   const [locationWarnings, setLocationWarnings] = useState<LocationWarning[]>(
     []
@@ -215,7 +215,7 @@ export default function BusinessFormNew({
     }
 
     try {
-      // получаем эталон из адреса (геокодинг)
+      //receive  lat lng
       const res = await checkAddressMutation.mutateAsync({
         city: loc.city,
         address: loc.address,
@@ -237,8 +237,8 @@ export default function BusinessFormNew({
       setAddressLatLng(addressPoint);
 
       // 3️ tempLatLng
-      // edit → берем сохранённые координаты
-      // create → берём адрес
+      // edit → take coords
+      // create → take adress
       const savedLat = form.getValues(`locations.${index}.latitude`);
       const savedLng = form.getValues(`locations.${index}.longitude`);
       if (savedLat != null && savedLng != null) {
@@ -267,8 +267,6 @@ export default function BusinessFormNew({
   function handleConfirmLocation() {
     if (!addressLatLng || !tempLatLng || mapOpenIndex === null) return;
 
-    console.log('initialLatLng ', addressLatLng);
-    console.log('tempLatLng', tempLatLng);
     const distance = getDistanceMeters(addressLatLng, tempLatLng);
     console.log('distance', distance);
 
@@ -536,7 +534,7 @@ export default function BusinessFormNew({
                       id="name-business"
                       minLength={2}
                       maxLength={70}
-                      className="input-custom px-2 lg:px-3 xl:px-4"
+                      className="select-input-deko-main px-2 lg:px-3 xl:px-4"
                       placeholder="Назва"
                       {...field}
                       autoComplete="off"
@@ -568,7 +566,7 @@ export default function BusinessFormNew({
                   >
                     <CustomSelect
                       id="category-select" //name
-                      className="standart bg-background-white w-[70%] px-4 lg:w-[237px] xl:w-[285px]"
+                      className="select-input-deko-grey bg-background-white w-[70%] px-4 lg:w-[237px] xl:w-[285px]"
                       value={field.value}
                       onChange={field.onChange}
                       options={categories} // array of category objects

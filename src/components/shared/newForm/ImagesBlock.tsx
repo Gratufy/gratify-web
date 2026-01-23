@@ -90,11 +90,10 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
   };
 
   return (
-    <div className="bg-background-grey-50 mb-10 w-full py-10">
-      <div className="container mx-auto flex w-full flex-col items-center gap-6 max-[1024px]:px-4">
+    <div className="bg-background-grey-50 dark:bg-background-main-200 container mb-10 w-full py-10">
+      <div className="mx-auto flex w-full flex-col items-center gap-6 max-[1024px]:px-4">
         <div className="flex justify-center gap-3">
           <Label
-         
             htmlFor="images-file"
             className="btn-reject h-8 gap-[6px] border px-3 xl:px-5"
           >
@@ -183,7 +182,10 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
                   </div>
                 </>
               ) : (
-                <ImageFolder className="size-10" aria-hidden="true" />
+                <ImageFolder
+                  className="text-icons-grey-300 size-10"
+                  aria-hidden="true"
+                />
               )}
             </li>
           ))}

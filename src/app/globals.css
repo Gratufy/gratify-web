@@ -327,9 +327,24 @@
     max-width: 1440px;
   }
 }
+/* px-4  */
+@utility input-custom {
+  @apply border-elements-grey-400 xl:placeholder-base bg-background-white placeholder:text-text-500-grey placeholder-sm flex cursor-text items-center border-[0.5] py-2;
+}
 
+/*bg-background-grey-50 standart justify-between px-4  */
+@utility standart {
+  @apply xl:placeholder-base placeholder-sm flex items-center border-[0.5px] py-[6px];
+}
 @utility hover-focus-card-dark {
   @apply hover:shadow-card-dark focus:shadow-card-dark transition-[color,box-shadow];
+}
+
+@utility select-input-deko-main {
+  @apply dark:hover:bg-background-main-300/50 border-elements-main-500 focus-visible:border-elements-main-600 focus-visible:ring-background-main-300/50 hover:ring-background-main-300/50;
+}
+@utility select-input-deko-grey {
+  @apply dark:hover:bg-background-grey-300/50 border-elements-grey-400 focus-visible:border-elements-grey-300 focus-visible:ring-background-grey-300/50 hover:ring-background-grey-300/50;
 }
 @utility placeholder-extrasmall {
   @apply text-[10px] leading-[145%];
@@ -405,15 +420,6 @@
 /* hover:bg-elements-grey-100/60  transition-colors*/
 @utility btn-custom {
   @apply hover-focus-card-dark cursor-pointer outline-none disabled:cursor-not-allowed;
-}
-/* px-4  */
-@utility input-custom {
-  @apply border-elements-grey-400 xl:placeholder-base bg-background-white placeholder:text-text-500-grey placeholder-sm flex cursor-text items-center border-[0.5] py-2;
-}
-
-/*bg-background-grey-50 standart justify-between px-4  */
-@utility standart {
-  @apply border-elements-grey-400 xl:placeholder-base placeholder-sm flex items-center border-[0.5px] py-[6px];
 }
 
 @utility chip {

@@ -10,10 +10,7 @@ function publicNewBusinessStart() {
           Почніть із малого: створіть бізнес-картку, щоб показати, хто ви та чим
           займаєтесь
         </p>
-        <Link
-          href="/business/new/form"
-          className="shadow-menu bg-background-main-300 placeholder-sm xl:placeholder-base flex items-center justify-center px-3 py-[6px] font-medium lg:px-5 lg:py-2"
-        >
+        <Link href="/business/new/form" className="btn-aprove">
           <Plus className="mr-2 size-4 xl:size-5" />{' '}
           <span>Створити бізнес-картку</span>
         </Link>

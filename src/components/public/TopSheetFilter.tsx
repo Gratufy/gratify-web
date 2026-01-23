@@ -123,7 +123,7 @@ function TopSheetFilter({ categoriesWithAll }: TopSheetFilterProps) {
               <span>Місто</span>
             </label>
             <CustomSelect
-              className="w-50 standart px-4"
+              className="w-50 standart select-input-deko-main px-4"
               id="top-city"
               value={tempCity}
               onChange={(val) => {
