@@ -8,8 +8,8 @@ function ReviewsSkeleton({ count = 3 }: ReviewsSkeletonProps) {
     <div className="animate-pulse space-y-4">
       {Array.from({ length: count }).map((_, i) => (
         <div key={i} className="animate-pulse space-y-2">
-          <div className="h-4 w-1/3 rounded bg-gray-300"></div>
-          <div className="h-3 w-full rounded bg-gray-200"></div>
+          <div className="bg-background-grey-300 dark:bg-background-main-50 h-4 w-1/3 rounded"></div>
+          <div className="bg-background-grey-200 dark:bg-background-main-50 h-3 w-full rounded"></div>
         </div>
       ))}
     </div>

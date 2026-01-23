@@ -2,7 +2,7 @@ import React from 'react';
 
 function AuthHeaderSkeleton() {
   return (
-    <div className="bg-icons-grey-300/80 xl:w-15 h-5 w-12 lg:h-6 lg:w-14" />
+    <div className="bg-icons-grey-300/80 dark:bg-background-main-100 xl:w-15 h-5 w-12 lg:h-6 lg:w-14" />
   );
 }
 
