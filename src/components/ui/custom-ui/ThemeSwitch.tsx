@@ -13,7 +13,7 @@ export default function ThemeSwitch() {
   }, []);
 
   return (
-    <div className="bg-icons-color-white flex w-8 items-center justify-center p-1.5">
+    <div className="bg-icons-color-white hover-focus-card-dark flex w-8 items-center justify-center p-1.5">
       {mounted ? (
         resolvedTheme === 'dark' ? (
           <Sun

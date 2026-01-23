@@ -18,7 +18,7 @@ function UserMenu() {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <button className="outline-hidden cursor-pointer border-none focus:ring-0">
+        <button className="outline-hidden hover-focus-card-dark cursor-pointer border-none">
           <IconUser className="text-icons-grey-950 size-5" />
         </button>
       </DropdownMenuTrigger>
@@ -35,7 +35,7 @@ function UserMenu() {
           className="placeholder-sm xl:placeholder-base cursor-pointer gap-0 px-3 lg:px-2"
         >
           <Link href="/business/new">
-            <IconCategory className="mr-2 size-4 xl:mr-3 xl:size-5" />
+            <IconCategory className="text-icons-grey-950 mr-2 size-4 xl:mr-3 xl:size-5" />
             <span>Створити бізнес-картку</span>
           </Link>
         </DropdownMenuItem>

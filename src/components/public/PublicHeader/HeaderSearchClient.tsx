@@ -127,10 +127,12 @@ function PublicHeaderClient() {
                 {user?.role === 'BUSINESS' && <BusinessMenu />}
                 {user?.role === 'ADMIN' && <AdminMenu />}
               </div>
-              <Link href="/favorites">
+              <Link href="/favorites" className="hover-focus-card-dark">
                 <FavoriteHeaderIcon
                   className={`ml-auto h-5 w-4 ${
-                    isFavorites ? 'text-icons-color-accent fill-icons-color-accent' : 'fill-transparent'
+                    isFavorites
+                      ? 'text-icons-color-accent fill-icons-color-accent'
+                      : 'fill-transparent'
                   }`}
                 />
               </Link>

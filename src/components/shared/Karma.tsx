@@ -75,7 +75,7 @@ function Karma({
   }
   return (
     <div
-      className="title-h6 bg-background-white dark:bg-card-hover-dark shadow-menu flex items-center gap-2 py-1"
+      className="title-h6 bg-icons-color-white shadow-menu flex items-center gap-2 py-1"
       onClick={(e) => {
         // e.stopPropagation();
         e.preventDefault();
@@ -90,7 +90,7 @@ function Karma({
             : 'Додати позитивний голос'
         }
         aria-pressed={currentVote === 1}
-        className={`flex h-5 w-5 cursor-pointer items-center justify-center ${
+        className={`hover-focus-card-dark flex h-5 w-5 cursor-pointer items-center justify-center ${
           //  userVote?.vote === 1
           currentVote === 1
             ? 'bg-icons-color-success text-background-white'
@@ -113,7 +113,7 @@ function Karma({
             : 'Додати негативний голос'
         }
         aria-pressed={currentVote === -1}
-        className={`flex h-5 w-5 cursor-pointer items-center justify-center xl:h-6 xl:w-6 ${
+        className={`hover-focus-card-dark flex h-5 w-5 cursor-pointer items-center justify-center xl:h-6 xl:w-6 ${
           currentVote === -1 ? 'bg-icons-color-error text-background-white' : ''
         }`}
         onClick={(e) => {

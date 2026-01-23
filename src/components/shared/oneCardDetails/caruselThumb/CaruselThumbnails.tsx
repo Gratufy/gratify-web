@@ -52,14 +52,14 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
               <button
                 aria-label="Перейти до фотографії вліво"
                 // variant="outline"
-                className="hover:bg-background-grey-50 flex items-center justify-center bg-white"
+                className="hover-focus-card-dark bg-background-white flex items-center justify-center"
                 onClick={() => emblaMainApi?.scrollPrev()}
               >
                 <IconLeft className="size-5" aria-hidden="true" />
               </button>
               <button
                 aria-label="Перейти до фотографіївправо"
-                className="hover:bg-background-grey-50 flex items-center justify-center bg-white"
+                className="hover-focus-card-dark bg-background-white flex items-center justify-center"
                 onClick={() => emblaMainApi?.scrollNext()}
               >
                 <IconLeft className="size-5 rotate-180" aria-hidden="true" />
@@ -129,14 +129,14 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
           <div className="lg:w-30 xl:w-34 mx-auto hidden lg:flex lg:justify-between">
             <button
               aria-label="Перейти до фотографії вліво"
-              className="hover:bg-background-grey-50 flex cursor-pointer items-center justify-center bg-white"
+              className="hover-focus-card-dark bg-background-white flex cursor-pointer items-center justify-center"
               onClick={() => emblaMainApi?.scrollPrev()}
             >
               <IconLeft className="lg:size-5 xl:size-6" aria-hidden="true" />
             </button>
             <button
               aria-label="Перейти до фотографії вправо"
-              className="hover:bg-background-grey-50 flex cursor-pointer items-center justify-center bg-white"
+              className="hover-focus-card-dark bg-background-white flex cursor-pointer items-center justify-center"
               onClick={() => emblaMainApi?.scrollNext()}
             >
               <IconLeft
@@ -148,20 +148,21 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
         </>
       )}
       {slides.length === 0 && (
-        <div className="bg-default-photo mx-auto h-[317px] w-[343px] lg:h-[414px] lg:w-[450px] xl:h-[424px] xl:w-[461px]">
-          <div className="h-[236px] w-full lg:h-[309px] xl:h-[316px]">
-            <Image
-              className="h-auto"
-              width={460}
-              height={316}
-              src="/images/default-image.png"
-              alt="Фото ще не завантажені — але ми впевнені, що тут гарно"
-            />
-          </div>
-          <div className="title-h5 text-text-800-grey px-15 lg:px-18 xl:px-20">
-            <p>Фото ще не завантажені —</p>
-            <p>але ми впевнені, що тут гарно</p>
-          </div>
+        <div className="mx-auto h-[317px] w-[343px] lg:h-[414px] lg:w-[450px] xl:h-[424px] xl:w-[461px]">
+          <Image
+            className="h-auto dark:hidden"
+            width={461}
+            height={424}
+            src="/images/default-image.png"
+            alt="Фото ще не завантажені — але ми впевнені, що тут гарно"
+          />
+          <Image
+            className="hidden h-auto dark:block"
+            width={461}
+            height={424}
+            src="/images/default-image-dark.png"
+            alt="Фото ще не завантажені — але ми впевнені, що тут гарно"
+          />
         </div>
       )}
     </div>

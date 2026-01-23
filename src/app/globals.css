@@ -104,11 +104,13 @@
   --color-elements-grey-50: var(--grey-50);
   --color-elements-grey-950: var(--grey-950);
 
+  --color-button-white: var(--white-2);
   --color-bg-card-dark: var(--dark-card);
   --color-card-hover-dark: var(--dark-card-hover);
-  --color-default-photo: var(--color-default-photo);
+  --color-default-photo: var(--default-photo);
   --color-gradient-card: var(--shadow-card);
   --shadow-card: 1px 2px 10px 2px rgba(229, 233, 235, 0.25);
+  --shadow-card-hover: 1px 2px 10px 2px var(--grey-200);
   --shadow-menu: 1px 2px 10px 2px var(--color-elements-grey-50);
   --shadow-hover: 1px 2px 10px 2px var(--color-elements-grey-100);
   --shadow-pressed: inset 0px 0px 8px 4px rgba(229, 233, 235, 0.25);
@@ -265,7 +267,7 @@
   --main-800: #d7d2bf;
   --main-900: #eae7dd;
   --main-950: #f5f3f0;
-  --default-photo: #f7f5ee;
+  --default-photo: #323232;
   --shadow-card: #27251c;
   --dark-card: #27251c;
   --dark-card-hover: #343226;
@@ -284,7 +286,7 @@
 
   .custom-scrollbar {
     scrollbar-width: thin; /* Firefox */
-    scrollbar-color: var(--grey-200) transparent; /* Firefox */
+    scrollbar-color: var(--text-950-grey) transparent; /* Firefox */
   }
 
   .custom-scrollbar::-webkit-scrollbar {
@@ -298,14 +300,14 @@
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
     /* background-color: #c5c5c5; */
-    background-color: var(--grey-200);
+    background-color: var(--main-200);
 
     border-radius: 9999px;
     border: 2px solid transparent;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background-color: var(--grey-300);
+    background-color: var(--main-300);
   }
 }
 
@@ -326,6 +328,9 @@
   }
 }
 
+@utility hover-focus-card-dark {
+  @apply hover:shadow-card-dark focus:shadow-card-dark transition-[color,box-shadow];
+}
 @utility placeholder-extrasmall {
   @apply text-[10px] leading-[145%];
 }
@@ -397,9 +402,9 @@
   @apply disabled:text-text-500-grey disabled:bg-background-main-200 active:shadow-pressed hover:shadow-hover focus:shadow-hover active:bg-background-main-500 placeholder-sm xl:placeholder-base bg-background-main-300 border-background-main-300 shadow-menu hover:bg-background-main-400 focus:bg-background-main-400 flex cursor-pointer items-center justify-center gap-[6px] text-nowrap border px-3 py-[6px] outline-none transition-all hover:underline focus:underline disabled:cursor-not-allowed xl:gap-3 xl:px-5 xl:py-2;
 }
 
-/* focus:bg-elements-grey-100/60  */
+/* hover:bg-elements-grey-100/60  transition-colors*/
 @utility btn-custom {
-  @apply hover:bg-elements-grey-100/60 cursor-pointer outline-none transition-colors disabled:cursor-not-allowed;
+  @apply hover-focus-card-dark cursor-pointer outline-none disabled:cursor-not-allowed;
 }
 /* px-4  */
 @utility input-custom {
