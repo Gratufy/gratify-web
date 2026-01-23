@@ -151,7 +151,7 @@ function OffersMultiSelect({
       </div>
       {/* Special offer input */}
       <DropdownMenu>
-        <DropdownMenuTrigger className="focus-visible:border-elements-grey-400 focus-visible:ring-icons-grey-300/50 border-elements-grey-400 standart w-full cursor-pointer justify-between px-4 focus-visible:ring-[2px]">
+        <DropdownMenuTrigger className="focus-visible:border-elements-grey-400 focus-visible:ring-icons-grey-300/50 border-elements-grey-400 standart dark:hover:bg-background-main-300/50 w-full cursor-pointer justify-between px-4 focus-visible:ring-[2px]">
           <span>Оберіть пропозиції</span>
           <ChevronDownIcon className="size-5" />
         </DropdownMenuTrigger>

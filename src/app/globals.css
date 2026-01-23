@@ -344,7 +344,7 @@
   @apply dark:hover:bg-background-main-300/50 border-elements-main-500 focus-visible:border-elements-main-600 focus-visible:ring-background-main-300/50 hover:ring-background-main-300/50;
 }
 @utility select-input-deko-grey {
-  @apply dark:hover:bg-background-grey-300/50 border-elements-grey-400 focus-visible:border-elements-grey-300 focus-visible:ring-background-grey-300/50 hover:ring-background-grey-300/50;
+  @apply dark:hover:bg-background-main-300/50 border-elements-grey-400 focus-visible:border-elements-grey-300 focus-visible:ring-background-grey-300/50 hover:ring-background-grey-300/50;
 }
 @utility placeholder-extrasmall {
   @apply text-[10px] leading-[145%];
