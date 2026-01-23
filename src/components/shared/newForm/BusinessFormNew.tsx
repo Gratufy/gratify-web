@@ -534,7 +534,7 @@ export default function BusinessFormNew({
                       id="name-business"
                       minLength={2}
                       maxLength={70}
-                      className="select-input-deko-main px-2 lg:px-3 xl:px-4"
+                      className="px-2 lg:px-3 xl:px-4"
                       placeholder="Назва"
                       {...field}
                       autoComplete="off"
