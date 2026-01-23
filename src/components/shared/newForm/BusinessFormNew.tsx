@@ -677,8 +677,8 @@ export default function BusinessFormNew({
         </div>
 
         {/* Big Location block */}
-        <div className="bg-background-grey-50 mb-15 w-full py-5 lg:py-10">
-          <div className="container mx-auto w-full max-[1024px]:px-4">
+        <div className="bg-background-grey-50 mb-15 dark:bg-background-main-200 container w-full py-5 lg:py-10">
+          <div className="mx-auto w-full max-[1024px]:px-4">
             {/* Online checkbox */}
             <div className="border-elements-grey-400 mb-8 border-[0.5px] p-4 lg:flex lg:items-center lg:justify-between lg:gap-20 lg:px-3 lg:py-5">
               <FormField
@@ -723,7 +723,7 @@ export default function BusinessFormNew({
                       <FormControl>
                         <Input
                           id="website-link"
-                          className="input-custom cursor-text px-2 lg:w-[325px] lg:px-3 xl:w-[296px] xl:px-4"
+                          className="input-custom bg-background-white cursor-text px-2 lg:w-[325px] lg:px-3 xl:w-[296px] xl:px-4"
                           placeholder="Посилання"
                           {...field}
                         />
@@ -792,7 +792,7 @@ export default function BusinessFormNew({
                             >
                               <CustomSelect
                                 id={`locations.${index}.city-select`}
-                                className="standart w-full px-4"
+                                className="select-input-deko-grey bg-background-white w-full px-4"
                                 value={field.value}
                                 onChange={field.onChange}
                                 options={UKRAINE_REGIONAL_CENTERS_WITHOUT_ALL}
@@ -822,7 +822,7 @@ export default function BusinessFormNew({
                                 {...field}
                                 maxLength={200}
                                 placeholder="Вулиця, будівля, приміщення"
-                                className="input-custom mb-4 px-2 lg:px-3 xl:mb-6 xl:px-4"
+                                className="input-custom bg-background-white mb-4 px-2 lg:px-3 xl:mb-6 xl:px-4"
                               />
                             </FormControl>
                             <FormMessage />
