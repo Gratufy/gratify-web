@@ -61,7 +61,7 @@ const LogoutBtn = ({ customClassName, onRequestLogout }: LogoutBtnProps) => {
         className={
           customClassName
             ? customClassName
-            : 'focus:bg-elements-grey-200 hover:bg-elements-grey-200 xl:placeholder-base flex w-full cursor-pointer items-center gap-2 rounded-sm border-none bg-white px-3 py-1.5 text-sm disabled:opacity-50 lg:px-2 xl:gap-3'
+            : 'focus:bg-elements-main-500/30 hover:bg-elements-main-500/30 xl:placeholder-base bg-background-white flex w-full cursor-pointer items-center gap-2 rounded-sm border-none px-3 py-1.5 text-sm disabled:opacity-50 lg:px-2 xl:gap-3'
         }
       >
         <IconOut className="size-4 xl:size-5" />

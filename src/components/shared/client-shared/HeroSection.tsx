@@ -35,17 +35,17 @@ function HeroSection() {
             <h1 className="title-h1 text-text-white dark:text-text-950-grey mb-1">
               Знижки та бонуси від бізнесу для військових
             </h1>
-            <h5 className="title-h5 text-text-50-grey dark:text-text-800-grey">
+            <h2 className="title-h5 text-text-50-grey dark:text-text-800-grey">
               Cила єдності у кожному дні
-            </h5>
+            </h2>
           </div>
           <div className="xl:mt-30 mb-auto mt-auto hidden lg:mt-20 lg:block">
-            <h1 className="title-h1 text-text-white dark:text-text-950-grey mb-1 lg:mb-2">
+            <h2 className="title-h1 text-text-white dark:text-text-950-grey mb-1 lg:mb-2">
               Cила єдності у кожному дні
-            </h1>
-            <h5 className="title-h5 text-text-50-grey dark:text-text-800-grey">
+            </h2>
+            <h1 className="title-h5 text-text-50-grey dark:text-text-800-grey">
               Знижки та бонуси від бізнесу для військових
-            </h5>
+            </h1>
           </div>
         </div>
       </div>

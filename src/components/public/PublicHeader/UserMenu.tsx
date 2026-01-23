@@ -35,7 +35,7 @@ function UserMenu() {
           className="placeholder-sm xl:placeholder-base cursor-pointer gap-0 px-3 lg:px-2"
         >
           <Link href="/business/new">
-            <IconCategory className="mr-2 size-4 xl:mr-3 xl:size-5" />
+            <IconCategory className="text-icons-grey-950 mr-2 size-4 xl:mr-3 xl:size-5" />
             <span>Створити бізнес-картку</span>
           </Link>
         </DropdownMenuItem>
