@@ -18,7 +18,7 @@ function UserMenu() {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <button className="outline-hidden cursor-pointer border-none focus:ring-0">
+        <button className="outline-hidden hover-focus-card-dark cursor-pointer border-none">
           <IconUser className="text-icons-grey-950 size-5" />
         </button>
       </DropdownMenuTrigger>

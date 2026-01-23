@@ -327,6 +327,9 @@
   }
 }
 
+@utility hover-focus-card-dark {
+  @apply hover:shadow-card-dark focus:shadow-card-dark transition-[color,box-shadow];
+}
 @utility placeholder-extrasmall {
   @apply text-[10px] leading-[145%];
 }

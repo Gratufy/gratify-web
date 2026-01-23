@@ -52,14 +52,14 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
               <button
                 aria-label="Перейти до фотографії вліво"
                 // variant="outline"
-                className="hover:bg-background-grey-50 flex items-center justify-center bg-white"
+                className="hover-focus-card-dark bg-background-white flex items-center justify-center"
                 onClick={() => emblaMainApi?.scrollPrev()}
               >
                 <IconLeft className="size-5" aria-hidden="true" />
               </button>
               <button
                 aria-label="Перейти до фотографіївправо"
-                className="hover:bg-background-grey-50 flex items-center justify-center bg-white"
+                className="hover-focus-card-dark bg-background-white flex items-center justify-center"
                 onClick={() => emblaMainApi?.scrollNext()}
               >
                 <IconLeft className="size-5 rotate-180" aria-hidden="true" />
@@ -129,14 +129,14 @@ function CaruselThumbnails({ slides, options }: EmblaCarouselProps) {
           <div className="lg:w-30 xl:w-34 mx-auto hidden lg:flex lg:justify-between">
             <button
               aria-label="Перейти до фотографії вліво"
-              className="hover:bg-background-grey-50 flex cursor-pointer items-center justify-center bg-white"
+              className="hover-focus-card-dark bg-background-white flex cursor-pointer items-center justify-center"
               onClick={() => emblaMainApi?.scrollPrev()}
             >
               <IconLeft className="lg:size-5 xl:size-6" aria-hidden="true" />
             </button>
             <button
               aria-label="Перейти до фотографії вправо"
-              className="hover:bg-background-grey-50 flex cursor-pointer items-center justify-center bg-white"
+              className="hover-focus-card-dark bg-background-white flex cursor-pointer items-center justify-center"
               onClick={() => emblaMainApi?.scrollNext()}
             >
               <IconLeft

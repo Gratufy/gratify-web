@@ -19,7 +19,7 @@ function AdminMenu() {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <button className="outline-hidden cursor-pointer border-none focus:ring-0">
+        <button className="outline-hidden hover-focus-card-dark cursor-pointer border-none">
           <IconAdminUser className="text-icons-grey-950 h-6 w-[18px]" />
         </button>
       </DropdownMenuTrigger>
