@@ -179,7 +179,13 @@ function PublicHeaderClient() {
                     {user?.role === 'ADMIN' && <AdminMenu />}
                   </div>
                   <Link href="/favorites">
-                    <FavoriteHeaderIcon className="text-background-white h-5 w-4" />
+                    <FavoriteHeaderIcon
+                      className={`ml-auto h-5 w-4 ${
+                        isFavorites
+                          ? 'text-icons-color-accent fill-icons-color-accent'
+                          : 'fill-transparent'
+                      }`}
+                    />
                   </Link>
                 </div>
               ) : (

@@ -15,6 +15,7 @@ import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 import AdminSkeleton from '@/components/admin/shared/AdminSkeleton';
 import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 function AdminCategoriesClient() {
   const {
@@ -173,12 +174,12 @@ function AdminCategoriesClient() {
             Назва категорії
           </Label>
 
-          <input
+          <Input
             id="new-category-name"
             className={`input-custom w-full px-4 lg:w-2/3 ${
               isAdding ? 'cursor-not-allowed opacity-50' : ''
             }`}
-            //   className="input-custom"
+         
             type="text"
             placeholder="Назва категорії"
             value={newName}

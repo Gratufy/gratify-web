@@ -862,7 +862,7 @@ export default function BusinessFormNew({
 
                         <button
                           type="button"
-                          className="bg-icons-color-accent/60 btn-aprove disabled:cursor-not-allowed disabled:opacity-50 max-[1024px]:w-40"
+                          className="bg-icons-color-accent/60 btn-aprove hover:bg-icons-color-accent/80 focus:bg-icons-color-accent/80 disabled:cursor-not-allowed disabled:opacity-50 max-[1024px]:w-40"
                           disabled={fields.length === 1 && isOnlyEmptyLocation}
                           onClick={() => {
                             if (fields.length > 1) {

@@ -39,7 +39,7 @@ function SidebarFilters({ categoriesWithAll }: SidebarFiltersProps) {
               <span>Місто</span>
             </label>
             <CustomSelect
-              className="standart select-input-deko-main w-full px-3 py-1.5 xl:px-4"
+              className="select-input-deko-main w-full px-3 py-1.5 xl:px-4"
               id="sidebar-city"
               value={filters.city}
               onChange={(val) => updateFilter('city', val)}

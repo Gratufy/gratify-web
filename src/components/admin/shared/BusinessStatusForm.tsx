@@ -15,7 +15,8 @@ import { Label } from '@/components/ui/label';
 
 function getOwnerOptions(currentStatus: BusinessStatus) {
   const allowedNextStatuses = OWNER_ALLOWED_TRANSITIONS[currentStatus] || [];
-  // Если нет разрешённых переходов — оставляем текущий, чтобы Select не был пустым
+
+  //when no allowed next statuses, show only current status
   const statuses =
     allowedNextStatuses.length > 0
       ? [currentStatus, ...allowedNextStatuses]
@@ -40,13 +41,9 @@ export function BusinessStatusForm({
   businessName,
 }: BusinessStatusFormProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
-  // const [status, setStatus] = useState<BusinessStatus>(currentStatus);
+
   const [newStatus, setNewStatus] = useState<BusinessStatus | ''>('');
 
-  // useEffect(() => {
-  //   setStatus(currentStatus);
-  // }, [currentStatus]);
-  // const mutation = useUpdateBusiness();
   const mutation = useChangeBusinessStatus();
 
   const handleChange = async () => {
@@ -58,8 +55,6 @@ export function BusinessStatusForm({
       });
       if (res.success) {
         if (newStatus) {
-          // "" будет false
-          // setStatus(newStatus);
           setNewStatus('');
         }
         CustomToast({
@@ -85,8 +80,7 @@ export function BusinessStatusForm({
       //setStatus(currentStatus); // rollback on error
     }
   };
-  //const optionsStatus = owner ? BUSINESS_STATUS_OWNER : BUSINESS_STATUS;
-  // const optionsStatus = owner ? getOwnerOptions(status) : BUSINESS_STATUS;
+
   const optionsStatus = owner
     ? getOwnerOptions(currentStatus)
     : BUSINESS_STATUS;
@@ -106,13 +100,11 @@ export function BusinessStatusForm({
           setNewStatus(newValue as BusinessStatus);
           setDialogOpen(true);
         }}
-        // options={BUSINESS_STATUS}
         options={optionsStatus}
         getOptionValue={(s) => s}
-        // getOptionLabel={(s) => s.charAt(0).toUpperCase() + s.slice(1)}
         getOptionLabel={(s) => BUSINESS_STATUS_LABELS[s]}
         placeholder="Оберіть статус"
-        className={`border-none px-1 ${className}`} //rounded-sm w-40
+        className={`hover:ring-background-grey-100/80 focus-visible:ring-background-grey-100/80 border-none px-1 outline-none ${className}`} //rounded-sm w-40
         statusForm={true}
         owner={owner}
       />
