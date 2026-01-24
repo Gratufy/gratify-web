@@ -35,7 +35,7 @@ export function getBusinessStatusCardBgColor(status: string) {
     case 'hidden':
       return 'bg-background-grey-300'; //'bg-[#bdbdbd]';
     case 'rejected':
-      return 'bg-background-grey-200'; //'bg-[#dcdcdc]';
+      return 'bg-background-grey-100'; //'bg-[#dcdcdc]';
     case 'pending':
       return 'bg-icons-main-50'; //'bg-[#f5f3f0]';
     case 'draft':

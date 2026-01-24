@@ -112,7 +112,7 @@ export function BusinessStatusForm({
         // getOptionLabel={(s) => s.charAt(0).toUpperCase() + s.slice(1)}
         getOptionLabel={(s) => BUSINESS_STATUS_LABELS[s]}
         placeholder="Оберіть статус"
-        className={`border-none px-1 ${className}`} //rounded-sm w-40
+        className={`hover:ring-background-grey-100/80 focus-visible:ring-background-grey-100/80 border-none px-1 outline-none ${className}`} //rounded-sm w-40
         statusForm={true}
         owner={owner}
       />
