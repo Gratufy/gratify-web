@@ -18,7 +18,14 @@ function NotFoundComponent({ IfFavorites, business }: NotFoundComponentProps) {
           width={358}
           height={193}
           alt="Зображення не знайдено"
-          className="h-auto w-full"
+          className="h-auto w-full dark:hidden"
+        />
+        <Image
+          src="/images/not-found-dark.png"
+          width={358}
+          height={193}
+          alt="Зображення не знайдено"
+          className="hidden h-auto w-full dark:block"
         />
       </div>
 

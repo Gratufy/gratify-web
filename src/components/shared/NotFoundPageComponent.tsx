@@ -13,7 +13,15 @@ function NotFoundPageComponent() {
             height={167}
             alt=""
             aria-hidden="true"
-            className="h-auto w-full"
+            className="h-auto w-full dark:hidden"
+          />
+          <Image
+            src="/images/404-1-dark.png"
+            width={286}
+            height={167}
+            alt=""
+            aria-hidden="true"
+            className="hidden h-auto w-full dark:block"
           />
         </div>
         <div className="w-90 absolute z-10 h-[190px] rounded-md lg:h-[359px] lg:w-[680px] xl:h-[600px] xl:w-[1135px]">
@@ -22,14 +30,22 @@ function NotFoundPageComponent() {
             width={1135}
             height={600}
             alt="Зображення 404 помилки"
-            className="h-auto w-full"
+            className="h-auto w-full dark:hidden"
+            priority
+          />
+          <Image
+            src="/images/404-dark.png"
+            width={1135}
+            height={600}
+            alt="Зображення 404 помилки"
+            className="hidden h-auto w-full dark:block"
             priority
           />
         </div>
       </div>
 
       <p className="title-h4 mb-8 text-center">
-        Навіть сторінки іноді беруть відпустку
+        Сторінку, яку ви шукаєте, не знайдено.
       </p>
 
       <BackToHomeBtn />
