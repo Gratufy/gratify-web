@@ -20,6 +20,7 @@ import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
 import ReviewsSkeleton from '@/components/shared/skeletons/ReviewsSkeleton';
+import { Textarea } from '../ui/textarea';
 
 interface BusinessReviewsProps {
   businessId: string;
@@ -211,12 +212,12 @@ export default function BusinessReviews({
                       <p id={`review-edit-help-${r.id}`} className="sr-only">
                         Редагувати ваш відгук про цей бізнес
                       </p>
-                      <textarea
+                      <Textarea
                         aria-describedby={`review-edit-help-${r.id}`}
                         id={`edit-review-${r.id}`}
                         value={editingText}
                         onChange={(e) => setEditingText(e.target.value)}
-                        className="bg-button-white border-elements-grey-950 xl:placeholder-base placeholder-sm focus:outline-elements-grey-950 mb-5 h-32 w-full border-[0.5px] p-1"
+                        className="focus-visible:ring-elements-main-500/30 hover:ring-icons-main-500/50 bg-button-white xl:placeholder-base placeholder-sm mb-5 h-32 w-full border-[0.5px] p-1 outline-none"
                       />
                       <div className="flex items-center justify-center gap-7">
                         <button
@@ -271,13 +272,13 @@ export default function BusinessReviews({
           <p id="review-help" className="sr-only">
             Напишіть ваш відгук про цей бізнес
           </p>
-          <textarea
+          <Textarea
             id="create-review"
             aria-describedby="review-help"
             placeholder="Поділіться враженням..."
             value={newText}
             onChange={(e) => setNewText(e.target.value)}
-            className="bg-button-white placeholder-sm xl:placeholder-base border-elements-grey-950 placeholder:placeholder-sm xl:placeholder:placeholder-base placeholder:text-text-500-grey focus:outline-elements-grey-950 mb-6 h-14 w-full border-[0.5px] px-3 py-1 lg:h-20"
+            className="focus-visible:ring-elements-main-500/30 hover:ring-icons-main-500/50 bg-button-white placeholder-sm xl:placeholder-base placeholder:placeholder-sm xl:placeholder:placeholder-base placeholder:text-text-500-grey mb-6 h-14 w-full border-[0.5px] px-3 py-1 lg:h-20"
           />
           <button
             onClick={handleAdd}
