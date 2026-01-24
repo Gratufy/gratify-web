@@ -227,14 +227,15 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
               )}
               <div className="w-full lg:flex-1">{CityListElements}</div>
             </div>
+            <div className="mt-8 flex">
+              <Info className="text-text-link mr-2 h-4 w-4" aria-hidden />
+              <span className="caption text-text-700-grey">
+                Уся інформація в картці бізнесу надається його представниками.
+                Платформа не несе відповідальності за її точність та
+                актуальність.
+              </span>
+            </div>
           </section>
-          <div className="flex pb-4">
-            <Info className="text-text-link mr-2 h-4 w-4" aria-hidden />
-            <span className="caption text-text-700-grey">
-              Уся інформація в картці бізнесу надається його представниками.
-              Платформа не несе відповідальності за її точність та актуальність.
-            </span>
-          </div>
         </>
       )}
       <CustomAlertDialog
