@@ -71,7 +71,7 @@
   --color-icons-grey-100: var(--grey-100);
   --color-icons-grey-300: var(--grey-300);
   --color-icons-grey-400: var(--grey-400);
-  --color-icons-grey-950: var(--grey-950);
+  --color-icons-grey-950: var(--text-950-grey);
 
   --color-icons-color-white: var(--white-2);
   --color-icons-color-error: var(--error);
@@ -327,9 +327,24 @@
     max-width: 1440px;
   }
 }
+/* px-4  */
+@utility input-custom {
+  @apply border-elements-grey-400 xl:placeholder-base bg-background-white placeholder:text-text-500-grey placeholder-sm flex cursor-text items-center border-[0.5] py-2;
+}
 
+/*bg-background-grey-50 standart justify-between px-4  */
+@utility standart {
+  @apply xl:placeholder-base placeholder-sm flex items-center border-[0.5px] py-[6px];
+}
 @utility hover-focus-card-dark {
   @apply hover:shadow-card-dark focus:shadow-card-dark transition-[color,box-shadow];
+}
+
+@utility select-input-deko-main {
+  @apply dark:hover:bg-background-main-300/50 border-elements-main-500 focus-visible:border-elements-main-600 focus-visible:ring-background-main-300/50 hover:ring-background-main-300/50;
+}
+@utility select-input-deko-grey {
+  @apply dark:hover:bg-background-main-300/50 border-elements-grey-400 focus-visible:border-elements-grey-300 focus-visible:ring-background-grey-300/50 hover:ring-background-grey-300/50;
 }
 @utility placeholder-extrasmall {
   @apply text-[10px] leading-[145%];
@@ -396,7 +411,7 @@
 }
 /* w-30  px-3*/
 @utility btn-reject {
-  @apply dark:bg-background-main-50 dark:hover:bg-background-main-500/30 dark:focus:bg-background-main-500/20 focus:bg-background-grey-50 hover:bg-background-grey-50 disabled:bg-background-grey-200 active:shadow-pressed hover:shadow-hover focus:shadow-hover bg-background-white xl:placeholder-base shadow-menu placeholder-sm border-background-main-300 flex cursor-pointer items-center justify-center gap-[6px] text-nowrap border px-3 py-[6px] outline-none transition-colors hover:underline focus:underline disabled:cursor-not-allowed xl:gap-3 xl:px-5 xl:py-2;
+  @apply disabled:text-text-500-grey dark:bg-background-main-50 dark:hover:bg-background-main-500/30 dark:focus:bg-background-main-500/20 focus:bg-background-grey-50 hover:bg-background-grey-50 disabled:bg-background-grey-200 active:shadow-pressed hover:shadow-hover focus:shadow-hover bg-background-white xl:placeholder-base shadow-menu placeholder-sm border-background-main-300 flex cursor-pointer items-center justify-center gap-[6px] text-nowrap border px-3 py-[6px] outline-none transition-colors hover:underline focus:underline disabled:cursor-not-allowed xl:gap-3 xl:px-5 xl:py-2;
 }
 @utility btn-aprove {
   @apply disabled:text-text-500-grey disabled:bg-background-main-200 active:shadow-pressed hover:shadow-hover focus:shadow-hover active:bg-background-main-500 placeholder-sm xl:placeholder-base bg-background-main-300 border-background-main-300 shadow-menu hover:bg-background-main-400 focus:bg-background-main-400 flex cursor-pointer items-center justify-center gap-[6px] text-nowrap border px-3 py-[6px] outline-none transition-all hover:underline focus:underline disabled:cursor-not-allowed xl:gap-3 xl:px-5 xl:py-2;
@@ -405,15 +420,6 @@
 /* hover:bg-elements-grey-100/60  transition-colors*/
 @utility btn-custom {
   @apply hover-focus-card-dark cursor-pointer outline-none disabled:cursor-not-allowed;
-}
-/* px-4  */
-@utility input-custom {
-  @apply border-elements-grey-400 xl:placeholder-base bg-background-white placeholder:text-text-500-grey placeholder-sm flex cursor-text items-center border-[0.5] py-2;
-}
-
-/*bg-background-grey-50 standart justify-between px-4  */
-@utility standart {
-  @apply border-elements-grey-400 xl:placeholder-base placeholder-sm flex items-center border-[0.5px] py-[6px];
 }
 
 @utility chip {

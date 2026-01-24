@@ -147,7 +147,7 @@ export default function BusinessFormNew({
   //   lat: number;
   //   lng: number;
   // } | null>(null);
-  // ЭТАЛОН — координаты из адреса (геокодинг)
+
   const [addressLatLng, setAddressLatLng] = useState<LatLng | null>(null);
   const [locationWarnings, setLocationWarnings] = useState<LocationWarning[]>(
     []
@@ -215,7 +215,7 @@ export default function BusinessFormNew({
     }
 
     try {
-      // получаем эталон из адреса (геокодинг)
+      //receive  lat lng
       const res = await checkAddressMutation.mutateAsync({
         city: loc.city,
         address: loc.address,
@@ -237,8 +237,8 @@ export default function BusinessFormNew({
       setAddressLatLng(addressPoint);
 
       // 3️ tempLatLng
-      // edit → берем сохранённые координаты
-      // create → берём адрес
+      // edit → take coords
+      // create → take adress
       const savedLat = form.getValues(`locations.${index}.latitude`);
       const savedLng = form.getValues(`locations.${index}.longitude`);
       if (savedLat != null && savedLng != null) {
@@ -267,8 +267,6 @@ export default function BusinessFormNew({
   function handleConfirmLocation() {
     if (!addressLatLng || !tempLatLng || mapOpenIndex === null) return;
 
-    console.log('initialLatLng ', addressLatLng);
-    console.log('tempLatLng', tempLatLng);
     const distance = getDistanceMeters(addressLatLng, tempLatLng);
     console.log('distance', distance);
 
@@ -536,7 +534,7 @@ export default function BusinessFormNew({
                       id="name-business"
                       minLength={2}
                       maxLength={70}
-                      className="input-custom px-2 lg:px-3 xl:px-4"
+                      className="px-2 lg:px-3 xl:px-4"
                       placeholder="Назва"
                       {...field}
                       autoComplete="off"
@@ -568,7 +566,7 @@ export default function BusinessFormNew({
                   >
                     <CustomSelect
                       id="category-select" //name
-                      className="standart bg-background-white w-[70%] px-4 lg:w-[237px] xl:w-[285px]"
+                      className="select-input-deko-grey bg-background-white w-[70%] px-4 lg:w-[237px] xl:w-[285px]"
                       value={field.value}
                       onChange={field.onChange}
                       options={categories} // array of category objects
@@ -659,7 +657,7 @@ export default function BusinessFormNew({
                         id="description"
                         minLength={20}
                         maxLength={1000}
-                        className="input-custom h-23 mb-1 px-2 lg:h-[148px] lg:w-[315px] lg:px-3 xl:px-4"
+                        className="bg-button-white h-23 mb-1 px-2 lg:h-[148px] lg:w-[315px] lg:px-3 xl:px-4"
                         placeholder="Коротко опишіть ваші головні переваги, унікальні торгові пропозиціі"
                         {...field}
                       />
@@ -679,8 +677,8 @@ export default function BusinessFormNew({
         </div>
 
         {/* Big Location block */}
-        <div className="bg-background-grey-50 mb-15 w-full py-5 lg:py-10">
-          <div className="container mx-auto w-full max-[1024px]:px-4">
+        <div className="bg-background-grey-50 mb-15 dark:bg-background-main-200 container w-full py-5 lg:py-10">
+          <div className="mx-auto w-full max-[1024px]:px-4">
             {/* Online checkbox */}
             <div className="border-elements-grey-400 mb-8 border-[0.5px] p-4 lg:flex lg:items-center lg:justify-between lg:gap-20 lg:px-3 lg:py-5">
               <FormField
@@ -725,7 +723,7 @@ export default function BusinessFormNew({
                       <FormControl>
                         <Input
                           id="website-link"
-                          className="input-custom cursor-text px-2 lg:w-[325px] lg:px-3 xl:w-[296px] xl:px-4"
+                          className="input-custom bg-background-white cursor-text px-2 lg:w-[325px] lg:px-3 xl:w-[296px] xl:px-4"
                           placeholder="Посилання"
                           {...field}
                         />
@@ -794,7 +792,7 @@ export default function BusinessFormNew({
                             >
                               <CustomSelect
                                 id={`locations.${index}.city-select`}
-                                className="standart w-full px-4"
+                                className="select-input-deko-grey bg-background-white w-full px-4"
                                 value={field.value}
                                 onChange={field.onChange}
                                 options={UKRAINE_REGIONAL_CENTERS_WITHOUT_ALL}
@@ -824,7 +822,7 @@ export default function BusinessFormNew({
                                 {...field}
                                 maxLength={200}
                                 placeholder="Вулиця, будівля, приміщення"
-                                className="input-custom mb-4 px-2 lg:px-3 xl:mb-6 xl:px-4"
+                                className="input-custom bg-background-white mb-4 px-2 lg:px-3 xl:mb-6 xl:px-4"
                               />
                             </FormControl>
                             <FormMessage />

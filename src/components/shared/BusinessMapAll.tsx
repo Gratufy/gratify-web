@@ -128,7 +128,7 @@ function BusinessMapAll({
           />
         </MapContainer>
       ) : (
-        <div className="bg-input flex h-full w-full items-center justify-center px-4">
+        <div className="bg-default-photo flex h-full w-full items-center justify-center px-4">
           <p className="text-center text-xl lg:text-2xl">
             Немає доступних адрес для відображення на карті
           </p>
