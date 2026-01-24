@@ -76,6 +76,7 @@
   --color-icons-color-white: var(--white-2);
   --color-icons-color-error: var(--error);
   --color-icons-color-success: var(--success);
+  --color-icons-color-pending: var(--pending);
   --color-icons-color-accent: var(--accent);
 
   --color-icons-main-600: var(--main-600);
@@ -168,6 +169,7 @@
   --white-3: #fff;
   --accent: #c71143;
   --error: #dc0b0e;
+  --pending: #dfd077;
   --success: #05b456;
   --grey-50: #f9f9f9;
   --grey-100: #efefef;
@@ -243,6 +245,7 @@
   --white-3: #27251c;
   --accent: #c71143;
   --error: #dc0b0e;
+  --pending: #e3c041d6;
   --success: #05b456;
   --grey-50: #292929;
   --grey-100: #3d3d3d;
