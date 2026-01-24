@@ -54,7 +54,7 @@ export function CustomAlertDialog({
       <AlertDialogContent className={classNameContent}>
         <AlertDialogCancel
           aria-label="Закрити"
-          className="hover:bg-background-grey-100/80 absolute right-3 top-3 cursor-pointer border-none p-1"
+          className="hover-focus-card-dark absolute right-3 top-3 cursor-pointer border-none p-1"
         >
           <IconCross className="size-5" />
         </AlertDialogCancel>
