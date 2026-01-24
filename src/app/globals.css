@@ -329,13 +329,13 @@
 }
 /* px-4  */
 @utility input-custom {
-  @apply border-elements-grey-400 xl:placeholder-base bg-background-white placeholder:text-text-500-grey placeholder-sm flex cursor-text items-center border-[0.5] py-2;
+  @apply items-center border-[0.5] py-2;
 }
 
 /*bg-background-grey-50 standart justify-between px-4  */
-@utility standart {
+/* @utility standart {
   @apply xl:placeholder-base placeholder-sm flex items-center border-[0.5px] py-[6px];
-}
+} */
 @utility hover-focus-card-dark {
   @apply hover:shadow-card-dark focus:shadow-card-dark transition-[color,box-shadow];
 }
