@@ -23,7 +23,7 @@ function BusinessEditDetails({ id, initialData }: Props) {
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center">
       
-      {isAdmin && !isOwner ? (
+      {isAdmin && (!isOwner ? (
         <div className="bg-icons-color-accent/40 mb-4 px-4 py-2">
           <p className="title-h4 text-text-700-grey text-center">
             Увага! Цю картку створено не Адміном
@@ -35,7 +35,8 @@ function BusinessEditDetails({ id, initialData }: Props) {
             Цю картку створено Адміном
           </p>
         </div>
-      )}
+      ))
+    }
 
       <DeleteEditBusinessBtns
         id={id}
