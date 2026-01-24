@@ -40,7 +40,7 @@ function SelectTrigger({
       // [&_svg:not([class*='text-'])]:text-muted-foreground
       className={cn(
         'xl:placeholder-base placeholder-sm shadow-xs flex w-fit cursor-pointer items-center justify-between gap-2 whitespace-nowrap border-[0.5px] px-3 py-2 outline-none disabled:cursor-not-allowed disabled:opacity-50',
-        'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow]',
+        'aria-invalid:ring-text-warning/20 dark:aria-invalid:ring-text-warning/40 aria-invalid:border-text-warning transition-[color,box-shadow]',
         'hover:ring-[2px] focus-visible:ring-[2px]',
         "data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 data-[state=open]:[&_svg]:rotate-180",
         className

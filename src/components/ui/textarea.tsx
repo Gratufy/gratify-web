@@ -12,7 +12,7 @@ function Textarea({ className, ...props }: React.ComponentProps<'textarea'>) {
         'focus-visible:border-ring focus-visible:ring-icons-grey-300/50 transition-[color,box-shadow] focus-visible:ring-[2px]',
         'hover:ring-icons-grey-300/50 hover:ring-[2px]',
         'disabled:cursor-not-allowed disabled:opacity-50',
-        'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
+        'aria-invalid:ring-text-warning/20 dark:aria-invalid:ring-text-warning/40 aria-invalid:border-text-warning',
         className
       )}
       {...props}
