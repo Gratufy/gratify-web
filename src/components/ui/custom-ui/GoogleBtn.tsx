@@ -123,7 +123,7 @@ const GoogleBtn = () => {
         <Spinner />
       ) : (
         <button
-          className="flex cursor-pointer items-center border border-gray-950 px-5 py-3"
+          className="btn-reject hover:no-underline focus:no-underline justify-start py-3"
           onClick={handleGoogleLogin}
           disabled={loading}
         >

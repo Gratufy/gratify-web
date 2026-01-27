@@ -7,7 +7,7 @@ function LoginHeaderBtn() {
   return (
     <Link
       href="/login"
-      className="xl:w-15 flex w-12 items-center justify-between lg:w-14"
+      className="xl:w-17 hover-focus-card-dark flex w-14 items-center justify-between px-1 py-[6px] lg:w-16"
     >
       <IconUser className="text-icons-grey-950 size-5" />
 
