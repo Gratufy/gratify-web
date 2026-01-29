@@ -81,6 +81,7 @@
   --color-icons-main-700: var(--main-700);
   --color-icons-main-50: var(--main-50);
   --color-icons-main-100: var(--main-200);
+  --color-icons-main-100-1: var(--main-200-1);
   --color-icons-main-800: var(--main-800);
   --color-icons-main-500: var(--main-500-def);
 
@@ -181,6 +182,7 @@
   --main-50: #f5f3f0;
   --main-100: #eae7dd;
   --main-200: #d7d2bf;
+  --main-200-1: #d7d2bf;
   --main-300: #bdb699;
   --main-400: #a49c77;
   --main-500-def: #8b845c;
@@ -250,8 +252,9 @@
   --link: #139cc7;
   --main-50: #27251c;
   --main-100: #3b3a2c;
-  /* --main-200: #444230; */
+
   --main-200: #27251c;
+  --main-200-1: #444230;
   --main-300: #535038;
   --main-400: #6b6645;
   --main-500-def: #8b845c;
@@ -425,7 +428,7 @@
 
 /* // Admin sidebar  */
 @utility admin-link {
-  @apply title-h4 bg-background-main-50 flex items-center gap-3 px-2 py-3;
+  @apply title-h4 bg-background-main-50 hover:bg-background-main-100 focus:bg-background-main-100 text-text-800-grey flex items-center gap-3 px-4 py-3 transition-colors;
 }
 @utility admin-link-active {
   @apply bg-background-main-100 text-text-800-main;
