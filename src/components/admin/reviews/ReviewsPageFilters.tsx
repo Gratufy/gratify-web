@@ -62,7 +62,7 @@ function ReviewsPageFilters({
             getOptionValue={(s) => s}
             getOptionLabel={(s) => BUSINESS_REVIEW_STATUS_LABELS[s]}
             placeholder="Оберіть статус"
-            className="admin-select w-full"
+            className="admin-select select-input-deko-main w-full"
           />
         </div>
         <div className="w-full">
@@ -80,7 +80,7 @@ function ReviewsPageFilters({
             getOptionValue={(c) => c.categoryId}
             getOptionLabel={(c) => c.name}
             placeholder="Оберіть категорію"
-            className="admin-select w-full"
+            className="admin-select select-input-deko-main w-full"
           />
         </div>
       </div>
@@ -101,7 +101,7 @@ function ReviewsPageFilters({
             getOptionValue={(option) => option.value}
             getOptionLabel={(option) => option.label}
             placeholder="Оберіть місто"
-            className="admin-select w-full"
+            className="admin-select select-input-deko-main w-full"
           />
         </div>
         <div className="w-full">
@@ -122,7 +122,7 @@ function ReviewsPageFilters({
             getOptionValue={(option) => option.value}
             getOptionLabel={(option) => option.label}
             placeholder="Оберіть місто"
-            className="admin-select w-full"
+            className="admin-select select-input-deko-main w-full"
           />
         </div>
       </div>
