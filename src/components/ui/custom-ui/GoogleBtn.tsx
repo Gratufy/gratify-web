@@ -57,6 +57,7 @@ const GoogleBtn = () => {
       const { error } = await supabase.auth.exchangeCodeForSession(code);
 
       if (error) {
+        isExchangingRef.current = false;
         setLoading(false);
         console.error('Failed to exchange code', error);
         return;
@@ -67,9 +68,20 @@ const GoogleBtn = () => {
 
     channel.addEventListener('message', listener);
 
+    // important : when popup closes
+    const popupCheck = setInterval(() => {
+      if (popup.closed && !isExchangingRef.current) {
+        clearInterval(popupCheck);
+        channel.close();
+        setPopup(null);
+        setLoading(false);
+        isExchangingRef.current = false;
+      }
+    }, 500);
     return () => {
       channel.removeEventListener('message', listener);
       channel.close();
+      clearInterval(popupCheck);
     };
   }, [popup, router]);
   // const { handleGoogleLogin, popup } = useGoogleLogin();
@@ -82,18 +94,24 @@ const GoogleBtn = () => {
 
     // to prevent popup blocker on Desktop
     // FIRST - If not mobile, open a empty popup window before starting the OAuth flow
-    let popup: Window | null = null;
+    let popupWindow: Window | null = null;
     if (!isMobile) {
+      setLoading(true);
       const width = 500;
       const height = 600;
       const left = window.screen.width / 2 - width / 2;
       const top = window.screen.height / 2 - height / 2;
-      popup = window.open(
+      popupWindow = window.open(
         '',
         'GoogleAuthPopup',
         `width=${width},height=${height},top=${top},left=${left}`
       );
-      if (popup) setPopup(popup);
+      if (!popupWindow) {
+        setLoading(false);
+        alert('Будь ласка, дозвольте pop-ups для входу через Google');
+        return;
+      }
+      setPopup(popupWindow);
     }
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
@@ -108,33 +126,35 @@ const GoogleBtn = () => {
 
     if (error || !data?.url) {
       console.error('OAuth login error', error);
-      if (popup) popup.close();
-
+      if (popupWindow) popupWindow.close();
+      setLoading(false);
       return;
     }
     if (isMobile) return; // if we are on mobile, we will redirect to the redirectUrl
-    if (popup) {
-      popup.location.href = data.url; // open the OAuth URL in the popup
+    if (popupWindow) {
+      popupWindow.location.href = data.url; // open the OAuth URL in the popup
     }
   };
   return (
-    <>
+    <button
+      className="btn-reject justify-start py-3 hover:no-underline focus:no-underline"
+      onClick={handleGoogleLogin}
+      disabled={loading}
+    >
       {loading ? (
-        <Spinner />
+        <>
+          <Spinner />
+          <span className="text-sm">Відкриваємо Google…</span>
+        </>
       ) : (
-        <button
-          className="btn-reject hover:no-underline focus:no-underline justify-start py-3"
-          onClick={handleGoogleLogin}
-          disabled={loading}
-        >
+        <>
           <IconGoogle className="mr-3 size-4 xl:size-6" />
-
           <span className="xl:placeholder-base lg:placeholder-sm placeholder-xs">
             Продовжити з Google
           </span>
-        </button>
+        </>
       )}
-    </>
+    </button>
   );
 };
 
