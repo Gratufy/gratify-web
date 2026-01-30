@@ -20,8 +20,6 @@ function BusinessEditDetails({ id, initialData }: Props) {
   const isOwner = currentUserId === initialData.ownerId;
   const selectedCity = '__all__';
 
-  console.log('isAdmin', isAdmin);
-  console.log('isOwner', isOwner);
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center">
       {isAdmin &&

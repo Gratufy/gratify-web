@@ -9,6 +9,7 @@ import { validate as uuidValidate } from 'uuid'; // npm install uuid
 import { getBusinessById } from '@/lib/actions/getBusinessById';
 import BusinessDetails from '@/components/shared/oneCardDetails/BusinessDetails';
 import GoBackButton from '@/components/ui/custom-ui/GoBackButton';
+import { getSimilarBusinesses } from '@/lib/actions/getSimilarBusinesses';
 // import { queryKeys } from '@/lib/reactQuery/queryKeys';
 
 interface BusinessPageProps {
@@ -31,6 +32,14 @@ export default async function PublicBusinessDetailsPage({
     // если ID неправильный → NotFound
     return notFound();
   }
+  const similarBusinesses = await getSimilarBusinesses({
+    businessId: business.id,
+    categoryId: business.categoryId,
+    city: business.locations?.[0]?.city,
+    isOnline: business.isOnline,
+    limit: 2,
+  });
+  console.log('similar', similarBusinesses);
   // await queryClient.prefetchQuery({
   //   queryKey: queryKeys.businessById(id),
   //   queryFn: () => Promise.resolve(business),

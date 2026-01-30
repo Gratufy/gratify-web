@@ -184,3 +184,11 @@ export type LatLng = {
   lat: number;
   lng: number;
 };
+
+export type GetSimilarBusinessesParams = {
+  businessId: string;
+  categoryId: string;
+  city?: string | null;
+  isOnline: boolean;
+  limit?: number;
+};
