@@ -110,7 +110,7 @@ function AdminDesktopBusinessesList({
                     businessName={b.name}
                     businessId={b.id}
                     currentStatus={b.status}
-                    className="w-40"
+                    className="w-40 rounded-sm"
                   />
                 </div>
 

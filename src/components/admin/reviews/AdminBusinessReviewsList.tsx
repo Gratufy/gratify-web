@@ -91,7 +91,7 @@ function AdminBusinessReviewsList({
                 <Link
                   aria-label={`Перейти до бізнесу ${b.name}`}
                   href={`/admin/business/${b.id}`}
-                  className={`bg-background-main-200 grid grid-cols-[1fr_1fr_1fr] items-center justify-center gap-2 rounded-lg px-2 py-2 transition-colors ${
+                  className={`bg-icons-main-100-1 grid grid-cols-[1fr_1fr_1fr] items-center justify-center gap-2 rounded-lg px-2 py-2 transition-colors ${
                     isHoveringButton ? '' : 'hover:bg-background-main-300/80'
                   }`}
                 >

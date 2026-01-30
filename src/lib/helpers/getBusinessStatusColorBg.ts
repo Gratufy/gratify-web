@@ -2,7 +2,7 @@
 export function getBusinessStatusBgColor(status: string) {
   switch (status) {
     case 'approved':
-      return 'bg-icons-color-success/35'; // 'bg-[#05b456]/35'; //'bg-[#8ec89a] '; //hover:shadow-[1px 2px 10px 2px #dcdcdc]#8ec89a bg-[#05b456]/35
+      return 'bg-icons-color-success/80'; // 'bg-[#05b456]/35'; //'bg-[#8ec89a] '; //hover:shadow-[1px 2px 10px 2px #dcdcdc]#8ec89a bg-[#05b456]/35
     case 'hidden':
       return 'bg-background-grey-100'; //'bg-[#efefef]'; //background-grey-100 bg-[#7c7c7c]/30
     case 'rejected':

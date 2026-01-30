@@ -414,6 +414,10 @@
 }
 
 /* hover:bg-elements-grey-100/60  transition-colors*/
+/* disabled:cursor-not-allowed
+  disabled:opacity-50
+  disabled:hover:bg-transparent
+  disabled:focus:bg-transparent */
 @utility btn-custom {
   @apply hover-focus-card-dark cursor-pointer outline-none disabled:cursor-not-allowed;
 }

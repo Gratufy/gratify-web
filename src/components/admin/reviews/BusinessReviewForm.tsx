@@ -72,7 +72,7 @@ function BusinessReviewForm({
         getOptionValue={(s) => s}
         getOptionLabel={(s) => BUSINESS_REVIEW_STATUS_LABELS[s]}
         placeholder="Оберіть статус"
-        className={className}
+        className={`hover:ring-icons-main-500/80 focus-visible:ring-icons-main-500/80 rounded-sm border-none px-1 outline-none ${className}`}
         statusForm={true}
       />
       <CustomAlertDialog

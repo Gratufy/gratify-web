@@ -137,7 +137,7 @@ function AdminMobileBusinessList({
                           businessName={b.name}
                           businessId={b.id}
                           currentStatus={b.status}
-                          className="w-full"
+                          className="w-full rounded-sm"
                         />
                       </div>
                     ) : (
