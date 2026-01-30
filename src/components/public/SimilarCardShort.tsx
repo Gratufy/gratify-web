@@ -8,22 +8,17 @@ import { BusinessWithCategoryName } from '@/types';
 import { Plus } from 'lucide-react';
 import { Minus } from 'lucide-react';
 import { useFavorites } from '@/providers/UserFavoritesProvider';
-import { useAddFavorite, useRemoveFavorite } from '@/hooks/useFavorites';
 
-import IconUser from '@/assets/icons/general/icon-user.svg';
 import CheckIcon from '@/assets/icons/general/icon-check.svg';
 import ReviewIcon from '@/assets/icons/general/icon-bubble.svg';
 import IconFavoriteNo from '@/assets/icons/general/icon-favorite-no.svg';
 import IconFavoriteYes from '@/assets/icons/general/icon-favorite-yes.svg';
-
-import Karma from '@/components/shared/Karma';
 
 interface BusinessCardShotProps {
   business: BusinessWithCategoryName;
 }
 
 function SimilarCardShort({ business }: BusinessCardShotProps) {
-  const router = useRouter();
   const favoritesSet = useFavorites();
   const isFavorite = favoritesSet.has(business.id);
   return (
@@ -86,7 +81,7 @@ function SimilarCardShort({ business }: BusinessCardShotProps) {
               </>
             )}
             <div className="z-5 bg-linear-to-l to-background-white pointer-events-none absolute inset-0 from-white/0"></div>
-            <div className="z-5 bg-linear-to-l to-gradient-card from-gradient-card/0 pointer-events-none absolute inset-0"></div>
+            {/* <div className="z-5 bg-linear-to-l to-gradient-card from-gradient-card/0 pointer-events-none absolute inset-0"></div> */}
           </div>
         </div>
 
