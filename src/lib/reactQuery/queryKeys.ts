@@ -1,21 +1,11 @@
 import { AdminBusinessesParams, GetBusinessesParams } from '@/types';
 import { BusinessReviewStatus, ScopeReview } from '@/types/enums';
-import { GetSimilarBusinessesParams } from '@/types';
 
 // businesses: ["businesses"] as const,
 // businessList: (filters: GetBusinessesParams) =>
 //   ['businesses', filters] as const,
 
 export const queryKeys = {
-  getSimilarBusinesses: (params: GetSimilarBusinessesParams) =>
-    [
-      'similarBusinesses',
-      params.businessId,
-      params.categoryId,
-      params.city ?? '__all__',
-      params.isOnline ?? false,
-      params.limit ?? 2,
-    ] as const,
   businessCategories: ['businessCategories'] as const,
 
   businessList: (params: GetBusinessesParams) =>
