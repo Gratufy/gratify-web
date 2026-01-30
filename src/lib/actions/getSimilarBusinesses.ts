@@ -8,6 +8,10 @@ import {
   BusinessWithCategoryName,
   GetSimilarBusinessesParams,
 } from '@/types/business';
+import {
+  getOwnOffersForBusinesses,
+  getSpecialOffersForBusinesses,
+} from '../helpers/getSpecialOffersForBusinesses';
 
 const businessSelectFields = {
   id: businesses.id,
@@ -157,6 +161,25 @@ export async function getSimilarBusinesses(
       }
     }
 
+    // Offers
+
+    const offerRows = await getSpecialOffersForBusinesses(ids);
+    const ownOfferRows = await getOwnOffersForBusinesses(ids);
+    const allOffersRows = [...ownOfferRows, ...offerRows];
+
+    for (const offer of allOffersRows) {
+      const business = businessMap.get(offer.businessId);
+      if (business) {
+        if (business.allOffersRows.length < 3) {
+          // limit to 3 offers for card shot
+          business.allOffersRows.push({
+            businessId: offer.businessId,
+            offerId: offer.offerId,
+            title: offer.title,
+          });
+        }
+      }
+    }
     const result = Array.from(businessMap.values());
 
     // ---------- 5️⃣ Подтягиваем обложки ----------
