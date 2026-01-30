@@ -89,7 +89,6 @@ export async function getBusinesses(
   if (!city || city === '__all__') {
     // "__all__"
     if (showOnlineStatus === 'online') {
-      // conditions.push(eq(businesses.isOnline, true));
       statusFilter = eq(businesses.isOnline, true);
     } else if (showOnlineStatus === 'offline') {
       // есть хотя бы одна физическая локация
@@ -104,11 +103,10 @@ export async function getBusinesses(
       // никаких условий по статусу не добавляем
       statusFilter = undefined;
     }
-    // "all" — не добавляем условий
+    // "all" — no condition
   } else {
-    // выбран конкретный город
+    // city other than "__all__"
     if (showOnlineStatus === 'online') {
-      // conditions.push(eq(businesses.isOnline, true));
       statusFilter = eq(businesses.isOnline, true);
     } else if (showOnlineStatus === 'offline') {
       statusFilter = sql`
@@ -120,8 +118,7 @@ export async function getBusinesses(
       )
     `;
     } else if (showOnlineStatus === 'all') {
-      // объединяем онлайн или с локацией в этом городе
-
+      // both online and offline in the city
       statusFilter = or(
         eq(businesses.isOnline, true),
         sql`
@@ -180,8 +177,7 @@ export async function getBusinesses(
   const whereClause = conditions.length > 0 ? and(...conditions) : sql`TRUE`;
 
   try {
-    // Подзапрос: сначала берем только id нужных бизнесов
-
+    // we take only the ids of the required businesses first
     const pageIdsRows = await db
       .select({ id: businesses.id })
       .from(businesses)
@@ -194,8 +190,7 @@ export async function getBusinesses(
     const ids = pageIdsRows.map((r) => String(r.id));
     if (ids.length === 0) return { data: [], nextOffset: undefined };
 
-    // Главный запрос: подтягиваем все поля + локации
-
+    // main query: fetch all fields + locations
     const rows = await db
       .select(businessSelectFields)
       .from(businesses)
@@ -213,6 +208,7 @@ export async function getBusinesses(
 
     // Map businesses by ID
     // собираем бизнесы с массивом локаций
+    // get all business with locations
     const businessMap = new Map<string, BusinessWithCategoryName>();
 
     for (const row of rows) {
@@ -220,12 +216,9 @@ export async function getBusinesses(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { city, address, latitude, longitude, ...businessData } = row;
 
-        // const _ = { city, address, latitude, longitude };
         businessMap.set(row.id, {
           ...businessData,
           locations: [],
-          // specialOffers: [],
-          // ownOffers: [],
           allOffersRows: [],
         });
       }
@@ -262,7 +255,7 @@ export async function getBusinesses(
     const results = Array.from(businessMap.values());
 
     // help function to filter businesses by city and online status
-    //results = filterByCityAndOnline(results, city, showOnlineStatus);
+
     const coverRows = await getCoverImagesForBusinesses(ids);
 
     for (const row of coverRows) {

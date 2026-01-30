@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 import { BusinessWithCategoryName } from '@/types';
-
+import { Plus } from 'lucide-react';
+import { Minus } from 'lucide-react';
 import { useFavorites } from '@/providers/UserFavoritesProvider';
 import { useAddFavorite, useRemoveFavorite } from '@/hooks/useFavorites';
 
@@ -19,55 +20,12 @@ import Karma from '@/components/shared/Karma';
 
 interface BusinessCardShotProps {
   business: BusinessWithCategoryName;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  isLoggedIn: boolean;
-  setAlertTitle: React.Dispatch<React.SetStateAction<string>>;
-  setActionContent: React.Dispatch<React.SetStateAction<React.ReactNode>>;
-  setOnConfirm: React.Dispatch<React.SetStateAction<() => void>>;
 }
 
-function BusinessCardShot({
-  business,
-
-  setOpen,
-  isLoggedIn,
-  setAlertTitle,
-  setActionContent,
-  setOnConfirm,
-}: BusinessCardShotProps) {
+function SimilarCardShort({ business }: BusinessCardShotProps) {
   const router = useRouter();
   const favoritesSet = useFavorites();
   const isFavorite = favoritesSet.has(business.id);
-
-  const addFavorite = useAddFavorite();
-  const removeFavorite = useRemoveFavorite();
-
-  const handleToggleFavorite = (e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent navigating to business detail page
-    e.stopPropagation(); // Stop event from bubbling up
-    if (!isLoggedIn) {
-      setAlertTitle('Для додавання в обране, авторизуйтесь будь ласка');
-      setActionContent(
-        <>
-          <IconUser className="mr-2 inline size-4 xl:size-5" />
-          Вхід
-        </>
-      );
-      setOnConfirm(() => () => router.push('/login'));
-      setOpen(true);
-      return;
-    }
-
-    if (isFavorite) {
-      setAlertTitle('Видалити бізнес з обраного?');
-      setActionContent('Видалити');
-      setOpen(true);
-      setOnConfirm(() => () => removeFavorite.mutate(business.id));
-    } else {
-      addFavorite.mutate(business.id);
-    }
-  };
-
   return (
     <>
       {/* header */}
@@ -76,14 +34,12 @@ function BusinessCardShot({
           className="absolute right-2 top-0 z-10"
           onClick={(e) => e.stopPropagation()} // block click on Link
         >
-          <button
+          <div
             aria-label={
               isFavorite
-                ? `Видалити з обраного ${business.name}`
-                : `Додати в обране ${business.name}`
+                ? `Бізнес ${business.name} додан до обраного `
+                : `Бізнес ${business.name} не додан до обраного`
             }
-            aria-pressed={isFavorite ? 'true' : 'false'}
-            onClick={handleToggleFavorite}
             className="cursor-pointer border-none bg-transparent px-2 pb-1 outline-none lg:right-9"
           >
             {isFavorite ? (
@@ -97,7 +53,7 @@ function BusinessCardShot({
                 aria-hidden="true"
               />
             )}
-          </button>
+          </div>
         </div>
 
         {/* block with image */}
@@ -169,16 +125,23 @@ function BusinessCardShot({
       </div>
       {/* hot */}
       <div className="flex gap-4 px-4 lg:gap-6 lg:px-2">
+        {/* Karma */}
         <div className="flex flex-1 items-center gap-4 py-1 lg:gap-3 xl:py-2">
-          <Karma
-            businessId={business.id}
-            initialKarma={business.karma}
-            setOpen={setOpen}
-            isLoggedIn={isLoggedIn}
-            setAlertTitle={setAlertTitle}
-            setActionContent={setActionContent}
-            setOnConfirm={setOnConfirm}
-          />
+          <div className="title-h6 bg-icons-color-white shadow-menu flex items-center gap-2 py-1">
+            <div
+              className={`hover-focus-card-dark flex h-5 w-5 cursor-pointer items-center justify-center`}
+            >
+              <Plus className="h-3 w-3" aria-hidden="true" />
+            </div>
+
+            <p aria-label="Поточна карма">{business.karma}</p>
+
+            <div
+              className={`hover-focus-card-dark flex h-5 w-5 cursor-pointer items-center justify-center xl:h-6 xl:w-6`}
+            >
+              <Minus className="h-3 w-3" aria-hidden="true" />
+            </div>
+          </div>
 
           <div
             className="bg-background-white dark:bg-card-hover-dark shadow-menu flex items-center gap-0.5 px-[6px] py-1"
@@ -195,4 +158,4 @@ function BusinessCardShot({
   );
 }
 
-export default BusinessCardShot;
+export default SimilarCardShort;

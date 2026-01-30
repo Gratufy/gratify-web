@@ -58,7 +58,7 @@ function MainPageFilters({
               getOptionValue={(s) => s}
               getOptionLabel={(s) => BUSINESS_STATUS_LABELS[s]}
               placeholder="Оберіть статус"
-              className="admin-select w-full"
+              className="admin-select select-input-deko-main w-full"
               // statusForm={true}
             />
           </div>
@@ -80,7 +80,7 @@ function MainPageFilters({
             getOptionLabel={(c) => c.name}
             // label="Категорія"
             placeholder="Оберіть категорію"
-            className="admin-select w-full"
+            className="admin-select select-input-deko-main w-full"
           />
         </div>
       </div>
@@ -102,7 +102,7 @@ function MainPageFilters({
             getOptionValue={(option) => option.value}
             getOptionLabel={(option) => option.label}
             placeholder="Оберіть місто"
-            className="admin-select w-full"
+            className="admin-select select-input-deko-main w-full"
           />
         </div>
         <div className="w-full">
@@ -125,7 +125,7 @@ function MainPageFilters({
             getOptionValue={(option) => option.value}
             getOptionLabel={(option) => option.label}
             placeholder="Оберіть місто"
-            className="admin-select w-full"
+            className="admin-select select-input-deko-main w-full"
           />
         </div>
       </div>

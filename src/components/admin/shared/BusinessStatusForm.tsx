@@ -104,7 +104,7 @@ export function BusinessStatusForm({
         getOptionValue={(s) => s}
         getOptionLabel={(s) => BUSINESS_STATUS_LABELS[s]}
         placeholder="Оберіть статус"
-        className={`hover:ring-background-grey-100/80 focus-visible:ring-background-grey-100/80 border-none px-1 outline-none ${className}`} //rounded-sm w-40
+        className={`hover:ring-icons-main-500/80 focus-visible:ring-icons-main-500/80 border-none px-1 outline-none ${className}`} //rounded-sm w-40
         statusForm={true}
         owner={owner}
       />

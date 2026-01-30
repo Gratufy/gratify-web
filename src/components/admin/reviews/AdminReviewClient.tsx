@@ -43,7 +43,7 @@ function AdminReviewClient() {
       [businessId]: !prev[businessId],
     }));
   }
-  console.log('Data2', businesses);
+
   const categoriesWithAll = [
     { categoryId: '__all__', name: 'Всі' }, //index "__all__" for   "всi"
     ...(categories || []),

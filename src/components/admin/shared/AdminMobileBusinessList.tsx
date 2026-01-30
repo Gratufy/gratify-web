@@ -117,7 +117,7 @@ function AdminMobileBusinessList({
           {/* Rows */}
           <ul className="flex flex-col gap-5 px-1">
             {businesses.map((b) => (
-              <li key={b.id} className="bg-background-main-200 rounded-lg p-2">
+              <li key={b.id} className="bg-icons-main-100-1 rounded-lg p-2">
                 {/* short */}
                 <div
                   className={cn(
@@ -137,7 +137,7 @@ function AdminMobileBusinessList({
                           businessName={b.name}
                           businessId={b.id}
                           currentStatus={b.status}
-                          className="w-full"
+                          className="w-full rounded-sm"
                         />
                       </div>
                     ) : (
@@ -206,7 +206,7 @@ function AdminMobileBusinessList({
                       <div className="title-h6 flex flex-col items-center gap-1">
                         <Checkbox
                           aria-label={`Статус онлайн ${b.name}`}
-                          className="border-icons-grey-950 bg-background-main-200! data-[state=checked]:text-icons-grey-950 size-4 disabled:opacity-100"
+                          className="size-4 disabled:opacity-100"
                           checked={!!b.isOnline}
                         />
                         <p>онлайн</p>

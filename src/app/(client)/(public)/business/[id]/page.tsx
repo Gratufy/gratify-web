@@ -6,9 +6,12 @@ import { validate as uuidValidate } from 'uuid'; // npm install uuid
 //   HydrationBoundary,
 //   QueryClient,
 // } from '@tanstack/react-query';
+import { Info } from 'lucide-react';
 import { getBusinessById } from '@/lib/actions/getBusinessById';
 import BusinessDetails from '@/components/shared/oneCardDetails/BusinessDetails';
 import GoBackButton from '@/components/ui/custom-ui/GoBackButton';
+import { getSimilarBusinesses } from '@/lib/actions/getSimilarBusinesses';
+import SimilarBusinesses from '@/components/public/SimilarBusinesses';
 // import { queryKeys } from '@/lib/reactQuery/queryKeys';
 
 interface BusinessPageProps {
@@ -31,12 +34,14 @@ export default async function PublicBusinessDetailsPage({
     // если ID неправильный → NotFound
     return notFound();
   }
-  // await queryClient.prefetchQuery({
-  //   queryKey: queryKeys.businessById(id),
-  //   queryFn: () => Promise.resolve(business),
-  // });
+  const similarBusinesses = await getSimilarBusinesses({
+    businessId: business.id,
+    categoryId: business.categoryId,
+    city: business.locations?.[0]?.city,
+    isOnline: business.isOnline,
+    limit: 2,
+  });
 
-  // const dehydratedState = dehydrate(queryClient);
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-0">
       <div className="max-[1024px]:max-w-150 w-full px-4 lg:w-[1024px] lg:px-[50px] lg:py-2 xl:w-[1440px] xl:px-[150px]">
@@ -47,6 +52,16 @@ export default async function PublicBusinessDetailsPage({
         selectedCity={selectedCity}
         initialData={business}
       />
+      {similarBusinesses.length > 0 && (
+        <SimilarBusinesses similarBusinesses={similarBusinesses} />
+      )}
+      <div className="max-[1024px]:max-w-15 mx-auto my-8 flex justify-center lg:w-[1024px] lg:px-[50px] xl:w-[1440px] xl:px-[150px]">
+        <Info className="text-text-link mr-2 h-4 w-4" aria-hidden />
+        <span className="caption text-text-700-grey">
+          Уся інформація в картці бізнесу надається його представниками.
+          Платформа не несе відповідальності за її точність та актуальність.
+        </span>
+      </div>
     </div>
   );
 }

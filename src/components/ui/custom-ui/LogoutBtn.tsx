@@ -74,11 +74,11 @@ const LogoutBtn = ({ customClassName, onRequestLogout }: LogoutBtnProps) => {
         onOpenChange={setDialogOpen}
         classNameContent="z-80"
         title="Ви впевнені, що хочете вийти з акаунту? "
-        // description="Цю дію не можна буде скасувати."
+        description="Ви зможете увійти знову в будь-який час."
         actionContent="Так, вийти"
         cancelText="Скасувати"
-        classNameTitle="text-center xl:placeholder-base! placeholder-sm! font-normal"
-        classNameDescription="text-icons-text-950-grey font-semibold placeholder-sm xl:placeholder-base"
+        classNameTitle="text-center font-semibold xl:placeholder-base! placeholder-sm! font-normal"
+        classNameDescription="text-icons-text-950-grey  placeholder-sm xl:placeholder-base"
         onAction={() => {
           handleLogout();
         }}

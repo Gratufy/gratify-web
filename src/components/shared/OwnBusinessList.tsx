@@ -90,11 +90,11 @@ function OwnBusinessList({
                         businessId={b.id}
                         currentStatus={b.status}
                         owner
-                        className="w-full lg:w-[170px] xl:w-[194px]"
+                        className="w-[174px] xl:w-[194px]"
                       />
                     ) : (
                       <div
-                        className={`flex w-full shrink-0 items-center px-5 py-[6px] lg:w-[170px] lg:px-1 xl:w-[194px] ${getBusinessStatusBgColor(b.status)}`}
+                        className={`flex w-[174px] shrink-0 items-center px-5 py-[6px] lg:px-1 xl:w-[194px] ${getBusinessStatusBgColor(b.status)}`}
                       >
                         <span className="placeholder-xs xl:placeholder-sm mr-2">
                           Статус

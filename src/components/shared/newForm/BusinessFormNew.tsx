@@ -691,10 +691,10 @@ export default function BusinessFormNew({
                         <Checkbox
                           id="online-check"
                           name="isOnline"
-                          className="border-icons-grey-950"
+                          className="border-icons-grey-950 cursor-pointer"
                           checked={field.value}
                           onCheckedChange={(val) => field.onChange(val)}
-                          aria-labelledby="online-check-label"
+                          aria-labelledby="online-check-label "
                         />
                       </FormControl>
                       <FormLabel
@@ -862,7 +862,7 @@ export default function BusinessFormNew({
 
                         <button
                           type="button"
-                          className="bg-icons-color-accent/60 btn-aprove hover:bg-icons-color-accent/80 focus:bg-icons-color-accent/80 disabled:cursor-not-allowed disabled:opacity-50 max-[1024px]:w-40"
+                          className="bg-icons-color-accent/60 btn-aprove hover:bg-icons-color-accent/80 focus:bg-icons-color-accent/80 disabled:cursor-not-allowed disabled:opacity-50 max-[1024px]:w-44"
                           disabled={fields.length === 1 && isOnlyEmptyLocation}
                           onClick={() => {
                             if (fields.length > 1) {

@@ -17,13 +17,20 @@ export default function Error({
 
   return (
     <section className="container flex min-h-screen w-full flex-col items-center justify-center py-20">
-      <div className="w-72 xl:w-[358px]">
+      <div className="mb-4 w-72 xl:w-[358px]">
         <Image
           src="/images/global-err.png"
           width={358}
           height={206}
           alt="Помилка сторінки"
-          className="h-auto w-full"
+          className="h-auto w-full dark:hidden"
+        />
+        <Image
+          src="/images/global-err-dark.png"
+          width={358}
+          height={206}
+          alt="Помилка сторінки"
+          className="hidden h-auto w-full dark:block"
         />
       </div>
       <p className="title-h4 text-center">

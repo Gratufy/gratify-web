@@ -153,7 +153,7 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
                       }
                       type="button"
                       onClick={() => handleSetCover(index)}
-                      className="cursor-pointer focus-visible:outline focus-visible:outline-offset-2"
+                      className="cursor-pointer hover:opacity-90 focus-visible:outline focus-visible:outline-offset-2"
                     >
                       {img.isCover ? (
                         <PhotoMainIcon
@@ -162,7 +162,7 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
                         />
                       ) : (
                         <PhotoChooseIcon
-                          className="text-background-white size-5 xl:size-6"
+                          className="text-background-white size-5 hover:opacity-90 xl:size-6"
                           aria-hidden="true"
                         />
                       )}
@@ -172,7 +172,7 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
                       type="button"
                       aria-label={`Видалити фото ${index + 1}`}
                       onClick={() => handleRemove(index)}
-                      className="bg-background-white flex size-5 cursor-pointer items-center justify-center focus-visible:outline focus-visible:outline-offset-2 xl:size-6"
+                      className="bg-background-white flex size-5 cursor-pointer items-center justify-center hover:opacity-90 focus-visible:outline focus-visible:outline-offset-2 xl:size-6"
                     >
                       <CrossIcon
                         className="size-3 xl:size-4"

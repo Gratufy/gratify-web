@@ -99,7 +99,7 @@ function AdminDesktopBusinessesList({
             {businesses.map((b) => (
               <li
                 key={b.id}
-                className="bg-background-main-200 grid grid-cols-[1fr_1fr_1fr_1fr_0.5fr] items-center justify-center rounded-lg p-2 px-2"
+                className="bg-icons-main-100-1 grid grid-cols-[1fr_1fr_1fr_1fr_0.5fr] items-center justify-center rounded-lg p-2 px-2"
               >
                 <div className="title-h6 py-2">
                   <p className="">{b.name}</p>
@@ -110,7 +110,7 @@ function AdminDesktopBusinessesList({
                     businessName={b.name}
                     businessId={b.id}
                     currentStatus={b.status}
-                    className="w-40"
+                    className="w-40 rounded-sm"
                   />
                 </div>
 
@@ -134,7 +134,7 @@ function AdminDesktopBusinessesList({
                   <Checkbox
                     disabled
                     aria-label={`Статус онлайн ${b.name}`}
-                    className="border-icons-grey-950! bg-background-main-200! data-[state=checked]:text-icons-grey-950 disabled:opacity-100 lg:mx-5 lg:size-4"
+                    className="disabled:opacity-100 lg:mx-5 lg:size-4"
                     checked={!!b.isOnline}
                   />
 
@@ -175,7 +175,7 @@ function AdminDesktopBusinessesList({
                       >
                         <button
                           aria-label={`Видалити бізнес ${b.name}`}
-                          className="text-icons-color-error focus:bg-elements-grey-200 hover:bg-elements-grey-200 xl:placeholder-base flex w-full cursor-pointer items-center rounded-sm border-none bg-white px-3 py-1.5 text-sm disabled:opacity-50 lg:px-2"
+                          className="text-icons-color-error focus:bg-elements-grey-200 hover:bg-elements-grey-200 xl:placeholder-base bg-background-white flex w-full cursor-pointer items-center rounded-sm border-none px-3 py-1.5 text-sm disabled:opacity-50 lg:px-2"
                           onClick={() => {
                             setBusinessIdToDelete(b.id);
                             setDialogOpen(true);
