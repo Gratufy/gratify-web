@@ -283,7 +283,7 @@ export default function BusinessReviews({
           <button
             onClick={handleAdd}
             disabled={createReviewMutation.isPending || newText.trim() === ''}
-            className="btn-aprove lg:w-30"
+            className="btn-aprove lg:w-30 xl:w-32"
           >
             <Plus className="mr-[6px] size-3 font-medium" aria-hidden="true" />
             Додати

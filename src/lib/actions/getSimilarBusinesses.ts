@@ -45,6 +45,10 @@ export async function getSimilarBusinesses(
       ne(businesses.id, businessId),
       eq(businesses.status, 'approved'),
     ];
+    const mondatoryConditions: SQL[] = [
+      ne(businesses.id, businessId),
+      eq(businesses.status, 'approved'),
+    ];
 
     if (isOnline) {
       baseConditions.push(eq(businesses.isOnline, true));
@@ -59,10 +63,12 @@ export async function getSimilarBusinesses(
       `);
     }
 
-    // ---------- 1️⃣ Похожие по категории ----------
+    // ---------- similar category ----------
     const strictConditions: SQL[] = [...baseConditions];
-    if (categoryId)
+    if (categoryId) {
       strictConditions.push(eq(businesses.categoryId, categoryId));
+    }
+
     const strictWhere =
       strictConditions.length > 0 ? and(...strictConditions) : undefined;
 
@@ -78,17 +84,20 @@ export async function getSimilarBusinesses(
 
       ids = strictRows.map((r) => String(r.id));
     }
-    // ---------- 2️⃣ Fallback: дополняем, если не хватает ----------
+    // ----------  Fallback: add if not enough ----------
     if (ids.length < limit) {
       let remaining = limit - ids.length;
       let fallbackWhereCity: SQL | undefined = undefined;
+
       if (city) {
         const cityConditions: SQL[] = [
-          eq(businesses.status, 'approved'),
+          ...mondatoryConditions,
           sql`EXISTS (SELECT 1 FROM ${businessLocations} bl WHERE bl.business_id = ${businesses.id} AND bl.city = ${city})`,
         ];
-        if (ids.length > 0)
+        if (ids.length > 0) {
           cityConditions.push(sql`NOT (${inArray(businesses.id, ids)})`);
+        }
+
         fallbackWhereCity = and(...cityConditions);
       }
 
@@ -103,9 +112,10 @@ export async function getSimilarBusinesses(
         ids = [...ids, ...cityRows.map((r) => String(r.id))];
         remaining = limit - ids.length;
       }
-      // 2️⃣ fallback: любые approved (без города)
+      //fallback: any without city
       if (remaining > 0) {
-        const anyConditions: SQL[] = [eq(businesses.status, 'approved')];
+        console.log('in remain');
+        const anyConditions: SQL[] = [...mondatoryConditions];
         if (ids.length > 0)
           anyConditions.push(sql`NOT (${inArray(businesses.id, ids)})`);
 
@@ -124,7 +134,7 @@ export async function getSimilarBusinesses(
 
     if (!ids.length) return [];
 
-    // ---------- 3️⃣ Подтягиваем все поля ----------
+    // ---------- Fetch all fields ----------
     const rows = await db
       .select(businessSelectFields)
       .from(businesses)
@@ -139,13 +149,25 @@ export async function getSimilarBusinesses(
       .where(inArray(businesses.id, ids))
       .orderBy(desc(businesses.karma), desc(businesses.createdAt));
 
-    // ---------- 4️⃣ Собираем Map для локаций ----------
+    // ----------  Assemble Map for locations ----------
     const businessMap = new Map<string, BusinessWithCategoryName>();
     for (const row of rows) {
       if (!businessMap.has(row.id)) {
-        const { city, address, latitude, longitude, ...rest } = row;
+        // const { city, address, latitude, longitude, ...rest } = row;
         businessMap.set(row.id, {
-          ...rest,
+          id: row.id,
+          name: row.name,
+          categoryId: row.categoryId,
+          isOnline: row.isOnline,
+          description: row.description,
+          website: row.website,
+          karma: row.karma,
+          status: row.status,
+          createdAt: row.createdAt,
+          updatedAt: row.updatedAt,
+          ownerId: row.ownerId,
+          reviewCount: row.reviewCount,
+          categoryName: row.categoryName,
           locations: [],
           allOffersRows: [],
         });
@@ -182,7 +204,7 @@ export async function getSimilarBusinesses(
     }
     const result = Array.from(businessMap.values());
 
-    // ---------- 5️⃣ Подтягиваем обложки ----------
+    // ----------  Fetch cover images ----------
     const coverRows = await getCoverImagesForBusinesses(ids);
     for (const row of coverRows) {
       const business = businessMap.get(row.businessId);
@@ -194,6 +216,6 @@ export async function getSimilarBusinesses(
     return result;
   } catch (error) {
     console.error('Error fetching similar businesses:', error);
-    return []; // 👈 ВАЖНО
+    return []; // Return empty array on error
   }
 }

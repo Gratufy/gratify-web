@@ -14,7 +14,6 @@ import { BusinessWithDetails } from '@/types';
 import BusinessCardSkeleton from '../skeletons/BusinessCardSkeleton';
 
 import IconUser from '@/assets/icons/general/icon-user.svg';
-import { Info } from 'lucide-react';
 
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 import Karma from '@/components/shared/Karma';
