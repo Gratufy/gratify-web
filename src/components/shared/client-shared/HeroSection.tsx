@@ -9,7 +9,7 @@ function HeroSection() {
         src="/images/hero-img.png"
         alt="Платформа знижок для військових від українського бізнесу"
         fill
-        priority
+        priority={true}
         sizes="100vw"
         className="object-cover"
       />

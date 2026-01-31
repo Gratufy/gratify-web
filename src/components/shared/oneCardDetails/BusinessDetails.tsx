@@ -212,7 +212,7 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
           </section>
           {/* -------------------------------------------- */}
           <section className="max-[1024px]:max-w-150 xl:py-15 flex w-full flex-col gap-4 px-4 py-5 lg:w-[1024px] lg:px-[50px] lg:py-10 xl:w-[1440px] xl:px-[150px]">
-            <h3 className="title-h3 text-center">Наша адреса</h3>
+            <h2 className="title-h3 text-center">Наша адреса</h2>
 
             <div className="flex w-full flex-col gap-4 lg:flex-row lg:gap-6">
               {business.locations && business.locations.length > 0 && (

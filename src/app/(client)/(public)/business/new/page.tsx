@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 function publicNewBusinessStart() {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center px-4">
+    <main className="flex flex-1 flex-col items-center justify-center px-4">
       <div className="flex w-[340px] flex-col items-center lg:w-[520px]">
         <p className="title-h4 mb-8 text-center font-bold">
           Почніть із малого: створіть бізнес-картку, щоб показати, хто ви та чим
@@ -17,7 +17,7 @@ function publicNewBusinessStart() {
       </div>
 
       {/* <BusinessForm /> */}
-    </div>
+    </main>
   );
 }
 

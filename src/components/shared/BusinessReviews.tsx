@@ -132,9 +132,9 @@ export default function BusinessReviews({
 
   return (
     <>
-      <h3 className="title-h3 mb-4 text-center lg:mb-5">
+      <h2 className="title-h3 mb-4 text-center lg:mb-5">
         Відгуки ({reviews?.length || 0})
-      </h3>
+      </h2>
       {isLoading && <ReviewsSkeleton count={3} />}
       {isError && (
         <p className="text-icons-color-error placeholder-sm xl:placeholder-base text-center">
