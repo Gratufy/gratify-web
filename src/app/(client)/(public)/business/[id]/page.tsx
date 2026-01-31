@@ -55,8 +55,8 @@ export default async function PublicBusinessDetailsPage({
       {similarBusinesses.length > 0 && (
         <SimilarBusinesses similarBusinesses={similarBusinesses} />
       )}
-      <div className="max-[1024px]:max-w-15 mx-auto my-8 flex justify-center lg:w-[1024px] lg:px-[50px] xl:w-[1440px] xl:px-[150px]">
-        <Info className="text-text-link mr-2 h-4 w-4" aria-hidden />
+      <div className="max-[1024px]:max-w-150 mx-auto my-8 flex justify-center gap-2 max-[1024px]:px-4 lg:w-[1024px] lg:px-[50px] xl:w-[1440px] xl:px-[150px]">
+        <Info className="text-text-link size-4 shrink-0" aria-hidden />
         <span className="caption text-text-700-grey">
           Уся інформація в картці бізнесу надається його представниками.
           Платформа не несе відповідальності за її точність та актуальність.
