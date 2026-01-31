@@ -21,6 +21,7 @@ function GoBackButton({ href = '/', className }: BackButtonProps) {
   }, []);
   return (
     <button
+      aria-label="Повернутись на попередню сторінку"
       className={`group flex cursor-pointer items-center ${className}`}
       onClick={() => {
         if (hasHistory.current) {
@@ -30,7 +31,11 @@ function GoBackButton({ href = '/', className }: BackButtonProps) {
         }
       }}
     >
-      <IconBack className="size-6 stroke-[1.5] transition-all group-hover:stroke-[2]" />
+      <IconBack
+        className="size-6 stroke-[1.5] transition-all group-hover:stroke-[2]"
+        aria-hidden="true"
+      />
+      {/* <span className="sr-only">Повернутись на попередню сторінку</span> */}
     </button>
   );
 }

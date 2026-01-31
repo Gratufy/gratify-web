@@ -27,9 +27,10 @@ function SimilarCardShort({ business }: BusinessCardShotProps) {
       <div className="lg:h-22 relative mb-4 flex h-16 items-center">
         <div
           className="absolute right-2 top-0 z-10"
-          onClick={(e) => e.stopPropagation()} // block click on Link
+          // onClick={(e) => e.stopPropagation()} // block click on Link
         >
           <div
+            role="img"
             aria-label={
               isFavorite
                 ? `Бізнес ${business.name} додан до обраного `
