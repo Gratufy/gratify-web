@@ -1,22 +1,19 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { validate as uuidValidate } from 'uuid'; // npm install uuid
-// import {
-//   dehydrate,
-//   HydrationBoundary,
-//   QueryClient,
-// } from '@tanstack/react-query';
+
 import { Info } from 'lucide-react';
+
 import { getBusinessById } from '@/lib/actions/getBusinessById';
-import BusinessDetails from '@/components/shared/oneCardDetails/BusinessDetails';
-import GoBackButton from '@/components/ui/custom-ui/GoBackButton';
 import { getSimilarBusinesses } from '@/lib/actions/getSimilarBusinesses';
+
+import GoBackButton from '@/components/ui/custom-ui/GoBackButton';
+import BusinessDetails from '@/components/shared/oneCardDetails/BusinessDetails';
 import SimilarBusinesses from '@/components/public/SimilarBusinesses';
-// import { queryKeys } from '@/lib/reactQuery/queryKeys';
 
 interface BusinessPageProps {
   params: Promise<{ id: string }>;
-  // searchParams: Promise<{ [city: string]: string | string[] | undefined }>;
+
   searchParams: Promise<{ city?: string }>;
 }
 
@@ -24,14 +21,13 @@ export default async function PublicBusinessDetailsPage({
   params,
   searchParams,
 }: BusinessPageProps) {
-  // const queryClient = new QueryClient();
   const { id } = await params;
   if (!uuidValidate(id)) return notFound();
   const { city } = await searchParams;
   const selectedCity = city ?? '__all__';
   const business = await getBusinessById(id);
   if (!business) {
-    // если ID неправильный → NotFound
+    // if Id wrong → NotFound
     return notFound();
   }
   const similarBusinesses = await getSimilarBusinesses({

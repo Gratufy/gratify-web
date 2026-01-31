@@ -1,8 +1,9 @@
 import React from 'react';
+import Link from 'next/link';
+
 import { BusinessWithCategoryName } from '@/types/business';
 
-import Link from 'next/link';
-import SimilarCardShort from './SimilarCardShort';
+import SimilarCardShort from '@/components/public/SimilarCardShort';
 
 interface SimilarBusinessesProps {
   similarBusinesses: BusinessWithCategoryName[];

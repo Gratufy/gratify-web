@@ -1,5 +1,5 @@
 'use client';
-// small card fo List of businesses
+
 import React from 'react';
 
 import Image from 'next/image';
@@ -84,8 +84,6 @@ function SimilarCardShort({ business }: BusinessCardShotProps) {
             {/* <div className="z-5 bg-linear-to-l to-gradient-card from-gradient-card/0 pointer-events-none absolute inset-0"></div> */}
           </div>
         </div>
-
-        {/* Gradient over the image from-white/70 to-[rgb(217,217,217)/70*/}
 
         {/* name */}
         <div className="absolute z-10 bg-transparent py-2 pl-4 lg:pl-2">

@@ -134,8 +134,6 @@ function BusinessCardShot({
           </div>
         </div>
 
-        {/* Gradient over the image from-white/70 to-[rgb(217,217,217)/70*/}
-
         {/* name */}
         <div className="absolute z-10 bg-transparent py-2 pl-4 lg:pl-2">
           <h2 className="title-h3">{business.name}</h2>
