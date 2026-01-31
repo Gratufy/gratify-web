@@ -33,7 +33,9 @@ export default async function PublicBusinessDetailsPage({
   const similarBusinesses = await getSimilarBusinesses({
     businessId: business.id,
     categoryId: business.categoryId,
-    city: business.locations?.[0]?.city,
+    // city: business.locations?.[0]?.city,
+    city:
+      selectedCity !== '__all__' ? selectedCity : business.locations?.[0]?.city,
     isOnline: business.isOnline,
     limit: 2,
   });
