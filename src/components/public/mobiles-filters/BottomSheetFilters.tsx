@@ -100,7 +100,10 @@ function BottomSheetFilters(props: BottomSheetFiltersProps) {
           </div>
         </SheetTrigger>
         {/* mb-14 mb-30*/}
-        <SheetContent side="bottom" className="bottom-14 mx-auto h-auto w-4/5">
+        <SheetContent
+          side="bottom"
+          className="max-w-150 bottom-14 mx-auto h-auto"
+        >
           <SheetHeader className="sr-only">
             <SheetTitle>Застосувати фільтри</SheetTitle>
             <SheetDescription>

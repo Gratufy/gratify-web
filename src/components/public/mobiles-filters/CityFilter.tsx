@@ -19,27 +19,29 @@ function CityFilter({ onApply }: CityFilterProps) {
   const [tempCity, setTempCity] = useState<string>(filters.city);
 
   return (
-    <div className="flex flex-col gap-4 p-5">
-      <div className="flex items-center gap-3 py-2">
+    <div className="flex flex-col gap-3 p-5">
+      <div className="flex items-center gap-3 pb-2">
         <CityIcon className="h-5 w-5" aria-hidden="true" />
         <h2 className="placeholder-sm font-medium">Оберіть місто</h2>
       </div>
 
-      <div className="grid grid-cols-2 gap-x-5 py-2">
+      <div className="grid grid-cols-2 gap-x-5">
         {UKRAINE_REGIONAL_CENTERS.map((c) => (
           <button
             type="button"
             key={c.value}
             onClick={() => setTempCity(c.value)}
-            className={`placeholder-xs rounded py-2 text-left ${
-              tempCity === c.value ? 'font-medium underline' : 'font-normal'
+            className={`placeholder-xs rounded p-2 text-left ${
+              tempCity === c.value
+                ? 'bg-elements-main-500/30 font-medium underline'
+                : 'font-normal'
             }`}
           >
             {c.label}
           </button>
         ))}
       </div>
-      <div className="mx-auto flex gap-4">
+      <div className="flex justify-center gap-4">
         <button
           type="button"
           onClick={() => setTempCity('__all__')}

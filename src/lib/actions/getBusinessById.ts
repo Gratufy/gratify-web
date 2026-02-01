@@ -10,7 +10,7 @@ import {
   getOwnOffersForBusinesses,
   getSpecialOffersForBusinesses,
 } from '../helpers/getSpecialOffersForBusinesses';
-import { getBusinessImages } from '../helpers/getBusinessImages';
+import { getBusinessImages } from '../helpers/images/getBusinessImages';
 
 const businessSelectFields = {
   id: businesses.id,

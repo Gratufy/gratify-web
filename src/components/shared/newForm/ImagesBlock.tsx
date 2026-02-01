@@ -13,6 +13,8 @@ import { Plus } from 'lucide-react';
 
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 import { Label } from '@/components/ui/label';
+import { prepareImage } from '@/lib/helpers/images/prepareImage';
+import { MAX_FILE_SIZE } from '@/const/images';
 
 interface ImagesBlockProps {
   imagesState: PreviewImage[];
@@ -20,13 +22,34 @@ interface ImagesBlockProps {
 }
 
 function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // slot is considered filled if there is a file or url
-    const isFilled = (img: PreviewImage) => !!(img.file || img.url);
-
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
-
+    //  Optimisation and size check
+    const preparedFiles: File[] = [];
+    for (const file of files) {
+      let preparedFile: File;
+      try {
+        preparedFile = await prepareImage(file);
+      } catch {
+        CustomToast({
+          type: 'error',
+          content: 'Не вдалося обробити фото',
+        });
+        continue;
+      }
+      if (preparedFile.size > MAX_FILE_SIZE * 1024 * 1024) {
+        CustomToast({
+          type: 'warning',
+          content: 'Фото занадто велике (макс. 2 Мб)',
+        });
+        continue;
+      }
+      preparedFiles.push(preparedFile);
+    }
+    if (!preparedFiles.length) return;
+    // slot is considered filled if there is a file or url
+    const isFilled = (img: PreviewImage) => !!(img.file || img.url);
     setImagesState((prev) => {
       const updated = [...prev];
 
@@ -34,7 +57,7 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
       const hasCover = updated.some((img) => img.isCover);
 
       // look for first empty slot
-      for (const file of files) {
+      for (const file of preparedFiles) {
         const emptySlot = updated.findIndex((img) => !isFilled(img));
         if (emptySlot === -1) {
           CustomToast({
@@ -115,7 +138,7 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
             className="caption flex flex-col items-start justify-between"
             id="image-rules"
           >
-            <p>максимальний розмір 5Мб</p>
+            <p>максимальний розмір 2Мб</p>
             <p>максимальна кількість 10 шт</p>
           </div>
         </div>
@@ -137,8 +160,7 @@ function ImagesBlock({ imagesState, setImagesState }: ImagesBlockProps) {
                     sizes="
     (max-width: 1024px) 276px,
     (max-width: 1440px) 169px,
-    212px
-  "
+    212px"
                     fill
                     className="object-cover"
                   />

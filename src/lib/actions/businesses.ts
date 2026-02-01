@@ -23,7 +23,7 @@ import {
   getSpecialOffersForBusinesses,
 } from '../helpers/getSpecialOffersForBusinesses';
 
-import { getCoverImagesForBusinesses } from '../helpers/getCoverImagesForBusinesses';
+import { getCoverImagesForBusinesses } from '../helpers/images/getCoverImagesForBusinesses';
 
 const businessSelectFields = {
   id: businesses.id,
