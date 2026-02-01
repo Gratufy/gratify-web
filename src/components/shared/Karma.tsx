@@ -1,14 +1,15 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import IconUser from '@/assets/icons/general/icon-user.svg';
 import { useRouter } from 'next/navigation';
+
+import { VoteValue } from '@/types/enums';
 import { useUserVote, useVoteBusiness } from '@/hooks/useVoteBusiness';
 
 import { Plus } from 'lucide-react';
 import { Minus } from 'lucide-react';
-import { VoteValue } from '@/types/enums';
+import IconUser from '@/assets/icons/general/icon-user.svg';
 
-import { Spinner } from '../ui/spinner';
+import { Spinner } from '@/components/ui/spinner';
 
 interface KarmaProps {
   businessId: string;

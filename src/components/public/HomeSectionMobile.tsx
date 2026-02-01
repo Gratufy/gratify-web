@@ -2,14 +2,14 @@
 import React from 'react';
 
 import { BusinessWithCategoryName } from '@/types';
+import { useFilters } from '@/hooks/useFilters';
+import { getCityLabel } from '@/utils/getCityLabel';
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 
-import BottomSheetFilters from './mobiles-filters/BottomSheetFilters';
-import SelectedFiltersPanel from '../shared/filters/SelectedFiltersPanel';
-import BusinessList from '../shared/BusinessList';
-import NotFoundComponent from '../shared/NotFoundComponent';
-import { getCityLabel } from '@/utils/getCityLabel';
-import { useFilters } from '@/hooks/useFilters';
+import BottomSheetFilters from '@/components/public/mobiles-filters/BottomSheetFilters';
+import SelectedFiltersPanel from '@/components/shared/filters/SelectedFiltersPanel';
+import BusinessList from '@/components/shared/BusinessList';
+import NotFoundComponent from '@/components/shared/NotFoundComponent';
 
 type HomeSectionMobileProps = {
   businesses: BusinessWithCategoryName[];

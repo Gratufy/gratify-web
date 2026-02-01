@@ -3,12 +3,13 @@ import React, { useState } from 'react';
 
 import { UKRAINE_REGIONAL_CENTERS } from '@/const/regions';
 
+import { useFilters } from '@/hooks/useFilters';
+
 import CityIcon from '@/assets/icons/filters/icon-locatio.svg';
 import CrossIcon from '@/assets/icons/general/icon-16-cross.svg';
 import CheckIcon from '@/assets/icons/general/icon-check.svg';
 
 import { SheetClose } from '@/components/ui/sheet';
-import { useFilters } from '@/hooks/useFilters';
 
 type CityFilterProps = {
   onApply: () => void;
