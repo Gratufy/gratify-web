@@ -10,9 +10,9 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import type { FieldErrors, UseFormReturn } from 'react-hook-form';
 
 import { uploadBusinessImages } from '@/lib/actions/uploadBusinessImages';
-import { ensureOneCover } from '@/lib/helpers/ensureOneCover';
-import { uploadImagesAndReturnUrls } from '@/lib/helpers/uploadImagesAndReturnUrls';
-import { updateBusinessImagesOnServer } from '@/lib/helpers/updateBusinessImagesOnServer';
+import { ensureOneCover } from '@/lib/helpers/images/ensureOneCover';
+import { uploadImagesAndReturnUrls } from '@/lib/helpers/images/uploadImagesAndReturnUrls';
+import { updateBusinessImagesOnServer } from '@/lib/helpers/images/updateBusinessImagesOnServer';
 
 import { UKRAINE_REGIONAL_CENTERS_WITHOUT_ALL } from '@/const/regions';
 
@@ -55,7 +55,8 @@ import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 
 import OffersMultiSelect from '@/components/shared/filters/OffersMultiSelect';
 import ImagesBlock from '@/components/shared/newForm/ImagesBlock';
-import { getDistanceMeters } from '@/lib/helpers/getDistanceMeters';
+import { getDistanceMeters } from '@/lib/helpers/locations/getDistanceMeters';
+import { MAX_PHOTOS } from '@/const/images';
 
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
@@ -81,7 +82,6 @@ export default function BusinessFormNew({
   const router = useRouter();
   const pathname = usePathname();
 
-  const MAX_PHOTOS = 10;
   const [imagesState, setImagesState] = useState<PreviewImage[]>(
     Array.from({ length: MAX_PHOTOS }, () => ({
       file: null,

@@ -1,7 +1,7 @@
 'use server';
 
 import { db } from '@/db';
-import { getCoverImagesForBusinesses } from '../helpers/getCoverImagesForBusinesses';
+import { getCoverImagesForBusinesses } from '../helpers/images/getCoverImagesForBusinesses';
 import { businessCategories, businesses, businessLocations } from '@/db/schema';
 import { eq, desc, sql, and, SQL, inArray, ne } from 'drizzle-orm';
 import {

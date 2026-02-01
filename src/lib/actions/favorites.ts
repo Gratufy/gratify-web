@@ -8,7 +8,7 @@ import {
   getOwnOffersForBusinesses,
   getSpecialOffersForBusinesses,
 } from '../helpers/getSpecialOffersForBusinesses';
-import { getCoverImagesForBusinesses } from '../helpers/getCoverImagesForBusinesses';
+import { getCoverImagesForBusinesses } from '../helpers/images/getCoverImagesForBusinesses';
 import { Favorite } from '@/types/db';
 
 //for provider of user favorites. Simplz arraz of favorite business IDs
