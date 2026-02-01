@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/client';
 import { PreviewImage } from '@/types/images';
+import { MAX_FILE_SIZE } from '@/const/images';
 
 export async function uploadImagesAndReturnUrls(
   businessId: string,
@@ -18,6 +19,12 @@ export async function uploadImagesAndReturnUrls(
 
   for (const img of newFiles) {
     const file = img.file!;
+
+    // 🔴 SERVER-SIDE GUARD
+    if (file.size > MAX_FILE_SIZE) {
+      console.error('File too large:', file.name, file.size);
+      throw new Error('FILE_TOO_LARGE');
+    }
     const filePath = `${businessId}/${Date.now()}_${file.name}`;
     const { error } = await supabase.storage
       .from('business-images')
@@ -25,7 +32,8 @@ export async function uploadImagesAndReturnUrls(
 
     if (error) {
       console.error('Upload error:', error);
-      continue;
+
+      throw new Error('UPLOAD_FAILED');
     }
 
     const { data } = supabase.storage

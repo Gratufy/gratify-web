@@ -367,7 +367,7 @@ export default function BusinessFormNew({
         if (!currentUserId) throw new Error('No current user');
         const fixedImages = ensureOneCover(imagesState);
 
-        // только новые файлы для Supabase
+        // new files for Supabase
         const newFiles = fixedImages.filter((img) => img.file);
         const oldFiles = fixedImages
           .filter((img) => !img.file)

@@ -12,33 +12,33 @@ export async function updateBusinessImagesOnServer(
 ) {
   const supabase = await createClient();
 
-  // 1. Получаем все существующие фото из базы
+  // 1. all existing images for the business from db
   const existingImages = await db
     .select()
     .from(businessImages)
     .where(eq(businessImages.businessId, businessId));
 
-  // 2. Определяем, какие фото удалены
+  // 2. check which images are removed in the payload
   const payloadUrls = payload.map((img) => img.url).filter(Boolean) as string[];
   const imagesToDelete = existingImages.filter(
     (img) => !payloadUrls.includes(img.url)
   );
 
-  // 3. Удаляем их из Storage
+  // 3. delete from Supabase Storage
 
   for (const img of imagesToDelete) {
     const path = extractPath(img.url);
     await supabase.storage.from('business-images').remove([path]);
   }
-  // 4. Удаляем из базы
+  // 4. delete from database
   await db.delete(businessImages).where(
     eq(businessImages.businessId, businessId)
-    // можно добавить inArray(businessImages.url, imagesToDelete.map(i => i.url)) для точной фильтрации
+    // can add inArray(businessImages.url, imagesToDelete.map(i => i.url)) for precise filtering
   );
 
-  // 5. Сохраняем все фото заново (новые + оставшиеся старые)
+  // 5. Save all photos again (new + remaining old) on db
   for (const img of payload) {
-    // не нужно file, мы уже загрузили его в Storage
+    // no need for file, we already uploaded it to Storage
     if (!img.url) continue; // safety check
     await db.insert(businessImages).values({
       businessId,
