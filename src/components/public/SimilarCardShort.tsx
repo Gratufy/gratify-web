@@ -123,7 +123,7 @@ function SimilarCardShort({ business }: BusinessCardShotProps) {
         <div className="flex flex-1 items-center gap-4 py-1 lg:gap-3 xl:py-2">
           <div className="title-h6 bg-icons-color-white shadow-menu flex items-center gap-2 py-1">
             <div
-              className={`hover-focus-card-dark flex h-5 w-5 cursor-pointer items-center justify-center`}
+              className={`flex h-6 w-6 cursor-pointer items-center justify-center`}
             >
               <Plus className="h-3 w-3" aria-hidden="true" />
             </div>
@@ -131,20 +131,20 @@ function SimilarCardShort({ business }: BusinessCardShotProps) {
             <p aria-label="Поточна карма">{business.karma}</p>
 
             <div
-              className={`hover-focus-card-dark flex h-5 w-5 cursor-pointer items-center justify-center xl:h-6 xl:w-6`}
+              className={`flex h-6 w-6 cursor-pointer items-center justify-center xl:h-6 xl:w-6`}
             >
               <Minus className="h-3 w-3" aria-hidden="true" />
             </div>
           </div>
 
           <div
-            className="bg-background-white dark:bg-card-hover-dark shadow-menu flex items-center gap-0.5 px-[6px] py-1"
+            className="bg-background-white dark:bg-card-hover-dark shadow-menu flex h-8 items-center gap-0.5 px-[6px]"
             aria-label={`Кількість відгуків: ${business.reviewCount}`}
           >
             <ReviewIcon className="h-4 w-4 xl:h-5 xl:w-5" aria-hidden="true" />
-            <span className="placeholder-sm xl:placeholder-base font-medium">
-              {business.reviewCount}
-            </span>
+            <div className="flex justify-center">
+              <span className="title-h6">{business.reviewCount}</span>
+            </div>
           </div>
         </div>
       </div>

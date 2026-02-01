@@ -179,13 +179,13 @@ function BusinessCardShot({
           />
 
           <div
-            className="bg-background-white dark:bg-card-hover-dark shadow-menu flex items-center gap-0.5 px-[6px] py-1"
+            className="bg-background-white dark:bg-card-hover-dark shadow-menu flex h-8 items-center gap-0.5 px-[6px]"
             aria-label={`Кількість відгуків: ${business.reviewCount}`}
           >
             <ReviewIcon className="h-4 w-4 xl:h-5 xl:w-5" aria-hidden="true" />
-            <span className="placeholder-sm xl:placeholder-base font-medium">
-              {business.reviewCount}
-            </span>
+            <div className="flex justify-center">
+              <span className="title-h6">{business.reviewCount}</span>
+            </div>
           </div>
         </div>
       </div>
