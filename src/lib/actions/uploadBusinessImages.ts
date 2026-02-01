@@ -17,7 +17,7 @@ export async function uploadBusinessImages(
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    if (!user) throw new Error('Not authenticated');
+    if (!user) throw new Error('AUTH_REQUIRED');
     // check profile
     const [profile] = await db
       .select()
@@ -25,7 +25,7 @@ export async function uploadBusinessImages(
       .where(eq(userProfiles.userId, user.id))
       .limit(1);
 
-    if (!profile) throw new Error('Profile not found');
+    if (!profile) throw new Error('PROFILE_NOT_FOUND');
     for (const img of images) {
       await db.insert(businessImages).values({
         businessId: businessId,
@@ -36,6 +36,6 @@ export async function uploadBusinessImages(
     }
   } catch (error) {
     console.error('Error uploading business images:', error);
-    throw new Error('Failed to upload business images');
+    throw new Error('UPLOAD_FAILED');
   }
 }

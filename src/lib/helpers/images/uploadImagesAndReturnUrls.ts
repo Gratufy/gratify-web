@@ -20,7 +20,7 @@ export async function uploadImagesAndReturnUrls(
   for (const img of newFiles) {
     const file = img.file!;
 
-    // 🔴 SERVER-SIDE GUARD
+    //  SERVER-SIDE GUARD
     if (file.size > MAX_FILE_SIZE) {
       console.error('File too large:', file.name, file.size);
       throw new Error('FILE_TOO_LARGE');

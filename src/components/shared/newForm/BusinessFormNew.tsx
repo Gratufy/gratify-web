@@ -57,6 +57,7 @@ import OffersMultiSelect from '@/components/shared/filters/OffersMultiSelect';
 import ImagesBlock from '@/components/shared/newForm/ImagesBlock';
 import { getDistanceMeters } from '@/lib/helpers/locations/getDistanceMeters';
 import { MAX_PHOTOS } from '@/const/images';
+import { handleError } from '@/lib/helpers/handleError';
 
 const BusinessMap = dynamic(() => import('@/components/shared/BusinessMap'), {
   ssr: false,
@@ -375,23 +376,31 @@ export default function BusinessFormNew({
             url: img.url!,
             isCover: img.isCover,
           }));
-        const uploadedImagesWithUrl = await uploadImagesAndReturnUrls(
+        try {const uploadedImagesWithUrl = await uploadImagesAndReturnUrls(
           businessId,
           newFiles
           // currentUserId
         );
-        const newFilesUploaded = uploadedImagesWithUrl.map((uploaded, i) => ({
-          url: uploaded.url,
-          isCover: newFiles[i].isCover,
-        }));
-        const finalPayload = [...oldFiles, ...newFilesUploaded];
-        // const payload = buildClientPayload(finalPayload);
-        await updateBusinessImagesOnServer(
-          businessId,
-          finalPayload,
-          currentUserId
-        );
-        //
+           const newFilesUploaded = uploadedImagesWithUrl.map(
+             (uploaded, i) => ({
+               url: uploaded.url,
+               isCover: newFiles[i].isCover,
+             })
+          );
+          const finalPayload = [...oldFiles, ...newFilesUploaded];
+            await updateBusinessImagesOnServer(
+              businessId,
+              finalPayload,
+              currentUserId
+            );
+        } catch (error) {
+          handleError(error);
+          return; 
+        }
+        
+       
+      
+        
         // update existing business
         // Prepare data for the database
         const updateData: BusinessUpdate = {
@@ -450,18 +459,24 @@ export default function BusinessFormNew({
         const notEmptyFiles = imagesState.filter((img) => img.file);
         if (notEmptyFiles.length) {
           const fixedImages = ensureOneCover(notEmptyFiles);
-          const uploadedImagesWithUrl = await uploadImagesAndReturnUrls(
-            business.id,
-            fixedImages
-            // profile.userId
-          );
-          //  Передаём URL в серверную функцию
-
-          await uploadBusinessImages(
-            business.id,
-            uploadedImagesWithUrl,
-            profile.userId
-          );
+          try {
+            const uploadedImagesWithUrl = await uploadImagesAndReturnUrls(
+              business.id,
+              fixedImages
+              // profile.userId
+            );
+            //  to server function
+            await uploadBusinessImages(
+              business.id,
+              uploadedImagesWithUrl,
+              profile.userId
+            );
+          } catch (error) {
+            handleError(error);
+            return;
+          }
+          
+        
         }
         //--------------------
         CustomToast({

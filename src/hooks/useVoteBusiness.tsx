@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getUserVote, voteBusiness } from '@/lib/actions/vote';
 import { queryKeys } from '@/lib/reactQuery/queryKeys';
 import { useUserStore } from '@/stores/useUserStore';
+import { handleError } from '@/lib/helpers/handleError';
 
 export function useVoteBusiness(businessId: string) {
   const queryClient = useQueryClient();
@@ -24,49 +25,7 @@ export function useVoteBusiness(businessId: string) {
         exact: false,
       });
     },
-    // onMutate: async (vote) => {
-    //   await queryClient.cancelQueries({
-    //     queryKey: queryKeys.businessById(businessId),
-    //   });
-
-    //   const prevData = queryClient.getQueryData<
-    //     BusinessWithDetails & { userVote?: 1 | -1 | 0 }
-    //   >(queryKeys.businessById(businessId));
-
-    //   if (prevData) {
-    //     const userPrevVote = prevData.userVote ?? 0;
-    //     const newVote = userPrevVote === vote ? 0 : vote;
-    //     const delta = newVote - userPrevVote;
-
-    //     queryClient.setQueryData(queryKeys.businessById(businessId), {
-    //       ...prevData,
-    //       karma: prevData.karma + delta,
-    //       userVote: newVote,
-    //     });
-    //   }
-
-    //   return { prevData };
-    // },
-    // onError: (err, vote, context) => {
-    //   if (context?.prevData) {
-    //     queryClient.setQueryData(
-    //       queryKeys.businessById(businessId),
-    //       context.prevData
-    //     );
-    //   }
-    // },
-    // onSettled: () => {
-    //   if (user?.userId) {
-    //     queryClient.invalidateQueries({
-    //       queryKey: queryKeys.userVote(businessId, user.userId),
-    //     });
-    //   }
-    //   queryClient.invalidateQueries({
-    //     queryKey: queryKeys.businessById(businessId),
-    //     exact: true,
-    //   });
-    //   queryClient.invalidateQueries({ queryKey: ['businesses'], exact: false });
-    // },
+    onError: (error) => handleError(error),
   });
 }
 

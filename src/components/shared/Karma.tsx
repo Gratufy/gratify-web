@@ -71,7 +71,14 @@ function Karma({
     const delta = newVote - prev;
     setKarma((k) => k + delta);
     setCurrentVote(newVote);
-    voteMutation.mutate(vote);
+    voteMutation.mutate(vote, {
+      onError: () => {
+        // откат state
+        setKarma((k) => k - delta);
+        setCurrentVote(normalizeVote(prev));
+      },
+    });
+    // voteMutation.mutate(vote);
   }
   return (
     <div

@@ -11,12 +11,24 @@ export async function updateBusinessImagesOnServer(
   ownerId: string
 ) {
   const supabase = await createClient();
+  // 0. auth
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
+  if (!user) {
+    throw new Error('AUTH_REQUIRED');
+  }
   // 1. all existing images for the business from db
-  const existingImages = await db
-    .select()
-    .from(businessImages)
-    .where(eq(businessImages.businessId, businessId));
+  let existingImages;
+  try {
+    existingImages = await db
+      .select()
+      .from(businessImages)
+      .where(eq(businessImages.businessId, businessId));
+  } catch {
+    throw new Error('DB_READ_FAILED');
+  }
 
   // 2. check which images are removed in the payload
   const payloadUrls = payload.map((img) => img.url).filter(Boolean) as string[];
@@ -28,18 +40,28 @@ export async function updateBusinessImagesOnServer(
 
   for (const img of imagesToDelete) {
     const path = extractPath(img.url);
-    await supabase.storage.from('business-images').remove([path]);
+    const { error } = await supabase.storage
+      .from('business-images')
+      .remove([path]);
+    if (error) {
+      console.error('Storage delete failed:', error);
+      throw new Error('STORAGE_DELETE_FAILED');
+    }
   }
   // 4. delete from database
-  await db.delete(businessImages).where(
-    eq(businessImages.businessId, businessId)
-    // can add inArray(businessImages.url, imagesToDelete.map(i => i.url)) for precise filtering
-  );
+  try {
+    await db
+      .delete(businessImages)
+      .where(eq(businessImages.businessId, businessId));
+  } catch (error) {
+    console.error('DB delete failed:', error);
+    throw new Error('DB_DELETE_FAILED');
+  }
 
   // 5. Save all photos again (new + remaining old) on db
-  for (const img of payload) {
-    // no need for file, we already uploaded it to Storage
-    if (!img.url) continue; // safety check
+  try { for (const img of payload) {
+    if (!img.url) continue;
+
     await db.insert(businessImages).values({
       businessId,
       ownerId,
@@ -47,6 +69,11 @@ export async function updateBusinessImagesOnServer(
       isCover: img.isCover,
     });
   }
+  } catch (error) {
+    console.error('DB insert failed:', error);
+    throw new Error('DB_INSERT_FAILED');
+  }
+ 
 }
 
 function extractPath(fullUrl: string): string {
