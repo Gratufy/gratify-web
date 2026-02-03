@@ -18,11 +18,9 @@ function PublicHomeClient() {
     // isLoading: isCategoriesLoading,
     // isError: isCategoriesError,
   } = useBusinessCategories();
-  //DELETE
 
   const categoriesWithAll = getCategoriesWithAll(categories);
-  ////DELETE above
-  console.log('in client', filters.search);
+
   const {
     data,
     fetchNextPage,

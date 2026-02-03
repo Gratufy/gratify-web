@@ -54,7 +54,6 @@ export async function getBusinesses(
   data: BusinessWithCategoryName[];
   nextOffset?: number; // для useInfiniteQuery
 }> {
-  console.log('getBusinesses', params);
   const {
     limit = PAGE_SIZE,
     offset = 0,
@@ -65,9 +64,9 @@ export async function getBusinesses(
     showOnlineStatus = 'all',
     search = '',
   } = params ?? {};
-  
+
   const supabase = await createClient();
-  console.log('before 1', search);
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -169,9 +168,8 @@ export async function getBusinesses(
       orderBy = desc(businesses.createdAt);
   }
   // search
-  console.log('before', search);
+
   if (search && search.trim() !== '') {
-    console.log('term', search);
     // const term = `%${search.toLowerCase()}%`; // any inclusion
     const term = `${search.toLowerCase()}%`; // starts with
 
