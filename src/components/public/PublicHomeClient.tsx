@@ -18,10 +18,9 @@ function PublicHomeClient() {
     // isLoading: isCategoriesLoading,
     // isError: isCategoriesError,
   } = useBusinessCategories();
-  //DELETE
 
   const categoriesWithAll = getCategoriesWithAll(categories);
-  ////DELETE above
+
   const {
     data,
     fetchNextPage,
@@ -38,6 +37,7 @@ function PublicHomeClient() {
     scope: 'public',
     search: filters.search,
   });
+
   const businesses = data?.pages.flatMap((page) => page.data) ?? [];
 
   return (

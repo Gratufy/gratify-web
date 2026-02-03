@@ -21,7 +21,7 @@ function InputSearch({ id, name, value, onChange }: InputSearchProps) {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
 
-    setLocalValue(val); // immidiately upfate local state
+    setLocalValue(val); // immediately update local state
     onChange?.(e); //from header
   };
   return (

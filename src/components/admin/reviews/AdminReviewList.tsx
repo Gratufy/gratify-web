@@ -60,9 +60,9 @@ function AdminReviewList({ businessId, currentStatus }: AdminReviewListProps) {
           Ошибка: {error?.message}
         </div>
       )}
-      {reviews && !reviews.length && (
+      {/* {reviews && !reviews.length && (
         <p>Ще нема відгуків зі статусом ${currentStatus}</p>
-      )}
+      )} */}
       {reviews && reviews.length > 0 && (
         <ul className="bg-background-main-100 flex flex-col gap-4 px-4 py-4">
           {reviews.map((r) => (

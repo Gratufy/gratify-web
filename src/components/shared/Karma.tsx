@@ -1,14 +1,15 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import IconUser from '@/assets/icons/general/icon-user.svg';
 import { useRouter } from 'next/navigation';
+
+import { VoteValue } from '@/types/enums';
 import { useUserVote, useVoteBusiness } from '@/hooks/useVoteBusiness';
 
 import { Plus } from 'lucide-react';
 import { Minus } from 'lucide-react';
-import { VoteValue } from '@/types/enums';
+import IconUser from '@/assets/icons/general/icon-user.svg';
 
-import { Spinner } from '../ui/spinner';
+import { Spinner } from '@/components/ui/spinner';
 
 interface KarmaProps {
   businessId: string;
@@ -113,7 +114,7 @@ function Karma({
             : 'Додати позитивний голос'
         }
         aria-pressed={currentVote === 1}
-        className={`hover-focus-card-dark flex h-5 w-5 shrink-0 cursor-pointer items-center justify-center disabled:cursor-not-allowed ${
+        className={`hover-focus-card-dark flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center disabled:cursor-not-allowed ${
           //  userVote?.vote === 1
           currentVote === 1
             ? 'bg-icons-color-success text-background-white disabled:bg-icons-color-success/70'
@@ -145,7 +146,7 @@ function Karma({
             : 'Додати негативний голос'
         }
         aria-pressed={currentVote === -1}
-        className={`hover-focus-card-dark flex h-5 w-5 shrink-0 cursor-pointer items-center justify-center disabled:cursor-not-allowed xl:h-6 xl:w-6 ${
+        className={`hover-focus-card-dark flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center disabled:cursor-not-allowed xl:h-6 xl:w-6 ${
           currentVote === -1 ? 'bg-icons-color-error text-background-white' : ''
         }`}
         onClick={(e) => {

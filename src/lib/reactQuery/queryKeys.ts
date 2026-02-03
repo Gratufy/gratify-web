@@ -26,6 +26,7 @@ export const queryKeys = {
       params.categoryId ?? '__all__',
       params.sortBy ?? 'newest',
       params.showOnlineStatus ?? 'all',
+      params.search ?? '',
     ] as const,
   businessById: (id: string) => ['businesses', 'byId', id] as const,
 

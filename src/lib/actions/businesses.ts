@@ -172,6 +172,7 @@ export async function getBusinesses(
   if (search && search.trim() !== '') {
     // const term = `%${search.toLowerCase()}%`; // any inclusion
     const term = `${search.toLowerCase()}%`; // starts with
+
     conditions.push(ilike(businesses.name, term));
   }
   const whereClause = conditions.length > 0 ? and(...conditions) : sql`TRUE`;

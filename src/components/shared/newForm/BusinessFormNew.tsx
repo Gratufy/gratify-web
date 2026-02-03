@@ -163,6 +163,7 @@ export default function BusinessFormNew({
 
   // validate city before check
   function validateCity(index: number): boolean {
+    console.log('in validateCity');
     const loc = form.getValues(`locations.${index}`);
     if (!loc.city || loc.city.trim() === '') {
       CustomToast({
@@ -337,6 +338,21 @@ export default function BusinessFormNew({
       action === 'submit' ? 'pending' : 'draft';
 
     try {
+      const hasInvalidLocation = data.locations.some(
+        (loc) => !loc.city && loc.address
+      );
+
+      if (hasInvalidLocation) {
+        CustomToast({
+          type: 'warning',
+          content: (
+            <p className="font-semibold">
+              Щоб додати адресу, будь ласка, вкажіть також місто.
+            </p>
+          ),
+        });
+        return; // submit stopped
+      }
       const locationsWithCoords = await Promise.all(
         data.locations.map(async (loc) => {
           // if coords already confirmed (in  "Check") — use them
@@ -376,31 +392,27 @@ export default function BusinessFormNew({
             url: img.url!,
             isCover: img.isCover,
           }));
-        try {const uploadedImagesWithUrl = await uploadImagesAndReturnUrls(
-          businessId,
-          newFiles
-          // currentUserId
-        );
-           const newFilesUploaded = uploadedImagesWithUrl.map(
-             (uploaded, i) => ({
-               url: uploaded.url,
-               isCover: newFiles[i].isCover,
-             })
+        try {
+          const uploadedImagesWithUrl = await uploadImagesAndReturnUrls(
+            businessId,
+            newFiles
+            // currentUserId
           );
+          const newFilesUploaded = uploadedImagesWithUrl.map((uploaded, i) => ({
+            url: uploaded.url,
+            isCover: newFiles[i].isCover,
+          }));
           const finalPayload = [...oldFiles, ...newFilesUploaded];
-            await updateBusinessImagesOnServer(
-              businessId,
-              finalPayload,
-              currentUserId
-            );
+          await updateBusinessImagesOnServer(
+            businessId,
+            finalPayload,
+            currentUserId
+          );
         } catch (error) {
           handleError(error);
-          return; 
+          return;
         }
-        
-       
-      
-        
+
         // update existing business
         // Prepare data for the database
         const updateData: BusinessUpdate = {
@@ -475,8 +487,6 @@ export default function BusinessFormNew({
             handleError(error);
             return;
           }
-          
-        
         }
         //--------------------
         CustomToast({

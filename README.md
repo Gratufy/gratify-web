@@ -1,4 +1,5 @@
 FOR ME!!!!
+in supabase connection!!! up!!! and there Pooler transaction!!!
 Always use supabase.auth.getUser() to protect pages and user data.
 https://supabase.com/docs/guides/auth/server-side/nextjs
 https://supabase.com/dashboard/project/mmpegbtxqddsiqbamdmk
