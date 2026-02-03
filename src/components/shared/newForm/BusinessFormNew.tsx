@@ -338,6 +338,21 @@ export default function BusinessFormNew({
       action === 'submit' ? 'pending' : 'draft';
 
     try {
+      const hasInvalidLocation = data.locations.some(
+        (loc) => !loc.city && loc.address
+      );
+
+      if (hasInvalidLocation) {
+        CustomToast({
+          type: 'warning',
+          content: (
+            <p className="font-semibold">
+              Щоб додати адресу, будь ласка, вкажіть також місто.
+            </p>
+          ),
+        });
+        return; // submit stopped
+      }
       const locationsWithCoords = await Promise.all(
         data.locations.map(async (loc) => {
           // if coords already confirmed (in  "Check") — use them
