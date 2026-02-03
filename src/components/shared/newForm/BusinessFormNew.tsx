@@ -163,6 +163,7 @@ export default function BusinessFormNew({
 
   // validate city before check
   function validateCity(index: number): boolean {
+    console.log('in validateCity');
     const loc = form.getValues(`locations.${index}`);
     if (!loc.city || loc.city.trim() === '') {
       CustomToast({
@@ -376,31 +377,27 @@ export default function BusinessFormNew({
             url: img.url!,
             isCover: img.isCover,
           }));
-        try {const uploadedImagesWithUrl = await uploadImagesAndReturnUrls(
-          businessId,
-          newFiles
-          // currentUserId
-        );
-           const newFilesUploaded = uploadedImagesWithUrl.map(
-             (uploaded, i) => ({
-               url: uploaded.url,
-               isCover: newFiles[i].isCover,
-             })
+        try {
+          const uploadedImagesWithUrl = await uploadImagesAndReturnUrls(
+            businessId,
+            newFiles
+            // currentUserId
           );
+          const newFilesUploaded = uploadedImagesWithUrl.map((uploaded, i) => ({
+            url: uploaded.url,
+            isCover: newFiles[i].isCover,
+          }));
           const finalPayload = [...oldFiles, ...newFilesUploaded];
-            await updateBusinessImagesOnServer(
-              businessId,
-              finalPayload,
-              currentUserId
-            );
+          await updateBusinessImagesOnServer(
+            businessId,
+            finalPayload,
+            currentUserId
+          );
         } catch (error) {
           handleError(error);
-          return; 
+          return;
         }
-        
-       
-      
-        
+
         // update existing business
         // Prepare data for the database
         const updateData: BusinessUpdate = {
@@ -475,8 +472,6 @@ export default function BusinessFormNew({
             handleError(error);
             return;
           }
-          
-        
         }
         //--------------------
         CustomToast({

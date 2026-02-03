@@ -22,6 +22,7 @@ function PublicHomeClient() {
 
   const categoriesWithAll = getCategoriesWithAll(categories);
   ////DELETE above
+  console.log('in client', filters.search);
   const {
     data,
     fetchNextPage,
@@ -38,6 +39,7 @@ function PublicHomeClient() {
     scope: 'public',
     search: filters.search,
   });
+
   const businesses = data?.pages.flatMap((page) => page.data) ?? [];
 
   return (

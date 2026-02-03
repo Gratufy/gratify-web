@@ -9,7 +9,7 @@ import {
   businessLocations,
   businessReviews,
 } from '@/db/schema';
-import { eq, sql, and, SQL, inArray } from 'drizzle-orm';
+import { eq, sql, and, SQL } from 'drizzle-orm';
 
 import { AdminBusinessRowType, AdminBusinessesParams } from '@/types/business';
 import { isAdmin } from '@/lib/helpers/isAdmin';
@@ -118,7 +118,6 @@ export async function getBusinessesForAdmin({
         ? sql`${businesses.createdAt} DESC`
         : sql`${businesses.createdAt} ASC`
     );
-
 
   return rows;
 }

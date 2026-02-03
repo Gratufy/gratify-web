@@ -44,6 +44,7 @@ export function useInfiniteBusinesses(
   return useInfiniteQuery({
     queryKey: queryKeys.businessInfiniteList(params),
     queryFn: async ({ pageParam = 0 }) => {
+      console.log('in hook', params);
       const result = await getBusinesses({
         ...params,
         offset: pageParam,
