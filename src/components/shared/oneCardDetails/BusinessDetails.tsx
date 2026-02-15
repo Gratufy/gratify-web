@@ -16,6 +16,8 @@ import BusinessCardSkeleton from '../skeletons/BusinessCardSkeleton';
 import IconUser from '@/assets/icons/general/icon-user.svg';
 
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
+
+import СomplaintDialog from '@/components/shared/oneCardDetails/СomplaintDialog';
 import Karma from '@/components/shared/Karma';
 import BusinessReviews from '@/components/shared/BusinessReviews';
 import TitleBlock from '@/components/shared/oneCardDetails/TitleBlock';
@@ -188,11 +190,7 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
                     setOnConfirm={setOnConfirm}
                   />
                 </div>
-                <div className="flex flex-1">
-                  <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base">
-                    Скарга
-                  </p>
-                </div>
+                <СomplaintDialog />
               </div>
             </div>
           </section>
