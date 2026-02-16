@@ -15,6 +15,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
+import { sendComplaint } from '@/lib/actions/sendComplaint';
 
 interface ComplainDialogProps {
   businessId: string;
@@ -28,16 +29,40 @@ function ComplaintDialog({ businessId, businessName }: ComplainDialogProps) {
 
   function handleSubmit(e: React.MouseEvent) {
     e.preventDefault();
-    console.log(complaintText, businessName);
-    setOpen(false);
-    CustomToast({
-      type: 'success',
-      content: (
-        <>
-          <p className="font-semibold">Скарга відправлена</p>
-        </>
-      ),
+    startTransition(async () => {
+      try {
+        await sendComplaint({
+          businessName: businessName,
+          businessId: businessId,
+          complaintText,
+          // honeypot: '', // Add honeypot field if needed for spam prevention
+        });
+
+        CustomToast({
+          type: 'success',
+          content: (
+            <>
+              <p className="font-semibold">Скарга відправлена</p>
+            </>
+          ),
+        });
+
+        setComplaintText('');
+        // formRef.current?.reset();
+        setOpen(false);
+      } catch (error) {
+        CustomToast({
+          type: 'error',
+          content: (
+            <>
+              <p className="font-semibold">Помилка при відправці скарги</p>
+              <p className="text-sm">{(error as Error).message}</p>
+            </>
+          ),
+        });
+      }
     });
+    setOpen(false);
   }
   return (
     <Dialog open={open} onOpenChange={(value) => setOpen(value)}>
