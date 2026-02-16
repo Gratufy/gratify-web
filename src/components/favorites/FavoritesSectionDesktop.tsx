@@ -33,7 +33,6 @@ function FavoritesSectionDesktop({
   categoriesWithAll,
   userId,
 }: FavoritesSectionDesktopProps) {
-  console.log('FavoritesSectionDesktop render', businesses);
   return (
     <div className="container hidden w-full lg:block">
       <div className="w-full lg:py-2">
