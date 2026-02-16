@@ -17,7 +17,7 @@ import IconUser from '@/assets/icons/general/icon-user.svg';
 
 import { CustomAlertDialog } from '@/components/ui/custom-ui/CustomAlertDialog';
 
-import СomplaintDialog from '@/components/shared/oneCardDetails/СomplaintDialog';
+import ComplaintDialog from '@/components/shared/oneCardDetails/СomplaintDialog';
 import Karma from '@/components/shared/Karma';
 import BusinessReviews from '@/components/shared/BusinessReviews';
 import TitleBlock from '@/components/shared/oneCardDetails/TitleBlock';
@@ -190,7 +190,10 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
                     setOnConfirm={setOnConfirm}
                   />
                 </div>
-                <СomplaintDialog />
+                <ComplaintDialog
+                  businessId={business.id}
+                  businessName={business.name}
+                />
               </div>
             </div>
           </section>
