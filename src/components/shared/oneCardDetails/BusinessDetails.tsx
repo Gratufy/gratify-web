@@ -140,11 +140,15 @@ function BusinessDetails({ id, selectedCity, initialData }: Props) {
                   setOnConfirm={setOnConfirm}
                 />
               </div>
-              <div className="flex flex-1">
+              {/* <div className="flex flex-1">
                 <p className="placeholder-xs lg:placeholder-sm xl:placeholder-base">
                   Скарга
                 </p>
-              </div>
+              </div> */}
+              <ComplaintDialog
+                businessId={business.id}
+                businessName={business.name}
+              />
             </div>
           </section>
           {/* big screens */}
