@@ -1,5 +1,5 @@
 import { useState, useTransition } from 'react';
-import IconFlag from '@/assets/icons/general/icon-flag.svg';
+import { useUserStore } from '@/stores/useUserStore';
 import IconWarning from '@/assets/icons/general/icon-Warning.svg';
 import {
   Dialog,
@@ -15,34 +15,31 @@ import {
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
-import { sendComplaint } from '@/lib/actions/message/sendComplaint';
 
-interface ComplainDialogProps {
-  businessId: string;
-  businessName: string;
-}
+import { connectWithAdmin } from '@/lib/actions/message/connectWithAdmin';
 
-function ComplaintDialog({ businessId, businessName }: ComplainDialogProps) {
+function ConnectWithAdmin() {
   const [open, setOpen] = useState<boolean>(false);
- 
+  const profile = useUserStore((s) => s.profile);
+
   const [isPending, startTransition] = useTransition();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-     const form = e.currentTarget;
-     const formData = new FormData(form);
-     const complaintText = formData.get('complaint') as string;
-
-     if (!complaintText || complaintText.trim().length < 10) {
-       form.reportValidity();
-       return;
-     }
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const text = formData.get('description') as string;
+    if (!text || text.trim().length < 10) {
+      form.reportValidity();
+      return;
+    }
     startTransition(async () => {
       try {
-        await sendComplaint({
-          businessName: businessName,
-          businessId: businessId,
-          complaintText,
+        await connectWithAdmin({
+          userId: profile?.userId ?? 'Unknown User',
+          userEmail: profile?.email ?? 'Unknown Email',
+          userName: profile?.name ?? 'Unknown Name',
+          text,
           // honeypot: '', // Add honeypot field if needed for spam prevention
         });
 
@@ -50,20 +47,22 @@ function ComplaintDialog({ businessId, businessName }: ComplainDialogProps) {
           type: 'success',
           content: (
             <>
-              <p className="font-semibold">Скарга відправлена</p>
+              <p className="font-semibold">Повідомлення відправлено</p>
             </>
           ),
         });
 
-         form.reset();
-       
+        form.reset();
+        // formRef.current?.reset();
         setOpen(false);
       } catch (error) {
         CustomToast({
           type: 'error',
           content: (
             <>
-              <p className="font-semibold">Помилка при відправці скарги</p>
+              <p className="font-semibold">
+                Помилка при відправці повідомлення
+              </p>
               <p className="text-sm">{(error as Error).message}</p>
             </>
           ),
@@ -74,31 +73,28 @@ function ComplaintDialog({ businessId, businessName }: ComplainDialogProps) {
   }
   return (
     <Dialog open={open} onOpenChange={(value) => setOpen(value)}>
-      <DialogTrigger className="flex flex-1 cursor-pointer gap-3">
-        <IconFlag className="size-4 lg:size-6" aria-hidden="true" />
-        <span className="placeholder-xs lg:placeholder-sm xl:placeholder-base">
-          Скарга
-        </span>
+      <DialogTrigger className="btn-reject placeholder-xs lg:placeholder-sm xl:placeholder-base">
+        Зв&rsquo;язатись з адміном
       </DialogTrigger>
       <DialogContent className="rounded-none sm:max-w-[425px]">
         <DialogHeader className="flex-row">
           <IconWarning className="size-4 shrink-0 lg:size-6" />
-          <DialogTitle>Дані не співпадають з дійсністю</DialogTitle>
+          <DialogTitle>Зв&rsquo;язатись з адміном</DialogTitle>
           <DialogDescription className="sr-only">
-            Подати скаргу
+            Зв&rsquo;язатись з адміном
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="mb-3 grid gap-3">
             <Label
-              htmlFor="id-complaint "
+              htmlFor="id-connect-admin-deskription"
               className="placeholder-xs lg:placeholder-sm xl:placeholder-base"
             >
-              Опишіть причину скарги
+              Опишіть причину зв&rsquo;язку з адміном
             </Label>
             <Textarea
-              id="id-complaint"
-              name="complaint"
+              id="id-connect-admin-deskription"
+              name="description"
               required
               minLength={10}
               disabled={isPending}
@@ -107,10 +103,9 @@ function ComplaintDialog({ businessId, businessName }: ComplainDialogProps) {
           <DialogFooter className="pt-2">
             {/* <DialogClose asChild> */}
             <button
-              type="button"
               className="btn-reject"
+              type="button"
               onClick={() => {
-                //   formRef.current?.reset();
                 setOpen(false);
               }}
             >
@@ -127,4 +122,4 @@ function ComplaintDialog({ businessId, businessName }: ComplainDialogProps) {
   );
 }
 
-export default ComplaintDialog;
+export default ConnectWithAdmin;

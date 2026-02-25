@@ -11,6 +11,7 @@ import { Plus } from 'lucide-react';
 import NotFoundComponent from '@/components/shared/NotFoundComponent';
 import OwnBusinessList from '@/components/shared/OwnBusinessList';
 import BusinessListSkeleton from '@/components/shared/skeletons/BusinessListSkeleton';
+import ConnectWithAdmin from '../business/ConnectWithAdmin';
 
 function BusinessHomeClient() {
   const search = useDashboardSearchStore((s) => s.search);
@@ -62,9 +63,10 @@ function BusinessHomeClient() {
                   <Plus className="mr-[6px] size-4 xl:mr-3 xl:size-5" />{' '}
                   <span>Додати нову</span>
                 </Link>
-                <button className="btn-reject">
+                {/* <button className="btn-reject">
                   Зв&rsquo;язатись з адміном
-                </button>
+                </button> */}
+                <ConnectWithAdmin />
               </div>
             </div>
             <OwnBusinessList
