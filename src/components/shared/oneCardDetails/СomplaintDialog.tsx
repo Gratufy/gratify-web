@@ -24,11 +24,19 @@ interface ComplainDialogProps {
 
 function ComplaintDialog({ businessId, businessName }: ComplainDialogProps) {
   const [open, setOpen] = useState<boolean>(false);
-  const [complaintText, setComplaintText] = useState('');
+ 
   const [isPending, startTransition] = useTransition();
 
-  function handleSubmit(e: React.MouseEvent) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+     const form = e.currentTarget;
+     const formData = new FormData(form);
+     const complaintText = formData.get('complaint') as string;
+
+     if (!complaintText || complaintText.trim().length < 10) {
+       form.reportValidity();
+       return;
+     }
     startTransition(async () => {
       try {
         await sendComplaint({
@@ -47,8 +55,8 @@ function ComplaintDialog({ businessId, businessName }: ComplainDialogProps) {
           ),
         });
 
-        setComplaintText('');
-        // formRef.current?.reset();
+         form.reset();
+       
         setOpen(false);
       } catch (error) {
         CustomToast({
@@ -80,7 +88,7 @@ function ComplaintDialog({ businessId, businessName }: ComplainDialogProps) {
             Подати скаргу
           </DialogDescription>
         </DialogHeader>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="mb-3 grid gap-3">
             <Label
               htmlFor="id-complaint "
@@ -90,8 +98,7 @@ function ComplaintDialog({ businessId, businessName }: ComplainDialogProps) {
             </Label>
             <Textarea
               id="id-complaint"
-              name="id-complaint"
-              onChange={(e) => setComplaintText(e.target.value)}
+              name="complaint"
               required
               minLength={10}
               disabled={isPending}
@@ -100,9 +107,9 @@ function ComplaintDialog({ businessId, businessName }: ComplainDialogProps) {
           <DialogFooter className="pt-2">
             {/* <DialogClose asChild> */}
             <button
+              type="button"
               className="btn-reject"
               onClick={() => {
-                setComplaintText('');
                 //   formRef.current?.reset();
                 setOpen(false);
               }}
@@ -110,12 +117,7 @@ function ComplaintDialog({ businessId, businessName }: ComplainDialogProps) {
               Cancel
             </button>
             {/* </DialogClose> */}
-            <button
-              type="submit"
-              className="btn-aprove"
-              disabled={complaintText.trim().length <= 10 || isPending}
-              onClick={handleSubmit}
-            >
+            <button type="submit" className="btn-aprove" disabled={isPending}>
               Подати
             </button>
           </DialogFooter>

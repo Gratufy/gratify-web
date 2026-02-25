@@ -1,5 +1,5 @@
 import { useState, useTransition } from 'react';
-
+import { useUserStore } from '@/stores/useUserStore';
 import IconWarning from '@/assets/icons/general/icon-Warning.svg';
 import {
   Dialog,
@@ -17,14 +17,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { CustomToast } from '@/components/ui/custom-ui/CustomToast';
 
 import { connectWithAdmin } from '@/lib/actions/message/connectWithAdmin';
-import { Input } from '../ui/input';
 
-interface ConnectWithAdminProps {
-  userId: string;
-}
-
-function ConnectWithAdmin({ userId }: ConnectWithAdminProps) {
+function ConnectWithAdmin() {
   const [open, setOpen] = useState<boolean>(false);
+  const profile = useUserStore((s) => s.profile);
 
   const [isPending, startTransition] = useTransition();
 
@@ -40,7 +36,9 @@ function ConnectWithAdmin({ userId }: ConnectWithAdminProps) {
     startTransition(async () => {
       try {
         await connectWithAdmin({
-          userId,
+          userId: profile?.userId ?? 'Unknown User',
+          userEmail: profile?.email ?? 'Unknown Email',
+          userName: profile?.name ?? 'Unknown Name',
           text,
           // honeypot: '', // Add honeypot field if needed for spam prevention
         });
@@ -106,6 +104,7 @@ function ConnectWithAdmin({ userId }: ConnectWithAdminProps) {
             {/* <DialogClose asChild> */}
             <button
               className="btn-reject"
+              type="button"
               onClick={() => {
                 setOpen(false);
               }}

@@ -2,7 +2,12 @@
 
 import { Resend } from 'resend';
 
-export async function connectWithAdmin(data: { text: string; userId: string }) {
+export async function connectWithAdmin(data: {
+  text: string;
+  userId: string;
+  userEmail: string;
+  userName: string;
+}) {
   const resend = new Resend(process.env.RESEND_API_KEY!);
   try {
     if (!data.text || data.text.trim().length < 10) {
@@ -14,10 +19,11 @@ export async function connectWithAdmin(data: { text: string; userId: string }) {
       //   from: '"Complaint Form" <complaints@gratify.com>',
       from: process.env.RESEND_FROM_EMAIL!,
       to: process.env.ADMIN_EMAIL!,
-      subject: `Повідомлення від ${data.userId}`,
+      subject: `Повідомлення від ${data.userEmail}`,
       html: `
                 <p><strong>User ID:</strong> ${data.userId}</p>
-                
+                <p><strong>User Email:</strong> ${data.userEmail}</p>
+                <p><strong>User Name:</strong> ${data.userName}</p>
                 <p><strong>Message:</strong></p>
                 <p>${data.text}</p>
             `,

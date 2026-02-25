@@ -66,9 +66,7 @@ function BusinessHomeClient() {
                 {/* <button className="btn-reject">
                   Зв&rsquo;язатись з адміном
                 </button> */}
-                <ConnectWithAdmin
-                  userId={businesses?.data?.[0]?.ownerId || ''}
-                />
+                <ConnectWithAdmin />
               </div>
             </div>
             <OwnBusinessList
