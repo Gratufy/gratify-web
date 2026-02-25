@@ -64,9 +64,9 @@ function AdminBusinessClient() {
                   <Plus className="mr-[6px] size-4 xl:mr-3 xl:size-5" />
                   <span>Додати нову</span>
                 </Link>
-                <button className="btn-reject">
+                {/* <button className="btn-reject">
                   Зв&rsquo;язатись з адміном
-                </button>
+                </button> */}
               </div>
             </div>
             <OwnBusinessList
