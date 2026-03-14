@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
 
       {
         protocol: 'https',
-        hostname: 'mmpegbtxqddsiqbamdmk.supabase.co',
+        hostname: 'usqstfmezgkwtozxdswo.supabase.co',
         pathname: '/**',
       },
     ],
