@@ -17,6 +17,16 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 2. потім тут налаштування api and survices
    https://console.cloud.google.com/
 
+   ## to give to owner
+
+   https://vercel.com/
+   https://github.com
+   https://supabase.com
+   https://console.cloud.google.com/cloud-resource-manager
+   https://console.cloud.google.com
+   https://geocode.maps.co/account/
+   resend
+
 # Attention !!!!
 
 hier supabase\migrations\0006_slimy_tattoo.sql
