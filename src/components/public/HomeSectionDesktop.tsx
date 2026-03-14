@@ -67,7 +67,7 @@ function HomeSectionDesktop({
       )}
       {businesses.length > 0 && (
         <div
-          className={`w-full ${showMap ? 'lg:pr-[50px] xl:pr-[150px]' : ''}`}
+          className={`w-full ${showMap ? 'pl-1 lg:pr-[50px] xl:pr-[150px]' : ''}`}
         >
           <div className="bg-background-white flex w-full justify-between py-3">
             {showMap && (
@@ -82,7 +82,7 @@ function HomeSectionDesktop({
           )}
         </div>
       )}
-      <div className="hidden w-full lg:flex lg:flex-row lg:gap-6">
+      <div className="hidden w-full lg:flex lg:flex-row lg:gap-4">
         {!showMap && (
           <SidebarFilters categoriesWithAll={categoriesWithAll ?? []} />
         )}
