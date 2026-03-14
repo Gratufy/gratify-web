@@ -2,6 +2,7 @@
 'use client';
 import React, { useRef, useEffect, useState, ReactNode } from 'react';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 import { useAuth } from '@/stores/useUserStore';
 import { BusinessWithCategoryName } from '@/types';
 
@@ -76,7 +77,11 @@ function BusinessList({
           {businesses.map((b) => (
             <li
               key={b.id}
-              className="dark:hover:bg-card-hover-dark dark:focus:bg-card-hover-dark dark:focus:border-elements-main-500 shadow-card bg-background-white-3 hover:shadow-card-hover focus:shadow-card-hover h-[226px] w-full overflow-hidden pb-5 transition-[color,box-shadow] lg:h-[248px] xl:h-[260px] dark:shadow-none dark:focus:border-2"
+              className={cn(
+                'h-[226px] w-full overflow-hidden pb-5 transition-[color,box-shadow] lg:h-[248px] xl:h-[260px]',
+                // 'dark:focus:border-elements-main-500 dark:hover:bg-card-hover-dark dark:focus:bg-card-hover-dark dark:shadow-none dark:focus:border-2',
+                'shadow-card bg-background-white-3 hover:shadow-card-hover focus:shadow-card-hover'
+              )}
               onMouseEnter={() => onHover?.(b.id)}
               onMouseLeave={() => onHover?.(null)}
             >
