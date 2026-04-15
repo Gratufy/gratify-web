@@ -6,10 +6,7 @@ import { DEFAULT_ADMIN_FILTERS_WITH_REVIEW_STATUS } from '@/const/filters-url';
 
 import { parseBusinessStatus } from '@/lib/helpers/parseBusinessStatus';
 import { AdminSort, OnlineFilter } from '@/types/enums';
-import {
-  AdminFilters,
-  AdminFiltersWithReviewStatus,
-} from '@/types/filters-query';
+import { AdminFiltersWithReviewStatus } from '@/types/filters-query';
 import { parseReviewStatus } from '@/lib/helpers/parseReviewStatus';
 
 export function useAdminFiltersWithReviewStatus() {
