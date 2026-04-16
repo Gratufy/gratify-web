@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { cache } from 'react';
+
 import { notFound } from 'next/navigation';
 import { validate as uuidValidate } from 'uuid'; // npm install uuid
 
@@ -16,7 +17,34 @@ interface BusinessPageProps {
 
   searchParams: Promise<{ city?: string }>;
 }
+const getBusinessCached = cache(getBusinessById);
+export async function generateMetadata({ params }: BusinessPageProps) {
+  const { id } = await params;
 
+  if (!uuidValidate(id)) {
+    return {
+      title: 'Бізнес не знайдено | Gratify',
+    };
+  }
+
+  const business = await getBusinessCached(id);
+
+  if (!business) {
+    return {
+      title: 'Бізнес не знайдено | Gratify',
+    };
+  }
+
+  return {
+    title: `${business.name} | Gratify`,
+    description: business.description ?? 'Дивись деталі бізнесу на Gratify',
+    openGraph: {
+      title: business.name,
+      description: business.description,
+      images: business.images?.[0] ? [business.images[0]] : [],
+    },
+  };
+}
 export default async function PublicBusinessDetailsPage({
   params,
   searchParams,
@@ -25,7 +53,7 @@ export default async function PublicBusinessDetailsPage({
   if (!uuidValidate(id)) return notFound();
   const { city } = await searchParams;
   const selectedCity = city ?? '__all__';
-  const business = await getBusinessById(id);
+  const business = await getBusinessCached(id);
   if (!business) {
     // if Id wrong → NotFound
     return notFound();
