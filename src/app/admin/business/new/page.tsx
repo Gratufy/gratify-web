@@ -1,6 +1,13 @@
 import BusinessFormNew from '@/components/shared/newForm/BusinessFormNew';
 import GoBackButton from '@/components/ui/custom-ui/GoBackButton';
 
+import type { Metadata } from 'next';
+export const metadata: Metadata = {
+  title: 'Адмін панель - Gratify',
+  description:
+    'Сторінка для створення нових бізнесів користувача на платформі Gratify',
+};
+
 export default function AdminNewBusiness() {
   return (
     <div className="flex flex-col items-center justify-center">

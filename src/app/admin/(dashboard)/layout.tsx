@@ -3,6 +3,12 @@ import { redirect } from 'next/navigation';
 
 import AdminSidebarManager from '@/components/admin/shared/AdminSidebarManager';
 
+import type { Metadata } from 'next';
+export const metadata: Metadata = {
+  title: 'Адмін панель - Gratify',
+  description: 'Панель управління бізнесами користувача на платформі Gratify',
+};
+
 export default async function AdminDashboardLayout({
   children,
 }: Readonly<{

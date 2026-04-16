@@ -10,6 +10,13 @@ import AdminBusinessClient from '@/components/admin/business/AdminBusinessClient
 import { getBusinesses } from '@/lib/actions/businesses';
 import { GetBusinessesParams } from '@/types';
 
+import type { Metadata } from 'next';
+export const metadata: Metadata = {
+  title: 'Адмін панель - Gratify',
+  description:
+    'Сторінка для управління бізнесами користувача на платформі Gratify',
+};
+
 export default async function BAdminBusinessPage() {
   const queryClient = new QueryClient();
   const defaultParams: GetBusinessesParams = {

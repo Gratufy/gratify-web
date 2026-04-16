@@ -1,10 +1,11 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import PublicHomeClient from '@/components/public/PublicHomeClient';
 import HeroSection from '@/components/shared/client-shared/HeroSection';
-export const metadata = {
-  title: 'Gratify — головна',
-  description:
-    'Платформа для пошуку бізнесів та спеціальних пропозицій для військових в Україні',
+
+export const metadata: Metadata = {
+  title: 'Головна',
+  description: 'Знижки та спеціальні пропозиції для військових',
 };
 
 export default function PublicHome() {

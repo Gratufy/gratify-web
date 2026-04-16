@@ -9,6 +9,40 @@ interface UserBusinessDetailsPageProps {
   params: Promise<{ id: string; slug: string }>;
 }
 const getBusinessCached = cache(getBusinessById);
+
+export async function generateMetadata({
+  params,
+}: UserBusinessDetailsPageProps) {
+  const { id } = await params;
+
+  if (!uuidValidate(id)) {
+    return {
+      title: 'Бізнес не знайдено | Gratify',
+    };
+  }
+
+  const business = await getBusinessCached(id);
+
+  if (!business) {
+    return {
+      title: 'Бізнес не знайдено ',
+    };
+  }
+
+  return {
+    title: `${business.name} `,
+    description: business.description ?? 'Дивись деталі бізнесу на Gratify',
+    openGraph: {
+      title: business.name,
+      description: business.description,
+      images: business.images?.[0] ? [business.images[0]] : [],
+    },
+    alternates: {
+      canonical: `/business/${id}/${business.slug}`,
+    },
+  };
+}
+
 export default async function UserBusinessDetailsPage({
   params,
 }: UserBusinessDetailsPageProps) {

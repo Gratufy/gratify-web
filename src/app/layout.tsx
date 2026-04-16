@@ -20,9 +20,12 @@ const ubuntuSans = Ubuntu_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Gratify',
+  title: {
+    default: 'Gratify',
+    template: '%s | Gratify',
+  },
   description:
-    'Платформа для пошуку бізнесів та спеціальних пропозицій для військових в Україні',
+    'Платформа Gratify для пошуку бізнесів та спеціальних пропозицій для військових в Україні',
 };
 
 export default async function RootLayout({

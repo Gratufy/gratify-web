@@ -54,7 +54,7 @@ export async function createBusiness(
         .returning();
       profile = updatedProfile;
     }
-    //-------
+    //------- slug generation
     const slug = generateSlug(values.name);
     // create new business
     const [newBusiness] = await db

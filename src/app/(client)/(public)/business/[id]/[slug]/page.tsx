@@ -32,12 +32,12 @@ export async function generateMetadata({ params }: BusinessPageProps) {
 
   if (!business) {
     return {
-      title: 'Бізнес не знайдено | Gratify',
+      title: 'Бізнес не знайдено ',
     };
   }
 
   return {
-    title: `${business.name} | Gratify`,
+    title: `${business.name} `,
     description: business.description ?? 'Дивись деталі бізнесу на Gratify',
     openGraph: {
       title: business.name,
