@@ -1,6 +1,6 @@
 import React, { cache } from 'react';
 
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { validate as uuidValidate } from 'uuid'; // npm install uuid
 
 import { Info } from 'lucide-react';
@@ -13,11 +13,12 @@ import BusinessDetails from '@/components/shared/oneCardDetails/BusinessDetails'
 import SimilarBusinesses from '@/components/public/SimilarBusinesses';
 
 interface BusinessPageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; slug: string }>;
 
   searchParams: Promise<{ city?: string }>;
 }
 const getBusinessCached = cache(getBusinessById);
+
 export async function generateMetadata({ params }: BusinessPageProps) {
   const { id } = await params;
 
@@ -43,20 +44,29 @@ export async function generateMetadata({ params }: BusinessPageProps) {
       description: business.description,
       images: business.images?.[0] ? [business.images[0]] : [],
     },
+    alternates: {
+      canonical: `/business/${id}/${business.slug}`,
+    },
   };
 }
 export default async function PublicBusinessDetailsPage({
   params,
   searchParams,
 }: BusinessPageProps) {
-  const { id } = await params;
+  const { id, slug } = await params;
+
   if (!uuidValidate(id)) return notFound();
   const { city } = await searchParams;
   const selectedCity = city ?? '__all__';
   const business = await getBusinessCached(id);
+
   if (!business) {
     // if Id wrong → NotFound
     return notFound();
+  }
+  //  SEO redirect (VERY IMPORTANT)
+  if (slug !== business.slug) {
+    redirect(`/business/${id}/${business.slug}`);
   }
   const similarBusinesses = await getSimilarBusinesses({
     businessId: business.id,

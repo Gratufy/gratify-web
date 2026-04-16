@@ -27,6 +27,7 @@ import { getCoverImagesForBusinesses } from '../helpers/images/getCoverImagesFor
 
 const businessSelectFields = {
   id: businesses.id,
+  slug: businesses.slug,
   name: businesses.name,
   categoryId: businesses.categoryId,
   isOnline: businesses.isOnline,

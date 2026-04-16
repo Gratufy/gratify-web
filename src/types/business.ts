@@ -73,6 +73,7 @@ export type BusinessFormValues = {
 //FORM + for API / create/update
 export type NewBusinessFormData = {
   name: string;
+  slug: string;
   description: string;
   website?: string | null;
   isOnline: boolean;

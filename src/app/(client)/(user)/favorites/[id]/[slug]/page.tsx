@@ -1,23 +1,27 @@
-import React from 'react';
-import { notFound } from 'next/navigation';
+import React, { cache } from 'react';
+import { notFound, redirect } from 'next/navigation';
 import { validate as uuidValidate } from 'uuid'; // npm install uuid
 import BusinessDetails from '@/components/shared/oneCardDetails/BusinessDetails';
 import { getBusinessById } from '@/lib/actions/getBusinessById';
 import GoBackButton from '@/components/ui/custom-ui/GoBackButton';
 
 interface UserBusinessDetailsPageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; slug: string }>;
 }
-
+const getBusinessCached = cache(getBusinessById);
 export default async function UserBusinessDetailsPage({
   params,
 }: UserBusinessDetailsPageProps) {
-  const { id } = await params;
+  const { id, slug } = await params;
   if (!uuidValidate(id)) return notFound();
-  const business = await getBusinessById(id);
+  const business = await getBusinessCached(id);
   if (!business) {
-    // если ID неправильный → NotFound
+    // if ID wrong → NotFound
     return notFound();
+  }
+  // 🔥 SEO redirect (VERY IMPORTANT)
+  if (slug !== business.slug) {
+    redirect(`/business/${id}/${business.slug}`);
   }
   return (
     <div className="container flex min-h-screen flex-col items-center justify-center lg:pb-20 xl:pb-20">

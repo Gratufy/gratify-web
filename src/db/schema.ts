@@ -13,6 +13,7 @@ import {
   primaryKey,
 } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
+import { slug } from 'valibot';
 
 export const ROLE_ENUM = pgEnum('role', ['USER', 'BUSINESS', 'ADMIN']);
 export const STATUS_ENUM = pgEnum('user_status', ['active', 'blocked']);
@@ -68,6 +69,7 @@ export const userProfiles = pgTable('user_profiles', {
 
 export const businesses = pgTable('businesses', {
   id: uuid('id').defaultRandom().primaryKey(),
+  slug: text('slug').notNull(),
   ownerId: uuid('owner_id')
     .notNull()
     .references(() => userProfiles.userId, { onDelete: 'cascade' }),

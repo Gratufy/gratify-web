@@ -88,7 +88,7 @@ function BusinessList({
               <Link
                 prefetch={false}
                 href={{
-                  pathname: `${linkPrefix}/${b.id}`,
+                  pathname: `${linkPrefix}/${b.id}/${b.slug}`,
                   ...(includeCityQuery && selectedCity !== '__all__'
                     ? { query: { city: selectedCity } }
                     : {}),
