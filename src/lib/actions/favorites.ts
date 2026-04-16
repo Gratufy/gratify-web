@@ -60,6 +60,7 @@ export async function getUserFavoriteBusinesses(
   const rows = await db
     .select({
       id: businesses.id,
+      slug: businesses.slug,
       ownerId: businesses.ownerId,
       categoryId: businesses.categoryId,
       name: businesses.name,

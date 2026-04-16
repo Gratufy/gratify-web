@@ -19,15 +19,13 @@ const ubuntuSans = Ubuntu_Sans({
   variable: '--font-family',
 });
 
-// const roboto = Roboto({
-//   subsets: ['latin', 'latin-ext'],
-//   weight: ['500'],
-//   variable: '--second-family',
-// });
-
 export const metadata: Metadata = {
-  title: 'Gratify',
-  description: 'Find your discount',
+  title: {
+    default: 'Gratify',
+    template: '%s | Gratify',
+  },
+  description:
+    'Платформа Gratify для пошуку бізнесів та спеціальних пропозицій для військових в Україні',
 };
 
 export default async function RootLayout({

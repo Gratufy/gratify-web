@@ -1,0 +1,1 @@
+ALTER TABLE "businesses" ALTER COLUMN "slug" SET NOT NULL;

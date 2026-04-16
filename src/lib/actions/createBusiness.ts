@@ -15,6 +15,7 @@ import { userProfiles } from '@/db/schema';
 import { saveBusinessLocations } from '@/lib/actions/businessLocation';
 import { BUSINESS_STATUS_FOR_FORM } from '@/const/business';
 import { BusinessStatus } from '@/types/enums';
+import { generateSlug } from '@/utils/generateSlug';
 
 // create business
 
@@ -53,12 +54,15 @@ export async function createBusiness(
         .returning();
       profile = updatedProfile;
     }
-    //-------
+    //------- slug generation
+    const slug = generateSlug(values.name);
     // create new business
     const [newBusiness] = await db
       .insert(businesses)
       .values({
         name: values.name,
+        slug,
+
         description: values.description,
         isOnline: values.isOnline,
         website: values.website ?? null,

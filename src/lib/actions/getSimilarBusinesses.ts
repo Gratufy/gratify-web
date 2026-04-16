@@ -15,6 +15,7 @@ import {
 
 const businessSelectFields = {
   id: businesses.id,
+  slug: businesses.slug,
   name: businesses.name,
   categoryId: businesses.categoryId,
   isOnline: businesses.isOnline,
@@ -156,6 +157,7 @@ export async function getSimilarBusinesses(
         // const { city, address, latitude, longitude, ...rest } = row;
         businessMap.set(row.id, {
           id: row.id,
+          slug: row.slug,
           name: row.name,
           categoryId: row.categoryId,
           isOnline: row.isOnline,

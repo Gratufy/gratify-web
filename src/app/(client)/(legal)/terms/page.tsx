@@ -1,6 +1,12 @@
 import React from 'react';
 import GoBackButton from '@/components/ui/custom-ui/GoBackButton';
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  description: 'Умови використання платформи Gratify',
+};
+
 function page() {
   return (
     <div className="container flex flex-col items-center justify-center">

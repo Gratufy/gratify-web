@@ -11,9 +11,11 @@ import {
   getSpecialOffersForBusinesses,
 } from '../helpers/getSpecialOffersForBusinesses';
 import { getBusinessImages } from '../helpers/images/getBusinessImages';
+import { slug } from 'valibot';
 
 const businessSelectFields = {
   id: businesses.id,
+  slug: businesses.slug,
   name: businesses.name,
   categoryId: businesses.categoryId,
   isOnline: businesses.isOnline,
